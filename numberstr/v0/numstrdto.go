@@ -5504,17 +5504,36 @@ func (nDto *NumStrDto) ScaleNumStr(
 }
 
 // SetCurrencySymbol - assigns the input parameter rune as the
-// currency symbol to be used by the NumStrDto.
+// currency symbol to be used by the current NumStrDto instance.
 //
 // In the USA, the currency symbol is the dollar sign ('$').
 //
-// Note: If a zero value is submitted as input, Currency Symbol
-// will default to the USA dollar sign ('$').
+// Note: If a zero value is submitted for input parameter
+// 'currencySymbol', the USA dollar sign ('$') will be assigned
+// as the default currency symbol.
 //
 // For a list of Major Currency Unicode Symbols, see constants
-// located in: datetime/numstrdtoconstants.go
+// located in: numberstr/numstrdtoconstants.go
 //
 // Example: $123.45
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  currencySymbol      rune
+//     - This rune or text character conveys the currency symbol
+//       will populate the internal member variable
+//       'nDto.currencySymbol' for the current NumStrDto
+//       instance.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  --- NONE ---
 //
 func (nDto *NumStrDto) SetCurrencySymbol(currencySymbol rune) {
 
@@ -5522,46 +5541,89 @@ func (nDto *NumStrDto) SetCurrencySymbol(currencySymbol rune) {
 		currencySymbol = '$'
 	}
 
-	nDto.currencySymbol = currencySymbol
+	nStrDtoElectron := numStrDtoElectron{}
+
+	_ = nStrDtoElectron.setCurrencySymbol(
+		nDto,
+		currencySymbol,
+		"")
 }
 
 // SetDecimalSeparator - Assigns a rune or character to the internal
 // data field, 'decimalSeparator'. The Decimal Separator is used to
 // separate the integer and fractional elements of a number string.
 //
-// In the USA, the Decimal Separator is a period character ('.').
+// In the USA, the decimal separator is the decimal point or 'period'
+// ('.').
 //
 // Note: If a zero value is submitted as input, the Decimal Separator
-// will default to the USA standard period character ('.').
+// will default to the USA decimal separator, the decimal point ('.').
 //
 // Example: 123.456
 //
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparator    rune
+//     - This rune or text character conveys the decimal separator
+//       character which will populate the internal member variable
+//       'nDto.decimalSeparator' for the current NumStrDto instance.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  --- NONE ---
+//
 func (nDto *NumStrDto) SetDecimalSeparator(decimalSeparator rune) {
 
-	if decimalSeparator == 0 {
-		decimalSeparator = '.'
-	}
+	nStrDtoElectron := numStrDtoElectron{}
 
-	nDto.decimalSeparator = decimalSeparator
+	_ = nStrDtoElectron.setDecimalSeparator(
+		nDto,
+		decimalSeparator,
+		"")
 }
 
 // SetThousandsSeparator - Sets the value of the character which will be
-// used to separate thousands in the display of the NumStrDto number
-// string. In the USA the typical thousands separator is the comma.
+// used to separate thousands in the display of NumStrDto number strings.
+// In the USA the thousands separator is the comma (',').
 //
-// If if a zero value is submitted, the Thousands Separator will default
-// to the comma character.
+// If if a zero value is submitted as an input parameter, the Thousands
+// Separator will default to the USA Thousands Separator, the comma
+// character (',').
 //
-// Example:
-// 1,000,000
+// Example: 1,000,000
+//
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  thousandsSeparator    rune
+//     - This rune or text character conveys the Thousands Separator
+//       character which will populate the internal member variable
+//       'nDto.thousandsSeparator' for the current NumStrDto instance.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  --- NONE ---
 //
 func (nDto *NumStrDto) SetThousandsSeparator(thousandsSeparator rune) {
 
-	if thousandsSeparator == 0 {
-		thousandsSeparator = ','
-	}
+	nStrDtoElectron := numStrDtoElectron{}
 
-	nDto.thousandsSeparator = thousandsSeparator
+	_ = nStrDtoElectron.setThousandsSeparator(
+		nDto,
+		thousandsSeparator,
+		"")
 
 }
 

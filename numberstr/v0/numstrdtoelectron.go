@@ -10,7 +10,7 @@ type numStrDtoElectron struct {
 	lock *sync.Mutex
 }
 
-// CopyIn - Receives an incoming NumStrDto object
+// copyIn - Receives an incoming NumStrDto object
 // and copies the information to the current NumStrDto
 // data fields.
 //
@@ -96,7 +96,7 @@ func (nStrDtoElectron *numStrDtoElectron) copyIn(
 	return err
 }
 
-// CopyOut - Creates a deep copy of the data fields contained in
+// copyOut - Creates a deep copy of the data fields contained in
 // input parameter 'numStrDto' and returns that data as a new
 // instance NumStrDto.
 //
@@ -982,7 +982,6 @@ func (nStrDtoElectron *numStrDtoElectron) getThousandsSeparator(
 // zero.
 //
 //
-//
 // ------------------------------------------------------------------------
 //
 // Input Parameters
@@ -1020,7 +1019,9 @@ func (nStrDtoElectron *numStrDtoElectron) getThousandsSeparator(
 //       is set to 'nil'. If errors are encountered during processing,
 //       the returned error Type will encapsulate an error message.
 //       Note that this error message will incorporate the method
-//       chain and text passed by input parameter, 'ePrefix'.
+//       chain and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be prefixed to the beginning of the
+//       error message.
 //
 func (nStrDtoElectron *numStrDtoElectron) isNumStrZeroValue(
 	numStrDto *NumStrDto,
@@ -1365,6 +1366,243 @@ func (nStrDtoElectron *numStrDtoElectron) newZeroNumStrDto(
 	}
 
 	return newNumStrDto, err
+}
+
+// setCurrencySymbol - assigns the input parameter rune as the
+// currency symbol to be used by the NumStrDto instance passed
+// as an input parameter.
+//
+// In the USA, the currency symbol is the dollar sign ('$').
+//
+// Note: If a zero value is submitted as input, Currency Symbol
+// will default to the USA dollar sign ('$').
+//
+// For a list of Major Currency Unicode Symbols, see constants
+// located in: datetime/numstrdtoconstants.go
+//
+// Example: $123.45
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numStrDto           *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method WILL
+//       CHANGE and overwrite the value of internal member variable
+//       numStrDto.currencySymbol.
+//
+//
+//  currencySymbol      rune
+//     - This rune or text character conveys the currency symbol
+//       which will populate the internal member variable
+//       'numStrDto.currencySymbol' for the input parameter,
+//       'numStrDto'.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type
+//       is set to 'nil'. If errors are encountered during processing,
+//       the returned error Type will encapsulate an error message.
+//       Note that this error message will incorporate the method
+//       chain and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (nStrDtoElectron *numStrDtoElectron) setCurrencySymbol(
+	numStrDto *NumStrDto,
+	currencySymbol rune,
+	ePrefix string) (err error) {
+
+	nStrDtoElectron.lock.Lock()
+
+	defer nStrDtoElectron.lock.Unlock()
+
+	ePrefix += "numStrDtoElectron.setCurrencySymbol() "
+
+	err = nil
+
+	if numStrDto == nil {
+		err = errors.New(ePrefix +
+			"\nInput parameter 'numStrDto' is INVALID!\n" +
+			"'numStrDto' has a 'nil' pointer!\n")
+		return err
+	}
+
+	if currencySymbol == 0 {
+		currencySymbol = '$'
+	}
+
+	numStrDto.currencySymbol = currencySymbol
+
+	return err
+}
+
+// setDecimalSeparator - Assigns the input parameter rune as the
+// decimal separator to be used by the NumStrDto instance passed
+// as an input parameter.
+//
+// In the USA, the decimal separator is the decimal point or
+// 'period' ('.').
+//
+// If a zero value is submitted as input, the default USA decimal
+// separator, the decimal point ('.'), will be assigned.
+//
+// Example: 123.45
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numStrDto           *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method WILL
+//       CHANGE and overwrite the value of internal member variable
+//       'numStrDto.decimalSeparator'.
+//
+//
+//  decimalSeparator    rune
+//     - This rune or text character conveys the decimal separator
+//       character which will populate the internal member variable
+//       'numStrDto.decimalSeparator' for the input parameter,
+//       'numStrDto'.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type
+//       is set to 'nil'. If errors are encountered during processing,
+//       the returned error Type will encapsulate an error message.
+//       Note that this error message will incorporate the method
+//       chain and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (nStrDtoElectron *numStrDtoElectron) setDecimalSeparator(
+	numStrDto *NumStrDto,
+	decimalSeparator rune,
+	ePrefix string) (err error) {
+
+	nStrDtoElectron.lock.Lock()
+
+	defer nStrDtoElectron.lock.Unlock()
+
+	ePrefix += "numStrDtoElectron.setDecimalSeparator() "
+
+	err = nil
+
+	if numStrDto == nil {
+		err = errors.New(ePrefix +
+			"\nInput parameter 'numStrDto' is INVALID!\n" +
+			"'numStrDto' has a 'nil' pointer!\n")
+		return err
+	}
+
+	if decimalSeparator == 0 {
+		decimalSeparator = '.'
+	}
+
+	numStrDto.decimalSeparator = decimalSeparator
+
+	return err
+}
+
+// setThousandsSeparator - Sets the value of the character which
+// will be used to separate thousands in the display of NumStrDto
+// number strings. In the USA the thousands separator is the
+// comma (',').
+//
+// If a zero value is submitted as input, the Thousands Separator
+// will default to the USA Thousands Separator (',').
+//
+// Example: 1,000,000
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numStrDto           *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method WILL
+//       CHANGE and overwrite the value of internal member variable
+//       'numStrDto.decimalSeparator'.
+//
+//
+//  thousandsSeparator  rune
+//     - This rune or text character conveys the thousands separator
+//       character which will populate the internal member variable
+//       'numStrDto.thousandsSeparator' for the input parameter,
+//       'numStrDto'.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type
+//       is set to 'nil'. If errors are encountered during processing,
+//       the returned error Type will encapsulate an error message.
+//       Note that this error message will incorporate the method
+//       chain and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (nStrDtoElectron *numStrDtoElectron) setThousandsSeparator(
+	numStrDto *NumStrDto,
+	thousandsSeparator rune,
+	ePrefix string) (err error) {
+
+	nStrDtoElectron.lock.Lock()
+
+	defer nStrDtoElectron.lock.Unlock()
+
+	ePrefix += "numStrDtoElectron.setThousandsSeparator() "
+
+	err = nil
+
+	if numStrDto == nil {
+		err = errors.New(ePrefix +
+			"\nInput parameter 'numStrDto' is INVALID!\n" +
+			"'numStrDto' has a 'nil' pointer!\n")
+		return err
+	}
+
+	if thousandsSeparator == 0 {
+		thousandsSeparator = ','
+	}
+
+	numStrDto.thousandsSeparator = thousandsSeparator
+
+	return err
 }
 
 // setNumericSeparatorsToDefaultIfEmpty - Sets the numeric
