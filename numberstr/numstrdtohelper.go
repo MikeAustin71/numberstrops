@@ -110,9 +110,11 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 		return product, err
 	}
 
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
 		err =
-		nStrDtoElectron.testNumStrDtoValidity(
+		nStrDtoQuark.testNumStrDtoValidity(
 			multiplicand,
 			ePrefix+"multiplicand ")
 
@@ -122,7 +124,7 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 
 	_,
 		err =
-		nStrDtoElectron.testNumStrDtoValidity(
+		nStrDtoQuark.testNumStrDtoValidity(
 			multiplier,
 			ePrefix+"multiplier ")
 

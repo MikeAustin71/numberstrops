@@ -15,12 +15,6 @@ import (
  Type 'NumStrUtility' provides a set of numeric conversion and management routines
  primarily focused on number strings.
 
- The source code repository for numstrutility.go is located at :
-  https://github.com/MikeAustin71/mathopsgo.gi
-
- Dependencies
- ************
-  numstrdto.go
 
 */
 
@@ -39,14 +33,14 @@ type NumStrUtility struct {
 }
 
 func (ns NumStrUtility) DLimInt(num int, delimiter byte) string {
-	return ns.DnumStr(strconv.Itoa(num), delimiter)
+	return ns.DelimitNumStr(strconv.Itoa(num), delimiter)
 }
 
 // DLimI64 - Return a delimited number string with
 // thousands separator (i.e. 1000000 -> 1,000,000)
 func (ns NumStrUtility) DLimI64(num int64, delimiter byte) string {
 
-	return ns.DnumStr(fmt.Sprintf("%v", num), delimiter)
+	return ns.DelimitNumStr(fmt.Sprintf("%v", num), delimiter)
 }
 
 func (ns NumStrUtility) DlimDecCurrStr(rawStr string, thousandsSeparator rune, decimal rune, currency rune) string {
@@ -88,9 +82,9 @@ func (ns NumStrUtility) DlimDecCurrStr(rawStr string, thousandsSeparator rune, d
 		ptr = &r2
 	}
 
-	lIntrPart := len(ptr)
+	lInterPart := len(ptr)
 
-	for i := lIntrPart - 1; i >= 0; i-- {
+	for i := lInterPart - 1; i >= 0; i-- {
 
 		if ptr[i] >= '0' && ptr[i] <= '9' {
 
@@ -128,12 +122,12 @@ func (ns NumStrUtility) DlimDecCurrStr(rawStr string, thousandsSeparator rune, d
 
 }
 
-// DnumStr - is designed to delimit or format a pure number string with a thousands
+// DelimitNumStr - is designed to delimit or format a pure number string with a thousands
 // separator (i.e. ','). Example: Input == 1234567890 -> Output == "1,234,567,890".
 // NOTE: This method will not handle number strings containing decimal fractions
 // and currency characters. For these options see method ns.DlimDecCurrStr(),
 // above.
-func (ns NumStrUtility) DnumStr(pureNumStr string, thousandsSeparator byte) string {
+func (ns NumStrUtility) DelimitNumStr(pureNumStr string, thousandsSeparator byte) string {
 	const maxStr = 256
 	outStr := [maxStr]byte{}
 	lInStr := len(pureNumStr)
@@ -270,7 +264,7 @@ func (ns *NumStrUtility) ConvertRunesToInt64(rAry []rune, signVal int) (int64, e
 	lNumRunes := len(rAry)
 
 	if lNumRunes == 0 {
-		return int64(0), errors.New("Incoming rune array is Empty!")
+		return int64(0), errors.New("Incoming rune array is empty!\n")
 	}
 
 	if rAry[0] == '+' || rAry[0] == '-' {
@@ -282,7 +276,7 @@ func (ns *NumStrUtility) ConvertRunesToInt64(rAry []rune, signVal int) (int64, e
 	for i := 0; i < lNumRunes; i++ {
 
 		if rAry[i] < '0' || rAry[i] > '9' {
-			return int64(0), fmt.Errorf("Number string contained non-numeric characters: %v", string(rAry))
+			return int64(0), fmt.Errorf("Number string contained non-numeric characters: %v\n", string(rAry))
 		}
 
 		numVal *= 10
@@ -665,5 +659,5 @@ func (ns *NumStrUtility) SetCountryAndCurrency(country string) error {
 		return nil
 	}
 
-	return fmt.Errorf("Failed to initialize country, %v.", country)
+	return fmt.Errorf("Failed to initialize country, %v.\n", country)
 }

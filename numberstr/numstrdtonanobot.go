@@ -658,9 +658,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 		return newNumStrDto, err
 	}
 
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
 		err =
-		nStrDtoElectron.testNumStrDtoValidity(
+		nStrDtoQuark.testNumStrDtoValidity(
 			&newNumStrDto,
 			ePrefix+"Final Validity Check-newNumStrDto ")
 
@@ -2075,9 +2077,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) setNumStrDtoPrecision(
 		return err
 	}
 
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
 		err =
-		nStrDtoElectron.testNumStrDtoValidity(
+		nStrDtoQuark.testNumStrDtoValidity(
 			numStrDto,
 			ePrefix)
 

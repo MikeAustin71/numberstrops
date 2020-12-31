@@ -714,7 +714,7 @@ func (nStrDtoElectron *numStrDtoElectron) getCurrencySymbol(
 // before returning the value. To run a validity check on the
 // 'numStrDto' instance, first call the following method:
 //
-//  numStrDtoElectron.testNumStrDtoValidity() (bool, error)
+//  numStrDtoQuark.testNumStrDtoValidity() (bool, error)
 //
 //
 // ----------------------------------------------------------------
@@ -824,7 +824,7 @@ func (nStrDtoElectron *numStrDtoElectron) getNumericSignValue(
 // before returning the value. To run a validity check on the
 // 'numStrDto' instance, first call the following method:
 //
-//  numStrDtoElectron.testNumStrDtoValidity() (bool, error)
+//  numStrDtoQuark.testNumStrDtoValidity() (bool, error)
 //
 //
 // ----------------------------------------------------------------
@@ -2098,130 +2098,4 @@ func (nStrDtoElectron *numStrDtoElectron) setSignValue(
 	numStrDto.signVal = newSignVal
 
 	return err
-}
-
-// testNumStrDtoValidity - Evaluates the validity of a NumStrDto
-// instance. If the instance is valid this method returns 'true'
-// and sets the returned error type to nil.
-//
-// If the instance is invalid, the method returns 'false' plus an
-// error message.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Input Parameters
-//
-//  numStrDto           *NumStrDto
-//     - A pointer to an instance of NumStrDto. This method will
-//       NOT change the values of internal member variables to achieve
-//       the method's objectives. Member variables will be tested for
-//       validity.
-//
-//
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Return Values
-//
-//  isValid             bool
-//     - If this method completes successfully, this boolean value will
-//       signal 'false' if 'numStrDto' member variables contains an
-//       invalid value. Absent processing errors, if the validity tests
-//       show that 'numStrDto' member variables values are valid, this
-//       'isValid' flag will be set to 'true'.
-//
-//
-//  err                 error
-//     - If this method completes successfully, the returned error Type
-//       is set to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message.
-//       Note that this error message will incorporate the method
-//       chain and text passed by input parameter, 'ePrefix'.
-//
-//       An error will also be returned if the method determines that
-//       one or more of the 'numStrDto' member variables contain
-//       invalid values.
-//
-func (nStrDtoElectron *numStrDtoElectron) testNumStrDtoValidity(
-	numStrDto *NumStrDto,
-	ePrefix string) (
-	isValid bool,
-	err error) {
-
-	if nStrDtoElectron.lock == nil {
-		nStrDtoElectron.lock = new(sync.Mutex)
-	}
-
-	nStrDtoElectron.lock.Lock()
-
-	defer nStrDtoElectron.lock.Unlock()
-
-	ePrefix += "numStrDtoElectron.testNumStrDtoValidity() "
-
-	isValid = false
-	err = nil
-
-	if numStrDto == nil {
-		err = errors.New(ePrefix +
-			"\nInput parameter 'numStrDto' is INVALID!\n" +
-			"numStrDto = nil pointer!\n")
-		return isValid, err
-	}
-
-	// Set defaults for thousands separators,
-	// decimal separators and currency Symbols
-	if numStrDto.thousandsSeparator == 0 {
-		numStrDto.thousandsSeparator = ','
-	}
-
-	if numStrDto.decimalSeparator == 0 {
-		numStrDto.decimalSeparator = '.'
-	}
-
-	if numStrDto.currencySymbol == 0 {
-		numStrDto.currencySymbol = '$'
-	}
-
-	lenAbsAllNumRunes := len(numStrDto.absAllNumRunes)
-
-	if lenAbsAllNumRunes == 0 {
-		err = errors.New(ePrefix + "\n" +
-			"- Error: 'numStrDto' Number string is a ZERO length string!\n")
-		return isValid, err
-	}
-
-	if int(numStrDto.precision) >= lenAbsAllNumRunes {
-		err = errors.New(ePrefix + "\n" +
-			"Error: precision does match number string. Type is Corrupted!")
-		return isValid, err
-	}
-
-	if numStrDto.signVal != 1 && numStrDto.signVal != -1 {
-		err = fmt.Errorf(ePrefix+"\n + "+
-			"Sign Value is INVALID. Should be +1 or -1.\n"+
-			"This Sign Value (numStrDto.signVal) is %v\n",
-			numStrDto.signVal)
-
-		return isValid, err
-	}
-
-	for i := 0; i < lenAbsAllNumRunes; i++ {
-
-		if numStrDto.absAllNumRunes[i] < '0' || numStrDto.absAllNumRunes[i] > '9' {
-
-			err = errors.New(ePrefix + "\n" +
-				"Error: Non-Numeric character found in " +
-				"'numStrDto' number string!\n")
-			return isValid, err
-		}
-	}
-
-	return isValid, err
 }

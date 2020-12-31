@@ -126,10 +126,10 @@ func (nStrDtoMolecule *numStrDtoMolecule) compareNumStrDtoSignedValues(
 		return compareResult, err
 	}
 
-	nStrDtoElectron := numStrDtoElectron{}
+	nStrDtoQuark := numStrDtoQuark{}
 
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		n1Dto,
 		ePrefix+"Testing 'n1Dto' Validity ")
 
@@ -138,7 +138,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) compareNumStrDtoSignedValues(
 	}
 
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		n2Dto,
 		ePrefix+"Testing 'n2Dto' Validity ")
 
@@ -388,9 +388,11 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 	lenN2IntRunes := 0
 	lenN2FracRunes := 0
 
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
 		err =
-		nStrDtoElectron.testNumStrDtoValidity(
+		nStrDtoQuark.testNumStrDtoValidity(
 			n1Dto,
 			ePrefix+"n1Dto ")
 
@@ -400,7 +402,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 
 	_,
 		err =
-		nStrDtoElectron.testNumStrDtoValidity(
+		nStrDtoQuark.testNumStrDtoValidity(
 			n2Dto,
 			ePrefix+"n2Dto ")
 
@@ -548,9 +550,12 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		lenN2FracRunes = len(n2DtoOutAbsFracRunes)
 
 		n2DtoOut.precision = n1DtoOut.precision
+
+		nStrDtoQuark := numStrDtoQuark{}
+
 		_,
 			err =
-			nStrDtoElectron.testNumStrDtoValidity(
+			nStrDtoQuark.testNumStrDtoValidity(
 				&n2DtoOut,
 				ePrefix+"n2DtoOut ")
 
@@ -577,9 +582,11 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 
 		n1DtoOut.precision = n2DtoOut.precision
 
+		nStrDtoQuark := numStrDtoQuark{}
+
 		_,
 			err =
-			nStrDtoElectron.testNumStrDtoValidity(
+			nStrDtoQuark.testNumStrDtoValidity(
 				&n1DtoOut,
 				ePrefix+"n1DtoOut ")
 
@@ -632,9 +639,11 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		lenN1AllRunes = len(n1DtoOut.absAllNumRunes)
 		lenN1IntRunes = len(n1DtoOutAbsIntRunes)
 
+		nStrDtoQuark := numStrDtoQuark{}
+
 		_,
 			err =
-			nStrDtoElectron.testNumStrDtoValidity(
+			nStrDtoQuark.testNumStrDtoValidity(
 				&n1DtoOut,
 				ePrefix+"n1DtoOut #2 ")
 
@@ -670,9 +679,11 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		lenN2AllRunes = len(n2DtoOut.absAllNumRunes)
 		lenN2IntRunes = len(n2DtoOutAbsIntRunes)
 
+		nStrDtoQuark := numStrDtoQuark{}
+
 		_,
 			err =
-			nStrDtoElectron.testNumStrDtoValidity(
+			nStrDtoQuark.testNumStrDtoValidity(
 				&n2DtoOut,
 				ePrefix+"n2DtoOut #2 ")
 
@@ -712,7 +723,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 
 	_,
 		err =
-		nStrDtoElectron.testNumStrDtoValidity(
+		nStrDtoQuark.testNumStrDtoValidity(
 			&n1DtoOut,
 			ePrefix+"n1DtoOut #3 ")
 
@@ -721,7 +732,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 	}
 	_,
 		err =
-		nStrDtoElectron.testNumStrDtoValidity(
+		nStrDtoQuark.testNumStrDtoValidity(
 			&n2DtoOut,
 			ePrefix+"n2DtoOut #3 ")
 
@@ -817,10 +828,10 @@ func (nStrDtoMolecule *numStrDtoMolecule) getNumStr(
 		return numStr, err
 	}
 
-	nStrDtoElectron := numStrDtoElectron{}
+	nStrDtoQuark := numStrDtoQuark{}
 
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		numStrDto,
 		ePrefix+"Testing Validity of 'numStrDto' ")
 
@@ -885,10 +896,10 @@ func (nStrDtoMolecule *numStrDtoMolecule) getSignedBigIntNum(
 		return bigIntNum, err
 	}
 
-	nStrDtoElectron := numStrDtoElectron{}
+	nStrDtoQuark := numStrDtoQuark{}
 
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		numStrDto,
 		ePrefix+"Testing Validity of 'numStrDto' ")
 
@@ -1232,8 +1243,10 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 		return newNumStrDto, err
 	}
 
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		&newNumStrDto,
 		ePrefix)
 
@@ -1492,8 +1505,10 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 		return newNumStrDto, err
 	}
 
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		&newNumStrDto,
 		ePrefix+"Final validation 'newNumStrDto' ")
 
@@ -1756,8 +1771,10 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 		return newNumStrDto, err
 	}
 
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		&newNumStrDto,
 		ePrefix+"Final validation 'newNumStrDto' ")
 

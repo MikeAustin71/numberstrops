@@ -1647,16 +1647,18 @@ func (nDto *NumStrDto) GetNumStrDto() (
 
 	ePrefix := "NumStrDto.GetNumStrDto() "
 
-	nStrDtoElectron := numStrDtoElectron{}
+	nStrDtoQuark := numStrDtoQuark{}
 
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		nDto,
 		ePrefix)
 
 	if err != nil {
 		return newNumStrDto, err
 	}
+
+	nStrDtoElectron := numStrDtoElectron{}
 
 	newNumStrDto,
 		err = nStrDtoElectron.copyOut(
@@ -2207,10 +2209,10 @@ func (nDto *NumStrDto) GetZeroNumStrDto(
 // digit is zero.
 func (nDto *NumStrDto) HasNumericDigits() bool {
 
-	nStrDtoElectron := numStrDtoElectron{}
+	nStrDtoQuark := numStrDtoQuark{}
 
 	_,
-		err := nStrDtoElectron.testNumStrDtoValidity(
+		err := nStrDtoQuark.testNumStrDtoValidity(
 		nDto,
 		"NumStrDto.HasNumericDigits() ")
 
@@ -2266,10 +2268,10 @@ func (nDto *NumStrDto) IsValidInstanceError(
 
 	err = nil
 
-	nStrDtoElectron := numStrDtoElectron{}
+	nStrDtoQuark := numStrDtoQuark{}
 
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		nDto,
 		ePrefix)
 
@@ -2290,9 +2292,10 @@ func (nDto *NumStrDto) IsValidInstanceError(
 func (nDto *NumStrDto) IsValidInstance() (
 	isValid bool) {
 
-	nStrDtoElectron := numStrDtoElectron{}
+	nStrDtoQuark := numStrDtoQuark{}
+
 	isValid,
-		_ = nStrDtoElectron.testNumStrDtoValidity(
+		_ = nStrDtoQuark.testNumStrDtoValidity(
 		nDto,
 		"")
 

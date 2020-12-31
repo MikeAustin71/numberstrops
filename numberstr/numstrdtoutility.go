@@ -30,9 +30,11 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 	sum = nStrDtoElectron.newBaseZeroNumStrDto(0)
 	err = nil
 
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
 		err =
-		nStrDtoElectron.testNumStrDtoValidity(
+		nStrDtoQuark.testNumStrDtoValidity(
 			addend1,
 			ePrefix+"Initial validity test for 'addend1' ")
 
@@ -42,7 +44,7 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 
 	_,
 		err =
-		nStrDtoElectron.testNumStrDtoValidity(
+		nStrDtoQuark.testNumStrDtoValidity(
 			addend2,
 			ePrefix+"Initial validity test for 'addend2' ")
 
@@ -218,11 +220,11 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 
 	ePrefix += "numStrDtoUtility.multiplyInPlace() "
 
-	nStrDtoElectron := numStrDtoElectron{}
+	nStrDtoQuark := numStrDtoQuark{}
 
 	_,
 		err =
-		nStrDtoElectron.testNumStrDtoValidity(
+		nStrDtoQuark.testNumStrDtoValidity(
 			numStrDto,
 			ePrefix+"Initial validity test for 'numStrDto' ")
 
@@ -232,7 +234,7 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 
 	_,
 		err =
-		nStrDtoElectron.testNumStrDtoValidity(
+		nStrDtoQuark.testNumStrDtoValidity(
 			multiplier,
 			ePrefix+"Initial validity test for 'multiplier' ")
 
@@ -253,6 +255,8 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 	if err != nil {
 		return err
 	}
+
+	nStrDtoElectron := numStrDtoElectron{}
 
 	err = nStrDtoElectron.copyIn(
 		numStrDto,
@@ -316,9 +320,11 @@ func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 		return err
 	}
 
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
 		err =
-		nStrDtoElectron.testNumStrDtoValidity(
+		nStrDtoQuark.testNumStrDtoValidity(
 			numStrDto,
 			ePrefix+"Final validity test for 'numStrDto' ")
 

@@ -129,9 +129,10 @@ func (nStrDtoAtom *numStrDtoAtom) compareNumStrDtoAbsoluteValues(
 		return compareResult, err
 	}
 
-	nStrDtoElectron := numStrDtoElectron{}
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		n1Dto,
 		ePrefix+"Testing Validity of 'n1Dto' ")
 
@@ -140,7 +141,7 @@ func (nStrDtoAtom *numStrDtoAtom) compareNumStrDtoAbsoluteValues(
 	}
 
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		n2Dto,
 		ePrefix+"Testing Validity of 'n2Dto' ")
 
@@ -150,6 +151,8 @@ func (nStrDtoAtom *numStrDtoAtom) compareNumStrDtoAbsoluteValues(
 
 	var n1DtoAbsFracRunes, n2DtoAbsFracRunes,
 		n1DtoAbsIntRunes, n2DtoAbsIntRunes []rune
+
+	nStrDtoElectron := numStrDtoElectron{}
 
 	n1DtoAbsFracRunes,
 		err =
@@ -366,10 +369,10 @@ func (nStrDtoAtom *numStrDtoAtom) getAbsoluteValueAllNumRunes(
 		return absAllRunes, err
 	}
 
-	nStrDtoElectron := numStrDtoElectron{}
+	nStrDtoQuark := numStrDtoQuark{}
 
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		numStrDto,
 		ePrefix)
 
@@ -464,10 +467,10 @@ func (nStrDtoAtom *numStrDtoAtom) getAbsoluteBigInt(
 		return bigIntNum, err
 	}
 
-	nStrDtoElectron := numStrDtoElectron{}
+	nStrDtoQuark := numStrDtoQuark{}
 
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		numStrDto,
 		ePrefix)
 
@@ -957,8 +960,10 @@ func (nStrDtoAtom *numStrDtoAtom) formatCurrencyStr(
 		return currencyStr, err
 	}
 
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		numStrDto,
 		ePrefix)
 
@@ -1152,8 +1157,10 @@ func (nStrDtoAtom *numStrDtoAtom) formatNumStr(
 		numStrDto,
 		ePrefix)
 
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		numStrDto,
 		ePrefix)
 
@@ -1333,8 +1340,10 @@ func (nStrDtoAtom *numStrDtoAtom) formatThousandsStr(
 		numStrDto,
 		ePrefix)
 
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		numStrDto,
 		ePrefix)
 
@@ -1654,8 +1663,10 @@ func (nStrDtoAtom *numStrDtoAtom) parseNumStr(
 		return newNumStrDto, err
 	}
 
+	nStrDtoQuark := numStrDtoQuark{}
+
 	_,
-		err = nStrDtoElectron.testNumStrDtoValidity(
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		&newNumStrDto,
 		ePrefix+"Final newNumStrDto ")
 
