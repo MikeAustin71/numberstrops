@@ -86,7 +86,8 @@ func (nDto *NumStrDto) AddNumStrs(
 	var n1DtoSetup, n2DtoSetup NumStrDto
 
 	n1DtoSetup,
-		n2DtoSetup, _,
+		n2DtoSetup,
+		_,
 		_,
 		err =
 		nDto.FormatForMathOps(
@@ -101,6 +102,7 @@ func (nDto *NumStrDto) AddNumStrs(
 	newSignVal := n1DtoSetup.signVal
 
 	if n1DtoSetup.signVal != n2DtoSetup.signVal {
+		// Sign Values ARE NOT Equal!
 
 		err = n1DtoSetup.SetSignValue(
 			1,
@@ -117,7 +119,7 @@ func (nDto *NumStrDto) AddNumStrs(
 		if err != nil {
 			return sum, err
 		}
-
+		// Sign Values are NOW Equal!
 		sum,
 			err =
 			nDto.SubtractNumStrs(
@@ -140,6 +142,7 @@ func (nDto *NumStrDto) AddNumStrs(
 		return sum, err
 	}
 
+	// Sign Values ARE Equal!
 	precision := n1DtoSetup.precision
 	lenN1AllRunes := len(n1DtoSetup.absAllNumRunes)
 
@@ -6340,6 +6343,7 @@ func (nDto *NumStrDto) SubtractNumStrs(
 	}
 
 	if compare == 0 {
+		// Numeric Values are Equal!
 		difference = nDto.GetZeroNumStrDto(n1NumDto.precision)
 		return difference, err
 	}
@@ -6348,7 +6352,7 @@ func (nDto *NumStrDto) SubtractNumStrs(
 	precision := n1NumDto.precision
 
 	if n1NumDto.signVal != n2NumDto.signVal {
-
+		// Sign Values ARE NOT Equal!
 		err = n1NumDto.SetSignValue(1,
 			ePrefix+"n1NumDto ")
 
@@ -6358,7 +6362,7 @@ func (nDto *NumStrDto) SubtractNumStrs(
 
 		err = n2NumDto.SetSignValue(
 			1,
-			ePrefix+"n2NumDto")
+			ePrefix+"n2NumDto ")
 
 		if err != nil {
 			return difference, err
@@ -6386,6 +6390,7 @@ func (nDto *NumStrDto) SubtractNumStrs(
 		return difference, err
 	}
 
+	// Sign Values ARE Equal!
 	// Change sign for subtraction
 	newSignVal = n1NumDto.signVal
 

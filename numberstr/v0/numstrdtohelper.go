@@ -294,3 +294,126 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 
 	return product, err
 }
+
+func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
+	n1DtoSetup *NumStrDto,
+	n2DtoSetup *NumStrDto,
+	ePrefix string) (
+	sum NumStrDto,
+	err error) {
+
+	// Sign Values ARE Equal!
+
+	newSignVal := n1DtoSetup.signVal
+
+	precision := n1DtoSetup.precision
+	lenN1AllRunes := len(n1DtoSetup.absAllNumRunes)
+
+	n3IntAry := make([]int, lenN1AllRunes+1)
+	carry := 0
+	n1 := 0
+	n2 := 0
+	n3 := 0
+
+	for j := lenN1AllRunes - 1; j >= 0; j-- {
+
+		n1 = int(n1DtoSetup.absAllNumRunes[j]) - 48
+		n2 = int(n2DtoSetup.absAllNumRunes[j]) - 48
+
+		n3 = n1 + n2 + carry
+
+		carry = 0
+
+		if n3 > 9 {
+			n3 = n3 - 10
+			carry = 1
+		}
+
+		n3IntAry[j+1] = n3
+
+	}
+
+	if carry > 0 {
+		n3IntAry[0] = carry
+	}
+
+	nStrDtoMech := numStrDtoMechanics{}
+
+	sum,
+		err = nStrDtoMech.findIntArraySignificantDigitLimits(
+		n3IntAry,
+		precision,
+		newSignVal,
+		ePrefix)
+
+	return sum, err
+
+}
+
+func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualSubtractNumStrs(
+	n1NumDto *NumStrDto,
+	n2NumDto *NumStrDto,
+	isReversed bool,
+	ePrefix string) (
+	difference NumStrDto,
+	err error) {
+
+	// Sign Values ARE Equal!
+	// Change sign for subtraction
+	newSignVal := n1NumDto.signVal
+	precision := n1NumDto.precision
+
+	if isReversed {
+		newSignVal = newSignVal * -1
+	}
+
+	lenN1AllRunes := len(n1NumDto.absAllNumRunes)
+
+	n1IntAry := make([]int, lenN1AllRunes)
+	n2IntAry := make([]int, lenN1AllRunes)
+	n3IntAry := make([]int, lenN1AllRunes)
+
+	for i := 0; i < lenN1AllRunes; i++ {
+
+		n1IntAry[i] = int(n1NumDto.absAllNumRunes[i]) - 48
+		n2IntAry[i] = int(n2NumDto.absAllNumRunes[i]) - 48
+
+	}
+
+	carry := 0
+	n1 := 0
+	n2 := 0
+	n3 := 0
+	// Main Subtraction Routine
+	for j := lenN1AllRunes - 1; j >= 0; j-- {
+
+		n1 = n1IntAry[j]
+		n2 = n2IntAry[j]
+		n3 = 0
+
+		if n1-carry-n2 < 0 {
+			n1 += 10
+			n3 = n1 - n2 - carry
+			carry = 1
+		} else {
+			n3 = n1 - n2 - carry
+			carry = 0
+		}
+
+		n3IntAry[j] = n3
+
+	}
+
+	nStrDtoMech := numStrDtoMechanics{}
+
+	difference,
+		err =
+		nStrDtoMech.findIntArraySignificantDigitLimits(
+			n3IntAry,
+			precision,
+			newSignVal,
+			ePrefix)
+
+	return difference, err
+
+}

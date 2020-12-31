@@ -8,6 +8,143 @@ type numStrDtoUtility struct {
 	lock *sync.Mutex
 }
 
+func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
+	addend1 *NumStrDto,
+	addend2 *NumStrDto,
+	ePrefix string) (
+	sum NumStrDto,
+	err error) {
+
+	if nStrDtoUtil.lock == nil {
+		nStrDtoUtil.lock = new(sync.Mutex)
+	}
+
+	nStrDtoUtil.lock.Lock()
+
+	defer nStrDtoUtil.lock.Unlock()
+
+	ePrefix += "numStrDtoUtility.addNumStrs() "
+
+	nStrDtoElectron := numStrDtoElectron{}
+
+	sum = nStrDtoElectron.newBaseZeroNumStrDto(0)
+	err = nil
+
+	_,
+		err =
+		nStrDtoElectron.testNumStrDtoValidity(
+			addend1,
+			ePrefix+"Initial validity test for 'addend1' ")
+
+	if err != nil {
+		return sum, err
+	}
+
+	_,
+		err =
+		nStrDtoElectron.testNumStrDtoValidity(
+			addend2,
+			ePrefix+"Initial validity test for 'addend2' ")
+
+	if err != nil {
+		return sum, err
+	}
+
+	var n1DtoSetup, n2DtoSetup NumStrDto
+	var compare int
+	var isOrderReversed bool
+
+	nStrDtoMolecule := numStrDtoMolecule{}
+
+	n1DtoSetup,
+		n2DtoSetup,
+		compare,
+		isOrderReversed,
+		err =
+		nStrDtoMolecule.formatForMathOps(
+			addend1,
+			addend2,
+			ePrefix)
+
+	if err != nil {
+		return sum, err
+	}
+
+	newSignVal := n1DtoSetup.signVal
+	nStrDtoHelper := numStrDtoHelper{}
+
+	if n1DtoSetup.signVal != n2DtoSetup.signVal {
+		// Sign Values ARE NOT Equal!
+		nStrDtoElectron := numStrDtoElectron{}
+
+		err = nStrDtoElectron.setSignValue(
+			&n1DtoSetup,
+			1,
+			ePrefix+"n1DtoSetup Sign=1 ")
+
+		if err != nil {
+			return sum, err
+		}
+
+		err = nStrDtoElectron.setSignValue(
+			&n2DtoSetup,
+			1,
+			ePrefix+"n1DtoSetup Sign=1 ")
+
+		if err != nil {
+			return sum, err
+		}
+
+		if compare == 0 {
+			// Numeric Values are Equal!
+			sum = nStrDtoElectron.newBaseZeroNumStrDto(
+				n1DtoSetup.precision)
+			return sum, err
+		}
+
+		// Sign Values are NOW Equal!
+
+		sum,
+			err = nStrDtoHelper.signValuesAreEqualSubtractNumStrs(
+			&n1DtoSetup,
+			&n2DtoSetup,
+			isOrderReversed,
+			ePrefix+"n1DtoSetup, n2DtoSetup ")
+
+		var isZeroValue bool
+
+		isZeroValue,
+			err = nStrDtoElectron.isNumStrZeroValue(
+			&sum,
+			ePrefix+"sum ")
+
+		if err != nil {
+			return sum, err
+		}
+
+		if isZeroValue {
+			newSignVal = 1
+		}
+
+		err = nStrDtoElectron.setSignValue(
+			&sum,
+			newSignVal,
+			ePrefix+"sum ")
+
+		return sum, err
+	}
+
+	// Sign Values ARE Already Equal!
+
+	sum,
+		err = nStrDtoHelper.signValuesAreEqualAddNumStrs(
+		&n1DtoSetup,
+		&n2DtoSetup,
+		ePrefix)
+
+	return sum, err
+}
+
 // multiplyInPlace - Receives two NumStrDto input parameters
 // labeled 'numStrDto' and 'multiplier'. The numeric value
 // for 'numStrDto' is multiplied by the numeric value of
