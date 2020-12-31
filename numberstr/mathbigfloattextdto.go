@@ -23,7 +23,7 @@ type MathFloatTextDto struct {
 	//                                   //        ('RoundedFloatNum' < 0 ).
 	OriginalFloatNum *big.Float // The original floating point value before rounding
 	RoundedFloatNum  *big.Float // The final floating point value after rounding used for conversion
-	//                                   //   to a text string.
+	//                                   //   to a text string.`
 	FloatFmtStr string // The printf format which may be used to display 'RoundedFloatNum'
 	//                                   //   in accordance with 'ActualFloatFieldLength'.
 	FloatTextStr    string // The text string containing the final formatted value of 'RoundedFloatNum'
