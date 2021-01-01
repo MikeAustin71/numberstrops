@@ -1,6 +1,8 @@
-![TheOriginalAmarilloMike](assets/sittingduck003.png)
+
 
 # numberstr
+
+![TheOriginalAmarilloMike](assets/sittingduck003.png)
 
 A software utility to manage integer and floating point number strings.
 The **numberstr** code package is written in the [Go Programming Language](https://golang.org/)  (a.k.a. Golang).
@@ -20,7 +22,7 @@ Copyright 2019 Mike Rapp. All rights reserved.
 Use of this source code is governed by the (open-source) MIT-style
 license which can be found in the LICENSE file located in this directory.
 
-[MIT Open Source License](./LISCENSE.md)
+[MIT Open Source License] (LISCENSE.md)
 
 ## Source Code Repository
 
