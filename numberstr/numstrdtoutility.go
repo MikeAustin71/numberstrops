@@ -1,6 +1,7 @@
 package numberstr
 
 import (
+	"errors"
 	"sync"
 )
 
@@ -219,7 +220,8 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 //  numStrDto        *NumStrDto
 //     - A pointer to an instance of NumStrDto. This method WILL
 //       CHANGE and overwrite the internal member variable data
-//       values in order to achieve the method's objectives.
+//       values of 'numStrDto' in order to achieve the method's
+//       objectives.
 //
 //       The numerical value of 'numStrDto' will be multiplied
 //       by the numerical value of input parameter 'multiplier'.
@@ -324,13 +326,100 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 	return err
 }
 
-// setNumStr - Sets the value of the current NumStrDto instance
-// to the number string received as input.
+// setNumStr - Sets the value of of input parameter 'numStrDto' to
+// to the numeric value of the number string input parameter,
+// 'numStr'.
+//
+//  This method WILL CHANGE AND OVERWRITE the internal member
+//  variable data values in order to achieve the method's
+//  objectives.
+//
+// -----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numStrDto        *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method WILL
+//       CHANGE and OVERWRITE the internal member variable data
+//       values of 'numStrDto' in order to achieve the method's
+//       objectives.
+//
+//       The NumStrDto instance be populated with the numeric
+//       value contained in input parameter 'numStr'.
+//
+//  numSepsDto          NumericSeparatorDto
+//     - An instance of NumericSeparatorDto which will be used to
+//       supply the numeric separators for input parameter
+//       'numStrDto' when it is populated with a new numeric value
+//       extracted from input parameter, 'numStr'.
+//
+//       Numeric separators include the Thousands Separator, Decimal
+//       Separator and the Currency Symbol.
+//
+//       The data fields included in the NumericSeparatorDto are
+//       listed as follows:
+//
+//          type NumericSeparatorDto struct {
+//
+//            DecimalSeparator   rune // Character used to separate
+//                                    //  integer and fractional digits ('.')
+//
+//            ThousandsSeparator rune // Character used to separate thousands
+//                                    //  (1,000,000,000
+//
+//            CurrencySymbol     rune // Currency Symbol
+//          }
+//
+//       If any of the data fields in this passed structure
+//       'customSeparators' are set to zero ('0'), they will
+//       be reset to USA default values. USA default numeric
+//       separators are listed as follows:
+//
+//             Currency Symbol: '$'
+//         Thousands Separator: ','
+//           Decimal Separator: '.'
+//
+//
+//  numStr              string
+//     - A valid number string. A valid number string 'may' be
+//       prefixed with a numeric sign value of plus ('+') or
+//       minus ('-'). The absence of a leading numeric sign
+//       character will default the numeric value to plus or a
+//       positive numeric value. A valid number string 'may'
+//       also include a decimal delimiter such as a decimal
+//       point to separate integer and fractional digits
+//       within the number string. With these two exceptions,
+//       all other characters in a valid number string must be
+//       numeric values represented by text characters between
+//       '0' and '9'.
+//
+//
+//  ePrefix             string
+//     - Error Prefix. A string consisting of the method chain used
+//       to call this method. In case of error, this text string is
+//       included in the error message. Note: Be sure to leave a space
+//       at the end of 'ePrefix'. If no Error Prefix is desired, simply
+//       provide an empty string for this parameter.
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If the method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. Note that this error message will
+//       incorporate the method chain and text passed by input
+//       parameter, 'ePrefix'. The 'ePrefix' text will be prefixed
+//       to the beginning of the error message.
+//
 func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 	numStrDto *NumStrDto,
 	numSepsDto NumericSeparatorDto,
 	numStr string,
-	ePrefix string) (err error) {
+	ePrefix string) (
+	err error) {
 
 	if nStrDtoUtil.lock == nil {
 		nStrDtoUtil.lock = new(sync.Mutex)
@@ -342,10 +431,30 @@ func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 
 	ePrefix += "numStrDtoUtility.setNumStr() "
 
-	var newNumStrDto NumStrDto
 	err = nil
 
+	err = nil
+
+	nStrDtoQuark := numStrDtoQuark{}
+
+	_,
+		err =
+		nStrDtoQuark.testNumStrDtoValidity(
+			numStrDto,
+			ePrefix+"Initial validity test for 'numStrDto' ")
+
+	if err != nil {
+		return err
+	}
+
+	if len(numStr) == 0 {
+		err = errors.New(ePrefix + "\n" +
+			"Error: Input parameter 'numStr' is an empty string!\n")
+		return err
+	}
+
 	nStrDtoNanobot := numStrDtoNanobot{}
+	var newNumStrDto NumStrDto
 
 	newNumStrDto,
 		err = nStrDtoNanobot.newNumStr(
@@ -374,17 +483,244 @@ func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 			&newNumStrDto,
 			ePrefix+"newNumStrDto->numStrDto ")
 
-	if err != nil {
-		return err
+	return err
+}
+
+// subtractNumStrs - Subtracts the numeric values represented by two
+// NumStrDto objects.
+//
+// Input parameter 'subtrahend' is subtracted from input parameter
+// 'minuend'. The computed 'difference' of this subtraction operation
+// is returned as a new instance of NumStrDto.
+//
+// -----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  minuend             *NumStrDto
+//     - A pointer to a NumStrDto instance. The numeric value
+//       encapsulated by the second input parameter, 'subtrahend',
+//       will be subtracted from this NumStrDto instance, 'minuend'.
+//
+//       This method WILL NOT change the values of internal member
+//       variables in order to achieve the method's objectives.
+//
+//       If this instance of NumStrDto proves to be invalid, an
+//       error will be returned.
+//
+//
+//  subtrahend          *NumStrDto
+//     -  A pointer to a NumStrDto instance. The numeric value
+//        encapsulated by this NumStrDto instance, 'subtrahend',
+//        will be subtracted from the first input parameter,
+//        'minuend'.
+//
+//       This method WILL NOT change the values of internal member
+//       variables in order to achieve the method's objectives.
+//
+//       If this instance of NumStrDto proves to be invalid, an error
+//       will be returned.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  difference          NumStrDto
+//     - If this method completes successfully, this parameter will
+//       encapsulate the numeric difference obtained by subtracting
+//       the numeric value of input parameter 'subtrahend' from that
+//       of input parameter 'minuend'.
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type is set
+//       equal to 'nil'. If errors are encountered during processing, the
+//       returned error Type will encapsulate an error message. Note this
+//       error message will incorporate the method chain and text passed by
+//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
+//       the beginning of the error message.
+//
+func (nStrDtoUtil *numStrDtoUtility) subtractNumStrs(
+	minuend *NumStrDto,
+	subtrahend *NumStrDto,
+	ePrefix string) (
+	difference NumStrDto,
+	err error) {
+
+	if nStrDtoUtil.lock == nil {
+		nStrDtoUtil.lock = new(sync.Mutex)
 	}
+
+	nStrDtoUtil.lock.Lock()
+
+	defer nStrDtoUtil.lock.Unlock()
+
+	ePrefix += "numStrDtoUtility.multiplyInPlace() "
+
+	nStrDtoElectron := numStrDtoElectron{}
+
+	difference = nStrDtoElectron.newBaseZeroNumStrDto(0)
+	err = nil
 
 	nStrDtoQuark := numStrDtoQuark{}
 
 	_,
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
-			numStrDto,
-			ePrefix+"Final validity test for 'numStrDto' ")
+			minuend,
+			ePrefix+"Initial validity test for 'minuend' ")
 
-	return err
+	if err != nil {
+		return difference, err
+	}
+
+	_,
+		err =
+		nStrDtoQuark.testNumStrDtoValidity(
+			subtrahend,
+			ePrefix+"Initial validity test for 'subtrahend' ")
+
+	if err != nil {
+		return difference, err
+	}
+
+	var n1NumDto, n2NumDto NumStrDto
+	var compare int
+	var isReversed bool
+
+	nStrDtoMolecule := numStrDtoMolecule{}
+
+	n1NumDto,
+		n2NumDto,
+		compare,
+		isReversed,
+		err =
+		nStrDtoMolecule.formatForMathOps(
+			minuend,
+			subtrahend,
+			ePrefix)
+
+	if err != nil {
+		return difference, err
+	}
+
+	if compare == 0 {
+		// Numeric Values are Equal!
+		difference =
+			nStrDtoElectron.newBaseZeroNumStrDto(n1NumDto.precision)
+		return difference, err
+	}
+
+	newSignVal := n1NumDto.signVal
+	precision := n1NumDto.precision
+
+	if n1NumDto.signVal != n2NumDto.signVal {
+		// Sign Values ARE NOT Equal!
+		nStrDtoElectron := numStrDtoElectron{}
+
+		err = nStrDtoElectron.setSignValue(
+			&n1NumDto,
+			1,
+			ePrefix+"n1NumDto Sign=1 ")
+
+		if err != nil {
+			return difference, err
+		}
+
+		err = nStrDtoElectron.setSignValue(
+			&n2NumDto,
+			1,
+			ePrefix+"n2NumDto Sign=1 ")
+
+		if err != nil {
+			return difference, err
+		}
+
+		// Sign Values are NOW Equal!
+
+		nStrDtoHelper := numStrDtoHelper{}
+
+		difference,
+			err =
+			nStrDtoHelper.signValuesAreEqualAddNumStrs(
+				&n1NumDto,
+				&n2NumDto,
+				ePrefix)
+
+		if err != nil {
+			return difference, err
+		}
+
+		err = nStrDtoElectron.setSignValue(
+			&difference,
+			newSignVal,
+			ePrefix+"difference=newSignVal ")
+
+		return difference, err
+	}
+
+	// Sign Values ARE Equal!
+	// Change sign for subtraction
+	newSignVal = n1NumDto.signVal
+
+	if isReversed {
+		newSignVal = newSignVal * -1
+	}
+
+	lenN1AllRunes := len(n1NumDto.absAllNumRunes)
+
+	n1IntAry := make([]int, lenN1AllRunes)
+	n2IntAry := make([]int, lenN1AllRunes)
+	n3IntAry := make([]int, lenN1AllRunes)
+
+	for i := 0; i < lenN1AllRunes; i++ {
+
+		n1IntAry[i] = int(n1NumDto.absAllNumRunes[i]) - 48
+		n2IntAry[i] = int(n2NumDto.absAllNumRunes[i]) - 48
+
+	}
+
+	carry := 0
+	n1 := 0
+	n2 := 0
+	n3 := 0
+	// Main Subtraction Routine
+	for j := lenN1AllRunes - 1; j >= 0; j-- {
+
+		n1 = n1IntAry[j]
+		n2 = n2IntAry[j]
+		n3 = 0
+
+		if n1-carry-n2 < 0 {
+			n1 += 10
+			n3 = n1 - n2 - carry
+			carry = 1
+		} else {
+			n3 = n1 - n2 - carry
+			carry = 0
+		}
+
+		n3IntAry[j] = n3
+
+	}
+
+	nStrDtoMech := numStrDtoMechanics{}
+
+	difference,
+		err =
+		nStrDtoMech.findIntArraySignificantDigitLimits(
+			n3IntAry,
+			precision,
+			newSignVal,
+			ePrefix)
+
+	return difference, err
 }

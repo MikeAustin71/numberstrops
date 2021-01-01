@@ -110,6 +110,15 @@ func (nStrDtoElectron *numStrDtoElectron) copyIn(
 		nInDto,
 		ePrefix)
 
+	_,
+		err = nStrDtoQuark.testNumStrDtoValidity(
+		numStrDto,
+		ePrefix+"Final Validity Test for 'numStrDto' ")
+
+	if err != nil {
+		return err
+	}
+
 	return err
 }
 

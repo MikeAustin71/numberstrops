@@ -349,7 +349,6 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 		ePrefix)
 
 	return sum, err
-
 }
 
 // signValuesAreEqualSubtractNumStrs - Subtracts two numbers with

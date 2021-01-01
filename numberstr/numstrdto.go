@@ -6316,12 +6316,66 @@ func (nDto *NumStrDto) Subtract(
 	return err
 }
 
-// SubtractNumStrs - Subtracts the numeric values represented by two NumStrDto
-// objects.
+// SubtractNumStrs - Subtracts the numeric values represented by two
+// NumStrDto objects.
 //
-// Input parameter 'ePrefix' is a string consisting of the method chain used to
-// call this method. In case of error, this text string is included in the error
-// message. Note: Be sure to leave a space at the end of 'ePrefix'.
+// Input parameter 'subtrahend' is subtracted from input parameter,
+// 'minuend'. The computed 'difference' of this subtraction operation
+// is returned as a new instance of NumStrDto.
+//
+// -----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  minuend             NumStrDto
+//     - The numeric value encapsulated by the second input
+//       parameter, 'subtrahend', will be subtracted from this
+//       NumStrDto instance, 'minuend'.
+//
+//       This method WILL NOT change the values of internal member
+//       variables in order to achieve the method's objectives.
+//
+//       If this instance of NumStrDto proves to be invalid, an
+//       error will be returned.
+//
+//
+//  subtrahend          NumStrDto
+//     -  The numeric value encapsulated by this NumStrDto instance,
+//        'subtrahend', will be subtracted from the first input
+//        parameter, 'minuend'.
+//
+//       This method WILL NOT change the values of internal member
+//       variables in order to achieve the method's objectives.
+//
+//       If this instance of NumStrDto proves to be invalid, an error
+//       will be returned.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  difference          NumStrDto
+//     - If this method completes successfully, this parameter will
+//       encapsulate the numeric difference obtained by subtracting
+//       the numeric value of input parameter 'subtrahend' from that
+//       of input parameter 'minuend'.
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type is set
+//       equal to 'nil'. If errors are encountered during processing, the
+//       returned error Type will encapsulate an error message. Note this
+//       error message will incorporate the method chain and text passed by
+//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
+//       the beginning of the error message.
 //
 func (nDto *NumStrDto) SubtractNumStrs(
 	minuend NumStrDto,
@@ -6332,124 +6386,13 @@ func (nDto *NumStrDto) SubtractNumStrs(
 
 	ePrefix += "NumStrDto.SubtractNumStrs() "
 
-	difference = NumStrDto{}
-	err = nil
-
-	var n1NumDto, n2NumDto NumStrDto
-	var compare int
-	var isReversed bool
-
-	n1NumDto,
-		n2NumDto,
-		compare,
-		isReversed,
-		err = nDto.FormatForMathOps(
-		minuend,
-		subtrahend, ePrefix)
-
-	if err != nil {
-		return difference, err
-	}
-
-	if compare == 0 {
-		// Numeric Values are Equal!
-		difference = nDto.GetZeroNumStrDto(n1NumDto.precision)
-		return difference, err
-	}
-
-	newSignVal := n1NumDto.signVal
-	precision := n1NumDto.precision
-
-	if n1NumDto.signVal != n2NumDto.signVal {
-		// Sign Values ARE NOT Equal!
-		err = n1NumDto.SetSignValue(1,
-			ePrefix+"n1NumDto ")
-
-		if err != nil {
-			return difference, err
-		}
-
-		err = n2NumDto.SetSignValue(
-			1,
-			ePrefix+"n2NumDto ")
-
-		if err != nil {
-			return difference, err
-		}
-
-		difference,
-			err = nDto.AddNumStrs(
-			n1NumDto,
-			n2NumDto,
-			ePrefix)
-
-		if err != nil {
-			difference = NumStrDto{}
-			return difference, err
-		}
-
-		err = difference.SetSignValue(
-			newSignVal,
-			ePrefix+"difference ")
-
-		if err != nil {
-			difference = NumStrDto{}
-		}
-
-		return difference, err
-	}
-
-	// Sign Values ARE Equal!
-	// Change sign for subtraction
-	newSignVal = n1NumDto.signVal
-
-	if isReversed {
-		newSignVal = newSignVal * -1
-	}
-
-	lenN1AllRunes := len(n1NumDto.absAllNumRunes)
-
-	n1IntAry := make([]int, lenN1AllRunes)
-	n2IntAry := make([]int, lenN1AllRunes)
-	n3IntAry := make([]int, lenN1AllRunes)
-
-	for i := 0; i < lenN1AllRunes; i++ {
-
-		n1IntAry[i] = int(n1NumDto.absAllNumRunes[i]) - 48
-		n2IntAry[i] = int(n2NumDto.absAllNumRunes[i]) - 48
-
-	}
-
-	carry := 0
-	n1 := 0
-	n2 := 0
-	n3 := 0
-	// Main Subtraction Routine
-	for j := lenN1AllRunes - 1; j >= 0; j-- {
-
-		n1 = n1IntAry[j]
-		n2 = n2IntAry[j]
-		n3 = 0
-
-		if n1-carry-n2 < 0 {
-			n1 += 10
-			n3 = n1 - n2 - carry
-			carry = 1
-		} else {
-			n3 = n1 - n2 - carry
-			carry = 0
-		}
-
-		n3IntAry[j] = n3
-
-	}
+	nStrDtoUtil := numStrDtoUtility{}
 
 	difference,
 		err =
-		nDto.FindIntArraySignificantDigitLimits(
-			n3IntAry,
-			precision,
-			newSignVal,
+		nStrDtoUtil.subtractNumStrs(
+			&minuend,
+			&subtrahend,
 			ePrefix)
 
 	return difference, err

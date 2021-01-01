@@ -263,7 +263,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) findSignificantDigitLimits(
 //
 // Input Parameters
 //
-//  numSeps             NumericSeparatorDto
+//  numSepsDto          NumericSeparatorDto
 //     - An instance of NumericSeparatorDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
@@ -1212,12 +1212,13 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 //
 //
 //  error
-//     - If successful the returned error Type is set equal to 'nil'.
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. Note this error
-//       message will incorporate the method chain and text passed
-//       by input parameter, 'ePrefix'.
-//
+//     - If the method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. Note that this error message will
+//       incorporate the method chain and text passed by input
+//       parameter, 'ePrefix'. The 'ePrefix' text will be prefixed
+//       to the beginning of the error message.
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
 	numSepsDto NumericSeparatorDto,
