@@ -498,6 +498,74 @@ func (nStrDtoAtom *numStrDtoAtom) getAbsoluteBigInt(
 	return bigIntNum, err
 }
 
+// TO DO - Fix getAbsoluteBigFloat
+func (nStrDtoAtom *numStrDtoAtom) getAbsoluteBigFloat(
+	numStrDto *NumStrDto,
+	internalPrecision uint,
+	ePrefix string) (
+	absBigFloatNum *big.Float,
+	err error) {
+	if nStrDtoAtom.lock == nil {
+		nStrDtoAtom.lock = new(sync.Mutex)
+	}
+
+	nStrDtoAtom.lock.Lock()
+
+	defer nStrDtoAtom.lock.Unlock()
+
+	ePrefix += "numStrDtoAtom.getBigRationalNum() "
+
+	err = nil
+	absBigFloatNum = big.NewFloat(0.00)
+
+	nStrDtoQuark := numStrDtoQuark{}
+
+	_,
+		err = nStrDtoQuark.testNumStrDtoValidity(
+		numStrDto,
+		ePrefix+"Testing initial validity of 'numStrDto' ")
+
+	if err != nil {
+		return absBigFloatNum, err
+	}
+
+	// Parse Example
+	//var expectedTimeFraction *big.Float
+	//var base, inputBase int
+	//
+	//inputBase = 10
+	//
+	//expectedTimeFraction,
+	//	base,
+	//	err =
+	//	big.NewFloat(0.0).
+	//		SetMode(big.ToNearestAway).
+	//		SetPrec(1024).
+	//		Parse("0.479166666666666666666666666667", 10)
+	//               123456789012345678901234567890
+	//                        1         2         3
+
+	var base int
+	numStr := string(numStrDto.absAllNumRunes)
+
+	absBigFloatNum,
+		base,
+		err =
+		big.NewFloat(0.0).
+			SetMode(big.ToNearestAway).
+			SetPrec(internalPrecision).
+			Parse(numStr, 10)
+
+	if base != 10 &&
+		err == nil {
+		err = fmt.Errorf(ePrefix + "\n" +
+			"Error: big.Float.Parse Failed.\n" +
+			"")
+	}
+
+	return absBigFloatNum, err
+}
+
 // getBigRationalNum - Receives an instance of of NumStrDto and
 // converts the associated signed numerical value to a type
 // *big.Rat, big rational number.
@@ -574,18 +642,12 @@ func (nStrDtoAtom *numStrDtoAtom) getBigRationalNum(
 	err = nil
 	bigRatNum = big.NewRat(1, 1)
 
-	if numStrDto == nil {
-		err = errors.New(ePrefix +
-			"\nInput parameter 'numStrDto' is INVALID!\n" +
-			"numStrDto = nil pointer!\n")
-		return bigRatNum, err
-	}
+	nStrDtoQuark := numStrDtoQuark{}
 
-	nStrDtoElectron := numStrDtoElectron{}
-
-	err = nStrDtoElectron.setNumericSeparatorsToDefaultIfEmpty(
+	_,
+		err = nStrDtoQuark.testNumStrDtoValidity(
 		numStrDto,
-		ePrefix+"numStrDto ")
+		ePrefix+"Testing initial validity of 'numStrDto' ")
 
 	if err != nil {
 		return bigRatNum, err
