@@ -40,6 +40,7 @@ type NumStrDto struct {
 // If the current instance of NumStrDto proves to be invalid, an
 // error will be returned.
 //
+//
 // ----------------------------------------------------------------
 //
 // Input Parameters
@@ -6286,8 +6287,57 @@ func (nDto *NumStrDto) SetThisPrecision(
 		ePrefix)
 }
 
-// Subtract - Subtracts the value of an input NumStrDto from the
-// current NumStrDto instance.
+// Subtract - Subtracts the numeric values represented by two
+// NumStrDto objects.
+//
+// The numeric value of input parameter 'subtrahend' is subtracted
+// from the numeric value of the current NumStrDto instance. The
+// computed 'difference' of this subtraction operation is then
+// stored in the current NumStrDto instance.
+//
+// Be advised that this method WILL CHANGE AND OVERWRITE the data
+// values contained in the current NumStrDto instance.
+//
+// If the current instance of NumStrDto proves to be invalid, an
+// error will be returned.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  subtrahend          NumStrDto
+//     -  The numeric value encapsulated by this NumStrDto instance,
+//        'subtrahend', will be subtracted from the numeric value
+//        encapsulated by the current NumStrDto instance.
+//
+//       This method WILL NOT change the values of the 'subtrahend'
+//       internal member variables in order to achieve the method's
+//       objectives.
+//
+//       If this instance of NumStrDto proves to be invalid, an error
+//       will be returned.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type is set
+//       equal to 'nil'. If errors are encountered during processing, the
+//       returned error Type will encapsulate an error message. Note this
+//       error message will incorporate the method chain and text passed by
+//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
+//       the beginning of the error message.
+//
 func (nDto *NumStrDto) Subtract(
 	n2Dto NumStrDto,
 	ePrefix string) (
@@ -6295,23 +6345,26 @@ func (nDto *NumStrDto) Subtract(
 
 	ePrefix += "NumStrDto.Subtract() "
 
-	err = nil
-
-	n1Dto := nDto.CopyOut()
-
 	var difference NumStrDto
 
+	nStrDtoUtil := numStrDtoUtility{}
+
 	difference,
-		err = nDto.SubtractNumStrs(
-		n1Dto,
-		n2Dto,
+		err = nStrDtoUtil.subtractNumStrs(
+		nDto,
+		&n2Dto,
 		ePrefix)
 
 	if err != nil {
 		return err
 	}
 
-	nDto.CopyIn(difference)
+	nStrDtoElectron := numStrDtoElectron{}
+
+	err = nStrDtoElectron.copyIn(
+		nDto,
+		&difference,
+		ePrefix+"difference->nDto ")
 
 	return err
 }
