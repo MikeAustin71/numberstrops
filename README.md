@@ -22,7 +22,7 @@ Copyright 2019 Mike Rapp. All rights reserved.
 Use of this source code is governed by the (open-source) MIT-style
 license which can be found in the LICENSE file located in this directory.
 
-[MIT Open Source License](./LICENSE)
+[MIT Open Source License](./LICENSE.md)
 
 ## Source Code Repository
 
