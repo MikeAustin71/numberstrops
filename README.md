@@ -10,7 +10,7 @@ The **numberstr** code package is written in the [Go Programming Language](https
 
 ## Table of Contents
 
-[TOC]
+[TOC<!-- TOC -->autoauto- [numberstr](#numberstr)auto  - [Table of Contents](#table-of-contents)auto  - [Open Source License](#open-source-license)auto  - [Source Code Repository](#source-code-repository)auto  - [Go Modules](#go-modules)auto  - [Version 1.0.0](#version-100)auto  - [Type NumStrDto](#type-numstrdto)auto    - [Integer Conversions](#integer-conversions)auto    - [Floating Point Conversions](#floating-point-conversions)auto    - [Number String Conversions](#number-string-conversions)auto      - [Pure Number Strings - Absolute Values](#pure-number-strings---absolute-values)auto      - [Negative Value Number Strings](#negative-value-number-strings)auto      - [Positive Value Number Strings](#positive-value-number-strings)auto      - [Thousands Separator](#thousands-separator)auto      - [Currency Symbol](#currency-symbol)auto      - [Numeric Separators](#numeric-separators)autoauto<!-- /TOC -->]
 
 
 
@@ -40,9 +40,9 @@ The current version of **numberstr** is Version 1.0.0.
 
 ## Type NumStrDto
 
-Currently most of the functionality offered by this code package is found in type NumStrDto which is located in source file, numberstr/numstrdto.go. 
+Currently most of the functionality offered by this code package is found in type NumStrDto which is located in source file, numberstr/numstrdto.go.
 
-NumStrDto provides a host of functions which provide for the conversion of differing numeric types to number strings as well as other functions which convert number strings to specific numeric types. 
+NumStrDto provides a host of functions which provide for the conversion of differing numeric types to number strings as well as other functions which convert number strings to specific numeric types.
 
 ### Integer Conversions
 
@@ -77,7 +77,7 @@ Pure number strings present integer or floating point numbers as absolute or pos
 
 #### Negative Value Number Strings
 
-Negative value number strings may surrounded with **parentheses** **'()'** or with specified with a **leading minus sign '-'** . 
+Negative value number strings may surrounded with **parentheses** **'()'** or with specified with a **leading minus sign '-'** .
 
 #### Positive Value Number Strings
 
@@ -93,7 +93,7 @@ Type **NumStrDto** provides the option to delimit number strings using a custom 
 
 #### Numeric Separators
 
-Type **NumStrDto** employs the concept of **Numeric Separators**. Numeric Separators allow users to specify custom Unicode characters for use as Decimal Separators, Thousands Separators and Currency Symbols. This ensures that number strings can be configured for use by multiple nationalities and cultures. 
+Type **NumStrDto** employs the concept of **Numeric Separators**. Numeric Separators allow users to specify custom Unicode characters for use as Decimal Separators, Thousands Separators and Currency Symbols. This ensures that number strings can be configured for use by multiple nationalities and cultures.
 
 
 
