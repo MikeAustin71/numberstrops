@@ -10,17 +10,22 @@ type numStrDtoElectron struct {
 	lock *sync.Mutex
 }
 
-// copyIn - Receives an incoming NumStrDto object
-// and copies the information to the current NumStrDto
-// data fields.
+// copyIn - Receives pointers to two NumStrDto objects, 'numStrDto'
+// and 'nInDto'. This method then proceeds to copy all member
+// variable data fields from 'nInDto' to 'numStrDto'.
 //
-// ------------------------------------------------------------------------
+// If 'nInDto' is an invalid instance of NumStrDto, an error will
+// be returned.
+//
+//
+// ----------------------------------------------------------------
 //
 // Input Parameters
 //
 //  numStrDto           *NumStrDto
 //     - A pointer to an instance of NumStrDto. This method WILL
-//       change and overwrite the values of internal member variables to achieve the method's objectives.
+//       CHANGE AND OVERWRITE all values of internal member
+//       variables to achieve the method's objectives.
 //
 //       This NumStrDto will receive all the data values contained
 //       in input parameter 'nInDto'. When the copy operation is
@@ -35,6 +40,9 @@ type numStrDtoElectron struct {
 //
 //       All data values in this NumStrDto instance will be copied to
 //       input parameter 'numStrDto'.
+//
+//       If this NumStrDto instance proves to be invalid, an error
+//       will be returned.
 //
 //
 //  ePrefix             string
@@ -86,12 +94,21 @@ func (nStrDtoElectron *numStrDtoElectron) copyIn(
 		return err
 	}
 
-	numStrDto.signVal = nInDto.signVal
-	numStrDto.absAllNumRunes = nInDto.absAllNumRunes
-	numStrDto.precision = nInDto.precision
-	numStrDto.thousandsSeparator = nInDto.thousandsSeparator
-	numStrDto.decimalSeparator = nInDto.decimalSeparator
-	numStrDto.currencySymbol = nInDto.currencySymbol
+	nStrDtoQuark := numStrDtoQuark{}
+
+	_,
+		err = nStrDtoQuark.testNumStrDtoValidity(
+		nInDto,
+		ePrefix+"Testing validity of 'nInDto' ")
+
+	if err != nil {
+		return err
+	}
+
+	err = nStrDtoQuark.copyInLowLevel(
+		numStrDto,
+		nInDto,
+		ePrefix)
 
 	return err
 }
@@ -108,6 +125,9 @@ func (nStrDtoElectron *numStrDtoElectron) copyIn(
 //     - A pointer to an instance of NumStrDto. This method will
 //       NOT change the values of internal member variables to achieve
 //       the method's objectives.
+//
+//       If this NumStrDto instance proves to be invalid, an error
+//       will be returned.
 //
 //
 //  ePrefix             string
@@ -161,23 +181,30 @@ func (nStrDtoElectron *numStrDtoElectron) copyOut(
 		return newNumStrDto, err
 	}
 
-	newNumStrDto.signVal =
-		numStrDto.signVal
+	nStrDtoQuark := numStrDtoQuark{}
 
-	newNumStrDto.absAllNumRunes =
-		numStrDto.absAllNumRunes
+	_,
+		err = nStrDtoQuark.testNumStrDtoValidity(
+		numStrDto,
+		ePrefix+"Testing validity of input parameter 'numStrDto' ")
 
-	newNumStrDto.precision =
-		numStrDto.precision
+	if err != nil {
+		return newNumStrDto, err
+	}
 
-	newNumStrDto.thousandsSeparator =
-		numStrDto.thousandsSeparator
+	err = nStrDtoQuark.copyInLowLevel(
+		&newNumStrDto,
+		numStrDto,
+		ePrefix+"numStrDto-> newNumStrDto")
 
-	newNumStrDto.decimalSeparator =
-		numStrDto.decimalSeparator
+	if err != nil {
+		return newNumStrDto, err
+	}
 
-	newNumStrDto.currencySymbol =
-		numStrDto.currencySymbol
+	_,
+		err = nStrDtoQuark.testNumStrDtoValidity(
+		&newNumStrDto,
+		ePrefix+"Final validity test on 'newNumStrDto' ")
 
 	return newNumStrDto, err
 }
