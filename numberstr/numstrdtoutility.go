@@ -8,6 +8,64 @@ type numStrDtoUtility struct {
 	lock *sync.Mutex
 }
 
+// addNumStrs - Adds the numeric values represented by two
+// NumStrDto objects and returns the sum of these two numeric
+// values as another NumStrDto instance.
+//
+//
+// -----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  addend1             *NumStrDto
+//     - A pointer to a NumStrDto instance. The numeric value
+//       encapsulated by this NumStrDto instance, 'addend1',
+//       will be added to the second input parameter, 'addend2'.
+//
+//       This method WILL NOT change the values of internal member
+//       variables in order to achieve the method's objectives.
+//
+//      If this instance of NumStrDto proves to be invalid, an
+//      error will be returned.
+//
+//
+//  addend2             *NumStrDto
+//     -  A pointer to a NumStrDto instance. The numeric value
+//        encapsulated by this NumStrDto instance, 'addend2',
+//        will be added to the first input parameter, 'addend1'.
+//
+//       This method WILL NOT change the values of internal member
+//       variables in order to achieve the method's objectives.
+//
+//      If this instance of NumStrDto proves to be invalid, an error
+//      will be returned.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  sum                NumStrDto
+//     - If this method completes successfully, this parameter will
+//       encapsulate the numeric sum obtained by adding the numeric
+//       values of input parameters, 'addend1' and 'addend2'.
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type is set
+//       equal to 'nil'. If errors are encountered during processing, the
+//       returned error Type will encapsulate an error message. Note this
+//       error message will incorporate the method chain and text passed by
+//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
+//       the beginning of the error message.
+//
 func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 	addend1 *NumStrDto,
 	addend2 *NumStrDto,

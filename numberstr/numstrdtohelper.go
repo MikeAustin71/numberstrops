@@ -352,6 +352,65 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 
 }
 
+// signValuesAreEqualSubtractNumStrs - Subtracts two numbers with
+// equal numeric sign values. Numeric sign values of +1 or -1
+// indicate whether a number is is positive ('+') or negative ('-').
+//
+// This method is designed to be called after method
+// numStrDtoMolecule.formatForMathOps() has been called on these two
+// numeric values.
+//
+// The 'signValuesAreEqualSubtractNumStrs' is a low level method
+// designed to be called by numStrDtoUtility.addNumStrs().
+//
+//
+// -----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  n1NumDto            *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method WILL
+//       NOT CHANGE data values of internal member variables to
+//       achieve the method's objectives.
+//
+//
+//  n2NumDto            *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method WILL
+//       NOT CHANGE data values of internal member variables to
+//       achieve the method's objectives.
+//
+//
+//  isReversed          bool
+//     - If 'isReversed' is set to true, it signals that the original
+//       sequence of 'n1NumDto' and 'n2NumDto' have been reversed in
+//       order to facilitate the subtraction operation.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  difference          NumStrDto
+//     - If this method completes successfully, this parameter will represent
+//       the numerical difference between input parameters, 'n1NumDto' and
+//       'n2NumDto'.
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type is set
+//       equal to 'nil'. If errors are encountered during processing, the
+//       returned error Type will encapsulate an error message. Note this
+//       error message will incorporate the method chain and text passed by
+//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
+//       the beginning of the error message.
+//
 func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualSubtractNumStrs(
 	n1NumDto *NumStrDto,
 	n2NumDto *NumStrDto,
@@ -417,5 +476,4 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualSubtractNumStrs(
 			ePrefix)
 
 	return difference, err
-
 }

@@ -30,46 +30,141 @@ type NumStrDto struct {
 	currencySymbol     rune // Currency symbol used in currency string displays
 }
 
-// Add - Adds the value of input NumStrDto to the current NumStrDto
-// instance.
+// Add - Adds the numeric value of input parameter 'n2Dto' to that
+// of the current NumStrDto instance. The 'sum' of this addition
+// operation will be stored in the current NumStrDto instance.
 //
-// Input parameter 'ePrefix' is a string consisting of the method chain used to call
-// this method. In case of error, this text string is included in the error message.
-// Note: Be sure to leave a space at the end of 'ePrefix'.
+// Be advised that this method WILL CHANGE AND OVERWRITE the data
+// values contained in the current NumStrDto instance.
+//
+// If the current instance of NumStrDto proves to be invalid, an
+// error will be returned.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  n2Dto             NumStrDto
+//     -  A pointer to a NumStrDto instance. The numeric value
+//        encapsulated by this NumStrDto instance, 'n2Dto',
+//        will be added to that of the current the NumStrDto
+//        instance, 'nDto'.
+//
+//       This method WILL NOT change the values of internal member
+//       variables in order to achieve the method's objectives.
+//
+//      If this instance of NumStrDto proves to be invalid, an error
+//      will be returned.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type is set
+//       equal to 'nil'. If errors are encountered during processing, the
+//       returned error Type will encapsulate an error message. Note this
+//       error message will incorporate the method chain and text passed by
+//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
+//       the beginning of the error message.
 //
 func (nDto *NumStrDto) Add(
 	n2Dto NumStrDto,
-	ePrefix string) error {
+	ePrefix string) (
+	err error) {
 
 	ePrefix += "NumStrDto.Add() "
+	err = nil
 
-	n1Dto := nDto.CopyOut()
+	nStrDtoUtil := numStrDtoUtility{}
 
-	nResult, err := nDto.AddNumStrs(
-		n1Dto,
-		n2Dto,
+	var sum NumStrDto
+
+	sum,
+		err = nStrDtoUtil.addNumStrs(
+		nDto,
+		&n2Dto,
 		ePrefix)
 
 	if err != nil {
 		return err
 	}
 
-	nDto.CopyIn(nResult)
+	nStrDtoElectron := numStrDtoElectron{}
 
-	return nil
+	err = nStrDtoElectron.copyIn(
+		nDto,
+		&sum,
+		ePrefix+"sum->nDto ")
+
+	return err
 }
 
-// AddNumStrs - Adds the values represented by two NumStrDto objects and
-// returns the result as an NumStrDto.
-//
-// Input parameter 'ePrefix' is a string consisting of the method chain used to call
-// this method. In case of error, this text string is included in the error message.
-// Note: Be sure to leave a space at the end of 'ePrefix'.
+// AddNumStrs - Adds the numeric values represented by two
+// NumStrDto objects and returns the sum of these two numeric
+// values as another NumStrDto instance.
 //
 //
-// Input parameter 'ePrefix' is a string consisting of the method chain used to call
-// this method. In case of error, this text string is included in the error message.
-// Note: Be sure to leave a space at the end of 'ePrefix'.
+// -----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  addend1             NumStrDto
+//     - The numeric value encapsulated by this NumStrDto instance,
+//      'addend1', will be added to the second input parameter,
+//      'addend2'.
+//
+//       This method WILL NOT change the values of internal member
+//       variables in order to achieve the method's objectives.
+//
+//      If this instance of NumStrDto proves to be invalid, an error
+//      will be returned.
+//
+//
+//  addend2             NumStrDto
+//     - The numeric value encapsulated by this NumStrDto instance,
+//      'addend2', will be added to the first input parameter,
+//      'addend1'.
+//
+//       This method WILL NOT change the values of internal member
+//       variables in order to achieve the method's objectives.
+//
+//      If this instance of NumStrDto proves to be invalid, an error
+//      will be returned.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  sum                NumStrDto
+//     - If this method completes successfully, this parameter will
+//       encapsulate the numeric sum obtained by adding the numeric
+//       values of input parameters, 'addend1' and 'addend2'.
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type is set
+//       equal to 'nil'. If errors are encountered during processing, the
+//       returned error Type will encapsulate an error message. Note this
+//       error message will incorporate the method chain and text passed by
+//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
+//       the beginning of the error message.
 //
 func (nDto *NumStrDto) AddNumStrs(
 	addend1 NumStrDto,
@@ -82,103 +177,12 @@ func (nDto *NumStrDto) AddNumStrs(
 
 	sum = NumStrDto{}
 	err = nil
-
-	var n1DtoSetup, n2DtoSetup NumStrDto
-
-	n1DtoSetup,
-		n2DtoSetup,
-		_,
-		_,
-		err =
-		nDto.FormatForMathOps(
-			addend1,
-			addend2,
-			ePrefix)
-
-	if err != nil {
-		return sum, err
-	}
-
-	newSignVal := n1DtoSetup.signVal
-
-	if n1DtoSetup.signVal != n2DtoSetup.signVal {
-		// Sign Values ARE NOT Equal!
-
-		err = n1DtoSetup.SetSignValue(
-			1,
-			ePrefix+"n1DtoSetup ")
-
-		if err != nil {
-			return sum, err
-		}
-
-		err = n2DtoSetup.SetSignValue(
-			1,
-			ePrefix+"n2DtoSetup ")
-
-		if err != nil {
-			return sum, err
-		}
-		// Sign Values are NOW Equal!
-		sum,
-			err =
-			nDto.SubtractNumStrs(
-				n1DtoSetup,
-				n2DtoSetup,
-				ePrefix)
-
-		if err != nil {
-			return sum, err
-		}
-
-		if nDto.IsNumStrZeroValue(&sum) {
-			newSignVal = 1
-		}
-
-		err = sum.SetSignValue(
-			newSignVal,
-			ePrefix+"sum ")
-
-		return sum, err
-	}
-
-	// Sign Values ARE Equal!
-	precision := n1DtoSetup.precision
-	lenN1AllRunes := len(n1DtoSetup.absAllNumRunes)
-
-	n3IntAry := make([]int, lenN1AllRunes+1)
-	carry := 0
-	n1 := 0
-	n2 := 0
-	n3 := 0
-
-	for j := lenN1AllRunes - 1; j >= 0; j-- {
-
-		n1 = int(n1DtoSetup.absAllNumRunes[j]) - 48
-		n2 = int(n2DtoSetup.absAllNumRunes[j]) - 48
-
-		n3 = n1 + n2 + carry
-
-		carry = 0
-
-		if n3 > 9 {
-			n3 = n3 - 10
-			carry = 1
-		}
-
-		n3IntAry[j+1] = n3
-
-	}
-
-	if carry > 0 {
-		n3IntAry[0] = carry
-	}
+	nStrDtoUtil := numStrDtoUtility{}
 
 	sum,
-		err = nDto.FindIntArraySignificantDigitLimits(
-		n3IntAry,
-		precision,
-		newSignVal,
+		err = nStrDtoUtil.addNumStrs(
+		&addend1,
+		&addend2,
 		ePrefix)
 
 	return sum, err

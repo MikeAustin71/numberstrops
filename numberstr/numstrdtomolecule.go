@@ -277,13 +277,13 @@ func (nStrDtoMolecule *numStrDtoMolecule) compareNumStrDtoSignedValues(
 // Input Parameters
 //
 //  n1Dto           *NumStrDto
-//     - A pointer to an instance of NumStrDto. This method will
+//     - A pointer to an instance of NumStrDto. This method WILL
 //       NOT change the values of internal member variables to achieve
 //       the method's objectives.
 //
 //
 //  n2Dto           *NumStrDto
-//     - A pointer to a second instance of NumStrDto. This method will
+//     - A pointer to a second instance of NumStrDto. This method WILL
 //       NOT change the values of internal member variables to achieve
 //       the method's objectives.
 //
@@ -334,7 +334,8 @@ func (nStrDtoMolecule *numStrDtoMolecule) compareNumStrDtoSignedValues(
 //       equal to 'nil'. If errors are encountered during processing, the
 //       returned error Type will encapsulate an error message. Note this
 //       error message will incorporate the method chain and text passed by
-//       input parameter, 'ePrefix'.
+//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
+//       the beginning of the error message.
 //
 func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 	n1Dto *NumStrDto,
