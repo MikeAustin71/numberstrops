@@ -103,6 +103,75 @@ func (nStrDtoQuark *numStrDtoQuark) copyInLowLevel(
 	return err
 }
 
+// empty - Performs an 'empty' operation on an instance of NumStrDto.
+// All member variable data values encapsulated by input parameter
+// 'numStrDto' are set to their zero or default values.
+//
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numStrDto           *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method will
+//       set ALL the data values of internal member variables
+//       to their zero or default values.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type
+//       is set to 'nil'. If errors are encountered during processing,
+//       the returned error Type will encapsulate an error message.
+//       Note that this error message will incorporate the method
+//       chain and text passed by input parameter, 'ePrefix'.
+//
+func (nStrDtoQuark *numStrDtoQuark) empty(
+	numStrDto *NumStrDto,
+	ePrefix string) (
+	err error) {
+
+	if nStrDtoQuark.lock == nil {
+		nStrDtoQuark.lock = new(sync.Mutex)
+	}
+
+	nStrDtoQuark.lock.Lock()
+
+	defer nStrDtoQuark.lock.Unlock()
+
+	ePrefix += "numStrDtoQuark.empty() "
+
+	err = nil
+
+	if numStrDto == nil {
+		err = errors.New(ePrefix +
+			"\nInput parameter 'numStrDto' is INVALID!\n" +
+			"numStrDto = nil pointer!\n")
+		return err
+	}
+
+	// Perform an 'empty' operation
+	numStrDto.signVal = 0
+	numStrDto.absAllNumRunes = []rune{}
+	numStrDto.precision = 0
+	numStrDto.thousandsSeparator = ','
+	numStrDto.decimalSeparator = '.'
+	numStrDto.currencySymbol = '$'
+
+	return err
+}
+
 // testNumStrDtoValidity - Evaluates the validity of a NumStrDto
 // instance. If the instance is valid this method returns 'true'
 // and sets the returned error type to nil.

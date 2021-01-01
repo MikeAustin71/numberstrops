@@ -582,9 +582,9 @@ func (nDto *NumStrDto) Equal(
 // to their initial or zero state.
 func (nDto *NumStrDto) Empty() {
 
-	nStrDtoElectron := numStrDtoElectron{}
+	nStrDtoQuark := numStrDtoQuark{}
 
-	_ = nStrDtoElectron.empty(
+	_ = nStrDtoQuark.empty(
 		nDto,
 		"")
 
@@ -1207,7 +1207,8 @@ func (nDto *NumStrDto) GetAbsIntRunesLength() int {
 //
 //     Examples:
 //
-//      numstr      result
+//      Number
+//      String      result
 //      ------      ------
 //      123.45      12345
 //     -123.45      12345
@@ -1327,10 +1328,11 @@ func (nDto *NumStrDto) GetCurrencySymbol() rune {
 // the value is negative, the number will be surrounded in parentheses.
 //
 // Example:
-// numstr = 1000000.23
+// numStr = 1000000.23
+
 // GetCurrencyParen(ePrefix) = $1,000,000.23
 //
-// numstr = -1000000.23
+// numStr = -1000000.23
 // GetCurrencyParen(ePrefix) = ($1,000,000.23)
 //
 // Note: If the current NumStrDto is invalid, this method
@@ -1359,10 +1361,10 @@ func (nDto *NumStrDto) GetCurrencySymbol() rune {
 //       symbol and thousands separators. Additionally, if the numeric
 //       value is negative, the text will be surrounded with parentheses.
 //       Example:
-//         numstr = 1000000.23
+//         numStr = 1000000.23
 //         GetCurrencyParen(ePrefix) = $1,000,000.23
 //
-//         numstr = -1000000.23
+//         numStr = -1000000.23
 //         GetCurrencyParen(ePrefix) = ($1,000,000.23)
 //
 //
@@ -1397,10 +1399,10 @@ func (nDto *NumStrDto) GetCurrencyParen(
 // to the currency display.
 //
 // Example:
-//  numstr = 1000000.23
+//  numStr = 1000000.23
 //  GetCurrencyStr(ePrefix) = $1,000,000.23
 //
-//  numstr = -1000000.23
+//  numStr = -1000000.23
 //  GetCurrencyStr(ePrefix) = -$1,000,000.23
 //
 // Note: If the current NumStrDto is invalid, this method
@@ -1430,10 +1432,10 @@ func (nDto *NumStrDto) GetCurrencyParen(
 //       leading minus sign.
 //
 //       Example:
-//        numstr = 1000000.23
+//        numStr = 1000000.23
 //        GetCurrencyStr(ePrefix) = $1,000,000.23
 //
-//        numstr = -1000000.23
+//        numStr = -1000000.23
 //        GetCurrencyStr(ePrefix) = -$1,000,000.23
 //
 //
@@ -2023,10 +2025,10 @@ func (nDto *NumStrDto) GetSign() (
 // surrounded in parentheses.
 //
 // Example:
-// numstr = 1000000.234
+// numStr = 1000000.234
 // GetThouParen() = 1,000,000.234
 //
-// numstr = -1000000.234
+// numStr = -1000000.234
 // GetThouParen() = (1,000,000.234)
 //
 // Note: If the current NumStrDto is invalid, this method
@@ -2055,10 +2057,10 @@ func (nDto *NumStrDto) GetSign() (
 //       parentheses.
 //
 //       Example:
-//       numstr = 1000000.234
+//       numStr = 1000000.234
 //       GetThouParen() = 1,000,000.234
 //
-//       numstr = -1000000.234
+//       numStr = -1000000.234
 //       GetThouParen() = (1,000,000.234)
 //
 //
@@ -2089,10 +2091,10 @@ func (nDto *NumStrDto) GetThouParen(
 // if applicable.
 //
 // Example:
-// numstr = 1000000.234
+// numStr = 1000000.234
 // GetThouStr() = 1,000,000.234
 //
-// numstr = -1000000.234
+// numStr = -1000000.234
 // GetThouStr() = -1,000,000.234
 //
 // Note: If the current NumStrDto is invalid, this method
@@ -2122,10 +2124,10 @@ func (nDto *NumStrDto) GetThouParen(
 //       with a leading minus sign ('-').
 //
 //       Example:
-//        numstr = 1000000.234
+//        numStr = 1000000.234
 //        GetThouStr() = 1,000,000.234
 //
-//        numstr = -1000000.234
+//        numStr = -1000000.234
 //        GetThouStr() = -1,000,000.234
 //
 //
@@ -4135,7 +4137,7 @@ func (nDto NumStrDto) NewInt64Exponent(
 //    ePrefix := "calling method name "
 //
 //    newNumStrDto, err := NumStrDto{}.NewNumStr(
-//                numstr,
+//                numStr,
 //                ePrefix)
 //
 //     - newNumStrDto is now equal to 123.456
@@ -4145,7 +4147,7 @@ func (nDto NumStrDto) NewInt64Exponent(
 //    ePrefix := "calling method name "
 //
 //    newNumStrDto, err := NumStrDto{}.NewNumStr(
-//                numstr,
+//                numStr,
 //                ePrefix)
 //
 //     - newNumStrDto is now equal to 123456
@@ -4278,7 +4280,7 @@ func (nDto NumStrDto) NewNumStr(
 //    numSepsDto.SetToUSADefaults()
 //
 //    newNumStrDto, err := NumStrDto{}.NewNumStrWithNumSeps(
-//                numstr,
+//                numStr,
 //                numSepsDto,
 //                ePrefix)
 //
@@ -4291,7 +4293,7 @@ func (nDto NumStrDto) NewNumStr(
 //    numSepsDto.SetToUSADefaults()
 //
 //    newNumStrDto, err := NumStrDto{}.NewNumStrWithNumSeps(
-//                numstr,
+//                numStr,
 //                numSepsDto,
 //                ePrefix)
 //
