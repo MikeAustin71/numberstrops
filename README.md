@@ -1,4 +1,4 @@
-![TheOriginalAmarilloMike](D:\gowork\src\MikeAustin71\numberstrops\numberstrops.assets\sittingduck003.png)
+![TheOriginalAmarilloMike](.\numberstrops.assets\sittingduck003.png)
 
 # numberstr
 
