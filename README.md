@@ -9,7 +9,7 @@ The **numberstr** code package is written in the [Go Programming Language](https
 
 # Not Ready For Prime Time
 
-![UnderConstruction_003](assets\UnderConstruction_003.png)
+![UnderConstruction](assets\underconstruction_003.png)
 
 ***This project is a work in progress - Stay Tuned!***
 
