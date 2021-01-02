@@ -84,7 +84,7 @@ func (nStrFmtDto NumStrFormatDto) New(
 		err = fmt.Errorf(ePrefix+"\n"+
 			"Error: Input parameter 'valueDisplaySpec' is invalid!\n"+
 			"valueDisplaySpec='%v'\n",
-			valueDisplaySpec.XValueInt())
+			nStrFmtDto.valueDisplaySpec.XValueInt())
 		return newFmtDto, err
 	}
 
@@ -92,7 +92,7 @@ func (nStrFmtDto NumStrFormatDto) New(
 		err = fmt.Errorf(ePrefix+"\n"+
 			"Error: Input parameter 'positiveValueFmt' is invalid!\n"+
 			"positiveValueFmt='%v'\n",
-			positiveValueFmt.XValueInt())
+			nStrFmtDto.positiveValueFmt.XValueInt())
 		return newFmtDto, err
 	}
 
@@ -100,7 +100,7 @@ func (nStrFmtDto NumStrFormatDto) New(
 		err = fmt.Errorf(ePrefix+"\n"+
 			"Error: Input parameter 'negativeValueFmt' is invalid!\n"+
 			"negativeValueFmt='%v'\n",
-			negativeValueFmt.XValueInt())
+			nStrFmtDto.negativeValueFmt.XValueInt())
 		return newFmtDto, err
 	}
 
@@ -168,11 +168,120 @@ func (nStrFmtDto *NumStrFormatDto) GetNegativeValueFormatMode() (
 	return negativeValueFmtMode
 }
 
-// SetValueDisplaySpec - Sets the NumStrValSpec
-// value.
+// IsValidInstanceError - Performs a diagnostic review of the current
+// NumStrFormatDto instance to determine whether the current instance
+// is a valid in all respects.
 //
-func (nStrFmtDto *NumStrFormatDto) SetValueDisplaySpec(
-	valueDisplaySpec NumStrValSpec,
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  isValid             bool
+//     - If this instance of NumStrFormatDto is invalid, this boolean
+//       value will be set to 'false'. Otherwise, if this instance is
+//       valid, the value will be set to 'true'.
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type
+//       is set equal to 'nil'. If errors are encountered during processing,
+//       the returned error Type will encapsulate an error message. Note
+//       that this error message will incorporate the method chain and text
+//       passed by input parameter, 'ePrefix'. Said text will be prefixed
+//       to the beginning of the error message.
+//
+//       If this instance of NumStrFormatDto contains invalid data, a
+//       detailed error message will be returned identifying the invalid
+//       data item.
+//
+func (nStrFmtDto *NumStrFormatDto) IsValidInstanceError(
+	ePrefix string) (
+	isValid bool,
+	err error) {
+
+	if nStrFmtDto.lock == nil {
+		nStrFmtDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtDto.lock.Lock()
+
+	defer nStrFmtDto.lock.Unlock()
+
+	ePrefix += "NumStrFormatDto.IsValidInstanceError() "
+
+	isValid = false
+
+	if !nStrFmtDto.valueDisplaySpec.XIsValid() {
+		err = fmt.Errorf(ePrefix+"\n"+
+			"Error: Member variable 'valueDisplaySpec' is invalid!\n"+
+			"valueDisplaySpec='%v'\n",
+			nStrFmtDto.valueDisplaySpec.XValueInt())
+		return isValid, err
+	}
+
+	if !nStrFmtDto.positiveValueFmt.XIsValid() {
+		err = fmt.Errorf(ePrefix+"\n"+
+			"Error: Member variable 'positiveValueFmt' is invalid!\n"+
+			"positiveValueFmt='%v'\n",
+			nStrFmtDto.positiveValueFmt.XValueInt())
+		return isValid, err
+	}
+
+	if !nStrFmtDto.negativeValueFmt.XIsValid() {
+		err = fmt.Errorf(ePrefix+"\n"+
+			"Error: Member variable 'negativeValueFmt' is invalid!\n"+
+			"negativeValueFmt='%v'\n",
+			nStrFmtDto.negativeValueFmt.XValueInt())
+		return isValid, err
+	}
+
+	isValid = true
+
+	return isValid, err
+}
+
+// SetDefaults - This method will set all internal
+// member variables to their default values.
+//
+// Default values for Number String formatting are
+// listed as follows:
+//
+//  valueDisplaySpec = NumStrValSpec(0).StdPlusOrMinus()
+//  positiveValueFmt = NumStrPosValFmtMode(0).NoLeadingPlusSign()
+//  negativeValueFmt = NumStrNegValFmtMode(0).LeadingMinusSign()
+//
+func (nStrFmtDto *NumStrFormatDto) SetDefaults() {
+
+	if nStrFmtDto.lock == nil {
+		nStrFmtDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtDto.lock.Lock()
+
+	defer nStrFmtDto.lock.Unlock()
+
+	nStrFmtDto.valueDisplaySpec = NumStrValSpec(0).StdPlusOrMinus()
+	nStrFmtDto.positiveValueFmt = NumStrPosValFmtMode(0).NoLeadingPlusSign()
+	nStrFmtDto.negativeValueFmt = NumStrNegValFmtMode(0).LeadingMinusSign()
+}
+
+// SetNegativeValueFormatMode - Sets the Positive Value Format
+// Mode or NumStrPosValFmtMode value.
+//
+func (nStrFmtDto *NumStrFormatDto) SetNegativeValueFormatMode(
+	negativeValueFmtMode NumStrNegValFmtMode,
 	ePrefix string) (
 	err error) {
 
@@ -184,17 +293,17 @@ func (nStrFmtDto *NumStrFormatDto) SetValueDisplaySpec(
 
 	defer nStrFmtDto.lock.Unlock()
 
-	ePrefix += "NumStrFormatDto.SetValueDisplaySpec() "
+	ePrefix += "NumStrFormatDto.SetNegativeValueFormatMode() "
 
-	if !valueDisplaySpec.XIsValid() {
+	if !negativeValueFmtMode.XIsValid() {
 		err = fmt.Errorf(ePrefix+"\n"+
-			"Error: Input parameter 'valueDisplaySpec' is invalid!\n"+
-			"valueDisplaySpec='%v'\n",
-			valueDisplaySpec.XValueInt())
+			"Error: Input parameter 'negativeValueFmtMode' is invalid!\n"+
+			"negativeValueFmtMode='%v'\n",
+			negativeValueFmtMode.XValueInt())
 		return err
 	}
 
-	nStrFmtDto.valueDisplaySpec = valueDisplaySpec
+	negativeValueFmtMode = nStrFmtDto.negativeValueFmt
 
 	return err
 }
@@ -230,11 +339,11 @@ func (nStrFmtDto *NumStrFormatDto) SetPositiveValueFormatMode(
 	return err
 }
 
-// SetNegativeValueFormatMode - Sets the Positive Value Format
-// Mode or NumStrPosValFmtMode value.
+// SetValueDisplaySpec - Sets the NumStrValSpec
+// value.
 //
-func (nStrFmtDto *NumStrFormatDto) SetNegativeValueFormatMode(
-	negativeValueFmtMode NumStrNegValFmtMode,
+func (nStrFmtDto *NumStrFormatDto) SetValueDisplaySpec(
+	valueDisplaySpec NumStrValSpec,
 	ePrefix string) (
 	err error) {
 
@@ -246,17 +355,17 @@ func (nStrFmtDto *NumStrFormatDto) SetNegativeValueFormatMode(
 
 	defer nStrFmtDto.lock.Unlock()
 
-	ePrefix += "NumStrFormatDto.SetNegativeValueFormatMode() "
+	ePrefix += "NumStrFormatDto.SetValueDisplaySpec() "
 
-	if !negativeValueFmtMode.XIsValid() {
+	if !valueDisplaySpec.XIsValid() {
 		err = fmt.Errorf(ePrefix+"\n"+
-			"Error: Input parameter 'negativeValueFmtMode' is invalid!\n"+
-			"negativeValueFmtMode='%v'\n",
-			negativeValueFmtMode.XValueInt())
+			"Error: Input parameter 'valueDisplaySpec' is invalid!\n"+
+			"valueDisplaySpec='%v'\n",
+			valueDisplaySpec.XValueInt())
 		return err
 	}
 
-	negativeValueFmtMode = nStrFmtDto.negativeValueFmt
+	nStrFmtDto.valueDisplaySpec = valueDisplaySpec
 
 	return err
 }

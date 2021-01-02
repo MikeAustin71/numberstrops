@@ -2258,15 +2258,38 @@ func (nDto *NumStrDto) IsFractionalValue() (isFractionalValue bool) {
 	return isFractionalValue
 }
 
-// IsValidInstanceError - Performs a diagnostic review of the current NumStrDto
-// instance and returns 'nil' if the NumStrDto object is valid in all
-// respects.
+// IsValidInstanceError - Performs a diagnostic review of the current
+// NumStrDto instance and returns 'nil' if the NumStrDto object is
+// valid in all respects.
 //
-// Input parameter 'ePrefix' is a string consisting of the method chain used to call
-// this method. In case of error, this text string is included in the error message.
-// Note: Be sure to leave a space at the end of 'ePrefix'.
 //
-// If the NumStrDto instance is judged invalid, an error message is returned.
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type
+//       is set equal to 'nil'. If errors are encountered during processing,
+//       the returned error Type will encapsulate an error message. Note
+//       that this error message will incorporate the method chain and text
+//       passed by input parameter, 'ePrefix'. Said text will be prefixed
+//       to the beginning of the error message.
+//
+//       If this instance of NumStrDto contains invalid data, a
+//       detailed error message will be returned identifying the invalid
+//       data item.
+//
 func (nDto *NumStrDto) IsValidInstanceError(
 	ePrefix string) (
 	err error) {
