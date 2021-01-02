@@ -1,19 +1,38 @@
 package numberstr
 
-import "sync"
+import (
+	"fmt"
+	"strings"
+	"sync"
+)
 
 var mNumStrNegValFmtModeStringToCode = map[string]NumStrNegValFmtMode{
 	"None":                NumStrNegValFmtMode(0),
 	"LeadingMinusSign":    NumStrNegValFmtMode(1),
+	"LeadingMinus":        NumStrNegValFmtMode(1),
+	"MinusSign":           NumStrNegValFmtMode(1),
+	"Minus":               NumStrNegValFmtMode(1),
+	"ParenthesesSurround": NumStrNegValFmtMode(2),
+	"Parentheses":         NumStrNegValFmtMode(2),
 	"ParenthesisSurround": NumStrNegValFmtMode(2),
-	"AbsoluteValue":       NumStrNegValFmtMode(3),
+	"Parenthesis":         NumStrNegValFmtMode(2),
+}
+var mNumStrNegValFmtModeLwrCaseStringToCode = map[string]NumStrNegValFmtMode{
+	"none":                NumStrNegValFmtMode(0),
+	"leadingminussign":    NumStrNegValFmtMode(1),
+	"leadingminus":        NumStrNegValFmtMode(1),
+	"minussign":           NumStrNegValFmtMode(1),
+	"minus":               NumStrNegValFmtMode(1),
+	"parenthesessurround": NumStrNegValFmtMode(2),
+	"parentheses":         NumStrNegValFmtMode(2),
+	"parenthesissurround": NumStrNegValFmtMode(2),
+	"parenthesis":         NumStrNegValFmtMode(2),
 }
 
 var mNumStrNegValFmtModeCodeToString = map[NumStrNegValFmtMode]string{
 	NumStrNegValFmtMode(0): "None",
 	NumStrNegValFmtMode(1): "LeadingMinusSign",
-	NumStrNegValFmtMode(2): "ParenthesisSurround",
-	NumStrNegValFmtMode(3): "AbsoluteValue",
+	NumStrNegValFmtMode(2): "Parentheses",
 }
 
 // NumStrNegValFmtMode - An enumeration Negative Value Format Modes
@@ -39,17 +58,13 @@ var mNumStrNegValFmtModeCodeToString = map[NumStrNegValFmtMode]string{
 //                           first character position of the number string
 //                           text.
 //
-// ParenthesisSurround (2) - Parenthesis signals that the negative value
-//                           will be surrounded by parentheses. Example:
-//                           (123)
-//
-// AbsoluteValue       (3) - Absolute Value signals that negative values
-//                           will be displayed as positive or absolute values
-//                           with no lead minus sign or surrounding parentheses.
+// Parentheses         (2) - 'Parentheses' signals that the negative value
+//                           will be surrounded by parentheses.
+//                              Example:  (123)
 //
 //
 // For easy access to these enumeration values, use the global variable
-// 'NStrNegFmtMode'. Example: NStrNegFmtMode.ParenthesisSurround()
+// 'NStrNegValFmtMode'. Example: NStrNegValFmtMode.ParenthesisSurround()
 //
 // Otherwise you will need to use the formal syntax.
 //     Example: NumStrNegValFmtMode(0).AbsoluteValue()
@@ -95,14 +110,14 @@ func (negFmtMode NumStrNegValFmtMode) LeadingMinusSign() NumStrNegValFmtMode {
 	return NumStrNegValFmtMode(1)
 }
 
-// ParenthesisSurround - Signals that negative numeric values should
+// Parentheses - Signals that negative numeric values should
 // be formatted with surrounding parentheses.
 //
 //      Example: '(1234)'
 //
 // This method is part of the standard enumeration.
 //
-func (negFmtMode NumStrNegValFmtMode) ParenthesisSurround() NumStrNegValFmtMode {
+func (negFmtMode NumStrNegValFmtMode) Parentheses() NumStrNegValFmtMode {
 
 	lockNumStrNegValFmtMode.Lock()
 
@@ -111,27 +126,8 @@ func (negFmtMode NumStrNegValFmtMode) ParenthesisSurround() NumStrNegValFmtMode 
 	return NumStrNegValFmtMode(2)
 }
 
-// AbsoluteValue - Signals that negative numeric values should
-// be formatted as positive or absolute values. Absolute values when
-// displayed in number strings have no characters denoting negative
-// value. The number string has no leading minus sign and no surrounding
-// parentheses.
-//
-//      Example: '1234'
-//
-// This method is part of the standard enumeration.
-//
-func (negFmtMode NumStrNegValFmtMode) AbsoluteValue() NumStrNegValFmtMode {
-
-	lockNumStrNegValFmtMode.Lock()
-
-	defer lockNumStrNegValFmtMode.Unlock()
-
-	return NumStrNegValFmtMode(3)
-}
-
 // String - Returns a string with the name of the enumeration associated
-// with this instance of 'CalendarSpec'.
+// with this current instance of 'NumStrNegValFmtMode'.
 //
 // This is a standard utility method and is not part of the valid enumerations
 // for this type.
@@ -140,9 +136,9 @@ func (negFmtMode NumStrNegValFmtMode) AbsoluteValue() NumStrNegValFmtMode {
 //
 // Usage
 //
-// t:= CalendarSpec(0).Gregorian()
+// t:= NumStrNegValFmtMode(0).LeadingMinusSign()
 // str := t.String()
-//     str is now equal to 'Gregorian'
+//     str is now equal to 'LeadingMinusSign'
 //
 func (negFmtMode NumStrNegValFmtMode) String() string {
 
@@ -160,7 +156,8 @@ func (negFmtMode NumStrNegValFmtMode) String() string {
 }
 
 // XIsValid - Returns a boolean value signaling whether the current
-// Number String Negative Value Format Mode value is valid.
+// Number String Negative Value Format Mode (NumStrNegValFmtMode)
+// value is valid.
 //
 // This is a standard utility method and is not part of the valid enumerations
 // for this type.
@@ -169,9 +166,11 @@ func (negFmtMode NumStrNegValFmtMode) String() string {
 //
 // Usage
 //
-//  CalendarSpecification := CalendarSpec(0).Gregorian()
+//  negValueFmtMode := NumStrNegValFmtMode(0).Parentheses()
 //
-//  isValid := CalendarSpecification.XIsValid()
+//  isValid := negValueFmtMode.XIsValid()
+//
+//  In this case the boolean value of 'isValid' is 'true'.
 //
 func (negFmtMode NumStrNegValFmtMode) XIsValid() bool {
 
@@ -179,10 +178,177 @@ func (negFmtMode NumStrNegValFmtMode) XIsValid() bool {
 
 	defer lockNumStrNegValFmtMode.Unlock()
 
-	if negFmtMode > 3 ||
+	if negFmtMode > 2 ||
 		negFmtMode < 1 {
 		return false
 	}
 
 	return true
 }
+
+// XParseString - Receives a string and attempts to match it with the
+// string value of a supported enumeration. If successful, a new
+// instance of NumStrNegValFmtMode is returned set to the value of the
+// associated enumeration.
+//
+// This is a standard utility method and is not part of the valid
+// enumerations for this type.
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+// valueString   string
+//     - A string which will be matched against the enumeration string
+//       values. If 'valueString' is equal to one of the enumeration
+//       names, this method will proceed to successful completion and
+//       return the correct enumeration value.
+//
+// caseSensitive   bool
+//     - If 'true' the search for enumeration names will be case
+//       sensitive and will require an exact match. Therefore, 'parentheses' will NOT
+//       match the enumeration name, 'Parentheses'.
+//
+//       A case sensitive search will match any of the following strings:
+//           "None"
+//           "LeadingMinusSign"
+//           "LeadingMinus"
+//           "MinusSign"
+//           "Minus"
+//           "ParenthesesSurround"
+//           "Parentheses"
+//           "ParenthesisSurround"
+//           "Parenthesis"
+//
+//       If 'false' a case insensitive search is conducted
+//       for the enumeration name. In this case, 'parentheses'
+//       will match match enumeration name 'Parentheses'.
+//
+//       A case insensitive search will match any of the following
+//       lower case names:
+//           "none"
+//           "leadingminussign"
+//           "leadingminus"
+//           "minussign"
+//           "minus"
+//           "parenthesessurround"
+//           "parentheses"
+//           "parenthesissurround"
+//           "parenthesis"
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+// NumStrNegValFmtMode
+//     - Upon successful completion, this method will return a new
+//       instance of NumStrNegValFmtMode set to the value of the enumeration
+//       matched by the string search performed on input parameter,
+//       'valueString'.
+//
+// error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If an error condition is encountered,
+//       this method will return an error type which encapsulates an
+//       appropriate error message.
+//
+// ------------------------------------------------------------------------
+//
+// Usage
+//
+// t, err := NumStrNegValFmtMode(0).XParseString("ParenthesesSurround", true)
+//
+//     t is now equal to NumStrNegValFmtMode(0).ParenthesesSurround()
+//
+func (negFmtMode NumStrNegValFmtMode) XParseString(
+	valueString string,
+	caseSensitive bool) (NumStrNegValFmtMode, error) {
+
+	lockNumStrNegValFmtMode.Lock()
+
+	defer lockNumStrNegValFmtMode.Unlock()
+
+	ePrefix := "NumStrNegValFmtMode.XParseString() "
+
+	if len(valueString) < 4 {
+		return NumStrNegValFmtMode(0),
+			fmt.Errorf(ePrefix+
+				"\nInput parameter 'valueString' is INVALID!\n"+
+				"String length is less than '4'.\n"+
+				"valueString='%v'\n", valueString)
+	}
+
+	var ok bool
+	var negValueFmtMode NumStrNegValFmtMode
+
+	if caseSensitive {
+
+		negValueFmtMode, ok = mNumStrNegValFmtModeStringToCode[valueString]
+
+		if !ok {
+			return NumStrNegValFmtMode(0),
+				fmt.Errorf(ePrefix+
+					"\n'valueString' did NOT MATCH a valid NumStrNegValFmtMode Value.\n"+
+					"valueString='%v'\n", valueString)
+		}
+
+	} else {
+
+		negValueFmtMode, ok = mNumStrNegValFmtModeLwrCaseStringToCode[strings.ToLower(valueString)]
+
+		if !ok {
+			return NumStrNegValFmtMode(0),
+				fmt.Errorf(ePrefix+
+					"\n'valueString' did NOT MATCH a valid NumStrNegValFmtMode Value.\n"+
+					"valueString='%v'\n", valueString)
+		}
+	}
+
+	return negValueFmtMode, nil
+}
+
+// XValue - This method returns the enumeration value of the current
+// NumStrNegValFmtMode instance.
+//
+// This is a standard utility method and is not part of the valid enumerations
+// for this type.
+//
+//
+func (negFmtMode NumStrNegValFmtMode) XValue() NumStrNegValFmtMode {
+
+	lockNumStrNegValFmtMode.Lock()
+
+	defer lockNumStrNegValFmtMode.Unlock()
+
+	return negFmtMode
+}
+
+// XValueInt - This method returns the integer value of the current
+// NumStrNegValFmtMode value as an integer.
+//
+// This is a standard utility method and is not part of the valid enumerations
+// for this type.
+//
+//
+func (negFmtMode NumStrNegValFmtMode) XValueInt() int {
+
+	lockNumStrNegValFmtMode.Lock()
+
+	defer lockNumStrNegValFmtMode.Unlock()
+
+	return int(negFmtMode)
+}
+
+// NStrNegValFmtMode - public global variable of
+// type NumStrNegValFmtMode.
+//
+// This variable serves as an easier, short hand
+// technique for accessing NumStrNegValFmtMode values.
+//
+// Usage:
+// NStrNegValFmtMode.None(),
+// NStrNegValFmtMode.LeadingMinusSign(),
+// NStrNegValFmtMode.Parentheses(),
+//
+var NStrNegValFmtMode NumStrNegValFmtMode
