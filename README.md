@@ -7,8 +7,14 @@
 A software utility to manage integer and floating point number strings.
 The **numberstr** code package is written in the [Go Programming Language](https://golang.org/)  (a.k.a. Golang).
 
+# Not Ready For Prime Time
+
+![UnderConstruction_003](D:\Projects\numberstrops\main\assets\UnderConstruction_003.png)
+
+***This project is a work in progress - Stay Tuned!***
 
 ## Table of Contents
+
 - [numberstr](#numberstr)
   - [Table of Contents](#table-of-contents)
   - [Open Source License](#open-source-license)
@@ -26,9 +32,9 @@ The **numberstr** code package is written in the [Go Programming Language](https
       - [Currency Symbol](#currency-symbol)
       - [Numeric Separators](#numeric-separators)
 
-## Open Source License
+## Free - Open Source License
 
-Copyright 2019 Mike Rapp. All rights reserved.
+Copyright 2020 Mike Rapp. All rights reserved.
 
 Use of this source code is governed by the (open-source) MIT-style
 license which can be found in the LICENSE file located in this directory.
