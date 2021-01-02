@@ -31,15 +31,16 @@ var mNumStrPosValFmtModeLwrCaseStringToCode = map[string]NumStrPosValFmtMode{
 }
 
 // NumStrPosValFmtMode - An enumeration of Positive Value Format Modes
-// used in formatting positive numeric values in number strings for display
-// purposes.
+// used in formatting positive numeric values in number strings for
+// display purposes.
 //
 // Since the Go Programming Language does not directly support
 // enumerations, the 'NumStrPosValFmtMode' type has been adapted to
-// function in a manner similar to classic enumerations. 'NumStrPosValFmtMode'
-// is declared as a type 'int'. The method names effectively represents
-// an enumeration of format modes for positive numeric values. These
-// methods are listed as follows:
+// function in a manner similar to classic enumerations.
+//
+//'NumStrPosValFmtMode' is declared as a type 'int'. The method names
+// effectively represent an enumeration of format modes for positive
+// numeric values. These methods are listed as follows:
 //
 //
 // None                (0)
@@ -336,9 +337,12 @@ func (posFmtMode NumStrPosValFmtMode) XValueInt() int {
 // This variable serves as an easier, short hand
 // technique for accessing NumStrPosValFmtMode values.
 //
-// The formal syntax looks like this:  NumStrPosValFmtMode(0).LeadingPlusSign
+// For easy access to these enumeration values, use the
+// global variable 'NStrPosValFmtMode'.
+//  Example: NStrPosValFmtMode.NoLeadingPlusSign()
 //
-// The abbreviated syntax looks this:  NStrPosValFmtMode.LeadingPlusSign()
+// Otherwise you will need to use the formal syntax.
+//  Example: NumStrPosValFmtMode(0).NoLeadingPlusSign()
 //
 // Usage:
 // NStrPosValFmtMode.None(),

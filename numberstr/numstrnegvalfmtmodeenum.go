@@ -44,7 +44,7 @@ var mNumStrNegValFmtModeCodeToString = map[NumStrNegValFmtMode]string{
 // enumerations, the 'NumStrNegValFmtMode' type has been adapted to
 // function in a manner similar to classic enumerations.
 // 'NumStrNegValFmtMode' is declared as a type 'int'. The method names
-// effectively represents an enumeration of for negative numeric values.
+// effectively represent an enumeration of for negative numeric values.
 // These methods are listed as follows:
 //
 //
