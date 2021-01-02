@@ -9,13 +9,24 @@ The **numberstr** code package is written in the [Go Programming Language](https
 
 
 ## Table of Contents
-
-<!-- TOC -->autoauto- [numberstr](#numberstr)auto  - [Table of Contents](#table-of-contents)auto  - [Open Source License](#open-source-license)auto  - [Source Code Repository](#source-code-repository)auto  - [Go Modules](#go-modules)auto  - [Version 1.0.0](#version-100)auto  - [Type NumStrDto](#type-numstrdto)auto    - [Integer Conversions](#integer-conversions)auto    - [Floating Point Conversions](#floating-point-conversions)auto    - [Number String Conversions](#number-string-conversions)auto      - [Pure Number Strings - Absolute Values](#pure-number-strings---absolute-values)auto      - [Negative Value Number Strings](#negative-value-number-strings)auto      - [Positive Value Number Strings](#positive-value-number-strings)auto      - [Thousands Separator](#thousands-separator)auto      - [Currency Symbol](#currency-symbol)auto      - [Numeric Separators](#numeric-separators)autoauto<!-- /TOC -->
-
-
+- [numberstr](#numberstr)
+  - [Table of Contents](#table-of-contents)
+  - [Open Source License](#open-source-license)
+  - [Source Code Repository](#source-code-repository)
+  - [Go Modules](#go-modules)
+  - [Version 1.0.0](#version-100)
+  - [Type NumStrDto](#type-numstrdto)
+    - [Integer Conversions](#integer-conversions)
+    - [Floating Point Conversions](#floating-point-conversions)
+    - [Number String Conversions](#number-string-conversions)
+      - [Pure Number Strings - Absolute Values](#pure-number-strings---absolute-values)
+      - [Negative Value Number Strings](#negative-value-number-strings)
+      - [Positive Value Number Strings](#positive-value-number-strings)
+      - [Thousands Separator](#thousands-separator)
+      - [Currency Symbol](#currency-symbol)
+      - [Numeric Separators](#numeric-separators)
 
 ## Open Source License
-
 
 Copyright 2019 Mike Rapp. All rights reserved.
 

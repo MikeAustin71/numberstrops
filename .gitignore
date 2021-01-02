@@ -39,6 +39,9 @@ _cgo_export.*
 .idea
 *.iml
 
+#Ignore VSCode
+.vscode
+
 
 
 #other
