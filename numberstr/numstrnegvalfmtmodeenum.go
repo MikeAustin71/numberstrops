@@ -17,6 +17,7 @@ var mNumStrNegValFmtModeStringToCode = map[string]NumStrNegValFmtMode{
 	"ParenthesisSurround": NumStrNegValFmtMode(2),
 	"Parenthesis":         NumStrNegValFmtMode(2),
 }
+
 var mNumStrNegValFmtModeLwrCaseStringToCode = map[string]NumStrNegValFmtMode{
 	"none":                NumStrNegValFmtMode(0),
 	"leadingminussign":    NumStrNegValFmtMode(1),
@@ -35,39 +36,40 @@ var mNumStrNegValFmtModeCodeToString = map[NumStrNegValFmtMode]string{
 	NumStrNegValFmtMode(2): "Parentheses",
 }
 
-// NumStrNegValFmtMode - An enumeration Negative Value Format Modes
-// used in formatting number strings for display purposes.
+// NumStrNegValFmtMode - An enumeration of Negative Value Format Modes
+// used to format negative numeric values in number strings for display
+// purposes.
 //
 // Since the Go Programming Language does not directly support
 // enumerations, the 'NumStrNegValFmtMode' type has been adapted to
-// function in a manner similar to classic enumerations. 'NumStrNegValFmtMode'
-// is declared as a type 'int'. The method names effectively represent
-// an enumeration of Negative Format Modes. These methods are listed
-// as follows:
+// function in a manner similar to classic enumerations.
+// 'NumStrNegValFmtMode' is declared as a type 'int'. The method names
+// effectively represents an enumeration of for negative numeric values.
+// These methods are listed as follows:
 //
 //
-// None                (0) - None - Signals that the Negative Value
-//                           Format Mode (NumStrNegValFmtMode) Type
-//                           is not initialized. This is an error
-//                           condition.
+// None                (0)
+//  - Signals that the Negative Value Format Mode (NumStrNegValFmtMode)
+//    Type is not initialized. This is an error condition.
 //
-// LeadingMinusSign    (1) - Leading Minus Sign signals that negative
-//                           numeric values will be formatted in text
-//                           with a leading minus sign. A leading minus
-//                           is displayed as a minus character ('-') in
-//                           first character position of the number string
-//                           text.
+// LeadingMinusSign    (1)
+//  - Leading Minus Sign signals that negative numeric values will be
+//    formatted in text with a leading minus sign. A leading minus is
+//    displayed as a minus character ('-') in the first character
+//    position of the number string text.
+//         Example:  -123
 //
-// Parentheses         (2) - 'Parentheses' signals that the negative value
-//                           will be surrounded by parentheses.
-//                              Example:  (123)
+// Parentheses         (2)
+//  - 'Parentheses' signals that the negative value will be surrounded by
+//     parentheses.
+//         Example:  (123)
 //
 //
 // For easy access to these enumeration values, use the global variable
-// 'NStrNegValFmtMode'. Example: NStrNegValFmtMode.ParenthesisSurround()
+// 'NStrNegValFmtMode'. Example: NStrNegValFmtMode.Parentheses()
 //
 // Otherwise you will need to use the formal syntax.
-//     Example: NumStrNegValFmtMode(0).AbsoluteValue()
+//     Example: NumStrNegValFmtMode(0).Parentheses()
 //
 //
 // Depending on your editor, intellisense (a.k.a. intelligent code
