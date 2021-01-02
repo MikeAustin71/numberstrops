@@ -35,9 +35,12 @@ _cgo_export.*
 *.prof
 
 
-# Ignore Web Storm and Golang #
+# Ignore GoLand #
 .idea
 *.iml
+
+#Ignore VSCode
+.vscode
 
 
 

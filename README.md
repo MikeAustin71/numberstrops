@@ -1,26 +1,45 @@
-![TheOriginalAmarilloMike](.\numberstrops.assets\sittingduck003.png)
+
 
 # numberstr
+
+![TheOriginalAmarilloMike](assets/sittingduck003.png)
 
 A software utility to manage integer and floating point number strings.
 The **numberstr** code package is written in the [Go Programming Language](https://golang.org/)  (a.k.a. Golang).
 
+# Not Ready For Prime Time
+
+![UnderConstruction](assets/underconstruction003.png)
+
+***This project is a work in progress - Stay Tuned!***
 
 ## Table of Contents
 
-[TOC]
+- [numberstr](#numberstr)
+  - [Table of Contents](#table-of-contents)
+  - [Open Source License](#open-source-license)
+  - [Source Code Repository](#source-code-repository)
+  - [Go Modules](#go-modules)
+  - [Version 1.0.0](#version-100)
+  - [Type NumStrDto](#type-numstrdto)
+    - [Integer Conversions](#integer-conversions)
+    - [Floating Point Conversions](#floating-point-conversions)
+    - [Number String Conversions](#number-string-conversions)
+      - [Pure Number Strings - Absolute Values](#pure-number-strings---absolute-values)
+      - [Negative Value Number Strings](#negative-value-number-strings)
+      - [Positive Value Number Strings](#positive-value-number-strings)
+      - [Thousands Separator](#thousands-separator)
+      - [Currency Symbol](#currency-symbol)
+      - [Numeric Separators](#numeric-separators)
 
+## Free - Open Source License
 
-
-## Open Source License
-
-
-Copyright 2019 Mike Rapp. All rights reserved.
+Copyright 2020 Mike Rapp. All rights reserved.
 
 Use of this source code is governed by the (open-source) MIT-style
 license which can be found in the LICENSE file located in this directory.
 
-[MIT Open Source License](./LISCENSE.md)
+[MIT Open Source License](./LICENSE.md)
 
 ## Source Code Repository
 
@@ -38,9 +57,9 @@ The current version of **numberstr** is Version 1.0.0.
 
 ## Type NumStrDto
 
-Currently most of the functionality offered by this code package is found in type NumStrDto which is located in source file, numberstr/numstrdto.go. 
+Currently most of the functionality offered by this code package is found in type NumStrDto which is located in source file, numberstr/numstrdto.go.
 
-NumStrDto provides a host of functions which provide for the conversion of differing numeric types to number strings as well as other functions which convert number strings to specific numeric types. 
+NumStrDto provides a host of functions which provide for the conversion of differing numeric types to number strings as well as other functions which convert number strings to specific numeric types.
 
 ### Integer Conversions
 
@@ -75,7 +94,7 @@ Pure number strings present integer or floating point numbers as absolute or pos
 
 #### Negative Value Number Strings
 
-Negative value number strings may surrounded with **parentheses** **'()'** or with specified with a **leading minus sign '-'** . 
+Negative value number strings may surrounded with **parentheses** **'()'** or with specified with a **leading minus sign '-'** .
 
 #### Positive Value Number Strings
 
@@ -91,7 +110,7 @@ Type **NumStrDto** provides the option to delimit number strings using a custom 
 
 #### Numeric Separators
 
-Type **NumStrDto** employs the concept of **Numeric Separators**. Numeric Separators allow users to specify custom Unicode characters for use as Decimal Separators, Thousands Separators and Currency Symbols. This ensures that number strings can be configured for use by multiple nationalities and cultures. 
+Type **NumStrDto** employs the concept of **Numeric Separators**. Numeric Separators allow users to specify custom Unicode characters for use as Decimal Separators, Thousands Separators and Currency Symbols. This ensures that number strings can be configured for use by multiple nationalities and cultures.
 
 
 
