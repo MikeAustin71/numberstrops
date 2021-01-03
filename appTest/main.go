@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/MikeAustin71/numberstrops/appTest/testsMain"
-	// "github.com/MikeAustin71/numberstrops/numberstr"
 )
 
 func main() {

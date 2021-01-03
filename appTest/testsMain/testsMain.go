@@ -105,7 +105,10 @@ func (tMain *TestMain) Test000010AddNumStrs(
 
 	if err != nil {
 		err = fmt.Errorf("Error returned from nDto.IsValidInstanceError(&nResult). Error= %v", err)
+		return err
 	}
+
+	fmt.Printf(ePrefix + "- Successful Completion!\n")
 
 	return err
 }

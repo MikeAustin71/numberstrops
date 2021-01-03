@@ -119,27 +119,13 @@ func (nStrDtoMech *numStrDtoMechanics) findIntArraySignificantDigitLimits(
 
 	for i := 0; i < lenIntArray; i++ {
 
-		if intArray[i] < 48 ||
-			intArray[i] > 57 {
+		if intArray[i] < 0 ||
+			intArray[i] > 9 {
 
 			err = fmt.Errorf(ePrefix+"\n"+
 				"Error: Input parameter 'intArray' contains an invalid value!\n"+
-				"Members of 'intArray' must be integer values between '0' and '9'\n"+
+				"Members of 'intArray' must be integer values between '0' and '9', inclusive.\n"+
 				"intArray[%v]='%v'\n",
-				i,
-				intArray[i])
-
-			return newNumStrDto, err
-		}
-
-		// Any negative int array values are
-		// tagged as errors.
-		if intArray[i] < 0 {
-
-			err = fmt.Errorf(ePrefix+"\n"+
-				"Error: Input parameter 'intArray' contains a negative value!\n"+
-				"Members of 'intArray' must be positive integer values greater \n"+
-				"than or equal to zero.  intArray[%v]='%v'\n",
 				i,
 				intArray[i])
 

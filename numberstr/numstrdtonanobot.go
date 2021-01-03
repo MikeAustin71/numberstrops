@@ -109,6 +109,10 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 	newNumStrDto NumStrDto,
 	err error) {
 
+	if nStrDtoNanobot.lock == nil {
+		nStrDtoNanobot.lock = new(sync.Mutex)
+	}
+
 	nStrDtoNanobot.lock.Lock()
 
 	defer nStrDtoNanobot.lock.Unlock()
