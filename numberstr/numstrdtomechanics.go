@@ -56,11 +56,13 @@ type numStrDtoMechanics struct {
 //
 //
 //  err                error
-//     - If successful the returned error Type is set equal to 'nil'.
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. Note this error
-//       message will incorporate the method chain and text passed
-//       by input parameter, 'ePrefix'.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. Note that this error message will
+//       incorporate the method chain and text passed by input
+//       parameter, 'ePrefix'. The 'ePrefix' text will be prefixed
+//       at the beginning of the returned error message.
 //
 func (nStrDtoMech *numStrDtoMechanics) findIntArraySignificantDigitLimits(
 	intArray []int,
@@ -100,7 +102,7 @@ func (nStrDtoMech *numStrDtoMechanics) findIntArraySignificantDigitLimits(
 		}
 
 		// Any negative int array values are
-		// converted to positive values.
+		// tagged as errors.
 		if intArray[i] < 0 {
 
 			err = fmt.Errorf(ePrefix+"\n"+

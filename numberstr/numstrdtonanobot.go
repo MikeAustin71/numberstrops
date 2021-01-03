@@ -12,6 +12,200 @@ type numStrDtoNanobot struct {
 	lock *sync.Mutex
 }
 
+// findNumStrSignificantDigitLimits - Analyzes an array of
+// characters, or runes, which constitute a pure number string. The
+// method then proceeds calculate and return the significant
+// digits from that array.
+//
+// A pure number string as used here defines an array of runes
+// representing all numeric characters or runes. There are no
+// non-numeric runes allowed. As such there are no plus or minus
+// sign characters, thousands separators, or currency symbols
+// allowed. Only numeric runes will be accepted.
+//
+// Example:
+//  absAllRunes  precision   signVal     Result
+//  001236700        4          1        123.67
+//  000006700        4          1          0.67
+//  001230000        4          1        123.0
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numSepsDto          NumericSeparatorDto
+//     - An instance of NumericSeparatorDto which will be used to supply
+//       the numeric separators for the new NumStrDto instance returned
+//       by this method. Numeric separators include the Thousands
+//       Separator, Decimal Separator and the Currency Symbol.
+//
+//       The data fields included in the NumericSeparatorDto are
+//       listed as follows:
+//
+//          type NumericSeparatorDto struct {
+//
+//            DecimalSeparator   rune // Character used to separate
+//                                    //  integer and fractional digits ('.')
+//
+//            ThousandsSeparator rune // Character used to separate thousands
+//                                    //  (1,000,000,000
+//
+//            CurrencySymbol     rune // Currency Symbol
+//          }
+//
+//       If any of the data fields in this passed structure
+//       'customSeparators' are set to zero ('0'), they will
+//       be reset to USA default values. USA default numeric
+//       separators are listed as follows:
+//
+//             Currency Symbol: '$'
+//         Thousands Separator: ','
+//           Decimal Separator: '.'
+//
+//
+//  absAllRunes         []rune
+//     - An array of runes or characters. This rune must consist of
+//       all numeric digits. If any non-numeric characters are
+//       found in this array, an error will be returned.
+//
+//
+//  precision           uint
+//     - 'precision' specifies the number of digits to be formatted
+//       to the right of the decimal place.
+//
+//
+//  signVal         int
+//     - Valid values for this parameter are plus one (+1) or minus
+//       one (-1). This number sign value will determine the number
+//       sign of the new NumStrDto instance returned by this method.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  newNumStrDto        NumStrDto
+//     - If this method completes successfully, the result of the
+//       significant digits operation performed by this method will
+//       be returned in the form of a new 'NumStrDto' instance.
+//
+//
+//  err                error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. Note that this error message will
+//       incorporate the method chain and text passed by input
+//       parameter, 'ePrefix'. The 'ePrefix' text will be prefixed
+//       at the beginning of the returned error message.
+//
+func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
+	numSepsDto NumericSeparatorDto,
+	absAllRunes []rune,
+	precision uint,
+	signVal int,
+	ePrefix string) (
+	newNumStrDto NumStrDto,
+	err error) {
+
+	nStrDtoNanobot.lock.Lock()
+
+	defer nStrDtoNanobot.lock.Unlock()
+
+	ePrefix += "numStrDtoNanobot.findNumStrSignificantDigitLimits() "
+
+	err = nil
+
+	numSepsDto.SetToUSADefaultsIfEmpty()
+
+	nStrDtoElectron := numStrDtoElectron{}
+
+	newNumStrDto =
+		nStrDtoElectron.newBaseZeroNumStrDto(0)
+
+	lenAbsAllRunes := len(absAllRunes)
+
+	if lenAbsAllRunes == 0 {
+		err = errors.New(ePrefix + "\n" +
+			"Error: Input parameter 'absAllRunes' is invalid!\n" +
+			"The rune array of 'absAllRunes' is a zero length array.")
+
+		return newNumStrDto, err
+	}
+
+	if signVal != 1 &&
+		signVal != -1 {
+		err = fmt.Errorf(ePrefix+"\n"+
+			"Error: Input parameter 'signVal' is invalid!\n"+
+			"'signVal' MUST BE EQUAL to +1 or -1.\n"+
+			"signVal='%v'\n", signVal)
+
+		return newNumStrDto, err
+	}
+
+	iPrecision := int(precision)
+	firstIntIdx := -1
+	lastIntIdx := -1
+	lastFracIdx := -1
+
+	isFractional := false
+
+	if iPrecision > 0 {
+		isFractional = true
+	}
+
+	lenAbsFracRunes := iPrecision
+	lenAbsIntRunes := lenAbsAllRunes - lenAbsFracRunes
+
+	for i := 0; i < lenAbsAllRunes; i++ {
+
+		if i < lenAbsIntRunes {
+
+			if firstIntIdx == -1 && absAllRunes[i] > '0' &&
+				absAllRunes[i] <= '9' {
+				firstIntIdx = i
+			}
+
+			lastIntIdx = i
+		}
+
+		if isFractional && i >= lenAbsIntRunes && absAllRunes[i] > '0' && absAllRunes[i] <= '9' {
+			lastFracIdx = i
+		}
+
+	}
+
+	if firstIntIdx == -1 {
+		firstIntIdx = lastIntIdx
+	}
+
+	if isFractional && lastFracIdx == -1 {
+		lastFracIdx = lenAbsIntRunes
+	}
+
+	numStrOut := ""
+
+	if signVal < 0 {
+		numStrOut = "-"
+	}
+
+	numStrOut += string(absAllRunes[firstIntIdx : lastIntIdx+1])
+	if isFractional {
+		numStrOut += string(numSepsDto.DecimalSeparator)
+		numStrOut += string(absAllRunes[lastIntIdx+1 : lastFracIdx+1])
+	}
+
+	nStrDtoAtom := numStrDtoAtom{}
+
+	newNumStrDto, err = nStrDtoAtom.parseNumStr(
+		numStrOut,
+		numSepsDto,
+		ePrefix)
+
+	return newNumStrDto, err
+}
+
 // findSignificantDigitLimits - Analyzes an array of characters which
 // constitute a number string and returns the significant digits in the
 // form of a new NumStrDto instance. This operation will effectively

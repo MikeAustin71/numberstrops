@@ -53,6 +53,36 @@ type numStrDtoUtility struct {
 //
 // Return Values
 //
+//  numSepsDto          NumericSeparatorDto
+//     - An instance of NumericSeparatorDto which will be used to supply
+//       the numeric separators for the new NumStrDto instance returned
+//       by this method. Numeric separators include the Thousands
+//       Separator, Decimal Separator and the Currency Symbol.
+//
+//       The data fields included in the NumericSeparatorDto are
+//       listed as follows:
+//
+//          type NumericSeparatorDto struct {
+//
+//            DecimalSeparator   rune // Character used to separate
+//                                    //  integer and fractional digits ('.')
+//
+//            ThousandsSeparator rune // Character used to separate thousands
+//                                    //  (1,000,000,000
+//
+//            CurrencySymbol     rune // Currency Symbol
+//          }
+//
+//       If any of the data fields in this passed structure
+//       'customSeparators' are set to zero ('0'), they will
+//       be reset to USA default values. USA default numeric
+//       separators are listed as follows:
+//
+//             Currency Symbol: '$'
+//         Thousands Separator: ','
+//           Decimal Separator: '.'
+//
+//
 //  sum                NumStrDto
 //     - If this method completes successfully, this parameter will
 //       encapsulate the numeric sum obtained by adding the numeric
@@ -68,6 +98,7 @@ type numStrDtoUtility struct {
 //       the beginning of the error message.
 //
 func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
+	numSepsDto NumericSeparatorDto,
 	addend1 *NumStrDto,
 	addend2 *NumStrDto,
 	ePrefix string) (
@@ -110,6 +141,8 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 	if err != nil {
 		return sum, err
 	}
+
+	numSepsDto.SetToUSADefaultsIfEmpty()
 
 	var n1DtoSetup, n2DtoSetup NumStrDto
 	var compare int
@@ -158,8 +191,15 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 
 		if compare == 0 {
 			// Numeric Values are Equal!
+
 			sum = nStrDtoElectron.newBaseZeroNumStrDto(
 				n1DtoSetup.precision)
+
+			err = nStrDtoElectron.setNumericSeparatorsDto(
+				&sum,
+				numSepsDto,
+				ePrefix+"sum from values are equal ")
+
 			return sum, err
 		}
 
@@ -167,10 +207,15 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 
 		sum,
 			err = nStrDtoHelper.signValuesAreEqualSubtractNumStrs(
+			numSepsDto,
 			&n1DtoSetup,
 			&n2DtoSetup,
 			isOrderReversed,
 			ePrefix+"n1DtoSetup, n2DtoSetup ")
+
+		if err != nil {
+			return sum, err
+		}
 
 		var isZeroValue bool
 

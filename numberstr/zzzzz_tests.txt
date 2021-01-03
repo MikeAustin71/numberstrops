@@ -1,0 +1,2 @@
+fork/exec C:\Users\mike10\AppData\Local\Temp\go-build980207542\b001\numberstr.test.exe: Operation did not complete successfully because the file contains a virus or potentially unwanted software.
+FAIL	github.com/MikeAustin71/numberstrops/numberstr	2.253s

@@ -304,6 +304,16 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 	sum NumStrDto,
 	err error) {
 
+	if nStrDtoHelper.lock == nil {
+		nStrDtoHelper.lock = new(sync.Mutex)
+	}
+
+	nStrDtoHelper.lock.Lock()
+
+	defer nStrDtoHelper.lock.Unlock()
+
+	ePrefix += "numStrDtoHelper.signValuesAreEqualAddNumStrs() "
+
 	// Sign Values ARE Equal!
 
 	newSignVal := n1DtoSetup.signVal
@@ -367,6 +377,36 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 //
 // Input Parameters
 //
+//  numSepsDto          NumericSeparatorDto
+//     - An instance of NumericSeparatorDto which will be used to supply
+//       the numeric separators for the new NumStrDto instance returned
+//       by this method. Numeric separators include the Thousands
+//       Separator, Decimal Separator and the Currency Symbol.
+//
+//       The data fields included in the NumericSeparatorDto are
+//       listed as follows:
+//
+//          type NumericSeparatorDto struct {
+//
+//            DecimalSeparator   rune // Character used to separate
+//                                    //  integer and fractional digits ('.')
+//
+//            ThousandsSeparator rune // Character used to separate thousands
+//                                    //  (1,000,000,000
+//
+//            CurrencySymbol     rune // Currency Symbol
+//          }
+//
+//       If any of the data fields in this passed structure
+//       'customSeparators' are set to zero ('0'), they will
+//       be reset to USA default values. USA default numeric
+//       separators are listed as follows:
+//
+//             Currency Symbol: '$'
+//         Thousands Separator: ','
+//           Decimal Separator: '.'
+//
+//
 //  n1NumDto            *NumStrDto
 //     - A pointer to an instance of NumStrDto. This method WILL
 //       NOT CHANGE data values of internal member variables to
@@ -411,12 +451,23 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 //       the beginning of the error message.
 //
 func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualSubtractNumStrs(
+	numSepsDto NumericSeparatorDto,
 	n1NumDto *NumStrDto,
 	n2NumDto *NumStrDto,
 	isReversed bool,
 	ePrefix string) (
 	difference NumStrDto,
 	err error) {
+
+	if nStrDtoHelper.lock == nil {
+		nStrDtoHelper.lock = new(sync.Mutex)
+	}
+
+	nStrDtoHelper.lock.Lock()
+
+	defer nStrDtoHelper.lock.Unlock()
+
+	ePrefix += "numStrDtoHelper.signValuesAreEqualSubtractNumStrs() "
 
 	// Sign Values ARE Equal!
 	// Change sign for subtraction

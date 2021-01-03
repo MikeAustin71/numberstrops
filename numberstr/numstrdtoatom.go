@@ -1529,6 +1529,35 @@ func (nStrDtoAtom *numStrDtoAtom) formatThousandsStr(
 //       numeric value which will be used to create the returned
 //       number string.
 //
+//  numSepsDto          NumericSeparatorDto
+//     - An instance of NumericSeparatorDto which will be used to supply
+//       the numeric separators for the new NumStrDto instance returned
+//       by this method. Numeric separators include the Thousands
+//       Separator, Decimal Separator and the Currency Symbol.
+//
+//       The data fields included in the NumericSeparatorDto are
+//       listed as follows:
+//
+//          type NumericSeparatorDto struct {
+//
+//            DecimalSeparator   rune // Character used to separate
+//                                    //  integer and fractional digits ('.')
+//
+//            ThousandsSeparator rune // Character used to separate thousands
+//                                    //  (1,000,000,000
+//
+//            CurrencySymbol     rune // Currency Symbol
+//          }
+//
+//       If any of the data fields in this passed structure
+//       'customSeparators' are set to zero ('0'), they will
+//       be reset to USA default values. USA default numeric
+//       separators are listed as follows:
+//
+//             Currency Symbol: '$'
+//         Thousands Separator: ','
+//           Decimal Separator: '.'
+//
 //
 //  ePrefix             string
 //     - A string consisting of the method chain used to call
@@ -1562,7 +1591,7 @@ func (nStrDtoAtom *numStrDtoAtom) formatThousandsStr(
 //
 func (nStrDtoAtom *numStrDtoAtom) parseNumStr(
 	numStr string,
-	numericSeparators NumericSeparatorDto,
+	numSepsDto NumericSeparatorDto,
 	ePrefix string) (
 	newNumStrDto NumStrDto,
 	err error) {
@@ -1591,7 +1620,7 @@ func (nStrDtoAtom *numStrDtoAtom) parseNumStr(
 		return newNumStrDto, err
 	}
 
-	numericSeparators.SetToUSADefaultsIfEmpty()
+	numSepsDto.SetToUSADefaultsIfEmpty()
 
 	n2Dto := nStrDtoElectron.newBaseZeroNumStrDto(0)
 
@@ -1600,7 +1629,7 @@ func (nStrDtoAtom *numStrDtoAtom) parseNumStr(
 	err =
 		nStrDtoElectron.setNumericSeparatorsDto(
 			&n2Dto,
-			numericSeparators,
+			numSepsDto,
 			ePrefix+"n2Dto ")
 
 	if err != nil {
