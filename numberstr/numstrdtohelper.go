@@ -1,7 +1,7 @@
 package numberstr
 
 import (
-	"errors"
+	"fmt"
 	"math"
 	"sync"
 )
@@ -21,6 +21,36 @@ type numStrDtoHelper struct {
 // -----------------------------------------------------------------
 //
 // Input Parameters
+//
+//  numSepsDto          NumericSeparatorDto
+//     - An instance of NumericSeparatorDto which will be used to supply
+//       the numeric separators for the new NumStrDto instance returned
+//       by this method. Numeric separators include the Thousands
+//       Separator, Decimal Separator and the Currency Symbol.
+//
+//       The data fields included in the NumericSeparatorDto are
+//       listed as follows:
+//
+//          type NumericSeparatorDto struct {
+//
+//            DecimalSeparator   rune // Character used to separate
+//                                    //  integer and fractional digits ('.')
+//
+//            ThousandsSeparator rune // Character used to separate thousands
+//                                    //  (1,000,000,000
+//
+//            CurrencySymbol     rune // Currency Symbol
+//          }
+//
+//       If any of the data fields in this passed structure
+//       'customSeparators' are set to zero ('0'), they will
+//       be reset to USA default values. USA default numeric
+//       separators are listed as follows:
+//
+//             Currency Symbol: '$'
+//         Thousands Separator: ','
+//           Decimal Separator: '.'
+//
 //
 //  multiplicand        *NumStrDto
 //     - A pointer to an instance of NumStrDto. This method WILL
@@ -74,6 +104,7 @@ type numStrDtoHelper struct {
 //       prefixed to the beginning of the returned error message.
 //
 func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
+	numSepsDto NumericSeparatorDto,
 	multiplicand *NumStrDto,
 	multiplier *NumStrDto,
 	ePrefix string) (
@@ -96,20 +127,6 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 
 	product = nStrDtoElectron.newBaseZeroNumStrDto(0)
 
-	if multiplicand == nil {
-		err = errors.New(ePrefix +
-			"\nInput parameter 'multiplicand' is INVALID!\n" +
-			"multiplicand has a 'nil' pointer!\n")
-		return product, err
-	}
-
-	if multiplier == nil {
-		err = errors.New(ePrefix +
-			"\nInput parameter 'multiplier' is INVALID!\n" +
-			"multiplier  has a 'nil' pointer!!\n")
-		return product, err
-	}
-
 	nStrDtoQuark := numStrDtoQuark{}
 
 	_,
@@ -131,6 +148,8 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 	if err != nil {
 		return product, err
 	}
+
+	numSepsDto.SetToUSADefaultsIfEmpty()
 
 	lenN1AbsAllRunes := len(multiplicand.absAllNumRunes)
 	lenN2AbsAllRunes := len(multiplier.absAllNumRunes)
@@ -289,6 +308,7 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 
 	product, err =
 		nStrDtoMech.findIntArraySignificantDigitLimits(
+			numSepsDto,
 			intFinalAry,
 			newPrecision,
 			newSignVal,
@@ -297,7 +317,97 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 	return product, err
 }
 
+// signValuesAreEqualAddNumStrs - Adds two numbers with equal
+// numeric sign values. Numeric sign values of +1 or -1 indicate
+// whether a number is is positive ('+') or negative ('-').
+//
+// This method is designed to be called after method
+// numStrDtoMolecule.formatForMathOps() has been called on these two
+// numeric values.
+//
+// The 'signValuesAreEqualSubtractNumStrs' is a low level method
+// designed to be called by numStrDtoUtility.addNumStrs().
+//
+//
+// -----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numSepsDto          NumericSeparatorDto
+//     - An instance of NumericSeparatorDto which will be used to supply
+//       the numeric separators for the new NumStrDto instance returned
+//       by this method. Numeric separators include the Thousands
+//       Separator, Decimal Separator and the Currency Symbol.
+//
+//       The data fields included in the NumericSeparatorDto are
+//       listed as follows:
+//
+//          type NumericSeparatorDto struct {
+//
+//            DecimalSeparator   rune // Character used to separate
+//                                    //  integer and fractional digits ('.')
+//
+//            ThousandsSeparator rune // Character used to separate thousands
+//                                    //  (1,000,000,000
+//
+//            CurrencySymbol     rune // Currency Symbol
+//          }
+//
+//       If any of the data fields in this passed structure
+//       'customSeparators' are set to zero ('0'), they will
+//       be reset to USA default values. USA default numeric
+//       separators are listed as follows:
+//
+//             Currency Symbol: '$'
+//         Thousands Separator: ','
+//           Decimal Separator: '.'
+//
+//
+//  n1NumDto            *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method WILL
+//       NOT CHANGE data values of internal member variables to
+//       achieve the method's objectives.
+//
+//
+//  n2NumDto            *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method WILL
+//       NOT CHANGE data values of internal member variables to
+//       achieve the method's objectives.
+//
+//
+//  isReversed          bool
+//     - If 'isReversed' is set to true, it signals that the original
+//       sequence of 'n1NumDto' and 'n2NumDto' have been reversed in
+//       order to facilitate the subtraction operation.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  difference          NumStrDto
+//     - If this method completes successfully, this parameter will represent
+//       the numerical difference between input parameters, 'n1NumDto' and
+//       'n2NumDto'.
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error Type is set
+//       equal to 'nil'. If errors are encountered during processing, the
+//       returned error Type will encapsulate an error message. Note this
+//       error message will incorporate the method chain and text passed by
+//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
+//       the beginning of the error message.
+//
 func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
+	numSepsDto NumericSeparatorDto,
 	n1DtoSetup *NumStrDto,
 	n2DtoSetup *NumStrDto,
 	ePrefix string) (
@@ -313,6 +423,41 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 	defer nStrDtoHelper.lock.Unlock()
 
 	ePrefix += "numStrDtoHelper.signValuesAreEqualAddNumStrs() "
+
+	nStrDtoQuark := numStrDtoQuark{}
+
+	_,
+		err =
+		nStrDtoQuark.testNumStrDtoValidity(
+			n1DtoSetup,
+			ePrefix+"Initial validity test for 'n1DtoSetup' ")
+
+	if err != nil {
+		return sum, err
+	}
+
+	_,
+		err =
+		nStrDtoQuark.testNumStrDtoValidity(
+			n2DtoSetup,
+			ePrefix+"Initial validity test for 'n2DtoSetup' ")
+
+	if err != nil {
+		return sum, err
+	}
+
+	if n1DtoSetup.signVal != n2DtoSetup.signVal {
+		err = fmt.Errorf(ePrefix+"\n"+
+			"Error: Numeric sign values for input parameters\n"+
+			"'n1DtoSetup' and 'n2DtoSetup' are NOT equal!\n"+
+			"n1DtoSetup.signVal ='%v'\n"+
+			"n2DtoSetup.signVal ='%v'\n",
+			n1DtoSetup.signVal,
+			n2DtoSetup.signVal)
+		return sum, err
+	}
+
+	numSepsDto.SetToUSADefaultsIfEmpty()
 
 	// Sign Values ARE Equal!
 
@@ -353,6 +498,7 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 
 	sum,
 		err = nStrDtoMech.findIntArraySignificantDigitLimits(
+		numSepsDto,
 		n3IntAry,
 		precision,
 		newSignVal,
@@ -520,6 +666,7 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualSubtractNumStrs(
 	difference,
 		err =
 		nStrDtoMech.findIntArraySignificantDigitLimits(
+			numSepsDto,
 			n3IntAry,
 			precision,
 			newSignVal,

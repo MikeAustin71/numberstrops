@@ -13,12 +13,42 @@ type numStrDtoMechanics struct {
 // converts them to a number string consisting of significant digits.
 // Leading and trailing zeros are eliminated.
 //
-// See related method  numStrDtoNanobot.findSignificantDigitLimits()
+// See related method  numStrDtoNanobot.findNumStrSignificantDigitLimits()
 //
 //
 // ------------------------------------------------------------------------
 //
 // Input Parameters
+//
+//  numSepsDto          NumericSeparatorDto
+//     - An instance of NumericSeparatorDto which will be used to supply
+//       the numeric separators for the new NumStrDto instance returned
+//       by this method. Numeric separators include the Thousands
+//       Separator, Decimal Separator and the Currency Symbol.
+//
+//       The data fields included in the NumericSeparatorDto are
+//       listed as follows:
+//
+//          type NumericSeparatorDto struct {
+//
+//            DecimalSeparator   rune // Character used to separate
+//                                    //  integer and fractional digits ('.')
+//
+//            ThousandsSeparator rune // Character used to separate thousands
+//                                    //  (1,000,000,000
+//
+//            CurrencySymbol     rune // Currency Symbol
+//          }
+//
+//       If any of the data fields in this passed structure
+//       'customSeparators' are set to zero ('0'), they will
+//       be reset to USA default values. USA default numeric
+//       separators are listed as follows:
+//
+//             Currency Symbol: '$'
+//         Thousands Separator: ','
+//           Decimal Separator: '.'
+//
 //
 //  intArray            []int
 //     - An array of integer representing single numeric digits in a number
@@ -65,6 +95,7 @@ type numStrDtoMechanics struct {
 //       at the beginning of the returned error message.
 //
 func (nStrDtoMech *numStrDtoMechanics) findIntArraySignificantDigitLimits(
+	numSepsDto NumericSeparatorDto,
 	intArray []int,
 	precision uint,
 	signVal int,
@@ -118,14 +149,12 @@ func (nStrDtoMech *numStrDtoMechanics) findIntArraySignificantDigitLimits(
 		absNumStr = append(absNumStr, rune(intArray[i]+48))
 	}
 
-	var numSepsDto NumericSeparatorDto
-
 	numSepsDto.SetToUSADefaults()
 
 	nStrDtoNanobot := numStrDtoNanobot{}
 
 	newNumStrDto,
-		err = nStrDtoNanobot.findSignificantDigitLimits(
+		err = nStrDtoNanobot.findNumStrSignificantDigitLimits(
 		numSepsDto,
 		absNumStr,
 		precision,

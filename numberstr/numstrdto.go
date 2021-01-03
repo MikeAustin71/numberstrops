@@ -85,12 +85,27 @@ func (nDto *NumStrDto) Add(
 	ePrefix += "NumStrDto.Add() "
 	err = nil
 
+	var numSepsDto NumericSeparatorDto
+
+	nStrDtoAtom := numStrDtoAtom{}
+
+	numSepsDto,
+		err =
+		nStrDtoAtom.getNumericSeparatorsDto(
+			nDto,
+			ePrefix+"nDto ")
+
+	if err != nil {
+		return err
+	}
+
 	nStrDtoUtil := numStrDtoUtility{}
 
 	var sum NumStrDto
 
 	sum,
 		err = nStrDtoUtil.addNumStrs(
+		numSepsDto,
 		nDto,
 		&n2Dto,
 		ePrefix)
@@ -178,10 +193,26 @@ func (nDto *NumStrDto) AddNumStrs(
 
 	sum = NumStrDto{}
 	err = nil
+
+	var numSepsDto NumericSeparatorDto
+
+	nStrDtoAtom := numStrDtoAtom{}
+
+	numSepsDto,
+		err =
+		nStrDtoAtom.getNumericSeparatorsDto(
+			nDto,
+			ePrefix+"nDto ")
+
+	if err != nil {
+		return sum, err
+	}
+
 	nStrDtoUtil := numStrDtoUtility{}
 
 	sum,
 		err = nStrDtoUtil.addNumStrs(
+		numSepsDto,
 		&addend1,
 		&addend2,
 		ePrefix)
@@ -666,9 +697,26 @@ func (nDto *NumStrDto) FindIntArraySignificantDigitLimits(
 
 	ePrefix += "NumStrDto.FindIntArraySignificantDigitLimits() "
 
+	nStrDtoAtom := numStrDtoAtom{}
+
+	var err error
+
+	var numSepsDto NumericSeparatorDto
+
+	numSepsDto,
+		err =
+		nStrDtoAtom.getNumericSeparatorsDto(
+			nDto,
+			ePrefix)
+
+	if err != nil {
+		return NumStrDto{}, err
+	}
+
 	nStrDtoMech := numStrDtoMechanics{}
 
 	return nStrDtoMech.findIntArraySignificantDigitLimits(
+		numSepsDto,
 		intArray,
 		precision,
 		signVal,
@@ -771,7 +819,7 @@ func (nDto *NumStrDto) FindNumStrSignificantDigitLimits(
 	nStrDtoNanobot := numStrDtoNanobot{}
 
 	newNumStrDto,
-		err = nStrDtoNanobot.findSignificantDigitLimits(
+		err = nStrDtoNanobot.findNumStrSignificantDigitLimits(
 		numSepsDto,
 		absAllRunes,
 		precision,
@@ -2398,9 +2446,25 @@ func (nDto *NumStrDto) Multiply(
 
 	ePrefix += "NumStrDto.Multiply() "
 
+	var numSepsDto NumericSeparatorDto
+
+	var err error
+	nStrDtoAtom := numStrDtoAtom{}
+
+	numSepsDto,
+		err =
+		nStrDtoAtom.getNumericSeparatorsDto(
+			nDto,
+			ePrefix+"nDto ")
+
+	if err != nil {
+		return err
+	}
+
 	nStrDtoUtil := numStrDtoUtility{}
 
 	return nStrDtoUtil.multiplyInPlace(
+		numSepsDto,
 		nDto,
 		multiplier,
 		ePrefix)
@@ -2478,10 +2542,25 @@ func (nDto *NumStrDto) MultiplyNumStrs(
 
 	ePrefix += "NumStrDto.MultiplyNumStrs() "
 
+	var numSepsDto NumericSeparatorDto
+
+	nStrDtoAtom := numStrDtoAtom{}
+
+	numSepsDto,
+		err =
+		nStrDtoAtom.getNumericSeparatorsDto(
+			nDto,
+			ePrefix+"nDto ")
+
+	if err != nil {
+		return product, err
+	}
+
 	nStrDtoHelper := numStrDtoHelper{}
 
 	product,
 		err = nStrDtoHelper.multiplyNumStrs(
+		numSepsDto,
 		&multiplicand,
 		&multiplier,
 		ePrefix)
@@ -6370,10 +6449,25 @@ func (nDto *NumStrDto) Subtract(
 
 	var difference NumStrDto
 
+	var numSepsDto NumericSeparatorDto
+
+	nStrDtoAtom := numStrDtoAtom{}
+
+	numSepsDto,
+		err =
+		nStrDtoAtom.getNumericSeparatorsDto(
+			nDto,
+			ePrefix+"nDto ")
+
+	if err != nil {
+		return err
+	}
+
 	nStrDtoUtil := numStrDtoUtility{}
 
 	difference,
 		err = nStrDtoUtil.subtractNumStrs(
+		numSepsDto,
 		nDto,
 		&n2Dto,
 		ePrefix)
@@ -6462,11 +6556,26 @@ func (nDto *NumStrDto) SubtractNumStrs(
 
 	ePrefix += "NumStrDto.SubtractNumStrs() "
 
+	var numSepsDto NumericSeparatorDto
+
+	nStrDtoAtom := numStrDtoAtom{}
+
+	numSepsDto,
+		err =
+		nStrDtoAtom.getNumericSeparatorsDto(
+			nDto,
+			ePrefix+"nDto ")
+
+	if err != nil {
+		return difference, err
+	}
+
 	nStrDtoUtil := numStrDtoUtility{}
 
 	difference,
 		err =
 		nStrDtoUtil.subtractNumStrs(
+			numSepsDto,
 			&minuend,
 			&subtrahend,
 			ePrefix)
