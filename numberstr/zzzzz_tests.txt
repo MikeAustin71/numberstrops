@@ -1,2 +1,24 @@
-fork/exec C:\Users\mike10\AppData\Local\Temp\go-build980207542\b001\numberstr.test.exe: Operation did not complete successfully because the file contains a virus or potentially unwanted software.
-FAIL	github.com/MikeAustin71/numberstrops/numberstr	2.253s
+=== RUN   TestNumStrDto_AddNumStrs_10
+--- PASS: TestNumStrDto_AddNumStrs_10 (0.00s)
+=== RUN   TestNumStrDto_AddNumStrs_20
+--- PASS: TestNumStrDto_AddNumStrs_20 (0.00s)
+=== RUN   TestNumStrDto_AddNumStrs_30
+--- PASS: TestNumStrDto_AddNumStrs_30 (0.00s)
+=== RUN   TestNumStrDto_AddNumStrs_40
+--- PASS: TestNumStrDto_AddNumStrs_40 (0.00s)
+=== RUN   TestNumStrDto_AddNumStrs_50
+--- PASS: TestNumStrDto_AddNumStrs_50 (0.00s)
+=== RUN   TestNumStrDto_AddNumStrs_60
+--- PASS: TestNumStrDto_AddNumStrs_60 (0.00s)
+=== RUN   TestNumStrDto_AddNumStrs_70
+--- PASS: TestNumStrDto_AddNumStrs_70 (0.00s)
+=== RUN   TestNumStrDto_AddNumStrs_80
+--- PASS: TestNumStrDto_AddNumStrs_80 (0.00s)
+=== RUN   TestNumStrDto_AddNumStrs_90
+--- PASS: TestNumStrDto_AddNumStrs_90 (0.00s)
+=== RUN   TestNumStrDto_AddNumStrs_100
+--- PASS: TestNumStrDto_AddNumStrs_100 (0.00s)
+=== RUN   TestNumStrDto_AddNumStrs_110
+--- PASS: TestNumStrDto_AddNumStrs_110 (0.00s)
+PASS
+ok  	github.com/MikeAustin71/numberstrops/numberstr	0.616s

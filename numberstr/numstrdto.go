@@ -535,6 +535,84 @@ func (nDto *NumStrDto) CopyOut() NumStrDto {
 	return newNumStrDto
 }
 
+// DivideFractionNumStrs - Divides two fractional numbers and
+// produces a 'quotient'.
+//
+// If either the 'dividend' or 'divisor' or both are integer
+// values, those integers will be converted to fractional
+// numeric values before performing the division operation.
+//
+func (nDto *NumStrDto) DivideFractionNumStrs(
+	dividendNDto NumStrDto,
+	divisorNDto NumStrDto,
+	requestedPrecision uint,
+	ePrefix string) (
+	quotient NumStrDto,
+	err error) {
+
+	nStrDtoAtom := numStrDtoAtom{}
+
+	var dividendBigFloat, divisorBigFloat *big.Float
+
+	dividendBigFloat,
+		err =
+		nStrDtoAtom.getAbsoluteBigFloat(
+			&dividendNDto,
+			uint(1024),
+			ePrefix+"dividendNDto ")
+
+	if err != nil {
+		return quotient, err
+	}
+
+	if dividendNDto.signVal == -1 {
+		dividendBigFloat =
+			big.NewFloat(0.0).Neg(dividendBigFloat)
+	}
+
+	divisorBigFloat,
+		err =
+		nStrDtoAtom.getAbsoluteBigFloat(
+			&divisorNDto,
+			uint(1024),
+			ePrefix+"divisorNDto ")
+
+	if err != nil {
+		return quotient, err
+	}
+
+	if divisorNDto.signVal == -1 {
+		divisorBigFloat =
+			big.NewFloat(0.0).Neg(divisorBigFloat)
+	}
+
+	quotientBigFloat := big.NewFloat(0.0).
+		Quo(dividendBigFloat, dividendBigFloat)
+
+	var numSepsDto NumericSeparatorDto
+
+	numSepsDto,
+		err = nStrDtoAtom.getNumericSeparatorsDto(
+		nDto,
+		ePrefix+"nDto ")
+
+	if err != nil {
+		return quotient, err
+	}
+
+	nStrDtoNanobot := numStrDtoNanobot{}
+
+	quotient,
+		err = nStrDtoNanobot.newBigFloat(
+		numSepsDto,
+		quotientBigFloat,
+		requestedPrecision,
+		ePrefix)
+
+	//TODO - Complete DivideFractionNumStrs Function
+	return quotient, err
+}
+
 // Equal - Returns true if the input parameter 'n2Dto' has a numeric
 // value instance is equal to the numeric value of the current
 // NumStrDto instance, 'nDto'.
