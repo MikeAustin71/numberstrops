@@ -77,3 +77,50 @@ func TestNumStrDto_GetBigIntNum_10(t *testing.T) {
 	}
 
 }
+
+func TestNumStrDto_GetSignedBigInt_10(t *testing.T) {
+
+	nStr := "-123.456"
+	signedNumStr := "-123456"
+	expected, isOk := big.NewInt(0).SetString(signedNumStr, 10)
+
+	if !isOk {
+		t.Errorf("big.SetString(signedNumStr,10) Failed!.\n"+
+			"signedNumStr= '%v'\n", signedNumStr)
+		return
+	}
+
+	ePrefix := "TestNumStrDto_GetSignedBigInt_10"
+
+	var n1, nXDto NumStrDto
+	var err error
+
+	nXDto = NumStrDto{}.New()
+
+	n1, err =
+		nXDto.ParseNumStr(
+			nStr,
+			ePrefix+"nStr ")
+
+	if err != nil {
+		t.Errorf("%v", err)
+		return
+	}
+
+	var signedBigInt *big.Int
+
+	signedBigInt, err = n1.GetBigInt(
+		ePrefix + "n1 ")
+
+	if err != nil {
+		t.Errorf("%v", err)
+		return
+	}
+
+	if signedBigInt.Cmp(expected) != 0 {
+		t.Errorf("Expected signedBigInt= %v .\n"+
+			"Instead got, %v\n",
+			expected.String(), signedBigInt.String())
+	}
+
+}
