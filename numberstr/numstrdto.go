@@ -1772,7 +1772,8 @@ func (nDto *NumStrDto) GetNumStr(
 // performs a validity test on the current NumStrDto instance.
 //
 // This method is necessary in order to fulfill the requirements
-// of the INumMgr interface.
+// of the INumMgr interface. The INumMgr interface is used in the
+// the 'mathops' package.
 //
 func (nDto *NumStrDto) GetNumStrDto() (
 	newNumStrDto NumStrDto,
