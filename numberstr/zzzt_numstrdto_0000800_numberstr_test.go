@@ -638,3 +638,33 @@ func TestNumStrDto_GetNumStr_110(t *testing.T) {
 	}
 
 }
+
+func TestNumStrDto_IsNumStrDtoValid_010(t *testing.T) {
+
+	ePrefix := "TestNumStrDto_IsNumStrDtoValid_010() "
+
+	nDto := NumStrDto{}
+
+	absAllNumRunes := nDto.GetAbsAllNumRunes()
+
+	lenAbsAllNumRunes := len(absAllNumRunes)
+
+	if lenAbsAllNumRunes != 0 {
+		t.Errorf("Expected zero Length absAllNumRunes array. Array length was '%v'",
+			lenAbsAllNumRunes)
+		return
+	}
+
+	_ = nDto.IsValidInstanceError(ePrefix + "nDto ")
+
+	absAllNumRunes = nDto.GetAbsAllNumRunes()
+
+	lenAbsAllNumRunes = len(absAllNumRunes)
+
+	if lenAbsAllNumRunes != 0 {
+		t.Errorf("Expected after validation absAllNumRunes length='0'.\n"+
+			"Instead, length='%v'\n",
+			lenAbsAllNumRunes)
+	}
+
+}
