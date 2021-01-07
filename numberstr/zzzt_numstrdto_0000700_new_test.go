@@ -59,7 +59,7 @@ func TestNumStrDto_NewBigInt_0020(t *testing.T) {
 	expectedNumStr := "-123.456"
 	ePrefix := "TestNumStrDto_NewBigInt_0020() "
 
-	intNumStr := "123456"
+	intNumStr := "-123456"
 
 	bigIntNum, oK := big.NewInt(0).
 		SetString(intNumStr, 10)

@@ -1,0 +1,146 @@
+func (nDto *NumStrDto) SetPrecision(
+	signedNumStr string,
+	precision uint,
+	roundResult bool) (NumStrDto, error) {
+
+	ePrefix := "NumStrDto.SetPrecision() "
+
+	if len(signedNumStr) == 0 {
+		return NumStrDto{},
+			errors.New(ePrefix + "Received zero length number string!")
+	}
+
+	// Set defaults for thousands separators,
+	// decimal separators and currency Symbols
+	if nDto.thousandsSeparator == 0 {
+		nDto.thousandsSeparator = ','
+	}
+
+	if nDto.decimalSeparator == 0 {
+		nDto.decimalSeparator = '.'
+	}
+
+	if nDto.currencySymbol == 0 {
+		nDto.currencySymbol = '$'
+	}
+
+	n0 := NumStrDto{}.New()
+	n0.thousandsSeparator = nDto.thousandsSeparator
+	n0.decimalSeparator = nDto.decimalSeparator
+	n0.currencySymbol = nDto.currencySymbol
+
+	n1, err := n0.ParseNumStr(signedNumStr)
+
+	if err != nil {
+		return NumStrDto{},
+			fmt.Errorf(ePrefix+
+				"Error returned from ns.ParseNumString(signedNumStr). "+
+				"signedNumStr='%v' Error= %v", signedNumStr, err)
+	}
+
+	n2 := NumStrDto{}.New()
+
+	n2.signVal = n1.signVal
+	n2.precision = precision
+	n2.thousandsSeparator = nDto.thousandsSeparator
+	n2.decimalSeparator = nDto.decimalSeparator
+	n2.currencySymbol = nDto.currencySymbol
+	n2AbsIntRunes := n2.GetAbsIntRunes()
+	n2AbsFracRunes := n2.GetAbsFracRunes()
+
+	iSpecPrecision := int(precision)
+	lenN1AbsAllNumRunes := len(n1.absAllNumRunes)
+	n1AbsIntRunes := n1.GetAbsIntRunes()
+	n1AbsFracRunes := n1.GetAbsFracRunes()
+	lenN1AbsIntRunes := len(n1AbsIntRunes)
+	lenN1AbsFracRunes := len(n1AbsFracRunes)
+	totalRunes := 0
+
+	if roundResult && lenN1AbsFracRunes > 0 &&
+		iSpecPrecision < lenN1AbsFracRunes {
+
+		absAllNumsToRound, isOk := big.NewInt(0).SetString(string(n1.absAllNumRunes), 10)
+
+		if !isOk {
+			return NumStrDto{},
+				fmt.Errorf(ePrefix+"Error: Failed to convert string to big.Int(). "+
+					"big.Int.SetString(n1.absAllNumRunes). n1.absAllNumRunes='%v' ",
+					string(n1.absAllNumRunes))
+		}
+
+		bigDeltaPrecision := big.NewInt(int64(lenN1AbsFracRunes - iSpecPrecision - 1))
+		base10 := big.NewInt(int64(10))
+		roundUp5 := big.NewInt(int64(5))
+		roundScaleFactor := big.NewInt(0).Exp(base10, bigDeltaPrecision, nil)
+		roundUpNum := big.NewInt(0).Mul(roundUp5, roundScaleFactor)
+		roundedAbsAllNums := big.NewInt(0).Add(absAllNumsToRound, roundUpNum)
+		actualDeltaPrecision := big.NewInt(int64(lenN1AbsFracRunes - iSpecPrecision))
+		actualDeltaScaleFactor := big.NewInt(0).Exp(base10, actualDeltaPrecision, nil)
+		actualAbsAllNums := big.NewInt(0).Div(roundedAbsAllNums, actualDeltaScaleFactor)
+		n1.absAllNumRunes = []rune{}
+		n1AbsIntRunes = []rune{}
+		n1AbsFracRunes = []rune{}
+		n1.absAllNumRunes = []rune(string(actualAbsAllNums.String()))
+		lenN1AbsAllNumRunes = len(n1.absAllNumRunes)
+
+		for i := 0; i < lenN1AbsAllNumRunes; i++ {
+
+			if i < lenN1AbsIntRunes {
+				n1AbsIntRunes = append(n1AbsIntRunes, n1.absAllNumRunes[i])
+			} else {
+				n1AbsFracRunes = append(n1AbsFracRunes, n1.absAllNumRunes[i])
+			}
+		}
+
+		lenN1AbsIntRunes = len(n1AbsIntRunes)
+		lenN1AbsFracRunes = len(n1AbsFracRunes)
+
+		if lenN1AbsAllNumRunes != (lenN1AbsIntRunes + lenN1AbsFracRunes) {
+
+			return NumStrDto{},
+				fmt.Errorf(ePrefix+"Error on Rounding. lenN1AbsAllNumRunes != "+
+					"(lenN1AbsIntRunes + lenN1AbsFracRunes). lenN1AbsAllNumRunes= '%v' "+
+					"lenN1AbsIntRunes= '%v' lenN1AbsFracRunes= '%v'",
+					lenN1AbsAllNumRunes, lenN1AbsIntRunes, lenN1AbsFracRunes)
+		}
+
+	}
+
+	if lenN1AbsIntRunes == 0 {
+		n2.absAllNumRunes = append(n2.absAllNumRunes, '0')
+		n2AbsIntRunes = append(n2AbsIntRunes, '0')
+	}
+
+	totalRunes = lenN1AbsIntRunes + iSpecPrecision
+
+	for i := 0; i < totalRunes; i++ {
+
+		if i < lenN1AbsAllNumRunes {
+			n2.absAllNumRunes = append(n2.absAllNumRunes, n1.absAllNumRunes[i])
+		} else {
+			n2.absAllNumRunes = append(n2.absAllNumRunes, '0')
+		}
+
+		if i < lenN1AbsIntRunes {
+
+			n2AbsIntRunes = append(n2AbsIntRunes, n1.absAllNumRunes[i])
+
+		} else {
+
+			if i < lenN1AbsAllNumRunes {
+				n2AbsFracRunes = append(n2AbsFracRunes, n1.absAllNumRunes[i])
+			} else {
+				n2AbsFracRunes = append(n2AbsFracRunes, '0')
+			}
+		}
+	}
+
+	err = n2.IsValid(ePrefix)
+
+	if err != nil {
+
+		return NumStrDto{}, err
+	}
+
+	return n2, nil
+}

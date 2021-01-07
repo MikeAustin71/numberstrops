@@ -2647,9 +2647,10 @@ func (nDto *NumStrDto) MultiplyNumStrs(
 	return product, err
 }
 
-// New - Used to create and return an empty or zero NumStrDto
-// instance. This method initializes the NumStrDto data fields to
-// their zero values.
+// New - Used to create and return a zero NumStrDto instance.
+// This method initializes the NumStrDto data fields to their
+// zero values. This means that the returned NumStrDto instance
+// is NOT empty.
 //
 // Example Usage
 //
@@ -3507,7 +3508,7 @@ func (nDto NumStrDto) NewInt(
 	NumStrDto,
 	error) {
 
-	ePrefix += "NumStrDto.NewInt()"
+	ePrefix += "NumStrDto.NewInt() "
 
 	nStrDtoAtom := numStrDtoAtom{}
 

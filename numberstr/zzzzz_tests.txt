@@ -1,3 +1,45 @@
+=== RUN   TestNumStrBasicUtility_DlimDecStr
+--- PASS: TestNumStrBasicUtility_DlimDecStr (0.00s)
+=== RUN   TestNumStrBasicUtility_DlimDecStr_With_DecimalCurrency
+--- PASS: TestNumStrBasicUtility_DlimDecStr_With_DecimalCurrency (0.00s)
+=== RUN   TestNumStrBasicUtility_DNumI64
+--- PASS: TestNumStrBasicUtility_DNumI64 (0.00s)
+=== RUN   TestNumStrBasicUtility_DNumI64_EvenThousands
+--- PASS: TestNumStrBasicUtility_DNumI64_EvenThousands (0.00s)
+=== RUN   TestNumStrBasicUtility_DLimInt
+--- PASS: TestNumStrBasicUtility_DLimInt (0.00s)
+=== RUN   TestNumStrBasicUtility_ConvertStrToInt64_01
+--- PASS: TestNumStrBasicUtility_ConvertStrToInt64_01 (0.00s)
+=== RUN   TestNumStrBasicUtility_ConvertStrToInt64_02
+--- PASS: TestNumStrBasicUtility_ConvertStrToInt64_02 (0.00s)
+=== RUN   TestNumStrBasicUtility_ConvertStrToInt64_03
+--- PASS: TestNumStrBasicUtility_ConvertStrToInt64_03 (0.00s)
+=== RUN   TestNumStrBasicUtility_ConvertStrToIntNumStr
+--- PASS: TestNumStrBasicUtility_ConvertStrToIntNumStr (0.00s)
+=== RUN   TestNumStrBasicUtility_SetCountryAndCurrency
+    zzzt_numstrdto_0000001_numstrbasicutility_test.go:221: Expected Nation = 'United States'.
+        Instead, got .
+--- FAIL: TestNumStrBasicUtility_SetCountryAndCurrency (0.00s)
+=== RUN   TestNumStrBasicUtility_ConvertInt64ToFractionalValue
+--- PASS: TestNumStrBasicUtility_ConvertInt64ToFractionalValue (0.00s)
+=== RUN   TestNumStrBasicUtility_ParseNumString_01
+--- PASS: TestNumStrBasicUtility_ParseNumString_01 (0.00s)
+=== RUN   TestNumStrBasicUtility_ParseNumString_02
+--- PASS: TestNumStrBasicUtility_ParseNumString_02 (0.00s)
+=== RUN   TestNumStrBasicUtility_ParseNumString_03
+--- PASS: TestNumStrBasicUtility_ParseNumString_03 (0.00s)
+=== RUN   TestNumStrDto_GetAbsoluteBigInt_10
+--- PASS: TestNumStrDto_GetAbsoluteBigInt_10 (0.00s)
+=== RUN   TestNumStrDto_GetAbsFracRunes_10
+--- PASS: TestNumStrDto_GetAbsFracRunes_10 (0.00s)
+=== RUN   TestNumStrDto_GetAbsFracRunes_20
+--- PASS: TestNumStrDto_GetAbsFracRunes_20 (0.00s)
+=== RUN   TestNumStrDto_GetAbsIntRunes_10
+--- PASS: TestNumStrDto_GetAbsIntRunes_10 (0.00s)
+=== RUN   TestNumStrDto_GetAbsIntRunes_20
+--- PASS: TestNumStrDto_GetAbsIntRunes_20 (0.00s)
+=== RUN   TestNumStrDto_GetAbsIntRunes_30
+--- PASS: TestNumStrDto_GetAbsIntRunes_30 (0.00s)
 === RUN   TestNumStrDto_AddNumStrs_10
 --- PASS: TestNumStrDto_AddNumStrs_10 (0.00s)
 === RUN   TestNumStrDto_AddNumStrs_20
@@ -20,5 +62,502 @@
 --- PASS: TestNumStrDto_AddNumStrs_100 (0.00s)
 === RUN   TestNumStrDto_AddNumStrs_110
 --- PASS: TestNumStrDto_AddNumStrs_110 (0.00s)
-PASS
-ok  	github.com/MikeAustin71/numberstrops/numberstr	0.616s
+=== RUN   TestNumStrDto_GetBigIntNum_10
+--- PASS: TestNumStrDto_GetBigIntNum_10 (0.00s)
+=== RUN   TestNumStrDto_GetSignedBigInt_10
+--- PASS: TestNumStrDto_GetSignedBigInt_10 (0.00s)
+=== RUN   TestNumStrDto_NewBigInt_10
+--- PASS: TestNumStrDto_NewBigInt_10 (0.00s)
+=== RUN   TestNumStrDto_NewBigInt_20
+--- PASS: TestNumStrDto_NewBigInt_20 (0.00s)
+=== RUN   TestNumStrDto_CompareAbsoluteVals_10
+--- PASS: TestNumStrDto_CompareAbsoluteVals_10 (0.00s)
+=== RUN   TestNumStrDto_CompareAbsoluteVals_20
+--- PASS: TestNumStrDto_CompareAbsoluteVals_20 (0.00s)
+=== RUN   TestNumStrDto_CompareAbsoluteVals_30
+--- PASS: TestNumStrDto_CompareAbsoluteVals_30 (0.00s)
+=== RUN   TestNumStrDto_CompareAbsoluteVals_40
+--- PASS: TestNumStrDto_CompareAbsoluteVals_40 (0.00s)
+=== RUN   TestNumStrDto_CompareAbsoluteVals_50
+--- PASS: TestNumStrDto_CompareAbsoluteVals_50 (0.00s)
+=== RUN   TestNumStrDto_CompareAbsoluteVals_60
+--- PASS: TestNumStrDto_CompareAbsoluteVals_60 (0.00s)
+=== RUN   TestNumStrDto_CompareAbsoluteVals_70
+--- PASS: TestNumStrDto_CompareAbsoluteVals_70 (0.00s)
+=== RUN   TestNumStrDto_CompareAbsoluteVals_80
+--- PASS: TestNumStrDto_CompareAbsoluteVals_80 (0.00s)
+=== RUN   TestNumStrDto_CompareSignedVals_10
+--- PASS: TestNumStrDto_CompareSignedVals_10 (0.00s)
+=== RUN   TestNumStrDto_CompareSignedVals_20
+--- PASS: TestNumStrDto_CompareSignedVals_20 (0.00s)
+=== RUN   TestNumStrDto_CompareSignedVals_30
+--- PASS: TestNumStrDto_CompareSignedVals_30 (0.00s)
+=== RUN   TestNumStrDto_CompareSignedVals_40
+--- PASS: TestNumStrDto_CompareSignedVals_40 (0.00s)
+=== RUN   TestNumStrDto_CompareSignedVals_50
+--- PASS: TestNumStrDto_CompareSignedVals_50 (0.00s)
+=== RUN   TestNumStrDto_CompareSignedVals_60
+--- PASS: TestNumStrDto_CompareSignedVals_60 (0.00s)
+=== RUN   TestNumStrDto_CompareSignedVals_70
+--- PASS: TestNumStrDto_CompareSignedVals_70 (0.00s)
+=== RUN   TestNumStrDto_CompareSignedVals_80
+--- PASS: TestNumStrDto_CompareSignedVals_80 (0.00s)
+=== RUN   TestNumStrDto_CopyIn_10
+--- PASS: TestNumStrDto_CopyIn_10 (0.00s)
+=== RUN   TestNumStrDto_CopyIn_20
+--- PASS: TestNumStrDto_CopyIn_20 (0.00s)
+=== RUN   TestNumStrDto_CopyOut_10
+--- PASS: TestNumStrDto_CopyOut_10 (0.00s)
+=== RUN   TestNumStrDto_CopyOut_20
+--- PASS: TestNumStrDto_CopyOut_20 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyStr_10
+--- PASS: TestNumStrDto_GetCurrencyStr_10 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyStr_20
+--- PASS: TestNumStrDto_GetCurrencyStr_20 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyStr_30
+--- PASS: TestNumStrDto_GetCurrencyStr_30 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyStr_40
+--- PASS: TestNumStrDto_GetCurrencyStr_40 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyStr_50
+--- PASS: TestNumStrDto_GetCurrencyStr_50 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyStr_60
+--- PASS: TestNumStrDto_GetCurrencyStr_60 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyStr_70
+--- PASS: TestNumStrDto_GetCurrencyStr_70 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyStr_80
+--- PASS: TestNumStrDto_GetCurrencyStr_80 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyStr_90
+--- PASS: TestNumStrDto_GetCurrencyStr_90 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyParen_10
+--- PASS: TestNumStrDto_GetCurrencyParen_10 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyParen_20
+--- PASS: TestNumStrDto_GetCurrencyParen_20 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyParen_30
+--- PASS: TestNumStrDto_GetCurrencyParen_30 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyParen_40
+--- PASS: TestNumStrDto_GetCurrencyParen_40 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyParen_50
+    zzzt_numstrdto_0000035_currency_test.go:878: Expected Currency Str='($12,345.29)'.
+        Instead, Currency Str='$12,345.29'
+--- FAIL: TestNumStrDto_GetCurrencyParen_50 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyParen_60
+    zzzt_numstrdto_0000035_currency_test.go:941: Expected Currency Str='($12,345)'.
+        Instead, Currency Str='-$12,345'
+--- FAIL: TestNumStrDto_GetCurrencyParen_60 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyParen_70
+    zzzt_numstrdto_0000035_currency_test.go:1005: Expected Currency Str='(€12,345)'.
+        Instead, Currency Str='-€12,345'
+--- FAIL: TestNumStrDto_GetCurrencyParen_70 (0.00s)
+=== RUN   TestNumStrDto_GetCurrencyParen_80
+--- PASS: TestNumStrDto_GetCurrencyParen_80 (0.00s)
+=== RUN   TestNumStrDto_Divide_10
+    zzzt_numstrdto_0000040_divide_test.go:54: Error: Expected NumStr='4.0'.
+        Instead, NumStr='1.0'.
+--- FAIL: TestNumStrDto_Divide_10 (0.00s)
+=== RUN   TestNumStrDto_FormatForMathOps_10
+--- PASS: TestNumStrDto_FormatForMathOps_10 (0.00s)
+=== RUN   TestNumStrDto_FormatForMathOps_20
+--- PASS: TestNumStrDto_FormatForMathOps_20 (0.00s)
+=== RUN   TestNumStrDto_FormatForMathOps_30
+--- PASS: TestNumStrDto_FormatForMathOps_30 (0.00s)
+=== RUN   TestNumStrDto_FormatForMathOps_40
+--- PASS: TestNumStrDto_FormatForMathOps_40 (0.00s)
+=== RUN   TestNumStrDto_FormatForMathOps_50
+--- PASS: TestNumStrDto_FormatForMathOps_50 (0.00s)
+=== RUN   TestNumStrDto_FormatForMathOps_60
+--- PASS: TestNumStrDto_FormatForMathOps_60 (0.00s)
+=== RUN   TestNumStrDto_Multiply_00100
+--- PASS: TestNumStrDto_Multiply_00100 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_00100
+--- PASS: TestNumStrDto_MultiplyNumStrs_00100 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_00200
+--- PASS: TestNumStrDto_MultiplyNumStrs_00200 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_00300
+--- PASS: TestNumStrDto_MultiplyNumStrs_00300 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_00400
+--- PASS: TestNumStrDto_MultiplyNumStrs_00400 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_00500
+--- PASS: TestNumStrDto_MultiplyNumStrs_00500 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_00600
+--- PASS: TestNumStrDto_MultiplyNumStrs_00600 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_00700
+--- PASS: TestNumStrDto_MultiplyNumStrs_00700 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_00800
+--- PASS: TestNumStrDto_MultiplyNumStrs_00800 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_00900
+--- PASS: TestNumStrDto_MultiplyNumStrs_00900 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_01000
+--- PASS: TestNumStrDto_MultiplyNumStrs_01000 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_01100
+--- PASS: TestNumStrDto_MultiplyNumStrs_01100 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_01200
+--- PASS: TestNumStrDto_MultiplyNumStrs_01200 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_01300
+--- PASS: TestNumStrDto_MultiplyNumStrs_01300 (0.00s)
+=== RUN   TestNumStrDto_MultiplyNumStrs_01400
+--- PASS: TestNumStrDto_MultiplyNumStrs_01400 (0.00s)
+=== RUN   TestNumStrNegValFmtMode_10
+--- PASS: TestNumStrNegValFmtMode_10 (0.00s)
+=== RUN   TestNumStrNegValFmtMode_20
+--- PASS: TestNumStrNegValFmtMode_20 (0.00s)
+=== RUN   TestNumStrNegValFmtMode_30
+--- PASS: TestNumStrNegValFmtMode_30 (0.00s)
+=== RUN   TestNumStrNegValFmtMode_40
+--- PASS: TestNumStrNegValFmtMode_40 (0.00s)
+=== RUN   TestNumStrNegValFmtMode_50
+--- PASS: TestNumStrNegValFmtMode_50 (0.00s)
+=== RUN   TestNumStrNegValFmtMode_60
+--- PASS: TestNumStrNegValFmtMode_60 (0.00s)
+=== RUN   TestNumStrDto_NewBigInt_0010
+--- PASS: TestNumStrDto_NewBigInt_0010 (0.00s)
+=== RUN   TestNumStrDto_NewBigInt_0020
+--- PASS: TestNumStrDto_NewBigInt_0020 (0.00s)
+=== RUN   TestNumStrDto_NewInt_0010
+--- PASS: TestNumStrDto_NewInt_0010 (0.00s)
+=== RUN   TestNumStrDto_NewInt_0020
+--- PASS: TestNumStrDto_NewInt_0020 (0.00s)
+=== RUN   TestNumStrDto_NewInt_0030
+--- PASS: TestNumStrDto_NewInt_0030 (0.00s)
+=== RUN   TestNumStrDto_NewInt_0040
+--- PASS: TestNumStrDto_NewInt_0040 (0.00s)
+=== RUN   TestNumStrDto_NewInt_0050
+--- PASS: TestNumStrDto_NewInt_0050 (0.00s)
+=== RUN   TestNumStrDto_NewIntExponent_0010
+--- PASS: TestNumStrDto_NewIntExponent_0010 (0.00s)
+=== RUN   TestNumStrDto_NewIntExponent_0020
+--- PASS: TestNumStrDto_NewIntExponent_0020 (0.00s)
+=== RUN   TestNumStrDto_NewIntExponent_0030
+--- PASS: TestNumStrDto_NewIntExponent_0030 (0.00s)
+=== RUN   TestNumStrDto_NewIntExponent_0040
+--- PASS: TestNumStrDto_NewIntExponent_0040 (0.00s)
+=== RUN   TestNumStrDto_NewIntExponent_0050
+--- PASS: TestNumStrDto_NewIntExponent_0050 (0.00s)
+=== RUN   TestNumStrDto_NewIntExponent_0060
+--- PASS: TestNumStrDto_NewIntExponent_0060 (0.00s)
+=== RUN   TestNumStrDto_NewInt32_0010
+--- PASS: TestNumStrDto_NewInt32_0010 (0.00s)
+=== RUN   TestNumStrDto_NewInt32_0020
+--- PASS: TestNumStrDto_NewInt32_0020 (0.00s)
+=== RUN   TestNumStrDto_NewInt32_0030
+--- PASS: TestNumStrDto_NewInt32_0030 (0.00s)
+=== RUN   TestNumStrDto_NewInt32_0040
+--- PASS: TestNumStrDto_NewInt32_0040 (0.00s)
+=== RUN   TestNumStrDto_NewInt32_0050
+--- PASS: TestNumStrDto_NewInt32_0050 (0.00s)
+=== RUN   TestNumStrDto_NewInt32Exponent_0010
+--- PASS: TestNumStrDto_NewInt32Exponent_0010 (0.00s)
+=== RUN   TestNumStrDto_NewInt32Exponent_0020
+--- PASS: TestNumStrDto_NewInt32Exponent_0020 (0.00s)
+=== RUN   TestNumStrDto_NewInt32Exponent_0030
+--- PASS: TestNumStrDto_NewInt32Exponent_0030 (0.00s)
+=== RUN   TestNumStrDto_NewInt32Exponent_0040
+--- PASS: TestNumStrDto_NewInt32Exponent_0040 (0.00s)
+=== RUN   TestNumStrDto_NewInt32Exponent_0050
+--- PASS: TestNumStrDto_NewInt32Exponent_0050 (0.00s)
+=== RUN   TestNumStrDto_NewInt32Exponent_0060
+--- PASS: TestNumStrDto_NewInt32Exponent_0060 (0.00s)
+=== RUN   TestNumStrDto_NewInt64_0010
+--- PASS: TestNumStrDto_NewInt64_0010 (0.00s)
+=== RUN   TestNumStrDto_NewInt64_0020
+--- PASS: TestNumStrDto_NewInt64_0020 (0.00s)
+=== RUN   TestNumStrDto_NewInt64_0030
+--- PASS: TestNumStrDto_NewInt64_0030 (0.00s)
+=== RUN   TestNumStrDto_NewInt64_0040
+--- PASS: TestNumStrDto_NewInt64_0040 (0.00s)
+=== RUN   TestNumStrDto_NewInt64_0050
+--- PASS: TestNumStrDto_NewInt64_0050 (0.00s)
+=== RUN   TestNumStrDto_NewInt64Exponent_0010
+--- PASS: TestNumStrDto_NewInt64Exponent_0010 (0.00s)
+=== RUN   TestNumStrDto_NewInt64Exponent_0020
+--- PASS: TestNumStrDto_NewInt64Exponent_0020 (0.00s)
+=== RUN   TestNumStrDto_NewInt64Exponent_0030
+--- PASS: TestNumStrDto_NewInt64Exponent_0030 (0.00s)
+=== RUN   TestNumStrDto_NewInt64Exponent_0040
+--- PASS: TestNumStrDto_NewInt64Exponent_0040 (0.00s)
+=== RUN   TestNumStrDto_NewInt64Exponent_0050
+--- PASS: TestNumStrDto_NewInt64Exponent_0050 (0.00s)
+=== RUN   TestNumStrDto_NewInt64Exponent_0060
+--- PASS: TestNumStrDto_NewInt64Exponent_0060 (0.00s)
+=== RUN   TestNumStrDto_NewNumStr_0010
+--- PASS: TestNumStrDto_NewNumStr_0010 (0.00s)
+=== RUN   TestNumStrDto_NewNumStr_0020
+--- PASS: TestNumStrDto_NewNumStr_0020 (0.00s)
+=== RUN   TestNumStrDto_NewNumStr_0030
+--- PASS: TestNumStrDto_NewNumStr_0030 (0.00s)
+=== RUN   TestNumStrDto_NewNumStr_0040
+--- PASS: TestNumStrDto_NewNumStr_0040 (0.00s)
+=== RUN   TestNumStrDto_NewNumStr_0050
+--- PASS: TestNumStrDto_NewNumStr_0050 (0.00s)
+=== RUN   TestNumStrDto_NewNumStrWithNumSeps_0010
+--- PASS: TestNumStrDto_NewNumStrWithNumSeps_0010 (0.00s)
+=== RUN   TestNumStrDto_NewNumStrWithNumSeps_0020
+--- PASS: TestNumStrDto_NewNumStrWithNumSeps_0020 (0.00s)
+=== RUN   TestNumStrDto_NewNumStrWithNumSeps_0030
+--- PASS: TestNumStrDto_NewNumStrWithNumSeps_0030 (0.00s)
+=== RUN   TestNumStrDto_NewUint_0010
+--- PASS: TestNumStrDto_NewUint_0010 (0.00s)
+=== RUN   TestNumStrDto_NewUint_0020
+--- PASS: TestNumStrDto_NewUint_0020 (0.00s)
+=== RUN   TestNumStrDto_NewUint_0030
+--- PASS: TestNumStrDto_NewUint_0030 (0.00s)
+=== RUN   TestNumStrDto_NewUint_0040
+--- PASS: TestNumStrDto_NewUint_0040 (0.00s)
+=== RUN   TestNumStrDto_NewUint_0050
+--- PASS: TestNumStrDto_NewUint_0050 (0.00s)
+=== RUN   TestNumStrDto_NewUintExponent_0010
+--- PASS: TestNumStrDto_NewUintExponent_0010 (0.00s)
+=== RUN   TestNumStrDto_NewUintExponent_0020
+--- PASS: TestNumStrDto_NewUintExponent_0020 (0.00s)
+=== RUN   TestNumStrDto_NewUintExponent_0030
+--- PASS: TestNumStrDto_NewUintExponent_0030 (0.00s)
+=== RUN   TestNumStrDto_NewUintExponent_0040
+--- PASS: TestNumStrDto_NewUintExponent_0040 (0.00s)
+=== RUN   TestNumStrDto_NewUintExponent_0050
+--- PASS: TestNumStrDto_NewUintExponent_0050 (0.00s)
+=== RUN   TestNumStrDto_NewUintExponent_0060
+--- PASS: TestNumStrDto_NewUintExponent_0060 (0.00s)
+=== RUN   TestNumStrDto_NewUint32_0010
+--- PASS: TestNumStrDto_NewUint32_0010 (0.00s)
+=== RUN   TestNumStrDto_NewUint32_0020
+--- PASS: TestNumStrDto_NewUint32_0020 (0.00s)
+=== RUN   TestNumStrDto_NewUint32_0030
+--- PASS: TestNumStrDto_NewUint32_0030 (0.00s)
+=== RUN   TestNumStrDto_NewUint32_0040
+--- PASS: TestNumStrDto_NewUint32_0040 (0.00s)
+=== RUN   TestNumStrDto_NewUint32_0050
+--- PASS: TestNumStrDto_NewUint32_0050 (0.00s)
+=== RUN   TestNumStrDto_NewUint32Exponent_0010
+--- PASS: TestNumStrDto_NewUint32Exponent_0010 (0.00s)
+=== RUN   TestNumStrDto_NewUint32Exponent_0020
+--- PASS: TestNumStrDto_NewUint32Exponent_0020 (0.00s)
+=== RUN   TestNumStrDto_NewUint32Exponent_0030
+--- PASS: TestNumStrDto_NewUint32Exponent_0030 (0.00s)
+=== RUN   TestNumStrDto_NewUint32Exponent_0040
+--- PASS: TestNumStrDto_NewUint32Exponent_0040 (0.00s)
+=== RUN   TestNumStrDto_NewUint32Exponent_0050
+--- PASS: TestNumStrDto_NewUint32Exponent_0050 (0.00s)
+=== RUN   TestNumStrDto_NewUint32Exponent_0060
+--- PASS: TestNumStrDto_NewUint32Exponent_0060 (0.00s)
+=== RUN   TestNumStrDto_NewUint64_0010
+--- PASS: TestNumStrDto_NewUint64_0010 (0.00s)
+=== RUN   TestNumStrDto_NewUint64_0020
+--- PASS: TestNumStrDto_NewUint64_0020 (0.00s)
+=== RUN   TestNumStrDto_NewUint64_0030
+--- PASS: TestNumStrDto_NewUint64_0030 (0.00s)
+=== RUN   TestNumStrDto_NewUint64_0040
+--- PASS: TestNumStrDto_NewUint64_0040 (0.00s)
+=== RUN   TestNumStrDto_NewUint64_0050
+--- PASS: TestNumStrDto_NewUint64_0050 (0.00s)
+=== RUN   TestNumStrDto_NewUint64Exponent_0010
+--- PASS: TestNumStrDto_NewUint64Exponent_0010 (0.00s)
+=== RUN   TestNumStrDto_NewUint64Exponent_0020
+--- PASS: TestNumStrDto_NewUint64Exponent_0020 (0.00s)
+=== RUN   TestNumStrDto_NewUint64Exponent_0030
+--- PASS: TestNumStrDto_NewUint64Exponent_0030 (0.00s)
+=== RUN   TestNumStrDto_NewUint64Exponent_0040
+--- PASS: TestNumStrDto_NewUint64Exponent_0040 (0.00s)
+=== RUN   TestNumStrDto_NewUint64Exponent_0050
+--- PASS: TestNumStrDto_NewUint64Exponent_0050 (0.00s)
+=== RUN   TestNumStrDto_NewUint64Exponent_0060
+--- PASS: TestNumStrDto_NewUint64Exponent_0060 (0.00s)
+=== RUN   TestNumStrDto_NewZero_0010
+--- PASS: TestNumStrDto_NewZero_0010 (0.00s)
+=== RUN   TestNumStrDto_NewZero_0020
+--- PASS: TestNumStrDto_NewZero_0020 (0.00s)
+=== RUN   TestNumStrDto_NewZero_0030
+--- PASS: TestNumStrDto_NewZero_0030 (0.00s)
+=== RUN   TestNumStrDto_GetNumStr_010
+--- PASS: TestNumStrDto_GetNumStr_010 (0.00s)
+=== RUN   TestNumStrDto_GetNumStr_020
+--- PASS: TestNumStrDto_GetNumStr_020 (0.00s)
+=== RUN   TestNumStrDto_GetNumStr_030
+--- PASS: TestNumStrDto_GetNumStr_030 (0.00s)
+=== RUN   TestNumStrDto_GetNumStr_040
+--- PASS: TestNumStrDto_GetNumStr_040 (0.00s)
+=== RUN   TestNumStrDto_GetNumStr_050
+--- PASS: TestNumStrDto_GetNumStr_050 (0.00s)
+=== RUN   TestNumStrDto_GetNumStr_060
+--- PASS: TestNumStrDto_GetNumStr_060 (0.00s)
+=== RUN   TestNumStrDto_GetNumStr_070
+--- PASS: TestNumStrDto_GetNumStr_070 (0.00s)
+=== RUN   TestNumStrDto_GetNumStr_080
+--- PASS: TestNumStrDto_GetNumStr_080 (0.00s)
+=== RUN   TestNumStrDto_GetNumStr_090
+--- PASS: TestNumStrDto_GetNumStr_090 (0.00s)
+=== RUN   TestNumStrDto_GetNumStr_100
+--- PASS: TestNumStrDto_GetNumStr_100 (0.00s)
+=== RUN   TestNumStrDto_GetNumStr_110
+--- PASS: TestNumStrDto_GetNumStr_110 (0.00s)
+=== RUN   TestNumStrDto_IsNumStrDtoValid_010
+--- PASS: TestNumStrDto_IsNumStrDtoValid_010 (0.00s)
+=== RUN   TestNumStrDto_ParseNumStr_10
+--- PASS: TestNumStrDto_ParseNumStr_10 (0.00s)
+=== RUN   TestNumStrDto_ParseNumStr_20
+--- PASS: TestNumStrDto_ParseNumStr_20 (0.00s)
+=== RUN   TestNumStrDto_ParseNumStr_30
+--- PASS: TestNumStrDto_ParseNumStr_30 (0.00s)
+=== RUN   TestNumStrDto_ParseNumStr_40
+--- PASS: TestNumStrDto_ParseNumStr_40 (0.00s)
+=== RUN   TestNumStrDto_ParseNumStr_50
+--- PASS: TestNumStrDto_ParseNumStr_50 (0.00s)
+=== RUN   TestNumStrDto_ParseNumStr_60
+--- PASS: TestNumStrDto_ParseNumStr_60 (0.00s)
+=== RUN   TestNumStrDto_ParseNumStr_70
+--- PASS: TestNumStrDto_ParseNumStr_70 (0.00s)
+=== RUN   TestNumStrDto_GetNumParen_10
+--- PASS: TestNumStrDto_GetNumParen_10 (0.00s)
+=== RUN   TestNumStrDto_GetNumParen_20
+--- PASS: TestNumStrDto_GetNumParen_20 (0.00s)
+=== RUN   TestNumStrDto_GetNumParen_30
+--- PASS: TestNumStrDto_GetNumParen_30 (0.00s)
+=== RUN   TestNumStrDto_GetNumParen_40
+--- PASS: TestNumStrDto_GetNumParen_40 (0.00s)
+=== RUN   TestNumStrDto_GetNumParen_50
+--- PASS: TestNumStrDto_GetNumParen_50 (0.00s)
+=== RUN   TestNumStrDto_GetNumParen_60
+--- PASS: TestNumStrDto_GetNumParen_60 (0.00s)
+=== RUN   TestNumStrDto_GetNumParen_70
+--- PASS: TestNumStrDto_GetNumParen_70 (0.00s)
+=== RUN   TestNumStrDto_GetNumParen_80
+--- PASS: TestNumStrDto_GetNumParen_80 (0.00s)
+=== RUN   TestNumStrDto_GetNumParen_90
+--- PASS: TestNumStrDto_GetNumParen_90 (0.00s)
+=== RUN   TestNumStrDto_GetNumParen_100
+--- PASS: TestNumStrDto_GetNumParen_100 (0.00s)
+=== RUN   TestNumStrDto_GetNumParen_110
+--- PASS: TestNumStrDto_GetNumParen_110 (0.00s)
+=== RUN   TestNumStrDto_GetThouParen_0010
+--- PASS: TestNumStrDto_GetThouParen_0010 (0.00s)
+=== RUN   TestNumStrDto_GetThouParen_0020
+--- PASS: TestNumStrDto_GetThouParen_0020 (0.00s)
+=== RUN   TestNumStrDto_GetThouParen_0030
+--- PASS: TestNumStrDto_GetThouParen_0030 (0.00s)
+=== RUN   TestNumStrDto_GetThouParen_0040
+--- PASS: TestNumStrDto_GetThouParen_0040 (0.00s)
+=== RUN   TestNumStrDto_GetThouParen_0050
+--- PASS: TestNumStrDto_GetThouParen_0050 (0.00s)
+=== RUN   TestNumStrDto_GetThouParen_0060
+--- PASS: TestNumStrDto_GetThouParen_0060 (0.00s)
+=== RUN   TestNumStrDto_GetThouParen_0070
+--- PASS: TestNumStrDto_GetThouParen_0070 (0.00s)
+=== RUN   TestNumStrDto_GetThouParen_0080
+--- PASS: TestNumStrDto_GetThouParen_0080 (0.00s)
+=== RUN   TestNumStrDto_GetThouParen_0090
+--- PASS: TestNumStrDto_GetThouParen_0090 (0.00s)
+=== RUN   TestNumStrDto_GetThouParen_0100
+--- PASS: TestNumStrDto_GetThouParen_0100 (0.00s)
+=== RUN   TestNumStrDto_GetThouParen_0110
+--- PASS: TestNumStrDto_GetThouParen_0110 (0.00s)
+=== RUN   TestNumStrDto_ScaleNumStr_10
+--- PASS: TestNumStrDto_ScaleNumStr_10 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_10
+--- PASS: TestNumStrDto_SetPrecision_10 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_20
+--- PASS: TestNumStrDto_SetPrecision_20 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_30
+--- PASS: TestNumStrDto_SetPrecision_30 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_40
+--- PASS: TestNumStrDto_SetPrecision_40 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_50
+--- PASS: TestNumStrDto_SetPrecision_50 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_60
+--- PASS: TestNumStrDto_SetPrecision_60 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_70
+--- PASS: TestNumStrDto_SetPrecision_70 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_80
+--- PASS: TestNumStrDto_SetPrecision_80 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_90
+--- PASS: TestNumStrDto_SetPrecision_90 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_100
+--- PASS: TestNumStrDto_SetPrecision_100 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_110
+--- PASS: TestNumStrDto_SetPrecision_110 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_120
+--- PASS: TestNumStrDto_SetPrecision_120 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_130
+--- PASS: TestNumStrDto_SetPrecision_130 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_140
+--- PASS: TestNumStrDto_SetPrecision_140 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_150
+--- PASS: TestNumStrDto_SetPrecision_150 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_160
+--- PASS: TestNumStrDto_SetPrecision_160 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_170
+--- PASS: TestNumStrDto_SetPrecision_170 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_180
+--- PASS: TestNumStrDto_SetPrecision_180 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_190
+--- PASS: TestNumStrDto_SetPrecision_190 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_200
+--- PASS: TestNumStrDto_SetPrecision_200 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_210
+--- PASS: TestNumStrDto_SetPrecision_210 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_220
+--- PASS: TestNumStrDto_SetPrecision_220 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_230
+--- PASS: TestNumStrDto_SetPrecision_230 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_240
+--- PASS: TestNumStrDto_SetPrecision_240 (0.00s)
+=== RUN   TestNumStrDto_SetPrecision_250
+--- PASS: TestNumStrDto_SetPrecision_250 (0.00s)
+=== RUN   TestNumStrDto_SetThisPrecision_10
+--- PASS: TestNumStrDto_SetThisPrecision_10 (0.00s)
+=== RUN   TestNumStrDto_SetThisPrecision_20
+--- PASS: TestNumStrDto_SetThisPrecision_20 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionLeft_000100
+--- PASS: TestNumStrDto_ShiftPrecisionLeft_000100 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionLeft_000200
+--- PASS: TestNumStrDto_ShiftPrecisionLeft_000200 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionLeft_000300
+--- PASS: TestNumStrDto_ShiftPrecisionLeft_000300 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionLeft_000400
+--- PASS: TestNumStrDto_ShiftPrecisionLeft_000400 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionLeft_000500
+--- PASS: TestNumStrDto_ShiftPrecisionLeft_000500 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionLeft_000600
+--- PASS: TestNumStrDto_ShiftPrecisionLeft_000600 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionLeft_000700
+--- PASS: TestNumStrDto_ShiftPrecisionLeft_000700 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionLeft_000800
+--- PASS: TestNumStrDto_ShiftPrecisionLeft_000800 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionLeft_000900
+--- PASS: TestNumStrDto_ShiftPrecisionLeft_000900 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionLeft_001000
+--- PASS: TestNumStrDto_ShiftPrecisionLeft_001000 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionLeft_001100
+--- PASS: TestNumStrDto_ShiftPrecisionLeft_001100 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionRight_010
+--- PASS: TestNumStrDto_ShiftPrecisionRight_010 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionRight_020
+--- PASS: TestNumStrDto_ShiftPrecisionRight_020 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionRight_030
+--- PASS: TestNumStrDto_ShiftPrecisionRight_030 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionRight_040
+--- PASS: TestNumStrDto_ShiftPrecisionRight_040 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionRight_050
+--- PASS: TestNumStrDto_ShiftPrecisionRight_050 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionRight_060
+--- PASS: TestNumStrDto_ShiftPrecisionRight_060 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionRight_070
+--- PASS: TestNumStrDto_ShiftPrecisionRight_070 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionRight_080
+--- PASS: TestNumStrDto_ShiftPrecisionRight_080 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionRight_090
+--- PASS: TestNumStrDto_ShiftPrecisionRight_090 (0.00s)
+=== RUN   TestNumStrDto_ShiftPrecisionRight_100
+--- PASS: TestNumStrDto_ShiftPrecisionRight_100 (0.00s)
+=== RUN   TestNumStrDto_SubtractNumStrs_10
+--- PASS: TestNumStrDto_SubtractNumStrs_10 (0.00s)
+=== RUN   TestNumStrDto_SubtractNumStrs_20
+--- PASS: TestNumStrDto_SubtractNumStrs_20 (0.00s)
+=== RUN   TestNumStrDto_SubtractNumStrs_30
+--- PASS: TestNumStrDto_SubtractNumStrs_30 (0.00s)
+=== RUN   TestNumStrDto_SubtractNumStrs_40
+--- PASS: TestNumStrDto_SubtractNumStrs_40 (0.00s)
+=== RUN   TestNumStrDto_SubtractNumStrs_50
+--- PASS: TestNumStrDto_SubtractNumStrs_50 (0.00s)
+=== RUN   TestNumStrDto_SubtractNumStrs_60
+--- PASS: TestNumStrDto_SubtractNumStrs_60 (0.00s)
+FAIL
+exit status 1
+FAIL	github.com/MikeAustin71/numberstrops/numberstr	1.378s

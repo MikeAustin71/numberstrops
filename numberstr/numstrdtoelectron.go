@@ -1206,6 +1206,46 @@ func (nStrDtoElectron *numStrDtoElectron) newBaseZeroNumStrDto(
 	return newNumStrDto
 }
 
+// newEmptyNumStrDto - Returns a new instance of NumStrDto. This
+// instance is initialized to 'Empty' values. To fully understand
+// 'Empty' values see method 'numStrDtoQuark.empty()'.
+//
+// 'Empty' values are useful because newNumStrDto.absAllNumRunes is
+// initialized to make([]rune, 0, 50). This is useful for 'appending'
+// runes to this array because one is sure to start out with zero
+// pre-configured elements. This ensures that the first element
+// appended to newNumStrDto.absAllNumRunes will actually be the first
+// element in that array.
+//
+// If a new NumStrDto instance with zero values is required, see method
+// 'numStrDtoElectron.newZeroNumStrDto()'.
+//
+func (nStrDtoElectron *numStrDtoElectron) newEmptyNumStrDto(
+	ePrefix string) (
+	NumStrDto,
+	error) {
+
+	if nStrDtoElectron.lock == nil {
+		nStrDtoElectron.lock = new(sync.Mutex)
+	}
+
+	nStrDtoElectron.lock.Lock()
+
+	defer nStrDtoElectron.lock.Unlock()
+
+	ePrefix += "numStrDtoElectron.newEmptyNumStrDto() "
+
+	nStrDtoQuark := numStrDtoQuark{}
+
+	newNumStrDto := NumStrDto{}
+
+	err := nStrDtoQuark.empty(
+		&newNumStrDto,
+		ePrefix)
+
+	return newNumStrDto, err
+}
+
 // newZeroNumStrDto - returns a new NumStrDto initialized
 // to zero value. If the parameter numFracDigits is set
 // to a value greater than zero, then an equal number of

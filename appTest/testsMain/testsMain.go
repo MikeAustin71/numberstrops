@@ -3,6 +3,7 @@ package testsMain
 import (
 	"fmt"
 	numstr "github.com/MikeAustin71/numberstrops/numberstr"
+	"strconv"
 )
 
 type TestMain struct {
@@ -109,6 +110,54 @@ func (tMain *TestMain) Test000010AddNumStrs(
 	}
 
 	fmt.Printf(ePrefix + "- Successful Completion!\n")
+
+	return err
+}
+
+func (tMain *TestMain) Test001000NewInt(
+	ePrefix string) (
+	err error) {
+
+	// From Test TestNumStrDto_NewInt_0020()
+
+	ePrefix += "TestNumStrDto_NewInt_0010() "
+
+	intNum := 7
+	precision := uint(0)
+
+	expectedNumStr := "7"
+
+	var nDto numstr.NumStrDto
+
+	nXDto := numstr.NumStrDto{}
+
+	nDto, err =
+		nXDto.NewInt(
+			intNum,
+			precision,
+			ePrefix+
+				fmt.Sprintf("intNum= '%v' ",
+					strconv.Itoa(intNum)))
+
+	if err != nil {
+		return err
+	}
+
+	var actualNumStr string
+
+	actualNumStr, err =
+		nDto.GetNumStr(
+			ePrefix + "nDto ")
+
+	if err != nil {
+		return err
+	}
+
+	if expectedNumStr != actualNumStr {
+		err = fmt.Errorf("Expected nDto.GetNumStr()='%v'.\n"+
+			"Instead, nDto.GetNumStr()='%v'.\n",
+			expectedNumStr, actualNumStr)
+	}
 
 	return err
 }

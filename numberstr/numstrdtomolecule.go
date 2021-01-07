@@ -1085,12 +1085,19 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 		return newNumStrDto, err
 	}
 
-	n0 := NumStrDto{}.New()
+	var n0 NumStrDto
+
+	n0, err = nStrDtoElectron.newEmptyNumStrDto(
+		ePrefix + "Creating 'n0' ")
+
+	if err != nil {
+		return newNumStrDto, err
+	}
 
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&n0,
 		numSeparators,
-		ePrefix+"Setting 'n0' numeric separators ")
+		ePrefix+"Setting 'n0' Separators ")
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1110,7 +1117,23 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 		return newNumStrDto, err
 	}
 
-	n2 := NumStrDto{}.New()
+	var n2 NumStrDto
+
+	n2, err = nStrDtoElectron.newEmptyNumStrDto(
+		ePrefix + "Creating 'n2' ")
+
+	if err != nil {
+		return newNumStrDto, err
+	}
+
+	err = nStrDtoElectron.setNumericSeparatorsDto(
+		&n0,
+		numSeparators,
+		ePrefix+"Creating 'n0' ")
+
+	if err != nil {
+		return newNumStrDto, err
+	}
 
 	n2.signVal = n1.signVal
 	n2.precision = precision
@@ -1417,9 +1440,14 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 		return newNumStrDto, err
 	}
 
-	n2 := NumStrDto{}.New()
+	var n2 NumStrDto
 
-	n2.absAllNumRunes = make([]rune, 0, 40)
+	n2, err = nStrDtoElectron.newEmptyNumStrDto(
+		ePrefix + "Creating 'n2' ")
+
+	if err != nil {
+		return newNumStrDto, err
+	}
 
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&n2,
@@ -1680,9 +1708,14 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 		return newNumStrDto, err
 	}
 
-	n2 := NumStrDto{}.New()
+	var n2 NumStrDto
 
-	n2.absAllNumRunes = make([]rune, 0, 40)
+	n2, err = nStrDtoElectron.newEmptyNumStrDto(
+		ePrefix + "Creating n2 ")
+
+	if err != nil {
+		return newNumStrDto, err
+	}
 
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&n2,

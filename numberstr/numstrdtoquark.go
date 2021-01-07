@@ -163,7 +163,7 @@ func (nStrDtoQuark *numStrDtoQuark) empty(
 
 	// Perform an 'empty' operation
 	numStrDto.signVal = 0
-	numStrDto.absAllNumRunes = []rune{}
+	numStrDto.absAllNumRunes = make([]rune, 0, 50)
 	numStrDto.precision = 0
 	numStrDto.thousandsSeparator = ','
 	numStrDto.decimalSeparator = '.'

@@ -204,7 +204,7 @@ func TestNumStrDto_SetPrecision_30(t *testing.T) {
 	nsDto, err = nXDto.SetPrecision(
 		nStr,
 		precision,
-		false,
+		true,
 		ePrefix+"nStr ")
 
 	if err != nil {
