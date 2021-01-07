@@ -5821,216 +5821,6 @@ func (nDto *NumStrDto) SetThousandsSeparator(thousandsSeparator rune) {
 
 }
 
-// ShiftPrecisionLeft - Shifts the relative position of a decimal point within a number
-// string. The position of the decimal point is shifted 'shiftPrecision' positions to
-// the left of the current decimal point position.
-//
-// This is equivalent to: result = signedNumStr / 10^precision or signedNumStr divided
-// by 10 raised to the power of precision.
-//
-// See the Example Usage section below.
-//
-// -----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  signedNumStr        string
-//     - A valid number string. The leading digit may optionally
-//       be a '+' or '-' indicating numeric sign value. If '+'
-//       or '-' characters are not present in the first character
-//       position, the number is assumed to represent a positive
-//       numeric value ('+'). In addition to leading plus or minus
-//       characters, the number string may contain a decimal point
-//       separating integer and fractional digits. All other
-//       characters in this number string must be numeric digits.
-//
-//
-//  shiftPrecision      uint
-//     - The number of digits by which the current decimal point
-//       point position in the number string, 'signedNumStr' will
-//       be shifted to the left.
-//
-// ------------------------------------------------------------------------
-//
-// Return Values
-//
-//  newNumStrDto        NumStrDto
-//     - If successful, the method returns the result of the Shift Left
-//       precision operation in the form of a 'NumStrDto' instance.
-//
-//
-//  err                error
-//     - If successful the returned error Type is set equal to 'nil'.
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. Note this error
-//       message will incorporate the method chain and text passed
-//       by input parameter, 'ePrefix'.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Example Usage
-//
-//
-//                               Shift-Left
-//  signedNumStr    precision     Result
-//  "123456.789"       3        "123.456789"
-//  "123456.789"       2       "1234.56789"
-//  "123456.789"       6          "0.123456789"
-//  "123456789"        6        "123.456789"
-//  "123"              5          "0.00123"
-//   "0"               3          "0.000"
-//   "0.000"           2          "0.00000"
-//  "123456.789"       0     "123456.789"      - zero 'shiftPrecision' has no effect on
-//                                               original number string
-// "-123456.789"       0       "-123.456789"
-// "-123456.789"       3       "-123.456789"
-// "-123456789"        6       "-123.456789"
-//
-func (nDto *NumStrDto) ShiftPrecisionLeft(
-	signedNumStr string,
-	shiftLeftPrecision uint,
-	ePrefix string) (
-	newNumStrDto NumStrDto,
-	err error) {
-
-	ePrefix += "NumStrDto.ShiftPrecisionLeft() "
-
-	nStrDtoAtom := numStrDtoAtom{}
-
-	var numSeparators NumericSeparatorDto
-
-	numSeparators,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
-		nDto,
-		ePrefix)
-
-	if err != nil {
-		return newNumStrDto, err
-	}
-
-	nStrDtoMolecule := numStrDtoMolecule{}
-
-	newNumStrDto,
-		err = nStrDtoMolecule.shiftPrecisionLeft(
-		numSeparators,
-		signedNumStr,
-		shiftLeftPrecision,
-		ePrefix)
-
-	return newNumStrDto, err
-}
-
-// ShiftPrecisionRight - Shifts the relative precision of a decimal
-// point with a number string. The position of the decimal point is
-// shifted 'shiftRightPrecision' positions to the right of the
-// original decimal point position.
-//
-// This is equivalent to: result = signedNumStr X 10^shiftRightPrecision
-// or signedNumStr Multiplied by 10 raised to the power of
-// 'shiftRightPrecision'.
-//
-// See the Example Usage section below.
-//
-// -----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  signedNumStr        string
-//     - A valid number string. The leading digit may optionally
-//       be a '+' or '-' indicating numeric sign value. If '+'
-//       or '-' characters are not present in the first character
-//       position, the number is assumed to represent a positive
-//       numeric value ('+'). In addition to leading plus or minus
-//       characters, the number string may contain a decimal point
-//       separating integer and fractional digits. All other
-//       characters in this number string must be numeric digits.
-//
-//
-//  shiftRightPrecision uint
-//     - The number of digits by which the current decimal point
-//       point position in the number string, 'signedNumStr' will
-//       be shifted to the right.
-//
-//
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Return Values
-//
-//  newNumStrDto        NumStrDto
-//     - If successful, the method returns the result of the Shift Left
-//       precision operation in the form of a new 'NumStrDto' instance.
-//
-//
-//  err                error
-//     - If successful the returned error Type is set equal to 'nil'.
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. Note this error
-//       message will incorporate the method chain and text passed
-//       by input parameter, 'ePrefix'.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Example Usage
-//
-// Notice that Zero 'shiftRightPrecision' has no effect on the original
-// number string.
-//
-//   -------------------------------------------------------
-//   signedNumStr   shiftRightPrecision       Result
-//   -------------------------------------------------------
-//   "123456.789"            3              "123456789"
-//   "123456.789"            2              "12345678.9"
-//   "123456.789"            6              "123456789000"
-//   "123456789"             6              "123456789000000"
-//   "123"                   5              "12300000"
-//   "0"                     3              "0"
-//   "123456.789"            0              "123456.789"
-//  "-123456.789"            0             "-123456.789"
-//  "-123456.789"            3             "-123456789"
-//  "-123456789"             6             "-123456789000000"
-//
-func (nDto *NumStrDto) ShiftPrecisionRight(
-	signedNumStr string,
-	shiftRightPrecision uint) (
-	newNumStrDto NumStrDto,
-	err error) {
-
-	ePrefix := "NumStrDto.ShiftPrecisionRight() "
-
-	nStrDtoAtom := numStrDtoAtom{}
-
-	var numSeparators NumericSeparatorDto
-
-	numSeparators,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
-		nDto,
-		ePrefix)
-
-	if err != nil {
-		return newNumStrDto, err
-	}
-
-	nStrDtoMolecule := numStrDtoMolecule{}
-
-	newNumStrDto,
-		err = nStrDtoMolecule.shiftPrecisionRight(
-		numSeparators,
-		signedNumStr,
-		shiftRightPrecision,
-		ePrefix)
-
-	return newNumStrDto, err
-}
-
 // SetNumericSeparators - Used to assign values for the Decimal
 // and Thousands separators as well as the Currency Symbol used
 // in display of number strings for the current NumStrDto instance.
@@ -6466,6 +6256,217 @@ func (nDto *NumStrDto) SetThisPrecision(
 		precision,
 		roundResult,
 		ePrefix)
+}
+
+// ShiftPrecisionLeft - Shifts the relative position of a decimal point within a number
+// string. The position of the decimal point is shifted 'shiftPrecision' positions to
+// the left of the current decimal point position.
+//
+// This is equivalent to: result = signedNumStr / 10^precision or signedNumStr divided
+// by 10 raised to the power of precision.
+//
+// See the Example Usage section below.
+//
+// -----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  signedNumStr        string
+//     - A valid number string. The leading digit may optionally
+//       be a '+' or '-' indicating numeric sign value. If '+'
+//       or '-' characters are not present in the first character
+//       position, the number is assumed to represent a positive
+//       numeric value ('+'). In addition to leading plus or minus
+//       characters, the number string may contain a decimal point
+//       separating integer and fractional digits. All other
+//       characters in this number string must be numeric digits.
+//
+//
+//  shiftPrecision      uint
+//     - The number of digits by which the current decimal point
+//       point position in the number string, 'signedNumStr' will
+//       be shifted to the left.
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  newNumStrDto        NumStrDto
+//     - If successful, the method returns the result of the Shift Left
+//       precision operation in the form of a 'NumStrDto' instance.
+//
+//
+//  err                error
+//     - If successful the returned error Type is set equal to 'nil'.
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. Note this error
+//       message will incorporate the method chain and text passed
+//       by input parameter, 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//
+//                               Shift-Left
+//  signedNumStr    precision     Result
+//  "123456.789"       3        "123.456789"
+//  "123456.789"       2       "1234.56789"
+//  "123456.789"       6          "0.123456789"
+//  "123456789"        6        "123.456789"
+//  "123"              5          "0.00123"
+//   "0"               3          "0.000"
+//   "0.000"           2          "0.00000"
+//  "123456.789"       0     "123456.789"      - zero 'shiftPrecision' has no effect on
+//                                               original number string
+// "-123456.789"       0       "-123.456789"
+// "-123456.789"       3       "-123.456789"
+// "-123456789"        6       "-123.456789"
+//
+func (nDto *NumStrDto) ShiftPrecisionLeft(
+	signedNumStr string,
+	shiftLeftPrecision uint,
+	ePrefix string) (
+	newNumStrDto NumStrDto,
+	err error) {
+
+	ePrefix += "NumStrDto.ShiftPrecisionLeft() "
+
+	nStrDtoAtom := numStrDtoAtom{}
+
+	var numSeparators NumericSeparatorDto
+
+	numSeparators,
+		err = nStrDtoAtom.getNumericSeparatorsDto(
+		nDto,
+		ePrefix)
+
+	if err != nil {
+		return newNumStrDto, err
+	}
+
+	nStrDtoMolecule := numStrDtoMolecule{}
+
+	newNumStrDto,
+		err = nStrDtoMolecule.shiftPrecisionLeft(
+		numSeparators,
+		signedNumStr,
+		shiftLeftPrecision,
+		ePrefix)
+
+	return newNumStrDto, err
+}
+
+// ShiftPrecisionRight - Shifts the relative precision of a decimal
+// point with a number string. The position of the decimal point is
+// shifted 'shiftRightPrecision' positions to the right of the
+// original decimal point position.
+//
+// This is equivalent to: result = signedNumStr X 10^shiftRightPrecision
+// or signedNumStr Multiplied by 10 raised to the power of
+// 'shiftRightPrecision'.
+//
+// See the Example Usage section below.
+//
+// -----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  signedNumStr        string
+//     - A valid number string. The leading digit may optionally
+//       be a '+' or '-' indicating numeric sign value. If '+'
+//       or '-' characters are not present in the first character
+//       position, the number is assumed to represent a positive
+//       numeric value ('+'). In addition to leading plus or minus
+//       characters, the number string may contain a decimal point
+//       separating integer and fractional digits. All other
+//       characters in this number string must be numeric digits.
+//
+//
+//  shiftRightPrecision uint
+//     - The number of digits by which the current decimal point
+//       point position in the number string, 'signedNumStr' will
+//       be shifted to the right.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  newNumStrDto        NumStrDto
+//     - If successful, the method returns the result of the Shift Left
+//       precision operation in the form of a new 'NumStrDto' instance.
+//
+//
+//  err                error
+//     - If successful the returned error Type is set equal to 'nil'.
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. Note this error
+//       message will incorporate the method chain and text passed
+//       by input parameter, 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+// Notice that Zero 'shiftRightPrecision' has no effect on the original
+// number string.
+//
+//   -------------------------------------------------------
+//   signedNumStr   shiftRightPrecision       Result
+//   -------------------------------------------------------
+//   "123456.789"            3              "123456789"
+//   "123456.789"            2              "12345678.9"
+//   "123456.789"            6              "123456789000"
+//   "123456789"             6              "123456789000000"
+//   "123"                   5              "12300000"
+//   "0"                     3              "0"
+//   "123456.789"            0              "123456.789"
+//  "-123456.789"            0             "-123456.789"
+//  "-123456.789"            3             "-123456789"
+//  "-123456789"             6             "-123456789000000"
+//
+func (nDto *NumStrDto) ShiftPrecisionRight(
+	signedNumStr string,
+	shiftRightPrecision uint,
+	ePrefix string) (
+	newNumStrDto NumStrDto,
+	err error) {
+
+	ePrefix += "NumStrDto.ShiftPrecisionRight() "
+
+	nStrDtoAtom := numStrDtoAtom{}
+
+	var numSeparators NumericSeparatorDto
+
+	numSeparators,
+		err = nStrDtoAtom.getNumericSeparatorsDto(
+		nDto,
+		ePrefix)
+
+	if err != nil {
+		return newNumStrDto, err
+	}
+
+	nStrDtoMolecule := numStrDtoMolecule{}
+
+	newNumStrDto,
+		err = nStrDtoMolecule.shiftPrecisionRight(
+		numSeparators,
+		signedNumStr,
+		shiftRightPrecision,
+		ePrefix)
+
+	return newNumStrDto, err
 }
 
 // Subtract - Subtracts the numeric values represented by two
