@@ -1,6 +1,7 @@
 package numberstr
 
 import (
+	"fmt"
 	"math/big"
 	"testing"
 )
@@ -121,6 +122,237 @@ func TestNumStrDto_GetSignedBigInt_10(t *testing.T) {
 		t.Errorf("Expected signedBigInt= %v .\n"+
 			"Instead got, %v\n",
 			expected.String(), signedBigInt.String())
+	}
+
+}
+
+func TestNumStrDto_NewBigInt_10(t *testing.T) {
+
+	ePrefix := "TestNumStrDto_NewBigInt_10() "
+
+	signedAbsNumStr := "-123456789"
+	absAllNumStr := "123456789"
+	nStr := "-123456.789"
+	iStr := "123456"
+	fracStr := "789"
+	precision := uint(3)
+	signVal := -1
+	sBigInt, isOk :=
+		big.NewInt(0).SetString(signedAbsNumStr, 10)
+
+	if !isOk {
+		t.Errorf("bigInt.SetString(signedAbsNumStr,10) conversion failed!\n"+
+			"signedAbsNumStr= '%v'\n", signedAbsNumStr)
+		return
+	}
+
+	var n1 NumStrDto
+	var err error
+
+	n1, err = NumStrDto{}.NewBigInt(
+		sBigInt,
+		precision,
+		ePrefix+
+			fmt.Sprintf("sBigInt='%v' ",
+				sBigInt.Text(10)))
+
+	if err != nil {
+		t.Errorf("%v", err)
+		return
+	}
+
+	nDto := n1.CopyOut()
+
+	var actualNumStr string
+
+	actualNumStr, err =
+		nDto.GetNumStr(ePrefix + "nDto ")
+
+	if err != nil {
+		t.Errorf("%v", err)
+		return
+	}
+
+	if nStr != actualNumStr {
+		t.Errorf("Expected Number String = '%v'.\n"+
+			"Instead, got Number String = '%v'\n",
+			nStr, actualNumStr)
+		return
+	}
+
+	actualNumStr = string(nDto.GetAbsAllNumRunes())
+
+	if absAllNumStr != actualNumStr {
+		t.Errorf("Expected AbsAllRunes = '%v'.\n"+
+			" Instead, got %v\n",
+			absAllNumStr, actualNumStr)
+		return
+
+	}
+
+	actualNumStr = string(nDto.GetAbsIntRunes())
+
+	if iStr != actualNumStr {
+		t.Errorf("Expected AbsIntRunes = '%v'.\n"+
+			"Instead, got %v", iStr, actualNumStr)
+		return
+	}
+
+	actualNumStr = string(nDto.GetAbsFracRunes())
+
+	if fracStr != actualNumStr {
+		t.Errorf("Expected AbsFracRunes = '%v'.\n"+
+			"Instead, got %v\n", fracStr, actualNumStr)
+		return
+	}
+
+	if nDto.GetSign() != signVal {
+		t.Errorf("Expected SignVal= '%v'.\n"+
+			"Instead, got %v\n", signVal, nDto.GetSign())
+		return
+	}
+
+	if !nDto.HasNumericDigits() {
+		t.Errorf("Expected nDto.HasNumericDigist= 'true'.\n"+
+			"Instead, got %v\n", nDto.HasNumericDigits())
+		return
+	}
+
+	if !nDto.IsFractionalValue() {
+		t.Errorf("Expected IsFractionalValue= 'true'\n"+
+			"Instead, got %v\n", nDto.IsFractionalValue())
+		return
+	}
+
+	if precision != nDto.GetPrecisionUint() {
+		t.Errorf("Expected precision= '%v'.\n"+
+			"Instead, got %v\n",
+			precision, nDto.GetPrecisionUint())
+		return
+	}
+
+	err = nDto.IsValidInstanceError(
+		ePrefix + "Testing 'nDto' validity ")
+
+	if err != nil {
+		t.Errorf("Error returned by nDto.IsValidInstanceError()\n"+
+			"Error='%v'\n", err.Error())
+		return
+	}
+
+}
+
+func TestNumStrDto_NewBigInt_20(t *testing.T) {
+
+	ePrefix := "TestNumStrDto_NewBigInt_20() "
+
+	signedAbsNumStr := "123456789"
+	absAllNumStr := "123456789"
+	nStr := "123456.789"
+	iStr := "123456"
+	fracStr := "789"
+	precision := uint(3)
+	signVal := 1
+	sBigInt, isOk := big.NewInt(0).SetString(signedAbsNumStr, 10)
+
+	if !isOk {
+		t.Errorf("bigInt.SetString(signedAbsNumStr,10) conversion failed!\n"+
+			"signedAbsNumStr= '%v'\n", signedAbsNumStr)
+		return
+	}
+
+	var n1 NumStrDto
+	var err error
+
+	n1, err = NumStrDto{}.NewBigInt(
+		sBigInt,
+		precision,
+		ePrefix+
+			fmt.Sprintf("sBigInt='%v' ",
+				sBigInt.Text(10)))
+
+	if err != nil {
+		t.Errorf("%v", err)
+		return
+	}
+
+	nDto := n1.CopyOut()
+
+	var actualNumStr string
+
+	actualNumStr, err =
+		nDto.GetNumStr(ePrefix + "nDto ")
+
+	if err != nil {
+		t.Errorf("%v", err)
+		return
+	}
+
+	if nStr != actualNumStr {
+		t.Errorf("Expected Number String = '%v'.\n"+
+			"Instead, got Number String = '%v'\n",
+			nStr, actualNumStr)
+		return
+	}
+
+	actualNumStr = string(nDto.GetAbsAllNumRunes())
+
+	if absAllNumStr != actualNumStr {
+		t.Errorf("Expected AbsAllRunes = '%v'.\n"+
+			" Instead, got %v\n",
+			absAllNumStr, actualNumStr)
+		return
+
+	}
+
+	actualNumStr = string(nDto.GetAbsIntRunes())
+
+	if iStr != actualNumStr {
+		t.Errorf("Expected AbsIntRunes = '%v'.\n"+
+			"Instead, got %v", iStr, actualNumStr)
+		return
+	}
+
+	actualNumStr = string(nDto.GetAbsFracRunes())
+
+	if fracStr != actualNumStr {
+		t.Errorf("Expected AbsFracRunes = '%v'.\n"+
+			"Instead, got %v\n", fracStr, actualNumStr)
+		return
+	}
+
+	if nDto.GetSign() != signVal {
+		t.Errorf("Expected SignVal= '%v'.\n"+
+			"Instead, got %v\n", signVal, nDto.GetSign())
+		return
+	}
+
+	if !nDto.HasNumericDigits() {
+		t.Errorf("Expected nDto.HasNumericDigist= 'true'.\n"+
+			"Instead, got %v\n", nDto.HasNumericDigits())
+		return
+	}
+
+	if !nDto.IsFractionalValue() {
+		t.Errorf("Expected IsFractionalValue= 'true'\n"+
+			"Instead, got %v\n", nDto.IsFractionalValue())
+		return
+	}
+
+	if precision != nDto.GetPrecisionUint() {
+		t.Errorf("Expected precision= '%v'.\n"+
+			"Instead, got %v\n",
+			precision, nDto.GetPrecisionUint())
+		return
+	}
+
+	err = nDto.IsValidInstanceError(
+		ePrefix + "Testing 'nDto' validity ")
+
+	if err != nil {
+		t.Errorf("Error returned by nDto.IsValidInstanceError()\n"+
+			"Error='%v'\n", err.Error())
+		return
 	}
 
 }
