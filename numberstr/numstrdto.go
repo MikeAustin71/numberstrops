@@ -2486,10 +2486,10 @@ func (nDto *NumStrDto) IsZero() (isZeroValue bool) {
 //
 // Input Parameters
 //
-//  multiplier          *NumStrDto
-//     - A pointer to an instance of NumStrDto. This method WILL
-//       NOT CHANGE the values of internal member variables to
-//       achieve the method's objectives.
+//  multiplier          NumStrDto
+//     - An instance of NumStrDto. This method WILL NOT CHANGE the
+//       values of internal member variables to achieve the method's
+//       objectives.
 //
 //       The numerical value of 'multiplier' will be multiplied
 //       by the numerical value of current NumStrDto instance. The
@@ -2520,7 +2520,7 @@ func (nDto *NumStrDto) IsZero() (isZeroValue bool) {
 //       prefixed to the beginning of the returned error message.
 //
 func (nDto *NumStrDto) Multiply(
-	multiplier *NumStrDto,
+	multiplier NumStrDto,
 	ePrefix string) error {
 
 	ePrefix += "NumStrDto.Multiply() "
@@ -2545,7 +2545,7 @@ func (nDto *NumStrDto) Multiply(
 	return nStrDtoUtil.multiplyInPlace(
 		numSepsDto,
 		nDto,
-		multiplier,
+		&multiplier,
 		ePrefix)
 }
 
