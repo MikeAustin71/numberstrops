@@ -10,8 +10,10 @@ import (
  NumStrBasicUtility
  ==================
 
- Type 'NumStrBasicUtility' provides a set of numeric conversion
- and management routines primarily focused on number strings.
+ Type 'NumStrBasicUtility' provides a basic set of numeric
+ conversion and management routines primarily focused on
+ number strings. It is now deprecated and superseded by
+ type 'NumStrDto' which provides many additional capabilities.
 
 */
 
