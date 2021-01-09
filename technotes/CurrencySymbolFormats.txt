@@ -15,6 +15,7 @@
   
  ==================================
  Negative Value Formatting
+
    -127.54
   - 127.54
  
@@ -27,14 +28,54 @@
    127.54 (-)
  
    (127.54)
-   ( 124.54 )
+   ( 127.54 )
+    (127.54)
+   ( 127.54 )
+
+   -127.54
+  - 127.54
+ 
+    127.54-
+    127.54 -
+ 
+   (-) 127.54
+   (-)127.54
+   127.54(-)
+   127.54 (-)
+ 
+   (127.54)
+   ( 127.54 )
+    (127.54)
+   ( 127.54 )
+
+   -NUMFIELD
+  - NUMFIELD
+ 
+    NUMFIELD-
+    NUMFIELD -
+ 
+   (-) NUMFIELD
+   (-)NUMFIELD
+   NUMFIELD(-)
+   NUMFIELD (-)
+ 
+   (NUMFIELD)
+   ( NUMFIELD )
+    (NUMFIELD)
+   ( NUMFIELD )
+
 
  Positive Value Formatting
-     +127.54
+      +127.54
     + 127.54
       127.54+
       127.54 +
       127.54
+    +NUMFIELD
+     + NUMFIELD
+      NUMFIELD+
+      NUMFIELD +
+      NUMFIELD
 
  Currency Positive Value Formatting
 

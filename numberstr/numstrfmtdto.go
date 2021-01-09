@@ -7,10 +7,10 @@ import (
 
 type NumStrFormatDto struct {
 	valueDisplaySpec NumStrValSpec
-	positiveValueFmt NumStrPosValFmtMode
-	negativeValueFmt NumStrNegValFmtMode
-
-	lock *sync.Mutex
+	positiveValueFmt string
+	negativeValueFmt string
+	currencyFmt      CurrencySymbolDto
+	lock             *sync.Mutex
 }
 
 // New - Creates and returns a new instance of
@@ -28,14 +28,112 @@ type NumStrFormatDto struct {
 //       or absolute values.
 //
 //
-//  positiveValueFmt    NumStrPosValFmtMode
-//     - An enumeration value for Number String Positive Value Format
-//       Mode. Used to specify formatting for positive numeric values.
+//  positiveValueFmt    string
+//     - A string specifying the number string format to be used in
+//       formatting positive numeric value in text strings. Valid
+//       formats for positive numeric values (NOT Currency) are listed
+//       as follows:
+//               "+NUMFIELD"
+//               "+ NUMFIELD"
+//               "NUMFIELD+"
+//               "NUMFIELD +"
+//               "NUMFIELD"
+//               "+127.54"
+//               "+ 127.54"
+//               "127.54+"
+//               "127.54 +"
+//               "127.54" THE DEFAULT Positive Value Format
+//
+//       Positive Value Formatting Terminology:
+//
+//        "NUMFIELD" - Signifies a number field. A number field has a string
+//                     length which is equal to or greater than the actual
+//                     numeric value string length. Actual numeric values
+//                     are right justified within number fields for text
+//                     displays.
+//
+//          "127.54" - Represents the actual length of the numeric value
+//                     including formatting characters and symbols such
+//                     as Thousands Separators, Decimal Separators and
+//                     Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format string,
+//                     the plus sign ('+') specifies  where the plus sign will
+//                     be placed for positive numeric values.
+//
+//    Absence of "+" - The absence of a plus sign ('+') means that the positive
+//                     numeric value will be displayed in text with out a
+//                     plus sign ('+'). This is the default for positive number
+//                     formatting.
 //
 //
-//  negativeValueFmt    NumStrNegValFmtMode
+//  negativeValueFmt    string
 //     - An enumeration value for Number String Negative Value Format
-//       Mode. Used to specify formatting for negative numeric values.
+//       Mode. Used to specify formatting for negative numeric values
+//       (NOT Currency). Valid formats for negative numeric values are
+//       listed as follows:
+//
+//               -127.54   The Default Negative Value Format String
+//               - 127.54
+//               127.54-
+//               127.54 -
+//               (-) 127.54
+//               (-)127.54
+//               127.54(-)
+//               127.54 (-)
+//               (127.54)
+//               ( 127.54 )
+//               (127.54)
+//               ( 127.54 )
+//               -127.54
+//               - 127.54
+//               127.54-
+//               127.54 -
+//               (-) 127.54
+//               (-)127.54
+//               127.54(-)
+//               127.54 (-)
+//               (127.54)
+//               ( 127.54 )
+//               (127.54)
+//               ( 127.54 )
+//               -NUMFIELD
+//               - NUMFIELD
+//               NUMFIELD-
+//               NUMFIELD -
+//               (-) NUMFIELD
+//               (-)NUMFIELD
+//               NUMFIELD(-)
+//               NUMFIELD (-)
+//               (NUMFIELD)
+//               ( NUMFIELD )
+//               (NUMFIELD)
+//               ( NUMFIELD )
+//
+//       Negative Value Formatting Terminology:
+//
+//        "NUMFIELD" - Signifies a number field. A number field has a string
+//                     length which is equal to or greater than the actual
+//                     numeric value string length. Actual numeric values
+//                     are right justified within number fields for text
+//                     displays.
+//
+//          "127.54" - Represents the actual length of the numeric value
+//                     including formatting characters and symbols such
+//                     as Thousands Separators, Decimal Separators and
+//                     Currency Symbols.
+//
+//               "-" - The Minus Sign ('-'). If present in the format string,
+//                     the minus sign ('-') specifies where the minus sign will
+//                     be positioned in the text string containing the negative
+//                     numeric value.
+//
+//             "(-)" - These three characters are often used in Europe and the
+//                     United Kingdom to classify a numeric value as negative.
+//
+//              "()" - Opposing parenthesis characters are frequently used in
+//                     the United States of America to classify a numeric value
+//                     as negative.
 //
 //
 //  ePrefix             string
@@ -64,8 +162,9 @@ type NumStrFormatDto struct {
 //
 func (nStrFmtDto NumStrFormatDto) New(
 	valueDisplaySpec NumStrValSpec,
-	positiveValueFmt NumStrPosValFmtMode,
-	negativeValueFmt NumStrNegValFmtMode,
+	positiveValueFmt string,
+	negativeValueFmt string,
+	currencyFmt CurrencySymbolDto,
 	ePrefix string) (
 	newFmtDto NumStrFormatDto,
 	err error) {
@@ -88,25 +187,10 @@ func (nStrFmtDto NumStrFormatDto) New(
 		return newFmtDto, err
 	}
 
-	if !positiveValueFmt.XIsValid() {
-		err = fmt.Errorf(ePrefix+"\n"+
-			"Error: Input parameter 'positiveValueFmt' is invalid!\n"+
-			"positiveValueFmt='%v'\n",
-			nStrFmtDto.positiveValueFmt.XValueInt())
-		return newFmtDto, err
-	}
-
-	if !negativeValueFmt.XIsValid() {
-		err = fmt.Errorf(ePrefix+"\n"+
-			"Error: Input parameter 'negativeValueFmt' is invalid!\n"+
-			"negativeValueFmt='%v'\n",
-			nStrFmtDto.negativeValueFmt.XValueInt())
-		return newFmtDto, err
-	}
-
 	newFmtDto.valueDisplaySpec = valueDisplaySpec
 	newFmtDto.negativeValueFmt = negativeValueFmt
 	newFmtDto.positiveValueFmt = positiveValueFmt
+	newFmtDto.currencyFmt = currencyFmt.CopyOut()
 
 	return newFmtDto, err
 }

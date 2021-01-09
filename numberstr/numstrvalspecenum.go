@@ -8,26 +8,43 @@ import (
 
 var mNumStrValSpecCodeToString = map[NumStrValSpec]string{
 	NumStrValSpec(0): "None",
-	NumStrValSpec(1): "StdPlusOrMinus",
-	NumStrValSpec(2): "AbsoluteValue",
+	NumStrValSpec(1): "AbsoluteValue",
+	NumStrValSpec(2): "CurrencyValue",
+	NumStrValSpec(3): "SignedNumberValue",
 }
 
 var mNumStrValSpecStringToCode = map[string]NumStrValSpec{
-	"None":           NumStrValSpec(0),
-	"StdPlusOrMinus": NumStrValSpec(1),
-	"PlusOrMinus":    NumStrValSpec(1),
-	"Plus Or Minus":  NumStrValSpec(1),
-	"AbsoluteValue":  NumStrValSpec(2),
-	"Absolute Value": NumStrValSpec(2),
+	"None":                 NumStrValSpec(0),
+	"AbsoluteValue":        NumStrValSpec(1),
+	"Absolute Value":       NumStrValSpec(1),
+	"Absolute":             NumStrValSpec(1),
+	"CurrencyValue":        NumStrValSpec(2),
+	"Currency Value":       NumStrValSpec(2),
+	"Currency":             NumStrValSpec(2),
+	"SignedNumberValue":    NumStrValSpec(3),
+	"Signed Number Value":  NumStrValSpec(3),
+	"SignedNumericValue":   NumStrValSpec(3),
+	"Signed Numeric Value": NumStrValSpec(3),
+	"SignedNumber":         NumStrValSpec(3),
+	"Signed Number":        NumStrValSpec(3),
+	"Signed":               NumStrValSpec(3),
 }
 
 var mNumStrValSpecLwrCaseStringToCode = map[string]NumStrValSpec{
-	"none":           NumStrValSpec(0),
-	"stdplusorminus": NumStrValSpec(1),
-	"plusorminus":    NumStrValSpec(1),
-	"plus or minus":  NumStrValSpec(1),
-	"absolutevalue":  NumStrValSpec(2),
-	"absolute value": NumStrValSpec(2),
+	"none":                 NumStrValSpec(0),
+	"absolutevalue":        NumStrValSpec(1),
+	"absolute value":       NumStrValSpec(1),
+	"absolute":             NumStrValSpec(1),
+	"currencyvalue":        NumStrValSpec(2),
+	"currency value":       NumStrValSpec(2),
+	"currency":             NumStrValSpec(2),
+	"signednumbervalue":    NumStrValSpec(3),
+	"signed number value":  NumStrValSpec(3),
+	"signednumericvalue":   NumStrValSpec(3),
+	"signed numeric value": NumStrValSpec(3),
+	"signednumber":         NumStrValSpec(3),
+	"signed number":        NumStrValSpec(3),
+	"signed":               NumStrValSpec(3),
 }
 
 // NumStrValSpec - The 'Number String Value Specification' is an
@@ -47,22 +64,53 @@ var mNumStrValSpecLwrCaseStringToCode = map[string]NumStrValSpec{
 //  - Signals that the Number String Value Specification (NumStrValSpec)
 //    Type is not initialized. This is an error condition.
 //
-// StdPlusOrMinus     (1)
-//  - Signals that the numeric value will be displayed in text as a
-//    standard positive or negative value depending on the number sign
-//    associated with the numeric value. This is the default handling
-//    for numeric values. It simply means that positive values will be
-//    displayed as positive numbers and negative values will be displayed
-//    as negative numbers.
-//         Example:  -123 = -123 and +132 = 132
 //
-// AbsoluteValue      (2)
-//  - This specification signals that a numeric value will be displayed as
-//    a positive number regardless of whether the native value is positive
-//    or negative. Effectively, this means that negative values will be
-//    displayed as positive numbers and positive values will be displayed
-//    as positive numbers.
-//         Example:  -123 = 123  and 132 = 132
+// AbsoluteValue      (1)
+//  - This specification signals that a numeric value will be displayed
+//    in text as a positive number regardless of whether the native
+//    value is positive or negative. Effectively, this means that
+//    both negative values and positive values will be displayed as
+//    positive numbers.
+//
+//    Examples:
+//
+//         Positive Values          Negative Values
+//          +132 = +132              -123 = +123
+//
+//
+// CurrencyValue      (2)
+//  - The 'Currency Value' specification signals that all numeric values
+//    will be displayed in number strings as currency formatted with
+//    appropriate currency characters.
+//
+//    Currency number strings are always displayed as signed numeric
+//    values with currency symbols included in the text string. This
+//    means that positive values are displayed in text as positive
+//    numbers with currency symbols (like the dollar sign) included
+//    in the text string. Likewise, negative values are displayed in
+//    text as negative numbers with currency symbols (like the dollar
+//    sign) included in the text string.
+//
+//    Examples:
+//         Positive Values          Negative Values
+//          +132 = $132               -123 = ($123)
+//
+//
+// SignedNumberValue  (3)
+//  - Signals that the numeric value will be displayed in text as a
+//    standard positive or negative value contingent upon the number
+//    sign associated with the numeric value. NO CURRENCY Symbols will
+//    be display in the resulting text number strings.
+//
+//    This is the default handling for numeric values.
+//
+//    'SignedNumberValue' means that positive values will be displayed
+//     as positive numbers and negative values will be displayed as
+//     negative numbers.
+//
+//     Examples:
+//         Positive Values          Negative Values
+//          +132 = 132               -123 = -123
 //
 //
 // For easy access to these enumeration values, use the global variable
@@ -95,26 +143,17 @@ func (nStrValSpec NumStrValSpec) None() NumStrValSpec {
 	return NumStrValSpec(0)
 }
 
-// StdPlusOrMinus - The 'Standard Plus or Minus' specification
-// signals that positive numeric values will be displayed in
-// number strings as positive numbers and negative numeric
-// values will be displayed as negative numbers.
-//
-//
-// This method is part of the standard enumeration.
-//
-func (nStrValSpec NumStrValSpec) StdPlusOrMinus() NumStrValSpec {
-
-	lockNumStrValSpec.Lock()
-
-	defer lockNumStrValSpec.Unlock()
-
-	return NumStrValSpec(1)
-}
-
 // AbsoluteValue - The 'Absolute Value' specification signals
 // that both positive and negative numeric values will be
 // displayed in number strings as positive numbers.
+//
+//         Examples:
+//         Positive Values          Negative Values
+//          +132 = +132              -123 = +123
+//
+// Note: Placement and formatting of positive and negative
+// value signs, such as  plus ('+'), minus ('-') and
+// parentheses is controlled by type, 'NumberStrFormatDto'.
 //
 // This method is part of the standard enumeration.
 //
@@ -124,7 +163,64 @@ func (nStrValSpec NumStrValSpec) AbsoluteValue() NumStrValSpec {
 
 	defer lockNumStrValSpec.Unlock()
 
+	return NumStrValSpec(1)
+}
+
+// CurrencyValue - The 'Currency Value' specification
+// signals that all numeric values will be displayed in
+// number strings as currency formatted with appropriate
+// currency characters.
+//
+// Currency number strings are always displayed as signed
+// numeric values with currency symbols included in the
+// text string.
+//
+// This means that positive values are displayed in text
+// as positive numbers with currency symbols (like the
+// dollar sign) included in the text string.
+//
+// Likewise, negative values are displayed in text as
+// negative numbers with currency symbols (like the dollar
+// sign) included in the text string.
+//
+// Examples:
+//         Positive Values          Negative Values
+//          +132 = $132              -123 = ($123)
+//
+// Note: Placement and formatting formatting characters
+// such as  plus ('+'), minus ('-') parentheses ('()') and
+// currency ('$') is controlled by type, 'NumberStrFormatDto'.
+//
+//
+// This method is part of the standard enumeration.
+//
+func (nStrValSpec NumStrValSpec) CurrencyValue() NumStrValSpec {
+
+	lockNumStrValSpec.Lock()
+
+	defer lockNumStrValSpec.Unlock()
+
 	return NumStrValSpec(2)
+}
+
+// SignedNumberValue - The 'Signed Number Value' specification
+// signals that positive numeric values will be displayed in
+// number strings as positive numbers and negative numeric
+// values will be displayed as negative numbers.
+//
+// This is the default for processing and converting numeric
+// values into text strings.
+//
+//
+// This method is part of the standard enumeration.
+//
+func (nStrValSpec NumStrValSpec) SignedNumberValue() NumStrValSpec {
+
+	lockNumStrValSpec.Lock()
+
+	defer lockNumStrValSpec.Unlock()
+
+	return NumStrValSpec(3)
 }
 
 // String - Returns a string with the name of the enumeration associated
@@ -137,9 +233,9 @@ func (nStrValSpec NumStrValSpec) AbsoluteValue() NumStrValSpec {
 //
 // Usage
 //
-// t:= NumStrValSpec(0).StdPlusOrMinus()
+// t:= NumStrValSpec(0).SignedNumberValue()
 // str := t.String()
-//     str is now equal to 'StdPlusOrMinus'
+//     str is now equal to 'SignedNumberValue'
 //
 func (nStrValSpec NumStrValSpec) String() string {
 
@@ -172,13 +268,16 @@ func (nStrValSpec NumStrValSpec) String() string {
 //
 //  In this case the boolean value of 'isValid' is 'true'.
 //
+//  Be advised, the value NumStrValSpec(0).None() is
+//  classified as an 'invalid' value.
+//
 func (nStrValSpec NumStrValSpec) XIsValid() bool {
 
 	lockNumStrValSpec.Lock()
 
 	defer lockNumStrValSpec.Unlock()
 
-	if nStrValSpec > 2 ||
+	if nStrValSpec > 3 ||
 		nStrValSpec < 1 {
 		return false
 	}
@@ -211,37 +310,52 @@ func (nStrValSpec NumStrValSpec) XIsValid() bool {
 //
 //       A case sensitive search will match any of the following strings:
 //           "None"
-//           "StdPlusOrMinus"
-//           "PlusOrMinus"
-//           "Plus Or Minus"
 //           "AbsoluteValue"
 //           "Absolute Value"
+//           "Absolute"
+//           "CurrencyValue"
+//           "Currency Value"
+//           "Currency"
+//           "SignedNumberValue"
+//           "Signed Number Value"
+//           "SignedNumericValue"
+//           "Signed Numeric Value"
+//           "SignedNumber"
+//           "Signed Number"
 //
-//       If 'false' a case insensitive search is conducted
+//       If 'false', a case insensitive search is conducted
 //       for the enumeration name. In this case, 'parentheses'
 //       will match match enumeration name 'Parentheses'.
 //
 //       A case insensitive search will match any of the following
 //       lower case names:
-//           "none"
-//           "stdplusorminus"
-//           "plusorminus"
-//           "plus or minus"
-//           "absolutevalue"
-//           "absolute value"
+//             "none"
+//             "absolutevalue"
+//             "absolute value"
+//             "absolute"
+//             "currencyvalue"
+//             "currency value"
+//             "currency"
+//             "signednumbervalue"
+//             "signed number value"
+//             "signednumericvalue"
+//             "signed numeric value"
+//             "signednumber"
+//             "signed number"
+//             "signed"
 //
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-// NumStrValSpec
+//  NumStrValSpec
 //     - Upon successful completion, this method will return a new
 //       instance of NumStrValSpec set to the value of the enumeration
 //       matched by the string search performed on input parameter,
 //       'valueString'.
 //
-// error
+//  error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'. If an error condition is encountered,
 //       this method will return an error type which encapsulates an
@@ -251,9 +365,9 @@ func (nStrValSpec NumStrValSpec) XIsValid() bool {
 //
 // Usage
 //
-// t, err := NumStrValSpec(0).XParseString("StdPlusOrMinus", true)
+//  t, err := NumStrValSpec(0).XParseString("SignedNumberValue", true)
 //
-//     t is now equal to NumStrValSpec(0).StdPlusOrMinus()
+//     t is now equal to NumStrValSpec(0).SignedNumberValue()
 //
 func (nStrValSpec NumStrValSpec) XParseString(
 	valueString string,
@@ -349,7 +463,8 @@ func (nStrValSpec NumStrValSpec) XValueInt() int {
 //
 // Usage:
 // NStrValSpec.None(),
-// NStrValSpec.StdPlusOrMinus(),
 // NStrValSpec.AbsoluteValue(),
+// NStrValSpec.CurrencyValue(),
+// NStrValSpec.SignedNumberValue(),
 //
 var NStrValSpec NumStrValSpec
