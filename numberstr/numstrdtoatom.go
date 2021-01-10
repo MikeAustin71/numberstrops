@@ -737,7 +737,9 @@ func (nStrDtoAtom *numStrDtoAtom) getBigRationalNum(
 //       is set to 'nil'. If errors are encountered during processing,
 //       the returned error Type will encapsulate an error message.
 //       Note that this error message will incorporate the method
-//       chain and text passed by input parameter, 'ePrefix'.
+//       chain and text passed by input parameter, 'ePrefix'. This
+//       error prefix, 'ePrefix' will be prefixed to the beginning
+//       of the error message.
 //
 func (nStrDtoAtom *numStrDtoAtom) getNumericSeparatorsDto(
 	numStrDto *NumStrDto,

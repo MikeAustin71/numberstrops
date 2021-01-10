@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"errors"
+	"fmt"
 	"sync"
 )
 
@@ -144,4 +145,123 @@ func (curSymMech *currencySymbolMechanics) copyOut(
 	newCurrSymDto.lock = new(sync.Mutex)
 
 	return newCurrSymDto, err
+}
+
+// testCurrencySymbolDtoValidity - Receives an instance of
+// CurrencySymbolDto and proceeds to test the validity of the
+// member data fields.
+//
+// If one or more data elements are found to be invalid, an error
+// is returned and the return boolean parameter, 'isValid', is set
+// to 'false'.
+//
+func (curSymMech *currencySymbolMechanics) testCurrencySymbolDtoValidity(
+	currSymDto *CurrencySymbolDto,
+	ePrefix string) (
+	isValid bool,
+	err error) {
+
+	if curSymMech.lock == nil {
+		curSymMech.lock = new(sync.Mutex)
+	}
+
+	curSymMech.lock.Lock()
+
+	defer curSymMech.lock.Unlock()
+
+	ePrefix += "currencySymbolMechanics.testCurrencySymbolDtoValidity() "
+
+	isValid = false
+	err = nil
+
+	if currSymDto == nil {
+		err = errors.New(ePrefix + "\n" +
+			"Error: Input parameter 'currSymDto' is a 'nil' pointer!\n")
+
+		return isValid, err
+	}
+
+	if currSymDto.currencySymbol == 0 {
+		isValid = false
+		err = errors.New(ePrefix + "\n" +
+			"Error: Currency Symbol rune is empty!\n")
+		return isValid, err
+	}
+
+	if len(currSymDto.positiveValCurrFormat) == 0 {
+		isValid = false
+		err = errors.New(ePrefix + "\n" +
+			"Error: Currency Symbol positive value format is empty!\n" +
+			"positiveValCurrFormat==\"\"\n")
+		return isValid, err
+	}
+
+	if len(currSymDto.negativeValCurrFormat) == 0 {
+		isValid = false
+		err = errors.New(ePrefix + "\n" +
+			"Error: Currency Symbol negative value format is empty!\n" +
+			"negativeValCurrFormat==\"\"\n")
+		return isValid, err
+	}
+
+	nStrFmtQuark := numStrFormatQuark{}
+
+	validFmtChars := nStrFmtQuark.getValidFormatChars()
+
+	var lenValidFmtChars = len(validFmtChars)
+	runesToTest := []rune(currSymDto.positiveValCurrFormat)
+	var lenCurrFmt = len(runesToTest)
+	var isRuneValid bool
+
+	for i := 0; i < lenCurrFmt; i++ {
+
+		isRuneValid = false
+
+		for j := 0; j < lenValidFmtChars; j++ {
+			if runesToTest[i] != validFmtChars[j] {
+				continue
+			} else {
+				isRuneValid = true
+				break
+			}
+		}
+
+		if !isRuneValid {
+			isValid = false
+			err = fmt.Errorf(ePrefix+"\n"+
+				"Error: Currency Symbol positive value contains an invalid character!\n"+
+				"CurrencySymbolDto.positiveValCurrFormat invalid char == '%v' at Index [%v] \n",
+				string(runesToTest[i]), i)
+			return isValid, err
+		}
+	}
+
+	runesToTest = []rune(currSymDto.negativeValCurrFormat)
+	lenCurrFmt = len(runesToTest)
+
+	for i := 0; i < lenCurrFmt; i++ {
+
+		isRuneValid = false
+
+		for j := 0; j < lenValidFmtChars; j++ {
+			if runesToTest[i] != validFmtChars[j] {
+				continue
+			} else {
+				isRuneValid = true
+				break
+			}
+		}
+
+		if !isRuneValid {
+			isValid = false
+			err = fmt.Errorf(ePrefix+"\n"+
+				"Error: Currency Symbol negative value contains an invalid character!\n"+
+				"CurrencySymbolDto.negativeValCurrFormat invalid char == '%v' at Index [%v] \n",
+				string(runesToTest[i]), i)
+			return isValid, err
+		}
+	}
+
+	isValid = true
+	return isValid, err
 }

@@ -5,17 +5,23 @@ import "sync"
 type CurrencySymbolDto struct {
 	idNo                   int    // Arbitrary Id Number used to track this instance
 	currencySymbol         rune   // Unicode UTF-8 currency symbol
+	currencyCode           string // Wold Currency Code (3-Characters). Reference: http://www.xe.com/symbols.php
 	currencyName           string // The common name of this currency i.e 'Dollar', 'Yuan' etc.
 	countryName            string // Full Name of country associated with this currency
 	abbreviatedCountryName string // Abbreviated Country Name
 	alternateCountryName   string // Alternate Country Name Example: United States of America
-	countryCodeTwoChar     string // ISO-3166 Two Character Country Code
-	countryCodeThreeChar   string // ISO-3166 Three Character Country Code
-	countryCodeNumber      string // ISO-3166 Country Code Number: 3-Numeric Digits
-	currencyCode           string // Wold Currency Code (3-Characters). Reference: http://www.xe.com/symbols.php
+	countryCodeTwoChar     string // ISO-3166 Two Character Country Code https://en.wikipedia.org/wiki/ISO_3166-2
+	countryCodeThreeChar   string // ISO-3166 Three Character Country Code https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
+	countryCodeNumber      string // ISO-3166 Country Code Number: 3-Numeric Digits https://en.wikipedia.org/wiki/ISO_3166-1_numeric
 	positiveValCurrFormat  string
 	// Positive Value Currency Format Samples
-	//           127.54 = Number
+	//      127.54 = The actual un-formatted Number.
+	//    NUMFIELD = The number field in which the
+	//               number string will be displayed.
+	//               The number field is usually wider
+	//               than the actual formatted number
+	//               and is right justified within the
+	//               number string.
 	//           + = Plus Sign Placement if specified
 	//           $ = Currency Symbol Placement
 	//
@@ -50,14 +56,53 @@ type CurrencySymbolDto struct {
 	//    +127.54 $
 	//    + 127.54$
 	//    + 127.54 $
+	//
+	//    $NUMFIELD
+	//    $ NUMFIELD
+	//    NUMFIELD$
+	//    NUMFIELD $
+	//
+	//    $NUMFIELD+
+	//    $NUMFIELD +
+	//    $ NUMFIELD+
+	//    $ NUMFIELD +
+	//
+	//    $+NUMFIELD
+	//    $ +NUMFIELD
+	//    $+ NUMFIELD
+	//    $ + NUMFIELD
+	//
+	//    NUMFIELD$+
+	//    NUMFIELD$ +
+	//    NUMFIELD $+
+	//    NUMFIELD$ +
+	//    NUMFIELD $ +
+	//
+	//    NUMFIELD+$
+	//    NUMFIELD+ $
+	//    NUMFIELD +$
+	//    NUMFIELD+ $
+	//    NUMFIELD + $
+	//
+	//    +NUMFIELD$
+	//    +NUMFIELD $
+	//    + NUMFIELD$
+	//    + NUMFIELD $
 
 	negativeValCurrFormat string
 	// Negative Value Currency Format Samples
-	//           127.54 = Number
+	//      127.54 = The actual un-formatted number
+	//    NUMFIELD = The number field in which the
+	//               number string will be displayed.
+	//               The number field is usually wider
+	//               than the actual formatted number
+	//               and is right justified within the
+	//               number string.
 	//           - = Minus Sign Placement
 	//           $ = Currency Symbol Placement
 	//          () = Parentheses Placement
 	//         (-) = Parentheses & Minus Sign Placement
+	//
 	//   (-) $127.54
 	//   (-) $ 127.54
 	//   (-)$127.54
@@ -122,6 +167,70 @@ type CurrencySymbolDto struct {
 	//   (127.54) $
 	//   ( 127.54 )$
 	//   ( 127.54 ) $
+	//   (-) $NUMFIELD
+	//   (-) $ NUMFIELD
+	//   (-)$NUMFIELD
+	//   (-)$ NUMFIELD
+	//   $ (-)NUMFIELD
+	//   $ (-) NUMFIELD
+	//   $(-)NUMFIELD
+	//   $(-) NUMFIELD
+	//   (-) NUMFIELD$
+	//   (-) NUMFIELD $
+	//   (-)NUMFIELD$
+	//   (-)NUMFIELD $
+	//   NUMFIELD(-) $
+	//   NUMFIELD (-) $
+	//   NUMFIELD(-)$
+	//   NUMFIELD (-)$
+	//   NUMFIELD$(-)
+	//   NUMFIELD$ (-)
+	//   NUMFIELD $ (-)
+	//   NUMFIELD $(-)
+	//   $NUMFIELD(-)
+	//   $NUMFIELD (-)
+	//   $ NUMFIELD(-)
+	//   $ NUMFIELD (-)
+	//    - $NUMFIELD
+	//    - $ NUMFIELD
+	//    -$NUMFIELD
+	//    -$ NUMFIELD
+	//    $ -NUMFIELD
+	//    $ - NUMFIELD
+	//    $-NUMFIELD
+	//    $- NUMFIELD
+	//    - NUMFIELD$
+	//    - NUMFIELD $
+	//    -NUMFIELD$
+	//    -NUMFIELD $
+	//    NUMFIELD- $
+	//    NUMFIELD - $
+	//    NUMFIELD-$
+	//    NUMFIELD -$
+	//    NUMFIELD$-
+	//    NUMFIELD$ -
+	//    NUMFIELD $ -
+	//    NUMFIELD $-
+	//    $NUMFIELD-
+	//    $NUMFIELD -
+	//    $ NUMFIELD-
+	//    $ NUMFIELD -
+	//   ( $NUMFIELD )
+	//   ( $ NUMFIELD )
+	//   ($ NUMFIELD)
+	//   ($NUMFIELD)
+	//    $(NUMFIELD)
+	//    $ (NUMFIELD)
+	//    $( NUMFIELD )
+	//    $ ( NUMFIELD )
+	//   ( NUMFIELD$ )
+	//   ( NUMFIELD $ )
+	//   ( NUMFIELD $)
+	//   (NUMFIELD$)
+	//   (NUMFIELD)$
+	//   (NUMFIELD) $
+	//   ( NUMFIELD )$
+	//   ( NUMFIELD ) $
 
 	lock *sync.Mutex // Used to coordinate multi-threaded operations
 }
@@ -385,6 +494,58 @@ func (curSymDto *CurrencySymbolDto) GetIdNo() int {
 
 	return curSymDto.idNo
 
+}
+
+// IsValidInstance - If the current instance of CurrencySymbolDto
+// is valid, this method returns 'true'. If the current instance
+// is judged to be invalid, this method returns 'false'.
+//
+func (curSymDto *CurrencySymbolDto) IsValidInstance() (
+	isValid bool) {
+
+	if curSymDto.lock == nil {
+		curSymDto.lock = new(sync.Mutex)
+	}
+
+	curSymDto.lock.Lock()
+
+	defer curSymDto.lock.Unlock()
+
+	curSymMech := currencySymbolMechanics{}
+
+	isValid,
+		_ = curSymMech.testCurrencySymbolDtoValidity(curSymDto,
+		"CurrencySymbolDto.IsValidInstance() ")
+
+	return isValid
+}
+
+// IsValidInstanceError - Examines the current CurrencySymbolDto
+// instance to determine if any of the member data elements are
+// invalid.
+//
+// If the current CurrencySymbolDto is found to be invalid, a
+// detailed error message is returned. If the instance is valid,
+// the returned error value is set to 'nil'.
+//
+func (curSymDto *CurrencySymbolDto) IsValidInstanceError(ePrefix string) error {
+
+	if curSymDto.lock == nil {
+		curSymDto.lock = new(sync.Mutex)
+	}
+
+	curSymDto.lock.Lock()
+
+	defer curSymDto.lock.Unlock()
+
+	ePrefix += "CurrencySymbolDto.IsValidInstanceError() "
+	curSymMech := currencySymbolMechanics{}
+
+	_,
+		err := curSymMech.testCurrencySymbolDtoValidity(curSymDto,
+		ePrefix)
+
+	return err
 }
 
 // *******************************************************
