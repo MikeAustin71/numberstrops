@@ -3,26 +3,30 @@ package numberstr
 import "sync"
 
 type CurrencySymbolDto struct {
-	idNo                   int    // Arbitrary Id Number used to track this instance
-	currencySymbol         rune   // Unicode UTF-8 currency symbol
-	currencyCode           string // Wold Currency Code (3-Characters). Reference: http://www.xe.com/symbols.php
-	currencyName           string // The common name of this currency i.e 'Dollar', 'Yuan' etc.
-	countryName            string // Full Name of country associated with this currency
-	abbreviatedCountryName string // Abbreviated Country Name
-	alternateCountryName   string // Alternate Country Name Example: United States of America
-	countryCodeTwoChar     string // ISO-3166 Two Character Country Code https://en.wikipedia.org/wiki/ISO_3166-2
-	countryCodeThreeChar   string // ISO-3166 Three Character Country Code https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
-	countryCodeNumber      string // ISO-3166 Country Code Number: 3-Numeric Digits https://en.wikipedia.org/wiki/ISO_3166-1_numeric
-	positiveValCurrFormat  string
+	idNo                          int    // Arbitrary Id Number used to track this instance
+	currencySymbol                rune   // Unicode UTF-8 currency symbol
+	currencyDecimalDigits         int    // The number of digits after the decimal separator for currency presentations
+	turnOnIntegerDigitsSeparation bool   // Turns on thousands separator for currency presentations
+	currencyCode                  string // Wold Currency Code (3-Characters). Reference: http://www.xe.com/symbols.php
+	currencyName                  string // The common name of this currency i.e 'Dollar', 'Yuan' etc.
+	countryName                   string // Full Name of country associated with this currency
+	abbreviatedCountryName        string // Abbreviated Country Name
+	alternateCountryName          string // Alternate Country Name Example: United States of America
+	countryCodeTwoChar            string // ISO-3166 Two Character Country Code https://en.wikipedia.org/wiki/ISO_3166-2
+	countryCodeThreeChar          string // ISO-3166 Three Character Country Code https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
+	countryCodeNumber             string // ISO-3166 Country Code Number: 3-Numeric Digits https://en.wikipedia.org/wiki/ISO_3166-1_numeric
+	positiveValCurrFormat         string
 	// Positive Value Currency Format Samples
-	//      127.54 = The actual un-formatted Number.
-	//    NUMFIELD = The number field in which the
-	//               number string will be displayed.
-	//               The number field is usually wider
-	//               than the actual formatted number
-	//               and is right justified within the
-	//               number string.
+	//  Positive Value Format Codes
+	//      127.54 = Placeholder for the actual un-formatted Number.
+	//
+	//    NUMFIELD = Placeholder for the number field in which the
+	//               number string will be displayed. The number field
+	//               is usually wider than the actual formatted number
+	//               and is right justified within the number string.
+	//
 	//           + = Plus Sign Placement if specified
+	//
 	//           $ = Currency Symbol Placement
 	//
 	//    $127.54

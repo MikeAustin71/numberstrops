@@ -1091,7 +1091,7 @@ func (nDto *NumStrDto) FormatNumStr(
 }
 
 // FormatThousandsStr - Returns the number string delimited with the
-// nDto.thousandsSeparator character plus the Decimal Separator if
+// nDto.integerDigitsSeparator character plus the Decimal Separator if
 // applicable.
 //
 // If the Currency Symbol was not previously set for this NumStrDto,
@@ -1455,7 +1455,7 @@ func (nDto *NumStrDto) GetCurrencySymbol() rune {
 }
 
 // GetCurrencyParen - Returns the number string delimited with the
-// nDto.thousandsSeparator character and the currency symbol. If
+// nDto.integerDigitsSeparator character and the currency symbol. If
 // the value is negative, the number will be surrounded in parentheses.
 //
 // Example:
@@ -1525,7 +1525,7 @@ func (nDto *NumStrDto) GetCurrencyParen(
 }
 
 // GetCurrencyStr - Returns the number string delimited with the
-// nDto.thousandsSeparator character and the currency symbol.
+// nDto.integerDigitsSeparator character and the currency symbol.
 // If the value is negative, a leading minus sign will be prefixed
 // to the currency display.
 //
@@ -2153,7 +2153,7 @@ func (nDto *NumStrDto) GetSign() (
 }
 
 // GetThouParen - Returns the number string delimited with the
-// nDto.thousandsSeparator character. Negative values are
+// nDto.integerDigitsSeparator character. Negative values are
 // surrounded in parentheses.
 //
 // Example:
@@ -2219,7 +2219,7 @@ func (nDto *NumStrDto) GetThouParen(
 }
 
 // GetThouStr - Returns the number string delimited with the
-// nDto.thousandsSeparator character plus the Decimal Separator
+// nDto.integerDigitsSeparator character plus the Decimal Separator
 // if applicable.
 //
 // Example:
@@ -5799,10 +5799,10 @@ func (nDto *NumStrDto) SetDecimalSeparator(decimalSeparator rune) {
 //
 // Input Parameters
 //
-//  thousandsSeparator    rune
+//  integerDigitsSeparator    rune
 //     - This rune or text character conveys the Thousands Separator
 //       character which will populate the internal member variable
-//       'nDto.thousandsSeparator' for the current NumStrDto instance.
+//       'nDto.integerDigitsSeparator' for the current NumStrDto instance.
 //
 //
 // ------------------------------------------------------------------------
@@ -5847,10 +5847,10 @@ func (nDto *NumStrDto) SetThousandsSeparator(thousandsSeparator rune) {
 //       'nDto.decimalSeparator' for the current NumStrDto instance.
 //
 //
-//  thousandsSeparator    rune
+//  integerDigitsSeparator    rune
 //     - This rune or text character conveys the Thousands Separator
 //       character which will populate the internal member variable
-//       'nDto.thousandsSeparator' for the current NumStrDto instance.
+//       'nDto.integerDigitsSeparator' for the current NumStrDto instance.
 //
 //
 //  currencySymbol      rune

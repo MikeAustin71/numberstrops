@@ -6,15 +6,10 @@ import (
 )
 
 type NumStrFormatDto struct {
-	valueDisplaySpec         NumStrValSpec
-	positiveValueFmt         string
-	negativeValueFmt         string
-	currencyFmt              CurrencySymbolDto
-	decimalSeparator         rune
-	thousandsSeparator       rune
-	turnOnThousandsSeparator bool
-	numberFieldDto           numberFieldDto
-	lock                     *sync.Mutex
+	valueDisplaySpec NumStrValSpec
+	numberFieldDto   numberFieldDto
+	numStrFmtConfigs map[NumStrValSpec]NumberStrFmtConfigDto
+	lock             *sync.Mutex
 }
 
 // copyIn - Receives pointers to an instance of NumStrFormatDto
@@ -407,14 +402,14 @@ func (nStrFmtDto *NumStrFormatDto) IsValidInstanceError(
 //          Example:  123.456
 //
 //
-//  thousandsSeparator         rune
+//  integerDigitsSeparator         rune
 //     - This parameter holds the character used to separate thousands
 //       in the integer component of a number string. In the United
 //       States, the standard thousands separator is the comma.
 //         Example:  1,000,000,000
 //
 //
-//  turnOnThousandsSeparator   bool
+//  turnOnIntegerDigitSeparator   bool
 //     - Simply setting the Thousands Separator character will not
 //       ensure that character is actually used in formatting number
 //       strings. In addition, it is necessary to activate the use of
@@ -423,7 +418,7 @@ func (nStrFmtDto *NumStrFormatDto) IsValidInstanceError(
 //
 //       To turn on the insertion of thousands separators in the
 //       formatting of number strings, set input parameter
-//       'turnOnThousandsSeparator' to 'true'.
+//       'turnOnIntegerDigitSeparator' to 'true'.
 //
 //
 //  numberFieldLength          int
@@ -501,8 +496,8 @@ func (nStrFmtDto NumStrFormatDto) New(
 
 	if thousandsSeparator == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'thousandsSeparator' is a zero value rune!\n"+
-			"Invalid 'thousandsSeparator' value!\n", ePrefix)
+			"Error: Input parameter 'integerDigitsSeparator' is a zero value rune!\n"+
+			"Invalid 'integerDigitsSeparator' value!\n", ePrefix)
 		return newFmtDto, err
 	}
 
@@ -538,8 +533,8 @@ func (nStrFmtDto NumStrFormatDto) New(
 	newFmtDto.negativeValueFmt = negativeValueFmt
 	newFmtDto.positiveValueFmt = positiveValueFmt
 	newFmtDto.currencyFmt = currencyFmt.CopyOut()
-	newFmtDto.turnOnThousandsSeparator = turnOnThousandsSeparator
-	newFmtDto.thousandsSeparator = thousandsSeparator
+	newFmtDto.turnOnIntegerDigitSeparator = turnOnThousandsSeparator
+	newFmtDto.integerDigitsSeparator = thousandsSeparator
 	newFmtDto.decimalSeparator = decimalSeparator
 	newFmtDto.numberFieldDto.requestedNumFieldLength = numberFieldLength
 
@@ -1040,14 +1035,14 @@ func (nStrFmtDto *NumStrFormatDto) SetNumberFieldLength(
 //
 // Input Parameters
 //
-//  thousandsSeparator         rune
+//  integerDigitsSeparator         rune
 //     - This character will be used to separate thousands in number
 //       strings formatted for text display.
 //       Example:
-//         thousandsSeparator = ','   Output: 1,000,000,000
+//         integerDigitsSeparator = ','   Output: 1,000,000,000
 //
 //
-//  turnOnThousandsSeparator   bool
+//  turnOnIntegerDigitSeparator   bool
 //     - Simply setting the Thousands Separator character will not
 //       ensure that character is actually used in formatting number
 //       strings. In addition, it is necessary to activate the use of
@@ -1056,7 +1051,7 @@ func (nStrFmtDto *NumStrFormatDto) SetNumberFieldLength(
 //
 //       To turn on the insertion of thousands separators in the
 //       formatting of number strings, set input parameter
-//       'turnOnThousandsSeparator' to 'true'.
+//       'turnOnIntegerDigitSeparator' to 'true'.
 //
 //
 //  ePrefix             string
@@ -1096,13 +1091,13 @@ func (nStrFmtDto *NumStrFormatDto) SetThousandsSeparator(
 
 	if thousandsSeparator == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'thousandsSeparator' is a zero value.\n"+
-			" 'thousandsSeparator' is invalid!\n", ePrefix)
+			"Error: Input parameter 'integerDigitsSeparator' is a zero value.\n"+
+			" 'integerDigitsSeparator' is invalid!\n", ePrefix)
 		return err
 	}
 
-	nStrFmtDto.thousandsSeparator = thousandsSeparator
-	nStrFmtDto.turnOnThousandsSeparator = turnOnThousandsSeparator
+	nStrFmtDto.integerDigitsSeparator = thousandsSeparator
+	nStrFmtDto.turnOnIntegerDigitSeparator = turnOnThousandsSeparator
 
 	return err
 }
@@ -1142,7 +1137,7 @@ func (nStrFmtDto *NumStrFormatDto) SetThousandsSeparatorDisplay(
 
 	defer nStrFmtDto.lock.Unlock()
 
-	nStrFmtDto.turnOnThousandsSeparator = turnOnThousandsSeparators
+	nStrFmtDto.turnOnIntegerDigitSeparator = turnOnThousandsSeparators
 
 }
 

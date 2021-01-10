@@ -50,7 +50,7 @@ func (nStrFmtDtoUtil *numStrFormatDtoUtility) setToDefaults(
 	nStrFmtDto.decimalSeparator =
 		nStrFmtQuark.getDefaultDecimalSeparator()
 
-	nStrFmtDto.thousandsSeparator =
+	nStrFmtDto.integerDigitsSeparator =
 		nStrFmtQuark.getDefaultThousandsSeparator()
 
 	nStrFmtDto.currencyFmt =

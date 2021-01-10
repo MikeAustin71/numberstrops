@@ -65,11 +65,11 @@ func (nStrFmtDtoMech *numStrFormatDtoMechanics) copyIn(
 	numStrFmtDto1.decimalSeparator =
 		numStrFmtDto2.decimalSeparator
 
-	numStrFmtDto1.thousandsSeparator =
-		numStrFmtDto2.thousandsSeparator
+	numStrFmtDto1.integerDigitsSeparator =
+		numStrFmtDto2.integerDigitsSeparator
 
-	numStrFmtDto1.turnOnThousandsSeparator =
-		numStrFmtDto2.turnOnThousandsSeparator
+	numStrFmtDto1.turnOnIntegerDigitSeparator =
+		numStrFmtDto2.turnOnIntegerDigitSeparator
 
 	numStrFmtDto1.numberFieldDto =
 		numStrFmtDto2.numberFieldDto.CopyOut()
@@ -119,11 +119,11 @@ func (nStrFmtDtoMech *numStrFormatDtoMechanics) copyOut(
 	newNumStrFormatDto.decimalSeparator =
 		numStrFmtDto.decimalSeparator
 
-	newNumStrFormatDto.thousandsSeparator =
-		numStrFmtDto.thousandsSeparator
+	newNumStrFormatDto.integerDigitsSeparator =
+		numStrFmtDto.integerDigitsSeparator
 
-	newNumStrFormatDto.turnOnThousandsSeparator =
-		numStrFmtDto.turnOnThousandsSeparator
+	newNumStrFormatDto.turnOnIntegerDigitSeparator =
+		numStrFmtDto.turnOnIntegerDigitSeparator
 
 	newNumStrFormatDto.numberFieldDto =
 		numStrFmtDto.numberFieldDto.CopyOut()
@@ -210,9 +210,9 @@ func (nStrFmtDtoMech *numStrFormatDtoMechanics) testNumStrFormatDtoValidity(
 		return isValid, err
 	}
 
-	if numStrFmtDto.thousandsSeparator == 0 {
+	if numStrFmtDto.integerDigitsSeparator == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: NumStrFormatDto.thousandsSeparator is a zero value and\n"+
+			"Error: NumStrFormatDto.integerDigitsSeparator is a zero value and\n"+
 			"invalid!\n",
 			ePrefix)
 		return isValid, err

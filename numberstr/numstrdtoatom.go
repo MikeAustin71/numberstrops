@@ -1300,7 +1300,7 @@ func (nStrDtoAtom *numStrDtoAtom) formatNumStr(
 }
 
 // formatThousandsStr - Returns the number string delimited with the
-// nDto.thousandsSeparator character plus the Decimal Separator if
+// nDto.integerDigitsSeparator character plus the Decimal Separator if
 // applicable. The number string is extracted from input parameter
 // 'numStrDto'.
 //

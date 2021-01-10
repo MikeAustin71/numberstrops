@@ -894,7 +894,7 @@ func (nStrDtoElectron *numStrDtoElectron) getPrecisionUint(
 //
 // Return Values
 //
-//  thousandsSeparator  rune
+//  integerDigitsSeparator  rune
 //     - If this method completes successfully, this rune value will
 //       contain the thousands separator associated with input parameter
 //       'numStrDto'.
@@ -1556,10 +1556,10 @@ func (nStrDtoElectron *numStrDtoElectron) setDecimalSeparator(
 //       'numStrDto.decimalSeparator'.
 //
 //
-//  thousandsSeparator  rune
+//  integerDigitsSeparator  rune
 //     - This rune or text character conveys the thousands separator
 //       character which will populate the internal member variable
-//       'numStrDto.thousandsSeparator' for the input parameter,
+//       'numStrDto.integerDigitsSeparator' for the input parameter,
 //       'numStrDto'.
 //
 //
@@ -1733,7 +1733,7 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparatorsToDefaultIfEmpty(
 //  numStrDto           *NumStrDto
 //     - A pointer to an instance of NumStrDto. This method WILL
 //       CHANGE and overwrite the value of internal member variables
-//       'numStrDto.decimalSeparator', 'numStrDto.thousandsSeparator'
+//       'numStrDto.decimalSeparator', 'numStrDto.integerDigitsSeparator'
 //       and 'numStrDto.currencySymbol'.
 //
 //
@@ -1744,10 +1744,10 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparatorsToDefaultIfEmpty(
 //       'numStrDto'.
 //
 //
-//  thousandsSeparator  rune
+//  integerDigitsSeparator  rune
 //     - This rune or text character conveys the thousands separator
 //       character which will populate the internal member variable
-//       'numStrDto.thousandsSeparator' for the input parameter,
+//       'numStrDto.integerDigitsSeparator' for the input parameter,
 //       'numStrDto'.
 //
 //
