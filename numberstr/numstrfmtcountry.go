@@ -18,16 +18,282 @@ import "sync"
 //  https://en.wikipedia.org/wiki/Decimal_separator
 //  https://en.wikipedia.org/wiki/ISO_4217
 //  https://english.stackexchange.com/questions/124797/how-to-write-negative-currency-in-text
-//
+//  https://www.thefinancials.com/Default.aspx?SubSectionID=curformat
 //
 //
 // Countries:
 //
+//  Canada
+//  China
+//  France
+//  Germany
+//  Israel
+//  Italy
 //  United Kingdom
 //  United States
 
 type NumStrFormatCountry struct {
 	lock *sync.Mutex
+}
+
+// UnitedStates - Returns the number string format used in the
+// United States.
+func (nStrFmtCountry *NumStrFormatCountry) Canada() NumStrFormatDto {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	newNStrFmtDto := NumStrFormatDto{}
+
+	newNStrFmtDto.valueDisplaySpec =
+		NumStrValSpec(0).SignedNumberValue()
+
+	newNStrFmtDto.positiveValueFmt = "127.54"
+	newNStrFmtDto.negativeValueFmt = "-127.54"
+
+	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+
+	newNStrFmtDto.currencyFmt.idNo = 1
+	newNStrFmtDto.currencyFmt.currencySymbol = '\U00000024'
+	newNStrFmtDto.currencyFmt.currencyCode = "CAD"
+	newNStrFmtDto.currencyFmt.currencyName = "Dollar"
+	newNStrFmtDto.currencyFmt.countryName = "Canada"
+	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "Canada"
+	newNStrFmtDto.currencyFmt.alternateCountryName = "Canada"
+	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "CA"
+	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "CAN"
+	newNStrFmtDto.currencyFmt.countryCodeNumber = "124"
+	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "$ 127.54"
+	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "-$ 127.54"
+
+	newNStrFmtDto.decimalSeparator = '.'
+	newNStrFmtDto.thousandsSeparator = ','
+	newNStrFmtDto.turnOnThousandsSeparator = false
+	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+
+	newNStrFmtDto.lock = new(sync.Mutex)
+
+	return newNStrFmtDto
+}
+
+func (nStrFmtCountry *NumStrFormatCountry) China() NumStrFormatDto {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	newNStrFmtDto := NumStrFormatDto{}
+
+	newNStrFmtDto.valueDisplaySpec =
+		NumStrValSpec(0).SignedNumberValue()
+
+	newNStrFmtDto.positiveValueFmt = "127.54"
+	newNStrFmtDto.negativeValueFmt = "-127.54"
+
+	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+
+	newNStrFmtDto.currencyFmt.idNo = 1
+	newNStrFmtDto.currencyFmt.currencySymbol = '\U000000a5'
+	newNStrFmtDto.currencyFmt.currencyCode = "CNY"
+	newNStrFmtDto.currencyFmt.currencyName = "Yuan"
+	newNStrFmtDto.currencyFmt.countryName = "China"
+	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "CHN"
+	newNStrFmtDto.currencyFmt.alternateCountryName = "Peoples Republic of China"
+	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "CN"
+	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "CHN"
+	newNStrFmtDto.currencyFmt.countryCodeNumber = "156"
+	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "$127.54"
+	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "- $127.54"
+
+	newNStrFmtDto.decimalSeparator = '.'
+	newNStrFmtDto.thousandsSeparator = ','
+	newNStrFmtDto.turnOnThousandsSeparator = false
+	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+
+	newNStrFmtDto.lock = new(sync.Mutex)
+
+	return newNStrFmtDto
+}
+
+func (nStrFmtCountry *NumStrFormatCountry) France() NumStrFormatDto {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	newNStrFmtDto := NumStrFormatDto{}
+
+	newNStrFmtDto.valueDisplaySpec =
+		NumStrValSpec(0).SignedNumberValue()
+
+	newNStrFmtDto.positiveValueFmt = "127.54"
+	newNStrFmtDto.negativeValueFmt = "-127.54"
+
+	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+
+	newNStrFmtDto.currencyFmt.idNo = 1
+	newNStrFmtDto.currencyFmt.currencySymbol = '\U000020ac'
+	newNStrFmtDto.currencyFmt.currencyCode = "EUR"
+	newNStrFmtDto.currencyFmt.currencyName = "Euro"
+	newNStrFmtDto.currencyFmt.countryName = "France"
+	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "France"
+	newNStrFmtDto.currencyFmt.alternateCountryName = "French Republic"
+	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "FR"
+	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "FRA"
+	newNStrFmtDto.currencyFmt.countryCodeNumber = "250"
+	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "$127.54"
+	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "- $127.54"
+
+	newNStrFmtDto.decimalSeparator = ','
+	newNStrFmtDto.thousandsSeparator = ' '
+	newNStrFmtDto.turnOnThousandsSeparator = false
+	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+
+	newNStrFmtDto.lock = new(sync.Mutex)
+
+	return newNStrFmtDto
+}
+
+func (nStrFmtCountry *NumStrFormatCountry) Germany() NumStrFormatDto {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	newNStrFmtDto := NumStrFormatDto{}
+
+	newNStrFmtDto.valueDisplaySpec =
+		NumStrValSpec(0).SignedNumberValue()
+
+	newNStrFmtDto.positiveValueFmt = "127.54"
+	newNStrFmtDto.negativeValueFmt = "-127.54"
+
+	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+
+	newNStrFmtDto.currencyFmt.idNo = 1
+	newNStrFmtDto.currencyFmt.currencySymbol = '\U000020ac'
+	newNStrFmtDto.currencyFmt.currencyCode = "EUR"
+	newNStrFmtDto.currencyFmt.currencyName = "Euro"
+	newNStrFmtDto.currencyFmt.countryName = "Germany"
+	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "Germany"
+	newNStrFmtDto.currencyFmt.alternateCountryName = "Federal Republic of Germany"
+	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "DE"
+	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "DEU"
+	newNStrFmtDto.currencyFmt.countryCodeNumber = "276"
+	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "$127.54"
+	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "- $127.54"
+
+	newNStrFmtDto.decimalSeparator = ','
+	newNStrFmtDto.thousandsSeparator = '.'
+	newNStrFmtDto.turnOnThousandsSeparator = false
+	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+
+	newNStrFmtDto.lock = new(sync.Mutex)
+
+	return newNStrFmtDto
+}
+
+func (nStrFmtCountry *NumStrFormatCountry) Italy() NumStrFormatDto {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	newNStrFmtDto := NumStrFormatDto{}
+
+	newNStrFmtDto.valueDisplaySpec =
+		NumStrValSpec(0).SignedNumberValue()
+
+	newNStrFmtDto.positiveValueFmt = "127.54"
+	newNStrFmtDto.negativeValueFmt = "-127.54"
+
+	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+
+	newNStrFmtDto.currencyFmt.idNo = 1
+	newNStrFmtDto.currencyFmt.currencySymbol = '\U000020ac'
+	newNStrFmtDto.currencyFmt.currencyCode = "EUR"
+	newNStrFmtDto.currencyFmt.currencyName = "Euro"
+	newNStrFmtDto.currencyFmt.countryName = "Italy"
+	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "Italy"
+	newNStrFmtDto.currencyFmt.alternateCountryName = "Italian Republic"
+	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "IT"
+	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "ITA"
+	newNStrFmtDto.currencyFmt.countryCodeNumber = "380"
+	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "$127.54"
+	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "- $127.54"
+
+	newNStrFmtDto.decimalSeparator = ','
+	newNStrFmtDto.thousandsSeparator = '.'
+	newNStrFmtDto.turnOnThousandsSeparator = false
+	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+
+	newNStrFmtDto.lock = new(sync.Mutex)
+
+	return newNStrFmtDto
+}
+
+func (nStrFmtCountry *NumStrFormatCountry) Israel() NumStrFormatDto {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	newNStrFmtDto := NumStrFormatDto{}
+
+	newNStrFmtDto.valueDisplaySpec =
+		NumStrValSpec(0).SignedNumberValue()
+
+	newNStrFmtDto.positiveValueFmt = "127.54"
+	newNStrFmtDto.negativeValueFmt = "-127.54"
+
+	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+
+	newNStrFmtDto.currencyFmt.idNo = 1
+	newNStrFmtDto.currencyFmt.currencySymbol = '\U000020aa'
+	newNStrFmtDto.currencyFmt.currencyCode = "ILS"
+	newNStrFmtDto.currencyFmt.currencyName = "Shekel"
+	newNStrFmtDto.currencyFmt.countryName = "Israel"
+	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "Israel"
+	newNStrFmtDto.currencyFmt.alternateCountryName = "State of Israel"
+	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "IL"
+	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "ISR"
+	newNStrFmtDto.currencyFmt.countryCodeNumber = "376"
+	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "$127.54"
+	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "- $127.54"
+
+	newNStrFmtDto.decimalSeparator = '.'
+	newNStrFmtDto.thousandsSeparator = ','
+	newNStrFmtDto.turnOnThousandsSeparator = false
+	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+
+	newNStrFmtDto.lock = new(sync.Mutex)
+
+	return newNStrFmtDto
 }
 
 func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() NumStrFormatDto {
