@@ -50,29 +50,15 @@ func (nStrFmtDtoMech *numStrFormatDtoMechanics) copyIn(
 		return err
 	}
 
-	numStrFmtDto1.valueDisplaySpec =
-		numStrFmtDto2.valueDisplaySpec
+	numStrFmtDto1.numStrFmtConfigs = make(map[NumStrValSpec]NumStrFormatter,
+		len(numStrFmtDto2.numStrFmtConfigs))
 
-	numStrFmtDto1.positiveValueFmt =
-		numStrFmtDto2.positiveValueFmt
+	for idx, nStrFormtrs := range numStrFmtDto2.numStrFmtConfigs {
+		numStrFmtDto1.numStrFmtConfigs[idx] = nStrFormtrs.CopyOut()
+	}
 
-	numStrFmtDto1.negativeValueFmt =
-		numStrFmtDto2.negativeValueFmt
-
-	numStrFmtDto1.currencyFmt =
-		numStrFmtDto2.currencyFmt.CopyOut()
-
-	numStrFmtDto1.decimalSeparator =
-		numStrFmtDto2.decimalSeparator
-
-	numStrFmtDto1.integerDigitsSeparator =
-		numStrFmtDto2.integerDigitsSeparator
-
-	numStrFmtDto1.turnOnIntegerDigitSeparator =
-		numStrFmtDto2.turnOnIntegerDigitSeparator
-
-	numStrFmtDto1.numberFieldDto =
-		numStrFmtDto2.numberFieldDto.CopyOut()
+	numStrFmtDto1.numFieldDto =
+		numStrFmtDto2.numFieldDto.CopyOut()
 
 	return err
 }
@@ -104,29 +90,15 @@ func (nStrFmtDtoMech *numStrFormatDtoMechanics) copyOut(
 		return newNumStrFormatDto, err
 	}
 
-	newNumStrFormatDto.valueDisplaySpec =
-		numStrFmtDto.valueDisplaySpec
+	newNumStrFormatDto.numStrFmtConfigs = make(map[NumStrValSpec]NumStrFormatter,
+		len(numStrFmtDto.numStrFmtConfigs))
 
-	newNumStrFormatDto.positiveValueFmt =
-		numStrFmtDto.positiveValueFmt
+	for idx, nStrFormtrs := range numStrFmtDto.numStrFmtConfigs {
+		newNumStrFormatDto.numStrFmtConfigs[idx] = nStrFormtrs.CopyOut()
+	}
 
-	newNumStrFormatDto.negativeValueFmt =
-		numStrFmtDto.negativeValueFmt
-
-	newNumStrFormatDto.currencyFmt =
-		numStrFmtDto.currencyFmt.CopyOut()
-
-	newNumStrFormatDto.decimalSeparator =
-		numStrFmtDto.decimalSeparator
-
-	newNumStrFormatDto.integerDigitsSeparator =
-		numStrFmtDto.integerDigitsSeparator
-
-	newNumStrFormatDto.turnOnIntegerDigitSeparator =
-		numStrFmtDto.turnOnIntegerDigitSeparator
-
-	newNumStrFormatDto.numberFieldDto =
-		numStrFmtDto.numberFieldDto.CopyOut()
+	newNumStrFormatDto.numFieldDto =
+		numStrFmtDto.numFieldDto.CopyOut()
 
 	newNumStrFormatDto.lock = new(sync.Mutex)
 
@@ -155,7 +127,7 @@ func (nStrFmtDtoMech *numStrFormatDtoMechanics) testNumStrFormatDtoValidity(
 
 	defer nStrFmtDtoMech.lock.Unlock()
 
-	ePrefix += "NumStrFormatDto.IsValidInstanceError() "
+	ePrefix += "NumStrFormatDto.testNumStrFormatDtoValidity() "
 
 	isValid = false
 
@@ -167,57 +139,12 @@ func (nStrFmtDtoMech *numStrFormatDtoMechanics) testNumStrFormatDtoValidity(
 		return isValid, err
 	}
 
-	if !numStrFmtDto.valueDisplaySpec.XIsValid() {
-		err = fmt.Errorf(ePrefix+"\n"+
-			"Error: Member variable 'NumStrFormatDto.valueDisplaySpec' is invalid!\n"+
-			"valueDisplaySpec='%v'\n",
-			numStrFmtDto.valueDisplaySpec.XValueInt())
-		return isValid, err
-	}
+	nStrFmtDtoNanobot := numStrFmtDtoNanobot{}
 
-	nStrFmtNanobot := numStrFormatNanobot{}
+	isValid,
+		err = nStrFmtDtoNanobot.testValidityOfNumStrFmtCollection(
+		numStrFmtDto.numStrFmtConfigs,
+		ePrefix)
 
-	_,
-		err = nStrFmtNanobot.testNumStrFormatValidity(
-		numStrFmtDto.positiveValueFmt,
-		ePrefix+"numStrFmtDto.positiveValueFmt ")
-
-	if err != nil {
-		return isValid, err
-	}
-
-	_,
-		err = nStrFmtNanobot.testNumStrFormatValidity(
-		numStrFmtDto.negativeValueFmt,
-		ePrefix+"numStrFmtDto.negativeValueFmt ")
-
-	if err != nil {
-		return isValid, err
-	}
-
-	err = numStrFmtDto.currencyFmt.IsValidInstanceError(
-		ePrefix + "Testing numStrFmtDto.currencyFmt validity. ")
-
-	if err != nil {
-		return isValid, err
-	}
-
-	if numStrFmtDto.decimalSeparator == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: NumStrFormatDto.decimalSeparator is a zero value and\n"+
-			"invalid!\n",
-			ePrefix)
-		return isValid, err
-	}
-
-	if numStrFmtDto.integerDigitsSeparator == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: NumStrFormatDto.integerDigitsSeparator is a zero value and\n"+
-			"invalid!\n",
-			ePrefix)
-		return isValid, err
-	}
-
-	isValid = true
 	return isValid, err
 }

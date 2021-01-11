@@ -6,9 +6,8 @@ import (
 )
 
 type NumStrFormatDto struct {
-	valueDisplaySpec NumStrValSpec
-	numberFieldDto   numberFieldDto
-	numStrFmtConfigs map[NumStrValSpec]NumberStrFmtConfigDto
+	numStrFmtConfigs map[NumStrValSpec]NumStrFormatter
+	numFieldDto      numberFieldDto
 	lock             *sync.Mutex
 }
 
@@ -122,40 +121,6 @@ func (nStrFmtDto *NumStrFormatDto) GetValueDisplaySpec() (
 	valueDisplaySpec = nStrFmtDto.valueDisplaySpec
 
 	return valueDisplaySpec
-}
-
-// GetPositiveValueFormat - Returns the Positive Value Format
-// string. This string contains formatting characters and placeholders
-// used to format positive numeric values in number strings.
-//
-func (nStrFmtDto *NumStrFormatDto) GetPositiveValueFormat() string {
-
-	if nStrFmtDto.lock == nil {
-		nStrFmtDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtDto.lock.Lock()
-
-	defer nStrFmtDto.lock.Unlock()
-
-	return nStrFmtDto.positiveValueFmt
-}
-
-// GetNegativeValueFormat - Returns the Negative Value Format
-// string. This string contains formatting characters and placeholders
-// used to format negative numeric values in number strings.
-//
-func (nStrFmtDto *NumStrFormatDto) GetNegativeValueFormat() string {
-
-	if nStrFmtDto.lock == nil {
-		nStrFmtDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtDto.lock.Lock()
-
-	defer nStrFmtDto.lock.Unlock()
-
-	return nStrFmtDto.negativeValueFmt
 }
 
 // IsValidInstanceError - Performs a diagnostic review of the current
@@ -275,150 +240,24 @@ func (nStrFmtDto *NumStrFormatDto) IsValidInstanceError(
 //       or absolute values.
 //
 //
-//  positiveValueFmt           string
-//     - A string specifying the number string format to be used in
-//       formatting positive numeric values in text strings. Valid
-//       formats for positive numeric values (NOT Currency) are listed
-//       as follows:
-//               "+NUMFIELD"
-//               "+ NUMFIELD"
-//               "NUMFIELD+"
-//               "NUMFIELD +"
-//               "NUMFIELD"
-//               "+127.54"
-//               "+ 127.54"
-//               "127.54+"
-//               "127.54 +"
-//               "127.54" THE DEFAULT Positive Value Format
+//  numStrConfigs       map[NumStrValSpec]NumStrFormatter
+//   - An instance of type 'map' which contains three NumStrFormatDto
+//     objects. Each of the objects is tagged with a NumStrValSpec
+//     specification identifying that format as one of three types:
 //
-//       Positive Value Formatting Terminology:
+//       NumStrValSpec(0).CurrencyValue() - Provides format specifications
+//       for converting numeric values to currency value number strings.
 //
-//        "NUMFIELD" - Placeholder for a number field. A number field has
-//                     a string length which is equal to or greater than
-//                     the actual numeric value string length. Actual
-//                     numeric values are right justified within number
-//                     fields for text displays.
+//       NumStrValSpec(0).AbsoluteValue() - Provides format specifications
+//       for converting numeric values to absolute value number strings.
 //
-//          "127.54" - Place holder for the numeric value of a number
-//                     string. This place holder signals that the
-//                     actual length of the numeric value including
-//                     formatting characters and symbols such  as
-//                     Thousands Separators, Decimal Separators and
-//                     Currency Symbols.
+//       NumStrValSpec(0).SignedNumberValue() - Provides format specifications
+//       for converting numeric values to signed number strings.
 //
-//               "+" - The Plus Sign ('+'). If present in the format string,
-//                     the plus sign ('+') specifies  where the plus sign will
-//                     be placed for positive numeric values.
-//
-//    Absence of "+" - The absence of a plus sign ('+') means that the positive
-//                     numeric value will be displayed in text with out a
-//                     plus sign ('+'). This is the default for positive number
-//                     formatting.
-//
-//
-//  negativeValueFmt           string
-//     - An enumeration value for Number String Negative Value Format
-//       Mode. Used to specify formatting for negative numeric values
-//       (NOT Currency). Valid formats for negative numeric values are
-//       listed as follows:
-//
-//               -127.54   The Default Negative Value Format String
-//               - 127.54
-//               127.54-
-//               127.54 -
-//               (-) 127.54
-//               (-)127.54
-//               127.54(-)
-//               127.54 (-)
-//               (127.54)
-//               ( 127.54 )
-//               (127.54)
-//               ( 127.54 )
-//               -127.54
-//               - 127.54
-//               127.54-
-//               127.54 -
-//               (-) 127.54
-//               (-)127.54
-//               127.54(-)
-//               127.54 (-)
-//               (127.54)
-//               ( 127.54 )
-//               (127.54)
-//               ( 127.54 )
-//               -NUMFIELD
-//               - NUMFIELD
-//               NUMFIELD-
-//               NUMFIELD -
-//               (-) NUMFIELD
-//               (-)NUMFIELD
-//               NUMFIELD(-)
-//               NUMFIELD (-)
-//               (NUMFIELD)
-//               ( NUMFIELD )
-//               (NUMFIELD)
-//               ( NUMFIELD )
-//
-//       Negative Value Formatting Terminology:
-//
-//        "NUMFIELD" - Placeholder for a number field. A number field has
-//                     a string length which is equal to or greater than
-//                     the actual numeric value string length. Actual
-//                     numeric values are right justified within number
-//                     fields for text displays.
-//
-//          "127.54" - Place holder for the numeric value of a number
-//                     string. This place holder signals that the
-//                     actual length of the numeric value including
-//                     formatting characters and symbols such  as
-//                     Thousands Separators, Decimal Separators and
-//                     Currency Symbols.
-//
-//               "-" - The Minus Sign ('-'). If present in the format string,
-//                     the minus sign ('-') specifies where the minus sign will
-//                     be positioned in the text string containing the negative
-//                     numeric value.
-//
-//             "(-)" - These three characters are often used in Europe and the
-//                     United Kingdom to classify a numeric value as negative.
-//
-//              "()" - Opposing parenthesis characters are frequently used in
-//                     the United States of America to classify a numeric value
-//                     as negative.
-//
-//
-//  currencyFmt                CurrencySymbolDto
-//     - A valid, populated instance of CurrencySymbolDto. This
-//       structure contains all the information necessary to format
-//       currency symbols. If this parameter is unpopulated or
-//       invalid, an error will be returned.
-//
-//
-//  decimalSeparator           rune
-//     - This parameter holds the character used to separate the
-//       integer and fractional components of a floating point
-//       number string. In the United States, the standard decimal
-//       separator is the decimal point ('.').
-//          Example:  123.456
-//
-//
-//  integerDigitsSeparator         rune
-//     - This parameter holds the character used to separate thousands
-//       in the integer component of a number string. In the United
-//       States, the standard thousands separator is the comma.
-//         Example:  1,000,000,000
-//
-//
-//  turnOnIntegerDigitSeparator   bool
-//     - Simply setting the Thousands Separator character will not
-//       ensure that character is actually used in formatting number
-//       strings. In addition, it is necessary to activate the use of
-//       the designated thousands character in formatting text number
-//       strings.
-//
-//       To turn on the insertion of thousands separators in the
-//       formatting of number strings, set input parameter
-//       'turnOnIntegerDigitSeparator' to 'true'.
+//       While it is possible to create this format information manually
+//       for a specific culture or nationality, a much easier approach is
+//       to simply use type NumStrFormatCountry and extract this information
+//       by country.
 //
 //
 //  numberFieldLength          int
@@ -457,13 +296,7 @@ func (nStrFmtDto *NumStrFormatDto) IsValidInstanceError(
 //       the beginning of the error message.
 //
 func (nStrFmtDto NumStrFormatDto) New(
-	valueDisplaySpec NumStrValSpec,
-	positiveValueFmt string,
-	negativeValueFmt string,
-	currencyFmt CurrencySymbolDto,
-	decimalSeparator rune,
-	thousandsSeparator rune,
-	turnOnThousandsSeparator bool,
+	numStrConfigs map[NumStrValSpec]NumStrFormatter,
 	numberFieldLength int,
 	ePrefix string) (
 	newFmtDto NumStrFormatDto,
@@ -479,64 +312,7 @@ func (nStrFmtDto NumStrFormatDto) New(
 
 	ePrefix += "NumStrFormatDto.New() "
 
-	if !valueDisplaySpec.XIsValid() {
-		err = fmt.Errorf(ePrefix+"\n"+
-			"Error: Input parameter 'valueDisplaySpec' is invalid!\n"+
-			"valueDisplaySpec='%v'\n",
-			nStrFmtDto.valueDisplaySpec.XValueInt())
-		return newFmtDto, err
-	}
-
-	if decimalSeparator == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'decimalSeparator' is a zero value rune!\n"+
-			"Invalid 'decimalSeparator' value!\n", ePrefix)
-		return newFmtDto, err
-	}
-
-	if thousandsSeparator == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'integerDigitsSeparator' is a zero value rune!\n"+
-			"Invalid 'integerDigitsSeparator' value!\n", ePrefix)
-		return newFmtDto, err
-	}
-
 	nStrFmtNanobot := numStrFormatNanobot{}
-
-	_,
-		err = nStrFmtNanobot.testNumStrFormatValidity(
-		positiveValueFmt,
-		ePrefix+"Testing positiveValueFmt validity. ")
-
-	if err != nil {
-		return newFmtDto, err
-	}
-
-	_,
-		err = nStrFmtNanobot.testNumStrFormatValidity(
-		negativeValueFmt,
-		ePrefix+"Testing negativeValueFmt validity. ")
-
-	if err != nil {
-		return newFmtDto, err
-	}
-
-	err = currencyFmt.IsValidInstanceError(
-		ePrefix +
-			"Testing 'currencyFmt' validity. ")
-
-	if err != nil {
-		return newFmtDto, err
-	}
-
-	newFmtDto.valueDisplaySpec = valueDisplaySpec
-	newFmtDto.negativeValueFmt = negativeValueFmt
-	newFmtDto.positiveValueFmt = positiveValueFmt
-	newFmtDto.currencyFmt = currencyFmt.CopyOut()
-	newFmtDto.turnOnIntegerDigitSeparator = turnOnThousandsSeparator
-	newFmtDto.integerDigitsSeparator = thousandsSeparator
-	newFmtDto.decimalSeparator = decimalSeparator
-	newFmtDto.numberFieldDto.requestedNumFieldLength = numberFieldLength
 
 	newFmtDto.lock = new(sync.Mutex)
 

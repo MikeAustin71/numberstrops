@@ -40,7 +40,7 @@ type NumStrFormatCountry struct {
 
 // Argentina - Returns the number string format used in the
 // Argentina.
-func (nStrFmtCountry *NumStrFormatCountry) Argentina() map[NumStrValSpec]NumberStrFmtConfigDto {
+func (nStrFmtCountry *NumStrFormatCountry) Argentina() map[NumStrValSpec]NumStrFormatter {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -50,9 +50,10 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina() map[NumStrValSpec]NumberS
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	currencyFmt := NumberStrFmtConfigDto{}
+	currencyFmt := NumStrFormatter{}
 	currencyFmt.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
 	currencyFmt.idNo = 32
+	currencyFmt.idString = "032"
 	currencyFmt.description = "Currency Format Argentina"
 	currencyFmt.countryName = "Argentina"
 	currencyFmt.abbreviatedCountryName = "Argentina"
@@ -67,7 +68,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina() map[NumStrValSpec]NumberS
 	currencyFmt.currencyDecimalDigits = 2
 	currencyFmt.currencyCode = "ARS"
 	currencyFmt.currencyName = "Peso"
-	currencyFmt.integerDigitsSeparationSequence =
+	currencyFmt.integerDigitsGroupingSequence =
 		[]int{3}
 	currencyFmt.integerDigitsSeparator = '.'
 	currencyFmt.turnOnIntegerDigitsSeparation = true
@@ -77,10 +78,12 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina() map[NumStrValSpec]NumberS
 		minimumNumFieldLength:   -1,
 		lock:                    new(sync.Mutex),
 	}
+	currencyFmt.lock = new(sync.Mutex)
 
-	absValFmt := NumberStrFmtConfigDto{}
+	absValFmt := NumStrFormatter{}
 	absValFmt.valueDisplaySpec = NumStrValSpec(0).AbsoluteValue()
 	absValFmt.idNo = 32
+	absValFmt.idString = "032"
 	absValFmt.description = "Absolute Value Format Argentina"
 	absValFmt.countryName = "Argentina"
 	absValFmt.countryName = "Argentina"
@@ -96,7 +99,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina() map[NumStrValSpec]NumberS
 	absValFmt.currencyDecimalDigits = -1
 	absValFmt.currencyCode = ""
 	absValFmt.currencyName = ""
-	absValFmt.integerDigitsSeparationSequence =
+	absValFmt.integerDigitsGroupingSequence =
 		[]int{3}
 	absValFmt.integerDigitsSeparator = '.'
 	absValFmt.turnOnIntegerDigitsSeparation = false
@@ -106,10 +109,12 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina() map[NumStrValSpec]NumberS
 		minimumNumFieldLength:   -1,
 		lock:                    new(sync.Mutex),
 	}
+	absValFmt.lock = new(sync.Mutex)
 
-	signedNumValFmt := NumberStrFmtConfigDto{}
+	signedNumValFmt := NumStrFormatter{}
 	signedNumValFmt.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
 	signedNumValFmt.idNo = 32
+	absValFmt.idString = "032"
 	signedNumValFmt.description = "Signed Number Format Argentina"
 	signedNumValFmt.countryName = "Argentina"
 	signedNumValFmt.countryName = "Argentina"
@@ -125,7 +130,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina() map[NumStrValSpec]NumberS
 	signedNumValFmt.currencyDecimalDigits = -1
 	signedNumValFmt.currencyCode = ""
 	signedNumValFmt.currencyName = ""
-	signedNumValFmt.integerDigitsSeparationSequence =
+	signedNumValFmt.integerDigitsGroupingSequence =
 		[]int{3}
 	signedNumValFmt.integerDigitsSeparator = '.'
 	signedNumValFmt.turnOnIntegerDigitsSeparation = false
@@ -135,8 +140,9 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina() map[NumStrValSpec]NumberS
 		minimumNumFieldLength:   -1,
 		lock:                    new(sync.Mutex),
 	}
+	signedNumValFmt.lock = new(sync.Mutex)
 
-	var numStrFmtMap = make(map[NumStrValSpec]NumberStrFmtConfigDto)
+	var numStrFmtMap = make(map[NumStrValSpec]NumStrFormatter)
 
 	numStrFmtMap[NumStrValSpec(0).CurrencyValue()] = currencyFmt
 	numStrFmtMap[NumStrValSpec(0).AbsoluteValue()] = absValFmt
