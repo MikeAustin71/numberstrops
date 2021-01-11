@@ -69,10 +69,10 @@ func (nStrFmtDto *NumStrFormatDto) CopyIn(
 
 	ePrefix += "NumStrFormatDto.CopyIn() "
 
-	nStrFmtDtoMech := numStrFormatDtoMechanics{}
+	nStrFmtDtoAtom := numStrFmtDtoAtom{}
 
 	err =
-		nStrFmtDtoMech.copyIn(
+		nStrFmtDtoAtom.copyIn(
 			nStrFmtDto,
 			nStrFmtDtoIn,
 			ePrefix)
@@ -93,34 +93,15 @@ func (nStrFmtDto *NumStrFormatDto) CopyOut() NumStrFormatDto {
 
 	defer nStrFmtDto.lock.Unlock()
 
-	nStrFmtDtoMech := numStrFormatDtoMechanics{}
+	nStrFmtDtoAtom := numStrFmtDtoAtom{}
 
 	newNumStrFmtDto,
 		_ :=
-		nStrFmtDtoMech.copyOut(
+		nStrFmtDtoAtom.copyOut(
 			nStrFmtDto,
 			"")
 
 	return newNumStrFmtDto
-}
-
-// GetValueDisplaySpec - Returns the NumStrValSpec
-// value.
-//
-func (nStrFmtDto *NumStrFormatDto) GetValueDisplaySpec() (
-	valueDisplaySpec NumStrValSpec) {
-
-	if nStrFmtDto.lock == nil {
-		nStrFmtDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtDto.lock.Lock()
-
-	defer nStrFmtDto.lock.Unlock()
-
-	valueDisplaySpec = nStrFmtDto.valueDisplaySpec
-
-	return valueDisplaySpec
 }
 
 // IsValidInstanceError - Performs a diagnostic review of the current
@@ -158,11 +139,11 @@ func (nStrFmtDto *NumStrFormatDto) IsValidInstance() (
 
 	defer nStrFmtDto.lock.Unlock()
 
-	nStrFmtDtoMech := numStrFormatDtoMechanics{}
+	nStrFmtDtoNanobot := numStrFmtDtoNanobot{}
 
 	isValid,
 		_ =
-		nStrFmtDtoMech.testNumStrFormatDtoValidity(
+		nStrFmtDtoNanobot.testNumStrFormatDtoValidity(
 			nStrFmtDto,
 			"")
 
@@ -215,11 +196,11 @@ func (nStrFmtDto *NumStrFormatDto) IsValidInstanceError(
 
 	ePrefix += "NumStrFormatDto.IsValidInstanceError() "
 
-	nStrFmtDtoMech := numStrFormatDtoMechanics{}
+	nStrFmtDtoNanobot := numStrFmtDtoNanobot{}
 
 	_,
 		err =
-		nStrFmtDtoMech.testNumStrFormatDtoValidity(
+		nStrFmtDtoNanobot.testNumStrFormatDtoValidity(
 			nStrFmtDto,
 			ePrefix)
 
@@ -234,16 +215,11 @@ func (nStrFmtDto *NumStrFormatDto) IsValidInstanceError(
 //
 // Input Parameters
 //
-//  valueDisplaySpec    NumStrValSpec
-//     - An enumeration value for Number String Value Specification.
-//       Used to specify display of positive and and negative values,
-//       or absolute values.
-//
-//
-//  numStrConfigs       map[NumStrValSpec]NumStrFormatter
-//   - An instance of type 'map' which contains three NumStrFormatDto
+//  numStrFormatterCollection  map[NumStrValSpec]NumStrFormatter
+//   - An instance of type 'map' which contains three NumStrFormatter
 //     objects. Each of the objects is tagged with a NumStrValSpec
-//     specification identifying that format as one of three types:
+//     specification identifying that format for use in one of three
+//     type of number string formatting:
 //
 //       NumStrValSpec(0).CurrencyValue() - Provides format specifications
 //       for converting numeric values to currency value number strings.
@@ -258,17 +234,10 @@ func (nStrFmtDto *NumStrFormatDto) IsValidInstanceError(
 //       for a specific culture or nationality, a much easier approach is
 //       to simply use type NumStrFormatCountry and extract this information
 //       by country.
-//
-//
-//  numberFieldLength          int
-//     - This is the requested length of the number field in which
-//       the number string will be displayed. If this field length
-//       is greater than the actual length of the number string,
-//       the number string will be right justified within the
-//       the number field. If the actual number string length is
-//       greater than the number field length, the number field
-//       field length will be automatically expanded to display the
-//       entire number string.
+//         Example:
+//           numStrFormatterCollection :=
+//              NumStrFormatCountry{}.NewPtr().UnitedStates()
+//           -- Use intellisense to pick your country or culture.
 //
 //
 //  ePrefix                    string
@@ -296,7 +265,7 @@ func (nStrFmtDto *NumStrFormatDto) IsValidInstanceError(
 //       the beginning of the error message.
 //
 func (nStrFmtDto NumStrFormatDto) New(
-	numStrConfigs map[NumStrValSpec]NumStrFormatter,
+	numStrFormatterCollection map[NumStrValSpec]NumStrFormatter,
 	numberFieldLength int,
 	ePrefix string) (
 	newFmtDto NumStrFormatDto,
@@ -311,300 +280,72 @@ func (nStrFmtDto NumStrFormatDto) New(
 	defer nStrFmtDto.lock.Unlock()
 
 	ePrefix += "NumStrFormatDto.New() "
+	newFmtDto = NumStrFormatDto{}
 
-	nStrFmtNanobot := numStrFormatNanobot{}
+	nStrFmtDtoMolecule := numStrFmtDtoMolecule{}
+
+	_,
+		err = nStrFmtDtoMolecule.testValidityOfNumStrFmtCollection(
+		numStrFormatterCollection,
+		ePrefix+
+			"Parameter 'numStrFormatterCollection' is invalid! ")
+
+	if err != nil {
+		return newFmtDto, err
+	}
+
+	newFmtDto.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: numberFieldLength,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
 
 	newFmtDto.lock = new(sync.Mutex)
 
 	return newFmtDto, err
 }
 
-// SetCurrencyFormat - Controls the use of Currency Symbols
-// in formatted number strings.
+// SetNumberStringFormatters - Configures the current NumStrFormatDto
+// with a collection of Number String Formatters which will be used
+// to format absolute numeric values, signed number values and currency
+// values. The easiest way to generate this collection is to select
+// from a list of countries and cultures provided by type,
+// NumStrFormatCountry.
+//
+// Example:
+//   numStrFormatterCollection :=
+//      NumStrFormatCountry{}.NewPtr().UnitedStates()
+//   -- Use intellisense to pick your country or culture.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Input Parameters
 //
-//  turnOnCurrencyFormatting   bool
-//     - If this input parameter is set to 'true' the currency symbol
-//       designated in parameter 'currencyFormat' will be used to insert
-//       that currency symbol in formatted number strings. If set to
-//       'false', the currency symbol WILL NOT be inserted into formatted
-//       number strings.
+//  numStrFormatterCollection  map[NumStrValSpec]NumStrFormatter
+//   - An instance of type 'map' which contains three NumStrFormatter
+//     objects. Each of the objects is tagged with a NumStrValSpec
+//     specification identifying that format for use in one of three
+//     types of number string formatting:
 //
-// ------------------------------------------------------------------------
+//       NumStrValSpec(0).CurrencyValue() - Provides format specifications
+//       for converting numeric values to currency value number strings.
 //
-// Return Values
+//       NumStrValSpec(0).AbsoluteValue() - Provides format specifications
+//       for converting numeric values to absolute value number strings.
 //
-//  --- NONE ---
+//       NumStrValSpec(0).SignedNumberValue() - Provides format specifications
+//       for converting numeric values to signed number strings.
 //
-func (nStrFmtDto *NumStrFormatDto) SetCurrencyFormat(
-	turnOnCurrencyFormatting bool) {
-
-	if nStrFmtDto.lock == nil {
-		nStrFmtDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtDto.lock.Lock()
-
-	defer nStrFmtDto.lock.Unlock()
-
-	if turnOnCurrencyFormatting == true {
-
-		nStrFmtDto.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
-
-		return
-	}
-
-	// turnOnCurrencyFormatting must be 'false'
-
-	if nStrFmtDto.valueDisplaySpec == NumStrValSpec(0).CurrencyValue() {
-
-		nStrFmtDto.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
-
-	}
-
-	return
-}
-
-// SetCurrencyFormat - Sets the currency symbol and determines
-// whether currency symbols will be formatted and displayed in
-// text number strings.
-//
-// Simply setting the currency symbol will not ensure that the
-// currency symbol is actually used in the formatting of text
-// number strings.
-//
-// To ensure the use of the currency symbol in formatting text
-// number strings, set the second input parameter to 'true'.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Input Parameters
-//
-//  currencyFormat             CurrencySymbolDto
-//     - If this instance of CurrencySymbolDto is valid, it will be
-//       used to configure the currency symbol and related currency
-//      information in the current NumStrFormatDto instance.
-//
-//
-//  turnOnCurrencyFormatting   bool
-//     - If this input parameter is set to 'true' the currency symbol
-//       designated in parameter 'currencyFormat' will be used to insert
-//       that currency symbol in formatted number strings. If set to
-//       'false', the currency symbol WILL NOT be inserted into formatted
-//       number strings.
-//
-//
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Return Values
-//
-//  err                 error
-//     - If this method completes successfully, the returned error Type
-//       is set to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message.
-//       Note that this error message will incorporate the method
-//       chain and text passed by input parameter, 'ePrefix'. This
-//       error prefix, 'ePrefix' will be prefixed to the beginning
-//       of the error message.
-//
-func (nStrFmtDto *NumStrFormatDto) SetCurrencySymbol(
-	currencyFormat CurrencySymbolDto,
-	turnOnCurrencyFormatting bool,
-	ePrefix string) (
-	err error) {
-
-	if nStrFmtDto.lock == nil {
-		nStrFmtDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtDto.lock.Lock()
-
-	defer nStrFmtDto.lock.Unlock()
-
-	ePrefix += "NumStrFormatDto.SetNegativeValueFormat() "
-
-	err = currencyFormat.IsValidInstanceError(
-		ePrefix +
-			"Testing validity of input parameter 'currencyFormat'. ")
-
-	if err != nil {
-		return err
-	}
-
-	nStrFmtDto.currencyFmt = currencyFormat.CopyOut()
-
-	if turnOnCurrencyFormatting == true {
-
-		nStrFmtDto.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
-
-		return err
-	}
-
-	// turnOnCurrencyFormatting must be 'false'
-
-	if nStrFmtDto.valueDisplaySpec == NumStrValSpec(0).CurrencyValue() {
-		nStrFmtDto.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
-	}
-
-	return err
-}
-
-// SetDecimalSeparator - Sets the character which will be used to
-// separate the integer and fractional components of a number
-// string.
-//
-// In the United States, the standard decimal separator is the the
-// decimal point ('.') or period character.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Input Parameters
-//
-//  decimalSeparator    rune
-//     - If this character is a non-zero value, it will be used as
-//       the decimal separator in formatting floating point number
-//       strings. If this parameter is set to zero ('0'), an error
-//       will be returned.
-//
-//
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Return Values
-//
-//  err                 error
-//     - If this method completes successfully, the returned error Type
-//       is set to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message.
-//       Note that this error message will incorporate the method
-//       chain and text passed by input parameter, 'ePrefix'. This
-//       error prefix, 'ePrefix' will be prefixed to the beginning
-//       of the error message.
-//
-func (nStrFmtDto *NumStrFormatDto) SetDecimalSeparator(
-	decimalSeparator rune,
-	ePrefix string) (
-	err error) {
-
-	if nStrFmtDto.lock == nil {
-		nStrFmtDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtDto.lock.Lock()
-
-	defer nStrFmtDto.lock.Unlock()
-
-	ePrefix += "NumStrFormatDto.SetDecimalSeparator() "
-
-	if decimalSeparator == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'decimalSeparator' contains a zero value.\n"+
-			"'decimalSeparator' is invalid!\n",
-			ePrefix)
-		return err
-	}
-
-	nStrFmtDto.decimalSeparator = decimalSeparator
-
-	return
-}
-
-// SetNegativeValueFormat - Sets the format string used to
-// format negative values in number strings.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  negativeValueFmt           string
-//     - An enumeration value for Number String Negative Value Format
-//       Mode. Used to specify formatting for negative numeric values
-//       (NOT Currency). Valid formats for negative numeric values are
-//       listed as follows:
-//
-//               -127.54   The Default Negative Value Format String
-//               - 127.54
-//               127.54-
-//               127.54 -
-//               (-) 127.54
-//               (-)127.54
-//               127.54(-)
-//               127.54 (-)
-//               (127.54)
-//               ( 127.54 )
-//               (127.54)
-//               ( 127.54 )
-//               -127.54
-//               - 127.54
-//               127.54-
-//               127.54 -
-//               (-) 127.54
-//               (-)127.54
-//               127.54(-)
-//               127.54 (-)
-//               (127.54)
-//               ( 127.54 )
-//               (127.54)
-//               ( 127.54 )
-//               -NUMFIELD
-//               - NUMFIELD
-//               NUMFIELD-
-//               NUMFIELD -
-//               (-) NUMFIELD
-//               (-)NUMFIELD
-//               NUMFIELD(-)
-//               NUMFIELD (-)
-//               (NUMFIELD)
-//               ( NUMFIELD )
-//               (NUMFIELD)
-//               ( NUMFIELD )
-//
-//       Negative Value Formatting Terminology:
-//
-//        "NUMFIELD" - Placeholder for a number field. A number field has
-//                     a string length which is equal to or greater than
-//                     the actual numeric value string length. Actual
-//                     numeric values are right justified within number
-//                     fields for text displays.
-//
-//          "127.54" - Place holder for the numeric value of a number
-//                     string. This place holder signals that the
-//                     actual length of the numeric value including
-//                     formatting characters and symbols such  as
-//                     Thousands Separators, Decimal Separators and
-//                     Currency Symbols.
-//
-//               "-" - The Minus Sign ('-'). If present in the format string,
-//                     the minus sign ('-') specifies where the minus sign will
-//                     be positioned in the text string containing the negative
-//                     numeric value.
-//
-//             "(-)" - These three characters are often used in Europe and the
-//                     United Kingdom to classify a numeric value as negative.
-//
-//              "()" - Opposing parenthesis characters are frequently used in
-//                     the United States of America to classify a numeric value
-//                     as negative.
+//       While it is possible to create this format information manually
+//       for a specific culture or nationality, a much easier approach is
+//       to simply use type NumStrFormatCountry and extract this information
+//       by country.
+//         Example:
+//           numStrFormatterCollection :=
+//              NumStrFormatCountry{}.NewPtr().UnitedStates()
+//           -- Use intellisense to pick your country or culture.
 //
 //
 //  ePrefix                    string
@@ -618,7 +359,7 @@ func (nStrFmtDto *NumStrFormatDto) SetDecimalSeparator(
 //
 // Return Values
 //
-//  err                        error
+//  error
 //     - If this method completes successfully, the returned error Type is set
 //       equal to 'nil'. If errors are encountered during processing, the
 //       returned error Type will encapsulate an error message. Note this
@@ -626,10 +367,9 @@ func (nStrFmtDto *NumStrFormatDto) SetDecimalSeparator(
 //       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
 //       the beginning of the error message.
 //
-func (nStrFmtDto *NumStrFormatDto) SetNegativeValueFormat(
-	negativeValueFmt string,
-	ePrefix string) (
-	err error) {
+func (nStrFmtDto *NumStrFormatDto) SetNumberStringFormatters(
+	numStrFormatterCollection map[NumStrValSpec]NumStrFormatter,
+	ePrefix string) error {
 
 	if nStrFmtDto.lock == nil {
 		nStrFmtDto.lock = new(sync.Mutex)
@@ -639,125 +379,14 @@ func (nStrFmtDto *NumStrFormatDto) SetNegativeValueFormat(
 
 	defer nStrFmtDto.lock.Unlock()
 
-	ePrefix += "NumStrFormatDto.SetNegativeValueFormat() "
+	ePrefix += "NumStrFormatDto.SetNumberStringFormatters() "
 
-	nStrFmtNanobot := numStrFormatNanobot{}
+	nStrFmtDtoNanobot := numStrFmtDtoNanobot{}
 
-	_,
-		err = nStrFmtNanobot.testNumStrFormatValidity(
-		negativeValueFmt,
-		ePrefix+
-			fmt.Sprintf("negativeValueFmt='%v' ",
-				negativeValueFmt))
-
-	if err != nil {
-		return err
-	}
-
-	nStrFmtDto.negativeValueFmt = negativeValueFmt
-
-	return err
-}
-
-// SetPositiveValueFormatMode - Sets the Positive Value Format
-// for the current NumStrFormatDto instance.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  positiveValueFmt           string
-//     - A string specifying the number string format to be used in
-//       formatting positive numeric values in text strings. Valid
-//       formats for positive numeric values (NOT Currency) are listed
-//       as follows:
-//               "+NUMFIELD"
-//               "+ NUMFIELD"
-//               "NUMFIELD+"
-//               "NUMFIELD +"
-//               "NUMFIELD"
-//               "+127.54"
-//               "+ 127.54"
-//               "127.54+"
-//               "127.54 +"
-//               "127.54" THE DEFAULT Positive Value Format
-//
-//       Positive Value Formatting Terminology:
-//
-//        "NUMFIELD" - Placeholder for a number field. A number field has
-//                     a string length which is equal to or greater than
-//                     the actual numeric value string length. Actual
-//                     numeric values are right justified within number
-//                     fields for text displays.
-//
-//          "127.54" - Place holder for the numeric value of a number
-//                     string. This place holder signals that the
-//                     actual length of the numeric value including
-//                     formatting characters and symbols such  as
-//                     Thousands Separators, Decimal Separators and
-//                     Currency Symbols.
-//
-//               "+" - The Plus Sign ('+'). If present in the format string,
-//                     the plus sign ('+') specifies  where the plus sign will
-//                     be placed for positive numeric values.
-//
-//    Absence of "+" - The absence of a plus sign ('+') means that the positive
-//                     numeric value will be displayed in text with out a
-//                     plus sign ('+'). This is the default for positive number
-//                     formatting.
-//
-//
-//  ePrefix                    string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Return Values
-//
-//  err                        error
-//     - If this method completes successfully, the returned error Type is set
-//       equal to 'nil'. If errors are encountered during processing, the
-//       returned error Type will encapsulate an error message. Note this
-//       error message will incorporate the method chain and text passed by
-//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
-//       the beginning of the error message.
-//
-func (nStrFmtDto *NumStrFormatDto) SetPositiveValueFormatMode(
-	positiveValueFmt string,
-	ePrefix string) (
-	err error) {
-
-	if nStrFmtDto.lock == nil {
-		nStrFmtDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtDto.lock.Lock()
-
-	defer nStrFmtDto.lock.Unlock()
-
-	ePrefix += "NumStrFormatDto.SetNegativeValueFormat() "
-
-	nStrFmtNanobot := numStrFormatNanobot{}
-
-	_,
-		err = nStrFmtNanobot.testNumStrFormatValidity(
-		positiveValueFmt,
-		ePrefix+
-			fmt.Sprintf("positiveValueFmt='%v' ",
-				positiveValueFmt))
-
-	if err != nil {
-		return err
-	}
-
-	nStrFmtDto.positiveValueFmt = positiveValueFmt
-
-	return err
+	return nStrFmtDtoNanobot.setNumberStringFormatters(
+		nStrFmtDto,
+		numStrFormatterCollection,
+		ePrefix)
 }
 
 // SetNumberFieldLength - Sets the length of the number field in
@@ -769,7 +398,7 @@ func (nStrFmtDto *NumStrFormatDto) SetPositiveValueFormatMode(
 // field will be padded with spaces.
 //
 // Example:
-//   numFieldLen = 9
+//   numberFieldLen = 9
 //   numberString =          "123.456"
 //   Output Formatted Text = "  123.456"
 //
@@ -778,122 +407,32 @@ func (nStrFmtDto *NumStrFormatDto) SetPositiveValueFormatMode(
 // will be displayed in it's actual length.
 //
 // Example:
-//   numFieldLen = -1
+//   numberFieldLen = -1
 //   numberString =          "123.456"
 //   Output Formatted Text = "123.456"
 //
-func (nStrFmtDto *NumStrFormatDto) SetNumberFieldLength(
-	numFieldLen int) {
-
-	if nStrFmtDto.lock == nil {
-		nStrFmtDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtDto.lock.Lock()
-
-	defer nStrFmtDto.lock.Unlock()
-
-	nStrFmtDto.numberFieldDto.requestedNumFieldLength =
-		numFieldLen
-}
-
-// SetThousandsSeparatorCharacter - Sets the value of the thousands
-// separator to the rune passed as an input parameter.
-//
-// Simply setting the Thousands Separator value in the current
-// NumStrFormatDto will not actually display that thousands
-// separator in text number strings. In addition, the use of
-// a thousands separator must be activated by setting the second
-// input parameter to 'true'.
-//
 //
 // ------------------------------------------------------------------------
 //
 // Input Parameters
 //
-//  integerDigitsSeparator         rune
-//     - This character will be used to separate thousands in number
-//       strings formatted for text display.
+//  numberFieldLen      int
+//     - This parameter sets the length of the number field in which the
+//       number string will be displayed.
+//
 //       Example:
-//         integerDigitsSeparator = ','   Output: 1,000,000,000
+//         numberFieldLen = 9
+//         numberString =          "123.456"
+//         Output Formatted Text = "  123.456"
 //
+//       If the number field length is equal to or less than the actual
+//       length of the formatted number string, the number string will
+//       will be displayed in it's actual length.
 //
-//  turnOnIntegerDigitSeparator   bool
-//     - Simply setting the Thousands Separator character will not
-//       ensure that character is actually used in formatting number
-//       strings. In addition, it is necessary to activate the use of
-//       the designated thousands character in formatting text number
-//       strings.
-//
-//       To turn on the insertion of thousands separators in the
-//       formatting of number strings, set input parameter
-//       'turnOnIntegerDigitSeparator' to 'true'.
-//
-//
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Return Values
-//
-//  err                 error
-//     - If this method completes successfully, the returned error Type
-//       is set to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message.
-//       Note that this error message will incorporate the method
-//       chain and text passed by input parameter, 'ePrefix'. This
-//       error prefix, 'ePrefix' will be prefixed to the beginning
-//       of the error message.
-//
-func (nStrFmtDto *NumStrFormatDto) SetThousandsSeparator(
-	thousandsSeparator rune,
-	turnOnThousandsSeparator bool,
-	ePrefix string) (err error) {
-
-	if nStrFmtDto.lock == nil {
-		nStrFmtDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtDto.lock.Lock()
-
-	defer nStrFmtDto.lock.Unlock()
-
-	ePrefix += "NumStrFormatDto.SetThousandsSeparatorCharacter() "
-
-	if thousandsSeparator == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'integerDigitsSeparator' is a zero value.\n"+
-			" 'integerDigitsSeparator' is invalid!\n", ePrefix)
-		return err
-	}
-
-	nStrFmtDto.integerDigitsSeparator = thousandsSeparator
-	nStrFmtDto.turnOnIntegerDigitSeparator = turnOnThousandsSeparator
-
-	return err
-}
-
-// SetThousandsSeparatorOn - Call this method to control the display
-// of thousands separators in text number strings.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Input Parameters
-//
-//  turnOnThousandsSeparators  bool
-//     - If this input parameter is set to 'true', thousands separators
-//       be inserted to number strings for text displays.
-//         Example: 1,000,000,000
-//
-//       If this input parameter is set to 'false' thousands separators,
-//       WILL NOT be included in number strings formatted for text display.
-//         Example: 1000000000
+//       Example:
+//         numberFieldLen = -1
+//         numberString =          "123.456"
+//         Output Formatted Text = "123.456"
 //
 //
 // ------------------------------------------------------------------------
@@ -902,8 +441,9 @@ func (nStrFmtDto *NumStrFormatDto) SetThousandsSeparator(
 //
 //  --- NONE ---
 //
-func (nStrFmtDto *NumStrFormatDto) SetThousandsSeparatorDisplay(
-	turnOnThousandsSeparators bool) {
+//
+func (nStrFmtDto *NumStrFormatDto) SetNumberFieldLength(
+	numberFieldLen int) {
 
 	if nStrFmtDto.lock == nil {
 		nStrFmtDto.lock = new(sync.Mutex)
@@ -913,8 +453,14 @@ func (nStrFmtDto *NumStrFormatDto) SetThousandsSeparatorDisplay(
 
 	defer nStrFmtDto.lock.Unlock()
 
-	nStrFmtDto.turnOnIntegerDigitSeparator = turnOnThousandsSeparators
+	nStrFmtDtoNanobot := numStrFmtDtoNanobot{}
 
+	_ = nStrFmtDtoNanobot.setNumberFieldLength(
+		nStrFmtDto,
+		numberFieldLen,
+		"")
+
+	return
 }
 
 // SetToDefaults - This method will set all internal
@@ -933,9 +479,9 @@ func (nStrFmtDto *NumStrFormatDto) SetToDefaults() {
 
 	defer nStrFmtDto.lock.Unlock()
 
-	nStrFmtDtoUtil := numStrFormatDtoUtility{}
+	nStrFmtDtoMech := numStrFormatDtoMechanics{}
 
-	_ = nStrFmtDtoUtil.setToDefaults(
+	_ = nStrFmtDtoMech.setToDefaults(
 		nStrFmtDto,
 		"")
 
@@ -958,21 +504,9 @@ func (nStrFmtDto *NumStrFormatDto) SetToDefaultsIfEmpty() {
 
 	defer nStrFmtDto.lock.Unlock()
 
-	nStrFmtDtoMech := numStrFormatDtoMechanics{}
-
-	isValid,
-		_ :=
-		nStrFmtDtoMech.testNumStrFormatDtoValidity(
-			nStrFmtDto,
-			"")
-
-	if isValid {
-		return
-	}
-
 	nStrFmtDtoUtil := numStrFormatDtoUtility{}
 
-	_ = nStrFmtDtoUtil.setToDefaults(
+	_ = nStrFmtDtoUtil.setToDefaultsIfEmpty(
 		nStrFmtDto,
 		"")
 

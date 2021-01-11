@@ -9,16 +9,10 @@ type numStrFormatDtoUtility struct {
 	lock *sync.Mutex
 }
 
-// setToDefaults - Receives a pointer to an instance of
-// NumStrFormatDto and proceeds to set all of the internal
-// member variables to their default values.
-//
-// The Number String Format default values represent formatting
-// parameters used in the United States.
-//
-func (nStrFmtDtoUtil *numStrFormatDtoUtility) setToDefaults(
+func (nStrFmtDtoUtil *numStrFormatDtoUtility) setToDefaultsIfEmpty(
 	nStrFmtDto *NumStrFormatDto,
-	ePrefix string) (err error) {
+	ePrefix string) (
+	err error) {
 
 	if nStrFmtDtoUtil.lock == nil {
 		nStrFmtDtoUtil.lock = new(sync.Mutex)
@@ -28,33 +22,35 @@ func (nStrFmtDtoUtil *numStrFormatDtoUtility) setToDefaults(
 
 	defer nStrFmtDtoUtil.lock.Unlock()
 
-	ePrefix += "numStrFormatDtoUtility.setToDefaults() "
+	ePrefix += "numStrFormatDtoUtility.setToDefaultsIfEmpty() "
 
 	if nStrFmtDto == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter nStrFmtDto is a 'nil' pointer!\n",
+			"Error: Input parameter 'nStrFmtDto' is a 'nil' pointer!\n",
 			ePrefix)
 		return err
 	}
 
-	nStrFmtDto.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
+	nStrFmtDtoNanobot := numStrFmtDtoNanobot{}
 
-	nStrFmtQuark := numStrFormatQuark{}
+	_,
+		err = nStrFmtDtoNanobot.testNumStrFormatDtoValidity(
+		nStrFmtDto,
+		ePrefix+"Testing validity of 'nStrFmtDto' ")
 
-	nStrFmtDto.positiveValueFmt =
-		nStrFmtQuark.getDefaultPositiveNumStrFormat()
+	if err == nil {
+		return err
+	}
 
-	nStrFmtDto.negativeValueFmt =
-		nStrFmtQuark.getDefaultNegativeNumStrFormat()
+	nStrFmtDtoMech := numStrFormatDtoMechanics{}
 
-	nStrFmtDto.decimalSeparator =
-		nStrFmtQuark.getDefaultDecimalSeparator()
+	err = nStrFmtDtoMech.setToDefaults(
+		nStrFmtDto,
+		ePrefix+"Setting 'nStrFmtDto' to defaults ")
 
-	nStrFmtDto.integerDigitsSeparator =
-		nStrFmtQuark.getDefaultThousandsSeparator()
-
-	nStrFmtDto.currencyFmt =
-		nStrFmtQuark.getDefaultCurrencySymbol()
+	if err != nil {
+		return err
+	}
 
 	return err
 }
