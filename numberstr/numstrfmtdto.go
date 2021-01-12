@@ -1,7 +1,6 @@
 package numberstr
 
 import (
-	"fmt"
 	"sync"
 )
 
@@ -510,110 +509,4 @@ func (nStrFmtDto *NumStrFormatDto) SetToDefaultsIfEmpty() {
 		nStrFmtDto,
 		"")
 
-}
-
-// SetValueDisplaySpec - Sets the NumStrValSpec value. This value determines
-// the type of numeric value which will be displayed in text number strings.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Input Parameters
-//
-//  valueDisplaySpec    NumStrValSpec
-//     - This parameter must be set to one of the three values
-//       listed below:
-//
-//       AbsoluteValue      NumStrValSpec(0).AbsoluteValue()
-//        - This specification signals that a numeric value will be displayed
-//          in text as a positive number regardless of whether the native
-//          value is positive or negative. Effectively, this means that
-//          both negative values and positive values will be displayed as
-//          positive numbers.
-//
-//          Examples:
-//
-//               Positive Values          Negative Values
-//                +132 = +132              -123 = +123
-//
-//       CurrencyValue      NumStrValSpec(0).CurrencyValue()
-//        - The 'Currency Value' specification signals that all numeric values
-//          will be displayed in number strings as currency formatted with
-//          appropriate currency characters.
-//
-//          Currency number strings are always displayed as signed numeric
-//          values with currency symbols included in the text string. This
-//          means that positive values are displayed in text as positive
-//          numbers with currency symbols (like the dollar sign) included
-//          in the text string. Likewise, negative values are displayed in
-//          text as negative numbers with currency symbols (like the dollar
-//          sign) included in the text string.
-//
-//          Examples:
-//               Positive Values          Negative Values
-//                +132 = $132               -123 = ($123)
-//
-//       SignedNumberValue  NumStrValSpec(0).SignedNumberValue()
-//        - Signals that the numeric value will be displayed in text as a
-//          standard positive or negative value contingent upon the number
-//          sign associated with the numeric value. NO CURRENCY Symbols will
-//          be display in the resulting text number strings.
-//
-//          This is the default handling for numeric values.
-//
-//          'SignedNumberValue' means that positive values will be displayed
-//           as positive numbers and negative values will be displayed as
-//           negative numbers.
-//
-//           Examples:
-//               Positive Values          Negative Values
-//                +132 = 132               -123 = -123
-//
-//
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Return Values
-//
-//  err                 error
-//     - If this method completes successfully, the returned error Type
-//       is set to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message.
-//       Note that this error message will incorporate the method
-//       chain and text passed by input parameter, 'ePrefix'. This
-//       error prefix, 'ePrefix' will be prefixed to the beginning
-//       of the error message.
-//
-func (nStrFmtDto *NumStrFormatDto) SetValueDisplaySpec(
-	valueDisplaySpec NumStrValSpec,
-	ePrefix string) (
-	err error) {
-
-	if nStrFmtDto.lock == nil {
-		nStrFmtDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtDto.lock.Lock()
-
-	defer nStrFmtDto.lock.Unlock()
-
-	ePrefix += "NumStrFormatDto.SetValueDisplaySpec() "
-
-	if !valueDisplaySpec.XIsValid() {
-		err = fmt.Errorf(ePrefix+"\n"+
-			"Error: Input parameter 'valueDisplaySpec' is invalid!\n"+
-			"valueDisplaySpec='%v'\n",
-			valueDisplaySpec.XValueInt())
-		return err
-	}
-
-	nStrFmtDto.valueDisplaySpec = valueDisplaySpec
-
-	return err
 }

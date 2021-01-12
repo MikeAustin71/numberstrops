@@ -6,11 +6,11 @@ import "sync"
 // by specific countries.
 //
 // Sources:
-// https://gist.github.com/bzerangue/5484121
-// http://symbologic.info/currency.htm
-// http://www.xe.com/symbols.php
-// https://www.countrycode.org/
-// https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+//  https://gist.github.com/bzerangue/5484121
+//  http://symbologic.info/currency.htm
+//  http://www.xe.com/symbols.php
+//  https://www.countrycode.org/
+//  https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
 //  https://www.codeproject.com/articles/78175/international-number-formats
 //  https://www.thefinancials.com/Default.aspx?SubSectionID=curformat
 //  https://docs.oracle.com/cd/E19455-01/806-0169/overview-9/index.html
@@ -18,7 +18,8 @@ import "sync"
 //  https://en.wikipedia.org/wiki/Decimal_separator
 //  https://en.wikipedia.org/wiki/ISO_4217
 //  https://english.stackexchange.com/questions/124797/how-to-write-negative-currency-in-text
-//  https://www.thefinancials.com/Default.aspx?SubSectionID=curformat
+//  https://freeformatter.com/i18n-standards-code-snippets.html
+//  https://www.evertype.com/standards/euro/formats.html
 //
 //
 // Countries:
@@ -163,9 +164,9 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina() map[NumStrValSpec]NumStrF
 	return numStrFmtMap
 }
 
-// Australia - Returns the number string format used in the
+// Australia - Returns the number string format used in
 // Australia.
-func (nStrFmtCountry *NumStrFormatCountry) Australia() NumStrFormatDto {
+func (nStrFmtCountry *NumStrFormatCountry) Australia() map[NumStrValSpec]NumStrFormatter {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -175,45 +176,109 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia() NumStrFormatDto {
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	newNStrFmtDto := NumStrFormatDto{}
+	currencyFmt := NumStrFormatter{}
+	currencyFmt.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
+	currencyFmt.idNo = 36
+	currencyFmt.idString = "036"
+	currencyFmt.description = "Currency Format: Australia"
+	currencyFmt.countryName = "Australia"
+	currencyFmt.abbreviatedCountryName = "Australia"
+	currencyFmt.alternateCountryName = "Commonwealth of Australia"
+	currencyFmt.countryCodeTwoChar = "AU"
+	currencyFmt.countryCodeThreeChar = "AUS"
+	currencyFmt.countryCodeNumber = "036"
+	currencyFmt.positiveValueFmt = "$ 127.54"
+	currencyFmt.negativeValueFmt = "-$ 127.54"
+	currencyFmt.decimalSeparator = '.'
+	currencyFmt.currencySymbol = '\U00000024'
+	currencyFmt.currencyDecimalDigits = 2
+	currencyFmt.currencyCode = "AUD"
+	currencyFmt.currencyName = "Dollar"
+	currencyFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	currencyFmt.integerDigitsSeparator = ','
+	currencyFmt.turnOnIntegerDigitsSeparation = true
+	currencyFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
 
-	newNStrFmtDto.valueDisplaySpec =
-		NumStrValSpec(0).SignedNumberValue()
+	currencyFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.positiveValueFmt = "127.54"
-	newNStrFmtDto.negativeValueFmt = "-127.54"
+	absValFmt := NumStrFormatter{}
+	absValFmt.valueDisplaySpec = NumStrValSpec(0).AbsoluteValue()
+	absValFmt.idNo = 36
+	absValFmt.idString = "036"
+	absValFmt.description = "Absolute Value Format: Australia"
+	absValFmt.countryName = "Australia"
+	absValFmt.abbreviatedCountryName = "Australia"
+	absValFmt.alternateCountryName = "Commonwealth of Australia"
+	absValFmt.countryCodeTwoChar = "AU"
+	absValFmt.countryCodeThreeChar = "AUS"
+	absValFmt.countryCodeNumber = "036"
+	absValFmt.positiveValueFmt = "127.54"
+	absValFmt.negativeValueFmt = "127.54"
+	absValFmt.decimalSeparator = '.'
+	absValFmt.currencySymbol = 0
+	absValFmt.currencyDecimalDigits = -1
+	absValFmt.currencyCode = ""
+	absValFmt.currencyName = ""
+	absValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	absValFmt.integerDigitsSeparator = ','
+	absValFmt.turnOnIntegerDigitsSeparation = false
+	absValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	absValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+	signedNumValFmt := NumStrFormatter{}
+	signedNumValFmt.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
+	signedNumValFmt.idNo = 36
+	absValFmt.idString = "036"
+	signedNumValFmt.description = "Signed Number Format: Australia"
+	signedNumValFmt.countryName = "Australia"
+	signedNumValFmt.abbreviatedCountryName = "Australia"
+	signedNumValFmt.alternateCountryName = "Commonwealth of Australia"
+	signedNumValFmt.countryCodeTwoChar = "AU"
+	signedNumValFmt.countryCodeThreeChar = "AUS"
+	signedNumValFmt.countryCodeNumber = "036"
+	signedNumValFmt.positiveValueFmt = "127.54"
+	signedNumValFmt.negativeValueFmt = "-127.54"
+	signedNumValFmt.decimalSeparator = '.'
+	signedNumValFmt.currencySymbol = 0
+	signedNumValFmt.currencyDecimalDigits = -1
+	signedNumValFmt.currencyCode = ""
+	signedNumValFmt.currencyName = ""
+	signedNumValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	signedNumValFmt.integerDigitsSeparator = ','
+	signedNumValFmt.turnOnIntegerDigitsSeparation = false
+	signedNumValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	signedNumValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt.idNo = 1
-	newNStrFmtDto.currencyFmt.currencySymbol = '\U00000024'
-	newNStrFmtDto.currencyFmt.currencyCode = "AUD"
-	newNStrFmtDto.currencyFmt.currencyName = "Dollar"
-	newNStrFmtDto.currencyFmt.countryName = "Australia"
-	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "Australia"
-	newNStrFmtDto.currencyFmt.alternateCountryName = "Commonwealth of Australia"
-	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "AU"
-	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "AUS"
-	newNStrFmtDto.currencyFmt.countryCodeNumber = "036"
-	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "$ 127.54"
-	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "-$ 127.54"
-	newNStrFmtDto.currencyFmt.turnOnIntegerDigitsSeparation = true
-	newNStrFmtDto.currencyFmt.currencyDecimalDigits = 2
+	var numStrFmtMap = make(map[NumStrValSpec]NumStrFormatter)
 
-	newNStrFmtDto.decimalSeparator = '.'
-	newNStrFmtDto.integerDigitsSeparator = ','
-	newNStrFmtDto.integerDigitSeparation = []int{3}
-	newNStrFmtDto.turnOnIntegerDigitSeparator = false
-	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+	numStrFmtMap[NumStrValSpec(0).CurrencyValue()] = currencyFmt
+	numStrFmtMap[NumStrValSpec(0).AbsoluteValue()] = absValFmt
+	numStrFmtMap[NumStrValSpec(0).SignedNumberValue()] = signedNumValFmt
 
-	newNStrFmtDto.lock = new(sync.Mutex)
-
-	return newNStrFmtDto
+	return numStrFmtMap
 }
 
-// Canada - Returns the number string format used in the
+// Canada - Returns the number string format used in
 // Canada.
-func (nStrFmtCountry *NumStrFormatCountry) Canada() NumStrFormatDto {
+func (nStrFmtCountry *NumStrFormatCountry) Canada() map[NumStrValSpec]NumStrFormatter {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -223,45 +288,109 @@ func (nStrFmtCountry *NumStrFormatCountry) Canada() NumStrFormatDto {
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	newNStrFmtDto := NumStrFormatDto{}
+	currencyFmt := NumStrFormatter{}
+	currencyFmt.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
+	currencyFmt.idNo = 124
+	currencyFmt.idString = "124"
+	currencyFmt.description = "Currency Format: Canada"
+	currencyFmt.countryName = "Canada"
+	currencyFmt.abbreviatedCountryName = "Canada"
+	currencyFmt.alternateCountryName = "Canada"
+	currencyFmt.countryCodeTwoChar = "CA"
+	currencyFmt.countryCodeThreeChar = "CAN"
+	currencyFmt.countryCodeNumber = "124"
+	currencyFmt.positiveValueFmt = "$ 127.54"
+	currencyFmt.negativeValueFmt = "-$ 127.54"
+	currencyFmt.decimalSeparator = '.'
+	currencyFmt.currencySymbol = '\U00000024'
+	currencyFmt.currencyDecimalDigits = 2
+	currencyFmt.currencyCode = "CAD"
+	currencyFmt.currencyName = "Dollar"
+	currencyFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	currencyFmt.integerDigitsSeparator = ','
+	currencyFmt.turnOnIntegerDigitsSeparation = true
+	currencyFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
 
-	newNStrFmtDto.valueDisplaySpec =
-		NumStrValSpec(0).SignedNumberValue()
+	currencyFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.positiveValueFmt = "127.54"
-	newNStrFmtDto.negativeValueFmt = "-127.54"
+	absValFmt := NumStrFormatter{}
+	absValFmt.valueDisplaySpec = NumStrValSpec(0).AbsoluteValue()
+	absValFmt.idNo = 124
+	absValFmt.idString = "124"
+	absValFmt.description = "Absolute Value Format: Canada"
+	absValFmt.countryName = "Canada"
+	absValFmt.abbreviatedCountryName = "Canada"
+	absValFmt.alternateCountryName = "Canada"
+	absValFmt.countryCodeTwoChar = "CA"
+	absValFmt.countryCodeThreeChar = "CAN"
+	absValFmt.countryCodeNumber = "124"
+	absValFmt.positiveValueFmt = "127.54"
+	absValFmt.negativeValueFmt = "127.54"
+	absValFmt.decimalSeparator = '.'
+	absValFmt.currencySymbol = 0
+	absValFmt.currencyDecimalDigits = -1
+	absValFmt.currencyCode = ""
+	absValFmt.currencyName = ""
+	absValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	absValFmt.integerDigitsSeparator = ','
+	absValFmt.turnOnIntegerDigitsSeparation = false
+	absValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	absValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+	signedNumValFmt := NumStrFormatter{}
+	signedNumValFmt.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
+	signedNumValFmt.idNo = 124
+	absValFmt.idString = "124"
+	signedNumValFmt.description = "Signed Number Format: Canada"
+	signedNumValFmt.countryName = "Canada"
+	signedNumValFmt.abbreviatedCountryName = "Canada"
+	signedNumValFmt.alternateCountryName = "Canada"
+	signedNumValFmt.countryCodeTwoChar = "CA"
+	signedNumValFmt.countryCodeThreeChar = "CAN"
+	signedNumValFmt.countryCodeNumber = "124"
+	signedNumValFmt.positiveValueFmt = "127.54"
+	signedNumValFmt.negativeValueFmt = "-127.54"
+	signedNumValFmt.decimalSeparator = '.'
+	signedNumValFmt.currencySymbol = 0
+	signedNumValFmt.currencyDecimalDigits = -1
+	signedNumValFmt.currencyCode = ""
+	signedNumValFmt.currencyName = ""
+	signedNumValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	signedNumValFmt.integerDigitsSeparator = ','
+	signedNumValFmt.turnOnIntegerDigitsSeparation = false
+	signedNumValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	signedNumValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt.idNo = 1
-	newNStrFmtDto.currencyFmt.currencySymbol = '\U00000024'
-	newNStrFmtDto.currencyFmt.currencyCode = "CAD"
-	newNStrFmtDto.currencyFmt.currencyName = "Dollar"
-	newNStrFmtDto.currencyFmt.countryName = "Canada"
-	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "Canada"
-	newNStrFmtDto.currencyFmt.alternateCountryName = "Canada"
-	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "CA"
-	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "CAN"
-	newNStrFmtDto.currencyFmt.countryCodeNumber = "124"
-	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "$ 127.54"
-	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "-$ 127.54"
-	newNStrFmtDto.currencyFmt.turnOnIntegerDigitsSeparation = true
-	newNStrFmtDto.currencyFmt.currencyDecimalDigits = 2
+	var numStrFmtMap = make(map[NumStrValSpec]NumStrFormatter)
 
-	newNStrFmtDto.decimalSeparator = '.'
-	newNStrFmtDto.integerDigitsSeparator = ','
-	newNStrFmtDto.integerDigitSeparation = []int{3}
-	newNStrFmtDto.turnOnIntegerDigitSeparator = false
-	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+	numStrFmtMap[NumStrValSpec(0).CurrencyValue()] = currencyFmt
+	numStrFmtMap[NumStrValSpec(0).AbsoluteValue()] = absValFmt
+	numStrFmtMap[NumStrValSpec(0).SignedNumberValue()] = signedNumValFmt
 
-	newNStrFmtDto.lock = new(sync.Mutex)
-
-	return newNStrFmtDto
+	return numStrFmtMap
 }
 
 // CanadaFrench - Returns the number string format used in
 // French Canada.
-func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench() NumStrFormatDto {
+func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench() map[NumStrValSpec]NumStrFormatter {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -271,45 +400,109 @@ func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench() NumStrFormatDto {
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	newNStrFmtDto := NumStrFormatDto{}
+	currencyFmt := NumStrFormatter{}
+	currencyFmt.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
+	currencyFmt.idNo = 124
+	currencyFmt.idString = "124"
+	currencyFmt.description = "Currency Format: Canada French"
+	currencyFmt.countryName = "Canada French"
+	currencyFmt.abbreviatedCountryName = "Canada French"
+	currencyFmt.alternateCountryName = "French Canadian"
+	currencyFmt.countryCodeTwoChar = "CA"
+	currencyFmt.countryCodeThreeChar = "CAN"
+	currencyFmt.countryCodeNumber = "124"
+	currencyFmt.positiveValueFmt = "127.54 $"
+	currencyFmt.negativeValueFmt = "127.54 $-"
+	currencyFmt.decimalSeparator = ','
+	currencyFmt.currencySymbol = '\U00000024'
+	currencyFmt.currencyDecimalDigits = 2
+	currencyFmt.currencyCode = "CAD"
+	currencyFmt.currencyName = "Dollar"
+	currencyFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	currencyFmt.integerDigitsSeparator = '.'
+	currencyFmt.turnOnIntegerDigitsSeparation = true
+	currencyFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
 
-	newNStrFmtDto.valueDisplaySpec =
-		NumStrValSpec(0).SignedNumberValue()
+	currencyFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.positiveValueFmt = "127.54"
-	newNStrFmtDto.negativeValueFmt = "-127.54"
+	absValFmt := NumStrFormatter{}
+	absValFmt.valueDisplaySpec = NumStrValSpec(0).AbsoluteValue()
+	absValFmt.idNo = 124
+	absValFmt.idString = "124"
+	absValFmt.description = "Absolute Value Format: Canada French"
+	absValFmt.countryName = "Canada French"
+	absValFmt.abbreviatedCountryName = "Canada French"
+	absValFmt.alternateCountryName = "French Canadian"
+	absValFmt.countryCodeTwoChar = "CA"
+	absValFmt.countryCodeThreeChar = "CAN"
+	absValFmt.countryCodeNumber = "124"
+	absValFmt.positiveValueFmt = "127.54"
+	absValFmt.negativeValueFmt = "127.54"
+	absValFmt.decimalSeparator = ','
+	absValFmt.currencySymbol = 0
+	absValFmt.currencyDecimalDigits = -1
+	absValFmt.currencyCode = ""
+	absValFmt.currencyName = ""
+	absValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	absValFmt.integerDigitsSeparator = '.'
+	absValFmt.turnOnIntegerDigitsSeparation = false
+	absValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	absValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+	signedNumValFmt := NumStrFormatter{}
+	signedNumValFmt.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
+	signedNumValFmt.idNo = 124
+	absValFmt.idString = "124"
+	signedNumValFmt.description = "Signed Number Format: Canada French"
+	signedNumValFmt.countryName = "Canada French"
+	signedNumValFmt.abbreviatedCountryName = "Canada French"
+	signedNumValFmt.alternateCountryName = "French Canadian"
+	signedNumValFmt.countryCodeTwoChar = "CA"
+	signedNumValFmt.countryCodeThreeChar = "CAN"
+	signedNumValFmt.countryCodeNumber = "124"
+	signedNumValFmt.positiveValueFmt = "127.54"
+	signedNumValFmt.negativeValueFmt = "127.54 -"
+	signedNumValFmt.decimalSeparator = ','
+	signedNumValFmt.currencySymbol = 0
+	signedNumValFmt.currencyDecimalDigits = -1
+	signedNumValFmt.currencyCode = ""
+	signedNumValFmt.currencyName = ""
+	signedNumValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	signedNumValFmt.integerDigitsSeparator = '.'
+	signedNumValFmt.turnOnIntegerDigitsSeparation = false
+	signedNumValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	signedNumValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt.idNo = 1
-	newNStrFmtDto.currencyFmt.currencySymbol = '\U00000024'
-	newNStrFmtDto.currencyFmt.currencyCode = "CAD"
-	newNStrFmtDto.currencyFmt.currencyName = "Dollar"
-	newNStrFmtDto.currencyFmt.countryName = "Canada"
-	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "Canada French"
-	newNStrFmtDto.currencyFmt.alternateCountryName = "French Canadian"
-	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "CA"
-	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "CAN"
-	newNStrFmtDto.currencyFmt.countryCodeNumber = "124"
-	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "127.54 $"
-	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "127.54 $-"
-	newNStrFmtDto.currencyFmt.turnOnIntegerDigitsSeparation = true
-	newNStrFmtDto.currencyFmt.currencyDecimalDigits = 2
+	var numStrFmtMap = make(map[NumStrValSpec]NumStrFormatter)
 
-	newNStrFmtDto.decimalSeparator = ','
-	newNStrFmtDto.integerDigitsSeparator = '.'
-	newNStrFmtDto.integerDigitSeparation = []int{3}
-	newNStrFmtDto.turnOnIntegerDigitSeparator = false
-	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+	numStrFmtMap[NumStrValSpec(0).CurrencyValue()] = currencyFmt
+	numStrFmtMap[NumStrValSpec(0).AbsoluteValue()] = absValFmt
+	numStrFmtMap[NumStrValSpec(0).SignedNumberValue()] = signedNumValFmt
 
-	newNStrFmtDto.lock = new(sync.Mutex)
-
-	return newNStrFmtDto
+	return numStrFmtMap
 }
 
 // China - Returns the number string format used in the
 // Peoples Republic of China.
-func (nStrFmtCountry *NumStrFormatCountry) China() NumStrFormatDto {
+func (nStrFmtCountry *NumStrFormatCountry) China() map[NumStrValSpec]NumStrFormatter {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -319,40 +512,104 @@ func (nStrFmtCountry *NumStrFormatCountry) China() NumStrFormatDto {
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	newNStrFmtDto := NumStrFormatDto{}
+	currencyFmt := NumStrFormatter{}
+	currencyFmt.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
+	currencyFmt.idNo = 156
+	currencyFmt.idString = "156"
+	currencyFmt.description = "Currency Format: China"
+	currencyFmt.countryName = "China"
+	currencyFmt.abbreviatedCountryName = "CHN"
+	currencyFmt.alternateCountryName = "Peoples Republic of China"
+	currencyFmt.countryCodeTwoChar = "CN"
+	currencyFmt.countryCodeThreeChar = "CHN"
+	currencyFmt.countryCodeNumber = "156"
+	currencyFmt.positiveValueFmt = "$ 127.54"
+	currencyFmt.negativeValueFmt = "-$ 127.54"
+	currencyFmt.decimalSeparator = '.'
+	currencyFmt.currencySymbol = '\U000000a5'
+	currencyFmt.currencyDecimalDigits = 2
+	currencyFmt.currencyCode = "CNY"
+	currencyFmt.currencyName = "Yuan"
+	currencyFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	currencyFmt.integerDigitsSeparator = ','
+	currencyFmt.turnOnIntegerDigitsSeparation = true
+	currencyFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
 
-	newNStrFmtDto.valueDisplaySpec =
-		NumStrValSpec(0).SignedNumberValue()
+	currencyFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.positiveValueFmt = "127.54"
-	newNStrFmtDto.negativeValueFmt = "-127.54"
+	absValFmt := NumStrFormatter{}
+	absValFmt.valueDisplaySpec = NumStrValSpec(0).AbsoluteValue()
+	absValFmt.idNo = 156
+	absValFmt.idString = "156"
+	absValFmt.description = "Absolute Value Format: China"
+	absValFmt.countryName = "China"
+	absValFmt.abbreviatedCountryName = "CHN"
+	absValFmt.alternateCountryName = "Peoples Republic of China"
+	absValFmt.countryCodeTwoChar = "CN"
+	absValFmt.countryCodeThreeChar = "CHN"
+	absValFmt.countryCodeNumber = "156"
+	absValFmt.positiveValueFmt = "127.54"
+	absValFmt.negativeValueFmt = "127.54"
+	absValFmt.decimalSeparator = '.'
+	absValFmt.currencySymbol = 0
+	absValFmt.currencyDecimalDigits = -1
+	absValFmt.currencyCode = ""
+	absValFmt.currencyName = ""
+	absValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	absValFmt.integerDigitsSeparator = ','
+	absValFmt.turnOnIntegerDigitsSeparation = false
+	absValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	absValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+	signedNumValFmt := NumStrFormatter{}
+	signedNumValFmt.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
+	signedNumValFmt.idNo = 156
+	absValFmt.idString = "156"
+	signedNumValFmt.description = "Signed Number Format: China"
+	signedNumValFmt.countryName = "China"
+	signedNumValFmt.abbreviatedCountryName = "CHN"
+	signedNumValFmt.alternateCountryName = "Peoples Republic of China"
+	signedNumValFmt.countryCodeTwoChar = "CN"
+	signedNumValFmt.countryCodeThreeChar = "CHN"
+	signedNumValFmt.countryCodeNumber = "156"
+	signedNumValFmt.positiveValueFmt = "127.54"
+	signedNumValFmt.negativeValueFmt = "-127.54"
+	signedNumValFmt.decimalSeparator = '.'
+	signedNumValFmt.currencySymbol = 0
+	signedNumValFmt.currencyDecimalDigits = -1
+	signedNumValFmt.currencyCode = ""
+	signedNumValFmt.currencyName = ""
+	signedNumValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	signedNumValFmt.integerDigitsSeparator = ','
+	signedNumValFmt.turnOnIntegerDigitsSeparation = false
+	signedNumValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	signedNumValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt.idNo = 1
-	newNStrFmtDto.currencyFmt.currencySymbol = '\U000000a5'
-	newNStrFmtDto.currencyFmt.currencyCode = "CNY"
-	newNStrFmtDto.currencyFmt.currencyName = "Yuan"
-	newNStrFmtDto.currencyFmt.countryName = "China"
-	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "CHN"
-	newNStrFmtDto.currencyFmt.alternateCountryName = "Peoples Republic of China"
-	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "CN"
-	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "CHN"
-	newNStrFmtDto.currencyFmt.countryCodeNumber = "156"
-	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "$ 127.54"
-	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "-$ 127.54"
-	newNStrFmtDto.currencyFmt.turnOnIntegerDigitsSeparation = true
-	newNStrFmtDto.currencyFmt.currencyDecimalDigits = 2
+	var numStrFmtMap = make(map[NumStrValSpec]NumStrFormatter)
 
-	newNStrFmtDto.decimalSeparator = '.'
-	newNStrFmtDto.integerDigitsSeparator = ','
-	newNStrFmtDto.integerDigitSeparation = []int{3}
-	newNStrFmtDto.turnOnIntegerDigitSeparator = false
-	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+	numStrFmtMap[NumStrValSpec(0).CurrencyValue()] = currencyFmt
+	numStrFmtMap[NumStrValSpec(0).AbsoluteValue()] = absValFmt
+	numStrFmtMap[NumStrValSpec(0).SignedNumberValue()] = signedNumValFmt
 
-	newNStrFmtDto.lock = new(sync.Mutex)
-
-	return newNStrFmtDto
+	return numStrFmtMap
 }
 
 // France - Returns the number string format used in the
@@ -360,7 +617,7 @@ func (nStrFmtCountry *NumStrFormatCountry) China() NumStrFormatDto {
 //
 // https://www.ibm.com/support/pages/english-and-french-currency-formats
 // https://freeformatter.com/france-standards-code-snippets.html
-func (nStrFmtCountry *NumStrFormatCountry) France() NumStrFormatDto {
+func (nStrFmtCountry *NumStrFormatCountry) France() map[NumStrValSpec]NumStrFormatter {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -370,49 +627,112 @@ func (nStrFmtCountry *NumStrFormatCountry) France() NumStrFormatDto {
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	newNStrFmtDto := NumStrFormatDto{}
+	currencyFmt := NumStrFormatter{}
+	currencyFmt.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
+	currencyFmt.idNo = 250
+	currencyFmt.idString = "250"
+	currencyFmt.description = "Currency Format: France"
+	currencyFmt.countryName = "France"
+	currencyFmt.abbreviatedCountryName = "France"
+	currencyFmt.alternateCountryName = "French Republic"
+	currencyFmt.countryCodeTwoChar = "FR"
+	currencyFmt.countryCodeThreeChar = "FRA"
+	currencyFmt.countryCodeNumber = "250"
+	currencyFmt.positiveValueFmt = "127.54 $"
+	currencyFmt.negativeValueFmt = "127.54 $ -"
+	currencyFmt.decimalSeparator = ','
+	currencyFmt.currencySymbol = '\U000020ac'
+	currencyFmt.currencyDecimalDigits = 2
+	currencyFmt.currencyCode = "EUR"
+	currencyFmt.currencyName = "Euro"
+	currencyFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	currencyFmt.integerDigitsSeparator = ' '
+	currencyFmt.turnOnIntegerDigitsSeparation = true
+	currencyFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
 
-	newNStrFmtDto.valueDisplaySpec =
-		NumStrValSpec(0).SignedNumberValue()
+	currencyFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.positiveValueFmt = "127.54"
-	newNStrFmtDto.negativeValueFmt = "-127.54"
+	absValFmt := NumStrFormatter{}
+	absValFmt.valueDisplaySpec = NumStrValSpec(0).AbsoluteValue()
+	absValFmt.idNo = 250
+	absValFmt.idString = "250"
+	absValFmt.description = "Absolute Value Format: France"
+	absValFmt.countryName = "France"
+	absValFmt.abbreviatedCountryName = "France"
+	absValFmt.alternateCountryName = "French Republic"
+	absValFmt.countryCodeTwoChar = "FR"
+	absValFmt.countryCodeThreeChar = "FRA"
+	absValFmt.countryCodeNumber = "250"
+	absValFmt.positiveValueFmt = "127.54"
+	absValFmt.negativeValueFmt = "127.54"
+	absValFmt.decimalSeparator = ','
+	absValFmt.currencySymbol = 0
+	absValFmt.currencyDecimalDigits = -1
+	absValFmt.currencyCode = ""
+	absValFmt.currencyName = ""
+	absValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	absValFmt.integerDigitsSeparator = ' '
+	absValFmt.turnOnIntegerDigitsSeparation = false
+	absValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	absValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+	signedNumValFmt := NumStrFormatter{}
+	signedNumValFmt.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
+	signedNumValFmt.idNo = 250
+	absValFmt.idString = "250"
+	signedNumValFmt.description = "Signed Number Format: France"
+	signedNumValFmt.countryName = "France"
+	signedNumValFmt.abbreviatedCountryName = "France"
+	signedNumValFmt.alternateCountryName = "French Republic"
+	signedNumValFmt.countryCodeTwoChar = "FR"
+	signedNumValFmt.countryCodeThreeChar = "FRA"
+	signedNumValFmt.countryCodeNumber = "250"
+	signedNumValFmt.positiveValueFmt = "127.54"
+	signedNumValFmt.negativeValueFmt = "127.54 -"
+	signedNumValFmt.decimalSeparator = ','
+	signedNumValFmt.currencySymbol = 0
+	signedNumValFmt.currencyDecimalDigits = -1
+	signedNumValFmt.currencyCode = ""
+	signedNumValFmt.currencyName = ""
+	signedNumValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	signedNumValFmt.integerDigitsSeparator = ' '
+	signedNumValFmt.turnOnIntegerDigitsSeparation = false
+	signedNumValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	signedNumValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt.idNo = 250
-	newNStrFmtDto.currencyFmt.currencySymbol = '\U000020ac'
-	newNStrFmtDto.currencyFmt.currencyCode = "EUR"
-	newNStrFmtDto.currencyFmt.currencyName = "Euro"
-	newNStrFmtDto.currencyFmt.countryName = "France"
-	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "France"
-	newNStrFmtDto.currencyFmt.alternateCountryName = "French Republic"
-	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "FR"
-	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "FRA"
-	newNStrFmtDto.currencyFmt.countryCodeNumber = "250"
-	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "127.54 $"
-	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "127.54 $ -"
-	newNStrFmtDto.currencyFmt.turnOnIntegerDigitsSeparation = true
-	newNStrFmtDto.currencyFmt.currencyDecimalDigits = 2
-	newNStrFmtDto.integerDigitSeparation = []int{3}
+	var numStrFmtMap = make(map[NumStrValSpec]NumStrFormatter)
 
-	newNStrFmtDto.decimalSeparator = ','
-	newNStrFmtDto.integerDigitsSeparator = ' '
-	newNStrFmtDto.integerDigitSeparation = []int{3}
-	newNStrFmtDto.turnOnIntegerDigitSeparator = false
-	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+	numStrFmtMap[NumStrValSpec(0).CurrencyValue()] = currencyFmt
+	numStrFmtMap[NumStrValSpec(0).AbsoluteValue()] = absValFmt
+	numStrFmtMap[NumStrValSpec(0).SignedNumberValue()] = signedNumValFmt
 
-	newNStrFmtDto.lock = new(sync.Mutex)
-
-	return newNStrFmtDto
+	return numStrFmtMap
 }
 
 // Germany - Returns the number string format used in the
 // Federal Republic of Germany.
 //
 // https://freeformatter.com/germany-standards-code-snippets.html
-//
-func (nStrFmtCountry *NumStrFormatCountry) Germany() NumStrFormatDto {
+// https://www.evertype.com/standards/euro/formats.html
+func (nStrFmtCountry *NumStrFormatCountry) Germany() map[NumStrValSpec]NumStrFormatter {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -422,48 +742,113 @@ func (nStrFmtCountry *NumStrFormatCountry) Germany() NumStrFormatDto {
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	newNStrFmtDto := NumStrFormatDto{}
+	currencyFmt := NumStrFormatter{}
+	currencyFmt.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
+	currencyFmt.idNo = 276
+	currencyFmt.idString = "276"
+	currencyFmt.description = "Currency Format: Germany"
+	currencyFmt.countryName = "Germany"
+	currencyFmt.abbreviatedCountryName = "Germany"
+	currencyFmt.alternateCountryName = "Federal Republic of Germany"
+	currencyFmt.countryCodeTwoChar = "DE"
+	currencyFmt.countryCodeThreeChar = "DEU"
+	currencyFmt.countryCodeNumber = "276"
+	currencyFmt.positiveValueFmt = "127.54 $"
+	currencyFmt.negativeValueFmt = "127.54 $-"
+	currencyFmt.decimalSeparator = ','
+	currencyFmt.currencySymbol = '\U000020ac'
+	currencyFmt.currencyDecimalDigits = 2
+	currencyFmt.currencyCode = "EUR"
+	currencyFmt.currencyName = "Euro"
+	currencyFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	currencyFmt.integerDigitsSeparator = '.'
+	currencyFmt.turnOnIntegerDigitsSeparation = true
+	currencyFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
 
-	newNStrFmtDto.valueDisplaySpec =
-		NumStrValSpec(0).SignedNumberValue()
+	currencyFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.positiveValueFmt = "127.54"
-	newNStrFmtDto.negativeValueFmt = "-127.54"
+	absValFmt := NumStrFormatter{}
+	absValFmt.valueDisplaySpec = NumStrValSpec(0).AbsoluteValue()
+	absValFmt.idNo = 276
+	absValFmt.idString = "276"
+	absValFmt.description = "Absolute Value Format: Germany"
+	absValFmt.countryName = "Germany"
+	absValFmt.abbreviatedCountryName = "Germany"
+	absValFmt.alternateCountryName = "Federal Republic of Germany"
+	absValFmt.countryCodeTwoChar = "DE"
+	absValFmt.countryCodeThreeChar = "DEU"
+	absValFmt.countryCodeNumber = "276"
+	absValFmt.positiveValueFmt = "127.54"
+	absValFmt.negativeValueFmt = "127.54"
+	absValFmt.decimalSeparator = ','
+	absValFmt.currencySymbol = 0
+	absValFmt.currencyDecimalDigits = -1
+	absValFmt.currencyCode = ""
+	absValFmt.currencyName = ""
+	absValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	absValFmt.integerDigitsSeparator = '.'
+	absValFmt.turnOnIntegerDigitsSeparation = false
+	absValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	absValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+	signedNumValFmt := NumStrFormatter{}
+	signedNumValFmt.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
+	signedNumValFmt.idNo = 276
+	absValFmt.idString = "276"
+	signedNumValFmt.description = "Signed Number Format: Germany"
+	signedNumValFmt.countryName = "Germany"
+	signedNumValFmt.abbreviatedCountryName = "Germany"
+	signedNumValFmt.alternateCountryName = "Federal Republic of Germany"
+	signedNumValFmt.countryCodeTwoChar = "DE"
+	signedNumValFmt.countryCodeThreeChar = "DEU"
+	signedNumValFmt.countryCodeNumber = "276"
+	signedNumValFmt.positiveValueFmt = "127.54"
+	signedNumValFmt.negativeValueFmt = "127.54-"
+	signedNumValFmt.decimalSeparator = ','
+	signedNumValFmt.currencySymbol = 0
+	signedNumValFmt.currencyDecimalDigits = -1
+	signedNumValFmt.currencyCode = ""
+	signedNumValFmt.currencyName = ""
+	signedNumValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	signedNumValFmt.integerDigitsSeparator = '.'
+	signedNumValFmt.turnOnIntegerDigitsSeparation = false
+	signedNumValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	signedNumValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt.idNo = 1
-	newNStrFmtDto.currencyFmt.currencySymbol = '\U000020ac'
-	newNStrFmtDto.currencyFmt.currencyCode = "EUR"
-	newNStrFmtDto.currencyFmt.currencyName = "Euro"
-	newNStrFmtDto.currencyFmt.countryName = "Germany"
-	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "Germany"
-	newNStrFmtDto.currencyFmt.alternateCountryName = "Federal Republic of Germany"
-	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "DE"
-	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "DEU"
-	newNStrFmtDto.currencyFmt.countryCodeNumber = "276"
-	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "127.54$"
-	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "127.54$-"
-	newNStrFmtDto.currencyFmt.turnOnIntegerDigitsSeparation = true
-	newNStrFmtDto.currencyFmt.currencyDecimalDigits = 2
+	var numStrFmtMap = make(map[NumStrValSpec]NumStrFormatter)
 
-	newNStrFmtDto.decimalSeparator = ','
-	newNStrFmtDto.integerDigitsSeparator = '.'
-	newNStrFmtDto.integerDigitSeparation = []int{3}
-	newNStrFmtDto.turnOnIntegerDigitSeparator = false
-	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+	numStrFmtMap[NumStrValSpec(0).CurrencyValue()] = currencyFmt
+	numStrFmtMap[NumStrValSpec(0).AbsoluteValue()] = absValFmt
+	numStrFmtMap[NumStrValSpec(0).SignedNumberValue()] = signedNumValFmt
 
-	newNStrFmtDto.lock = new(sync.Mutex)
-
-	return newNStrFmtDto
+	return numStrFmtMap
 }
 
 // Italy - Returns the number string format used in the
 // Italian Republic.
 //
+// https://freeformatter.com/italy-standards-code-snippets.html
+// https://italian.stackexchange.com/questions/5674/what-is-the-correct-way-to-format-currency-in-italian
 //
-//
-func (nStrFmtCountry *NumStrFormatCountry) Italy() NumStrFormatDto {
+func (nStrFmtCountry *NumStrFormatCountry) Italy() map[NumStrValSpec]NumStrFormatter {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -473,40 +858,112 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy() NumStrFormatDto {
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	newNStrFmtDto := NumStrFormatDto{}
+	currencyFmt := NumStrFormatter{}
+	currencyFmt.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
+	currencyFmt.idNo = 380
+	currencyFmt.idString = "380"
+	currencyFmt.description = "Currency Format: Italy"
+	currencyFmt.countryName = "Italy"
+	currencyFmt.abbreviatedCountryName = "Italy"
+	currencyFmt.alternateCountryName = "Italian Republic"
+	currencyFmt.countryCodeTwoChar = "IT"
+	currencyFmt.countryCodeThreeChar = "ITA"
+	currencyFmt.countryCodeNumber = "380"
+	currencyFmt.positiveValueFmt = "127.54 $"
+	currencyFmt.negativeValueFmt = "127.54 $-"
+	currencyFmt.decimalSeparator = ','
+	currencyFmt.currencySymbol = '\U000020ac'
+	currencyFmt.currencyDecimalDigits = 2
+	currencyFmt.currencyCode = "EUR"
+	currencyFmt.currencyName = "Euro"
+	currencyFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	currencyFmt.integerDigitsSeparator = '.'
+	currencyFmt.turnOnIntegerDigitsSeparation = true
+	currencyFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
 
-	newNStrFmtDto.valueDisplaySpec =
-		NumStrValSpec(0).SignedNumberValue()
+	currencyFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.positiveValueFmt = "127.54"
-	newNStrFmtDto.negativeValueFmt = "-127.54"
+	absValFmt := NumStrFormatter{}
+	absValFmt.valueDisplaySpec = NumStrValSpec(0).AbsoluteValue()
+	absValFmt.idNo = 380
+	absValFmt.idString = "380"
+	absValFmt.description = "Absolute Value Format: Italy"
+	absValFmt.countryName = "Italy"
+	absValFmt.abbreviatedCountryName = "Italy"
+	absValFmt.alternateCountryName = "Italian Republic"
+	absValFmt.countryCodeTwoChar = "IT"
+	absValFmt.countryCodeThreeChar = "ITA"
+	absValFmt.countryCodeNumber = "380"
+	absValFmt.positiveValueFmt = "127.54"
+	absValFmt.negativeValueFmt = "127.54"
+	absValFmt.decimalSeparator = ','
+	absValFmt.currencySymbol = 0
+	absValFmt.currencyDecimalDigits = -1
+	absValFmt.currencyCode = ""
+	absValFmt.currencyName = ""
+	absValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	absValFmt.integerDigitsSeparator = '.'
+	absValFmt.turnOnIntegerDigitsSeparation = false
+	absValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	absValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+	signedNumValFmt := NumStrFormatter{}
+	signedNumValFmt.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
+	signedNumValFmt.idNo = 380
+	absValFmt.idString = "380"
+	signedNumValFmt.description = "Signed Number Format: Italy"
+	signedNumValFmt.countryName = "Italy"
+	signedNumValFmt.abbreviatedCountryName = "Italy"
+	signedNumValFmt.alternateCountryName = "Italian Republic"
+	signedNumValFmt.countryCodeTwoChar = "IT"
+	signedNumValFmt.countryCodeThreeChar = "ITA"
+	signedNumValFmt.countryCodeNumber = "380"
+	signedNumValFmt.positiveValueFmt = "127.54"
+	signedNumValFmt.negativeValueFmt = "127.54-"
+	signedNumValFmt.decimalSeparator = ','
+	signedNumValFmt.currencySymbol = 0
+	signedNumValFmt.currencyDecimalDigits = -1
+	signedNumValFmt.currencyCode = ""
+	signedNumValFmt.currencyName = ""
+	signedNumValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	signedNumValFmt.integerDigitsSeparator = '.'
+	signedNumValFmt.turnOnIntegerDigitsSeparation = false
+	signedNumValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	signedNumValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt.idNo = 1
-	newNStrFmtDto.currencyFmt.currencySymbol = '\U000020ac'
-	newNStrFmtDto.currencyFmt.currencyCode = "EUR"
-	newNStrFmtDto.currencyFmt.currencyName = "Euro"
-	newNStrFmtDto.currencyFmt.countryName = "Italy"
-	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "Italy"
-	newNStrFmtDto.currencyFmt.alternateCountryName = "Italian Republic"
-	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "IT"
-	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "ITA"
-	newNStrFmtDto.currencyFmt.countryCodeNumber = "380"
-	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "$127.54"
-	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "- $127.54"
+	var numStrFmtMap = make(map[NumStrValSpec]NumStrFormatter)
 
-	newNStrFmtDto.decimalSeparator = ','
-	newNStrFmtDto.integerDigitsSeparator = '.'
-	newNStrFmtDto.turnOnIntegerDigitSeparator = false
-	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+	numStrFmtMap[NumStrValSpec(0).CurrencyValue()] = currencyFmt
+	numStrFmtMap[NumStrValSpec(0).AbsoluteValue()] = absValFmt
+	numStrFmtMap[NumStrValSpec(0).SignedNumberValue()] = signedNumValFmt
 
-	newNStrFmtDto.lock = new(sync.Mutex)
-
-	return newNStrFmtDto
+	return numStrFmtMap
 }
 
-func (nStrFmtCountry *NumStrFormatCountry) Israel() NumStrFormatDto {
+// Israel - Returns the number string format used in the
+// State of Israel.
+//
+//  https://freeformatter.com/israel-standards-code-snippets.html
+//
+func (nStrFmtCountry *NumStrFormatCountry) Israel() map[NumStrValSpec]NumStrFormatter {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -516,40 +973,110 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel() NumStrFormatDto {
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	newNStrFmtDto := NumStrFormatDto{}
+	currencyFmt := NumStrFormatter{}
+	currencyFmt.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
+	currencyFmt.idNo = 376
+	currencyFmt.idString = "376"
+	currencyFmt.description = "Currency Format: Israel"
+	currencyFmt.countryName = "Israel"
+	currencyFmt.abbreviatedCountryName = "Israel"
+	currencyFmt.alternateCountryName = "State of Israel"
+	currencyFmt.countryCodeTwoChar = "IL"
+	currencyFmt.countryCodeThreeChar = "ISR"
+	currencyFmt.countryCodeNumber = "376"
+	currencyFmt.positiveValueFmt = "$ 127.54"
+	currencyFmt.negativeValueFmt = "-$ 127.54"
+	currencyFmt.decimalSeparator = '.'
+	currencyFmt.currencySymbol = '\U000020aa'
+	currencyFmt.currencyDecimalDigits = 2
+	currencyFmt.currencyCode = "ILS"
+	currencyFmt.currencyName = "Shekel"
+	currencyFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	currencyFmt.integerDigitsSeparator = ','
+	currencyFmt.turnOnIntegerDigitsSeparation = true
+	currencyFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
 
-	newNStrFmtDto.valueDisplaySpec =
-		NumStrValSpec(0).SignedNumberValue()
+	currencyFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.positiveValueFmt = "127.54"
-	newNStrFmtDto.negativeValueFmt = "-127.54"
+	absValFmt := NumStrFormatter{}
+	absValFmt.valueDisplaySpec = NumStrValSpec(0).AbsoluteValue()
+	absValFmt.idNo = 376
+	absValFmt.idString = "376"
+	absValFmt.description = "Absolute Value Format: Israel"
+	absValFmt.countryName = "Israel"
+	absValFmt.abbreviatedCountryName = "Israel"
+	absValFmt.alternateCountryName = "State of Israel"
+	absValFmt.countryCodeTwoChar = "IL"
+	absValFmt.countryCodeThreeChar = "ISR"
+	absValFmt.countryCodeNumber = "376"
+	absValFmt.positiveValueFmt = "127.54"
+	absValFmt.negativeValueFmt = "127.54"
+	absValFmt.decimalSeparator = '.'
+	absValFmt.currencySymbol = 0
+	absValFmt.currencyDecimalDigits = -1
+	absValFmt.currencyCode = ""
+	absValFmt.currencyName = ""
+	absValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	absValFmt.integerDigitsSeparator = ','
+	absValFmt.turnOnIntegerDigitsSeparation = false
+	absValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	absValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+	signedNumValFmt := NumStrFormatter{}
+	signedNumValFmt.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
+	signedNumValFmt.idNo = 376
+	absValFmt.idString = "376"
+	signedNumValFmt.description = "Signed Number Format: Israel"
+	signedNumValFmt.countryName = "Israel"
+	signedNumValFmt.abbreviatedCountryName = "Israel"
+	signedNumValFmt.alternateCountryName = "State of Israel"
+	signedNumValFmt.countryCodeTwoChar = "IL"
+	signedNumValFmt.countryCodeThreeChar = "ISR"
+	signedNumValFmt.countryCodeNumber = "376"
+	signedNumValFmt.positiveValueFmt = "127.54"
+	signedNumValFmt.negativeValueFmt = "- 127.54"
+	signedNumValFmt.decimalSeparator = '.'
+	signedNumValFmt.currencySymbol = 0
+	signedNumValFmt.currencyDecimalDigits = -1
+	signedNumValFmt.currencyCode = ""
+	signedNumValFmt.currencyName = ""
+	signedNumValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	signedNumValFmt.integerDigitsSeparator = ','
+	signedNumValFmt.turnOnIntegerDigitsSeparation = false
+	signedNumValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	signedNumValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt.idNo = 1
-	newNStrFmtDto.currencyFmt.currencySymbol = '\U000020aa'
-	newNStrFmtDto.currencyFmt.currencyCode = "ILS"
-	newNStrFmtDto.currencyFmt.currencyName = "Shekel"
-	newNStrFmtDto.currencyFmt.countryName = "Israel"
-	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "Israel"
-	newNStrFmtDto.currencyFmt.alternateCountryName = "State of Israel"
-	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "IL"
-	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "ISR"
-	newNStrFmtDto.currencyFmt.countryCodeNumber = "376"
-	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "$127.54"
-	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "- $127.54"
+	var numStrFmtMap = make(map[NumStrValSpec]NumStrFormatter)
 
-	newNStrFmtDto.decimalSeparator = '.'
-	newNStrFmtDto.integerDigitsSeparator = ','
-	newNStrFmtDto.turnOnIntegerDigitSeparator = false
-	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
+	numStrFmtMap[NumStrValSpec(0).CurrencyValue()] = currencyFmt
+	numStrFmtMap[NumStrValSpec(0).AbsoluteValue()] = absValFmt
+	numStrFmtMap[NumStrValSpec(0).SignedNumberValue()] = signedNumValFmt
 
-	newNStrFmtDto.lock = new(sync.Mutex)
-
-	return newNStrFmtDto
+	return numStrFmtMap
 }
 
-func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() NumStrFormatDto {
+// UnitedKingdom - Returns the number string format used in the
+// United Kingdom of Great Britain and Northern Ireland.
+//
+func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() map[NumStrValSpec]NumStrFormatter {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -559,37 +1086,103 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() NumStrFormatDto {
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	newNStrFmtDto := NumStrFormatDto{}
+	currencyFmt := NumStrFormatter{}
+	currencyFmt.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
+	currencyFmt.idNo = 826
+	currencyFmt.idString = "826"
+	currencyFmt.description = "Currency Format: United Kingdom"
+	currencyFmt.countryName = "United Kingdom"
+	currencyFmt.abbreviatedCountryName = "UK"
+	currencyFmt.alternateCountryName = "United Kingdom of Great Britain and Northern Ireland"
+	currencyFmt.countryCodeTwoChar = "GB"
+	currencyFmt.countryCodeThreeChar = "GBR"
+	currencyFmt.countryCodeNumber = "826"
+	currencyFmt.positiveValueFmt = "$127.54"
+	currencyFmt.negativeValueFmt = "(-) $127.54"
+	currencyFmt.decimalSeparator = '.'
+	currencyFmt.currencySymbol = '\U000000a3'
+	currencyFmt.currencyDecimalDigits = 2
+	currencyFmt.currencyCode = "GBP"
+	currencyFmt.currencyName = "Pound"
+	currencyFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	currencyFmt.integerDigitsSeparator = ','
+	currencyFmt.turnOnIntegerDigitsSeparation = true
+	currencyFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	currencyFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.valueDisplaySpec =
-		NumStrValSpec(0).SignedNumberValue()
+	absValFmt := NumStrFormatter{}
+	absValFmt.valueDisplaySpec = NumStrValSpec(0).AbsoluteValue()
+	absValFmt.idNo = 826
+	absValFmt.idString = "826"
+	absValFmt.description = "Absolute Value Format: United Kingdom"
+	absValFmt.countryName = "United Kingdom"
+	absValFmt.abbreviatedCountryName = "UK"
+	absValFmt.alternateCountryName = "United Kingdom of Great Britain and Northern Ireland"
+	absValFmt.countryCodeTwoChar = "GB"
+	absValFmt.countryCodeThreeChar = "GBR"
+	absValFmt.countryCodeNumber = "826"
+	absValFmt.positiveValueFmt = "127.54"
+	absValFmt.negativeValueFmt = "127.54"
+	absValFmt.decimalSeparator = '.'
+	absValFmt.currencySymbol = 0
+	absValFmt.currencyDecimalDigits = -1
+	absValFmt.currencyCode = ""
+	absValFmt.currencyName = ""
+	absValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	absValFmt.integerDigitsSeparator = ','
+	absValFmt.turnOnIntegerDigitsSeparation = false
+	absValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	absValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.positiveValueFmt = "127.54"
-	newNStrFmtDto.negativeValueFmt = "-127.54"
+	signedNumValFmt := NumStrFormatter{}
+	signedNumValFmt.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
+	signedNumValFmt.idNo = 826
+	absValFmt.idString = "826"
+	signedNumValFmt.description = "Signed Number Format: United Kingdom"
+	signedNumValFmt.countryName = "United Kingdom"
+	signedNumValFmt.abbreviatedCountryName = "UK"
+	signedNumValFmt.alternateCountryName = "United Kingdom of Great Britain and Northern Ireland"
+	signedNumValFmt.countryCodeTwoChar = "GB"
+	signedNumValFmt.countryCodeThreeChar = "GBR"
+	signedNumValFmt.countryCodeNumber = "826"
+	signedNumValFmt.positiveValueFmt = "127.54"
+	signedNumValFmt.negativeValueFmt = "-127.54"
+	signedNumValFmt.decimalSeparator = '.'
+	signedNumValFmt.currencySymbol = 0
+	signedNumValFmt.currencyDecimalDigits = -1
+	signedNumValFmt.currencyCode = ""
+	signedNumValFmt.currencyName = ""
+	signedNumValFmt.integerDigitsGroupingSequence =
+		[]int{3}
+	signedNumValFmt.integerDigitsSeparator = ','
+	signedNumValFmt.turnOnIntegerDigitsSeparation = false
+	signedNumValFmt.numFieldDto = numberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    -1,
+		minimumNumFieldLength:   -1,
+		lock:                    new(sync.Mutex),
+	}
+	signedNumValFmt.lock = new(sync.Mutex)
 
-	newNStrFmtDto.currencyFmt = CurrencySymbolDto{}
+	var numStrFmtMap = make(map[NumStrValSpec]NumStrFormatter)
 
-	newNStrFmtDto.currencyFmt.idNo = 1
-	newNStrFmtDto.currencyFmt.currencySymbol = '\U000000a3'
-	newNStrFmtDto.currencyFmt.currencyCode = "GBP"
-	newNStrFmtDto.currencyFmt.currencyName = "Pound"
-	newNStrFmtDto.currencyFmt.countryName = "United Kingdom"
-	newNStrFmtDto.currencyFmt.abbreviatedCountryName = "UK"
-	newNStrFmtDto.currencyFmt.alternateCountryName = "United Kingdom of Great Britain and Northern Ireland"
-	newNStrFmtDto.currencyFmt.countryCodeTwoChar = "GB"
-	newNStrFmtDto.currencyFmt.countryCodeThreeChar = "GBR"
-	newNStrFmtDto.currencyFmt.countryCodeNumber = "826"
-	newNStrFmtDto.currencyFmt.positiveValCurrFormat = "$127.54"
-	newNStrFmtDto.currencyFmt.negativeValCurrFormat = "(-) $127.54"
+	numStrFmtMap[NumStrValSpec(0).CurrencyValue()] = currencyFmt
+	numStrFmtMap[NumStrValSpec(0).AbsoluteValue()] = absValFmt
+	numStrFmtMap[NumStrValSpec(0).SignedNumberValue()] = signedNumValFmt
 
-	newNStrFmtDto.decimalSeparator = '.'
-	newNStrFmtDto.integerDigitsSeparator = ','
-	newNStrFmtDto.turnOnIntegerDigitSeparator = false
-	newNStrFmtDto.numberFieldDto.requestedNumFieldLength = -1
-
-	newNStrFmtDto.lock = new(sync.Mutex)
-
-	return newNStrFmtDto
+	return numStrFmtMap
 }
 
 // UnitedStates - Returns the number string format used in the
@@ -608,7 +1201,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates() map[NumStrValSpec]NumS
 	currencyFmt.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
 	currencyFmt.idNo = 840
 	currencyFmt.idString = "840"
-	currencyFmt.description = "Currency Format United States"
+	currencyFmt.description = "Currency Format: United States"
 	currencyFmt.countryName = "United States"
 	currencyFmt.abbreviatedCountryName = "USA"
 	currencyFmt.alternateCountryName = "United States of America"
@@ -639,7 +1232,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates() map[NumStrValSpec]NumS
 	absValFmt.valueDisplaySpec = NumStrValSpec(0).AbsoluteValue()
 	absValFmt.idNo = 840
 	absValFmt.idString = "840"
-	absValFmt.description = "United States"
+	absValFmt.description = "Absolute Value Format: United States"
 	absValFmt.countryName = "United States"
 	absValFmt.abbreviatedCountryName = "USA"
 	absValFmt.alternateCountryName = "United States of America"
@@ -669,7 +1262,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates() map[NumStrValSpec]NumS
 	signedNumValFmt.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
 	signedNumValFmt.idNo = 840
 	absValFmt.idString = "840"
-	signedNumValFmt.description = "Signed Number Format United States"
+	signedNumValFmt.description = "Signed Number Format: United States"
 	signedNumValFmt.countryName = "United States"
 	signedNumValFmt.abbreviatedCountryName = "USA"
 	signedNumValFmt.alternateCountryName = "United States of America"
