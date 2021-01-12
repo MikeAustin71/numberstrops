@@ -27,7 +27,7 @@ type NumStrFormatter struct {
 	sciNotMantissaLength          uint // The length of the fractional digits in the significand which will be displayed
 	sciNotExponentChar            rune // Usually 'e' or 'E'
 	sciNotExponentUsesLeadingPlus bool // If true, positive exponent values are prefixed with a leading plus (+) sign. '2.652e+8'
-	numFieldDto                   numberFieldDto
+	numFieldDto                   NumberFieldDto
 	lock                          *sync.Mutex
 }
 

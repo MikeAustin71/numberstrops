@@ -87,7 +87,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina() map[NumStrValSpec]NumStrF
 		[]uint{3}
 	currencyFmt.integerDigitsSeparator = '.'
 	currencyFmt.turnOnIntegerDigitsSeparation = true
-	currencyFmt.numFieldDto = numberFieldDto{
+	currencyFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -117,7 +117,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina() map[NumStrValSpec]NumStrF
 		[]uint{3}
 	absValFmt.integerDigitsSeparator = '.'
 	absValFmt.turnOnIntegerDigitsSeparation = false
-	absValFmt.numFieldDto = numberFieldDto{
+	absValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -147,7 +147,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina() map[NumStrValSpec]NumStrF
 		[]uint{3}
 	signedNumValFmt.integerDigitsSeparator = '.'
 	signedNumValFmt.turnOnIntegerDigitsSeparation = false
-	signedNumValFmt.numFieldDto = numberFieldDto{
+	signedNumValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -198,7 +198,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia() map[NumStrValSpec]NumStrF
 		[]uint{3}
 	currencyFmt.integerDigitsSeparator = ','
 	currencyFmt.turnOnIntegerDigitsSeparation = true
-	currencyFmt.numFieldDto = numberFieldDto{
+	currencyFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -229,7 +229,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia() map[NumStrValSpec]NumStrF
 		[]uint{3}
 	absValFmt.integerDigitsSeparator = ','
 	absValFmt.turnOnIntegerDigitsSeparation = false
-	absValFmt.numFieldDto = numberFieldDto{
+	absValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -259,7 +259,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia() map[NumStrValSpec]NumStrF
 		[]uint{3}
 	signedNumValFmt.integerDigitsSeparator = ','
 	signedNumValFmt.turnOnIntegerDigitsSeparation = false
-	signedNumValFmt.numFieldDto = numberFieldDto{
+	signedNumValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -310,7 +310,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Canada() map[NumStrValSpec]NumStrForm
 		[]uint{3}
 	currencyFmt.integerDigitsSeparator = ','
 	currencyFmt.turnOnIntegerDigitsSeparation = true
-	currencyFmt.numFieldDto = numberFieldDto{
+	currencyFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -341,7 +341,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Canada() map[NumStrValSpec]NumStrForm
 		[]uint{3}
 	absValFmt.integerDigitsSeparator = ','
 	absValFmt.turnOnIntegerDigitsSeparation = false
-	absValFmt.numFieldDto = numberFieldDto{
+	absValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -371,7 +371,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Canada() map[NumStrValSpec]NumStrForm
 		[]uint{3}
 	signedNumValFmt.integerDigitsSeparator = ','
 	signedNumValFmt.turnOnIntegerDigitsSeparation = false
-	signedNumValFmt.numFieldDto = numberFieldDto{
+	signedNumValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -422,7 +422,7 @@ func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench() map[NumStrValSpec]NumS
 		[]uint{3}
 	currencyFmt.integerDigitsSeparator = '.'
 	currencyFmt.turnOnIntegerDigitsSeparation = true
-	currencyFmt.numFieldDto = numberFieldDto{
+	currencyFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -453,7 +453,7 @@ func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench() map[NumStrValSpec]NumS
 		[]uint{3}
 	absValFmt.integerDigitsSeparator = '.'
 	absValFmt.turnOnIntegerDigitsSeparation = false
-	absValFmt.numFieldDto = numberFieldDto{
+	absValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -483,7 +483,7 @@ func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench() map[NumStrValSpec]NumS
 		[]uint{3}
 	signedNumValFmt.integerDigitsSeparator = '.'
 	signedNumValFmt.turnOnIntegerDigitsSeparation = false
-	signedNumValFmt.numFieldDto = numberFieldDto{
+	signedNumValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -534,7 +534,7 @@ func (nStrFmtCountry *NumStrFormatCountry) China() map[NumStrValSpec]NumStrForma
 		[]uint{3}
 	currencyFmt.integerDigitsSeparator = ','
 	currencyFmt.turnOnIntegerDigitsSeparation = true
-	currencyFmt.numFieldDto = numberFieldDto{
+	currencyFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -565,7 +565,7 @@ func (nStrFmtCountry *NumStrFormatCountry) China() map[NumStrValSpec]NumStrForma
 		[]uint{3}
 	absValFmt.integerDigitsSeparator = ','
 	absValFmt.turnOnIntegerDigitsSeparation = false
-	absValFmt.numFieldDto = numberFieldDto{
+	absValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -595,7 +595,7 @@ func (nStrFmtCountry *NumStrFormatCountry) China() map[NumStrValSpec]NumStrForma
 		[]uint{3}
 	signedNumValFmt.integerDigitsSeparator = ','
 	signedNumValFmt.turnOnIntegerDigitsSeparation = false
-	signedNumValFmt.numFieldDto = numberFieldDto{
+	signedNumValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -649,7 +649,7 @@ func (nStrFmtCountry *NumStrFormatCountry) France() map[NumStrValSpec]NumStrForm
 		[]uint{3}
 	currencyFmt.integerDigitsSeparator = ' '
 	currencyFmt.turnOnIntegerDigitsSeparation = true
-	currencyFmt.numFieldDto = numberFieldDto{
+	currencyFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -680,7 +680,7 @@ func (nStrFmtCountry *NumStrFormatCountry) France() map[NumStrValSpec]NumStrForm
 		[]uint{3}
 	absValFmt.integerDigitsSeparator = ' '
 	absValFmt.turnOnIntegerDigitsSeparation = false
-	absValFmt.numFieldDto = numberFieldDto{
+	absValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -710,7 +710,7 @@ func (nStrFmtCountry *NumStrFormatCountry) France() map[NumStrValSpec]NumStrForm
 		[]uint{3}
 	signedNumValFmt.integerDigitsSeparator = ' '
 	signedNumValFmt.turnOnIntegerDigitsSeparation = false
-	signedNumValFmt.numFieldDto = numberFieldDto{
+	signedNumValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -764,7 +764,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Germany() map[NumStrValSpec]NumStrFor
 		[]uint{3}
 	currencyFmt.integerDigitsSeparator = '.'
 	currencyFmt.turnOnIntegerDigitsSeparation = true
-	currencyFmt.numFieldDto = numberFieldDto{
+	currencyFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -795,7 +795,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Germany() map[NumStrValSpec]NumStrFor
 		[]uint{3}
 	absValFmt.integerDigitsSeparator = '.'
 	absValFmt.turnOnIntegerDigitsSeparation = false
-	absValFmt.numFieldDto = numberFieldDto{
+	absValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -825,7 +825,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Germany() map[NumStrValSpec]NumStrFor
 		[]uint{3}
 	signedNumValFmt.integerDigitsSeparator = '.'
 	signedNumValFmt.turnOnIntegerDigitsSeparation = false
-	signedNumValFmt.numFieldDto = numberFieldDto{
+	signedNumValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -880,7 +880,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy() map[NumStrValSpec]NumStrForma
 		[]uint{3}
 	currencyFmt.integerDigitsSeparator = '.'
 	currencyFmt.turnOnIntegerDigitsSeparation = true
-	currencyFmt.numFieldDto = numberFieldDto{
+	currencyFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -911,7 +911,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy() map[NumStrValSpec]NumStrForma
 		[]uint{3}
 	absValFmt.integerDigitsSeparator = '.'
 	absValFmt.turnOnIntegerDigitsSeparation = false
-	absValFmt.numFieldDto = numberFieldDto{
+	absValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -941,7 +941,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy() map[NumStrValSpec]NumStrForma
 		[]uint{3}
 	signedNumValFmt.integerDigitsSeparator = '.'
 	signedNumValFmt.turnOnIntegerDigitsSeparation = false
-	signedNumValFmt.numFieldDto = numberFieldDto{
+	signedNumValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -995,7 +995,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel() map[NumStrValSpec]NumStrForm
 		[]uint{3}
 	currencyFmt.integerDigitsSeparator = ','
 	currencyFmt.turnOnIntegerDigitsSeparation = true
-	currencyFmt.numFieldDto = numberFieldDto{
+	currencyFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -1026,7 +1026,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel() map[NumStrValSpec]NumStrForm
 		[]uint{3}
 	absValFmt.integerDigitsSeparator = ','
 	absValFmt.turnOnIntegerDigitsSeparation = false
-	absValFmt.numFieldDto = numberFieldDto{
+	absValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -1056,7 +1056,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel() map[NumStrValSpec]NumStrForm
 		[]uint{3}
 	signedNumValFmt.integerDigitsSeparator = ','
 	signedNumValFmt.turnOnIntegerDigitsSeparation = false
-	signedNumValFmt.numFieldDto = numberFieldDto{
+	signedNumValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -1108,7 +1108,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() map[NumStrValSpec]Num
 		[]uint{3}
 	currencyFmt.integerDigitsSeparator = ','
 	currencyFmt.turnOnIntegerDigitsSeparation = true
-	currencyFmt.numFieldDto = numberFieldDto{
+	currencyFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -1138,7 +1138,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() map[NumStrValSpec]Num
 		[]uint{3}
 	absValFmt.integerDigitsSeparator = ','
 	absValFmt.turnOnIntegerDigitsSeparation = false
-	absValFmt.numFieldDto = numberFieldDto{
+	absValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -1168,7 +1168,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() map[NumStrValSpec]Num
 		[]uint{3}
 	signedNumValFmt.integerDigitsSeparator = ','
 	signedNumValFmt.turnOnIntegerDigitsSeparation = false
-	signedNumValFmt.numFieldDto = numberFieldDto{
+	signedNumValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -1219,7 +1219,7 @@ func (nStrFmtCountry *NumStrFormatCountry) xUnitedStates() map[NumStrValSpec]Num
 		[]uint{3}
 	currencyFmt.integerDigitsSeparator = ','
 	currencyFmt.turnOnIntegerDigitsSeparation = true
-	currencyFmt.numFieldDto = numberFieldDto{
+	currencyFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -1250,7 +1250,7 @@ func (nStrFmtCountry *NumStrFormatCountry) xUnitedStates() map[NumStrValSpec]Num
 		[]uint{3}
 	absValFmt.integerDigitsSeparator = ','
 	absValFmt.turnOnIntegerDigitsSeparation = false
-	absValFmt.numFieldDto = numberFieldDto{
+	absValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -1280,7 +1280,7 @@ func (nStrFmtCountry *NumStrFormatCountry) xUnitedStates() map[NumStrValSpec]Num
 		[]uint{3}
 	signedNumValFmt.integerDigitsSeparator = ','
 	signedNumValFmt.turnOnIntegerDigitsSeparation = false
-	signedNumValFmt.numFieldDto = numberFieldDto{
+	signedNumValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: -1,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,

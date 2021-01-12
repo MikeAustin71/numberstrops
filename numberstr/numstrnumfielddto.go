@@ -2,18 +2,18 @@ package numberstr
 
 import "sync"
 
-type numberFieldDto struct {
+type NumberFieldDto struct {
 	requestedNumFieldLength int
 	actualNumFieldLength    int
 	minimumNumFieldLength   int
 	lock                    *sync.Mutex
 }
 
-// CopyIn - Copies the data fields from an incoming numberFieldDto
-// to the data fields of the current instance of numberFieldDto.
+// CopyIn - Copies the data fields from an incoming NumberFieldDto
+// to the data fields of the current instance of NumberFieldDto.
 //
-func (nFieldDto *numberFieldDto) CopyIn(
-	numFieldDtoIn *numberFieldDto) {
+func (nFieldDto *NumberFieldDto) CopyIn(
+	numFieldDtoIn *NumberFieldDto) {
 
 	if nFieldDto.lock == nil {
 		nFieldDto.lock = new(sync.Mutex)
@@ -34,9 +34,9 @@ func (nFieldDto *numberFieldDto) CopyIn(
 
 }
 
-// CopyOut - Returns a deep copy of the current numberFieldDto instance.
+// CopyOut - Returns a deep copy of the current NumberFieldDto instance.
 //
-func (nFieldDto *numberFieldDto) CopyOut() numberFieldDto {
+func (nFieldDto *NumberFieldDto) CopyOut() NumberFieldDto {
 
 	if nFieldDto.lock == nil {
 		nFieldDto.lock = new(sync.Mutex)
@@ -46,7 +46,7 @@ func (nFieldDto *numberFieldDto) CopyOut() numberFieldDto {
 
 	defer nFieldDto.lock.Unlock()
 
-	newNumFieldDto := numberFieldDto{}
+	newNumFieldDto := NumberFieldDto{}
 
 	newNumFieldDto.requestedNumFieldLength =
 		nFieldDto.requestedNumFieldLength
@@ -60,7 +60,7 @@ func (nFieldDto *numberFieldDto) CopyOut() numberFieldDto {
 	return newNumFieldDto
 }
 
-// New - Creates and returns a new instance of 'numberFieldDto'.
+// New - Creates and returns a new instance of 'NumberFieldDto'.
 //
 // The only input parameter is the 'requested' number field length.
 // This is the requested length of the number field in which the
@@ -73,8 +73,8 @@ func (nFieldDto *numberFieldDto) CopyOut() numberFieldDto {
 // number field length is used to create number fields of standard
 // length.
 //
-func (nFieldDto numberFieldDto) New(
-	requestedNumberFieldLen int) numberFieldDto {
+func (nFieldDto NumberFieldDto) New(
+	requestedNumberFieldLen int) NumberFieldDto {
 
 	if nFieldDto.lock == nil {
 		nFieldDto.lock = new(sync.Mutex)
@@ -84,9 +84,13 @@ func (nFieldDto numberFieldDto) New(
 
 	defer nFieldDto.lock.Unlock()
 
-	newNumFieldDto := numberFieldDto{}
+	newNumFieldDto := NumberFieldDto{}
 
 	newNumFieldDto.requestedNumFieldLength = requestedNumberFieldLen
+
+	newNumFieldDto.minimumNumFieldLength = -1
+
+	newNumFieldDto.actualNumFieldLength = -1
 
 	newNumFieldDto.lock = new(sync.Mutex)
 
@@ -104,7 +108,7 @@ func (nFieldDto numberFieldDto) New(
 // 'requested' number field length is used to create number fields
 // of standard length.
 //
-func (nFieldDto *numberFieldDto) SetRequestedNumFieldLength(
+func (nFieldDto *NumberFieldDto) SetRequestedNumFieldLength(
 	numFieldLen int) {
 
 	if nFieldDto.lock == nil {
@@ -117,5 +121,43 @@ func (nFieldDto *numberFieldDto) SetRequestedNumFieldLength(
 
 	nFieldDto.requestedNumFieldLength =
 		numFieldLen
+
+}
+
+// SetMinimumNumFieldLength - Sets the minimum number field
+// length.
+//
+func (nFieldDto *NumberFieldDto) SetMinimumNumFieldLength(
+	minimumNumFieldLen int) {
+
+	if nFieldDto.lock == nil {
+		nFieldDto.lock = new(sync.Mutex)
+	}
+
+	nFieldDto.lock.Lock()
+
+	defer nFieldDto.lock.Unlock()
+
+	nFieldDto.minimumNumFieldLength =
+		minimumNumFieldLen
+
+}
+
+// SetMinimumNumFieldLength - Sets the actual number field
+// length.
+//
+func (nFieldDto *NumberFieldDto) SetActualNumFieldLength(
+	actualNumFieldLen int) {
+
+	if nFieldDto.lock == nil {
+		nFieldDto.lock = new(sync.Mutex)
+	}
+
+	nFieldDto.lock.Lock()
+
+	defer nFieldDto.lock.Unlock()
+
+	nFieldDto.actualNumFieldLength =
+		actualNumFieldLen
 
 }

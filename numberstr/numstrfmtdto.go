@@ -6,7 +6,7 @@ import (
 
 type NumStrFormatDto struct {
 	numStrFmtConfigs map[NumStrValSpec]NumStrFormatter
-	numFieldDto      numberFieldDto
+	numFieldDto      NumberFieldDto
 	lock             *sync.Mutex
 }
 
@@ -293,7 +293,7 @@ func (nStrFmtDto NumStrFormatDto) New(
 		return newFmtDto, err
 	}
 
-	newFmtDto.numFieldDto = numberFieldDto{
+	newFmtDto.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: numberFieldLength,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,

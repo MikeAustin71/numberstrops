@@ -87,7 +87,7 @@ func (nStrFormtrColGen *NumStrFormatterCollectionGenerator) Generate(
 	currencyFmt.turnOnIntegerDigitsSeparation =
 		formatterColSetup.CurrencyTurnOnIntegerDigitsSeparation
 
-	currencyFmt.numFieldDto = numberFieldDto{
+	currencyFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: formatterColSetup.CurrencyNumFieldLen,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -153,7 +153,7 @@ func (nStrFormtrColGen *NumStrFormatterCollectionGenerator) Generate(
 	absValFmt.turnOnIntegerDigitsSeparation =
 		formatterColSetup.AbsoluteValTurnOnIntegerDigitsSeparation
 
-	absValFmt.numFieldDto = numberFieldDto{
+	absValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: formatterColSetup.AbsoluteValNumFieldLen,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -222,7 +222,7 @@ func (nStrFormtrColGen *NumStrFormatterCollectionGenerator) Generate(
 	signedNumValFmt.turnOnIntegerDigitsSeparation =
 		formatterColSetup.SignedNumValTurnOnIntegerDigitsSeparation
 
-	signedNumValFmt.numFieldDto = numberFieldDto{
+	signedNumValFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: formatterColSetup.SignedNumValNumFieldLen,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
@@ -286,7 +286,7 @@ func (nStrFormtrColGen *NumStrFormatterCollectionGenerator) Generate(
 	sciNotationFmt.sciNotExponentUsesLeadingPlus =
 		formatterColSetup.SciNotExponentUsesLeadingPlus
 
-	sciNotationFmt.numFieldDto = numberFieldDto{
+	sciNotationFmt.numFieldDto = NumberFieldDto{
 		requestedNumFieldLength: formatterColSetup.SciNotNumFieldLen,
 		actualNumFieldLength:    -1,
 		minimumNumFieldLength:   -1,
