@@ -9,6 +9,115 @@ type numStrFormatterQuark struct {
 	lock *sync.Mutex
 }
 
+// copyIn - Copies all data elements from 'nStrFormtrIncoming'
+// to 'nStrFormtrTarget'.
+func (nStrFormtrQuark *numStrFormatterQuark) copyIn(
+	nStrFormtrTarget *NumStrFormatter,
+	nStrFormtrIncoming *NumStrFormatter,
+	ePrefix string) (
+	err error) {
+
+	ePrefix += "numStrFormatterQuark.copyOut() "
+
+	if nStrFormtrTarget == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'nStrFormtrTarget' is a 'nil' pointer!\n",
+			ePrefix)
+		return err
+	}
+
+	if nStrFormtrIncoming == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'nStrFormtrIncoming' is a 'nil' pointer!\n",
+			ePrefix)
+		return err
+	}
+
+	nStrFormtrTarget.valueDisplaySpec =
+		nStrFormtrIncoming.valueDisplaySpec
+
+	nStrFormtrTarget.idNo =
+		nStrFormtrIncoming.idNo
+
+	nStrFormtrTarget.idString =
+		nStrFormtrIncoming.idString
+
+	nStrFormtrTarget.description =
+		nStrFormtrIncoming.description
+
+	nStrFormtrTarget.tag =
+		nStrFormtrIncoming.tag
+
+	nStrFormtrTarget.countryName =
+		nStrFormtrIncoming.countryName
+
+	nStrFormtrTarget.abbreviatedCountryName =
+		nStrFormtrIncoming.abbreviatedCountryName
+
+	nStrFormtrTarget.alternateCountryName =
+		nStrFormtrIncoming.alternateCountryName
+
+	nStrFormtrTarget.countryCodeTwoChar =
+		nStrFormtrIncoming.countryCodeTwoChar
+
+	nStrFormtrTarget.countryCodeThreeChar =
+		nStrFormtrIncoming.countryCodeThreeChar
+
+	nStrFormtrTarget.countryCodeNumber =
+		nStrFormtrIncoming.countryCodeNumber
+
+	nStrFormtrTarget.positiveValueFmt =
+		nStrFormtrIncoming.positiveValueFmt
+
+	nStrFormtrTarget.negativeValueFmt =
+		nStrFormtrIncoming.negativeValueFmt
+
+	nStrFormtrTarget.decimalSeparator =
+		nStrFormtrIncoming.decimalSeparator
+
+	nStrFormtrTarget.currencySymbol =
+		nStrFormtrIncoming.currencySymbol
+
+	nStrFormtrTarget.currencyDecimalDigits =
+		nStrFormtrIncoming.currencyDecimalDigits
+
+	nStrFormtrTarget.currencyCode =
+		nStrFormtrIncoming.currencyCode
+
+	nStrFormtrTarget.currencyName =
+		nStrFormtrIncoming.currencyName
+
+	nStrFormtrTarget.integerDigitsGroupingSequence =
+		make([]uint, 0)
+
+	nStrFormtrTarget.integerDigitsGroupingSequence =
+		make([]uint, len(nStrFormtrIncoming.integerDigitsGroupingSequence))
+
+	for i := 0; i < len(nStrFormtrIncoming.integerDigitsGroupingSequence); i++ {
+		nStrFormtrTarget.integerDigitsGroupingSequence[i] =
+			nStrFormtrIncoming.integerDigitsGroupingSequence[i]
+	}
+
+	nStrFormtrTarget.integerDigitsSeparator = nStrFormtrIncoming.integerDigitsSeparator
+
+	nStrFormtrTarget.turnOnIntegerDigitsSeparation =
+		nStrFormtrIncoming.turnOnIntegerDigitsSeparation
+
+	nStrFormtrTarget.numFieldDto.requestedNumFieldLength =
+		nStrFormtrIncoming.numFieldDto.requestedNumFieldLength
+
+	nStrFormtrTarget.numFieldDto.actualNumFieldLength =
+		nStrFormtrIncoming.numFieldDto.actualNumFieldLength
+
+	nStrFormtrTarget.numFieldDto.minimumNumFieldLength =
+		nStrFormtrIncoming.numFieldDto.minimumNumFieldLength
+
+	return err
+}
+
+// copyOut - Returns a deep copy of the current NumStrFormatter
+// instance.
+//
 func (nStrFormtrQuark *numStrFormatterQuark) copyOut(
 	nStrFormtr *NumStrFormatter,
 	ePrefix string) (
@@ -81,7 +190,7 @@ func (nStrFormtrQuark *numStrFormatterQuark) copyOut(
 		nStrFormtr.currencyName
 
 	newNStrFormtr.integerDigitsGroupingSequence =
-		make([]int, len(nStrFormtr.integerDigitsGroupingSequence))
+		make([]uint, len(nStrFormtr.integerDigitsGroupingSequence))
 
 	for i := 0; i < len(nStrFormtr.integerDigitsGroupingSequence); i++ {
 		newNStrFormtr.integerDigitsGroupingSequence[i] =
@@ -93,7 +202,14 @@ func (nStrFormtrQuark *numStrFormatterQuark) copyOut(
 	newNStrFormtr.turnOnIntegerDigitsSeparation =
 		nStrFormtr.turnOnIntegerDigitsSeparation
 
-	newNStrFormtr.numFieldDto = nStrFormtr.numFieldDto.CopyOut()
+	newNStrFormtr.numFieldDto.requestedNumFieldLength =
+		nStrFormtr.numFieldDto.requestedNumFieldLength
+
+	newNStrFormtr.numFieldDto.actualNumFieldLength =
+		nStrFormtr.numFieldDto.actualNumFieldLength
+
+	newNStrFormtr.numFieldDto.minimumNumFieldLength =
+		nStrFormtr.numFieldDto.minimumNumFieldLength
 
 	newNStrFormtr.lock = new(sync.Mutex)
 

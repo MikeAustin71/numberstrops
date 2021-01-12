@@ -57,7 +57,6 @@ func (nStrFmtDtoAtom *numStrFmtDtoAtom) copyIn(
 		numStrFmtDto1.numStrFmtConfigs[idx] = nStrFormtrs.CopyOut()
 	}
 
-	//TODO Fix copyIn()
 	numStrFmtDto1.numFieldDto =
 		numStrFmtDto2.numFieldDto.CopyOut()
 
@@ -102,8 +101,14 @@ func (nStrFmtDtoAtom *numStrFmtDtoAtom) copyOut(
 		newNumStrFormatDto.numStrFmtConfigs[idx] = nStrFormtrs.CopyOut()
 	}
 
-	newNumStrFormatDto.numFieldDto =
-		numStrFmtDto.numFieldDto.CopyOut()
+	newNumStrFormatDto.numFieldDto.requestedNumFieldLength =
+		numStrFmtDto.numFieldDto.requestedNumFieldLength
+
+	newNumStrFormatDto.numFieldDto.actualNumFieldLength =
+		numStrFmtDto.numFieldDto.actualNumFieldLength
+
+	newNumStrFormatDto.numFieldDto.minimumNumFieldLength =
+		numStrFmtDto.numFieldDto.minimumNumFieldLength
 
 	newNumStrFormatDto.lock = new(sync.Mutex)
 

@@ -11,6 +11,7 @@ var mNumStrValSpecCodeToString = map[NumStrValSpec]string{
 	NumStrValSpec(1): "AbsoluteValue",
 	NumStrValSpec(2): "CurrencyValue",
 	NumStrValSpec(3): "SignedNumberValue",
+	NumStrValSpec(4): "ScientificNotation",
 }
 
 var mNumStrValSpecStringToCode = map[string]NumStrValSpec{
@@ -28,6 +29,12 @@ var mNumStrValSpecStringToCode = map[string]NumStrValSpec{
 	"SignedNumber":         NumStrValSpec(3),
 	"Signed Number":        NumStrValSpec(3),
 	"Signed":               NumStrValSpec(3),
+	"ScientificNotation":   NumStrValSpec(4),
+	"Scientific Notation":  NumStrValSpec(4),
+	"SCI":                  NumStrValSpec(4),
+	"Scientific Form":      NumStrValSpec(4),
+	"Standard Index Form":  NumStrValSpec(4),
+	"Standard Form":        NumStrValSpec(4),
 }
 
 var mNumStrValSpecLwrCaseStringToCode = map[string]NumStrValSpec{
@@ -45,6 +52,12 @@ var mNumStrValSpecLwrCaseStringToCode = map[string]NumStrValSpec{
 	"signednumber":         NumStrValSpec(3),
 	"signed number":        NumStrValSpec(3),
 	"signed":               NumStrValSpec(3),
+	"scientificnotation":   NumStrValSpec(4),
+	"scientific notation":  NumStrValSpec(4),
+	"sci":                  NumStrValSpec(4),
+	"scientific form":      NumStrValSpec(4),
+	"standard index form":  NumStrValSpec(4),
+	"standard form":        NumStrValSpec(4),
 }
 
 // NumStrValSpec - The 'Number String Value Specification' is an
@@ -113,11 +126,18 @@ var mNumStrValSpecLwrCaseStringToCode = map[string]NumStrValSpec{
 //          +132 = 132               -123 = -123
 //
 //
+// ScientificNotation (4)
+//  - Signals that the numeric value will be displayed in text as
+//    Scientific Notation.
+//
+//    Examples: '2.652e+8'     '2.652e-8'
+//
+//
 // For easy access to these enumeration values, use the global variable
-// 'NStrValSpec'. Example: NStrValSpec.StdPlusOrMinus()
+// 'NStrValSpec'. Example: NStrValSpec.SignedNumberValue()
 //
 // Otherwise you will need to use the formal syntax.
-//     Example: NumStrValSpec(0).StdPlusOrMinus()
+//     Example: NumStrValSpec(0).SignedNumberValue()
 //
 //
 // Depending on your editor, intellisense (a.k.a. intelligent code
@@ -223,6 +243,32 @@ func (nStrValSpec NumStrValSpec) SignedNumberValue() NumStrValSpec {
 	return NumStrValSpec(3)
 }
 
+// ScientificNotation - The 'Scientific Notation' specification
+// signals that numeric values, both positive and negative, will
+// be displayed in text number strings as Scientific Notation.
+//
+//    Example Text Display:
+//        "2.652e+8"
+//        "2.652e-8"
+//
+// Reference:
+//  https://en.wikipedia.org/wiki/Scientific_notation
+//
+// This is the default for processing and converting numeric
+// values into text strings.
+//
+//
+// This method is part of the standard enumeration.
+//
+func (nStrValSpec NumStrValSpec) ScientificNotation() NumStrValSpec {
+
+	lockNumStrValSpec.Lock()
+
+	defer lockNumStrValSpec.Unlock()
+
+	return NumStrValSpec(4)
+}
+
 // String - Returns a string with the name of the enumeration associated
 // with this current instance of 'NumStrValSpec'.
 //
@@ -277,7 +323,7 @@ func (nStrValSpec NumStrValSpec) XIsValid() bool {
 
 	defer lockNumStrValSpec.Unlock()
 
-	if nStrValSpec > 3 ||
+	if nStrValSpec > 4 ||
 		nStrValSpec < 1 {
 		return false
 	}
@@ -305,8 +351,8 @@ func (nStrValSpec NumStrValSpec) XIsValid() bool {
 //
 // caseSensitive   bool
 //     - If 'true' the search for enumeration names will be case
-//       sensitive and will require an exact match. Therefore, 'leadingplusaign' will NOT
-//       match the enumeration name, 'LeadingPlusSign'.
+//       sensitive and will require an exact match. Therefore, 'ScientificNotation' will NOT
+//       match the enumeration name, 'scientificnotation'.
 //
 //       A case sensitive search will match any of the following strings:
 //           "None"
@@ -322,10 +368,16 @@ func (nStrValSpec NumStrValSpec) XIsValid() bool {
 //           "Signed Numeric Value"
 //           "SignedNumber"
 //           "Signed Number"
+//           "ScientificNotation"
+//           "Scientific Notation"
+//           "SCI"
+//           "Scientific Form"
+//           "Standard Index Form"
+//           "Standard Form"
 //
 //       If 'false', a case insensitive search is conducted
-//       for the enumeration name. In this case, 'parentheses'
-//       will match match enumeration name 'Parentheses'.
+//       for the enumeration name. In this case, 'scientificnotation'
+//       will match match enumeration name 'ScientificNotation'.
 //
 //       A case insensitive search will match any of the following
 //       lower case names:
@@ -343,6 +395,12 @@ func (nStrValSpec NumStrValSpec) XIsValid() bool {
 //             "signednumber"
 //             "signed number"
 //             "signed"
+//             "scientificnotation"
+//             "scientific notation"
+//             "sci"
+//             "scientific form"
+//             "standard index form"
+//             "standard form"
 //
 //
 // ------------------------------------------------------------------------
@@ -456,15 +514,16 @@ func (nStrValSpec NumStrValSpec) XValueInt() int {
 //
 // For easy access to these enumeration values, use the
 // global variable 'NStrValSpec'.
-//  Example: NStrValSpec.StdPlusOrMinus()
+//  Example: NStrValSpec.SignedNumberValue()
 //
 // Otherwise you will need to use the formal syntax.
-//  Example: NumStrValSpec(0).StdPlusOrMinus()
+//  Example: NumStrValSpec(0).SignedNumberValue()
 //
 // Usage:
 // NStrValSpec.None(),
 // NStrValSpec.AbsoluteValue(),
 // NStrValSpec.CurrencyValue(),
 // NStrValSpec.SignedNumberValue(),
+// NStrValSpec.ScientificNotation(),
 //
 var NStrValSpec NumStrValSpec

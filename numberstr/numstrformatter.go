@@ -4,7 +4,7 @@ import "sync"
 
 type NumStrFormatter struct {
 	valueDisplaySpec              NumStrValSpec
-	idNo                          int
+	idNo                          uint64
 	idString                      string
 	description                   string
 	tag                           string
@@ -21,11 +21,39 @@ type NumStrFormatter struct {
 	currencyDecimalDigits         int    // The number of digits after the decimal separator for currency presentations
 	currencyCode                  string // Wold Currency Code (3-Characters). Reference: http://www.xe.com/symbols.php
 	currencyName                  string // The common name of this currency i.e 'Dollar', 'Yuan' etc.
-	integerDigitsGroupingSequence []int  // Integer Digit Separation. Usually = 3 for thousands separation
+	integerDigitsGroupingSequence []uint // Integer Digit Separation. Usually = 3 for thousands separation
 	integerDigitsSeparator        rune   // a.k.a. Thousands Separator
 	turnOnIntegerDigitsSeparation bool
+	sciNotMantissaLength          uint // The length of the fractional digits in the significand which will be displayed
+	sciNotExponentChar            rune // Usually 'e' or 'E'
+	sciNotExponentUsesLeadingPlus bool // If true, positive exponent values are prefixed with a leading plus (+) sign. '2.652e+8'
 	numFieldDto                   numberFieldDto
 	lock                          *sync.Mutex
+}
+
+// CopyIn - Copies all data elements from 'nStrFormtrIncoming'
+// into the current NumStrFormatter instance.
+//
+func (nStrFormatter *NumStrFormatter) CopyIn(
+	nStrFormtrIncoming *NumStrFormatter,
+	ePrefix string) error {
+
+	if nStrFormatter.lock == nil {
+		nStrFormatter.lock = new(sync.Mutex)
+	}
+
+	nStrFormatter.lock.Lock()
+
+	defer nStrFormatter.lock.Unlock()
+
+	ePrefix += "NumStrFormatter.CopyIn() "
+
+	nStrFormtrQuark := numStrFormatterQuark{}
+
+	return nStrFormtrQuark.copyIn(
+		nStrFormatter,
+		nStrFormtrIncoming,
+		ePrefix)
 }
 
 // CopyOut - Returns a deep copy of the current NumStrFormatter
