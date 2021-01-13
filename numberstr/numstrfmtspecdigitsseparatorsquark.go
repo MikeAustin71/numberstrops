@@ -9,9 +9,12 @@ type numStrFmtSpecDigitsSeparatorsDtoQuark struct {
 	lock *sync.Mutex
 }
 
-// CopyIn - Copies the data fields from input parameter
+// copyIn - Copies the data fields from input parameter
 // 'inComingNStrFmtSpecDigitsSepsDto' to input parameter
 // 'targetNStrFmtSpecDigitsSepsDto'.
+//
+// Be advised - All data fields in 'targetNStrFmtSpecDigitsSepsDto'
+// will be overwritten.
 //
 func (nStrFmtSpecDigitsSepsQuark *numStrFmtSpecDigitsSeparatorsDtoQuark) copyIn(
 	targetNStrFmtSpecDigitsSepsDto *NumStrFmtSpecDigitsSeparatorsDto,
