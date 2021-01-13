@@ -124,7 +124,7 @@ func (nStrFmtSpecDigitsSepsQuark *numStrFmtSpecDigitsSeparatorsDtoQuark) copyOut
 }
 
 // setDigitsSeps - Transfers new data to an instance of NumStrFmtSpecDigitsSeparatorsDto.
-// When complete all the data fields within input parameter 'nStrFmtSpecDigitsSepDto'
+// After completion, all the data fields within input parameter 'nStrFmtSpecDigitsSepDto'
 // will be overwritten.
 //
 func (nStrFmtSpecDigitsSepsQuark *numStrFmtSpecDigitsSeparatorsDtoQuark) setDigitsSeps(

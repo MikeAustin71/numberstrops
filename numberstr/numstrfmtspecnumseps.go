@@ -67,6 +67,95 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) CopyOut() NumSt
 	return newDigitsSepDto
 }
 
+// GetDecimalSeparator - Returns the decimal separator character.
+//
+// The decimal separator separates integer and fractional digits
+// in a floating point number string. In the United States, the
+// decimal separator is the period ('.') or decimal point.
+//
+//             Example: 1234.456
+//
+func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) GetDecimalSeparator() rune {
+
+	if nStrFmtSpecDigitsSepDto.lock == nil {
+		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDigitsSepDto.lock.Lock()
+
+	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
+
+	return nStrFmtSpecDigitsSepDto.decimalSeparator
+}
+
+// GetIntegerDigitsSeparator - Returns the integer digits separator
+// character.
+//
+// The integer digits separator is also known as the 'thousands'
+// separator. In the United States the standard integer digits
+// separator is the comma character (',').
+//
+//  Example: 1,000,000,000,000
+//
+func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) GetIntegerDigitsSeparator() rune {
+
+	if nStrFmtSpecDigitsSepDto.lock == nil {
+		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDigitsSepDto.lock.Lock()
+
+	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
+
+	return nStrFmtSpecDigitsSepDto.integerDigitsSeparator
+}
+
+// GetIntegerDigitsGroupingSequence - Returns a deep copy of the
+// integer digits grouping sequence as an array of unsigned
+// integers. This refers to grouping of integer digits within a
+// string of numeric digits.
+//
+// In most western countries integer digits to the left of the
+// decimal separator (a.k.a. decimal point) are separated into
+// groups of three digits representing a grouping of 'thousands'
+// like this: '1,000,000,000,000'. In this case the integer digits
+// grouping sequence would be configured as:
+//        integerDigitsGroupingSequence = []uint{3}
+//
+// In some countries and cultures other integer groupings are
+// used. In India, for example, a number might be formatted as
+// like this: '6,78,90,00,00,00,00,000'. The right most group
+// has three digits and all the others are grouped by two digits.
+// In this case integer digits grouping sequence would be
+// configured as:
+//        integerDigitsGroupingSequence = []uint{3,2}
+//
+func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) GetIntegerDigitsGroupingSequence() []uint {
+
+	if nStrFmtSpecDigitsSepDto.lock == nil {
+		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDigitsSepDto.lock.Lock()
+
+	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
+
+	lenGrpSeq := len(nStrFmtSpecDigitsSepDto.integerDigitsGroupingSequence)
+
+	groupingSeq := make([]uint, lenGrpSeq, 10)
+
+	if lenGrpSeq == 0 {
+		return groupingSeq
+	}
+
+	for i := 0; i < lenGrpSeq; i++ {
+		groupingSeq[i] =
+			nStrFmtSpecDigitsSepDto.integerDigitsGroupingSequence[i]
+	}
+
+	return groupingSeq
+}
+
 // IsValidInstance - Performs a diagnostic review of the current
 // NumStrFmtSpecDigitsSeparatorsDto instance to determine whether
 // the current instance is valid in all respects.
@@ -286,6 +375,30 @@ func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) New(
 	return newDigitsSepsDto, err
 }
 
+// SetDecimalSeparator - Sets the value of the decimal separator.
+//
+// The decimal separator separates integer and fractional digits
+// in a floating point number string. In the United States, the
+// decimal separator is the period ('.') or decimal point.
+//
+//             Example: 1234.456
+//
+//
+func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetDecimalSeparator(
+	decimalSeparator rune) {
+
+	if nStrFmtSpecDigitsSepDto.lock == nil {
+		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDigitsSepDto.lock.Lock()
+
+	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
+
+	nStrFmtSpecDigitsSepDto.decimalSeparator = decimalSeparator
+
+}
+
 // SetDigitsSeps() - This method will set all of the member variable
 // data values for the current instance of NumStrFmtSpecDigitsSeparatorsDto.
 //
@@ -413,4 +526,82 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetDigitsSeps(
 	}
 
 	return err
+}
+
+// SetIntegerDigitsGroupingSequence - Sets the value of the integer
+// digits grouping sequence. This refers to grouping of integer digits
+// within a string of numeric digits.
+//
+// In most western countries integer digits to the left of the
+// decimal separator (a.k.a. decimal point) are separated into
+// groups of three digits representing a grouping of 'thousands'
+// like this: '1,000,000,000,000'. In this case, the integer digits
+// grouping sequence would be configured as:
+//        integerDigitsGroupingSequence = []uint{3}
+//
+// In some countries and cultures, other integer groupings are
+// used. In India, for example, a number might be formatted as
+// like this: '6,78,90,00,00,00,00,000'. The right most group
+// has three digits and all the others are grouped by two digits.
+// In this case integer digits grouping sequence would be
+// configured as:
+//        integerDigitsGroupingSequence = []uint{3,2}
+//
+func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetIntegerDigitsGroupingSequence(
+	integerDigitsGroupingSeq []uint) {
+
+	if nStrFmtSpecDigitsSepDto.lock == nil {
+		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDigitsSepDto.lock.Lock()
+
+	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
+
+	lenIntDigsGrpSeq := len(integerDigitsGroupingSeq)
+
+	if lenIntDigsGrpSeq == 0 {
+
+		nStrFmtSpecDigitsSepDto.integerDigitsGroupingSequence =
+			make([]uint, 0, 10)
+
+	} else {
+
+		nStrFmtSpecDigitsSepDto.integerDigitsGroupingSequence =
+			make([]uint, lenIntDigsGrpSeq, 10)
+
+		for i := 0; i < lenIntDigsGrpSeq; i++ {
+			nStrFmtSpecDigitsSepDto.integerDigitsGroupingSequence[i] =
+				integerDigitsGroupingSeq[i]
+		}
+	}
+
+	return
+}
+
+// SetIntegerDigitsSeparator - Sets the value of the integer digits
+// separator.
+//
+// This separator is used in formatting a string of numeric digits.
+// It is also known as the 'thousands' separator. The integer
+// digits separator is used to separate groups of integer digits to
+// the left of the decimal separator (a.k.a. decimal point). In the
+// United States, the standard integer digits separator is the comma
+// (',').
+//
+//        Example:  1,000,000,000
+//
+func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetIntegerDigitsSeparator(
+	integerDigitsSeparator rune) {
+
+	if nStrFmtSpecDigitsSepDto.lock == nil {
+		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDigitsSepDto.lock.Lock()
+
+	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
+
+	nStrFmtSpecDigitsSepDto.integerDigitsSeparator =
+		integerDigitsSeparator
 }
