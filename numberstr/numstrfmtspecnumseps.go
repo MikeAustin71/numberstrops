@@ -11,11 +11,14 @@ type NumStrFmtSpecDigitsSeparatorsDto struct {
 	lock                          *sync.Mutex
 }
 
-// CopyIn - Copies the data fields from an incoming NumberFieldDto
-// to the data fields of the current instance of NumberFieldDto.
+// CopyIn - Copies the data fields from an incoming
+// NumStrFmtSpecDigitsSeparatorsDto instance  to the data fields
+// of the current instance of NumStrFmtSpecDigitsSeparatorsDto
+// instance.
 //
 func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) CopyIn(
-	incomingSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) {
+	incomingSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto,
+	ePrefix string) error {
 
 	if nStrFmtSpecDigitsSepDto.lock == nil {
 		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
@@ -25,33 +28,23 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) CopyIn(
 
 	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
 
-	nStrFmtSpecDigitsSepDto.decimalSeparator =
-		incomingSpecDigitsSepDto.decimalSeparator
-
-	nStrFmtSpecDigitsSepDto.integerDigitsSeparator =
-		incomingSpecDigitsSepDto.integerDigitsSeparator
-
-	lenIntDigitsGroupingSequence :=
-		len(incomingSpecDigitsSepDto.integerDigitsGroupingSequence)
-
-	if lenIntDigitsGroupingSequence == 0 {
-		nStrFmtSpecDigitsSepDto.integerDigitsGroupingSequence =
-			make([]uint, 0, 10)
-		return
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
 	}
 
-	nStrFmtSpecDigitsSepDto.integerDigitsGroupingSequence =
-		make([]uint, lenIntDigitsGroupingSequence)
+	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.CopyIn() "
 
-	for i := 0; i < lenIntDigitsGroupingSequence; i++ {
-		nStrFmtSpecDigitsSepDto.integerDigitsGroupingSequence[i] =
-			incomingSpecDigitsSepDto.integerDigitsGroupingSequence[i]
-	}
+	nStrFmtSpecDigitsSepsQuark :=
+		numStrFmtSpecDigitsSeparatorsDtoQuark{}
 
-	return
+	return nStrFmtSpecDigitsSepsQuark.copyIn(
+		nStrFmtSpecDigitsSepDto,
+		incomingSpecDigitsSepDto,
+		ePrefix)
 }
 
-// CopyOut - Returns a deep copy of the current NumberFieldDto instance.
+// CopyOut - Returns a deep copy of the current
+// NumStrFmtSpecDigitsSeparatorsDto instance.
 //
 func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) CopyOut() NumStrFmtSpecDigitsSeparatorsDto {
 
@@ -63,37 +56,20 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) CopyOut() NumSt
 
 	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
 
-	newDigitsSepDto := NumStrFmtSpecDigitsSeparatorsDto{}
+	nStrFmtSpecDigitsSepsQuark :=
+		numStrFmtSpecDigitsSeparatorsDtoQuark{}
 
-	newDigitsSepDto.decimalSeparator =
-		nStrFmtSpecDigitsSepDto.decimalSeparator
-
-	newDigitsSepDto.integerDigitsSeparator =
-		nStrFmtSpecDigitsSepDto.integerDigitsSeparator
-
-	lenIntDigitsGroupingSequence :=
-		len(nStrFmtSpecDigitsSepDto.integerDigitsGroupingSequence)
-
-	if lenIntDigitsGroupingSequence == 0 {
-		newDigitsSepDto.integerDigitsGroupingSequence =
-			make([]uint, 0, 10)
-		return newDigitsSepDto
-	}
-
-	newDigitsSepDto.integerDigitsGroupingSequence =
-		make([]uint, lenIntDigitsGroupingSequence)
-
-	for i := 0; i < lenIntDigitsGroupingSequence; i++ {
-		newDigitsSepDto.integerDigitsGroupingSequence[i] =
-			nStrFmtSpecDigitsSepDto.integerDigitsGroupingSequence[i]
-	}
+	newDigitsSepDto,
+		_ := nStrFmtSpecDigitsSepsQuark.copyOut(
+		nStrFmtSpecDigitsSepDto,
+		"")
 
 	return newDigitsSepDto
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
-// NumStrFormatDto instance to determine whether the current instance
-// is a valid in all respects.
+// NumStrFmtSpecDigitsSeparatorsDto instance to determine whether
+// the current instance is valid in all respects.
 //
 //
 // ----------------------------------------------------------------
@@ -109,16 +85,36 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) CopyOut() NumSt
 //
 //  isValid             bool
 //     - If this method completes successfully, the returned boolean
-//       value will signal whether the current NumStrFormatDto is
-//       valid, or not. If the current NumStrFormatDto contains
-//       valid data, this method returns 'true'. If the data is
+//       value will signal whether the current NumStrFmtSpecDigitsSeparatorsDto
+//       is valid, or not. If the current NumStrFmtSpecDigitsSeparatorsDto
+//       contains valid data, this method returns 'true'. If the data is
 //       invalid, this method returns 'false'.
 //
-//
+func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstance() (
+	isValid bool) {
+
+	if nStrFmtSpecDigitsSepDto.lock == nil {
+		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDigitsSepDto.lock.Lock()
+
+	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
+
+	nStrFmtSpecDigitsSepsQuark :=
+		numStrFmtSpecDigitsSeparatorsDtoQuark{}
+
+	isValid,
+		_ = nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
+		nStrFmtSpecDigitsSepDto,
+		"")
+
+	return isValid
+}
 
 // IsValidInstanceError - Performs a diagnostic review of the current
 // NumStrFmtSpecDigitsSeparatorsDto instance to determine whether the current instance
-// is a valid in all respects.
+// is valid in all respects.
 //
 //
 // ----------------------------------------------------------------
@@ -163,12 +159,258 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstance
 	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.IsValidInstanceError() \n" +
 		"Testing Validity of 'nStrFmtSpecDigitsSepDto' "
 
-	nStrFmtSpecLibQuark := numStrFmtSpecLibQuark{}
+	nStrFmtSpecDigitsSepsQuark := numStrFmtSpecDigitsSeparatorsDtoQuark{}
 
 	_,
-		err := nStrFmtSpecLibQuark.testValidityOfNumSepsDto(
+		err := nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
 		nStrFmtSpecDigitsSepDto,
 		ePrefix)
+
+	return err
+}
+
+// New() - Creates and returns a new instance of NumStrFmtSpecDigitsSeparatorsDto.
+// This type encapsulates the digit separators used in formatting a
+// number string for text display.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparator               rune
+//     - A text character used to separate integer and fractional
+//       digits in a floating point number string. In the United
+//       States, the standard decimal separator is the period
+//       ('.') or decimal point.
+//
+//
+//  integerDigitsSeparator         rune
+//     - This separator is also known as the 'thousands' separator.
+//       It is used to separate groups of integer digits to the left
+//       of the decimal separator (a.k.a. decimal point). In the
+//       United States, the standard integer digits separator is the
+//       comma (',').
+//
+//        Example:  1,000,000,000
+//
+//
+//  integerDigitsGroupingSequence  []uint
+//     - In most western countries integer digits to the left of the
+//       decimal separator (a.k.a. decimal point) are separated into
+//       groups of three digits representing a grouping of 'thousands'
+//       like this: '1,000,000,000,000'. In this case the parameter
+//       'integerDigitsGroupingSequence' would be configured as:
+//              integerDigitsGroupingSequence = []uint{3}
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted as
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerDigitsGroupingSequence' would be configured
+//       as:
+//              integerDigitsGroupingSequence = []uint{3,2}
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrFmtSpecDigitsSeparatorsDto
+//     - If this method completes successfully, new instance of
+//       NumStrFmtSpecDigitsSeparatorsDto will be created and
+//       returned.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) New(
+	decimalSeparator rune,
+	integerDigitsSeparator rune,
+	integerDigitsGroupingSequence []uint,
+	ePrefix string) (
+	NumStrFmtSpecDigitsSeparatorsDto,
+	error) {
+
+	if nStrFmtSpecDigitsSepDto.lock == nil {
+		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDigitsSepDto.lock.Lock()
+
+	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.New() "
+
+	newDigitsSepsDto := NumStrFmtSpecDigitsSeparatorsDto{}
+
+	nStrFmtSpecDigitsSepsQuark :=
+		numStrFmtSpecDigitsSeparatorsDtoQuark{}
+
+	err := nStrFmtSpecDigitsSepsQuark.setDigitsSeps(
+		&newDigitsSepsDto,
+		decimalSeparator,
+		integerDigitsSeparator,
+		integerDigitsGroupingSequence,
+		ePrefix)
+
+	if err != nil {
+		return newDigitsSepsDto, err
+	}
+
+	_,
+		err =
+		nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
+			&newDigitsSepsDto,
+			ePrefix+
+				"Testing final validity 'newDigitsSepsDto' ")
+
+	return newDigitsSepsDto, err
+}
+
+// SetDigitsSeps() - This method will set all of the member variable
+// data values for the current instance of NumStrFmtSpecDigitsSeparatorsDto.
+//
+// The NumStrFmtSpecDigitsSeparatorsDto type encapsulates the digit separators
+// used in formatting a number string for text display.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparator               rune
+//     - A text character used to separate integer and fractional
+//       digits in a floating point number string. In the United
+//       States, the standard decimal separator is the period
+//       ('.') or decimal point.
+//
+//
+//  integerDigitsSeparator         rune
+//     - This separator is also known as the 'thousands' separator.
+//       It is used to separate groups of integer digits to the left
+//       of the decimal separator (a.k.a. decimal point). In the
+//       United States, the standard integer digits separator is the
+//       comma (',').
+//
+//        Example:  1,000,000,000
+//
+//
+//  integerDigitsGroupingSequence  []uint
+//     - In most western countries integer digits to the left of the
+//       decimal separator (a.k.a. decimal point) are separated into
+//       groups of three digits representing a grouping of 'thousands'
+//       like this: '1,000,000,000,000'. In this case the parameter
+//       'integerDigitsGroupingSequence' would be configured as:
+//              integerDigitsGroupingSequence = []uint{3}
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted as
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerDigitsGroupingSequence' would be configured
+//       as:
+//              integerDigitsGroupingSequence = []uint{3,2}
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetDigitsSeps(
+	decimalSeparator rune,
+	integerDigitsSeparator rune,
+	integerDigitsGroupingSequence []uint,
+	ePrefix string) (
+	err error) {
+
+	if nStrFmtSpecDigitsSepDto.lock == nil {
+		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDigitsSepDto.lock.Lock()
+
+	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.SetDigitsSeps() "
+
+	nStrFmtSpecDigitsSepsQuark :=
+		numStrFmtSpecDigitsSeparatorsDtoQuark{}
+
+	var oldValues NumStrFmtSpecDigitsSeparatorsDto
+
+	oldValues,
+		err = nStrFmtSpecDigitsSepsQuark.copyOut(
+		nStrFmtSpecDigitsSepDto,
+		ePrefix+"\nSaving old values ")
+
+	if err != nil {
+		return err
+	}
+
+	err = nStrFmtSpecDigitsSepsQuark.setDigitsSeps(
+		nStrFmtSpecDigitsSepDto,
+		decimalSeparator,
+		integerDigitsSeparator,
+		integerDigitsGroupingSequence,
+		ePrefix+
+			"\nSetting Data Values for current instance 'nStrFmtSpecDigitsSepDto' ")
+
+	if err != nil {
+		return
+	}
+	_,
+		err =
+		nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
+			nStrFmtSpecDigitsSepDto,
+			ePrefix+
+				"\nTesting final validity 'nStrFmtSpecDigitsSepDto' ")
+
+	if err != nil {
+		_ =
+			nStrFmtSpecDigitsSepsQuark.copyIn(
+				nStrFmtSpecDigitsSepDto,
+				&oldValues,
+				ePrefix)
+	}
 
 	return err
 }
