@@ -123,68 +123,6 @@ func (nStrFmtSpecDigitsSepsQuark *numStrFmtSpecDigitsSeparatorsDtoQuark) copyOut
 	return newDigitsSepsDto, err
 }
 
-// setDigitsSeps - Transfers new data to an instance of NumStrFmtSpecDigitsSeparatorsDto.
-// After completion, all the data fields within input parameter 'nStrFmtSpecDigitsSepDto'
-// will be overwritten.
-//
-func (nStrFmtSpecDigitsSepsQuark *numStrFmtSpecDigitsSeparatorsDtoQuark) setDigitsSeps(
-	nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto,
-	decimalSeparator rune,
-	integerDigitsSeparator rune,
-	integerDigitsGroupingSequence []uint,
-	ePrefix string) (
-	err error) {
-
-	if nStrFmtSpecDigitsSepsQuark.lock == nil {
-		nStrFmtSpecDigitsSepsQuark.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecDigitsSepsQuark.lock.Lock()
-
-	defer nStrFmtSpecDigitsSepsQuark.lock.Unlock()
-
-	if len(ePrefix) > 0 {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecDigitsSeparatorsDtoQuark.setDigitsSeps() "
-
-	if nStrFmtSpecDigitsSepDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDigitsSepDto' is invalid!\n"+
-			"'nStrFmtSpecDigitsSepDto' is a 'nil' pointer\n",
-			ePrefix)
-
-		return err
-	}
-
-	nStrFmtSpecDigitsSepDto.decimalSeparator =
-		decimalSeparator
-
-	nStrFmtSpecDigitsSepDto.integerDigitsSeparator =
-		integerDigitsSeparator
-
-	nStrFmtSpecDigitsSepDto.integerDigitsGroupingSequence =
-		make([]uint, 0, 10)
-
-	lenIntDigitsGroupingSequence :=
-		len(integerDigitsGroupingSequence)
-
-	if lenIntDigitsGroupingSequence == 0 {
-		return err
-	}
-
-	nStrFmtSpecDigitsSepDto.integerDigitsGroupingSequence =
-		make([]uint, lenIntDigitsGroupingSequence, 10)
-
-	for i := 0; i < lenIntDigitsGroupingSequence; i++ {
-		nStrFmtSpecDigitsSepDto.integerDigitsGroupingSequence[i] =
-			integerDigitsGroupingSequence[i]
-	}
-
-	return err
-}
-
 // testValidityOfNumSepsDto - Receives an instance of
 // NumStrFmtSpecDigitsSeparatorsDto and proceeds to test the
 // validity of the member data fields.

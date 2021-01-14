@@ -392,26 +392,15 @@ func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) New(
 
 	newDigitsSepsDto := NumStrFmtSpecDigitsSeparatorsDto{}
 
-	nStrFmtSpecDigitsSepsQuark :=
-		numStrFmtSpecDigitsSeparatorsDtoQuark{}
+	nStrFmtSpecDigitsSepsDtoElectron :=
+		numStrFmtSpecDigitsSeparatorsDtoElectron{}
 
-	err := nStrFmtSpecDigitsSepsQuark.setDigitsSeps(
+	err := nStrFmtSpecDigitsSepsDtoElectron.setDigitsSeps(
 		&newDigitsSepsDto,
 		decimalSeparator,
 		integerDigitsSeparator,
 		integerDigitsGroupingSequence,
 		ePrefix)
-
-	if err != nil {
-		return newDigitsSepsDto, err
-	}
-
-	_,
-		err =
-		nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
-			&newDigitsSepsDto,
-			ePrefix+
-				"Testing final validity 'newDigitsSepsDto' ")
 
 	return newDigitsSepsDto, err
 }
@@ -509,8 +498,7 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetDigitsSeps(
 	decimalSeparator rune,
 	integerDigitsSeparator rune,
 	integerDigitsGroupingSequence []uint,
-	ePrefix string) (
-	err error) {
+	ePrefix string) error {
 
 	if nStrFmtSpecDigitsSepDto.lock == nil {
 		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
@@ -526,47 +514,16 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetDigitsSeps(
 
 	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.SetDigitsSeps() "
 
-	nStrFmtSpecDigitsSepsQuark :=
-		numStrFmtSpecDigitsSeparatorsDtoQuark{}
+	nStrFmtSpecDigitsSepsDtoElectron :=
+		numStrFmtSpecDigitsSeparatorsDtoElectron{}
 
-	var oldValues NumStrFmtSpecDigitsSeparatorsDto
-
-	oldValues,
-		err = nStrFmtSpecDigitsSepsQuark.copyOut(
-		nStrFmtSpecDigitsSepDto,
-		ePrefix+"\nSaving old values ")
-
-	if err != nil {
-		return err
-	}
-
-	err = nStrFmtSpecDigitsSepsQuark.setDigitsSeps(
+	return nStrFmtSpecDigitsSepsDtoElectron.setDigitsSeps(
 		nStrFmtSpecDigitsSepDto,
 		decimalSeparator,
 		integerDigitsSeparator,
 		integerDigitsGroupingSequence,
 		ePrefix+
 			"\nSetting Data Values for current instance 'nStrFmtSpecDigitsSepDto' ")
-
-	if err != nil {
-		return
-	}
-	_,
-		err =
-		nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
-			nStrFmtSpecDigitsSepDto,
-			ePrefix+
-				"\nTesting final validity 'nStrFmtSpecDigitsSepDto' ")
-
-	if err != nil {
-		_ =
-			nStrFmtSpecDigitsSepsQuark.copyIn(
-				nStrFmtSpecDigitsSepDto,
-				&oldValues,
-				ePrefix)
-	}
-
-	return err
 }
 
 // SetIntegerDigitsGroupingSequence - Sets the value of the integer
