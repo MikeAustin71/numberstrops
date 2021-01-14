@@ -42,10 +42,10 @@
 //
 //
 //  negativeValueFmt           string
-//     - An enumeration value for Number String Negative Value Format
-//       Mode. Used to specify formatting for negative numeric values
-//       (NOT Currency). Valid formats for negative numeric values are
-//       listed as follows:
+//     - A string specifying the number string format to be used in
+//       formatting negative numeric values in text strings. Valid
+//       formats for negative numeric values (NOT Currency) are listed
+//       as follows:
 //
 //               -127.54   The Default Negative Value Format String
 //               - 127.54

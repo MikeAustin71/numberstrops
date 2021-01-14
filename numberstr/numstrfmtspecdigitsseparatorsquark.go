@@ -74,7 +74,7 @@ func (nStrFmtSpecDigitsSepsQuark *numStrFmtSpecDigitsSeparatorsDtoQuark) copyIn(
 	return err
 }
 
-// CopyOut - Returns a deep copy of input parameter
+// copyOut - Returns a deep copy of input parameter
 // 'nStrFmtSpecDigitsSepsDto' styled as a new instance
 // of NumStrFmtSpecDigitsSeparatorsDto.
 //

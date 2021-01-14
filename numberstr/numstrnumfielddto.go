@@ -62,16 +62,23 @@ func (nFieldDto *NumberFieldDto) CopyOut() NumberFieldDto {
 
 // New - Creates and returns a new instance of 'NumberFieldDto'.
 //
-// The only input parameter is the 'requested' number field length.
-// This is the requested length of the number field in which the
-// number string will be displayed. If this field length is greater
-// than the actual length of the number string, the number string
-// will be right justified within the the number field. If the
-// actual number string length is greater than the number field
-// length, the number field field length will be automatically
-// expanded to display the entire number string. The 'requested'
-// number field length is used to create number fields of standard
-// length.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  requestedNumberFieldLen    int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
 //
 func (nFieldDto NumberFieldDto) New(
 	requestedNumberFieldLen int) NumberFieldDto {
