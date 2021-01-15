@@ -16,6 +16,9 @@ type NumStrFmtSpecSignedNumValueDto struct {
 // of the current instance of NumStrFmtSpecSignedNumValueDto
 // instance.
 //
+// If input parameter 'incomingSignedNumValDto' is judged to be
+// invalid, this method will return an error.
+//
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
 	incomingSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
 	ePrefix string) error {
@@ -32,12 +35,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
 		ePrefix += "\n"
 	}
 
-	ePrefix += "NumStrFmtSpecSignedNumValueDto.CopyIn() "
+	ePrefix += "NumStrFmtSpecSignedNumValueDto.CopyIn()\n "
 
-	nStrFmtSpecSignedNumValAtom :=
-		numStrFmtSpecSignedNumValAtom{}
+	nStrFmtSpecSignedNumValMolecule :=
+		nStrFmtSpecSignedNumValMolecule{}
 
-	return nStrFmtSpecSignedNumValAtom.copyIn(
+	return nStrFmtSpecSignedNumValMolecule.copyIn(
 		nStrFmtSpecSignedNumValueDto,
 		incomingSignedNumValDto,
 		ePrefix)
@@ -46,7 +49,13 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
 // CopyOut - Returns a deep copy of the current
 // NumStrFmtSpecSignedNumValueDto instance.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut() NumStrFmtSpecSignedNumValueDto {
+// If the current NumStrFmtSpecSignedNumValueDto instance is judged
+// to be invalid, this method will return an error.
+//
+func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut(
+	ePrefix string) (
+	NumStrFmtSpecSignedNumValueDto,
+	error) {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
 		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
@@ -56,15 +65,15 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut() Nu
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	nStrFmtSpecSignedNumValAtom :=
-		numStrFmtSpecSignedNumValAtom{}
+	ePrefix += "NumStrFmtSpecSignedNumValueDto.CopyOut()\n "
 
-	newNStrFmtSpecSignedNumberValueDto,
-		_ := nStrFmtSpecSignedNumValAtom.copyOut(
+	nStrFmtSpecSignedNumValMolecule :=
+		nStrFmtSpecSignedNumValMolecule{}
+
+	return nStrFmtSpecSignedNumValMolecule.copyOut(
 		nStrFmtSpecSignedNumValueDto,
-		"")
-
-	return newNStrFmtSpecSignedNumberValueDto
+		ePrefix+
+			"Copy Out from 'nStrFmtSpecSignedNumValueDto'\n ")
 }
 
 // GetNegativeValueFormat - Returns the formatting string used to
@@ -515,10 +524,10 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) New(
 		[]uint{3},
 		ePrefix)
 
-	nStrFmtSpecSignedNumValMolecule :=
-		nStrFmtSpecSignedNumValMolecule{}
+	nStrFmtSpecSignedNumValNanobot :=
+		nStrFmtSpecSignedNumValNanobot{}
 
-	err = nStrFmtSpecSignedNumValMolecule.setSignedNumValDto(
+	err = nStrFmtSpecSignedNumValNanobot.setSignedNumValDto(
 		&newNStrFmtSpecSignedNumValueDto,
 		positiveValueFmt,
 		negativeValueFmt,
@@ -789,11 +798,10 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
 
 	newNStrFmtSpecSignedNumValueDto := NumStrFmtSpecSignedNumValueDto{}
+	nStrFmtSpecSignedNumValNanobot :=
+		nStrFmtSpecSignedNumValNanobot{}
 
-	nStrFmtSpecSignedNumValMolecule :=
-		nStrFmtSpecSignedNumValMolecule{}
-
-	err := nStrFmtSpecSignedNumValMolecule.setSignedNumValDto(
+	err := nStrFmtSpecSignedNumValNanobot.setSignedNumValDto(
 		&newNStrFmtSpecSignedNumValueDto,
 		positiveValueFmt,
 		negativeValueFmt,
@@ -1413,10 +1421,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetSignedNum
 
 	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
 
-	nStrFmtSpecSignedNumValMolecule :=
-		nStrFmtSpecSignedNumValMolecule{}
+	nStrFmtSpecSignedNumValNanobot :=
+		nStrFmtSpecSignedNumValNanobot{}
 
-	return nStrFmtSpecSignedNumValMolecule.setSignedNumValDto(
+	return nStrFmtSpecSignedNumValNanobot.setSignedNumValDto(
 		nStrFmtSpecSignedNumValueDto,
 		positiveValueFmt,
 		negativeValueFmt,

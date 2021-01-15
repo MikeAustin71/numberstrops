@@ -6,8 +6,8 @@ type numStrFmtSpecSignedNumValQuark struct {
 	lock *sync.Mutex
 }
 
-// getValidSignedNumNegativeValFmtChars - Returns an array of runes which
-// constitute the only valid characters allowed in Negative Value format
+// getValidSignedNumPositiveValFmtChars - Returns an array of runes which
+// constitute the only valid characters allowed in Positive Value format
 // strings for signed number values.
 //
 func (nStrFmtSpecSignedNumValQuark *numStrFmtSpecSignedNumValQuark) getValidSignedNumPositiveValFmtChars() []rune {

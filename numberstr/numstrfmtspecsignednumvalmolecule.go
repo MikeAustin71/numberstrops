@@ -9,18 +9,19 @@ type nStrFmtSpecSignedNumValMolecule struct {
 	lock *sync.Mutex
 }
 
-// setSignedNumValDto - Transfers new data to an instance of
-// NumStrFmtSpecSignedNumValueDto. After completion, all the data
-// fields within input parameter 'nStrFmtSpecDigitsSepDto' will be
-// overwritten.
+// copyIn - Copies the data fields from input parameter
+// 'inComingNStrFmtSpecDigitsSepsDto' to input parameter
+// 'targetNStrFmtSpecDigitsSepsDto'.
 //
-func (nStrFmtSpecSignedNumValMolecule *nStrFmtSpecSignedNumValMolecule) setSignedNumValDto(
-	nStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
-	positiveValueFmt string,
-	negativeValueFmt string,
-	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumStrFmtSpecDigitsSeparatorsDto,
-	numFieldLenDto NumberFieldDto,
+// Be advised - All data fields in 'targetNStrFmtSpecDigitsSepsDto'
+// will be overwritten.
+//
+// If input parameter 'inComingNStrFmtSpecDigitsSepsDto' is judged
+// to be invalid, this method will return an error.
+//
+func (nStrFmtSpecSignedNumValMolecule *nStrFmtSpecSignedNumValMolecule) copyIn(
+	targetNStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
+	inComingNStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
 	ePrefix string) (
 	err error) {
 
@@ -32,63 +33,132 @@ func (nStrFmtSpecSignedNumValMolecule *nStrFmtSpecSignedNumValMolecule) setSigne
 
 	defer nStrFmtSpecSignedNumValMolecule.lock.Unlock()
 
-	if len(ePrefix) > 0 {
-		ePrefix += "\n"
+	ePrefix += "\nnStrFmtSpecSignedNumValMolecule.copyIn()\n "
+
+	if targetNStrFmtSpecSignedNumValDto == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'targetNStrFmtSpecSignedNumValDto' is"+
+			" a 'nil' pointer!\n",
+			ePrefix)
+		return err
 	}
 
-	ePrefix += "numStrFmtSpecSignedNumValAtom.setSignedNumValDto() "
+	if inComingNStrFmtSpecSignedNumValDto == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'inComingNStrFmtSpecSignedNumValDto' is"+
+			" a 'nil' pointer!\n",
+			ePrefix)
+		return err
+	}
+
+	nStrFmtSpecSignedNumValAtom :=
+		numStrFmtSpecSignedNumValAtom{}
+
+	_,
+		err =
+		nStrFmtSpecSignedNumValAtom.testValidityOfSignedNumValDto(
+			inComingNStrFmtSpecSignedNumValDto,
+			ePrefix+
+				"Testing validity of 'inComingNStrFmtSpecSignedNumValDto'\n ")
+
+	if err != nil {
+		return err
+	}
+
+	targetNStrFmtSpecSignedNumValDto.positiveValueFmt =
+		inComingNStrFmtSpecSignedNumValDto.positiveValueFmt
+
+	targetNStrFmtSpecSignedNumValDto.negativeValueFmt =
+		inComingNStrFmtSpecSignedNumValDto.negativeValueFmt
+
+	targetNStrFmtSpecSignedNumValDto.turnOnIntegerDigitsSeparation =
+		inComingNStrFmtSpecSignedNumValDto.turnOnIntegerDigitsSeparation
+
+	err =
+		targetNStrFmtSpecSignedNumValDto.numberSeparatorsDto.CopyIn(
+			&inComingNStrFmtSpecSignedNumValDto.numberSeparatorsDto,
+			ePrefix+
+				"'inComingNStrFmtSpecSignedNumValDto' -> "+
+				"'targetNStrFmtSpecSignedNumValDto'\n ")
+
+	if err != nil {
+		return err
+	}
+
+	targetNStrFmtSpecSignedNumValDto.numFieldLenDto.CopyIn(
+		&inComingNStrFmtSpecSignedNumValDto.numFieldLenDto)
+
+	return err
+}
+
+// copyOut - Returns a deep copy of input parameter
+// 'nStrFmtSpecDigitsSepsDto' styled as a new instance
+// of NumStrFmtSpecDigitsSeparatorsDto.
+//
+// If input parameter 'nStrFmtSpecDigitsSepsDto' is judged to be
+// invalid, this method will return an error.
+//
+func (nStrFmtSpecSignedNumValMolecule *nStrFmtSpecSignedNumValMolecule) copyOut(
+	nStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
+	ePrefix string) (
+	newNStrFmtSpecSignedNumValDto NumStrFmtSpecSignedNumValueDto,
+	err error) {
+
+	if nStrFmtSpecSignedNumValMolecule.lock == nil {
+		nStrFmtSpecSignedNumValMolecule.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSignedNumValMolecule.lock.Lock()
+
+	defer nStrFmtSpecSignedNumValMolecule.lock.Unlock()
+
+	ePrefix += "\nnStrFmtSpecSignedNumValMolecule.copyOut()\n "
 
 	if nStrFmtSpecSignedNumValDto == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecSignedNumValDto' is invalid!\n"+
-			"'nStrFmtSpecSignedNumValDto' is a 'nil' pointer\n",
+			"Error: Input parameter 'nStrFmtSpecSignedNumValDto' is"+
+			" a 'nil' pointer!\n",
 			ePrefix)
 
-		return err
+		return newNStrFmtSpecSignedNumValDto, err
 	}
 
-	newNStrFmtSpecSignedNumValDto := NumStrFmtSpecSignedNumValueDto{}
+	nStrFmtSpecSignedNumValAtom :=
+		numStrFmtSpecSignedNumValAtom{}
 
-	newNStrFmtSpecSignedNumValDto.positiveValueFmt =
-		positiveValueFmt
-
-	newNStrFmtSpecSignedNumValDto.negativeValueFmt =
-		negativeValueFmt
-
-	newNStrFmtSpecSignedNumValDto.turnOnIntegerDigitsSeparation =
-		turnOnIntegerDigitsSeparation
-
-	err =
-		newNStrFmtSpecSignedNumValDto.numberSeparatorsDto.CopyIn(
-			&numberSeparatorsDto,
+	_,
+		err =
+		nStrFmtSpecSignedNumValAtom.testValidityOfSignedNumValDto(
+			nStrFmtSpecSignedNumValDto,
 			ePrefix+
-				"\nnumberSeparatorsDto->newNStrFmtSpecSignedNumValDto\n ")
+				"Testing validity of 'nStrFmtSpecSignedNumValDto'\n ")
 
 	if err != nil {
-		return err
+		return newNStrFmtSpecSignedNumValDto, err
+	}
+
+	newNStrFmtSpecSignedNumValDto.positiveValueFmt =
+		nStrFmtSpecSignedNumValDto.positiveValueFmt
+
+	newNStrFmtSpecSignedNumValDto.negativeValueFmt =
+		nStrFmtSpecSignedNumValDto.negativeValueFmt
+
+	newNStrFmtSpecSignedNumValDto.turnOnIntegerDigitsSeparation =
+		nStrFmtSpecSignedNumValDto.turnOnIntegerDigitsSeparation
+
+	err = newNStrFmtSpecSignedNumValDto.numberSeparatorsDto.CopyIn(
+		&nStrFmtSpecSignedNumValDto.numberSeparatorsDto,
+		ePrefix+
+			"nStrFmtSpecSignedNumValDto->newNStrFmtSpecSignedNumValDto\n ")
+
+	if err != nil {
+		return newNStrFmtSpecSignedNumValDto, err
 	}
 
 	newNStrFmtSpecSignedNumValDto.numFieldLenDto.CopyIn(
-		&numFieldLenDto)
+		&nStrFmtSpecSignedNumValDto.numFieldLenDto)
 
-	nStrFmtSpecSignedNumValAtom := numStrFmtSpecSignedNumValAtom{}
+	newNStrFmtSpecSignedNumValDto.lock = new(sync.Mutex)
 
-	_,
-		err = nStrFmtSpecSignedNumValAtom.testValidityOfSignedNumValDto(
-		&newNStrFmtSpecSignedNumValDto,
-		ePrefix)
-
-	if err != nil {
-		return err
-	}
-
-	err =
-		nStrFmtSpecSignedNumValAtom.copyIn(
-			nStrFmtSpecSignedNumValDto,
-			&newNStrFmtSpecSignedNumValDto,
-			ePrefix+
-				"\nnewNStrFmtSpecSignedNumValDto-> "+
-				"nStrFmtSpecSignedNumValDto\n ")
-
-	return err
+	return newNStrFmtSpecSignedNumValDto, err
 }
