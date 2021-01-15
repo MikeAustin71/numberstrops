@@ -20,7 +20,7 @@ func (nStrFmtSpecSignedNumValQuark *numStrFmtSpecSignedNumValQuark) getValidSign
 
 	defer nStrFmtSpecSignedNumValQuark.lock.Unlock()
 
-	return []rune(" +$127.54NUMFIELD")
+	return []rune(" +127.54NUMFIELD")
 }
 
 // getValidSignedNumNegativeValFmtChars - Returns an array of runes which
@@ -37,5 +37,5 @@ func (nStrFmtSpecSignedNumValQuark *numStrFmtSpecSignedNumValQuark) getValidSign
 
 	defer nStrFmtSpecSignedNumValQuark.lock.Unlock()
 
-	return []rune("(-) $127.54NUMFIELD")
+	return []rune("(-) 127.54NUMFIELD")
 }
