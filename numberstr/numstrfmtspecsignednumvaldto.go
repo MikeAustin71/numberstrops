@@ -278,7 +278,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 	return err
 }
 
-// NewFromComponents() - Creates and returns a new instance of
+// New() - Creates and returns a new instance of
 // NumStrFmtSpecSignedNumValueDto.
 //
 // This variant of the 'NumStrFmtSpecSignedNumValueDto.New()'
@@ -798,6 +798,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
 
 	newNStrFmtSpecSignedNumValueDto := NumStrFmtSpecSignedNumValueDto{}
+
 	nStrFmtSpecSignedNumValNanobot :=
 		nStrFmtSpecSignedNumValNanobot{}
 
@@ -809,7 +810,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 		numberSeparatorsDto,
 		numFieldDto,
 		ePrefix+
-			"\n Setting 'nStrFmtSpecSignedNumValueDto'\n ")
+			"\n Setting 'newNStrFmtSpecSignedNumValueDto'\n ")
 
 	return newNStrFmtSpecSignedNumValueDto, err
 }
@@ -1112,66 +1113,6 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 	nStrFmtSpecSignedNumValueDto.positiveValueFmt = positiveValueFmt
 }
 
-// SetTurnOnIntegerDigitsSeparationFlag - Sets the
-// 'turnOnIntegerDigitsSeparation' flag.
-//
-// This boolean flag signals whether integer digits within a number
-// string will be grouped by thousands and separated by an integer
-// digits separator such as a comma (',').
-//
-// If this flag is set to 'true', integer digits will be presented
-// in text number strings as shown in the following example.
-//  Example: 1,000,000,000,000
-//
-// If this flag is set to 'false',  integer digits will be presented
-// in text number strings as shown in the following example.
-//  Example: 1000000000000
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  turnOnIntegerDigitsSeparation bool
-//     - Inter digits separation is also known as the 'Thousands
-//       Separator". Often a single character is used to separate
-//       thousands within the integer component of a numeric value
-//       in number strings. In the United States, the comma
-//       character (',') is used to separate thousands.
-//            Example: 1,000,000,000
-//
-//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
-//       flag used to control the 'Thousands Separator'. When set
-//       to 'true', integer number strings will be separated into
-//       thousands for text presentation.
-//            Example: 1,000,000,000
-//
-//       When this parameter is set to 'false', the 'Thousands
-//       Separator' will NOT be inserted into text number strings.
-//            Example: 1000000000
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  --- NONE ---
-//
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnIntegerDigitsSeparationFlag(
-	turnOnIntegerDigitsSeparation bool) {
-
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
-
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
-
-	nStrFmtSpecSignedNumValueDto.turnOnIntegerDigitsSeparation =
-		turnOnIntegerDigitsSeparation
-}
-
 // SetSignedNumValDto() - This method will set all of the member
 // variable data values for the current instance of
 // NumStrFmtSpecSignedNumValueDto.
@@ -1433,4 +1374,65 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetSignedNum
 		numFieldDto,
 		ePrefix+
 			"\n Setting 'nStrFmtSpecSignedNumValueDto'\n ")
+}
+
+// SetTurnOnIntegerDigitsSeparationFlag - Sets the
+// 'turnOnIntegerDigitsSeparation' flag for the current instance of
+// NumStrFmtSpecSignedNumValueDto.
+//
+// This boolean flag signals whether integer digits within a number
+// string will be grouped by thousands and separated by an integer
+// digits separator such as a comma (',').
+//
+// If this flag is set to 'true', integer digits will be presented
+// in text number strings as shown in the following example.
+//  Example: 1,000,000,000,000
+//
+// If this flag is set to 'false',  integer digits will be presented
+// in text number strings as shown in the following example.
+//  Example: 1000000000000
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: 1,000,000,000
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: 1000000000
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  --- NONE ---
+//
+func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnIntegerDigitsSeparationFlag(
+	turnOnIntegerDigitsSeparation bool) {
+
+	if nStrFmtSpecSignedNumValueDto.lock == nil {
+		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSignedNumValueDto.lock.Lock()
+
+	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	nStrFmtSpecSignedNumValueDto.turnOnIntegerDigitsSeparation =
+		turnOnIntegerDigitsSeparation
 }
