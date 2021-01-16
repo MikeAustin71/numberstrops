@@ -71,7 +71,7 @@ func (nStrCurrencyAtom *numStrFmtSpecCurrencyValueDtoAtom) testCurrencyNegativeV
 
 	defer nStrCurrencyAtom.lock.Unlock()
 
-	ePrefix += "numStrFmtSpecCurrencyValueDtoElectron.testCurrencyNegativeValueFormat() "
+	ePrefix += "numStrFmtSpecCurrencyValueDtoAtom.testCurrencyNegativeValueFormat() "
 
 	isValid = false
 
