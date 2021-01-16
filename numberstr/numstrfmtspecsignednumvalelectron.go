@@ -10,113 +10,13 @@ type numStrSignedNumValElectron struct {
 	lock *sync.Mutex
 }
 
-// testSignedNumValPositiveValueFormat - Inspects the Positive Value
+// testSignedNumValNegativeValueFormatStr - Inspects the Negative Value
 // Number Format string for a Signed Number Value Formatter and returns
 // an error if the format string is invalid.
 //
 //
-func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValPositiveValueFormat(
-	nStrFmtSpecSignedNumberValueDto *NumStrFmtSpecSignedNumValueDto,
-	ePrefix string) (
-	isValid bool,
-	err error) {
-
-	if nStrSignedNumElectron.lock == nil {
-		nStrSignedNumElectron.lock = new(sync.Mutex)
-	}
-
-	nStrSignedNumElectron.lock.Lock()
-
-	defer nStrSignedNumElectron.lock.Unlock()
-
-	ePrefix += "numStrSignedNumValElectron.testSignedNumValPositiveValueFormat() "
-
-	isValid = false
-
-	if nStrFmtSpecSignedNumberValueDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecSignedNumberValueDto' is a 'nil' pointer!\n",
-			ePrefix)
-		return isValid, err
-	}
-
-	if len(nStrFmtSpecSignedNumberValueDto.positiveValueFmt) == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'positiveValueFmt' is an empty string!\n"+
-			"The Signed Number Value Positive Value Format string is missing.\n"+
-			"len(nStrFmtSpecSignedNumberValueDto.positiveValueFmt) == 0\n",
-			ePrefix)
-		return isValid, err
-	}
-
-	nStrFmtSpecSignedNumValQuark := numStrFmtSpecSignedNumValQuark{}
-
-	validFmtChars :=
-		nStrFmtSpecSignedNumValQuark.getValidSignedNumPositiveValFmtChars()
-
-	var lenValidFmtChars = len(validFmtChars)
-	runesToTest := []rune(nStrFmtSpecSignedNumberValueDto.positiveValueFmt)
-	var lenCurrFmt = len(runesToTest)
-	var isRuneValid bool
-
-	for i := 0; i < lenCurrFmt; i++ {
-
-		isRuneValid = false
-
-		for j := 0; j < lenValidFmtChars; j++ {
-
-			if runesToTest[i] != validFmtChars[j] {
-				continue
-			} else {
-				isRuneValid = true
-				break
-			}
-		}
-
-		if !isRuneValid {
-			isValid = false
-			err = fmt.Errorf("%v\n"+
-				"Error: The Number String Format contains an invalid character!\n"+
-				"Signed Number Positive Value Formats are NOT allowed to include this character.\n"+
-				"Complete Number String Format= '%v'\n"+
-				"invalid char == '%v' at Index [%v] \n",
-				ePrefix,
-				nStrFmtSpecSignedNumberValueDto.positiveValueFmt,
-				string(runesToTest[i]),
-				i)
-
-			return isValid, err
-		}
-	}
-
-	if !strings.Contains(
-		nStrFmtSpecSignedNumberValueDto.positiveValueFmt, "127.54") &&
-		!strings.Contains(
-			nStrFmtSpecSignedNumberValueDto.positiveValueFmt, "NUMFIELD") {
-		isValid = false
-		err = fmt.Errorf("%v\n"+
-			"Error: The Number String Format is missing a place holder\n"+
-			"for the numeric value. The format string MUST contain either\n"+
-			"'127.54' or 'NUMFIELD' to designate a place holder for the\n"+
-			"numeric value. This Number String Format has neither placeholder!\n"+
-			"Complete Number String Format= '%v'\n",
-			ePrefix,
-			nStrFmtSpecSignedNumberValueDto.positiveValueFmt)
-
-		return isValid, err
-	}
-
-	isValid = true
-	return isValid, err
-}
-
-// testSignedNumValNegativeValueFormat - Inspects the Negative Value
-// Number Format string for a Signed Number Value Formatter and returns
-// an error if the format string is invalid.
-//
-//
-func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativeValueFormat(
-	nStrFmtSpecSignedNumberValueDto *NumStrFmtSpecSignedNumValueDto,
+func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativeValueFormatStr(
+	negativeValueFmtStr string,
 	ePrefix string) (
 	isValid bool,
 	err error) {
@@ -133,17 +33,10 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 
 	isValid = false
 
-	if nStrFmtSpecSignedNumberValueDto == nil {
+	if len(negativeValueFmtStr) == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecSignedNumberValueDto' is a 'nil' pointer!\n",
-			ePrefix)
-		return isValid, err
-	}
-
-	if len(nStrFmtSpecSignedNumberValueDto.negativeValueFmt) == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'negativeValueFmt' is an empty string!\n"+
-			"len(nStrFmtSpecSignedNumberValueDto.negativeValueFmt) == 0\n",
+			"Error: Input parameter 'negativeValueFmtStr' is an empty string!\n"+
+			"len(negativeValueFmtStr) == 0\n",
 			ePrefix)
 		return isValid, err
 	}
@@ -154,7 +47,7 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 		nStrFmtSpecSignedNumValQuark.getValidSignedNumNegativeValFmtChars()
 
 	var lenValidFmtChars = len(validFmtChars)
-	runesToTest := []rune(nStrFmtSpecSignedNumberValueDto.negativeValueFmt)
+	runesToTest := []rune(negativeValueFmtStr)
 	var lenCurrFmt = len(runesToTest)
 	var isRuneValid bool
 
@@ -175,12 +68,12 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 		if !isRuneValid {
 			isValid = false
 			err = fmt.Errorf("%v\n"+
-				"Error: The Number String Format contains an invalid character!\n"+
+				"Error: The Signed Value Negative Number Format String contains an invalid character!\n"+
 				"Signed Number Negative Value Formats are NOT allowed to include this character.\n"+
-				"Complete Number String Format= '%v'\n"+
+				"Complete Signed Value Negative Number Format String= '%v'\n"+
 				"invalid char == '%v' at Index [%v] \n",
 				ePrefix,
-				nStrFmtSpecSignedNumberValueDto.negativeValueFmt,
+				negativeValueFmtStr,
 				string(runesToTest[i]),
 				i)
 
@@ -189,39 +82,132 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 	}
 
 	if !strings.Contains(
-		nStrFmtSpecSignedNumberValueDto.negativeValueFmt, "127.54") &&
+		negativeValueFmtStr, "127.54") &&
 		!strings.Contains(
-			nStrFmtSpecSignedNumberValueDto.negativeValueFmt, "NUMFIELD") {
+			negativeValueFmtStr, "NUMFIELD") {
 
 		isValid = false
 		err = fmt.Errorf("%v\n"+
-			"Error: The Number String Format is missing a place holder\n"+
-			"for the numeric value. The format string MUST contain either\n"+
-			"'127.54' or 'NUMFIELD' to designate a place holder for the\n"+
-			"numeric value. This Number String Format has neither placeholder!\n"+
-			"Complete Number String Format= '%v'\n",
+			"Error: The Signed Value Negative Number Format String is missing a place holder\n"+
+			"for the numeric value. The format string MUST contain either '127.54' or 'NUMFIELD'\n"+
+			"to designate a place holder for the numeric value. This Number String Format has\n"+
+			"neither placeholder!\n"+
+			"Complete Signed Value Negative Number Format String= '%v'\n",
 			ePrefix,
-			nStrFmtSpecSignedNumberValueDto.negativeValueFmt)
+			negativeValueFmtStr)
 
 		return isValid, err
 	}
 
 	if !strings.Contains(
-		nStrFmtSpecSignedNumberValueDto.negativeValueFmt, ")") &&
+		negativeValueFmtStr, ")") &&
 		!strings.Contains(
-			nStrFmtSpecSignedNumberValueDto.negativeValueFmt, "(") &&
+			negativeValueFmtStr, "(") &&
 		!strings.Contains(
-			nStrFmtSpecSignedNumberValueDto.negativeValueFmt, "-") {
+			negativeValueFmtStr, "-") {
 
 		isValid = false
 		err = fmt.Errorf("%v\n"+
-			"Error: The Number String Format is missing a negative sign\n"+
-			"place holder. The format string MUST contain either a minus\n"+
-			"sign '-' or parenthesis '()' to designate a negative value.\n"+
-			"This Number String Format does NOT contain a negative value placeholder!\n"+
-			"Complete Number String Format= '%v'\n",
+			"Error: The Signed Number Negative Value Format String is missing a negative sign\n"+
+			"place holder. The Signed Number Negative Value Format String MUST contain either\n"+
+			"a minus sign '-' or parenthesis '()' to designate a negative value.\n This Signed\n"+
+			"Number Negative Value Format String does NOT contain a negative value placeholder!\n"+
+			"Complete Signed Number Negative Value Format String= '%v'\n",
 			ePrefix,
-			nStrFmtSpecSignedNumberValueDto.negativeValueFmt)
+			negativeValueFmtStr)
+
+		return isValid, err
+	}
+
+	isValid = true
+	return isValid, err
+}
+
+// testSignedNumValPositiveValueFormatStr - Inspects the Positive
+// Value Number Format string for a Signed Number Value and returns
+// an error if the format string is invalid.
+//
+//
+func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValPositiveValueFormatStr(
+	positiveValueFmtStr string,
+	ePrefix string) (
+	isValid bool,
+	err error) {
+
+	if nStrSignedNumElectron.lock == nil {
+		nStrSignedNumElectron.lock = new(sync.Mutex)
+	}
+
+	nStrSignedNumElectron.lock.Lock()
+
+	defer nStrSignedNumElectron.lock.Unlock()
+
+	ePrefix += "numStrSignedNumValElectron.testSignedNumValPositiveValueFormatStr() "
+
+	isValid = false
+
+	if len(positiveValueFmtStr) == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'positiveValueFmtStr' is an empty string!\n"+
+			"The Signed Number Value Positive Value Format string is missing.\n"+
+			"len(positiveValueFmtStr) == 0\n",
+			ePrefix)
+		return isValid, err
+	}
+
+	nStrFmtSpecSignedNumValQuark := numStrFmtSpecSignedNumValQuark{}
+
+	validFmtChars :=
+		nStrFmtSpecSignedNumValQuark.getValidSignedNumPositiveValFmtChars()
+
+	var lenValidFmtChars = len(validFmtChars)
+	runesToTest := []rune(positiveValueFmtStr)
+	var lenCurrFmt = len(runesToTest)
+	var isRuneValid bool
+
+	for i := 0; i < lenCurrFmt; i++ {
+
+		isRuneValid = false
+
+		for j := 0; j < lenValidFmtChars; j++ {
+
+			if runesToTest[i] != validFmtChars[j] {
+				continue
+			} else {
+				isRuneValid = true
+				break
+			}
+		}
+
+		if !isRuneValid {
+			isValid = false
+			err = fmt.Errorf("%v\n"+
+				"Error: The Signed Number Format String ('positiveValueFmtStr') contains an invalid character!\n"+
+				"Signed Number Positive Value Format Strings are NOT allowed to include this character.\n"+
+				"Complete Signed Number Positive Value Format String= '%v'\n"+
+				"invalid char == '%v' at Index [%v] \n",
+				ePrefix,
+				positiveValueFmtStr,
+				string(runesToTest[i]),
+				i)
+
+			return isValid, err
+		}
+	}
+
+	if !strings.Contains(
+		positiveValueFmtStr, "127.54") &&
+		!strings.Contains(
+			positiveValueFmtStr, "NUMFIELD") {
+		isValid = false
+		err = fmt.Errorf("%v\n"+
+			"Error: The Signed Number Positive Value Format String is missing a place holder\n"+
+			"for the numeric value. The format string MUST contain either '127.54' or\n"+
+			"'NUMFIELD' to designate a place holder for the numeric value. This Signed Number\n"+
+			"Positive Value Format String has neither placeholder!\n"+
+			"Complete Signed Number Positive Value Format String= '%v'\n",
+			ePrefix,
+			positiveValueFmtStr)
 
 		return isValid, err
 	}

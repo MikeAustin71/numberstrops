@@ -37,10 +37,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
 
 	ePrefix += "NumStrFmtSpecSignedNumValueDto.CopyIn()\n "
 
-	nStrFmtSpecSignedNumValMolecule :=
-		nStrFmtSpecSignedNumValMolecule{}
+	nStrFmtSpecSignedNumValNanobot :=
+		numStrFmtSpecSignedNumValNanobot{}
 
-	return nStrFmtSpecSignedNumValMolecule.copyIn(
+	return nStrFmtSpecSignedNumValNanobot.copyIn(
 		nStrFmtSpecSignedNumValueDto,
 		incomingSignedNumValDto,
 		ePrefix)
@@ -67,10 +67,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut(
 
 	ePrefix += "NumStrFmtSpecSignedNumValueDto.CopyOut()\n "
 
-	nStrFmtSpecSignedNumValMolecule :=
-		nStrFmtSpecSignedNumValMolecule{}
+	nStrFmtSpecSignedNumValNanobot :=
+		numStrFmtSpecSignedNumValNanobot{}
 
-	return nStrFmtSpecSignedNumValMolecule.copyOut(
+	return nStrFmtSpecSignedNumValNanobot.copyOut(
 		nStrFmtSpecSignedNumValueDto,
 		ePrefix+
 			"Copy Out from 'nStrFmtSpecSignedNumValueDto'\n ")
@@ -209,11 +209,11 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	nStrFmtSpecSignedNumValAtom :=
-		numStrFmtSpecSignedNumValAtom{}
+	nStrFmtSpecSignedNumValMolecule :=
+		numStrFmtSpecSignedNumValMolecule{}
 
 	isValid,
-		_ = nStrFmtSpecSignedNumValAtom.testValidityOfSignedNumValDto(
+		_ = nStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto(
 		nStrFmtSpecSignedNumValueDto,
 		"")
 
@@ -267,13 +267,14 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 	ePrefix += "NumStrFmtSpecSignedNumValueDto.IsValidInstanceError() \n" +
 		"Testing Validity of 'nStrFmtSpecSignedNumValueDto' "
 
-	nStrFmtSpecSignedNumValAtom :=
-		numStrFmtSpecSignedNumValAtom{}
+	nStrFmtSpecSignedNumValMolecule :=
+		numStrFmtSpecSignedNumValMolecule{}
 
 	_,
-		err := nStrFmtSpecSignedNumValAtom.testValidityOfSignedNumValDto(
-		nStrFmtSpecSignedNumValueDto,
-		ePrefix)
+		err :=
+		nStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto(
+			nStrFmtSpecSignedNumValueDto,
+			ePrefix)
 
 	return err
 }
@@ -524,10 +525,10 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) New(
 		[]uint{3},
 		ePrefix)
 
-	nStrFmtSpecSignedNumValNanobot :=
-		nStrFmtSpecSignedNumValNanobot{}
+	nStrFmtSpecSignedNumValMech :=
+		nStrFmtSpecSignedNumValMechanics{}
 
-	err = nStrFmtSpecSignedNumValNanobot.setSignedNumValDto(
+	err = nStrFmtSpecSignedNumValMech.setSignedNumValDto(
 		&newNStrFmtSpecSignedNumValueDto,
 		positiveValueFmt,
 		negativeValueFmt,
@@ -799,10 +800,10 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 
 	newNStrFmtSpecSignedNumValueDto := NumStrFmtSpecSignedNumValueDto{}
 
-	nStrFmtSpecSignedNumValNanobot :=
-		nStrFmtSpecSignedNumValNanobot{}
+	nStrFmtSpecSignedNumValMech :=
+		nStrFmtSpecSignedNumValMechanics{}
 
-	err := nStrFmtSpecSignedNumValNanobot.setSignedNumValDto(
+	err := nStrFmtSpecSignedNumValMech.setSignedNumValDto(
 		&newNStrFmtSpecSignedNumValueDto,
 		positiveValueFmt,
 		negativeValueFmt,
@@ -818,6 +819,8 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 // SetNegativeValueFormat - Sets the negative value format string
 // used to configure signed numeric values in text number strings.
 //
+// If input parameter 'negativeValueFmt' is invalid, this method
+// will return an error.
 //
 // ----------------------------------------------------------------
 //
@@ -898,14 +901,30 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 //               ( NUMFIELD )
 //
 //
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
 // -----------------------------------------------------------------
 //
 // Return Values
 //
-//  --- NONE ---
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNegativeValueFormat(
-	negativeValueFmt string) {
+	negativeValueFmt string,
+	ePrefix string) (
+	err error) {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
 		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
@@ -915,7 +934,24 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNegativeV
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
+	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.SetNegativeValueFormat()\n"
+
+	nStrSignedNumElectron :=
+		numStrSignedNumValElectron{}
+
+	_,
+		err = nStrSignedNumElectron.testSignedNumValNegativeValueFormatStr(
+		negativeValueFmt,
+		ePrefix+
+			"Testing validity of 'negativeValueFmt'\n")
+
+	if err != nil {
+		return err
+	}
+
 	nStrFmtSpecSignedNumValueDto.negativeValueFmt = negativeValueFmt
+
+	return err
 }
 
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object
@@ -1043,6 +1079,8 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberSep
 // SetPositiveValueFormat - Sets the positive value format string
 // used to configure signed numeric values in text number strings.
 //
+// If input parameter 'positiveValueFmt' is invalid, this method
+// will return an error.
 //
 // ----------------------------------------------------------------
 //
@@ -1093,14 +1131,30 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberSep
 //               "127.54" THE DEFAULT Positive Value Format
 //
 //
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
 // -----------------------------------------------------------------
 //
 // Return Values
 //
-//  --- NONE ---
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveValueFormat(
-	positiveValueFmt string) {
+	positiveValueFmt string,
+	ePrefix string) (
+	err error) {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
 		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
@@ -1110,7 +1164,24 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
+	ePrefix += "NumStrFmtSpecSignedNumValueDto.SetPositiveValueFormat()\n"
+
+	nStrSignedNumElectron :=
+		numStrSignedNumValElectron{}
+
+	_,
+		err = nStrSignedNumElectron.testSignedNumValPositiveValueFormatStr(
+		positiveValueFmt,
+		ePrefix+
+			"Testing validity of 'positiveValueFmt'\n")
+
+	if err != nil {
+		return err
+	}
+
 	nStrFmtSpecSignedNumValueDto.positiveValueFmt = positiveValueFmt
+
+	return err
 }
 
 // SetSignedNumValDto() - This method will set all of the member
@@ -1362,10 +1433,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetSignedNum
 
 	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
 
-	nStrFmtSpecSignedNumValNanobot :=
-		nStrFmtSpecSignedNumValNanobot{}
+	nStrFmtSpecSignedNumValMech :=
+		nStrFmtSpecSignedNumValMechanics{}
 
-	return nStrFmtSpecSignedNumValNanobot.setSignedNumValDto(
+	return nStrFmtSpecSignedNumValMech.setSignedNumValDto(
 		nStrFmtSpecSignedNumValueDto,
 		positiveValueFmt,
 		negativeValueFmt,
