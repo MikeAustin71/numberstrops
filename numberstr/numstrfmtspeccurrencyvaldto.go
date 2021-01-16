@@ -38,7 +38,7 @@ type NumStrFmtSpecCurrencyValueDto struct {
 //       current NumStrFmtSpecCurrencyValueDto instance.
 //
 //
-//  ePrefix             string
+//  ePrefix                    string
 //     - This is an error prefix which is included in all returned
 //       error messages. Usually, it contains the names of the calling
 //       method or methods. Be sure to leave a space at the end of
@@ -1645,8 +1645,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetDecimalDigits(
 // string. This string contains the formatting symbols used to
 // format negative currency values in number strings.
 //
-// If the negative value string input parameter, 'negativeValueFmt',
-// is invalid, this method will return an error.
+// If the negative value format string input parameter,
+// 'negativeValueFmt', is invalid, this method will return an
+// error.
 //
 // ----------------------------------------------------------------
 //

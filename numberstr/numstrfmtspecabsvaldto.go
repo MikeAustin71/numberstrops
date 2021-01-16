@@ -18,6 +18,38 @@ type NumStrFmtSpecAbsoluteValueDto struct {
 // If 'inComingNStrFmtAbsValDto' is judged to be invalid, this
 // method will return an error.
 //
+// Be advised, all of the data fields in the current
+// NumStrFmtSpecAbsoluteValueDto instance will be overwritten.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  inComingNStrFmtAbsValDto   *NumStrFmtSpecAbsoluteValueDto
+//     - A pointer to an instance of NumStrFmtSpecAbsoluteValueDto.
+//       The data values in this object will be copied to the
+//       current NumStrFmtSpecAbsoluteValueDto instance.
+//
+//
+//  ePrefix                    string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. The input parameter, 'ePrefix', will be
+//       prefixed and inserted at the beginning of the returned
+//       error message.
+//
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyIn(
 	inComingNStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto,
 	ePrefix string) error {
@@ -47,6 +79,37 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyIn(
 //
 // If the current NumStrFmtSpecAbsoluteValueDto instance is judged
 // to be invalid, this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrFmtSpecAbsoluteValueDto
+//     - If this method completes successfully, a new instance of
+//       NumStrFmtSpecAbsoluteValueDto will be created and returned
+//       containing all of the data values copied from the current
+//       instance of NumStrFmtSpecAbsoluteValueDto.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. The input parameter, 'ePrefix', will be
+//       prefixed and inserted at the beginning of the returned
+//       error message.
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyOut(
 	ePrefix string) (NumStrFmtSpecAbsoluteValueDto, error) {
@@ -644,6 +707,78 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 
 // SetAbsoluteValueFormat - Sets the formatting string used to
 // format absolute numeric values in text number strings.
+//
+// If the absolute value format string input parameter,
+// 'absoluteValueFormatStr', is invalid, this method will return
+// an error.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  absoluteValueFormatStr     string
+//     - A string specifying the number string format to be used in
+//       formatting absolute numeric values in text number strings.
+//
+//       Absolute Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for absolute value number formatting.
+//
+//       Valid format strings for absolute value number strings
+//       (NOT Currency) are listed as follows:
+//
+//               "+NUMFIELD"
+//               "+ NUMFIELD"
+//               "NUMFIELD+"
+//               "NUMFIELD +"
+//               "NUMFIELD"
+//               "+127.54"
+//               "+ 127.54"
+//               "127.54+"
+//               "127.54 +"
+//               "127.54" THE DEFAULT Absolute Value Format
+//
+//
+//  ePrefix                    string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 	absoluteValueFormatStr string,
