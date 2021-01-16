@@ -431,10 +431,10 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) New(
 		return newNumStrFmtSpecAbsValueDto, err
 	}
 
-	nStrFmtSpecAbsValDtoNanobot :=
-		numStrFmtSpecAbsoluteValueDtoNanobot{}
+	nStrFmtSpecAbsValDtoMech :=
+		numStrFmtSpecAbsoluteValueDtoMechanics{}
 
-	err = nStrFmtSpecAbsValDtoNanobot.setAbsValDto(
+	err = nStrFmtSpecAbsValDtoMech.setAbsValDto(
 		&newNumStrFmtSpecAbsValueDto,
 		absoluteValFmt,
 		turnOnIntegerDigitsSeparation,
@@ -627,10 +627,10 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 
 	newNStrFmtSpecAbsoluteValueDto := NumStrFmtSpecAbsoluteValueDto{}
 
-	nStrFmtSpecAbsValDtoNanobot :=
-		numStrFmtSpecAbsoluteValueDtoNanobot{}
+	nStrFmtSpecAbsValDtoMech :=
+		numStrFmtSpecAbsoluteValueDtoMechanics{}
 
-	err := nStrFmtSpecAbsValDtoNanobot.setAbsValDto(
+	err := nStrFmtSpecAbsValDtoMech.setAbsValDto(
 		&newNStrFmtSpecAbsoluteValueDto,
 		absoluteValFmt,
 		turnOnIntegerDigitsSeparation,
@@ -953,10 +953,10 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueDto(
 
 	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
 
-	nStrFmtSpecAbsValDtoNanobot :=
-		numStrFmtSpecAbsoluteValueDtoNanobot{}
+	nStrFmtSpecAbsValDtoMech :=
+		numStrFmtSpecAbsoluteValueDtoMechanics{}
 
-	return nStrFmtSpecAbsValDtoNanobot.setAbsValDto(
+	return nStrFmtSpecAbsValDtoMech.setAbsValDto(
 		nStrFmtAbsValDto,
 		absoluteValFmt,
 		turnOnIntegerDigitsSeparation,
