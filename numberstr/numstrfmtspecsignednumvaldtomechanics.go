@@ -11,7 +11,7 @@ type nStrFmtSpecSignedNumValMechanics struct {
 
 // setSignedNumValDto - Transfers new data to an instance of
 // NumStrFmtSpecSignedNumValueDto. After completion, all the data
-// fields within input parameter 'nStrFmtSpecDigitsSepDto' will be
+// fields within input parameter 'nStrFmtSpecSignedNumValDto' will be
 // overwritten.
 //
 func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNumValDto(
@@ -36,7 +36,7 @@ func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNu
 		ePrefix += "\n"
 	}
 
-	ePrefix += "nStrFmtSpecSignedNumValMech.setSignedNumValDto() "
+	ePrefix += "nStrFmtSpecSignedNumValMechanics.setSignedNumValDto() "
 
 	if nStrFmtSpecSignedNumValDto == nil {
 		err = fmt.Errorf("%v\n"+

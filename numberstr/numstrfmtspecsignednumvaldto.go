@@ -19,6 +19,38 @@ type NumStrFmtSpecSignedNumValueDto struct {
 // If input parameter 'incomingSignedNumValDto' is judged to be
 // invalid, this method will return an error.
 //
+// Be advised, all of the data fields in the current
+// NumStrFmtSpecSignedNumValueDto instance will be overwritten.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingSignedNumValDto    *NumStrFmtSpecSignedNumValueDto
+//     - A pointer to an instance of NumStrFmtSpecSignedNumValueDto.
+//       The data values in this object will be copied to the
+//       current NumStrFmtSpecSignedNumValueDto instance.
+//
+//
+//  ePrefix                    string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. The input parameter, 'ePrefix', will be
+//       prefixed and inserted at the beginning of the returned
+//       error message.
+//
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
 	incomingSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
 	ePrefix string) error {
@@ -46,11 +78,42 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
 		ePrefix)
 }
 
-// CopyOut - Returns a deep copy of the current
+// CopyOut - Creates and returns a deep copy of the current
 // NumStrFmtSpecSignedNumValueDto instance.
 //
 // If the current NumStrFmtSpecSignedNumValueDto instance is judged
 // to be invalid, this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrFmtSpecSignedNumValueDto
+//     - If this method completes successfully, a new instance of
+//       NumStrFmtSpecSignedNumValueDto will be created and returned
+//       containing all of the data values copied from the current
+//       instance of NumStrFmtSpecSignedNumValueDto.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. The input parameter, 'ePrefix', will be
+//       prefixed and inserted at the beginning of the returned
+//       error message.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut(
 	ePrefix string) (
@@ -77,7 +140,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut(
 }
 
 // GetNegativeValueFormat - Returns the formatting string used to
-// format negative numeric values in text number strings.
+// format negative signed number values in text number strings.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNegativeValueFormat() string {
 
@@ -134,7 +197,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumberSep
 }
 
 // GetPositiveValueFormat - Returns the formatting string used to
-// format positive numeric values in text number strings.
+// format positive signed number values in text number strings.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetPositiveValueFormat() string {
 
@@ -192,11 +255,11 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetTurnOnInt
 // Return Values
 //
 //  isValid             bool
-//     - If this method completes successfully, the returned boolean
-//       value will signal whether the current NumStrFmtSpecSignedNumValueDto
-//       is valid, or not. If the current NumStrFmtSpecSignedNumValueDto
-//       contains valid data, this method returns 'true'. If the data is
-//       invalid, this method returns 'false'.
+//     - This returned boolean value will signal whether the current
+//       NumStrFmtSpecSignedNumValueDto is valid, or not. If the
+//       current NumStrFmtSpecSignedNumValueDto contains valid data,
+//       this method returns 'true'. If the data is invalid, this
+//       method will return 'false'.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInstance() (
 	isValid bool) {
@@ -241,17 +304,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 // Return Values
 //
 //  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
-//       error message.
+//     - If the current instance of NumStrFmtSpecSignedNumValueDto
+//       contains invalid data, a detailed error message will be
+//       returned identifying the invalid data item.
 //
-//       If this instance of NumStrFmtSpecSignedNumValueDto contains
-//       invalid data, a detailed error message will be returned
-//       identifying the invalid data item.
+//       If the current instance is valid, this error parameter
+//       will be set to nil.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInstanceError(
 	ePrefix string) error {
@@ -468,7 +526,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //       presentations.
 //
 //
-//  ePrefix             string
+//  ePrefix                       string
 //     - This is an error prefix which is included in all returned
 //       error messages. Usually, it contains the names of the calling
 //       method or methods. Note: Be sure to leave a space at the end
@@ -512,7 +570,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) New(
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.NewFromComponents() "
+	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.New() "
 
 	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
 
@@ -536,7 +594,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) New(
 		numberSeparatorsDto,
 		numFieldDto,
 		ePrefix+
-			"\n Setting 'nStrFmtSpecSignedNumValueDto'\n ")
+			"\n Setting 'newNStrFmtSpecSignedNumValueDto'\n ")
 
 	return newNStrFmtSpecSignedNumValueDto, err
 }
@@ -1316,6 +1374,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 //               (NUMFIELD)
 //               ( NUMFIELD )
 //
+//
 //  turnOnIntegerDigitsSeparation bool
 //     - Inter digits separation is also known as the 'Thousands
 //       Separator". Often a single character is used to separate
@@ -1333,6 +1392,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 //       When this parameter is set to 'false', the 'Thousands
 //       Separator' will NOT be inserted into text number strings.
 //            Example: 1000000000
+//
 //
 //  numberSeparatorsDto        NumStrFmtSpecDigitsSeparatorsDto
 //     - This instance of 'NumStrFmtSpecDigitsSeparatorsDto' is

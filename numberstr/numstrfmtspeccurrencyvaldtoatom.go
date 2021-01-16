@@ -58,7 +58,7 @@ func (nStrCurrencyAtom *numStrFmtSpecCurrencyValueDtoAtom) testCurrencyPositiveV
 //
 //
 func (nStrCurrencyAtom *numStrFmtSpecCurrencyValueDtoAtom) testCurrencyNegativeValueFormat(
-	nStrFmtSpecCurrencyValueDto *NumStrFmtSpecSignedNumValueDto,
+	nStrFmtSpecCurrencyValueDto *NumStrFmtSpecCurrencyValueDto,
 	ePrefix string) (
 	isValid bool,
 	err error) {

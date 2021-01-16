@@ -31,7 +31,7 @@ func (nStrFmtSpecSignedNumValMolecule *numStrFmtSpecSignedNumValMolecule) testVa
 
 	defer nStrFmtSpecSignedNumValMolecule.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecSignedNumValMolecule.testValidityOfAbsoluteValDto() "
+	ePrefix += "\nnumStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto() "
 
 	isValid = false
 
@@ -70,7 +70,7 @@ func (nStrFmtSpecSignedNumValMolecule *numStrFmtSpecSignedNumValMolecule) testVa
 	err =
 		nStrFmtSpecSignedNumValDto.numberSeparatorsDto.IsValidInstanceError(
 			ePrefix +
-				"\nValidating nStrFmtSpecSignedNumValDto Number Separators\n ")
+				"\nValidating 'nStrFmtSpecSignedNumValDto' Number Separators\n ")
 
 	if err != nil {
 		isValid = false

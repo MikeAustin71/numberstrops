@@ -10,13 +10,13 @@ type numStrFmtSpecSignedNumValNanobot struct {
 }
 
 // copyIn - Copies the data fields from input parameter
-// 'inComingNStrFmtSpecDigitsSepsDto' to input parameter
-// 'targetNStrFmtSpecDigitsSepsDto'.
+// 'inComingNStrFmtSpecSignedNumValDto' to input parameter
+// 'targetNStrFmtSpecSignedNumValDto'.
 //
-// Be advised - All data fields in 'targetNStrFmtSpecDigitsSepsDto'
+// Be advised - All data fields in 'targetNStrFmtSpecSignedNumValDto'
 // will be overwritten.
 //
-// If input parameter 'inComingNStrFmtSpecDigitsSepsDto' is judged
+// If input parameter 'inComingNStrFmtSpecSignedNumValDto' is judged
 // to be invalid, this method will return an error.
 //
 func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyIn(
@@ -92,10 +92,10 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyIn(
 }
 
 // copyOut - Returns a deep copy of input parameter
-// 'nStrFmtSpecDigitsSepsDto' styled as a new instance
-// of NumStrFmtSpecDigitsSeparatorsDto.
+// 'nStrFmtSpecSignedNumValDto' styled as a new instance
+// of NumStrFmtSpecSignedNumValueDto.
 //
-// If input parameter 'nStrFmtSpecDigitsSepsDto' is judged to be
+// If input parameter 'nStrFmtSpecSignedNumValDto' is judged to be
 // invalid, this method will return an error.
 //
 func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyOut(
