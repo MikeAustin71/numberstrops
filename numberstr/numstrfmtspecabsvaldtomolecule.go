@@ -9,95 +9,18 @@ type numStrFmtSpecAbsoluteValueDtoMolecule struct {
 	lock *sync.Mutex
 }
 
-// copyIn - Copies the data fields from input parameter
-// 'inComingNStrFmtSpecAbsoluteValDto' to input parameter
-// 'targetNStrFmtSpecAbsoluteValDto'.
+// testValidityOfAbsoluteValDto - Receives an instance of
+// numStrFmtSpecAbsoluteValueDtoAtom and proceeds to test the
+// validity of the member data fields.
 //
-// Be advised - All data fields in 'targetNStrFmtSpecAbsoluteValDto'
-// will be overwritten.
+// If one or more data elements are found to be invalid, an
+// error is returned and the return boolean parameter, 'isValid',
+// is set to 'false'.
 //
-// If the 'inComingNStrFmtSpecAbsoluteValDto' is judged to be
-// invalid, this method will return an error.
-//
-func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) copyIn(
-	targetNStrFmtSpecAbsoluteValDto *NumStrFmtSpecAbsoluteValueDto,
-	inComingNStrFmtSpecAbsoluteValDto *NumStrFmtSpecAbsoluteValueDto,
-	ePrefix string) (
-	err error) {
-
-	if nStrFmtSpecAbsValDtoMolecule.lock == nil {
-		nStrFmtSpecAbsValDtoMolecule.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecAbsValDtoMolecule.lock.Lock()
-
-	defer nStrFmtSpecAbsValDtoMolecule.lock.Unlock()
-
-	ePrefix += "\nnumStrFmtSpecAbsoluteValueDtoMolecule.copyIn() "
-
-	if targetNStrFmtSpecAbsoluteValDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'targetNStrFmtSpecAbsoluteValDto' is"+
-			" a 'nil' pointer!\n",
-			ePrefix)
-		return err
-	}
-
-	if inComingNStrFmtSpecAbsoluteValDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'inComingNStrFmtSpecAbsoluteValDto' is"+
-			" a 'nil' pointer!\n",
-			ePrefix)
-		return err
-	}
-
-	nStrFmtSpecAbsValDtoAtom :=
-		numStrFmtSpecAbsoluteValueDtoAtom{}
-
-	_,
-		err = nStrFmtSpecAbsValDtoAtom.testValidityOfAbsoluteValDto(
-		inComingNStrFmtSpecAbsoluteValDto,
-		ePrefix+
-			"\nTesting validity of 'inComingNStrFmtSpecAbsoluteValDto'\n ")
-
-	if err != nil {
-		return err
-	}
-
-	targetNStrFmtSpecAbsoluteValDto.absoluteValFmt =
-		inComingNStrFmtSpecAbsoluteValDto.absoluteValFmt
-
-	targetNStrFmtSpecAbsoluteValDto.turnOnIntegerDigitsSeparation =
-		inComingNStrFmtSpecAbsoluteValDto.turnOnIntegerDigitsSeparation
-
-	err =
-		targetNStrFmtSpecAbsoluteValDto.numberSeparatorsDto.CopyIn(
-			&inComingNStrFmtSpecAbsoluteValDto.numberSeparatorsDto,
-			ePrefix+
-				"\nCopying inComingNStrFmtSpecAbsoluteValDto->"+
-				"targetNStrFmtSpecAbsoluteValDto\n ")
-
-	if err != nil {
-		return err
-	}
-
-	targetNStrFmtSpecAbsoluteValDto.numFieldLenDto.CopyIn(
-		&inComingNStrFmtSpecAbsoluteValDto.numFieldLenDto)
-
-	return err
-}
-
-// copyOut - Returns a deep copy of input parameter
-// 'nStrFmtSpecAbsoluteValDto' styled as a new instance
-// of NumStrFmtSpecAbsoluteValueDto.
-//
-// If input parameter 'nStrFmtSpecAbsoluteValDto' is judged to be
-// invalid, this method will return an error.
-//
-func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) copyOut(
+func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) testValidityOfAbsoluteValDto(
 	nStrFmtSpecAbsoluteValDto *NumStrFmtSpecAbsoluteValueDto,
 	ePrefix string) (
-	newNStrFmtSpecAbsoluteValDto NumStrFmtSpecAbsoluteValueDto,
+	isValid bool,
 	err error) {
 
 	if nStrFmtSpecAbsValDtoMolecule.lock == nil {
@@ -108,49 +31,42 @@ func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) copyO
 
 	defer nStrFmtSpecAbsValDtoMolecule.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecAbsoluteValueDtoMolecule.copyOut() "
+	ePrefix += "\nnumStrFmtSpecAbsoluteValueDtoMolecule.testValidityOfAbsoluteValDto() "
+
+	isValid = false
 
 	if nStrFmtSpecAbsoluteValDto == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecSignedNumValDto' is"+
+			"Error: Input parameter 'nStrFmtSpecAbsoluteValDto' is"+
 			" a 'nil' pointer!\n",
 			ePrefix)
 
-		return newNStrFmtSpecAbsoluteValDto, err
+		return isValid, err
 	}
 
-	nStrFmtSpecAbsValDtoAtom :=
+	nStrAbsValDtoAtom :=
 		numStrFmtSpecAbsoluteValueDtoAtom{}
 
-	_,
-		err = nStrFmtSpecAbsValDtoAtom.testValidityOfAbsoluteValDto(
+	isValid,
+		err = nStrAbsValDtoAtom.testAbsoluteValueFormat(
 		nStrFmtSpecAbsoluteValDto,
 		ePrefix+
-			"\nTesting validity of 'nStrFmtSpecAbsoluteValDto'\n ")
+			"\nValidating nStrFmtSpecAbsoluteValDto Format\n ")
 
 	if err != nil {
-		return newNStrFmtSpecAbsoluteValDto, err
+		return isValid, err
 	}
 
-	newNStrFmtSpecAbsoluteValDto.absoluteValFmt =
-		nStrFmtSpecAbsoluteValDto.absoluteValFmt
-
-	newNStrFmtSpecAbsoluteValDto.turnOnIntegerDigitsSeparation =
-		nStrFmtSpecAbsoluteValDto.turnOnIntegerDigitsSeparation
-
-	err = newNStrFmtSpecAbsoluteValDto.numberSeparatorsDto.CopyIn(
-		&nStrFmtSpecAbsoluteValDto.numberSeparatorsDto,
-		ePrefix+
-			"\nnStrFmtSpecAbsoluteValDto->newNStrFmtSpecAbsoluteValDto ")
+	err =
+		nStrFmtSpecAbsoluteValDto.numberSeparatorsDto.IsValidInstanceError(
+			ePrefix +
+				"\nValidating nStrFmtSpecAbsoluteValDto Number Separators\n ")
 
 	if err != nil {
-		return newNStrFmtSpecAbsoluteValDto, err
+		isValid = false
+	} else {
+		isValid = true
 	}
 
-	newNStrFmtSpecAbsoluteValDto.numFieldLenDto.CopyIn(
-		&nStrFmtSpecAbsoluteValDto.numFieldLenDto)
-
-	newNStrFmtSpecAbsoluteValDto.lock = new(sync.Mutex)
-
-	return newNStrFmtSpecAbsoluteValDto, err
+	return isValid, err
 }

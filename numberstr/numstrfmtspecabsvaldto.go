@@ -32,10 +32,10 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyIn(
 
 	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.CopyIn()\n "
 
-	nStrFmtSpecAbsValDtoMolecule :=
-		numStrFmtSpecAbsoluteValueDtoMolecule{}
+	nStrFmtSpecAbsValDtoNanobot :=
+		numStrFmtSpecAbsoluteValueDtoNanobot{}
 
-	return nStrFmtSpecAbsValDtoMolecule.copyIn(
+	return nStrFmtSpecAbsValDtoNanobot.copyIn(
 		nStrFmtAbsValDto,
 		inComingNStrFmtAbsValDto,
 		ePrefix+
@@ -61,10 +61,10 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyOut(
 
 	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.CopyOut()\n "
 
-	nStrFmtSpecAbsValDtoMolecule :=
-		numStrFmtSpecAbsoluteValueDtoMolecule{}
+	nStrFmtSpecAbsValDtoNanobot :=
+		numStrFmtSpecAbsoluteValueDtoNanobot{}
 
-	return nStrFmtSpecAbsValDtoMolecule.copyOut(
+	return nStrFmtSpecAbsValDtoNanobot.copyOut(
 		nStrFmtAbsValDto,
 		ePrefix+
 			"Copy -> 'nStrFmtAbsValDto'\n ")
@@ -187,11 +187,11 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstance() (
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	nStrFmtSpecAbsValDtoAtom :=
-		numStrFmtSpecAbsoluteValueDtoAtom{}
+	nStrFmtSpecAbsValDtoMolecule :=
+		numStrFmtSpecAbsoluteValueDtoMolecule{}
 
 	isValid,
-		_ = nStrFmtSpecAbsValDtoAtom.testValidityOfAbsoluteValDto(
+		_ = nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
 		nStrFmtAbsValDto,
 		"")
 
@@ -245,11 +245,11 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.IsValidInstanceError() \n" +
 		"Testing Validity of 'nStrFmtAbsValDto'\n "
 
-	nStrFmtSpecAbsValDtoAtom :=
-		numStrFmtSpecAbsoluteValueDtoAtom{}
+	nStrFmtSpecAbsValDtoMolecule :=
+		numStrFmtSpecAbsoluteValueDtoMolecule{}
 
 	_,
-		err := nStrFmtSpecAbsValDtoAtom.testValidityOfAbsoluteValDto(
+		err := nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
 		nStrFmtAbsValDto,
 		ePrefix)
 
@@ -646,7 +646,9 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 // format absolute numeric values in text number strings.
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
-	absoluteValueFormatStr string) {
+	absoluteValueFormatStr string,
+	ePrefix string) (
+	err error) {
 
 	if nStrFmtAbsValDto.lock == nil {
 		nStrFmtAbsValDto.lock = new(sync.Mutex)
@@ -656,7 +658,22 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
+	nStrAbsValDtoElectron :=
+		numStrFmtSpecAbsoluteValueDtoElectron{}
+
+	_,
+		err = nStrAbsValDtoElectron.testAbsoluteValueFormatStr(
+		absoluteValueFormatStr,
+		ePrefix+"\n"+
+			"Testing validity of 'absoluteValueFormatStr'\n ")
+
+	if err != nil {
+		return err
+	}
+
 	nStrFmtAbsValDto.absoluteValFmt = absoluteValueFormatStr
+
+	return err
 }
 
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object

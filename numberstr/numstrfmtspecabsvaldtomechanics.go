@@ -62,11 +62,11 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 	newNStrFmtSpecAbsValDto.numFieldLenDto.CopyIn(
 		&numFieldLenDto)
 
-	nStrFmtSpecAbsValDtoAtom :=
-		numStrFmtSpecAbsoluteValueDtoAtom{}
+	nStrFmtSpecAbsValDtoMolecule :=
+		numStrFmtSpecAbsoluteValueDtoMolecule{}
 
 	_,
-		err = nStrFmtSpecAbsValDtoAtom.testValidityOfAbsoluteValDto(
+		err = nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
 		&newNStrFmtSpecAbsValDto,
 		ePrefix+
 			"Testing validity of 'newNStrFmtSpecAbsValDto'\n ")

@@ -10,12 +10,12 @@ type numStrFmtSpecAbsoluteValueDtoElectron struct {
 	lock *sync.Mutex
 }
 
-// testAbsoluteValueFormat - Inspects the format string for an
+// testAbsoluteValueFormatStr - Inspects the format string for an
 // Absolute Value number string and returns an error if the format
 // string is invalid.
 //
-func (nStrAbsValDtoElectron *numStrFmtSpecAbsoluteValueDtoElectron) testAbsoluteValueFormat(
-	nStrFmtSpecAbsValDto *NumStrFmtSpecAbsoluteValueDto,
+func (nStrAbsValDtoElectron *numStrFmtSpecAbsoluteValueDtoElectron) testAbsoluteValueFormatStr(
+	absoluteValueFormatStr string,
 	ePrefix string) (
 	isValid bool,
 	err error) {
@@ -28,22 +28,15 @@ func (nStrAbsValDtoElectron *numStrFmtSpecAbsoluteValueDtoElectron) testAbsolute
 
 	defer nStrAbsValDtoElectron.lock.Unlock()
 
-	ePrefix += "numStrFmtSpecAbsoluteValueDtoElectron.testAbsoluteValueFormat() "
+	ePrefix += "numStrFmtSpecAbsoluteValueDtoElectron.testAbsoluteValueFormatStr() "
 
 	isValid = false
 
-	if nStrFmtSpecAbsValDto == nil {
+	if len(absoluteValueFormatStr) == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecAbsValDto' is a 'nil' pointer!\n",
-			ePrefix)
-		return isValid, err
-	}
-
-	if len(nStrFmtSpecAbsValDto.absoluteValFmt) == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'absoluteValFmt' is an empty string!\n"+
-			"The Absolute Value Dto Format string is missing.\n"+
-			"len(nStrFmtSpecAbsValDto.absoluteValFmt) == 0\n",
+			"Error: Input parameter 'absoluteValueFormatStr' is an empty string!\n"+
+			"The Absolute Value Dto Format String is missing.\n"+
+			"len(absoluteValueFormatStr) == 0\n",
 			ePrefix)
 		return isValid, err
 	}
@@ -54,7 +47,7 @@ func (nStrAbsValDtoElectron *numStrFmtSpecAbsoluteValueDtoElectron) testAbsolute
 		nStrFmtSpecAbsValueDtoQuark.getValidAbsoluteValFmtChars()
 
 	var lenValidFmtChars = len(validFmtChars)
-	runesToTest := []rune(nStrFmtSpecAbsValDto.absoluteValFmt)
+	runesToTest := []rune(absoluteValueFormatStr)
 	var lenCurrFmt = len(runesToTest)
 	var isRuneValid bool
 
@@ -75,12 +68,12 @@ func (nStrAbsValDtoElectron *numStrFmtSpecAbsoluteValueDtoElectron) testAbsolute
 		if !isRuneValid {
 			isValid = false
 			err = fmt.Errorf("%v\n"+
-				"Error: The Number String Format contains an invalid character!\n"+
+				"Error: The Absolute Value Number String Format contains an invalid character!\n"+
 				"Absolute Value Format Strings are NOT allowed to include this character.\n"+
-				"Complete Number String Format= '%v'\n"+
-				"invalid char == '%v' at Index [%v] \n",
+				"Complete Absolute Value Format String= '%v'\n"+
+				"invalid character == '%v' at Index [%v] \n",
 				ePrefix,
-				nStrFmtSpecAbsValDto.absoluteValFmt,
+				absoluteValueFormatStr,
 				string(runesToTest[i]),
 				i)
 
@@ -89,18 +82,18 @@ func (nStrAbsValDtoElectron *numStrFmtSpecAbsoluteValueDtoElectron) testAbsolute
 	}
 
 	if !strings.Contains(
-		nStrFmtSpecAbsValDto.absoluteValFmt, "127.54") &&
+		absoluteValueFormatStr, "127.54") &&
 		!strings.Contains(
-			nStrFmtSpecAbsValDto.absoluteValFmt, "NUMFIELD") {
+			absoluteValueFormatStr, "NUMFIELD") {
 		isValid = false
 		err = fmt.Errorf("%v\n"+
-			"Error: The Number String Format is missing a place holder\n"+
-			"for the numeric value. The format string MUST contain either\n"+
-			"'127.54' or 'NUMFIELD' to designate a place holder for the\n"+
-			"numeric value. This Number String Format has neither placeholder!\n"+
-			"Complete Number String Format= '%v'\n",
+			"Error: The Absolute Value Number String Format is missing a place holder\n"+
+			"for the numeric value. The format string MUST contain either '127.54' or\n"+
+			"'NUMFIELD' to designate a place holder for the numeric value. This Number\n"+
+			"String Format has neither placeholder!\n"+
+			"Complete Absolute Value Number String Format= '%v'\n",
 			ePrefix,
-			nStrFmtSpecAbsValDto.absoluteValFmt)
+			absoluteValueFormatStr)
 
 		return isValid, err
 	}

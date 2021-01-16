@@ -9,38 +9,41 @@ type numStrFmtSpecAbsoluteValueDtoAtom struct {
 	lock *sync.Mutex
 }
 
-// testValidityOfAbsoluteValDto - Receives an instance of
-// numStrFmtSpecAbsoluteValueDtoAtom and proceeds to test the
-// validity of the member data fields.
+// testAbsoluteValueFormat - Inspects the format string for an
+// Absolute Value number string and returns an error if the format
+// string is invalid.
 //
-// If one or more data elements are found to be invalid, an
-// error is returned and the return boolean parameter, 'isValid',
-// is set to 'false'.
-//
-func (nStrFmtSpecAbsValDtoAtom *numStrFmtSpecAbsoluteValueDtoAtom) testValidityOfAbsoluteValDto(
-	nStrFmtSpecAbsoluteValDto *NumStrFmtSpecAbsoluteValueDto,
+func (nStrAbsValDtoAtom *numStrFmtSpecAbsoluteValueDtoAtom) testAbsoluteValueFormat(
+	nStrFmtSpecAbsValDto *NumStrFmtSpecAbsoluteValueDto,
 	ePrefix string) (
 	isValid bool,
 	err error) {
 
-	if nStrFmtSpecAbsValDtoAtom.lock == nil {
-		nStrFmtSpecAbsValDtoAtom.lock = new(sync.Mutex)
+	if nStrAbsValDtoAtom.lock == nil {
+		nStrAbsValDtoAtom.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecAbsValDtoAtom.lock.Lock()
+	nStrAbsValDtoAtom.lock.Lock()
 
-	defer nStrFmtSpecAbsValDtoAtom.lock.Unlock()
+	defer nStrAbsValDtoAtom.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecAbsoluteValueDtoAtom.testValidityOfAbsoluteValDto() "
+	ePrefix += "numStrFmtSpecAbsoluteValueDtoElectron.testAbsoluteValueFormat() "
 
 	isValid = false
 
-	if nStrFmtSpecAbsoluteValDto == nil {
+	if nStrFmtSpecAbsValDto == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecAbsoluteValDto' is"+
-			" a 'nil' pointer!\n",
+			"Error: Input parameter 'nStrFmtSpecAbsValDto' is a 'nil' pointer!\n",
 			ePrefix)
+		return isValid, err
+	}
 
+	if len(nStrFmtSpecAbsValDto.absoluteValFmt) == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'absoluteValFmt' is an empty string!\n"+
+			"The Absolute Value Dto Format string is missing.\n"+
+			"len(nStrFmtSpecAbsValDto.absoluteValFmt) == 0\n",
+			ePrefix)
 		return isValid, err
 	}
 
@@ -48,25 +51,10 @@ func (nStrFmtSpecAbsValDtoAtom *numStrFmtSpecAbsoluteValueDtoAtom) testValidityO
 		numStrFmtSpecAbsoluteValueDtoElectron{}
 
 	isValid,
-		err = nStrAbsValDtoElectron.testAbsoluteValueFormat(
-		nStrFmtSpecAbsoluteValDto,
+		err = nStrAbsValDtoElectron.testAbsoluteValueFormatStr(
+		nStrFmtSpecAbsValDto.absoluteValFmt,
 		ePrefix+
-			"\nValidating nStrFmtSpecAbsoluteValDto Format\n ")
-
-	if err != nil {
-		return isValid, err
-	}
-
-	err =
-		nStrFmtSpecAbsoluteValDto.numberSeparatorsDto.IsValidInstanceError(
-			ePrefix +
-				"\nValidating nStrFmtSpecAbsoluteValDto Number Separators\n ")
-
-	if err != nil {
-		isValid = false
-	} else {
-		isValid = true
-	}
+			"\nTesting validity of 'nStrFmtSpecAbsValDto.absoluteValFmt'\n ")
 
 	return isValid, err
 }
