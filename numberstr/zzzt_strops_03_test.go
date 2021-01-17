@@ -25,7 +25,7 @@ func TestStrOps_ExtractNumericDigits_01(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -33,7 +33,7 @@ func TestStrOps_ExtractNumericDigits_01(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -96,7 +96,7 @@ func TestStrOps_ExtractNumericDigits_02(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -104,7 +104,7 @@ func TestStrOps_ExtractNumericDigits_02(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -166,7 +166,7 @@ func TestStrOps_ExtractNumericDigits_03(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -174,7 +174,7 @@ func TestStrOps_ExtractNumericDigits_03(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -236,7 +236,7 @@ func TestStrOps_ExtractNumericDigits_04(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -244,7 +244,7 @@ func TestStrOps_ExtractNumericDigits_04(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -306,7 +306,7 @@ func TestStrOps_ExtractNumericDigits_05(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -314,7 +314,7 @@ func TestStrOps_ExtractNumericDigits_05(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -376,7 +376,7 @@ func TestStrOps_ExtractNumericDigits_06(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -384,7 +384,7 @@ func TestStrOps_ExtractNumericDigits_06(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -446,7 +446,7 @@ func TestStrOps_ExtractNumericDigits_07(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -454,7 +454,7 @@ func TestStrOps_ExtractNumericDigits_07(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -516,7 +516,7 @@ func TestStrOps_ExtractNumericDigits_08(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -524,7 +524,7 @@ func TestStrOps_ExtractNumericDigits_08(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -586,7 +586,7 @@ func TestStrOps_ExtractNumericDigits_09(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -594,7 +594,7 @@ func TestStrOps_ExtractNumericDigits_09(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -656,7 +656,7 @@ func TestStrOps_ExtractNumericDigits_10(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -664,7 +664,7 @@ func TestStrOps_ExtractNumericDigits_10(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -722,7 +722,7 @@ func TestStrOps_ExtractNumericDigits_11(t *testing.T) {
 	expectedNextTargetStrIndex := -1
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -730,7 +730,7 @@ func TestStrOps_ExtractNumericDigits_11(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -781,7 +781,7 @@ func TestStrOps_ExtractNumericDigits_12(t *testing.T) {
 	keepTrailingChars := ""
 
 	_,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -789,7 +789,7 @@ func TestStrOps_ExtractNumericDigits_12(t *testing.T) {
 		keepTrailingChars)
 
 	if err == nil {
-		t.Error("Expected an error return from StrOps{}.ExtractNumericDigits(targetStr, 0)\n" +
+		t.Error("Expected an error return from StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n" +
 			"because input parameter 'targetStr' is an empty string.\n" +
 			"However, NO ERROR WAS RETURNED!!")
 		return
@@ -816,7 +816,7 @@ func TestStrOps_ExtractNumericDigits_13(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -824,7 +824,7 @@ func TestStrOps_ExtractNumericDigits_13(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -886,7 +886,7 @@ func TestStrOps_ExtractNumericDigits_14(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -894,7 +894,7 @@ func TestStrOps_ExtractNumericDigits_14(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -956,7 +956,7 @@ func TestStrOps_ExtractNumericDigits_15(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -964,7 +964,7 @@ func TestStrOps_ExtractNumericDigits_15(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -1026,7 +1026,7 @@ func TestStrOps_ExtractNumericDigits_16(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -1034,7 +1034,7 @@ func TestStrOps_ExtractNumericDigits_16(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -1096,7 +1096,7 @@ func TestStrOps_ExtractNumericDigits_17(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -1104,7 +1104,7 @@ func TestStrOps_ExtractNumericDigits_17(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}
@@ -1155,7 +1155,7 @@ func TestStrOps_ExtractNumericDigits_18(t *testing.T) {
 	keepTrailingChars := ""
 
 	_,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -1163,7 +1163,7 @@ func TestStrOps_ExtractNumericDigits_18(t *testing.T) {
 		keepTrailingChars)
 
 	if err == nil {
-		t.Error("Expected an error return from StrOps{}.ExtractNumericDigits()\n" +
+		t.Error("Expected an error return from StrOps{}.Ptr().ExtractNumericDigits()\n" +
 			"because input parameter 'targetStr' is an empty string.\n" +
 			"However, NO ERROR WAS RETURNED!!\n")
 	}
@@ -1178,7 +1178,7 @@ func TestStrOps_ExtractNumericDigits_19(t *testing.T) {
 	keepTrailingChars := ""
 
 	_,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -1186,7 +1186,7 @@ func TestStrOps_ExtractNumericDigits_19(t *testing.T) {
 		keepTrailingChars)
 
 	if err == nil {
-		t.Error("Expected an error return from StrOps{}.ExtractNumericDigits()\n" +
+		t.Error("Expected an error return from StrOps{}.Ptr().ExtractNumericDigits()\n" +
 			"because input parameter 'startIdx' is less than zero.\n" +
 			"However, NO ERROR WAS RETURNED!!\n")
 	}
@@ -1201,7 +1201,7 @@ func TestStrOps_ExtractNumericDigits_20(t *testing.T) {
 	keepTrailingChars := ""
 
 	_,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -1209,7 +1209,7 @@ func TestStrOps_ExtractNumericDigits_20(t *testing.T) {
 		keepTrailingChars)
 
 	if err == nil {
-		t.Error("Expected an error return from StrOps{}.ExtractNumericDigits()\n" +
+		t.Error("Expected an error return from StrOps{}.Ptr().ExtractNumericDigits()\n" +
 			"because input parameter 'startIdx' is beyond the maximum boundary for 'targetStr'.\n" +
 			"However, NO ERROR WAS RETURNED!!\n")
 	}
@@ -1235,7 +1235,7 @@ func TestStrOps_ExtractNumericDigits_21(t *testing.T) {
 	}
 
 	nStrDto,
-		err := StrOps{}.ExtractNumericDigits(
+		err := StrOps{}.Ptr().ExtractNumericDigits(
 		targetStr,
 		startIndex,
 		keepLeadingChars,
@@ -1243,7 +1243,7 @@ func TestStrOps_ExtractNumericDigits_21(t *testing.T) {
 		keepTrailingChars)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ExtractNumericDigits(targetStr, 0)\n"+
+		t.Errorf("Error returned by StrOps{}.Ptr().ExtractNumericDigits(targetStr, 0)\n"+
 			"targetStr='%v'\nError='%v'\n", targetStr, err.Error())
 		return
 	}

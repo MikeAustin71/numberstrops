@@ -499,303 +499,32 @@ func (sops *StrOps) ExtractDataField(
 //                        index in 'targetStr', an error will be returned. If no errors are encountered,
 //                        this value is set to 'nil'.
 //
-func (sops StrOps) ExtractNumericDigits(
+func (sops *StrOps) ExtractNumericDigits(
 	targetStr string,
 	startIndex int,
 	keepLeadingChars string,
 	keepInteriorChars string,
 	keepTrailingChars string) (NumStrProfileDto, error) {
 
-	nStrDto := NumStrProfileDto{}.New()
-	nStrDto.TargetStr = targetStr
-	nStrDto.StartIndex = startIndex
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
 
 	ePrefix := "StrOps.ExtractNumericDigits() "
 
-	lenTargetStr := len(targetStr)
-
-	if lenTargetStr == 0 {
-		return nStrDto,
-			fmt.Errorf("%v\n"+
-				"ERROR: Input parameter 'targetStr' is an empty string!\n",
-				ePrefix)
-	}
-
-	if startIndex < 0 {
-		return nStrDto, fmt.Errorf(ePrefix+
-			"ERROR: Input parameter 'startIndex' is less than zero!\n"+
-			"startIndex='%v'", startIndex)
-	}
-
-	if startIndex >= lenTargetStr {
-		return nStrDto, fmt.Errorf(ePrefix+
-			"ERROR: Input parameter 'startIndex' is INVALID!\n"+
-			"'startIndex' exceeds the last character index in 'targetStr'\n"+
-			"startIndex='%v'\tlast character index='%v'\n"+
-			"targetStr='%v'", startIndex, lenTargetStr-1, targetStr)
-	}
-
-	targetRunes := []rune(targetStr)
-	lenTargetStr = len(targetRunes)
-
-	keepLeadingRunes := make([]rune, 0)
-	lenKeepLeadingRunes := 0
-
-	keepInteriorRunes := make([]rune, 0)
-	lenKeepInteriorRunes := 0
-
-	keepTrailingRunes := make([]rune, 0)
-	lenKeepTrailingRunes := 0
-
-	if len(keepLeadingChars) > 0 {
-
-		// Remove any numeric characters
-		for a := 0; a < len(keepLeadingChars); a++ {
-
-			if keepLeadingChars[a] >= '0' &&
-				keepLeadingChars[a] <= '9' {
-				continue
-			}
-
-			keepLeadingRunes = append(keepLeadingRunes, rune(keepLeadingChars[a]))
-
-		}
-
-		lenKeepLeadingRunes = len(keepLeadingRunes)
-	}
-
-	if len(keepInteriorChars) > 0 {
-
-		// Remove any numeric characters
-		for a := 0; a < len(keepInteriorChars); a++ {
-
-			if keepInteriorChars[a] >= '0' &&
-				keepInteriorChars[a] <= '9' {
-				continue
-			}
-
-			keepInteriorRunes = append(keepInteriorRunes, rune(keepInteriorChars[a]))
-
-		}
-
-		lenKeepInteriorRunes = len(keepInteriorRunes)
-	}
-
-	if len(keepTrailingChars) > 0 {
-
-		// Remove any numeric characters
-		for a := 0; a < len(keepTrailingChars); a++ {
-
-			if keepTrailingChars[a] >= '0' &&
-				keepTrailingChars[a] <= '9' {
-				continue
-			}
-
-			keepTrailingRunes = append(keepTrailingRunes, rune(keepTrailingChars[a]))
-
-		}
-
-		lenKeepTrailingRunes = len(keepTrailingRunes)
-	}
-
-	numberRunesCaptured := make([]rune, 0, 20)
-	lenNumberRunesCaptured := 0
-
-	leadingCharRunesCaptured := make([]rune, 0, 20)
-	lenLeadingCharRunesCaptured := 0
-
-	firstNumericDigitIdx := -1
-
-	for e := startIndex; e < lenTargetStr; e++ {
-
-		if targetRunes[e] >= '0' &&
-			targetRunes[e] <= '9' &&
-			firstNumericDigitIdx == -1 {
-			// Target has at least one numeric
-			// digit - and we found it.
-			firstNumericDigitIdx = e
-			break
-		}
-	}
-
-	if firstNumericDigitIdx == -1 {
-		// There are no numeric digits
-		// in this target string.
-		// EXIT HERE!!!
-		return nStrDto, nil
-	}
-
-	firstNumStrCharIdx := -1
-	leadingSignChar := ""
-
-	// Check for leading non-numeric characters that
-	// need to be retained at the front of the number
-	// string.
-	if lenKeepLeadingRunes > 0 &&
-		startIndex < firstNumericDigitIdx {
-
-		for f := firstNumericDigitIdx - 1; f >= startIndex; f-- {
-
-			for g := 0; g < lenKeepLeadingRunes; g++ {
-
-				if keepLeadingRunes[g] == targetRunes[f] {
-
-					if keepLeadingRunes[g] == '+' ||
-						keepLeadingRunes[g] == '-' {
-
-						// This is a leading sign char
-						leadingSignChar = string(targetRunes[f])
-
-						leadingCharRunesCaptured = append(leadingCharRunesCaptured, targetRunes[f])
-						// Delete Leading Sign character. It will not be repeated in
-						// future searches. Only one leading sign char per number string.
-
-						keepLeadingRunes = append(keepLeadingRunes[0:g], keepLeadingRunes[g+1:]...)
-						lenKeepLeadingRunes--
-
-						firstNumStrCharIdx = f
-
-						// Now delete the alternative leading sign character.
-						// There are only two - plus or minus
-						nextSignChar := '-'
-
-						if leadingSignChar == "-" {
-							nextSignChar = '+'
-						}
-
-						// Leading sign char has been found. Now delete the
-						// alternative lead sign char to avoid duplications
-						for m := 0; m < lenKeepLeadingRunes; m++ {
-							if keepLeadingRunes[m] == nextSignChar {
-								keepLeadingRunes = append(keepLeadingRunes[0:m], keepLeadingRunes[m+1:]...)
-								lenKeepLeadingRunes--
-							}
-						}
-
-						break
-
-					} else {
-
-						// Standard Keep Leading Rune character found
-						leadingCharRunesCaptured = append(leadingCharRunesCaptured, targetRunes[f])
-						// Delete Leading Rune character. It will not be repeated in
-						// future searches
-
-						firstNumStrCharIdx = f
-
-						keepLeadingRunes = append(keepLeadingRunes[0:g], keepLeadingRunes[g+1:]...)
-						lenKeepLeadingRunes--
-						break
-					}
-				}
-			}
-
-			t := len(leadingCharRunesCaptured)
-
-			if t > lenLeadingCharRunesCaptured {
-				lenLeadingCharRunesCaptured = t
-				continue
-			}
-
-			break
-		}
-	}
-
-	leadingSignIndex := -1
-
-	if lenLeadingCharRunesCaptured > 0 {
-
-		for h := lenLeadingCharRunesCaptured - 1; h >= 0; h-- {
-
-			if leadingCharRunesCaptured[h] == '+' ||
-				leadingCharRunesCaptured[h] == '-' {
-
-				numberRunesCaptured = append(numberRunesCaptured, leadingCharRunesCaptured[h])
-				leadingSignIndex = lenNumberRunesCaptured
-				lenNumberRunesCaptured++
-
-			} else {
-				numberRunesCaptured = append(numberRunesCaptured, leadingCharRunesCaptured[h])
-				lenNumberRunesCaptured++
-			}
-		}
-	}
-
-	// Main Number String Extraction Loop
-	isEndOfNumStr := false
-
-	for i := firstNumericDigitIdx; i < lenTargetStr; i++ {
-
-		if !isEndOfNumStr {
-
-			if targetRunes[i] >= '0' && targetRunes[i] <= '9' {
-
-				numberRunesCaptured = append(numberRunesCaptured, targetRunes[i])
-				continue
-			}
-
-			for j := 0; j < lenKeepInteriorRunes; j++ {
-
-				if targetRunes[i] == keepInteriorRunes[j] {
-
-					if i+1 >= lenTargetStr ||
-						(targetRunes[i+1] < '0' || targetRunes[i+1] > '9') {
-						// We are either at the end of string or the next char
-						// is NOT a numeric character.
-						goto trailChar
-					}
-
-					numberRunesCaptured = append(numberRunesCaptured, targetRunes[i])
-
-					goto numDigitLoop
-				}
-			}
-
-		}
-
-	trailChar:
-		isEndOfNumStr = true
-
-		for k := 0; k < lenKeepTrailingRunes; k++ {
-
-			if targetRunes[i] == keepTrailingRunes[k] {
-				numberRunesCaptured = append(numberRunesCaptured, targetRunes[i])
-				// Only one instance of a keep trailing rune character is captured.
-				// Delete the keep trailing rune character to prevent repeat captures.
-				keepTrailingRunes = append(keepLeadingRunes[0:k], keepTrailingRunes[k+1:]...)
-				lenKeepTrailingRunes--
-				goto numDigitLoop
-			}
-
-		}
-
-		// Non-numeric character and Non-Trailing Character: Exit the Loop
-		break
-
-	numDigitLoop:
-	}
-
-	if len(numberRunesCaptured) > 0 {
-		nStrDto.NumStr = string(numberRunesCaptured)
-
-		if firstNumStrCharIdx > -1 {
-			nStrDto.FirstNumCharIndex = firstNumStrCharIdx
-		} else {
-			nStrDto.FirstNumCharIndex = firstNumericDigitIdx
-		}
-
-		nStrDto.NumStrLen = len(nStrDto.NumStr)
-		nStrDto.LeadingSignChar = leadingSignChar
-		nStrDto.LeadingSignIndex = leadingSignIndex
-		nStrDto.NextTargetStrIndex =
-			nStrDto.FirstNumCharIndex + nStrDto.NumStrLen
-
-		if nStrDto.NextTargetStrIndex >= len(targetStr) {
-			nStrDto.NextTargetStrIndex = -1
-		}
-	}
-
-	return nStrDto, nil
+	sOpsAtom := strOpsAtom{}
+
+	return sOpsAtom.extractNumericDigits(
+		targetStr,
+		startIndex,
+		keepLeadingChars,
+		keepInteriorChars,
+		keepTrailingChars,
+		ePrefix)
 }
 
 // FindFirstNonSpaceChar - Returns the string index of the first non-space character in
