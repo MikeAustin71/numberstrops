@@ -128,72 +128,27 @@ func (sops *StrOps) BreakTextAtLineLength(
 // Reference:
 //    https://www.juniper.net/documentation/en_US/idp5.1/topics/reference/general/intrusion-detection-prevention-custom-attack-object-extended-ascii.html
 //
-func (sops StrOps) ConvertNonPrintableChars(
-	nonPrintableChars []rune, convertSpace bool) (printableChars string) {
+func (sops *StrOps) ConvertNonPrintableChars(
+	nonPrintableChars []rune,
+	convertSpace bool) (
+	printableChars string) {
 
-	lenNonPrintableChars := len(nonPrintableChars)
-
-	if lenNonPrintableChars == 0 {
-		return "[EMPTY]"
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	var b strings.Builder
-	b.Grow(lenNonPrintableChars * 5)
+	sops.stringDataMutex.Lock()
 
-	for i := 0; i < lenNonPrintableChars; i++ {
-		cRune := nonPrintableChars[i]
+	defer sops.stringDataMutex.Unlock()
 
-		switch cRune {
-		case 0:
-			b.WriteString("[NULL]") // 0x00 NULL
-		case 1:
-			b.WriteString("[SOH]") // 0x01 State of Heading
-		case 2:
-			b.WriteString("[STX]") // 0x02 State of Text
-		case 3:
-			b.WriteString("[ETX]") // 0x03 End of Text
-		case 4:
-			b.WriteString("[EOT]") // 0X04 End of Transmission
-		case 5:
-			b.WriteString("[ENQ]") // 0x05 Enquiry
-		case 6:
-			b.WriteString("[ACK]") // 0x06 Acknowledge
-		case '\a':
-			b.WriteString("\\a") // U+0007 alert or bell
-		case '\b':
-			b.WriteString("\\b") // U+0008 backspace
-		case '\t':
-			b.WriteString("\\t") // U+0009 horizontal tab
-		case '\n':
-			b.WriteString("\\n") // U+000A line feed or newline
-		case '\v':
-			b.WriteString("\\v") // U+000B vertical tab
-		case '\f':
-			b.WriteString("\\f") // U+000C form feed
-		case '\r':
-			b.WriteString("\\r") // U+000D carriage return
-		case 14:
-			b.WriteString("[SO]") // U+000E Shift Out
-		case 15:
-			b.WriteString("[SI]") // U+000F Shift In
-		case '\\':
-			b.WriteString("\\") // U+005c backslash
-		case ' ':
-			// 0X20 Space character
-			if convertSpace {
-				b.WriteString("[SPACE]")
-			} else {
-				b.WriteRune(' ')
-			}
+	ePrefix := "StrOps.ConvertNonPrintableChars() "
 
-		default:
-			b.WriteRune(cRune)
+	sOpsQuark := strOpsQuark{}
 
-		}
-
-	}
-
-	return b.String()
+	return sOpsQuark.convertNonPrintableChars(
+		nonPrintableChars,
+		convertSpace,
+		ePrefix)
 }
 
 // CopyIn - Copies string information from another StrOps

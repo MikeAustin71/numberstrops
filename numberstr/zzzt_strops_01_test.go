@@ -255,7 +255,7 @@ func TestStrOps_ConvertNonPrintableChars_01(t *testing.T) {
 	testRunes := []rune(testStr)
 	expectedStr := "Hello world! How are you doing today?\\n"
 
-	actualStr := StrOps{}.ConvertNonPrintableChars(testRunes, false)
+	actualStr := StrOps{}.NewPtr().ConvertNonPrintableChars(testRunes, false)
 
 	if expectedStr != actualStr {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -271,7 +271,7 @@ func TestStrOps_ConvertNonPrintableChars_02(t *testing.T) {
 	testRunes := []rune(testStr)
 	expectedStr := "Hello[SPACE]world![SPACE]How[SPACE]are[SPACE]you[SPACE]doing[SPACE]today?\\n"
 
-	actualStr := StrOps{}.ConvertNonPrintableChars(testRunes, true)
+	actualStr := StrOps{}.NewPtr().ConvertNonPrintableChars(testRunes, true)
 
 	if expectedStr != actualStr {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -287,7 +287,7 @@ func TestStrOps_ConvertNonPrintableChars_03(t *testing.T) {
 	testRunes := []rune(testStr)
 	expectedStr := "Hello world!\\tHow\\rare\\ayou\\bdoing\\ftoday?\\v\\n"
 
-	actualStr := StrOps{}.ConvertNonPrintableChars(testRunes, false)
+	actualStr := StrOps{}.NewPtr().ConvertNonPrintableChars(testRunes, false)
 
 	if expectedStr != actualStr {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -303,7 +303,7 @@ func TestStrOps_ConvertNonPrintableChars_04(t *testing.T) {
 	testRunes := []rune(testStr)
 	expectedStr := "[EMPTY]"
 
-	actualStr := StrOps{}.ConvertNonPrintableChars(testRunes, false)
+	actualStr := StrOps{}.NewPtr().ConvertNonPrintableChars(testRunes, false)
 
 	if expectedStr != actualStr {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -325,7 +325,7 @@ func TestStrOps_ConvertNonPrintableChars_05(t *testing.T) {
 
 	expectedStr := "Hello[NULL]"
 
-	actualStr := StrOps{}.ConvertNonPrintableChars(testRunes, false)
+	actualStr := StrOps{}.NewPtr().ConvertNonPrintableChars(testRunes, false)
 
 	if expectedStr != actualStr {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -352,7 +352,7 @@ func TestStrOps_ConvertNonPrintableChars_06(t *testing.T) {
 
 	expectedStr := "Hello[SOH][STX][ETX][EOT][ENQ][ACK]"
 
-	actualStr := StrOps{}.ConvertNonPrintableChars(testRunes, false)
+	actualStr := StrOps{}.NewPtr().ConvertNonPrintableChars(testRunes, false)
 
 	if expectedStr != actualStr {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -374,7 +374,7 @@ func TestStrOps_ConvertNonPrintableChars_07(t *testing.T) {
 
 	expectedStr := "Hello\\"
 
-	actualStr := StrOps{}.ConvertNonPrintableChars(testRunes, false)
+	actualStr := StrOps{}.NewPtr().ConvertNonPrintableChars(testRunes, false)
 
 	if expectedStr != actualStr {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -397,7 +397,7 @@ func TestStrOps_ConvertNonPrintableChars_08(t *testing.T) {
 
 	expectedStr := "Hello[SO][SI]"
 
-	actualStr := StrOps{}.ConvertNonPrintableChars(testRunes, false)
+	actualStr := StrOps{}.NewPtr().ConvertNonPrintableChars(testRunes, false)
 
 	if expectedStr != actualStr {
 		t.Errorf("ERROR: Expected result string='%v'\n"+

@@ -115,8 +115,8 @@ func TestStrOps_ExtractDataField_01(t *testing.T) {
 	if expectedDataFieldTrailingDelimiter != datDto.DataFieldTrailingDelimiter {
 		t.Errorf("ERROR: Expected datDto.DataFieldTrailingDelimiter='%v'.\n"+
 			"Instead, datDto.DataFieldTrailingDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedDataFieldTrailingDelimiter), true),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.DataFieldTrailingDelimiter), true))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedDataFieldTrailingDelimiter), true),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.DataFieldTrailingDelimiter), true))
 	}
 
 	if expectedDataFieldTrailingDelimiterType != datDto.DataFieldTrailingDelimiterType {
@@ -140,8 +140,8 @@ func TestStrOps_ExtractDataField_01(t *testing.T) {
 	if expectedEndOfLineDelimiter != datDto.EndOfLineDelimiter {
 		t.Errorf("ERROR: Expected datDto.EndOfLineDelimiter='%v'.\n"+
 			"Instead, datDto.EndOfLineDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
 	}
 
 	if expectedEndOfLineDelimiterIdx != datDto.EndOfLineDelimiterIndex {
@@ -153,8 +153,8 @@ func TestStrOps_ExtractDataField_01(t *testing.T) {
 	if expectedCommentDelimiter != datDto.CommentDelimiter {
 		t.Errorf("ERROR: Expected datDto.CommentDelimiter='%v'.\n"+
 			"Instead, datDto.CommentDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
 	}
 
 	if expectedCommentDelimiterIndex != datDto.CommentDelimiterIndex {
@@ -301,8 +301,8 @@ func TestStrOps_ExtractDataField_02(t *testing.T) {
 	if expectedEndOfLineDelimiter != datDto.EndOfLineDelimiter {
 		t.Errorf("ERROR: Expected datDto.EndOfLineDelimiter='%v'.\n"+
 			"Instead, datDto.EndOfLineDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
 	}
 
 	if expectedEndOfLineDelimiterIdx != datDto.EndOfLineDelimiterIndex {
@@ -314,8 +314,8 @@ func TestStrOps_ExtractDataField_02(t *testing.T) {
 	if expectedCommentDelimiter != datDto.CommentDelimiter {
 		t.Errorf("ERROR: Expected datDto.CommentDelimiter='%v'.\n"+
 			"Instead, datDto.CommentDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
 	}
 
 	if expectedCommentDelimiterIndex != datDto.CommentDelimiterIndex {
@@ -454,8 +454,8 @@ func TestStrOps_ExtractDataField_03(t *testing.T) {
 	if expectedEndOfLineDelimiter != datDto.EndOfLineDelimiter {
 		t.Errorf("ERROR: Expected datDto.EndOfLineDelimiter='%v'.\n"+
 			"Instead, datDto.EndOfLineDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
 	}
 
 	if expectedEndOfLineDelimiterIdx != datDto.EndOfLineDelimiterIndex {
@@ -467,8 +467,8 @@ func TestStrOps_ExtractDataField_03(t *testing.T) {
 	if expectedCommentDelimiter != datDto.CommentDelimiter {
 		t.Errorf("ERROR: Expected datDto.CommentDelimiter='%v'.\n"+
 			"Instead, datDto.CommentDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
 	}
 
 	if expectedCommentDelimiterIndex != datDto.CommentDelimiterIndex {
@@ -614,8 +614,8 @@ func TestStrOps_ExtractDataField_04(t *testing.T) {
 	if expectedEndOfLineDelimiter != datDto.EndOfLineDelimiter {
 		t.Errorf("ERROR: Expected datDto.EndOfLineDelimiter='%v'.\n"+
 			"Instead, datDto.EndOfLineDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
 	}
 
 	if expectedEndOfLineDelimiterIdx != datDto.EndOfLineDelimiterIndex {
@@ -627,8 +627,8 @@ func TestStrOps_ExtractDataField_04(t *testing.T) {
 	if expectedCommentDelimiter != datDto.CommentDelimiter {
 		t.Errorf("ERROR: Expected datDto.CommentDelimiter='%v'.\n"+
 			"Instead, datDto.CommentDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
 	}
 
 	if expectedCommentDelimiterIndex != datDto.CommentDelimiterIndex {
@@ -769,8 +769,8 @@ func TestStrOps_ExtractDataField_05(t *testing.T) {
 	if expectedEndOfLineDelimiter != datDto.EndOfLineDelimiter {
 		t.Errorf("ERROR: Expected datDto.EndOfLineDelimiter='%v'.\n"+
 			"Instead, datDto.EndOfLineDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
 	}
 
 	if expectedEndOfLineDelimiterIdx != datDto.EndOfLineDelimiterIndex {
@@ -782,8 +782,8 @@ func TestStrOps_ExtractDataField_05(t *testing.T) {
 	if expectedCommentDelimiter != datDto.CommentDelimiter {
 		t.Errorf("ERROR: Expected datDto.CommentDelimiter='%v'.\n"+
 			"Instead, datDto.CommentDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
 	}
 
 	if expectedCommentDelimiterIndex != datDto.CommentDelimiterIndex {
@@ -922,8 +922,8 @@ func TestStrOps_ExtractDataField_06(t *testing.T) {
 	if expectedEndOfLineDelimiter != datDto.EndOfLineDelimiter {
 		t.Errorf("ERROR: Expected datDto.EndOfLineDelimiter='%v'.\n"+
 			"Instead, datDto.EndOfLineDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
 	}
 
 	if expectedEndOfLineDelimiterIdx != datDto.EndOfLineDelimiterIndex {
@@ -935,8 +935,8 @@ func TestStrOps_ExtractDataField_06(t *testing.T) {
 	if expectedCommentDelimiter != datDto.CommentDelimiter {
 		t.Errorf("ERROR: Expected datDto.CommentDelimiter='%v'.\n"+
 			"Instead, datDto.CommentDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
 	}
 
 	if expectedCommentDelimiterIndex != datDto.CommentDelimiterIndex {
@@ -1089,8 +1089,8 @@ func TestStrOps_ExtractDataField_07(t *testing.T) {
 	if expectedEndOfLineDelimiter != datDto.EndOfLineDelimiter {
 		t.Errorf("ERROR: Expected datDto.EndOfLineDelimiter='%v'.\n"+
 			"Instead, datDto.EndOfLineDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
 	}
 
 	if expectedEndOfLineDelimiterIdx != datDto.EndOfLineDelimiterIndex {
@@ -1102,8 +1102,8 @@ func TestStrOps_ExtractDataField_07(t *testing.T) {
 	if expectedCommentDelimiter != datDto.CommentDelimiter {
 		t.Errorf("ERROR: Expected datDto.CommentDelimiter='%v'.\n"+
 			"Instead, datDto.CommentDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
 	}
 
 	if expectedCommentDelimiterIndex != datDto.CommentDelimiterIndex {
@@ -1246,8 +1246,8 @@ func TestStrOps_ExtractDataField_08(t *testing.T) {
 	if expectedEndOfLineDelimiter != datDto.EndOfLineDelimiter {
 		t.Errorf("ERROR: Expected datDto.EndOfLineDelimiter='%v'.\n"+
 			"Instead, datDto.EndOfLineDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
 	}
 
 	if expectedEndOfLineDelimiterIdx != datDto.EndOfLineDelimiterIndex {
@@ -1259,8 +1259,8 @@ func TestStrOps_ExtractDataField_08(t *testing.T) {
 	if expectedCommentDelimiter != datDto.CommentDelimiter {
 		t.Errorf("ERROR: Expected datDto.CommentDelimiter='%v'.\n"+
 			"Instead, datDto.CommentDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
 	}
 
 	if expectedCommentDelimiterIndex != datDto.CommentDelimiterIndex {
@@ -1562,8 +1562,8 @@ func TestStrOps_ExtractDataField_14(t *testing.T) {
 	if expectedDataFieldTrailingDelimiter != datDto.DataFieldTrailingDelimiter {
 		t.Errorf("ERROR: Expected datDto.DataFieldTrailingDelimiter='%v'.\n"+
 			"Instead, datDto.DataFieldTrailingDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedDataFieldTrailingDelimiter), true),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.DataFieldTrailingDelimiter), true))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedDataFieldTrailingDelimiter), true),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.DataFieldTrailingDelimiter), true))
 	}
 
 	if expectedDataFieldTrailingDelimiterType != datDto.DataFieldTrailingDelimiterType {
@@ -1587,8 +1587,8 @@ func TestStrOps_ExtractDataField_14(t *testing.T) {
 	if expectedEndOfLineDelimiter != datDto.EndOfLineDelimiter {
 		t.Errorf("ERROR: Expected datDto.EndOfLineDelimiter='%v'.\n"+
 			"Instead, datDto.EndOfLineDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedEndOfLineDelimiter), false),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.EndOfLineDelimiter), false))
 	}
 
 	if expectedEndOfLineDelimiterIdx != datDto.EndOfLineDelimiterIndex {
@@ -1600,8 +1600,8 @@ func TestStrOps_ExtractDataField_14(t *testing.T) {
 	if expectedCommentDelimiter != datDto.CommentDelimiter {
 		t.Errorf("ERROR: Expected datDto.CommentDelimiter='%v'.\n"+
 			"Instead, datDto.CommentDelimiter='%v'.\n",
-			StrOps{}.ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
-			StrOps{}.ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(expectedCommentDelimiter), true),
+			StrOps{}.NewPtr().ConvertNonPrintableChars([]rune(datDto.CommentDelimiter), true))
 	}
 
 	if expectedCommentDelimiterIndex != datDto.CommentDelimiterIndex {
