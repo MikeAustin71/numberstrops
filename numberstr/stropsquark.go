@@ -156,6 +156,7 @@ func (sOpsQuark *strOpsQuark) findLastNonSpaceChar(
 //  endIndex       int - The index marking the end of the string segment
 //                       in 'targetStr'.
 //
+//
 // ------------------------------------------------------------------------
 //
 // Return Values

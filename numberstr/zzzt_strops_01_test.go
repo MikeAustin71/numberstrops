@@ -47,7 +47,7 @@ func TestStrOps_BreakTextAtLineLength_01(t *testing.T) {
 	//         012345678901234567890123456789012345678901234567890
 	expected := "Lorem ipsum dolor sit amet, consectetur%adipiscing elit.%"
 
-	actualTxt, err := StrOps{}.BreakTextAtLineLength(tstStr, 40, '\n')
+	actualTxt, err := StrOps{}.NewPtr().BreakTextAtLineLength(tstStr, 40, '\n')
 
 	if err != nil {
 		t.Errorf("Error returned from StrOps{}.BreakTextAtLineLength("+
@@ -74,7 +74,7 @@ func TestStrOps_BreakTextAtLineLength_02(t *testing.T) {
 	expected := "Did you know? The%" +
 		"Cow Jumped Over The%Moon!%"
 
-	actualTxt, err := StrOps{}.BreakTextAtLineLength(tstStr, 20, '\n')
+	actualTxt, err := StrOps{}.NewPtr().BreakTextAtLineLength(tstStr, 20, '\n')
 
 	if err != nil {
 		t.Errorf("Error returned from StrOps{}.BreakTextAtLineLength("+
@@ -100,7 +100,7 @@ func TestStrOps_BreakTextAtLineLength_03(t *testing.T) {
 	expected := "Did you know? XX The%" +
 		"Cow Jumped Over The%Moon!%"
 
-	actualTxt, err := StrOps{}.BreakTextAtLineLength(tstStr, 20, '\n')
+	actualTxt, err := StrOps{}.NewPtr().BreakTextAtLineLength(tstStr, 20, '\n')
 
 	if err != nil {
 		t.Errorf("Error returned from StrOps{}.BreakTextAtLineLength("+
@@ -126,7 +126,7 @@ func TestStrOps_BreakTextAtLineLength_04(t *testing.T) {
 	expected := "Did you know? The%" +
 		"Cow Jumped Over The%Moon!%"
 
-	actualTxt, err := StrOps{}.BreakTextAtLineLength(tstStr, 20, '\n')
+	actualTxt, err := StrOps{}.NewPtr().BreakTextAtLineLength(tstStr, 20, '\n')
 
 	if err != nil {
 		t.Errorf("Error returned from StrOps{}.BreakTextAtLineLength("+
@@ -176,7 +176,7 @@ func TestStrOps_BreakTextAtLineLength_05(t *testing.T) {
 		"pellentesque.%Proin vestibulum accumsan erat vel%commodo. Maecenas sapien mauris,%faucibus nec " +
 		"consectetur eu, ultricies%sit amet elit. Suspendisse.%"
 
-	actualTxt, err := StrOps{}.BreakTextAtLineLength(tstStr, 40, '\n')
+	actualTxt, err := StrOps{}.NewPtr().BreakTextAtLineLength(tstStr, 40, '\n')
 
 	if err != nil {
 		t.Errorf("Error returned from StrOps{}.BreakTextAtLineLength("+
@@ -197,7 +197,7 @@ func TestStrOps_BreakTextAtLineLength_06(t *testing.T) {
 		"sapien consectetur faucibus eget eu arcu. Lorem ipsum dolor sit amet, consectetur adipiscing " +
 		"elit. Curabitur vel aliquet massa. Integer id vehicula mi. Cras elementum, nisi in ultrices. "
 
-	_, err := StrOps{}.BreakTextAtLineLength(tstStr, 0, '\n')
+	_, err := StrOps{}.NewPtr().BreakTextAtLineLength(tstStr, 0, '\n')
 
 	if err == nil {
 		t.Error("Error: Expected error return from StrOps{}.BreakTextAtLineLength(...). " +
@@ -211,7 +211,7 @@ func TestStrOps_BreakTextAtLineLength_07(t *testing.T) {
 		"sapien consectetur faucibus eget eu arcu. Lorem ipsum dolor sit amet, consectetur adipiscing " +
 		"elit. Curabitur vel aliquet massa. Integer id vehicula mi. Cras elementum, nisi in ultrices. "
 
-	_, err := StrOps{}.BreakTextAtLineLength(tstStr, 50, 0)
+	_, err := StrOps{}.NewPtr().BreakTextAtLineLength(tstStr, 50, 0)
 
 	if err == nil {
 		t.Error("Error: Expected error return from StrOps{}.BreakTextAtLineLength(...). " +
@@ -223,7 +223,7 @@ func TestStrOps_BreakTextAtLineLength_08(t *testing.T) {
 
 	tstStr := "                           "
 
-	returnStr, err := StrOps{}.BreakTextAtLineLength(tstStr, 10, '\n')
+	returnStr, err := StrOps{}.NewPtr().BreakTextAtLineLength(tstStr, 10, '\n')
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.BreakTextAtLineLength(...).\n"+
@@ -240,7 +240,7 @@ func TestStrOps_BreakTextAtLineLength_09(t *testing.T) {
 
 	tstStr := ""
 
-	_, err := StrOps{}.BreakTextAtLineLength(tstStr, 10, '\n')
+	_, err := StrOps{}.NewPtr().BreakTextAtLineLength(tstStr, 10, '\n')
 
 	if err == nil {
 		t.Error("Expected an error return from StrOps{}.BreakTextAtLineLength(tstStr, 10, '\\n')" +
