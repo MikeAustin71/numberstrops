@@ -2161,12 +2161,6 @@ func (sops StrOps) NewPtr() *StrOps {
 //
 func (sops *StrOps) Read(p []byte) (n int, err error) {
 
-	// TODO Send this to mechanics
-	ePrefix := "StrOps.Read() "
-
-	n = len(p)
-	err = io.EOF
-
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
 	}
@@ -2175,58 +2169,15 @@ func (sops *StrOps) Read(p []byte) (n int, err error) {
 
 	defer sops.stringDataMutex.Unlock()
 
-	if n == 0 {
-		sops.cntBytesRead = 0
-		err = fmt.Errorf("%v\n"+
-			"Error: Input byte array 'p' is zero length!\n",
-			ePrefix)
+	ePrefix := "StrOps.Read() "
 
-		return 0, err
-	}
+	sOpsElectron := strOpsElectron{}
 
-	strData := sops.stringData
+	return sOpsElectron.readBytes(
+		sops,
+		p,
+		ePrefix)
 
-	w := []byte(strData)
-
-	lenW := uint64(len(w))
-
-	cntBytesRead := sops.cntBytesRead
-
-	if lenW == 0 ||
-		cntBytesRead >= lenW {
-		sops.cntBytesRead = 0
-		n = 0
-		return n, err
-	}
-
-	startReadIdx := cntBytesRead
-
-	remainingBytesToRead := lenW - cntBytesRead
-
-	if uint64(n) < remainingBytesToRead {
-		remainingBytesToRead = startReadIdx + uint64(n)
-		err = nil
-	} else {
-		remainingBytesToRead += startReadIdx
-		err = io.EOF
-	}
-
-	n = 0
-
-	for i := startReadIdx; i < remainingBytesToRead; i++ {
-		p[n] = w[i]
-		n++
-	}
-
-	cntBytesRead += uint64(n)
-
-	if cntBytesRead >= lenW {
-		sops.cntBytesRead = 0
-	} else {
-		sops.cntBytesRead = cntBytesRead
-	}
-
-	return n, err
 }
 
 // ReadStringFromBytes - Receives a byte array and retrieves a string. The beginning of
