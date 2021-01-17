@@ -228,6 +228,152 @@ func (sOpsQuark *strOpsQuark) findLastNonSpaceChar(
 	return -1, nil
 }
 
+// FindLastSpace - Returns a string index indicating the last space character (' ') in
+// a string segment. The string segment is defined by input parameters, 'startIdx' and
+// 'endIdx'.
+//
+// The string segment search proceeds backwards, from right to left. The search therefore
+// starts at 'endIdx' and proceeds towards 'startIdx' until the last space character in
+// the string segment is identified.
+//
+// If a valid index for the last space character is found in the string segment, that
+// index value is returned. If a space character is NOT found in the specified string
+// segment, a value of -1 is returned.
+//
+// if 'targetStr' is a zero length string, an error will be triggered. Likewise, if 'startIdx'
+// of 'endIdx' are invalid, an error will be returned.
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - The string segment to be searched for the last space
+//       character resides in this string.
+//
+//  startIdx            int
+//     - Defines the actual ending index for the string segment to
+//       be searched. The search is a 'backwards' search and
+//       proceeds from right to left. Therefore, the starting point
+//       for the string segment is input parameter 'endIdx' while
+//       the ending point for the string segment is this 'startIdx'.
+//
+//
+//  endIdx              int
+//     - Defines the actual beginning index of the string segment
+//       to be searched. The search is a 'backwards' search and
+//       proceeds from right to left. Therefore, the starting point
+//       for the string segment is defined by this 'endIdx'
+//       parameter while the ending point for the string segment is
+//       marked by the input parameter, 'startIdx'.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  int
+//     - If this method completes successfully, this returned
+//       integer value will constitute the string index of the last
+//       space character in the string segment marked by input
+//       parameters 'startIdx' and 'endIdx'.
+//
+//       If a space character is NOT found in the specified string
+//       segment, a value of minus one (-1) is returned.
+//
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' will be inserted or prefixed at the beginning
+//       of the error message.
+//
+func (sOpsQuark *strOpsQuark) findLastSpace(
+	targetStr string,
+	startIdx int,
+	endIdx int,
+	ePrefix string) (
+	int,
+	error) {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsQuark.findLastSpace() "
+
+	targetStrLen := len(targetStr)
+
+	if targetStrLen == 0 {
+		return -1,
+			fmt.Errorf("%v\n"+
+				"ERROR: Invalid input parameter. 'targetStr' is a ZERO LENGTH STRING!\n",
+				ePrefix)
+	}
+
+	if startIdx < 0 {
+		return -1,
+			fmt.Errorf(ePrefix+"\n"+
+				"ERROR: Invalid input parameter. 'startIdx' is LESS THAN ZERO!\n"+
+				"startIdx='%v'\n", startIdx)
+	}
+
+	if endIdx < 0 {
+		return -1,
+			fmt.Errorf(ePrefix+"\n"+
+				"ERROR: Invalid input parameter. 'endIdx' is LESS THAN ZERO!\n"+
+				"startIdx='%v'\n", startIdx)
+	}
+
+	if endIdx >= targetStrLen {
+		return -1,
+			fmt.Errorf(ePrefix+"\n"+
+				"ERROR: Invalid input parameter. 'endIdx' is greater than target string length.\n"+
+				"INDEX OUT OF RANGE!\n"+
+				"endIdx='%v'\n"+
+				"target string length='%v'\n",
+				endIdx, targetStrLen)
+	}
+
+	if startIdx > endIdx {
+		return -1,
+			fmt.Errorf(ePrefix+"\n"+
+				"ERROR: Invalid input parameter.\n"+
+				"'startIdx' is GREATER THAN 'endIdx'\n"+
+				"startIdx='%v' endIdx='%v'\n", startIdx, endIdx)
+	}
+
+	for endIdx >= startIdx {
+
+		if targetStr[endIdx] == ' ' {
+			return endIdx, nil
+		}
+
+		endIdx--
+	}
+
+	return -1, nil
+}
+
 // findLastWord - Returns the beginning and ending indexes of
 // the last word in a target string segment. A 'word' is defined here
 // as a contiguous set of non-space characters delimited by spaces or
@@ -276,15 +422,27 @@ func (sOpsQuark *strOpsQuark) findLastNonSpaceChar(
 // Input Parameters
 //
 //
-//  targetStr   string - The string containing the string segment which
-//                       will be searched to identify the last word
-//                       in the string segment.
+//  targetStr      string
+//     - The string containing the string segment which
+//       will be searched to identify the last word
+//       in the string segment.
 //
-//  startIndex     int - The index marking the beginning of the string
-//                       segment in 'targetStr'.
 //
-//  endIndex       int - The index marking the end of the string segment
-//                       in 'targetStr'.
+//  startIndex     int
+//     - The index marking the beginning of the string
+//       segment in 'targetStr'.
+//
+//
+//  endIndex       int
+//     - The index marking the end of the string segment
+//       in 'targetStr'.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
 //
 //
 // ------------------------------------------------------------------------
