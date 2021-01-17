@@ -1163,40 +1163,34 @@ func (sops *StrOps) LowerCaseFirstLetter(str string) string {
 // a single character passed through input parameter, 'charRune' as type
 // 'rune'.
 //
-func (sops StrOps) MakeSingleCharString(charRune rune, strLen int) (string, error) {
+// Example Usage:
+//
+//     sUtil := StrOps{}
+//     requestedLen := 5
+//     charRune := '='
+//     outputStr, err := sUtil.MakeSingleCharString(charRune, requestedLen)
+//
+//     outputStr is now equal to "====="
+//
+func (sops *StrOps) MakeSingleCharString(
+	charRune rune,
+	strLen int) (string, error) {
+
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
 
 	ePrefix := "StrOps.MakeSingleCharString() "
+	sOpsQuark := strOpsQuark{}
 
-	if strLen < 1 {
-		return "",
-			fmt.Errorf(ePrefix+"Error: Input parameter 'strLen' MUST BE GREATER THAN '1'. "+
-				"strLen='%v' ", strLen)
-	}
-
-	if charRune == 0 {
-		return "",
-			fmt.Errorf(ePrefix+"Error: Input parameter 'charRune' IS INVALID! "+
-				"charRune='%v' ", charRune)
-	}
-
-	var b strings.Builder
-	b.Grow(strLen + 1)
-
-	for i := 0; i < strLen; i++ {
-
-		_, err := b.WriteRune(charRune)
-
-		if err != nil {
-			return "",
-				fmt.Errorf(ePrefix+"\n"+
-					"Error returned by  b.WriteRune(charRune).\n"+
-					"charRune='%v'\n"+
-					"Error='%v'\n",
-					charRune, err.Error())
-		}
-	}
-
-	return b.String(), nil
+	return sOpsQuark.makeSingleCharString(
+		charRune,
+		strLen,
+		ePrefix)
 }
 
 // NewPtr - Returns a pointer to a new instance of

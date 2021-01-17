@@ -853,6 +853,10 @@ func (sOpsQuark *strOpsQuark) getValidRunes(
 
 	defer sOpsQuark.lock.Unlock()
 
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
 	ePrefix += "strOpsQuark.getValidRunes() "
 
 	lenTargetRunes := len(targetRunes)
@@ -957,4 +961,71 @@ func (sOpsQuark *strOpsQuark) lowerCaseFirstLetter(
 	}
 
 	return string(runeStr)
+}
+
+// MakeSingleCharString - Creates a string of length 'strLen' consisting of
+// a single character passed through input parameter, 'charRune' as type
+// 'rune'.
+//
+//
+// Example Usage:
+//
+//     sUtil := StrOps{}
+//     requestedLen := 5
+//     charRune := '='
+//     outputStr, err := sUtil.MakeSingleCharString(charRune, requestedLen)
+//
+//     outputStr is now equal to "====="
+//
+func (sOpsQuark *strOpsQuark) makeSingleCharString(
+	charRune rune,
+	strLen int,
+	ePrefix string) (
+	string,
+	error) {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsQuark.makeSingleCharString() "
+
+	if strLen < 1 {
+		return "",
+			fmt.Errorf(ePrefix+"Error: Input parameter 'strLen' MUST BE GREATER THAN '1'. "+
+				"strLen='%v' ", strLen)
+	}
+
+	if charRune == 0 {
+		return "",
+			fmt.Errorf(ePrefix+"Error: Input parameter 'charRune' IS INVALID! "+
+				"charRune='%v' ", charRune)
+	}
+
+	var b strings.Builder
+	b.Grow(strLen + 1)
+
+	for i := 0; i < strLen; i++ {
+
+		_, err := b.WriteRune(charRune)
+
+		if err != nil {
+			return "",
+				fmt.Errorf(ePrefix+"\n"+
+					"Error returned by  b.WriteRune(charRune).\n"+
+					"charRune='%v'\n"+
+					"Error='%v'\n",
+					charRune, err.Error())
+		}
+	}
+
+	return b.String(), nil
 }
