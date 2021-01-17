@@ -1198,7 +1198,17 @@ func (sops *StrOps) MakeSingleCharString(
 // and io.Writer.
 func (sops StrOps) NewPtr() *StrOps {
 
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
 	sopsNew := StrOps{}
+
+	sopsNew.stringDataMutex = new(sync.Mutex)
 
 	return &sopsNew
 }
@@ -1216,7 +1226,17 @@ func (sops StrOps) NewPtr() *StrOps {
 //
 func (sops StrOps) Ptr() *StrOps {
 
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
 	sopsNew := StrOps{}
+
+	sopsNew.stringDataMutex = new(sync.Mutex)
 
 	return &sopsNew
 }
@@ -1263,13 +1283,13 @@ func (sops *StrOps) Read(p []byte) (n int, err error) {
 //
 // Input Parameters
 //
-//	bytes          []byte - An array of bytes from which a string will be extracted
-//	                        and returned.
+//  bytes          []byte - An array of bytes from which a string will be extracted
+//                          and returned.
 //
-//	startIdx          int - The starting index in input parameter 'bytes' where the string
-//	                        extraction will begin. The string extraction will cease when
-//	                        a carriage return ('\r'), a vertical tab ('\v') or a new line
-//	                        character ('\n') is encountered.
+//  startIdx          int - The starting index in input parameter 'bytes' where the string
+//                          extraction will begin. The string extraction will cease when
+//                          a carriage return ('\r'), a vertical tab ('\v') or a new line
+//                          character ('\n') is encountered.
 //
 //
 //
@@ -1277,75 +1297,30 @@ func (sops *StrOps) Read(p []byte) (n int, err error) {
 //
 // Return Values
 //
-//	extractedStr   string - The string extracted from input parameter 'bytes' beginning
-//	                        at the index in 'bytes' indicated by input parameter 'startIdx'.
+//  extractedStr   string - The string extracted from input parameter 'bytes' beginning
+//                          at the index in 'bytes' indicated by input parameter 'startIdx'.
 //
-//	nextStartIdx      int - The index of the beginning of the next string in the byte array
-//	                        'bytes' after 'extractedString'. If no more strings exist in the
-//	                        the byte array, 'nextStartIdx' will be set to -1.
+//  nextStartIdx      int - The index of the beginning of the next string in the byte array
+//                          'bytes' after 'extractedString'. If no more strings exist in the
+//                          the byte array, 'nextStartIdx' will be set to -1.
 //
-func (sops StrOps) ReadStringFromBytes(
+func (sops *StrOps) ReadStringFromBytes(
 	bytes []byte,
 	startIdx int) (extractedStr string, nextStartIdx int) {
 
-	extractedStr = ""
-	nextStartIdx = -1
-
-	bLen := len(bytes)
-
-	if bLen == 0 {
-		return extractedStr, nextStartIdx
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	if startIdx >= bLen || startIdx < 0 {
-		return extractedStr, nextStartIdx
-	}
+	sops.stringDataMutex.Lock()
 
-	nextStartIdx = -1
+	defer sops.stringDataMutex.Unlock()
 
-	runeAry := make([]rune, 0, bLen+5)
+	sOpsElectron := strOpsElectron{}
 
-	for i := startIdx; i < bLen; i++ {
-
-		if bytes[i] == '\r' ||
-			bytes[i] == '\n' ||
-			bytes[i] == '\v' {
-
-			if i+1 < bLen {
-
-				j := 0
-
-				for j = i + 1; j < bLen; j++ {
-					if bytes[j] == '\r' ||
-						bytes[j] == '\v' ||
-						bytes[j] == '\n' {
-						continue
-					} else {
-						break
-					}
-				}
-
-				if j >= bLen {
-					nextStartIdx = -1
-				} else {
-					nextStartIdx = j
-				}
-
-				break
-
-			} else {
-				nextStartIdx = -1
-			}
-
-			break
-		}
-
-		runeAry = append(runeAry, rune(bytes[i]))
-	}
-
-	extractedStr = string(runeAry)
-
-	return extractedStr, nextStartIdx
+	return sOpsElectron.readStringFromBytes(
+		bytes,
+		startIdx)
 }
 
 // ReplaceBytes - Replaces characters in a target array of bytes ([]bytes) with those specified in
