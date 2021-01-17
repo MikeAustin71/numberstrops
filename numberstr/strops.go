@@ -149,7 +149,11 @@ func (sops StrOps) BreakTextAtLineLength(
 
 		// Find the last complete word in this string segment
 		beginWrdIdx, endWrdIdx, isAllOneWord, isAllSpaces, err =
-			sops.FindLastWord(targetStr, begIdx, actualLastIdx)
+			sOpsQuark.findLastWord(
+				targetStr,
+				begIdx,
+				actualLastIdx,
+				ePrefix)
 
 		if err != nil {
 			return "",
@@ -1636,7 +1640,7 @@ func (sops StrOps) FindLastSpace(targetStr string, startIdx, endIdx int) (int, e
 //                        an error is returned. If the method completes successfully,
 //                        err = nil.
 //
-func (sops StrOps) FindLastWord(
+func (sops *StrOps) FindLastWord(
 	targetStr string,
 	startIndex,
 	endIndex int) (beginWrdIdx,
@@ -1646,173 +1650,14 @@ func (sops StrOps) FindLastWord(
 	err error) {
 
 	ePrefix := "StrOps.FindLastWord() "
-	beginWrdIdx = -1
-	endWrdIdx = -1
-	isAllOneWord = false
-	isAllSpaces = false
 
-	targetStrLen := len(targetStr)
+	sOpsQuark := strOpsQuark{}
 
-	if targetStrLen == 0 {
-
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'targetStr' is an EMPTY STRING!\n",
-			ePrefix)
-
-		return beginWrdIdx,
-			endWrdIdx,
-			isAllOneWord,
-			isAllSpaces,
-			err
-	}
-
-	if startIndex < 0 {
-
-		err = fmt.Errorf(ePrefix+"\n"+
-			"ERROR: Invalid input parameter.\n"+
-			"'startIndex' is LESS THAN ZERO!\n"+
-			"startIndex='%v'\n", startIndex)
-
-		return beginWrdIdx,
-			endWrdIdx,
-			isAllOneWord,
-			isAllSpaces,
-			err
-	}
-
-	if endIndex < 0 {
-		err = fmt.Errorf(ePrefix+"\n"+
-			"ERROR: Invalid input parameter.\n"+
-			"'endIndex' is LESS THAN ZERO!\n"+
-			"startIndex='%v'\n", startIndex)
-
-		return beginWrdIdx,
-			endWrdIdx,
-			isAllOneWord,
-			isAllSpaces,
-			err
-	}
-
-	if endIndex >= targetStrLen {
-
-		err = fmt.Errorf(ePrefix+"\n"+
-			"ERROR: Invalid input parameter. 'endIndex' is greater than\n"+
-			"target string length. INDEX OUT OF RANGE!\n"+
-			"endIndex='%v'\n"+
-			"target string length='%v'\n",
-			endIndex, targetStrLen)
-
-		return beginWrdIdx,
-			endWrdIdx,
-			isAllOneWord,
-			isAllSpaces,
-			err
-	}
-
-	if startIndex > endIndex {
-		err = fmt.Errorf(ePrefix+"\n"+
-			"ERROR: Invalid input parameter.\n"+
-			"'startIndex' is GREATER THAN 'endIndex'.\n"+
-			"startIndex='%v' endIndex='%v'\n",
-			startIndex, endIndex)
-
-		return beginWrdIdx,
-			endWrdIdx,
-			isAllOneWord,
-			isAllSpaces,
-			err
-	}
-
-	beginWrdIdx = startIndex
-	endWrdIdx = endIndex
-
-	idx := endIndex
-
-	var endingIdxFound bool
-
-	isAllSpaces = true
-	isAllOneWord = true
-
-	if startIndex == endIndex {
-
-		beginWrdIdx = startIndex
-		endWrdIdx = startIndex
-
-		if targetStr[startIndex] == ' ' {
-			isAllSpaces = true
-			isAllOneWord = false
-		} else {
-			isAllSpaces = false
-			isAllOneWord = true
-		}
-
-		err = nil
-
-		return beginWrdIdx,
-			endWrdIdx,
-			isAllOneWord,
-			isAllSpaces,
-			err
-	}
-
-	for idx >= startIndex {
-
-		if targetStr[idx] != ' ' {
-			isAllSpaces = false
-		} else {
-			isAllOneWord = false
-		}
-
-		if !endingIdxFound &&
-			targetStr[idx] != ' ' {
-
-			endWrdIdx = idx
-			endingIdxFound = true
-			idx--
-			continue
-		}
-
-		if endingIdxFound &&
-			targetStr[idx] == ' ' {
-
-			beginWrdIdx = idx + 1
-			break
-		}
-
-		idx--
-	}
-
-	if isAllSpaces {
-		isAllOneWord = false
-		beginWrdIdx = -1
-		endWrdIdx = -1
-		err = nil
-		return beginWrdIdx,
-			endWrdIdx,
-			isAllOneWord,
-			isAllSpaces,
-			err
-	}
-
-	if isAllOneWord {
-		beginWrdIdx = startIndex
-		endWrdIdx = endIndex
-		isAllSpaces = false
-		err = nil
-		return beginWrdIdx,
-			endWrdIdx,
-			isAllOneWord,
-			isAllSpaces,
-			err
-	}
-
-	err = nil
-
-	return beginWrdIdx,
-		endWrdIdx,
-		isAllOneWord,
-		isAllSpaces,
-		err
+	return sOpsQuark.findLastWord(
+		targetStr,
+		startIndex,
+		endIndex,
+		ePrefix)
 }
 
 // FindRegExIndex - returns a two-element slice of integers defining the location

@@ -98,6 +98,288 @@ func (sOpsQuark *strOpsQuark) findLastNonSpaceChar(
 	return -1, nil
 }
 
+// findLastWord - Returns the beginning and ending indexes of
+// the last word in a target string segment. A 'word' is defined here
+// as a contiguous set of non-space characters delimited by spaces or
+// the beginning and ending indexes of the target string segment. Note,
+// for purposes of this method, a 'word' my consist of a single non-space
+// character such as an article 'a' or a punctuation mark '.'
+//
+// ------------------------------------------------------------------------
+//
+// Examples
+//
+//
+//   Example (1)
+//     In the text string segment:
+//
+//     "The cow jumped over the moon."
+//
+//     The last word would be defined as "moon."
+//
+//     Example (2)
+//       In the text string segment:
+//
+//       "  somewhere over the rainbow  "
+//
+//       The last word would be defined as "rainbow"
+//
+// ------------------------------------------------------------------------
+//
+// The string to be searched is contained in input parameter, 'targetStr'.
+// The string segment within 'targetStr' is defined by input parameters
+// 'startIndex' and 'endIndex'.
+//
+// If the entire string segment is classified as a 'word', meaning that
+// there are no space characters in the string segment, the returned
+// values for 'beginWrdIdx' and 'endWrdIdx' will be equal to the input
+// parameters 'startIndex' and 'endIndex'.
+//
+// If the string segment is consists entirely of space characters, the
+// returned 'beginWrdIdx' and 'endWrdIdx' will be set equal to -1 and
+// the returned value, 'isAllSpaces' will be set to 'true'.
+//
+// If 'targetStr' is an empty string, an error will be returned.
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//
+//  targetStr   string - The string containing the string segment which
+//                       will be searched to identify the last word
+//                       in the string segment.
+//
+//  startIndex     int - The index marking the beginning of the string
+//                       segment in 'targetStr'.
+//
+//  endIndex       int - The index marking the end of the string segment
+//                       in 'targetStr'.
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  beginWrdIdx    int  - The index marking the beginning of the last word
+//                        in the string segment identified by input parameters
+//                        'startIndex' and 'endIndex'. If the string segment
+//                        consists of all spaces or is empty, this value is
+//                        set to -1.
+//
+//  endWrdIdx      int  - The index marking the end of the last word in the
+//                        string segment identified by input parameters 'startIndex'
+//                        and 'endIndex'. If the string segment consists of all
+//                        spaces or is empty, this value is set to -1.
+//
+//  isAllOneWord   bool - If the string segment identified by input parameters
+//                        'startIndex' and 'endIndex' consists entirely of non-space
+//                        characters (characters other than ' '), this value is set
+//                        to 'true'.
+//
+//  isAllSpaces    bool - If the string segment identified by input parameters
+//                        'startIndex' and 'endIndex' consists entirely of space
+//                        characters (character = ' '), this value is set to 'true'.
+//
+//  err           error - If targetStr is empty or if startIndex or endIndex is invalid,
+//                        an error is returned. If the method completes successfully,
+//                        err = nil.
+//
+func (sOpsQuark *strOpsQuark) findLastWord(
+	targetStr string,
+	startIndex int,
+	endIndex int,
+	ePrefix string) (
+	beginWrdIdx int,
+	endWrdIdx int,
+	isAllOneWord bool,
+	isAllSpaces bool,
+	err error) {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsQuark.findLastNonSpaceChar() "
+
+	beginWrdIdx = -1
+	endWrdIdx = -1
+	isAllOneWord = false
+	isAllSpaces = false
+
+	targetStrLen := len(targetStr)
+
+	if targetStrLen == 0 {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'targetStr' is an EMPTY STRING!\n",
+			ePrefix)
+
+		return beginWrdIdx,
+			endWrdIdx,
+			isAllOneWord,
+			isAllSpaces,
+			err
+	}
+
+	if startIndex < 0 {
+
+		err = fmt.Errorf(ePrefix+"\n"+
+			"ERROR: Invalid input parameter.\n"+
+			"'startIndex' is LESS THAN ZERO!\n"+
+			"startIndex='%v'\n", startIndex)
+
+		return beginWrdIdx,
+			endWrdIdx,
+			isAllOneWord,
+			isAllSpaces,
+			err
+	}
+
+	if endIndex < 0 {
+		err = fmt.Errorf(ePrefix+"\n"+
+			"ERROR: Invalid input parameter.\n"+
+			"'endIndex' is LESS THAN ZERO!\n"+
+			"startIndex='%v'\n",
+			startIndex)
+
+		return beginWrdIdx,
+			endWrdIdx,
+			isAllOneWord,
+			isAllSpaces,
+			err
+	}
+
+	if endIndex >= targetStrLen {
+
+		err = fmt.Errorf(ePrefix+"\n"+
+			"ERROR: Invalid input parameter. 'endIndex' is greater than\n"+
+			"target string length. INDEX OUT OF RANGE!\n"+
+			"endIndex='%v'\n"+
+			"target string length='%v'\n",
+			endIndex,
+			targetStrLen)
+
+		return beginWrdIdx,
+			endWrdIdx,
+			isAllOneWord,
+			isAllSpaces,
+			err
+	}
+
+	if startIndex > endIndex {
+		err = fmt.Errorf(ePrefix+"\n"+
+			"ERROR: Invalid input parameter.\n"+
+			"'startIndex' is GREATER THAN 'endIndex'.\n"+
+			"startIndex='%v' endIndex='%v'\n",
+			startIndex, endIndex)
+
+		return beginWrdIdx,
+			endWrdIdx,
+			isAllOneWord,
+			isAllSpaces,
+			err
+	}
+
+	beginWrdIdx = startIndex
+	endWrdIdx = endIndex
+
+	idx := endIndex
+
+	var endingIdxFound bool
+
+	isAllSpaces = true
+	isAllOneWord = true
+
+	if startIndex == endIndex {
+
+		beginWrdIdx = startIndex
+		endWrdIdx = startIndex
+
+		if targetStr[startIndex] == ' ' {
+			isAllSpaces = true
+			isAllOneWord = false
+		} else {
+			isAllSpaces = false
+			isAllOneWord = true
+		}
+
+		err = nil
+
+		return beginWrdIdx,
+			endWrdIdx,
+			isAllOneWord,
+			isAllSpaces,
+			err
+	}
+
+	for idx >= startIndex {
+
+		if targetStr[idx] != ' ' {
+			isAllSpaces = false
+		} else {
+			isAllOneWord = false
+		}
+
+		if !endingIdxFound &&
+			targetStr[idx] != ' ' {
+
+			endWrdIdx = idx
+			endingIdxFound = true
+			idx--
+			continue
+		}
+
+		if endingIdxFound &&
+			targetStr[idx] == ' ' {
+
+			beginWrdIdx = idx + 1
+			break
+		}
+
+		idx--
+	}
+
+	if isAllSpaces {
+		isAllOneWord = false
+		beginWrdIdx = -1
+		endWrdIdx = -1
+		err = nil
+		return beginWrdIdx,
+			endWrdIdx,
+			isAllOneWord,
+			isAllSpaces,
+			err
+	}
+
+	if isAllOneWord {
+		beginWrdIdx = startIndex
+		endWrdIdx = endIndex
+		isAllSpaces = false
+		err = nil
+		return beginWrdIdx,
+			endWrdIdx,
+			isAllOneWord,
+			isAllSpaces,
+			err
+	}
+
+	err = nil
+
+	return beginWrdIdx,
+		endWrdIdx,
+		isAllOneWord,
+		isAllSpaces,
+		err
+}
+
 // getValidBytes - Receives an array of 'targetBytes' which will be examined to determine
 // the validity of individual bytes or characters. Each character (byte) in input array
 // 'targetBytes' will be compared to input parameter 'validBytes', another array of bytes.

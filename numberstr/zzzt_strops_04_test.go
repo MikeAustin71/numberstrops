@@ -671,7 +671,7 @@ func TestStrOps_FindLastWord_01(t *testing.T) {
 	testStr := "Now is the time for all good men to come to the aid of their country.  "
 
 	begWrdIdx, endWrdIdx, isAllOneWord, isAllSpaces, err :=
-		StrOps{}.FindLastWord(testStr, 0, 70)
+		StrOps{}.NewPtr().FindLastWord(testStr, 0, 70)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastWord(). \n "+
@@ -703,7 +703,7 @@ func TestStrOps_FindLastWord_02(t *testing.T) {
 	//                    xxxxxx
 
 	begWrdIdx, endWrdIdx, isAllOneWord, isAllSpaces, err :=
-		StrOps{}.FindLastWord(testStr, 10, 15)
+		StrOps{}.NewPtr().FindLastWord(testStr, 10, 15)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastWord(). \n "+
@@ -735,7 +735,7 @@ func TestStrOps_FindLastWord_03(t *testing.T) {
 	//          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	begWrdIdx, endWrdIdx, isAllOneWord, isAllSpaces, err :=
-		StrOps{}.FindLastWord(testStr, 0, 72)
+		StrOps{}.NewPtr().FindLastWord(testStr, 0, 72)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastWord(). \n "+
@@ -767,7 +767,7 @@ func TestStrOps_FindLastWord_04(t *testing.T) {
 	//          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	begWrdIdx, endWrdIdx, isAllOneWord, isAllSpaces, err :=
-		StrOps{}.FindLastWord(testStr, 0, 72)
+		StrOps{}.NewPtr().FindLastWord(testStr, 0, 72)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastWord(). \n "+
@@ -799,7 +799,7 @@ func TestStrOps_FindLastWord_05(t *testing.T) {
 	//          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	begWrdIdx, endWrdIdx, isAllOneWord, isAllSpaces, err :=
-		StrOps{}.FindLastWord(testStr, 0, 72)
+		StrOps{}.NewPtr().FindLastWord(testStr, 0, 72)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastWord(). \n "+
@@ -831,7 +831,7 @@ func TestStrOps_FindLastWord_06(t *testing.T) {
 	//            xxxxxxx
 
 	begWrdIdx, endWrdIdx, isAllOneWord, isAllSpaces, err :=
-		StrOps{}.FindLastWord(testStr, 2, 8)
+		StrOps{}.NewPtr().FindLastWord(testStr, 2, 8)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastWord(). \n "+
@@ -863,7 +863,7 @@ func TestStrOps_FindLastWord_07(t *testing.T) {
 	//                                                       xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	begWrdIdx, endWrdIdx, isAllOneWord, isAllSpaces, err :=
-		StrOps{}.FindLastWord(testStr, 55, 72)
+		StrOps{}.NewPtr().FindLastWord(testStr, 55, 72)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastWord(). \n "+
@@ -895,7 +895,7 @@ func TestStrOps_FindLastWord_08(t *testing.T) {
 	//                                                  xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	begWrdIdx, endWrdIdx, isAllOneWord, isAllSpaces, err :=
-		StrOps{}.FindLastWord(testStr, 40, 67)
+		StrOps{}.NewPtr().FindLastWord(testStr, 40, 67)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastWord(). \n "+
@@ -927,7 +927,7 @@ func TestStrOps_FindLastWord_09(t *testing.T) {
 	//                                                  xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	_, _, _, _, err :=
-		StrOps{}.FindLastWord(testStr, -1, 67)
+		StrOps{}.NewPtr().FindLastWord(testStr, -1, 67)
 
 	if err == nil {
 		t.Error("Expected an error to be returned. NO ERROR RETURNED!")
@@ -942,7 +942,7 @@ func TestStrOps_FindLastWord_10(t *testing.T) {
 	//                                                  xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	_, _, _, _, err :=
-		StrOps{}.FindLastWord(testStr, 40, -1)
+		StrOps{}.NewPtr().FindLastWord(testStr, 40, -1)
 
 	if err == nil {
 		t.Error("Expected an error to be returned. NO ERROR RETURNED!")
@@ -957,7 +957,7 @@ func TestStrOps_FindLastWord_11(t *testing.T) {
 	//                                                  xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	_, _, _, _, err :=
-		StrOps{}.FindLastWord(testStr, 72, 72)
+		StrOps{}.NewPtr().FindLastWord(testStr, 72, 72)
 
 	if err == nil {
 		t.Error("Expected an error to be returned. NO ERROR RETURNED!")
@@ -972,7 +972,7 @@ func TestStrOps_FindLastWord_12(t *testing.T) {
 	//           xx
 
 	_, _, _, _, err :=
-		StrOps{}.FindLastWord(testStr, 1, 2)
+		StrOps{}.NewPtr().FindLastWord(testStr, 1, 2)
 
 	if err == nil {
 		t.Error("Expected an error to be returned. NO ERROR RETURNED!")
@@ -987,7 +987,7 @@ func TestStrOps_FindLastWord_13(t *testing.T) {
 	//                                                  xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	_, _, _, _, err :=
-		StrOps{}.FindLastWord(testStr, 0, 71)
+		StrOps{}.NewPtr().FindLastWord(testStr, 0, 71)
 
 	if err == nil {
 		t.Error("Expected an error to be returned. NO ERROR RETURNED!")
@@ -1002,7 +1002,7 @@ func TestStrOps_FindLastWord_14(t *testing.T) {
 	//                                                  xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	_, _, _, _, err :=
-		StrOps{}.FindLastWord(testStr, 6, 5)
+		StrOps{}.NewPtr().FindLastWord(testStr, 6, 5)
 
 	if err == nil {
 		t.Error("Expected an error to be returned. NO ERROR RETURNED!")
@@ -1018,7 +1018,7 @@ func TestStrOps_FindLastWord_15(t *testing.T) {
 	startIndex := 67
 
 	beginWrdIdx, endWrdIdx, isAllOneWord, isAllSpaces, err :=
-		StrOps{}.FindLastWord(testStr, startIndex, startIndex)
+		StrOps{}.NewPtr().FindLastWord(testStr, startIndex, startIndex)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastWord(). \n "+
@@ -1056,7 +1056,7 @@ func TestStrOps_FindLastWord_16(t *testing.T) {
 	startIndex := 60 // A space character
 
 	beginWrdIdx, endWrdIdx, isAllOneWord, isAllSpaces, err :=
-		StrOps{}.FindLastWord(testStr, startIndex, startIndex)
+		StrOps{}.NewPtr().FindLastWord(testStr, startIndex, startIndex)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastWord(). \n "+
