@@ -1959,40 +1959,15 @@ func (sops StrOps) GetValidBytes(targetBytes, validBytes []byte) ([]byte, error)
 //             errors include a zero length 'targetRunes array or 'validRunes' array.
 //
 func (sops StrOps) GetValidRunes(targetRunes []rune, validRunes []rune) ([]rune, error) {
-	// TODO Send to electron
+
 	ePrefix := "StrOps.GetValidRunes() "
 
-	lenTargetRunes := len(targetRunes)
+	sOpsQuark := strOpsQuark{}
 
-	output := make([]rune, 0, lenTargetRunes+10)
-
-	if lenTargetRunes == 0 {
-		return output,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'targetRunes' is a ZERO LENGTH ARRAY!\n",
-				ePrefix)
-	}
-
-	lenValidRunes := len(validRunes)
-
-	if lenValidRunes == 0 {
-		return output,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'validRunes' is a ZERO LENGTH ARRAY!\n",
-				ePrefix)
-	}
-
-	for i := 0; i < lenTargetRunes; i++ {
-
-		for j := 0; j < lenValidRunes; j++ {
-			if targetRunes[i] == validRunes[j] {
-				output = append(output, targetRunes[i])
-				break
-			}
-		}
-	}
-
-	return output, nil
+	return sOpsQuark.getValidRunes(
+		targetRunes,
+		validRunes,
+		ePrefix)
 }
 
 // GetValidString - Validates the individual characters in input parameter string,
@@ -2026,7 +2001,17 @@ func (sops StrOps) GetValidRunes(targetRunes []rune, validRunes []rune) ([]rune,
 //           errors include a zero length 'targetStr' (string) or a zero length
 //           'validRunes' array.
 //
-func (sops StrOps) GetValidString(targetStr string, validRunes []rune) (string, error) {
+func (sops *StrOps) GetValidString(
+	targetStr string,
+	validRunes []rune) (string, error) {
+
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
 
 	ePrefix := "StrOps.GetValidString() "
 
@@ -2044,17 +2029,19 @@ func (sops StrOps) GetValidString(targetStr string, validRunes []rune) (string, 
 				ePrefix)
 	}
 
-	validRunes, err :=
-		sops.GetValidRunes([]rune(targetStr), validRunes)
+	sOpsQuark := strOpsQuark{}
+
+	actualValidRunes, err :=
+		sOpsQuark.getValidRunes(
+			[]rune(targetStr),
+			validRunes,
+			ePrefix)
 
 	if err != nil {
-		return "",
-			fmt.Errorf(ePrefix+
-				"Error returned by sops.GetValidRunes([]rune(targetStr), validRunes). "+
-				"Error='%v' ", err.Error())
+		return "", err
 	}
 
-	return string(validRunes), nil
+	return string(actualValidRunes), err
 }
 
 // IsEmptyOrWhiteSpace - If a string is zero length or consists solely of

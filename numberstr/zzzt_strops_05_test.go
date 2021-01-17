@@ -253,7 +253,7 @@ func TestStrOps_GetValidRunes_01(t *testing.T) {
 
 	expected := "valid"
 
-	actualRunes, err := StrOps{}.GetValidRunes(testRunes, validRunes)
+	actualRunes, err := StrOps{}.NewPtr().GetValidRunes(testRunes, validRunes)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidRunes(testRunes, validRunes). "+
@@ -403,7 +403,7 @@ func TestStrOps_GetValidString_01(t *testing.T) {
 
 	expected := "valid"
 
-	actualStr, err := StrOps{}.GetValidString(testStr, validRunes)
+	actualStr, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidString(testStr, validRunes). "+
@@ -424,7 +424,7 @@ func TestStrOps_GetValidString_02(t *testing.T) {
 
 	expected := "1355"
 
-	actualStr, err := StrOps{}.GetValidString(testStr, validRunes)
+	actualStr, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidString(testStr, validRunes). "+
@@ -446,7 +446,7 @@ func TestStrOps_GetValidString_03(t *testing.T) {
 
 	expected := "355"
 
-	actualStr, err := StrOps{}.GetValidString(testStr, validRunes)
+	actualStr, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidString(testStr, validRunes). "+
@@ -468,7 +468,7 @@ func TestStrOps_GetValidString_04(t *testing.T) {
 
 	expected := ""
 
-	actualStr, err := StrOps{}.GetValidString(testStr, validRunes)
+	actualStr, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidString(testStr, validRunes). "+
@@ -489,7 +489,7 @@ func TestStrOps_GetValidString_05(t *testing.T) {
 
 	expected := ""
 
-	actualStr, err := StrOps{}.GetValidString(testStr, validRunes)
+	actualStr, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidString(testStr, validRunes). "+
@@ -509,7 +509,7 @@ func TestStrOps_GetValidString_06(t *testing.T) {
 
 	testStr := ""
 
-	_, err := StrOps{}.GetValidString(testStr, validRunes)
+	_, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
 
 	if err == nil {
 		t.Error("Expected an Error Return due to empty 'testStr'. " +
@@ -524,7 +524,7 @@ func TestStrOps_GetValidString_07(t *testing.T) {
 
 	testStr := "xzUmMaJ9ZiFd&"
 
-	_, err := StrOps{}.GetValidString(testStr, validRunes)
+	_, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
 
 	if err == nil {
 		t.Error("Expected Error return due to empty 'validRunes'. " +
