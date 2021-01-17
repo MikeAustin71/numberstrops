@@ -181,14 +181,22 @@ func (sops *StrOps) CopyIn(strops2 *StrOps) {
 // new instance containing that copied information.
 func (sops *StrOps) CopyOut() *StrOps {
 
-	strops2 := StrOps{}
-	strops2.StrIn = sops.StrIn
-	strops2.StrOut = sops.StrOut
-	sops.stringDataMutex.Lock()
-	strops2.stringData = sops.stringData
-	sops.stringDataMutex.Unlock()
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
 
-	return &strops2
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
+	sOpsAtom := strOpsAtom{}
+
+	newStrOps,
+		_ := sOpsAtom.copyOut(
+		sops,
+		"")
+
+	return newStrOps
 }
 
 // DoesLastCharExist - returns true if the last character (rune) of

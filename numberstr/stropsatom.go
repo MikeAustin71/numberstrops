@@ -332,3 +332,50 @@ func (sOpsAtom *strOpsAtom) copyIn(
 
 	return err
 }
+
+// CopyOut - Creates a 'deep' copy of input parameter
+// 'strOps', an instance of StrOps.
+//
+func (sOpsAtom *strOpsAtom) copyOut(
+	strOps *StrOps,
+	ePrefix string) (
+	*StrOps,
+	error) {
+
+	if sOpsAtom.lock == nil {
+		sOpsAtom.lock = new(sync.Mutex)
+	}
+
+	sOpsAtom.lock.Lock()
+
+	defer sOpsAtom.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsAtom.copyOut() "
+
+	var err error
+
+	newStrOps := StrOps{}
+
+	if strOps == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'strOps' is a 'nil' pointer!\n",
+			ePrefix)
+		return &newStrOps, err
+	}
+
+	newStrOps.StrIn = strOps.StrIn
+	newStrOps.StrOut = strOps.StrOut
+	newStrOps.stringData = strOps.stringData
+
+	newStrOps.stringDataMutex = new(sync.Mutex)
+
+	return &newStrOps, err
+}
