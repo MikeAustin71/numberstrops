@@ -164,21 +164,16 @@ func (sops *StrOps) CopyIn(strops2 *StrOps) {
 
 	defer sops.stringDataMutex.Unlock()
 
-	if strops2.stringDataMutex == nil {
-		strops2.stringDataMutex = new(sync.Mutex)
+	if strops2 == nil {
+		return
 	}
 
-	strops2.stringDataMutex.Lock()
+	sOpsAtom := strOpsAtom{}
 
-	defer strops2.stringDataMutex.Unlock()
-
-	sops.StrIn = strops2.StrIn
-	sops.StrOut = strops2.StrOut
-
-	sops.cntBytesWritten = 0
-	sops.cntBytesRead = 0
-	sops.stringData = strops2.stringData
-
+	_ = sOpsAtom.copyIn(
+		sops,
+		strops2,
+		"")
 }
 
 // CopyOut - Creates a 'deep' copy of the current

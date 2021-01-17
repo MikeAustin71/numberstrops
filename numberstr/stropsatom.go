@@ -274,3 +274,61 @@ func (sOpsAtom *strOpsAtom) breakTextAtLineLength(
 
 	return b.String(), nil
 }
+
+// CopyIn - Copies string information from input parameter
+// 'incomingStrOps' to input parameter 'targetStrOps'.
+//
+// Be advised that the data fields in 'targetStrOps' will be
+// overwritten.
+//
+func (sOpsAtom *strOpsAtom) copyIn(
+	targetStrOps *StrOps,
+	incomingStrOps *StrOps,
+	ePrefix string) (
+	err error) {
+
+	if sOpsAtom.lock == nil {
+		sOpsAtom.lock = new(sync.Mutex)
+	}
+
+	sOpsAtom.lock.Lock()
+
+	defer sOpsAtom.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsAtom.copyIn() "
+
+	if targetStrOps == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'targetStrOps' is a 'nil' pointer!\n",
+			ePrefix)
+		return err
+	}
+
+	if incomingStrOps == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'incomingStrOps' is a 'nil' pointer!\n",
+			ePrefix)
+		return err
+	}
+
+	if targetStrOps.stringDataMutex == nil {
+		targetStrOps.stringDataMutex = new(sync.Mutex)
+	}
+
+	if incomingStrOps.stringDataMutex == nil {
+		incomingStrOps.stringDataMutex = new(sync.Mutex)
+	}
+
+	targetStrOps.StrIn = incomingStrOps.StrIn
+	targetStrOps.StrOut = incomingStrOps.StrOut
+
+	targetStrOps.cntBytesWritten = 0
+	targetStrOps.cntBytesRead = 0
+	targetStrOps.stringData = incomingStrOps.stringData
+
+	return err
+}
