@@ -103,7 +103,7 @@ func TestStrOps_GetValidBytes_01(t *testing.T) {
 
 	expected := "valid"
 
-	actualBytes, err := StrOps{}.GetValidBytes(testBytes, validBytes)
+	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidBytes(testBytes, validBytes). "+
@@ -127,7 +127,7 @@ func TestStrOps_GetValidBytes_02(t *testing.T) {
 
 	expected := "1355"
 
-	actualBytes, err := StrOps{}.GetValidBytes(testBytes, validBytes)
+	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidBytes(testBytes, validBytes). "+
@@ -151,7 +151,7 @@ func TestStrOps_GetValidBytes_03(t *testing.T) {
 
 	expected := "355"
 
-	actualBytes, err := StrOps{}.GetValidBytes(testBytes, validBytes)
+	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidBytes(testBytes, validBytes). "+
@@ -175,7 +175,7 @@ func TestStrOps_GetValidBytes_04(t *testing.T) {
 
 	expected := ""
 
-	actualBytes, err := StrOps{}.GetValidBytes(testBytes, validBytes)
+	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidBytes(testBytes, validBytes). "+
@@ -199,7 +199,7 @@ func TestStrOps_GetValidBytes_05(t *testing.T) {
 
 	expected := ""
 
-	actualBytes, err := StrOps{}.GetValidBytes(testBytes, validBytes)
+	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidBytes(testBytes, validBytes). "+
@@ -221,7 +221,7 @@ func TestStrOps_GetValidBytes_06(t *testing.T) {
 
 	testBytes := make([]byte, 0, 5)
 
-	_, err := StrOps{}.GetValidBytes(testBytes, validBytes)
+	_, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
 
 	if err == nil {
 		t.Error("Expected an Error Return due to empty 'testBytes'. " +
@@ -236,7 +236,7 @@ func TestStrOps_GetValidBytes_07(t *testing.T) {
 
 	testBytes := []byte{'x', 'z', 'U', 'm', 'M', 'a', 'J', '9', 'Z', 'i', 'F', 'd', '&'}
 
-	_, err := StrOps{}.GetValidBytes(testBytes, validBytes)
+	_, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
 
 	if err == nil {
 		t.Error("Expected Error return due to empty 'validBytes'. " +

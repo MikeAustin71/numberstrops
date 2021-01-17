@@ -107,11 +107,16 @@ func (sops StrOps) BreakTextAtLineLength(
 
 	var begIdx, endWrdIdx, actualLastIdx, beginWrdIdx int
 	var isAllOneWord, isAllSpaces bool
+	sOpsElectron := strOpsElectron{}
 
 	for begIdx < targetLen && begIdx > -1 {
 
 		// skip spaces at the beginning of the line
-		begIdx, err = sops.FindFirstNonSpaceChar(targetStr, begIdx, targetLen-1)
+		begIdx, err = sOpsElectron.findFirstNonSpaceChar(
+			targetStr,
+			begIdx,
+			targetLen-1,
+			ePrefix)
 
 		if err != nil {
 			return "",
@@ -213,13 +218,20 @@ func (sops StrOps) BreakTextAtLineLength(
 				// This word crosses a line break boundary. Try not to split the word.
 
 				// Find  the end of the last word.
-				idx, err := sops.FindLastNonSpaceChar(targetStr, begIdx, beginWrdIdx-1)
+				idx, err :=
+					sOpsQuark.findLastNonSpaceChar(
+						targetStr,
+						begIdx,
+						beginWrdIdx-1,
+						ePrefix)
 
 				if err != nil {
 					return "",
 						fmt.Errorf(ePrefix+
-							"Error returned by sops.FindLastNonSpaceChar(targetStr,begIdx, beginWrdIdx-1). "+
-							"targetStr='%v' begIdx='%v' actualLastIdx='%v'   Error='%v' ",
+							"Error returned by sOpsQuark.findLastNonSpaceChar(targetStr,begIdx, beginWrdIdx-1).\n"+
+							"targetStr='%v'\n"+
+							"begIdx='%v'\nactualLastIdx='%v'\n"+
+							"Error='%v' ",
 							targetStr, begIdx, actualLastIdx, err.Error())
 				}
 
@@ -1327,58 +1339,66 @@ func (sops StrOps) ExtractNumericDigits(
 // (any character that is NOT a space ' ') in the target string segment and returns
 // the index associated with that non-space character.
 //
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - The string to be searched for the first non-space character.
+//
+//
+//  startIdx            int
+//     - Since the search is forwards from left to right, this is
+//       the starting index for the search.
+//
+//
+//  endIdx              int
+//     - Since the search is forwards from left to right, this is
+//       the ending index for the search.
+//
+//
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//	This method returns the index of the first non-space character in the target string
-//	segment using a left to right search. If the target string is an empty string or
-//	consists of space characters, this method returns a value of -1.
+//  int
+//     - This method returns the index of the first non-space
+//       character in the target string segment using a left
+//       to right search. If the target string is an empty string
+//       or consists of entirely of space characters, this method
+//       returns a value of minus one (-1).
 //
-func (sops StrOps) FindFirstNonSpaceChar(targetStr string, startIndex, endIndex int) (int, error) {
+//
+//  error
+//     - If the method completes successfully this value is
+//       'nil'. If an error is encountered this value will
+//       contain the error message.
+//
+func (sops *StrOps) FindFirstNonSpaceChar(
+	targetStr string,
+	startIndex,
+	endIndex int) (
+	int,
+	error) {
+
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
 
 	ePrefix := "StrOps.FindFirstNonSpaceChar() "
 
-	sOpsQuark := strOpsQuark{}
+	sOpsElectron := strOpsElectron{}
 
-	if sOpsQuark.isEmptyOrWhiteSpace(targetStr) {
-		return -1, nil
-	}
-	targetStrLen := len(targetStr)
-
-	if startIndex < 0 {
-		return -1, fmt.Errorf(ePrefix+"ERROR: Invalid input parameter. 'startIndex' is LESS THAN ZERO! "+
-			"startIndex='%v' ", startIndex)
-	}
-
-	if endIndex < 0 {
-		return -1, fmt.Errorf(ePrefix+"ERROR: Invalid input parameter. 'endIndex' is LESS THAN ZERO! "+
-			"startIndex='%v' ", startIndex)
-	}
-
-	if endIndex >= targetStrLen {
-		return -1, fmt.Errorf(ePrefix+"ERROR: Invalid input parameter. 'endIndex' is greater than "+
-			"target string length. INDEX OUT OF RANGE! endIndex='%v' target string length='%v' ",
-			endIndex, targetStrLen)
-	}
-
-	if startIndex > endIndex {
-		return -1, fmt.Errorf(ePrefix+"ERROR: Invalid input parameter. 'startIndex' is GREATER THAN 'endIndex' "+
-			"startIndex='%v' endIndex='%v' ", startIndex, endIndex)
-	}
-
-	idx := startIndex
-
-	for idx <= endIndex {
-
-		if targetStr[idx] != ' ' {
-			return idx, nil
-		}
-
-		idx++
-	}
-
-	return -1, nil
+	return sOpsElectron.findFirstNonSpaceChar(
+		targetStr,
+		startIndex,
+		endIndex,
+		ePrefix)
 }
 
 // FindLastNonSpaceChar - Returns the string index of the last non-space character in a
@@ -1391,68 +1411,72 @@ func (sops StrOps) FindFirstNonSpaceChar(targetStr string, startIndex, endIndex 
 // 'targetStr' segment. The search therefore starts at 'endIdx' and proceeds towards
 // 'startIdx' until the last non-space character in the string segment is identified.
 //
-//
 // If the last non-space character is found, that string index is returned. If the string
 // segment consists entirely of space characters, the return value is -1.
 //
 // if 'targetStr' is a zero length string, an error will be triggered. Likewise, if 'startIdx'
 // of 'endIdx' are invalid, an error will be returned.
-func (sops StrOps) FindLastNonSpaceChar(targetStr string, startIdx, endIdx int) (int, error) {
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - The string to be searched for the last non-space character.
+//
+//  startIdx            int
+//     - Since the search is backwards from right to left, this is
+//       the ending index for the search.
+//
+//
+//  endIdx              int
+//     - Since this is a backwards search from right to left, this
+//       is actually the starting index for the search.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  int
+//     - The index of the last non-space character in input
+//       parameter 'targetStr' within the range specified by
+//       the staring and ending indexes.
+//
+//       If all the characters within the specified range are
+//       space characters, this parameter returns a value of
+//       minus one (-1).
+//
+//
+//  error
+//     - If the method completes successfully this value is
+//       'nil'. If an error is encountered this value will
+//       contain the error message.
+//
+func (sops StrOps) FindLastNonSpaceChar(
+	targetStr string,
+	startIdx int,
+	endIdx int) (
+	int,
+	error) {
+
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
 
 	ePrefix := "StrOps.FindLastNonSpaceChar() "
 
-	targetStrLen := len(targetStr)
+	sOpsQuark := strOpsQuark{}
 
-	if targetStrLen == 0 {
-		return -1,
-			fmt.Errorf("%v\n"+
-				"ERROR: Invalid input parameter. 'targetStr' is a ZERO LENGTH STRING!\n",
-				ePrefix)
-	}
-
-	if startIdx < 0 {
-		return -1,
-			fmt.Errorf(ePrefix+"\n"+
-				"ERROR: Invalid input parameter. 'startIdx' is LESS THAN ZERO!\n"+
-				"startIdx='%v'\n", startIdx)
-	}
-
-	if endIdx < 0 {
-		return -1,
-			fmt.Errorf(ePrefix+"\n"+
-				"ERROR: Invalid input parameter. 'endIdx' is LESS THAN ZERO!\n"+
-				"startIdx='%v' ", startIdx)
-	}
-
-	if endIdx >= targetStrLen {
-		return -1,
-			fmt.Errorf(ePrefix+"\n"+
-				"ERROR: Invalid input parameter. 'endIdx' is greater than target string length.\n"+
-				"INDEX OUT OF RANGE!\n"+
-				"endIdx='%v' target string length='%v'\n",
-				endIdx, targetStrLen)
-	}
-
-	if startIdx > endIdx {
-		return -1, fmt.Errorf(ePrefix+"\n"+
-			"ERROR: Invalid input parameter.\n"+
-			"'startIdx' is GREATER THAN 'endIdx'\n"+
-			"startIdx='%v' endIdx='%v'\n",
-			startIdx, endIdx)
-	}
-
-	floor := startIdx - 1
-
-	for endIdx > floor {
-
-		if targetStr[endIdx] != ' ' {
-			return endIdx, nil
-		}
-
-		endIdx--
-	}
-
-	return -1, nil
+	return sOpsQuark.findLastNonSpaceChar(
+		targetStr,
+		startIdx,
+		endIdx,
+		ePrefix)
 }
 
 // FindLastSpace - Returns a string index indicating the last space character (' ') in
@@ -1887,42 +1911,24 @@ func (sops *StrOps) GetStringData() string {
 //             encountered this value will contain the error message. Examples of possible
 //             errors include a zero length 'targetBytes array or 'validBytes' array.
 //
-func (sops StrOps) GetValidBytes(targetBytes, validBytes []byte) ([]byte, error) {
+func (sops *StrOps) GetValidBytes(targetBytes, validBytes []byte) ([]byte, error) {
+
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
 
 	ePrefix := "StrOps.GetValidBytes() "
 
-	lenTargetBytes := len(targetBytes)
+	sOpsQuark := strOpsQuark{}
 
-	output := make([]byte, 0, lenTargetBytes+10)
-
-	if lenTargetBytes == 0 {
-		return output,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'targetBytes' is a ZERO LENGTH ARRAY!\n",
-				ePrefix)
-	}
-
-	lenValidBytes := len(validBytes)
-
-	if lenValidBytes == 0 {
-		return output,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'validBytes' is a ZERO LENGTH ARRAY!\n",
-				ePrefix)
-	}
-
-	for i := 0; i < lenTargetBytes; i++ {
-
-		for j := 0; j < lenValidBytes; j++ {
-			if targetBytes[i] == validBytes[j] {
-				output = append(output, targetBytes[i])
-				break
-			}
-		}
-
-	}
-
-	return output, nil
+	return sOpsQuark.getValidBytes(
+		targetBytes,
+		validBytes,
+		ePrefix)
 }
 
 // GetValidRunes - Receives an array of 'targetRunes' which will be examined to determine
@@ -1959,6 +1965,14 @@ func (sops StrOps) GetValidBytes(targetBytes, validBytes []byte) ([]byte, error)
 //             errors include a zero length 'targetRunes array or 'validRunes' array.
 //
 func (sops StrOps) GetValidRunes(targetRunes []rune, validRunes []rune) ([]rune, error) {
+
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
 
 	ePrefix := "StrOps.GetValidRunes() "
 
