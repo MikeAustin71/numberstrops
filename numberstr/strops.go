@@ -1459,18 +1459,22 @@ func (sops *StrOps) ReplaceNewLines(
 //
 // Input Parameters
 //
+//  targetRunes         []rune
+//     - The rune array which will be examined. If target characters
+//       ('runes') eligible for replacement are identified by
+//       replacementRunes[i][0], they will be replaced by the
+//       character specified in replacementRunes[i][1].
 //
-//  targetRunes        []rune - The rune array which will be examined. If target characters ('runes')
-//                              eligible for replacement are identified by replacementRunes[i][0],
-//                              they will be replaced by the character specified in
-//                              replacementRunes[i][1].
 //
-//  replacementRunes [][]rune - A two dimensional slice of type 'rune'. Element [i][0] contains the
-//                              target character to locate in 'targetRunes'. Element[i][1] contains
-//                              the replacement character which will replace the target character in
-//                              'targetRunes'. If the replacement character element [i][1] is a zero
-//                              value, the  target character will not be replaced. Instead, it will
-//                              be eliminated or removed from the returned rune array ([]rune).
+//  replacementRunes    [][]rune
+//     - A two dimensional slice of type 'rune'. Element [i][0]
+//       contains the target character to locate in 'targetRunes'.
+//       Element[i][1] contains the replacement character which will
+//       replace the target character in 'targetRunes'. If the
+//       replacement character element [i][1] is a zero value, the
+//       target character will not be replaced. Instead, it will be
+//       eliminated or removed from the returned rune array
+//       ([]rune).
 //
 // ------------------------------------------------------------------------
 //
@@ -1479,6 +1483,7 @@ func (sops *StrOps) ReplaceNewLines(
 //  []rune
 //     - The returned rune array containing the characters and
 //       replaced characters from the original 'targetRunes' array.
+//
 //
 //  error
 //     - If the method completes successfully this value is 'nil'.
@@ -1490,71 +1495,28 @@ func (sops *StrOps) ReplaceNewLines(
 //       dimension elements have a length less than two, an
 //       error will be returned.
 //
-func (sops StrOps) ReplaceRunes(
+func (sops *StrOps) ReplaceRunes(
 	targetRunes []rune,
 	replacementRunes [][]rune) (
 	[]rune,
 	error) {
 
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
 	ePrefix := "StrOps.ReplaceRunes() "
 
-	output := make([]rune, 0, 100)
+	sOpsQuark := strOpsQuark{}
 
-	targetLen := len(targetRunes)
-
-	if targetLen == 0 {
-		return output,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'targetRunes' is a zero length array!\n",
-				ePrefix)
-	}
-
-	baseReplaceLen := len(replacementRunes)
-
-	if baseReplaceLen == 0 {
-		return output,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'replacementRunes' is a zero length array!\n",
-				ePrefix)
-	}
-
-	for h := 0; h < baseReplaceLen; h++ {
-
-		if len(replacementRunes[h]) < 2 {
-			return output,
-				fmt.Errorf(ePrefix+
-					"\n"+
-					"Error: Invalid Replacement Array Element.\n"+
-					"replacementRunes[%v] has a length less than two.\n",
-					h)
-		}
-
-	}
-
-	for i := 0; i < targetLen; i++ {
-
-		foundReplacement := false
-
-		for k := 0; k < baseReplaceLen; k++ {
-
-			if targetRunes[i] == replacementRunes[k][0] {
-
-				if replacementRunes[k][1] != 0 {
-					output = append(output, replacementRunes[k][1])
-				}
-
-				foundReplacement = true
-				break
-			}
-		}
-
-		if !foundReplacement {
-			output = append(output, targetRunes[i])
-		}
-
-	}
-
-	return output, nil
+	return sOpsQuark.replaceRunes(
+		targetRunes,
+		replacementRunes,
+		ePrefix)
 }
 
 // ReplaceStringChars - Replaces string characters in a target string ('targetStr') with those
@@ -1610,11 +1572,19 @@ func (sops StrOps) ReplaceStringChars(
 				ePrefix)
 	}
 
-	outputStr, err := sops.ReplaceRunes([]rune(targetStr), replacementRunes)
+	sOpsQuark := strOpsQuark{}
+
+	outputStr, err :=
+		sOpsQuark.replaceRunes(
+			[]rune(targetStr),
+			replacementRunes,
+			ePrefix)
 
 	if err != nil {
 		return "",
-			fmt.Errorf(ePrefix+"Error returned by ReplaceRunes([]rune(targetStr), replacementRunes). "+
+			fmt.Errorf(ePrefix+"\n"+
+				"Error returned by sOpsQuark.replaceRunes([]rune("+
+				"targetStr), replacementRunes).\n"+
 				"Error='%v' ", err.Error())
 	}
 

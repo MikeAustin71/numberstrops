@@ -1162,6 +1162,137 @@ func (sOpsQuark *strOpsQuark) removeStringChar(
 	return newStr, numOfDeletions, err
 }
 
+// replaceRunes - Replaces characters in a target array of runes ([]rune) with those specified in
+// a two-dimensional slice of runes, 'replacementRunes[][]'.
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetRunes         []rune
+//     - The rune array which will be examined. If target characters
+//       ('runes') eligible for replacement are identified by
+//       replacementRunes[i][0], they will be replaced by the
+//       character specified in replacementRunes[i][1].
+//
+//
+//  replacementRunes    [][]rune
+//     - A two dimensional slice of type 'rune'. Element [i][0]
+//       contains the target character to locate in 'targetRunes'.
+//       Element[i][1] contains the replacement character which will
+//       replace the target character in 'targetRunes'. If the
+//       replacement character element [i][1] is a zero value, the
+//       target character will not be replaced. Instead, it will be
+//       eliminated or removed from the returned rune array
+//       ([]rune).
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  []rune
+//     - The returned rune array containing the characters and
+//       replaced characters from the original 'targetRunes' array.
+//
+//
+//  error
+//     - If the method completes successfully this value is 'nil'.
+//       If an error is encountered this value will contain the
+//       error message. Examples of possible errors include a zero
+//       length 'targetRunes' array or 'replacementRunes' array.
+//
+//       In addition, if any of the replacementRunes[][x] 2nd
+//       dimension elements have a length less than two, an
+//       error will be returned.
+//
+func (sOpsQuark *strOpsQuark) replaceRunes(
+	targetRunes []rune,
+	replacementRunes [][]rune,
+	ePrefix string) (
+	[]rune,
+	error) {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsQuark.replaceRunes() "
+
+	output := make([]rune, 0, 100)
+
+	targetLen := len(targetRunes)
+
+	if targetLen == 0 {
+		return output,
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'targetRunes' is a zero length array!\n",
+				ePrefix)
+	}
+
+	baseReplaceLen := len(replacementRunes)
+
+	if baseReplaceLen == 0 {
+		return output,
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'replacementRunes' is a zero length array!\n",
+				ePrefix)
+	}
+
+	for h := 0; h < baseReplaceLen; h++ {
+
+		if len(replacementRunes[h]) < 2 {
+			return output,
+				fmt.Errorf(ePrefix+
+					"\n"+
+					"Error: Invalid Replacement Array Element.\n"+
+					"replacementRunes[%v] has a length less than two.\n",
+					h)
+		}
+
+	}
+
+	for i := 0; i < targetLen; i++ {
+
+		foundReplacement := false
+
+		for k := 0; k < baseReplaceLen; k++ {
+
+			if targetRunes[i] == replacementRunes[k][0] {
+
+				if replacementRunes[k][1] != 0 {
+					output = append(output, replacementRunes[k][1])
+				}
+
+				foundReplacement = true
+				break
+			}
+		}
+
+		if !foundReplacement {
+			output = append(output, targetRunes[i])
+		}
+
+	}
+
+	return output, nil
+}
+
 // replaceStringChar - Replaces a specific character
 // found anywhere in a string with another specified
 // substitute character.
@@ -1177,6 +1308,7 @@ func (sOpsQuark *strOpsQuark) removeStringChar(
 //     - The string containing the character to be replaced.
 //       If this is an empty string, an error will be returned.
 //
+//
 //  charToReplace              rune
 //     - The character with input parameter string 'targetStr' which
 //       will be replaced. If this parameter is set to zero
@@ -1189,6 +1321,7 @@ func (sOpsQuark *strOpsQuark) removeStringChar(
 //       'targetStr'. If this parameter is set to zero
 //       signaling an empty character, this method will return an
 //       error.
+//
 //
 //  maxNumOfReplacements       int
 //     - The maximum number of replacements allowed for this
