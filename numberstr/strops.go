@@ -1359,8 +1359,6 @@ func (sops *StrOps) ReplaceBytes(
 	targetBytes []byte,
 	replacementBytes [][]byte) ([]byte, error) {
 
-	ePrefix := "StrOps.ReplaceBytes() "
-
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
 	}
@@ -1368,6 +1366,8 @@ func (sops *StrOps) ReplaceBytes(
 	sops.stringDataMutex.Lock()
 
 	defer sops.stringDataMutex.Unlock()
+
+	ePrefix := "StrOps.ReplaceBytes() "
 
 	sOpsElectron := strOpsElectron{}
 
@@ -1386,45 +1386,26 @@ func (sops *StrOps) ReplaceBytes(
 // If the length of the 'replaceArray' second dimension is less than '2', an
 // error will be returned.
 //
-func (sops StrOps) ReplaceMultipleStrs(
+func (sops *StrOps) ReplaceMultipleStrs(
 	targetStr string,
 	replaceArray [][]string) (string, error) {
 
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
 	ePrefix := "StrOps.ReplaceMultipleStrs() "
 
-	if targetStr == "" {
-		return targetStr,
-			fmt.Errorf("%v\n"+
-				"Input parameter 'targetStr' is an EMPTY STRING.\n",
-				ePrefix)
-	}
+	sOpsElectron := strOpsElectron{}
 
-	if len(replaceArray) == 0 {
-		return "",
-			fmt.Errorf("%v\n"+
-				"Length of first dimension [X][] in two dimensional array\n"+
-				"'replaceArray' is ZERO!\n",
-				ePrefix)
-	}
-
-	newString := targetStr
-
-	for aIdx, aVal := range replaceArray {
-
-		if len(aVal) < 2 {
-			return "",
-				fmt.Errorf(ePrefix+
-					"\n"+
-					"Length of second dimension [][X] in two dimensional array\n"+
-					"'replaceArray' is Less Than 2!\n"+
-					"replaceArray[%v][]\n", aIdx)
-		}
-
-		newString = strings.Replace(newString, replaceArray[aIdx][0], replaceArray[aIdx][1], -1)
-
-	}
-
-	return newString, nil
+	return sOpsElectron.replaceMultipleStrs(
+		targetStr,
+		replaceArray,
+		ePrefix)
 }
 
 // ReplaceNewLines - Replaces New Line characters from string. If the specified

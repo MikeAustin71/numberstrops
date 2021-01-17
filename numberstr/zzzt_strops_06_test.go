@@ -931,10 +931,10 @@ func TestStrOps_ReplaceMultipleStrs_01(t *testing.T) {
 
 	expectedStr := "HeFFxJWxrFd"
 
-	actualStr, err := StrOps{}.ReplaceMultipleStrs(testStr, rStrs)
+	actualStr, err := StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ReplaceMultipleStrs(testStr, rStrs). "+
+		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -964,10 +964,10 @@ func TestStrOps_ReplaceMultipleStrs_02(t *testing.T) {
 
 	expectedStr := "HeWrd"
 
-	actualStr, err := StrOps{}.ReplaceMultipleStrs(testStr, rStrs)
+	actualStr, err := StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ReplaceMultipleStrs(testStr, rStrs). "+
+		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -997,10 +997,10 @@ func TestStrOps_ReplaceMultipleStrs_03(t *testing.T) {
 
 	expectedStr := "Hello World"
 
-	actualStr, err := StrOps{}.ReplaceMultipleStrs(testStr, rStrs)
+	actualStr, err := StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ReplaceMultipleStrs(testStr, rStrs). "+
+		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -1030,10 +1030,10 @@ func TestStrOps_ReplaceMultipleStrs_04(t *testing.T) {
 
 	expectedStr := "HeFFxJWxrFdJHeFFxJWxrFd"
 
-	actualStr, err := StrOps{}.ReplaceMultipleStrs(testStr, rStrs)
+	actualStr, err := StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.ReplaceMultipleStrs(testStr, rStrs). "+
+		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -1061,10 +1061,10 @@ func TestStrOps_ReplaceMultipleStrs_05(t *testing.T) {
 	rStrs[2][0] = "l"
 	rStrs[2][1] = "F"
 
-	_, err := StrOps{}.ReplaceMultipleStrs(testStr, rStrs)
+	_, err := StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs)
 
 	if err == nil {
-		t.Error("Expected error return from StrOps{}.ReplaceMultipleStrs(testStr, rStrs)\n" +
+		t.Error("Expected error return from StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs)\n" +
 			"because 'testStr' is a zero length string.\n" +
 			"However, NO ERROR WAS RETURNED!\n")
 	}
@@ -1076,10 +1076,10 @@ func TestStrOps_ReplaceMultipleStrs_06(t *testing.T) {
 
 	rStrs := make([][]string, 0)
 
-	_, err := StrOps{}.ReplaceMultipleStrs(testStr, rStrs)
+	_, err := StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs)
 
 	if err == nil {
-		t.Error("Expected an error return from StrOps{}.ReplaceMultipleStrs(testStr, rStrs)\n" +
+		t.Error("Expected an error return from StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs)\n" +
 			"because 'rStrs' is a zero length array.\n" +
 			"However, NO ERROR WAS RETURNED!!!\n")
 	}
@@ -1091,10 +1091,10 @@ func TestStrOps_ReplaceMultipleStrs_07(t *testing.T) {
 
 	rStrs := make([][]string, 35)
 
-	_, err := StrOps{}.ReplaceMultipleStrs(testStr, rStrs)
+	_, err := StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs)
 
 	if err == nil {
-		t.Error("Expected an error return from StrOps{}.ReplaceMultipleStrs(testStr, rStrs)\n" +
+		t.Error("Expected an error return from StrOps{}.Ptr().ReplaceMultipleStrs(testStr, rStrs)\n" +
 			"because 'rStrs' is a 1-dimensional array.\n" +
 			"However, NO ERROR WAS RETURNED!!!\n")
 	}

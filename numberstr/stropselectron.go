@@ -3,6 +3,7 @@ package numberstr
 import (
 	"fmt"
 	"io"
+	"strings"
 	"sync"
 )
 
@@ -544,4 +545,69 @@ func (sOpsElectron *strOpsElectron) replaceBytes(
 	}
 
 	return output, nil
+}
+
+// ReplaceMultipleStrs - Replaces all instances of string replaceArray[i][0] with
+// replacement string from replaceArray[i][1] in 'targetStr'.
+//
+// Note: The original 'targetStr' is NOT altered.
+//
+// Input parameter 'replaceArray' should be passed as a two-dimensional slice.
+// If the length of the 'replaceArray' second dimension is less than '2', an
+// error will be returned.
+//
+func (sOpsElectron *strOpsElectron) replaceMultipleStrs(
+	targetStr string,
+	replaceArray [][]string,
+	ePrefix string) (
+	string,
+	error) {
+
+	if sOpsElectron.lock == nil {
+		sOpsElectron.lock = new(sync.Mutex)
+	}
+
+	sOpsElectron.lock.Lock()
+
+	defer sOpsElectron.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsElectron.replaceMultipleStrs() "
+
+	if targetStr == "" {
+		return targetStr,
+			fmt.Errorf("%v\n"+
+				"Input parameter 'targetStr' is an EMPTY STRING.\n",
+				ePrefix)
+	}
+
+	if len(replaceArray) == 0 {
+		return "",
+			fmt.Errorf("%v\n"+
+				"Length of first dimension [X][] in two dimensional array\n"+
+				"'replaceArray' is ZERO!\n",
+				ePrefix)
+	}
+
+	newString := targetStr
+
+	for aIdx, aVal := range replaceArray {
+
+		if len(aVal) < 2 {
+			return "",
+				fmt.Errorf(ePrefix+
+					"\n"+
+					"Length of second dimension [][X] in two dimensional array\n"+
+					"'replaceArray' is Less Than 2!\n"+
+					"replaceArray[%v][]\n", aIdx)
+		}
+
+		newString = strings.Replace(newString, replaceArray[aIdx][0], replaceArray[aIdx][1], -1)
+
+	}
+
+	return newString, nil
 }
