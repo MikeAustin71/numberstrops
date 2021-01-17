@@ -11,6 +11,6 @@ type NumStrFmtSpecDto struct {
 	absoluteValue  NumStrFmtSpecAbsoluteValueDto
 	currencyValue  NumStrFmtSpecCurrencyValueDto
 	signedNumValue NumStrFmtSpecSignedNumValueDto
-	sciNotation    NumStrFmtSpecScientificNotationDto
+	sciNotation    NumStrFmtSpecSciNotationDto
 	lock           *sync.Mutex
 }
