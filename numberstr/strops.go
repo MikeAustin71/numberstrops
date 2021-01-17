@@ -202,21 +202,23 @@ func (sops *StrOps) CopyOut() *StrOps {
 // DoesLastCharExist - returns true if the last character (rune) of
 // input string 'testStr' is equal to input parameter 'lastChar' which
 // is of type 'rune'.
-func (sops StrOps) DoesLastCharExist(testStr string, lastChar rune) bool {
+func (sops StrOps) DoesLastCharExist(
+	testStr string,
+	lastChar rune) bool {
 
-	testStrLen := len(testStr)
-
-	if testStrLen == 0 {
-		return false
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	strLastChar := rune(testStr[testStrLen-1])
+	sops.stringDataMutex.Lock()
 
-	if strLastChar == lastChar {
-		return true
-	}
+	defer sops.stringDataMutex.Unlock()
 
-	return false
+	sOpsQuark := strOpsQuark{}
+
+	return sOpsQuark.doesLastCharExist(
+		testStr,
+		lastChar)
 }
 
 // ExtractDataField - Extracts a data field string from a larger target string ('targetStr').

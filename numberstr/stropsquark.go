@@ -105,6 +105,36 @@ func (sOpsQuark *strOpsQuark) convertNonPrintableChars(
 
 }
 
+// DoesLastCharExist - returns true if the last character (rune) of
+// input string 'testStr' is equal to input parameter 'lastChar' which
+// is of type 'rune'.
+func (sOpsQuark *strOpsQuark) doesLastCharExist(
+	testStr string,
+	lastChar rune) bool {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+	testStrLen := len(testStr)
+
+	if testStrLen == 0 {
+		return false
+	}
+
+	strLastChar := rune(testStr[testStrLen-1])
+
+	if strLastChar == lastChar {
+		return true
+	}
+
+	return false
+
+}
+
 // findLastNonSpaceChar - Returns the string index of the last non-space character in a
 // string segment.  The string to be searched is input parameter, 'targetStr'. The
 // string segment is further defined by input parameters 'startIdx' and  'endIdx'. These
