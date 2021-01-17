@@ -536,7 +536,7 @@ func TestStrOps_IsEmptyOrWhiteSpace_01(t *testing.T) {
 
 	testStr := "       "
 
-	result := StrOps{}.IsEmptyOrWhiteSpace(testStr)
+	result := StrOps{}.NewPtr().IsEmptyOrWhiteSpace(testStr)
 
 	if result != true {
 		t.Error("Error: Expected result='true'. Instead, result='false'")
@@ -548,7 +548,7 @@ func TestStrOps_IsEmptyOrWhiteSpace_02(t *testing.T) {
 
 	testStr := ""
 
-	result := StrOps{}.IsEmptyOrWhiteSpace(testStr)
+	result := StrOps{}.NewPtr().IsEmptyOrWhiteSpace(testStr)
 
 	if result != true {
 		t.Error("Error: Expected result='true'. Instead, result='false'")
@@ -560,7 +560,7 @@ func TestStrOps_IsEmptyOrWhiteSpace_03(t *testing.T) {
 
 	testStr := " xyz "
 
-	result := StrOps{}.IsEmptyOrWhiteSpace(testStr)
+	result := StrOps{}.NewPtr().IsEmptyOrWhiteSpace(testStr)
 
 	if result != false {
 		t.Error("Error: Expected result='false'. Instead, result='true'")
@@ -572,7 +572,7 @@ func TestStrOps_IsEmptyOrWhiteSpace_04(t *testing.T) {
 
 	testStr := "xyz"
 
-	result := StrOps{}.IsEmptyOrWhiteSpace(testStr)
+	result := StrOps{}.NewPtr().IsEmptyOrWhiteSpace(testStr)
 
 	if result != false {
 		t.Error("Error: Expected result='false'. Instead, result='true'")
@@ -584,7 +584,7 @@ func TestStrOps_IsEmptyOrWhiteSpace_05(t *testing.T) {
 
 	testStr := "/t"
 
-	result := StrOps{}.IsEmptyOrWhiteSpace(testStr)
+	result := StrOps{}.NewPtr().IsEmptyOrWhiteSpace(testStr)
 
 	if result != false {
 		t.Error("Error: Expected result='false'. Instead, result='true'")
@@ -596,7 +596,7 @@ func TestStrOps_IsEmptyOrWhiteSpace_06(t *testing.T) {
 
 	testStr := "/n           "
 
-	result := StrOps{}.IsEmptyOrWhiteSpace(testStr)
+	result := StrOps{}.NewPtr().IsEmptyOrWhiteSpace(testStr)
 
 	if result != false {
 		t.Error("Error: Expected result='false'. Instead, result='true'")
@@ -608,7 +608,7 @@ func TestStrOps_IsEmptyOrWhiteSpace_07(t *testing.T) {
 
 	testStr := "  /n"
 
-	result := StrOps{}.IsEmptyOrWhiteSpace(testStr)
+	result := StrOps{}.NewPtr().IsEmptyOrWhiteSpace(testStr)
 
 	if result != false {
 		t.Error("Error: Expected result='false'. Instead, result='true'")
@@ -620,7 +620,7 @@ func TestStrOps_IsEmptyOrWhiteSpace_08(t *testing.T) {
 
 	testStr := "  x"
 
-	result := StrOps{}.IsEmptyOrWhiteSpace(testStr)
+	result := StrOps{}.NewPtr().IsEmptyOrWhiteSpace(testStr)
 
 	if result != false {
 		t.Error("Error: Expected result='false'. Instead, result='true'")
@@ -632,7 +632,7 @@ func TestStrOps_IsEmptyOrWhiteSpace_09(t *testing.T) {
 
 	testStr := "x   "
 
-	result := StrOps{}.IsEmptyOrWhiteSpace(testStr)
+	result := StrOps{}.NewPtr().IsEmptyOrWhiteSpace(testStr)
 
 	if result != false {
 		t.Error("Error: Expected result='false'. Instead, result='true'")

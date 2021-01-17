@@ -94,7 +94,9 @@ func (sops StrOps) BreakTextAtLineLength(
 				ePrefix)
 	}
 
-	if sops.IsEmptyOrWhiteSpace(targetStr) {
+	sOpsQuark := strOpsQuark{}
+
+	if sOpsQuark.isEmptyOrWhiteSpace(targetStr) {
 		return "\n", nil
 	}
 
@@ -1337,7 +1339,9 @@ func (sops StrOps) FindFirstNonSpaceChar(targetStr string, startIndex, endIndex 
 
 	ePrefix := "StrOps.FindFirstNonSpaceChar() "
 
-	if sops.IsEmptyOrWhiteSpace(targetStr) {
+	sOpsQuark := strOpsQuark{}
+
+	if sOpsQuark.isEmptyOrWhiteSpace(targetStr) {
 		return -1, nil
 	}
 	targetStrLen := len(targetStr)
@@ -2057,17 +2061,19 @@ func (sops StrOps) GetValidString(targetStr string, validRunes []rune) (string, 
 // white space (contiguous spaces), this method will return 'true'.
 //
 // Otherwise, a value of false is returned.
-func (sops StrOps) IsEmptyOrWhiteSpace(targetStr string) bool {
+func (sops *StrOps) IsEmptyOrWhiteSpace(targetStr string) bool {
 
-	targetLen := len(targetStr)
-
-	for i := 0; i < targetLen; i++ {
-		if targetStr[i] != ' ' {
-			return false
-		}
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	return true
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
+	sOpsQuark := strOpsQuark{}
+
+	return sOpsQuark.isEmptyOrWhiteSpace(targetStr)
 }
 
 // LowerCaseFirstLetter - Finds the first alphabetic character
@@ -2694,7 +2700,9 @@ func (sops StrOps) StrCenterInStrLeft(
 
 	ePrefix := "StrOps.StrCenterInStrLeft() "
 
-	if sops.IsEmptyOrWhiteSpace(strToCenter) {
+	sOpsQuark := strOpsQuark{}
+
+	if sOpsQuark.isEmptyOrWhiteSpace(strToCenter) {
 		return "",
 			fmt.Errorf("%v\n"+
 				"Error: Input parameter 'strToCenter' is All White Space or an EMPTY String!\n",
@@ -2735,7 +2743,9 @@ func (sops StrOps) StrCenterInStr(strToCenter string, fieldLen int) (string, err
 
 	ePrefix := "StrOps.StrCenterInStr() "
 
-	if sops.IsEmptyOrWhiteSpace(strToCenter) {
+	sOpsQuark := strOpsQuark{}
+
+	if sOpsQuark.isEmptyOrWhiteSpace(strToCenter) {
 		return strToCenter,
 			fmt.Errorf("%v\n"+
 				"Error: Input parameter 'strToCenter' is All White "+
@@ -3014,7 +3024,9 @@ func (sops StrOps) StrLeftJustify(strToJustify string, fieldLen int) (string, er
 
 	ePrefix := "StrOps.StrLeftJustify() "
 
-	if sops.IsEmptyOrWhiteSpace(strToJustify) {
+	sOpsQuark := strOpsQuark{}
+
+	if sOpsQuark.isEmptyOrWhiteSpace(strToJustify) {
 		return strToJustify,
 			fmt.Errorf("%v\n"+
 				"Error: Input parameter 'strToJustify' is All White Space or an EMPTY String!\n",
@@ -3060,7 +3072,9 @@ func (sops StrOps) StrPadLeftToCenter(strToCenter string, fieldLen int) (string,
 
 	ePrefix := "StrOps.StrPadLeftToCenter() "
 
-	if sops.IsEmptyOrWhiteSpace(strToCenter) {
+	sOpsQuark := strOpsQuark{}
+
+	if sOpsQuark.isEmptyOrWhiteSpace(strToCenter) {
 		return strToCenter,
 			fmt.Errorf("%v\n"+
 				"Error: Input parameter 'strToCenter' is All White Space or an EMPTY String!\n",
@@ -3100,7 +3114,9 @@ func (sops StrOps) StrRightJustify(strToJustify string, fieldLen int) (string, e
 
 	ePrefix := "StrOps.StrRightJustify() "
 
-	if sops.IsEmptyOrWhiteSpace(strToJustify) {
+	sOpsQuark := strOpsQuark{}
+
+	if sOpsQuark.isEmptyOrWhiteSpace(strToJustify) {
 		return strToJustify,
 			fmt.Errorf("%v\n"+
 				"Error: Input parameter 'strToJustify' is "+
