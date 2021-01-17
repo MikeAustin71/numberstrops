@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 	"sync"
 )
@@ -667,6 +668,35 @@ func (sOpsQuark *strOpsQuark) findLastWord(
 		isAllOneWord,
 		isAllSpaces,
 		err
+}
+
+// findRegExIndex - returns a two-element slice of integers defining the location
+// of the leftmost match in targetStr of the regular expression (regex).
+//
+// ------------------------------------------------------------------------
+//
+// Return Value
+//
+// The return value is an array of integers. If no match is found the return
+// value is 'nil'.  If regular expression is successfully matched, the match
+// will be located at targetStr[loc[0]:loc[1]]. Again, a return value of 'nil'
+// signals that no match was found.
+//
+func (sOpsQuark *strOpsQuark) findRegExIndex(
+	targetStr string,
+	regex string) []int {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	re := regexp.MustCompile(regex)
+
+	return re.FindStringIndex(targetStr)
 }
 
 // getValidBytes - Receives an array of 'targetBytes' which will be examined to determine

@@ -9,7 +9,6 @@ package numberstr
 import (
 	"fmt"
 	"io"
-	"regexp"
 	"sort"
 	"strings"
 	"sync"
@@ -747,6 +746,14 @@ func (sops *StrOps) FindLastSpace(
 	int,
 	error) {
 
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
 	ePrefix := "StrOps.FindLastSpace() "
 
 	sOpsQuark := strOpsQuark{}
@@ -853,6 +860,14 @@ func (sops *StrOps) FindLastWord(
 	isAllSpaces bool,
 	err error) {
 
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
 	ePrefix := "StrOps.FindLastWord() "
 
 	sOpsQuark := strOpsQuark{}
@@ -871,16 +886,28 @@ func (sops *StrOps) FindLastWord(
 //
 // Return Value
 //
-//	The return value is an array of integers. If no match is found the return
-//	value is 'nil'.  If regular expression is successfully matched, the match
-//	will be located at targetStr[loc[0]:loc[1]]. Again, a return value of 'nil'
-//	signals that no match was found.
-func (sops StrOps) FindRegExIndex(targetStr string, regex string) []int {
+// The return value is an array of integers. If no match is found the return
+// value is 'nil'.  If regular expression is successfully matched, the match
+// will be located at targetStr[loc[0]:loc[1]]. Again, a return value of 'nil'
+// signals that no match was found.
+//
+func (sops *StrOps) FindRegExIndex(
+	targetStr string,
+	regex string) []int {
 
-	re := regexp.MustCompile(regex)
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
 
-	return re.FindStringIndex(targetStr)
+	sops.stringDataMutex.Lock()
 
+	defer sops.stringDataMutex.Unlock()
+
+	sOpsQuark := strOpsQuark{}
+
+	return sOpsQuark.findRegExIndex(
+		targetStr,
+		regex)
 }
 
 // GetReader - Returns an io.Reader which will read the private
