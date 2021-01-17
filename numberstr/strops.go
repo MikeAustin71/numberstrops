@@ -930,6 +930,15 @@ func (sops *StrOps) GetReader() io.Reader {
 
 // GetSoftwareVersion - Returns the software version for package 'strops'.
 func (sops StrOps) GetSoftwareVersion() string {
+
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
 	return "3.0.0"
 }
 
@@ -1105,33 +1114,12 @@ func (sops *StrOps) GetValidString(
 
 	ePrefix := "StrOps.GetValidString() "
 
-	if len(targetStr) == 0 {
-		return "",
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'targetStr' is a ZERO LENGTH STRING!\n",
-				ePrefix)
-	}
+	sOpsElectron := strOpsElectron{}
 
-	if len(validRunes) == 0 {
-		return "",
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'validRunes' is a ZERO LENGTH ARRAY!\n",
-				ePrefix)
-	}
-
-	sOpsQuark := strOpsQuark{}
-
-	actualValidRunes, err :=
-		sOpsQuark.getValidRunes(
-			[]rune(targetStr),
-			validRunes,
-			ePrefix)
-
-	if err != nil {
-		return "", err
-	}
-
-	return string(actualValidRunes), err
+	return sOpsElectron.getValidString(
+		targetStr,
+		validRunes,
+		ePrefix)
 }
 
 // IsEmptyOrWhiteSpace - If a string is zero length or consists solely of
@@ -1155,38 +1143,20 @@ func (sops *StrOps) IsEmptyOrWhiteSpace(targetStr string) bool {
 
 // LowerCaseFirstLetter - Finds the first alphabetic character
 // in a string (a-z A-Z) and converts it to lower case.
-func (sops StrOps) LowerCaseFirstLetter(str string) string {
+//
+func (sops *StrOps) LowerCaseFirstLetter(str string) string {
 
-	if len(str) == 0 {
-		return str
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	runeStr := []rune(str)
+	sops.stringDataMutex.Lock()
 
-	for i := 0; i < len(runeStr); i++ {
+	defer sops.stringDataMutex.Unlock()
 
-		if runeStr[i] == ' ' {
-			continue
-		}
+	sOpsQuark := strOpsQuark{}
 
-		if runeStr[i] >= 'A' &&
-
-			runeStr[i] <= 'Z' {
-
-			runeStr[i] += 32
-
-			break
-
-		} else if runeStr[i] >= 'a' &&
-
-			runeStr[i] <= 'z' {
-
-			break
-		}
-
-	}
-
-	return string(runeStr)
+	return sOpsQuark.lowerCaseFirstLetter(str)
 }
 
 // MakeSingleCharString - Creates a string of length 'strLen' consisting of

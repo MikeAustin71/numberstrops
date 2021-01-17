@@ -646,7 +646,7 @@ func TestStrOps_LowerCaseFirstLetter_01(t *testing.T) {
 
 	expected := "now is the time for all good men to come to the aid of their country."
 
-	actualStr := StrOps{}.LowerCaseFirstLetter(testStr)
+	actualStr := StrOps{}.Ptr().LowerCaseFirstLetter(testStr)
 
 	if expected != actualStr {
 		t.Errorf("Error: Expected result='%v'. Instead, result='%v' ",
@@ -661,7 +661,7 @@ func TestStrOps_LowerCaseFirstLetter_02(t *testing.T) {
 
 	expected := "  now is the time for all good men to come to the aid of their country."
 
-	actualStr := StrOps{}.LowerCaseFirstLetter(testStr)
+	actualStr := StrOps{}.Ptr().LowerCaseFirstLetter(testStr)
 
 	if expected != actualStr {
 		t.Errorf("Error: Expected result='%v'. Instead, result='%v' ",
@@ -676,7 +676,7 @@ func TestStrOps_LowerCaseFirstLetter_03(t *testing.T) {
 
 	expected := "now is the time for all good men to come to the aid of their country."
 
-	actualStr := StrOps{}.LowerCaseFirstLetter(testStr)
+	actualStr := StrOps{}.Ptr().LowerCaseFirstLetter(testStr)
 
 	if expected != actualStr {
 		t.Errorf("Error: Expected result='%v'. Instead, result='%v' ",
@@ -691,7 +691,7 @@ func TestStrOps_LowerCaseFirstLetter_04(t *testing.T) {
 
 	expected := "  now is the time for all good men to come to the aid of their country."
 
-	actualStr := StrOps{}.LowerCaseFirstLetter(testStr)
+	actualStr := StrOps{}.Ptr().LowerCaseFirstLetter(testStr)
 
 	if expected != actualStr {
 		t.Errorf("Error: Expected result='%v'. Instead, result='%v' ",
@@ -706,7 +706,7 @@ func TestStrOps_LowerCaseFirstLetter_05(t *testing.T) {
 
 	expected := ""
 
-	actualStr := StrOps{}.LowerCaseFirstLetter(testStr)
+	actualStr := StrOps{}.Ptr().LowerCaseFirstLetter(testStr)
 
 	if expected != actualStr {
 		t.Errorf("Error: Expected result='%v'. Instead, result='%v' ",

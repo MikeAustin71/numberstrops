@@ -912,3 +912,49 @@ func (sOpsQuark *strOpsQuark) isEmptyOrWhiteSpace(
 
 	return true
 }
+
+// LowerCaseFirstLetter - Finds the first alphabetic character
+// in a string (a-z A-Z) and converts it to lower case.
+//
+func (sOpsQuark *strOpsQuark) lowerCaseFirstLetter(
+	str string) string {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	if len(str) == 0 {
+		return str
+	}
+
+	runeStr := []rune(str)
+
+	for i := 0; i < len(runeStr); i++ {
+
+		if runeStr[i] == ' ' {
+			continue
+		}
+
+		if runeStr[i] >= 'A' &&
+
+			runeStr[i] <= 'Z' {
+
+			runeStr[i] += 32
+
+			break
+
+		} else if runeStr[i] >= 'a' &&
+
+			runeStr[i] <= 'z' {
+
+			break
+		}
+
+	}
+
+	return string(runeStr)
+}

@@ -127,6 +127,98 @@ func (sOpsElectron *strOpsElectron) findFirstNonSpaceChar(
 
 }
 
+// GetValidString - Validates the individual characters in input parameter string,
+// 'targetStr'. To identify valid characters, the characters in 'targetStr' are
+// compared against input parameter 'validRunes', an array of type rune. If a character
+// exists in both 'targetStr' and 'validRunes' it is deemed valid and returned in
+// an output string.
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameter
+//
+//  targetStr           string
+//     - The string which will be screened for valid characters.
+//
+//
+//  validRunes          []rune
+//     - An array of type rune containing valid characters. Characters
+//       which exist in both 'targetStr' and 'validRunes' will be
+//       returned as a new string. Invalid characters are discarded.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string - This string will be returned containing valid characters extracted
+//           from 'targetStr'. A character is considered valid if it exists in
+//           both 'targetStr' and 'validRunes'. Invalid characters are discarded.
+//           This means that if no valid characters are identified, a zero length
+//           string will be returned.
+//
+//  error  - If the method completes successfully this value is 'nil'. If an error is
+//           encountered this value will contain the error message. Examples of possible
+//           errors include a zero length 'targetStr' (string) or a zero length
+//           'validRunes' array.
+//
+func (sOpsElectron *strOpsElectron) getValidString(
+	targetStr string,
+	validRunes []rune,
+	ePrefix string) (
+	string,
+	error) {
+
+	if sOpsElectron.lock == nil {
+		sOpsElectron.lock = new(sync.Mutex)
+	}
+
+	sOpsElectron.lock.Lock()
+
+	defer sOpsElectron.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsElectron.getValidString() "
+
+	if len(targetStr) == 0 {
+		return "",
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'targetStr' is a ZERO LENGTH STRING!\n",
+				ePrefix)
+	}
+
+	if len(validRunes) == 0 {
+		return "",
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'validRunes' is a ZERO LENGTH ARRAY!\n",
+				ePrefix)
+	}
+
+	sOpsQuark := strOpsQuark{}
+
+	actualValidRunes, err :=
+		sOpsQuark.getValidRunes(
+			[]rune(targetStr),
+			validRunes,
+			ePrefix)
+
+	if err != nil {
+		return "", err
+	}
+
+	return string(actualValidRunes), err
+}
+
 // readBytes - Implements io.Reader interface for type StrOps.
 // 'readBytes' reads up to len(p) bytes into 'p'. This
 // method supports buffered 'read' operations.
@@ -152,6 +244,10 @@ func (sOpsElectron *strOpsElectron) readBytes(
 	sOpsElectron.lock.Lock()
 
 	defer sOpsElectron.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "strOpsElectron.readBytes() "
 
