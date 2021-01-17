@@ -1412,9 +1412,44 @@ func (sops *StrOps) ReplaceMultipleStrs(
 // replacement string is empty, the New Line characters are simply removed
 // from the input parameter, 'targetStr'.
 //
-func (sops StrOps) ReplaceNewLines(targetStr string, replacement string) string {
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr                  string
+//     - The target string containing the new line characters to be
+//       removed. If this is a zero length or empty string, no action
+//       will be taken.
+//
+//  replacementStr             string
+//     - The string which will replace the new line character. If
+//       this parameter is an empty string, the new line characters
+//       will simply be deleted from the returned string.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - The returned string which contains substitutions of
+//       'replacementStr' for the new line character in
+//       'targetStr'.
+//
+func (sops *StrOps) ReplaceNewLines(
+	targetStr string,
+	replacementStr string) string {
 
-	return strings.Replace(targetStr, "\n", replacement, -1)
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
+	return strings.Replace(targetStr, "\n", replacementStr, -1)
 }
 
 // ReplaceRunes - Replaces characters in a target array of runes ([]rune) with those specified in
@@ -1441,16 +1476,25 @@ func (sops StrOps) ReplaceNewLines(targetStr string, replacement string) string 
 //
 // Return Values
 //
-//  []rune  - The returned rune array containing the characters and replaced characters
-//            from the original 'targetRunes' array.
+//  []rune
+//     - The returned rune array containing the characters and
+//       replaced characters from the original 'targetRunes' array.
 //
-//  error   - If the method completes successfully this value is 'nil'. If an error is
-//            encountered this value will contain the error message. Examples of possible
-//            errors include a zero length 'targetRunes' array or 'replacementRunes' array.
-//            In addition, if any of the replacementRunes[][x] 2nd dimension elements have
-//            a length less than two, an error will be returned.
+//  error
+//     - If the method completes successfully this value is 'nil'.
+//       If an error is encountered this value will contain the
+//       error message. Examples of possible errors include a zero
+//       length 'targetRunes' array or 'replacementRunes' array.
 //
-func (sops StrOps) ReplaceRunes(targetRunes []rune, replacementRunes [][]rune) ([]rune, error) {
+//       In addition, if any of the replacementRunes[][x] 2nd
+//       dimension elements have a length less than two, an
+//       error will be returned.
+//
+func (sops StrOps) ReplaceRunes(
+	targetRunes []rune,
+	replacementRunes [][]rune) (
+	[]rune,
+	error) {
 
 	ePrefix := "StrOps.ReplaceRunes() "
 

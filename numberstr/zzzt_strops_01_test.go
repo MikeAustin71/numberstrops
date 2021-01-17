@@ -54,7 +54,7 @@ func TestStrOps_BreakTextAtLineLength_01(t *testing.T) {
 			"tstStr, 40, '\n' ). Error='%v' ", err.Error())
 	}
 
-	actualTxt = StrOps{}.ReplaceNewLines(actualTxt, "%")
+	actualTxt = StrOps{}.Ptr().ReplaceNewLines(actualTxt, "%")
 
 	if expected != actualTxt {
 		t.Errorf("Error: Expected string='%v'. Instead, string='%v'.",
@@ -81,7 +81,7 @@ func TestStrOps_BreakTextAtLineLength_02(t *testing.T) {
 			"tstStr, 40, '\n' ). Error='%v' ", err.Error())
 	}
 
-	actualTxt = StrOps{}.ReplaceNewLines(actualTxt, "%")
+	actualTxt = StrOps{}.Ptr().ReplaceNewLines(actualTxt, "%")
 
 	if expected != actualTxt {
 		t.Errorf("Error: Expected text='%v'. Instead, text='%v' ",
@@ -107,7 +107,7 @@ func TestStrOps_BreakTextAtLineLength_03(t *testing.T) {
 			"tstStr, 40, '\n' ). Error='%v' ", err.Error())
 	}
 
-	actualTxt = StrOps{}.ReplaceNewLines(actualTxt, "%")
+	actualTxt = StrOps{}.Ptr().ReplaceNewLines(actualTxt, "%")
 
 	if expected != actualTxt {
 		t.Errorf("Error: Expected text='%v'. Instead, text='%v' ",
@@ -133,7 +133,7 @@ func TestStrOps_BreakTextAtLineLength_04(t *testing.T) {
 			"tstStr, 40, '\n' ). Error='%v' ", err.Error())
 	}
 
-	actualTxt = StrOps{}.ReplaceNewLines(actualTxt, "%")
+	actualTxt = StrOps{}.Ptr().ReplaceNewLines(actualTxt, "%")
 
 	if expected != actualTxt {
 		t.Errorf("Error: Expected text='%v'. Instead, text='%v' ",
@@ -183,7 +183,7 @@ func TestStrOps_BreakTextAtLineLength_05(t *testing.T) {
 			"tstStr, 40, '\n' ). Error='%v' ", err.Error())
 	}
 
-	actualTxt = StrOps{}.ReplaceNewLines(actualTxt, "%")
+	actualTxt = StrOps{}.Ptr().ReplaceNewLines(actualTxt, "%")
 
 	if expected != actualTxt {
 		t.Errorf("Error: Expected text='%v'\n\n. Instead, text='%v'\n",

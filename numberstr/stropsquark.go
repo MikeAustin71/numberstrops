@@ -1029,3 +1029,275 @@ func (sOpsQuark *strOpsQuark) makeSingleCharString(
 
 	return b.String(), nil
 }
+
+// removeStringChar - Removes or deletes a specified character
+// from a string and returns a new string.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr                  string
+//     - The target string containing the character to be removed.
+//       If this is a zero length or empty string, an error will
+//       be returned.
+//
+//
+//  charToRemove               rune
+//     - The character which will be removed from 'targetStr'. If
+//       this is an empty character or zero value rune, an error
+//       will be returned.
+//
+//
+//  maxNumOfCharDeletions      int
+//     - If this parameter is set to minus one (-1), all instances
+//       of 'charToRemove' in 'targetStr' will be deleted in the
+//       returned string. If this parameter is greater than zero,
+//       it will limit the maximum number of character deletions
+//       in this operation. Remember that the search for
+//       'charToRemove' proceeds from left to right starting at
+//       index zero (0).
+//
+//       If this parameter is set to zero, an error will be
+//       returned.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  newStr                     string
+//     - If this method completes successfully, a new string
+//       will be returned containing all the characters in
+//       input parameter 'targetStr' except those removed by
+//       the deletion operation.
+//
+//
+//  numOfDeletions             int
+//     - This parameter will record the number of character
+//       deletions performed by this operation.
+//
+//
+//  err                        error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. Remember that this error message will
+//       incorporate the method chain and text passed by input
+//       parameter, 'ePrefix'. The 'ePrefix' or error prefix text
+//       will be prefixed to the beginning of the error message.
+//
+func (sOpsQuark *strOpsQuark) removeStringChar(
+	targetStr string,
+	charToRemove rune,
+	maxNumOfCharDeletions int,
+	ePrefix string) (
+	newStr string,
+	numOfDeletions int,
+	err error) {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsQuark.replaceStringChar() "
+
+	if len(targetStr) == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'targetStr' is an empty string!\n",
+			ePrefix)
+		return newStr, numOfDeletions, err
+	}
+
+	if charToRemove == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'charToRemove' is an empty character!\n"+
+			"charToReplace == 0\n",
+			ePrefix)
+		return newStr, numOfDeletions, err
+	}
+
+	if maxNumOfCharDeletions == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'maxNumOfReplacements' is zero!\n",
+			ePrefix)
+		return newStr, numOfDeletions, err
+	}
+
+	runeArray := make([]rune, 0, 100)
+
+	for _, r := range targetStr {
+
+		if maxNumOfCharDeletions > -1 &&
+			numOfDeletions >= maxNumOfCharDeletions {
+			break
+		}
+
+		if r == charToRemove {
+			numOfDeletions++
+			continue
+		}
+
+		runeArray = append(runeArray, r)
+	}
+
+	newStr = string(runeArray)
+
+	return newStr, numOfDeletions, err
+}
+
+// replaceStringChar - Replaces a specific character
+// found anywhere in a string with another specified
+// substitute character.
+//
+// The replacement operation proceeds from left to right within the
+// 'targetStr' beginning with index zero (0).
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr                  string
+//     - The string containing the character to be replaced.
+//       If this is an empty string, an error will be returned.
+//
+//  charToReplace              rune
+//     - The character with input parameter string 'targetStr' which
+//       will be replaced. If this parameter is set to zero
+//       signaling an empty character, this method will return an
+//       error.
+//
+//
+//  replacementChar            rune
+//     - The character which will replace 'charToReplace' in
+//       'targetStr'. If this parameter is set to zero
+//       signaling an empty character, this method will return an
+//       error.
+//
+//  maxNumOfReplacements       int
+//     - The maximum number of replacements allowed for this
+//       operation. If this parameter is set to minus one (-1), all
+//       instances of 'charToReplace' in 'targetStr' will be
+//       replaced with 'replacementChar'.
+//
+//       If this parameter is set to zero ('0'), an error will be
+//       returned.
+//
+//       The replacement operation proceeds from left to right
+//       within the 'targetStr' beginning with index zero (0).
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - If this method completes successfully, a new string will be
+//       returned with the designated replacement characters.
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. Remember that this error message will
+//       incorporate the method chain and text passed by input
+//       parameter, 'ePrefix'. The 'ePrefix' or error prefix text
+//       will be prefixed to the beginning of the error message.
+//
+func (sOpsQuark *strOpsQuark) replaceStringChar(
+	targetStr string,
+	charToReplace rune,
+	replacementChar rune,
+	maxNumOfReplacements int,
+	ePrefix string) (
+	string,
+	error) {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsQuark.replaceStringChar() "
+	var err error
+
+	if len(targetStr) == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'targetStr' is an empty string!\n",
+			ePrefix)
+		return "", err
+	}
+
+	if charToReplace == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'charToReplace' is an empty character!\n"+
+			"charToReplace == 0\n",
+			ePrefix)
+		return "", err
+	}
+
+	if replacementChar == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'replacementChar' is an empty character!\n"+
+			"replacementChar == 0\n",
+			ePrefix)
+		return "", err
+	}
+
+	if maxNumOfReplacements == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'maxNumOfReplacements' is zero!\n",
+			ePrefix)
+		return "", err
+	}
+
+	runeArray := []rune(targetStr)
+
+	numOfReplacements := 0
+
+	for i, r := range runeArray {
+
+		if maxNumOfReplacements > -1 &&
+			numOfReplacements >= maxNumOfReplacements {
+			break
+		}
+
+		if r == charToReplace {
+			runeArray[i] = replacementChar
+			numOfReplacements++
+		}
+
+	}
+
+	return string(runeArray), err
+}

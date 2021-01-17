@@ -1106,7 +1106,7 @@ func TestStrOps_ReplaceNewLines_01(t *testing.T) {
 	replaceStr := " "
 	expectedStr := "Hello World"
 
-	actualStr := StrOps{}.ReplaceNewLines(testStr, replaceStr)
+	actualStr := StrOps{}.Ptr().ReplaceNewLines(testStr, replaceStr)
 
 	if expectedStr != actualStr {
 		t.Errorf("Error: Expected result='%v'. Instead, result='%v'",
@@ -1130,7 +1130,7 @@ func TestStrOps_ReplaceNewLines_02(t *testing.T) {
 	replaceStr := " "
 	expectedStr := "Hello World"
 
-	actualStr := StrOps{}.ReplaceNewLines(testStr, replaceStr)
+	actualStr := StrOps{}.Ptr().ReplaceNewLines(testStr, replaceStr)
 
 	if expectedStr != actualStr {
 		t.Errorf("Error: Expected result='%v'. Instead, result='%v'",
@@ -1146,7 +1146,7 @@ func TestStrOps_ReplaceNewLines_03(t *testing.T) {
 	expectedStr := "HelloWorld"
 	lenExpectedStr := len(expectedStr)
 
-	actualStr := StrOps{}.ReplaceNewLines(testStr, replaceStr)
+	actualStr := StrOps{}.Ptr().ReplaceNewLines(testStr, replaceStr)
 
 	if expectedStr != actualStr {
 		t.Errorf("Error: Expected result='%v'. Instead, result='%v'",
@@ -1168,7 +1168,7 @@ func TestStrOps_ReplaceNewLines_04(t *testing.T) {
 	replaceStr := ""
 	expectedStr := "Hello World"
 
-	actualStr := StrOps{}.ReplaceNewLines(testStr, replaceStr)
+	actualStr := StrOps{}.Ptr().ReplaceNewLines(testStr, replaceStr)
 
 	if expectedStr != actualStr {
 		t.Errorf("Error: Expected result='%v'. Instead, result='%v'",
@@ -1192,7 +1192,7 @@ func TestStrOps_ReplaceNewLines_05(t *testing.T) {
 	replaceStr := ""
 	expectedStr := "Hello World"
 
-	actualStr := StrOps{}.ReplaceNewLines(testStr, replaceStr)
+	actualStr := StrOps{}.Ptr().ReplaceNewLines(testStr, replaceStr)
 
 	if expectedStr != actualStr {
 		t.Errorf("Error: Expected result='%v'. Instead, result='%v'",
@@ -1216,7 +1216,7 @@ func TestStrOps_ReplaceNewLines_06(t *testing.T) {
 	replaceStr := ""
 	expectedStr := "Hello World"
 
-	actualStr := StrOps{}.ReplaceNewLines(testStr, replaceStr)
+	actualStr := StrOps{}.Ptr().ReplaceNewLines(testStr, replaceStr)
 
 	if expectedStr != actualStr {
 		t.Errorf("Error: Expected result='%v'. Instead, result='%v'",
@@ -1240,7 +1240,7 @@ func TestStrOps_ReplaceNewLines_07(t *testing.T) {
 	replaceStr := ""
 	expectedStr := "Hello World"
 
-	actualStr := StrOps{}.ReplaceNewLines(testStr, replaceStr)
+	actualStr := StrOps{}.Ptr().ReplaceNewLines(testStr, replaceStr)
 
 	if expectedStr != actualStr {
 		t.Errorf("Error: Expected result='%v'. Instead, result='%v'",
@@ -1264,7 +1264,7 @@ func TestStrOps_ReplaceNewLines_08(t *testing.T) {
 	replaceStr := ""
 	expectedStr := "\tHello World"
 
-	actualStr := StrOps{}.ReplaceNewLines(testStr, replaceStr)
+	actualStr := StrOps{}.Ptr().ReplaceNewLines(testStr, replaceStr)
 
 	if expectedStr != actualStr {
 		t.Errorf("Error: Expected result='%v'. Instead, result='%v'",
