@@ -1355,66 +1355,26 @@ func (sops *StrOps) ReadStringFromBytes(
 //           In addition, if any of the replacementBytes[][x] 2nd dimension elements have
 //           a length less than two, an error will be returned.
 //
-func (sops StrOps) ReplaceBytes(targetBytes []byte, replacementBytes [][]byte) ([]byte, error) {
+func (sops *StrOps) ReplaceBytes(
+	targetBytes []byte,
+	replacementBytes [][]byte) ([]byte, error) {
 
 	ePrefix := "StrOps.ReplaceBytes() "
 
-	output := make([]byte, 0, 100)
-
-	targetLen := len(targetBytes)
-
-	if targetLen == 0 {
-		return output,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'targetBytes' is a zero length array!\n",
-				ePrefix)
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	baseReplaceLen := len(replacementBytes)
+	sops.stringDataMutex.Lock()
 
-	if baseReplaceLen == 0 {
-		return output,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'replacementBytes' is a zero length array!\n",
-				ePrefix)
-	}
+	defer sops.stringDataMutex.Unlock()
 
-	for h := 0; h < baseReplaceLen; h++ {
+	sOpsElectron := strOpsElectron{}
 
-		if len(replacementBytes[h]) < 2 {
-			return output,
-				fmt.Errorf(ePrefix+
-					"\n"+
-					"Error: Invalid Replacement Array Element. replacementBytes[%v] has "+
-					"a length less than two.\n", h)
-		}
-
-	}
-
-	for i := 0; i < targetLen; i++ {
-
-		foundReplacement := false
-
-		for k := 0; k < baseReplaceLen; k++ {
-
-			if targetBytes[i] == replacementBytes[k][0] {
-
-				if replacementBytes[k][1] != 0 {
-					output = append(output, replacementBytes[k][1])
-				}
-
-				foundReplacement = true
-				break
-			}
-		}
-
-		if !foundReplacement {
-			output = append(output, targetBytes[i])
-		}
-
-	}
-
-	return output, nil
+	return sOpsElectron.replaceBytes(
+		targetBytes,
+		replacementBytes,
+		ePrefix)
 }
 
 // ReplaceMultipleStrs - Replaces all instances of string replaceArray[i][0] with

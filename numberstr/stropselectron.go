@@ -424,3 +424,124 @@ func (sOpsElectron *strOpsElectron) readStringFromBytes(
 
 	return extractedStr, nextStartIdx
 }
+
+// ReplaceBytes - Replaces characters in a target array of bytes ([]bytes) with those specified in
+// a two dimensional slice of bytes.
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//
+//  targetBytes         []byte
+//     - The byte array which will be examined. If characters ('bytes') eligible
+//       for replacement are identified by replacementBytes[i][0] they will be
+//       replaced by the character specified in replacementBytes[i][1].
+//
+//  replacementBytes    [][]byte
+//     - A two dimensional slice of type byte. Element [i][0] contains the
+//       target character to locate in 'targetBytes'. Element[i][1] contains
+//       the replacement character which will replace the target character
+//       in 'targetBytes'. If the replacement character element [i][1] is
+//       a zero value, the target character will not be replaced. Instead,
+//       it will be eliminated or removed from the returned byte array ([]byte).
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  []byte  - The returned byte array containing the characters and replaced characters
+//            from the original 'targetBytes' array.
+//
+//  error  - If the method completes successfully this value is 'nil'. If an error is
+//           encountered this value will contain the error message. Examples of possible
+//           errors include a zero length targetBytes[] array or replacementBytes[][] array.
+//           In addition, if any of the replacementBytes[][x] 2nd dimension elements have
+//           a length less than two, an error will be returned.
+//
+func (sOpsElectron *strOpsElectron) replaceBytes(
+	targetBytes []byte,
+	replacementBytes [][]byte,
+	ePrefix string) (
+	[]byte,
+	error) {
+
+	if sOpsElectron.lock == nil {
+		sOpsElectron.lock = new(sync.Mutex)
+	}
+
+	sOpsElectron.lock.Lock()
+
+	defer sOpsElectron.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsElectron.replaceBytes() "
+
+	output := make([]byte, 0, 100)
+
+	targetLen := len(targetBytes)
+
+	if targetLen == 0 {
+		return output,
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'targetBytes' is a zero length array!\n",
+				ePrefix)
+	}
+
+	baseReplaceLen := len(replacementBytes)
+
+	if baseReplaceLen == 0 {
+		return output,
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'replacementBytes' is a zero length array!\n",
+				ePrefix)
+	}
+
+	for h := 0; h < baseReplaceLen; h++ {
+
+		if len(replacementBytes[h]) < 2 {
+			return output,
+				fmt.Errorf(ePrefix+
+					"\n"+
+					"Error: Invalid Replacement Array Element. replacementBytes[%v] has "+
+					"a length less than two.\n", h)
+		}
+
+	}
+
+	for i := 0; i < targetLen; i++ {
+
+		foundReplacement := false
+
+		for k := 0; k < baseReplaceLen; k++ {
+
+			if targetBytes[i] == replacementBytes[k][0] {
+
+				if replacementBytes[k][1] != 0 {
+					output = append(output, replacementBytes[k][1])
+				}
+
+				foundReplacement = true
+				break
+			}
+		}
+
+		if !foundReplacement {
+			output = append(output, targetBytes[i])
+		}
+
+	}
+
+	return output, nil
+}
