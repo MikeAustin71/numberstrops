@@ -316,7 +316,7 @@ func (sops StrOps) DoesLastCharExist(
 //                        'trailingFieldSeparators' and 'endOfStringDelimiters' are required input
 //                        parameters and must be populated with valid data.
 //
-func (sops StrOps) ExtractDataField(
+func (sops *StrOps) ExtractDataField(
 	targetStr string,
 	leadingKeyWordDelimiters []string,
 	startIdx int,
@@ -325,373 +325,27 @@ func (sops StrOps) ExtractDataField(
 	commentDelimiters []string,
 	endOfLineDelimiters []string) (DataFieldProfileDto, error) {
 
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
 	ePrefix := "StrOps.ExtractDataField() "
-	newDataDto := DataFieldProfileDto{}.New()
-	newDataDto.TargetStr = targetStr
-	newDataDto.TargetStrLength = len(targetStr)
-	newDataDto.TargetStrStartIndex = startIdx
-	newDataDto.LeadingKeyWordDelimiter = ""
 
-	lenTargetStr := len(targetStr)
-
-	if lenTargetStr == 0 {
-		return newDataDto,
-			fmt.Errorf("%v\n"+
-				"ERROR: Input Parameter 'targetStr' is an EMPTY string!\n",
-				ePrefix)
-	}
-
-	if startIdx < 0 {
-		return newDataDto,
-			fmt.Errorf(ePrefix+"ERROR: Input parameter 'startIdx' is less than zero!\n"+
-				"startIdx='%v'\n", startIdx)
-	}
-
-	if startIdx >= lenTargetStr {
-
-		return newDataDto,
-			fmt.Errorf(ePrefix+"ERROR: Input Parameter 'startIdx' is out-of-bounds!\n"+
-				"startIdx='%v'\t\tLast TargetStr Index='%v'\n"+
-				"Length Of TargetStr='%v'\n",
-				startIdx, lenTargetStr-1, lenTargetStr)
-	}
-
-	lenLeadingFieldSeparators := len(leadingFieldSeparators)
-
-	if lenLeadingFieldSeparators == 0 {
-
-		return newDataDto,
-			fmt.Errorf("%v\n"+
-				"ERROR: Input Parameter 'leadingFieldSeparators' is a zero length array!\n"+
-				"'leadingFieldSeparators' are required!\n",
-				ePrefix)
-	}
-
-	validTestDelimiterExists := false
-
-	for i := 0; i < lenLeadingFieldSeparators; i++ {
-
-		if len(leadingFieldSeparators[i]) == 0 {
-			continue
-		}
-
-		validTestDelimiterExists = true
-
-	}
-
-	if !validTestDelimiterExists {
-		newDataDto.ConvertToErrorState()
-		return newDataDto,
-			fmt.Errorf("%v\n"+
-				"Error: Parameter 'leadingFieldSeparators' Delimiters Array consists entirely of empty strings!\n",
-				ePrefix)
-	}
-
-	lenTrailingFieldSeparators := len(trailingFieldSeparators)
-
-	if lenTrailingFieldSeparators == 0 {
-
-		return newDataDto,
-			fmt.Errorf("%v\n"+
-				"ERROR: Input Parameter 'trailingFieldSeparators' is a zero length array!\n"+
-				"'trailingFieldSeparators' are required!\n",
-				ePrefix)
-	}
-
-	validTestDelimiterExists = false
-
-	for i := 0; i < lenTrailingFieldSeparators; i++ {
-
-		if len(trailingFieldSeparators[i]) == 0 {
-			continue
-		}
-
-		validTestDelimiterExists = true
-	}
-
-	if !validTestDelimiterExists {
-		newDataDto.ConvertToErrorState()
-		return newDataDto,
-			fmt.Errorf("%v\n"+
-				"Error: Parameter 'trailingFieldSeparators' Delimiters Array consists entirely of empty strings!\n",
-				ePrefix)
-	}
-
-	targetStrRunes := []rune(targetStr)
-	lenTargetStr = len(targetStrRunes)
-	lastGoodTargetStrIdx := lenTargetStr - 1
-
-	lenOfEndOfLineDelimiters := len(endOfLineDelimiters)
-	delimiterIdx := -1
-	delimiterValue := ""
-	validTestDelimiterExists = false
-
-	// Check End-Of-Line Delimiters
-	if lenOfEndOfLineDelimiters > 0 {
-
-		for b := 0; b < lenOfEndOfLineDelimiters; b++ {
-
-			if len(endOfLineDelimiters[b]) == 0 {
-				continue
-			}
-
-			validTestDelimiterExists = true
-
-			eolDelimiterIdx := strings.Index(targetStr[startIdx:], endOfLineDelimiters[b])
-
-			if eolDelimiterIdx == -1 {
-				continue
-			}
-
-			if delimiterIdx == -1 ||
-				eolDelimiterIdx < delimiterIdx {
-				delimiterIdx = eolDelimiterIdx
-				delimiterValue = endOfLineDelimiters[b]
-			}
-		}
-
-		if !validTestDelimiterExists {
-			newDataDto.ConvertToErrorState()
-			return newDataDto,
-				fmt.Errorf("%v\n"+
-					"Error: End-Of-Line Delimiters Array consists entirely of empty strings!\n",
-					ePrefix)
-		}
-
-		if delimiterIdx > -1 {
-			// Valid End-Of-Line Delimiter does exist
-			delimiterIdx += startIdx
-			newDataDto.EndOfLineDelimiter = delimiterValue
-			newDataDto.EndOfLineDelimiterIndex = delimiterIdx
-
-			delimiterIdx-- // Compute last good Target String Index
-
-			if delimiterIdx < lastGoodTargetStrIdx {
-				// End-Of-Line Index is less than or equal to 'lastGoodTargetStrIds'
-				newDataDto.DataFieldTrailingDelimiter = delimiterValue
-				newDataDto.DataFieldTrailingDelimiterType = DfTrailDelimiter.EndOfLine()
-				lastGoodTargetStrIdx = delimiterIdx
-			}
-		} // End of if delimiterIdx > -1 {
-	} // End of if lenOfEndOfLineDelimiters > 0 {
-
-	if startIdx > lastGoodTargetStrIdx ||
-		lastGoodTargetStrIdx < 0 {
-
-		newDataDto.TargetStrLastGoodIndex = lastGoodTargetStrIdx
-
-		return newDataDto, nil
-	}
-
-	lenCommentDelimiters := len(commentDelimiters)
-
-	// Check Comment Delimiters
-	if lenCommentDelimiters > 0 {
-
-		delimiterIdx = -1
-		delimiterValue = ""
-		validTestDelimiterExists = false
-
-		for b := 0; b < lenCommentDelimiters; b++ {
-
-			if len(commentDelimiters[b]) == 0 {
-				continue
-			}
-
-			validTestDelimiterExists = true
-
-			commentIdx := strings.Index(targetStr[startIdx:], commentDelimiters[b])
-
-			if commentIdx == -1 {
-				continue
-			}
-
-			if delimiterIdx == -1 ||
-				commentIdx < delimiterIdx {
-				delimiterIdx = commentIdx
-				delimiterValue = commentDelimiters[b]
-			}
-		}
-
-		if !validTestDelimiterExists {
-			newDataDto.ConvertToErrorState()
-			return newDataDto,
-				fmt.Errorf("%v\n"+
-					"Error: Comment Delimiters Array consists entirely of empty strings!\n",
-					ePrefix)
-		}
-
-		if delimiterIdx > -1 {
-
-			delimiterIdx += startIdx
-			newDataDto.CommentDelimiter = delimiterValue
-			newDataDto.CommentDelimiterIndex = delimiterIdx
-			delimiterIdx--
-
-			if delimiterIdx < lastGoodTargetStrIdx {
-
-				// Comment Index is less than or equal to 'lastGoodTargetStrIds'
-				newDataDto.DataFieldTrailingDelimiter = delimiterValue
-				newDataDto.DataFieldTrailingDelimiterType = DfTrailDelimiter.Comment()
-				lastGoodTargetStrIdx = delimiterIdx
-			}
-		}
-	}
-
-	newDataDto.TargetStrLastGoodIndex = lastGoodTargetStrIdx
-
-	if startIdx > lastGoodTargetStrIdx ||
-		lastGoodTargetStrIdx < 0 {
-
-		newDataDto.ConvertToErrorState()
-
-		return newDataDto, nil
-	}
-
-	lenLeadingKeyWordDelimiters := len(leadingKeyWordDelimiters)
-
-	// Check Leading Key Word Delimiters
-	if lenLeadingKeyWordDelimiters > 0 {
-		delimiterIdx = -1
-		delimiterValue = ""
-		validTestDelimiterExists = false
-
-		for k := 0; k < lenLeadingKeyWordDelimiters; k++ {
-
-			if len(leadingKeyWordDelimiters[k]) == 0 {
-				// Zero length strings are not processed
-				continue
-			}
-
-			validTestDelimiterExists = true
-
-			tempKeyWordIdx := strings.Index(targetStr[startIdx:], leadingKeyWordDelimiters[k])
-
-			if tempKeyWordIdx == -1 {
-				continue
-			}
-
-			if delimiterIdx == -1 ||
-				tempKeyWordIdx < delimiterIdx {
-
-				delimiterIdx = tempKeyWordIdx
-				delimiterValue = leadingKeyWordDelimiters[k]
-			}
-		}
-
-		if !validTestDelimiterExists {
-			newDataDto.ConvertToErrorState()
-			return newDataDto,
-				fmt.Errorf("%v\n"+
-					"Error: Leading Key Word Delimiters Array consists entirely of empty strings!\n",
-					ePrefix)
-		}
-
-		if delimiterIdx == -1 {
-			// Key Word Delimiters were requested,
-			// but none were found. Exit!
-			return newDataDto, nil
-		}
-
-		if delimiterIdx > -1 {
-			// All of the key word delimiters were zero
-			// length strings. Therefore, ignore
-			// key word delimiters.
-			delimiterIdx += startIdx
-
-			if delimiterIdx >= lastGoodTargetStrIdx {
-				// Key Word Delimiter was found but it is
-				// located beyond the last good character index.
-				// Probably located inside a comment or after a new-line.
-				return newDataDto, nil
-			}
-
-			newDataDto.LeadingKeyWordDelimiter = delimiterValue
-			newDataDto.LeadingKeyWordDelimiterIndex = delimiterIdx
-
-			startIdx = len(delimiterValue) + delimiterIdx
-		} // End of if delimiterIdx > -1
-	} // End of if lenLeadingKeyWordDelimiters > 0
-
-	//////////////////////////////
-	// Main Target String Loop
-	//////////////////////////////
-	fieldDataRunes := make([]rune, 0, 20)
-	firstDataFieldIdx := -1
-
-	i := startIdx
-
-	for i <= lastGoodTargetStrIdx {
-
-		if firstDataFieldIdx == -1 {
-
-			for j := 0; j < lenLeadingFieldSeparators; j++ {
-
-				idxLeadingFieldSep := strings.Index(targetStr[i:], leadingFieldSeparators[j])
-
-				if idxLeadingFieldSep != 0 {
-					continue
-				}
-
-				// Found a leading Field Separator - skip it
-				i += len(leadingFieldSeparators[j])
-
-				goto cycleMainTargetLoop
-			}
-
-		} else {
-
-			for k := 0; k < lenTrailingFieldSeparators; k++ {
-
-				idxTrailingFieldSep := strings.Index(targetStr[i:], trailingFieldSeparators[k])
-
-				if idxTrailingFieldSep != 0 {
-					continue
-				}
-
-				newDataDto.DataFieldTrailingDelimiter = trailingFieldSeparators[k]
-
-				newDataDto.DataFieldTrailingDelimiterType = DfTrailDelimiter.EndOfField()
-
-				goto exitMainTargetLoop
-			}
-
-		}
-
-		if firstDataFieldIdx == -1 {
-			firstDataFieldIdx = i
-		}
-
-		fieldDataRunes = append(fieldDataRunes, targetStrRunes[i])
-
-		i++
-
-	cycleMainTargetLoop:
-	}
-
-exitMainTargetLoop:
-
-	if len(fieldDataRunes) == 0 {
-		return newDataDto, nil
-	}
-
-	if newDataDto.DataFieldTrailingDelimiterType == DfTrailDelimiter.Unknown() {
-		newDataDto.DataFieldTrailingDelimiterType = DfTrailDelimiter.EndOfString()
-	}
-
-	newDataDto.DataFieldStr = string(fieldDataRunes)
-	newDataDto.DataFieldLength = len(newDataDto.DataFieldStr)
-	newDataDto.DataFieldIndex = firstDataFieldIdx
-	newDataDto.TargetStrLastGoodIndex = lastGoodTargetStrIdx
-	nextIdx := newDataDto.DataFieldIndex + newDataDto.DataFieldLength
-
-	if nextIdx > lastGoodTargetStrIdx {
-		newDataDto.NextTargetStrIndex = -1
-	} else {
-		newDataDto.NextTargetStrIndex = nextIdx
-	}
-
-	return newDataDto, nil
+	sOpsAtom := strOpsAtom{}
+
+	return sOpsAtom.extractDataField(
+		targetStr,
+		leadingKeyWordDelimiters,
+		startIdx,
+		leadingFieldSeparators,
+		trailingFieldSeparators,
+		commentDelimiters,
+		endOfLineDelimiters,
+		ePrefix)
 }
 
 // ExtractNumericDigits - Examines an input parameter 'targetStr' to identify and extract the
@@ -1812,6 +1466,24 @@ func (sops StrOps) MakeSingleCharString(charRune rune, strLen int) (string, erro
 // StrOps. Useful for cases requiring io.Reader
 // and io.Writer.
 func (sops StrOps) NewPtr() *StrOps {
+
+	sopsNew := StrOps{}
+
+	return &sopsNew
+}
+
+// Ptr - Returns a pointer to a new instance of
+// StrOps. Useful for cases requiring io.Reader
+// and io.Writer.
+//
+// This method is identical to method StrOps.NewPtr().
+//
+// Example Usage:
+//
+// StrOps{}.Ptr().GetReader()
+//
+//
+func (sops StrOps) Ptr() *StrOps {
 
 	sopsNew := StrOps{}
 

@@ -10,7 +10,7 @@ type strOpsElectron struct {
 	lock *sync.Mutex
 }
 
-// FindFirstNonSpaceChar - Returns the string index of the first non-space character in
+// findFirstNonSpaceChar - Returns the string index of the first non-space character in
 // a string segment. The string to be searched is input parameter 'targetStr'. The string
 // segment which will be searched from left to right in 'targetStr' is defined by the
 // starting index ('startIndex') and the ending index ('endIndex').
