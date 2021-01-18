@@ -1844,41 +1844,29 @@ func (sops *StrOps) StripTrailingChars(
 //  Returned String = "Hello World    "
 //  String Index    =  012345648901234
 //
-func (sops StrOps) StrLeftJustify(strToJustify string, fieldLen int) (string, error) {
+func (sops *StrOps) StrLeftJustify(
+	strToJustify string,
+	fieldLen int,
+	ePrefix string) (
+	string,
+	error) {
 
-	ePrefix := "StrOps.StrLeftJustify() "
-
-	sOpsQuark := strOpsQuark{}
-
-	if sOpsQuark.isEmptyOrWhiteSpace(strToJustify) {
-		return strToJustify,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'strToJustify' is All White Space or an EMPTY String!\n",
-				ePrefix)
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	strLen := len(strToJustify)
+	sops.stringDataMutex.Lock()
 
-	if fieldLen == strLen {
-		return strToJustify, nil
-	}
+	defer sops.stringDataMutex.Unlock()
 
-	if fieldLen < strLen {
-		return strToJustify,
-			fmt.Errorf(ePrefix+
-				"\n"+
-				"Error: Length of string to left justify is '%v'.\n"+
-				"However, 'fieldLen' is less.\n"+
-				"'fieldLen'= '%v'\n",
-				strLen, fieldLen)
-	}
+	ePrefix += "StrOps.StrLeftJustify() "
 
-	rightPadLen := fieldLen - strLen
+	sOpsElectron := strOpsElectron{}
 
-	rightPadStr := strings.Repeat(" ", rightPadLen)
-
-	return strToJustify + rightPadStr, nil
-
+	return sOpsElectron.strLeftJustify(
+		strToJustify,
+		fieldLen,
+		ePrefix)
 }
 
 // StrPadLeftToCenter - Returns a blank string which allows centering of the target

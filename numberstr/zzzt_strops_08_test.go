@@ -549,14 +549,18 @@ func TestStrOps_StrCenterInStr_05(t *testing.T) {
 }
 
 func TestStrOps_StrLeftJustify_01(t *testing.T) {
+	ePrefix := "TestStrOps_StrLeftJustify_01"
 	strToJustify := "1234567"
 	fieldLen := 45
 	exTotalLen := fieldLen
 	exRightPad := strings.Repeat(" ", 38)
 	exStr := strToJustify + exRightPad
-
 	su := StrOps{}
-	str, err := su.StrLeftJustify(strToJustify, fieldLen)
+	str, err := su.StrLeftJustify(
+		strToJustify,
+		fieldLen,
+		ePrefix)
+
 	if err != nil {
 		t.Errorf("StrLeftJustify() generated error:\n"+
 			"%v", err.Error())
@@ -575,10 +579,16 @@ func TestStrOps_StrLeftJustify_01(t *testing.T) {
 }
 
 func TestStrOps_StrLeftJustify_02(t *testing.T) {
+
+	ePrefix := "TestStrOps_StrLeftJustify_02"
+
 	strToJustify := "      "
 	fieldLen := 45
 
-	_, err := StrOps{}.StrLeftJustify(strToJustify, fieldLen)
+	_, err := StrOps{}.Ptr().StrLeftJustify(
+		strToJustify,
+		fieldLen,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an error return from StrLeftJustify(strToJustify, fieldLen)\n" +
@@ -588,10 +598,16 @@ func TestStrOps_StrLeftJustify_02(t *testing.T) {
 }
 
 func TestStrOps_StrLeftJustify_03(t *testing.T) {
+
+	ePrefix := "TestStrOps_StrLeftJustify_03"
+
 	strToJustify := "Hello"
 	fieldLen := len(strToJustify)
 
-	justifiedStr, err := StrOps{}.StrLeftJustify(strToJustify, fieldLen)
+	justifiedStr, err := StrOps{}.Ptr().StrLeftJustify(
+		strToJustify,
+		fieldLen,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returnd by StrLeftJustify(strToJustify, fieldLen)\n"+
@@ -607,10 +623,16 @@ func TestStrOps_StrLeftJustify_03(t *testing.T) {
 }
 
 func TestStrOps_StrLeftJustify_04(t *testing.T) {
+
+	ePrefix := "TestStrOps_StrLeftJustify_04"
+
 	strToJustify := "Hello"
 	fieldLen := 2
 
-	_, err := StrOps{}.StrLeftJustify(strToJustify, fieldLen)
+	_, err := StrOps{}.Ptr().StrLeftJustify(
+		strToJustify,
+		fieldLen,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an error return from StrLeftJustify(strToJustify, fieldLen)\n" +
