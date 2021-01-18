@@ -1687,7 +1687,12 @@ func (sops StrOps) StrCenterInStrLeft(
 				len(strToCenter), fieldLen)
 	}
 
-	pad, err := sops.StrPadLeftToCenter(strToCenter, fieldLen)
+	sOpsMolecule := strOpsMolecule{}
+
+	pad, err := sOpsMolecule.strPadLeftToCenter(
+		strToCenter,
+		fieldLen,
+		ePrefix)
 
 	if err != nil {
 		return "",
@@ -1698,7 +1703,6 @@ func (sops StrOps) StrCenterInStrLeft(
 	}
 
 	return pad + strToCenter, nil
-
 }
 
 // StrCenterInStr - returns a string which includes a left pad blank string plus
@@ -2047,36 +2051,27 @@ func (sops StrOps) StrLeftJustify(strToJustify string, fieldLen int) (string, er
 // of the string to center. This method only returns the left margin, or a string
 // consisting of 30-spaces.
 //
-func (sops StrOps) StrPadLeftToCenter(strToCenter string, fieldLen int) (string, error) {
+func (sops *StrOps) StrPadLeftToCenter(
+	strToCenter string,
+	fieldLen int,
+	ePrefix string) (string, error) {
 
-	ePrefix := "StrOps.StrPadLeftToCenter() "
-
-	sOpsQuark := strOpsQuark{}
-
-	if sOpsQuark.isEmptyOrWhiteSpace(strToCenter) {
-		return strToCenter,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'strToCenter' is All White Space or an EMPTY String!\n",
-				ePrefix)
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	sLen := sOpsQuark.getRuneCountInStr(strToCenter)
+	sops.stringDataMutex.Lock()
 
-	if sLen > fieldLen {
-		return "",
-			fmt.Errorf("%v\n"+
-				"Error: Input Parameter String To Center ('strToCenter')\n"+
-				"is longer than Field Length\n",
-				ePrefix)
-	}
+	defer sops.stringDataMutex.Unlock()
 
-	if sLen == fieldLen {
-		return "", nil
-	}
+	ePrefix += "StrOps.StrPadLeftToCenter() "
 
-	margin := (fieldLen - sLen) / 2
+	sOpsMolecule := strOpsMolecule{}
 
-	return strings.Repeat(" ", margin), nil
+	return sOpsMolecule.strPadLeftToCenter(
+		strToCenter,
+		fieldLen,
+		ePrefix)
 }
 
 // StrRightJustify - Returns a string where input parameter

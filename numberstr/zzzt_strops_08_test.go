@@ -783,11 +783,17 @@ func TestStrOps_StrGetCharCnt01(t *testing.T) {
 }
 
 func TestStrOps_StrPadLeftToCenter_01(t *testing.T) {
+
+	ePrefix := "TestStrOps_StrPadLeftToCenter_01("
+
 	strToCenter := "1234567"
 	fieldLen := 79
 	exLen := 36
 	su := StrOps{}
-	padStr, err := su.StrPadLeftToCenter(strToCenter, fieldLen)
+	padStr, err := su.StrPadLeftToCenter(
+		strToCenter,
+		fieldLen,
+		ePrefix)
 
 	if err != nil {
 		t.Error("Error on StrPadLeftToCenter(), got", err.Error())
@@ -802,11 +808,16 @@ func TestStrOps_StrPadLeftToCenter_01(t *testing.T) {
 }
 
 func TestStrOps_StrPadLeftToCenter_02(t *testing.T) {
+
+	ePrefix := "TestStrOps_StrPadLeftToCenter_02("
 	strToCenter := "Hello"
 	fieldLen := 15
 	exLen := 5
 	su := StrOps{}
-	padStr, err := su.StrPadLeftToCenter(strToCenter, fieldLen)
+	padStr, err := su.StrPadLeftToCenter(
+		strToCenter,
+		fieldLen,
+		ePrefix)
 
 	if err != nil {
 		t.Error("Error on StrPadLeftToCenter(), got", err.Error())
@@ -820,10 +831,14 @@ func TestStrOps_StrPadLeftToCenter_02(t *testing.T) {
 }
 
 func TestStrOps_StrPadLeftToCenter_03(t *testing.T) {
+	ePrefix := "TestStrOps_StrPadLeftToCenter_03() "
 	strToCenter := "   "
 	fieldLen := 15
 	su := StrOps{}
-	_, err := su.StrPadLeftToCenter(strToCenter, fieldLen)
+	_, err := su.StrPadLeftToCenter(
+		strToCenter,
+		fieldLen,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an error return from StrPadLeftToCenter(strToCenter, fieldLen)\n" +
@@ -833,10 +848,14 @@ func TestStrOps_StrPadLeftToCenter_03(t *testing.T) {
 }
 
 func TestStrOps_StrPadLeftToCenter_04(t *testing.T) {
+	ePrefix := "TestStrOps_StrPadLeftToCenter_04() "
 	strToCenter := "Hello World"
 	fieldLen := 5
 	su := StrOps{}
-	_, err := su.StrPadLeftToCenter(strToCenter, fieldLen)
+	_, err := su.StrPadLeftToCenter(
+		strToCenter,
+		fieldLen,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an error return from StrPadLeftToCenter(strToCenter, fieldLen)\n" +
@@ -846,12 +865,18 @@ func TestStrOps_StrPadLeftToCenter_04(t *testing.T) {
 }
 
 func TestStrOps_StrPadLeftToCenter_05(t *testing.T) {
+
+	ePrefix := "TestStrOps_StrPadLeftToCenter_04() "
+
 	strToCenter := "Hello"
 	fieldLen := 5
 	exLen := 0
 	su := StrOps{}
 
-	padStr, err := su.StrPadLeftToCenter(strToCenter, fieldLen)
+	padStr, err := su.StrPadLeftToCenter(
+		strToCenter,
+		fieldLen,
+		ePrefix)
 
 	if err != nil {
 		t.Error("Error on StrPadLeftToCenter(), got", err.Error())
