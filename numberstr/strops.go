@@ -1713,48 +1713,25 @@ func (sops StrOps) StrCenterInStrLeft(
 //
 func (sops StrOps) StrCenterInStr(
 	strToCenter string,
-	fieldLen int) (string, error) {
+	fieldLen int,
+	ePrefix string) (string, error) {
 
-	ePrefix := "StrOps.StrCenterInStr() "
-
-	sOpsQuark := strOpsQuark{}
-
-	if sOpsQuark.isEmptyOrWhiteSpace(strToCenter) {
-		return strToCenter,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'strToCenter' is All White "+
-				"Space or an EMPTY String!\n",
-				ePrefix)
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	sLen := len(strToCenter)
+	sops.stringDataMutex.Lock()
 
-	if sLen > fieldLen {
-		return strToCenter,
-			fmt.Errorf(ePrefix+
-				"\n"+
-				"Error: 'fieldLen' = '%v' strToCenter Length= '%v'.\n"+
-				"'fieldLen' is shorter than 'strToCenter' Length!\n",
-				fieldLen, sLen)
-	}
+	defer sops.stringDataMutex.Unlock()
 
-	if sLen == fieldLen {
-		return strToCenter, nil
-	}
+	ePrefix += "StrOps.StrCenterInStr() "
 
-	leftPadCnt := (fieldLen - sLen) / 2
+	sOpsMolecule := strOpsMolecule{}
 
-	leftPadStr := strings.Repeat(" ", leftPadCnt)
-
-	rightPadCnt := fieldLen - sLen - leftPadCnt
-
-	rightPadStr := ""
-
-	if rightPadCnt > 0 {
-		rightPadStr = strings.Repeat(" ", rightPadCnt)
-	}
-
-	return leftPadStr + strToCenter + rightPadStr, nil
+	return sOpsMolecule.strCenterInStr(
+		strToCenter,
+		fieldLen,
+		ePrefix)
 }
 
 // StrGetRuneCnt - Uses utf8 Rune Count
