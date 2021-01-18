@@ -1554,18 +1554,28 @@ func (sops *StrOps) ReplaceRunes(
 //
 // Input Parameters
 //
-//  targetStr          string  - The string which will be examined. If target string characters
-//                               eligible for replacement are identified by replacementRunes[i][0],
-//                               they will be replaced by the character specified in
-//                               replacementRunes[i][1].
+//  targetStr           string
+//     - The string which will be examined. If target string characters
+//       eligible for replacement are identified by replacementRunes[i][0],
+//       they will be replaced by the character specified in
+//       replacementRunes[i][1].
 //
-//  replacementRunes [][]rune  - A two dimensional slice of type 'rune'. Element [i][0] contains
-//                               the target character to locate in 'targetStr'. Element[i][1]
-//                               contains the replacement character which will replace the target
-//                               character in 'targetStr'. If the replacement character
-//                               element [i][1] is a zero value, the target character will not
-//                               be replaced. Instead, it will be eliminated or removed from the
-//                               returned string.
+//  replacementRunes    [][]rune
+//     - A two dimensional slice of type 'rune'. Element [i][0] contains
+//       the target character to locate in 'targetStr'. Element[i][1]
+//       contains the replacement character which will replace the target
+//       character in 'targetStr'. If the replacement character
+//       element [i][1] is a zero value, the target character will not
+//       be replaced. Instead, it will be eliminated or removed from the
+//       returned string.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -1580,43 +1590,29 @@ func (sops *StrOps) ReplaceRunes(
 //            In addition, if any of the replacementRunes[][x] 2nd dimension elements have
 //            a length less than two, an error will be returned.
 //
-func (sops StrOps) ReplaceStringChars(
+func (sops *StrOps) ReplaceStringChars(
 	targetStr string,
-	replacementRunes [][]rune) (string, error) {
+	replacementRunes [][]rune,
+	ePrefix string) (
+	string,
+	error) {
 
-	ePrefix := "StrOps.ReplaceStringChars() "
-
-	if len(targetStr) == 0 {
-		return "",
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'targetStr' is an EMPTY STRING!\n",
-				ePrefix)
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	if len(replacementRunes) == 0 {
-		return "",
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'replacementRunes' is an EMPTY STRING!\n",
-				ePrefix)
-	}
+	sops.stringDataMutex.Lock()
 
-	sOpsQuark := strOpsQuark{}
+	defer sops.stringDataMutex.Unlock()
 
-	outputStr, err :=
-		sOpsQuark.replaceRunes(
-			[]rune(targetStr),
-			replacementRunes,
-			ePrefix)
+	ePrefix += "StrOps.ReplaceStringChars() "
 
-	if err != nil {
-		return "",
-			fmt.Errorf(ePrefix+"\n"+
-				"Error returned by sOpsQuark.replaceRunes([]rune("+
-				"targetStr), replacementRunes).\n"+
-				"Error='%v' ", err.Error())
-	}
+	sOpsElectron := strOpsElectron{}
 
-	return string(outputStr), nil
+	return sOpsElectron.replaceStringChars(
+		targetStr,
+		replacementRunes,
+		ePrefix)
 }
 
 // SetStringData - Sets the value of internal

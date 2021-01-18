@@ -611,3 +611,101 @@ func (sOpsElectron *strOpsElectron) replaceMultipleStrs(
 
 	return newString, nil
 }
+
+// ReplaceStringChars - Replaces string characters in a target string ('targetStr') with those
+// specified in a two dimensional slice of runes, 'replacementRunes[][]'.
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - The string which will be examined. If target string characters
+//       eligible for replacement are identified by replacementRunes[i][0],
+//       they will be replaced by the character specified in
+//       replacementRunes[i][1].
+//
+//  replacementRunes    [][]rune
+//     - A two dimensional slice of type 'rune'. Element [i][0] contains
+//       the target character to locate in 'targetStr'. Element[i][1]
+//       contains the replacement character which will replace the target
+//       character in 'targetStr'. If the replacement character
+//       element [i][1] is a zero value, the target character will not
+//       be replaced. Instead, it will be eliminated or removed from the
+//       returned string.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string  - The returned string containing the characters and replaced characters
+//            from the original target string, ('targetStr').
+//
+//  error   - If the method completes successfully this value is 'nil'. If an error is
+//            encountered this value will contain the error message. Examples of possible
+//            errors include a zero length 'targetStr' or 'replacementRunes[][]' array.
+//            In addition, if any of the replacementRunes[][x] 2nd dimension elements have
+//            a length less than two, an error will be returned.
+//
+func (sOpsElectron *strOpsElectron) replaceStringChars(
+	targetStr string,
+	replacementRunes [][]rune,
+	ePrefix string) (
+	string,
+	error) {
+
+	if sOpsElectron.lock == nil {
+		sOpsElectron.lock = new(sync.Mutex)
+	}
+
+	sOpsElectron.lock.Lock()
+
+	defer sOpsElectron.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsElectron.replaceStringChars() "
+
+	if len(targetStr) == 0 {
+		return "",
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'targetStr' is an EMPTY STRING!\n",
+				ePrefix)
+	}
+
+	if len(replacementRunes) == 0 {
+		return "",
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'replacementRunes' is an EMPTY STRING!\n",
+				ePrefix)
+	}
+
+	sOpsQuark := strOpsQuark{}
+
+	outputStr, err :=
+		sOpsQuark.replaceRunes(
+			[]rune(targetStr),
+			replacementRunes,
+			ePrefix)
+
+	if err != nil {
+		return "",
+			fmt.Errorf(ePrefix+"\n"+
+				"Error returned by sOpsQuark.replaceRunes([]rune("+
+				"targetStr), replacementRunes).\n"+
+				"Error='%v' ", err.Error())
+	}
+
+	return string(outputStr), nil
+
+}
