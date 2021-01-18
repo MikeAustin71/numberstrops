@@ -1662,47 +1662,29 @@ func (sops *StrOps) SetStringData(str string) {
 //    fieldLen        = 15
 //    Returned String = "@@@@@Hello" or "     Hello"
 //
-func (sops StrOps) StrCenterInStrLeft(
+func (sops *StrOps) StrCenterInStrLeft(
 	strToCenter string,
-	fieldLen int) (string, error) {
+	fieldLen int,
+	ePrefix string) (
+	string,
+	error) {
 
-	ePrefix := "StrOps.StrCenterInStrLeft() "
-
-	sOpsQuark := strOpsQuark{}
-
-	if sOpsQuark.isEmptyOrWhiteSpace(strToCenter) {
-		return "",
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'strToCenter' is All White Space or an EMPTY String!\n",
-				ePrefix)
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	if fieldLen < len(strToCenter) {
-		return "",
-			fmt.Errorf(ePrefix+
-				"\n"+
-				"Error: Input parameter 'fieldLen' is less than length of 'strToCenter'.\n"+
-				"strToCenter length='%v'\n"+
-				"fieldLen='%v'\n",
-				len(strToCenter), fieldLen)
-	}
+	sops.stringDataMutex.Lock()
 
-	sOpsMolecule := strOpsMolecule{}
+	defer sops.stringDataMutex.Unlock()
 
-	pad, err := sOpsMolecule.strPadLeftToCenter(
+	ePrefix += "StrOps.StrCenterInStrLeft() "
+
+	sOpsNanobot := strOpsNanobot{}
+
+	return sOpsNanobot.strCenterInStrLeft(
 		strToCenter,
 		fieldLen,
 		ePrefix)
-
-	if err != nil {
-		return "",
-			fmt.Errorf(ePrefix+
-				"\n"+
-				"Error returned by sops.StrPadLeftToCenter(strToCenter, fieldLen).\n"+
-				"Error='%v'\n", err.Error())
-	}
-
-	return pad + strToCenter, nil
 }
 
 // StrCenterInStr - returns a string which includes a left pad blank string plus
@@ -1711,7 +1693,7 @@ func (sops StrOps) StrCenterInStrLeft(
 // The returned string will effectively center the original string ('strToCenter')
 // in a field of specified length ('fieldLen').
 //
-func (sops StrOps) StrCenterInStr(
+func (sops *StrOps) StrCenterInStr(
 	strToCenter string,
 	fieldLen int,
 	ePrefix string) (string, error) {

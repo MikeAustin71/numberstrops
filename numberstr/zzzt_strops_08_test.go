@@ -519,7 +519,7 @@ func TestStrOps_StrCenterInStr_04(t *testing.T) {
 	strToCenter := "Hello World"
 	fieldLen := 5
 
-	_, err := StrOps{}.StrCenterInStr(
+	_, err := StrOps{}.Ptr().StrCenterInStr(
 		strToCenter,
 		fieldLen,
 		ePrefix)
@@ -536,7 +536,7 @@ func TestStrOps_StrCenterInStr_05(t *testing.T) {
 	strToCenter := "     "
 	fieldLen := 15
 
-	_, err := StrOps{}.StrCenterInStr(
+	_, err := StrOps{}.Ptr().StrCenterInStr(
 		strToCenter,
 		fieldLen,
 		ePrefix)
@@ -693,6 +693,7 @@ func TestStrOps_StrRightJustify_04(t *testing.T) {
 }
 
 func TestStrOps_StrCenterInStrLeft_01(t *testing.T) {
+	ePrefix := "TestStrOps_StrCenterInStrLeft_01() "
 	strToCenter := "1234567"
 	fieldLen := 79
 	exPadLen := 36
@@ -702,7 +703,10 @@ func TestStrOps_StrCenterInStrLeft_01(t *testing.T) {
 
 	su := StrOps{}
 
-	str, err := su.StrCenterInStrLeft(strToCenter, fieldLen)
+	str, err := su.StrCenterInStrLeft(
+		strToCenter,
+		fieldLen,
+		ePrefix)
 
 	if err != nil {
 		t.Error("StrCenterInStrLeft() generated error: ", err.Error())
@@ -721,6 +725,7 @@ func TestStrOps_StrCenterInStrLeft_01(t *testing.T) {
 }
 
 func TestStrOps_StrCenterInStrLeft_02(t *testing.T) {
+	ePrefix := "TestStrOps_StrCenterInStrLeft_02() "
 	strToCenter := "Hello"
 	fieldLen := 15
 	exTotalFinalStrLen := 10
@@ -730,7 +735,10 @@ func TestStrOps_StrCenterInStrLeft_02(t *testing.T) {
 
 	su := StrOps{}
 
-	actualStr, err := su.StrCenterInStrLeft(strToCenter, fieldLen)
+	actualStr, err := su.StrCenterInStrLeft(
+		strToCenter,
+		fieldLen,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrCenterInStrLeft()\n"+
@@ -756,10 +764,14 @@ func TestStrOps_StrCenterInStrLeft_02(t *testing.T) {
 }
 
 func TestStrOps_StrCenterInStrLeft_03(t *testing.T) {
+	ePrefix := "TestStrOps_StrCenterInStrLeft_03() "
 	strToCenter := "  "
 	fieldLen := 15
 
-	_, err := StrOps{}.StrCenterInStrLeft(strToCenter, fieldLen)
+	_, err := StrOps{}.Ptr().StrCenterInStrLeft(
+		strToCenter,
+		fieldLen,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an error return from StrCenterInStrLeft()\n" +
@@ -770,10 +782,14 @@ func TestStrOps_StrCenterInStrLeft_03(t *testing.T) {
 }
 
 func TestStrOps_StrCenterInStrLeft_04(t *testing.T) {
+	ePrefix := "TestStrOps_StrCenterInStrLeft_04() "
 	strToCenter := "Hello"
 	fieldLen := 2
 
-	_, err := StrOps{}.StrCenterInStrLeft(strToCenter, fieldLen)
+	_, err := StrOps{}.Ptr().StrCenterInStrLeft(
+		strToCenter,
+		fieldLen,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected error return from StrCenterInStrLeft(strToCenter, fieldLen) because\n" +
