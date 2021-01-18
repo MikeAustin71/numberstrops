@@ -99,7 +99,7 @@ func TestStrOps_StripBadChars_001(t *testing.T) {
 	testString := "..........      ./../.\\.\\..\\////   " + expectedStr +
 		"..........      ./../.\\.\\..\\////   "
 
-	actualString, actualStrLen := StrOps{}.StripBadChars(testString, badChars)
+	actualString, actualStrLen := StrOps{}.Ptr().StripBadChars(testString, badChars)
 
 	if expectedStr != actualString {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -128,7 +128,7 @@ func TestStrOps_StripBadChars_002(t *testing.T) {
 	expectedStr = testString
 	expectedStrLen := len(expectedStr)
 
-	actualString, actualStrLen := StrOps{}.StripBadChars(testString, badChars)
+	actualString, actualStrLen := StrOps{}.Ptr().StripBadChars(testString, badChars)
 
 	if expectedStr != actualString {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -168,7 +168,7 @@ func TestStrOps_StripBadChars_003(t *testing.T) {
 	expectedStrLen := len(expectedStr)
 	testString := expectedStr
 
-	actualString, actualStrLen := StrOps{}.StripBadChars(testString, badChars)
+	actualString, actualStrLen := StrOps{}.Ptr().StripBadChars(testString, badChars)
 
 	if expectedStr != actualString {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -193,7 +193,7 @@ func TestStrOps_StripBadChars_004(t *testing.T) {
 	expectedStrLen := len(expectedStr)
 	testString := "  Some         Stri  ng  "
 
-	actualString, actualStrLen := StrOps{}.StripBadChars(testString, badChars)
+	actualString, actualStrLen := StrOps{}.Ptr().StripBadChars(testString, badChars)
 
 	if expectedStr != actualString {
 		t.Errorf("ERROR: Expected result string='%v'\n"+

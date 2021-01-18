@@ -1480,8 +1480,9 @@ func (sops *StrOps) ReplaceNewLines(
 	return newStr
 }
 
-// ReplaceRunes - Replaces characters in a target array of runes ([]rune) with those specified in
-// a two-dimensional slice of runes, 'replacementRunes[][]'.
+// ReplaceRunes - Replaces individual characters in a target array
+// of runes ([]rune) with those specified in a two-dimensional
+// slice of runes, 'replacementRunes[][]'.
 //
 // ------------------------------------------------------------------------
 //
@@ -1755,72 +1756,25 @@ func (sops *StrOps) StrGetCharCnt(targetStr string) int {
 // All instances of a 'badChars' character are deleted from the target
 // string. The target string is passed through input parameter, 'targetStr'.
 //
-func (sops StrOps) StripBadChars(
+func (sops *StrOps) StripBadChars(
 	targetStr string,
-	badChars []string) (cleanStr string, strLen int) {
+	badChars []string) (
+	cleanStr string,
+	strLen int) {
 
-	cleanStr = targetStr
-	strLen = len(cleanStr)
-
-	if strLen == 0 {
-		return cleanStr, strLen
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	lenBadChars := len(badChars)
+	sops.stringDataMutex.Lock()
 
-	if lenBadChars == 0 {
-		return cleanStr, strLen
-	}
+	defer sops.stringDataMutex.Unlock()
 
-	sort.Sort(SortStrLengthHighestToLowest(badChars))
+	sOpsQuark := strOpsQuark{}
 
-	cycleWhereStringRemoved := 0
-	k := -1
-
-	for {
-
-		k++
-
-		for i := 0; i < lenBadChars; i++ {
-
-			for {
-
-				badCharIdx := strings.Index(cleanStr, badChars[i])
-
-				if badCharIdx == -1 {
-					break
-				}
-
-				lastCleanStrIdx := strLen - 1
-				lChar := len(badChars[i])
-				nextIdx := badCharIdx + lChar
-
-				if nextIdx > lastCleanStrIdx {
-					cleanStr = cleanStr[0:badCharIdx]
-
-				} else {
-
-					cleanStr = cleanStr[0:badCharIdx] + cleanStr[nextIdx:]
-				}
-
-				cycleWhereStringRemoved = k
-			}
-
-			strLen = len(cleanStr)
-
-			if strLen == 0 {
-				goto Done
-			}
-		}
-
-		if k-cycleWhereStringRemoved > 3 || k > 1000000 {
-			goto Done
-		}
-	}
-
-Done:
-
-	return cleanStr, strLen
+	return sOpsQuark.stripBadChars(
+		targetStr,
+		badChars)
 }
 
 // StripLeadingChars - Strips or deletes characters specified by

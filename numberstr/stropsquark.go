@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"regexp"
+	"sort"
 	"strings"
 	"sync"
 	"unicode/utf8"
@@ -1851,4 +1852,89 @@ func (sOpsQuark *strOpsQuark) replaceSubString(
 	}
 
 	return string(newRunes), replacementCnt, err
+}
+
+// StripBadChars - Removes/deletes specified characters from a string.
+// The characters to remove are contained in a string array passed as
+// input parameter, 'badChars'.
+//
+// All instances of a 'badChars' character are deleted from the target
+// string. The target string is passed through input parameter, 'targetStr'.
+//
+func (sOpsQuark *strOpsQuark) stripBadChars(
+	targetStr string,
+	badChars []string) (
+	cleanStr string,
+	strLen int) {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	cleanStr = targetStr
+	strLen = len(cleanStr)
+
+	if strLen == 0 {
+		return cleanStr, strLen
+	}
+
+	lenBadChars := len(badChars)
+
+	if lenBadChars == 0 {
+		return cleanStr, strLen
+	}
+
+	sort.Sort(SortStrLengthHighestToLowest(badChars))
+
+	cycleWhereStringRemoved := 0
+	k := -1
+
+	for {
+
+		k++
+
+		for i := 0; i < lenBadChars; i++ {
+
+			for {
+
+				badCharIdx := strings.Index(cleanStr, badChars[i])
+
+				if badCharIdx == -1 {
+					break
+				}
+
+				lastCleanStrIdx := strLen - 1
+				lChar := len(badChars[i])
+				nextIdx := badCharIdx + lChar
+
+				if nextIdx > lastCleanStrIdx {
+					cleanStr = cleanStr[0:badCharIdx]
+
+				} else {
+
+					cleanStr = cleanStr[0:badCharIdx] + cleanStr[nextIdx:]
+				}
+
+				cycleWhereStringRemoved = k
+			}
+
+			strLen = len(cleanStr)
+
+			if strLen == 0 {
+				goto Done
+			}
+		}
+
+		if k-cycleWhereStringRemoved > 3 || k > 1000000 {
+			goto Done
+		}
+	}
+
+Done:
+
+	return cleanStr, strLen
 }
