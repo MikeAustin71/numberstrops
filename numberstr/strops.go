@@ -12,7 +12,6 @@ import (
 	"sort"
 	"strings"
 	"sync"
-	"unicode/utf8"
 )
 
 // StrOps - encapsulates a collection of methods used to manage string
@@ -1755,8 +1754,19 @@ func (sops StrOps) StrCenterInStr(strToCenter string, fieldLen int) (string, err
 // StrGetRuneCnt - Uses utf8 Rune Count
 // function to return the number of characters
 // in a string.
-func (sops StrOps) StrGetRuneCnt(targetStr string) int {
-	return utf8.RuneCountInString(targetStr)
+func (sops *StrOps) StrGetRuneCnt(targetStr string) int {
+
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
+	sOpsQuark := strOpsQuark{}
+
+	return sOpsQuark.getRuneCountInStr(targetStr)
 }
 
 // StrGetCharCnt - Uses the 'len' method to
@@ -2050,7 +2060,7 @@ func (sops StrOps) StrPadLeftToCenter(strToCenter string, fieldLen int) (string,
 				ePrefix)
 	}
 
-	sLen := sops.StrGetRuneCnt(strToCenter)
+	sLen := sOpsQuark.getRuneCountInStr(strToCenter)
 
 	if sLen > fieldLen {
 		return "",
