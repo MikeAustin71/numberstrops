@@ -9,7 +9,6 @@ package numberstr
 import (
 	"fmt"
 	"io"
-	"sort"
 	"strings"
 	"sync"
 )
@@ -1784,60 +1783,22 @@ func (sops *StrOps) StripBadChars(
 // 'bad characters'. In addition, the length of the 'clean string'
 // is also returned.
 //
-func (sops StrOps) StripLeadingChars(
+func (sops *StrOps) StripLeadingChars(
 	targetStr string,
 	badChars []string) (cleanStr string, strLen int) {
+	sOpsQuark := strOpsQuark{}
 
-	cleanStr = targetStr
-	strLen = len(cleanStr)
-
-	lenBadChars := len(badChars)
-
-	if lenBadChars == 0 {
-		return cleanStr, strLen
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	if strLen == 0 {
-		return cleanStr, strLen
-	}
+	sops.stringDataMutex.Lock()
 
-	sort.Sort(SortStrLengthHighestToLowest(badChars))
+	defer sops.stringDataMutex.Unlock()
 
-	cycleWhereStringRemoved := 0
-	k := -1
-
-	for {
-
-		k++
-
-		for i := 0; i < lenBadChars; i++ {
-
-			for {
-
-				if !strings.HasPrefix(cleanStr, badChars[i]) {
-					break
-				}
-
-				cleanStr = cleanStr[len(badChars[i]):]
-
-				cycleWhereStringRemoved = k
-			}
-
-			strLen = len(cleanStr)
-
-			if strLen == 0 {
-				goto Done
-			}
-		}
-
-		if k-cycleWhereStringRemoved > 3 || k > 1000000 {
-			goto Done
-		}
-	}
-
-Done:
-
-	return cleanStr, strLen
+	return sOpsQuark.stripLeadingChars(
+		targetStr,
+		badChars)
 }
 
 // StripTrailingChars - Strips or deletes bad characters from the

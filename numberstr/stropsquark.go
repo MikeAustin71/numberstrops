@@ -1938,3 +1938,68 @@ Done:
 
 	return cleanStr, strLen
 }
+
+// stripLeadingChars - Strips or deletes characters specified by
+// input parameter 'badChars' from the front of 'targetStr'.
+//
+// The method then returns a string which does not contain leading
+// 'bad characters'. In addition, the length of the 'clean string'
+// is also returned.
+//
+func (sOpsQuark *strOpsQuark) stripLeadingChars(
+	targetStr string,
+	badChars []string) (
+	cleanStr string,
+	strLen int) {
+
+	cleanStr = targetStr
+	strLen = len(cleanStr)
+
+	lenBadChars := len(badChars)
+
+	if lenBadChars == 0 {
+		return cleanStr, strLen
+	}
+
+	if strLen == 0 {
+		return cleanStr, strLen
+	}
+
+	sort.Sort(SortStrLengthHighestToLowest(badChars))
+
+	cycleWhereStringRemoved := 0
+	k := -1
+
+	for {
+
+		k++
+
+		for i := 0; i < lenBadChars; i++ {
+
+			for {
+
+				if !strings.HasPrefix(cleanStr, badChars[i]) {
+					break
+				}
+
+				cleanStr = cleanStr[len(badChars[i]):]
+
+				cycleWhereStringRemoved = k
+			}
+
+			strLen = len(cleanStr)
+
+			if strLen == 0 {
+				goto Done
+			}
+		}
+
+		if k-cycleWhereStringRemoved > 3 || k > 1000000 {
+			goto Done
+		}
+	}
+
+Done:
+
+	return cleanStr, strLen
+}

@@ -234,7 +234,7 @@ func TestStrOps_StripLeadingChars_001(t *testing.T) {
 	expectedStrLen := len(expectedStr)
 	testString := "..........      ./../.\\.\\..\\////   " + expectedStr
 
-	actualString, actualStrLen := StrOps{}.StripLeadingChars(testString, badChars)
+	actualString, actualStrLen := StrOps{}.Ptr().StripLeadingChars(testString, badChars)
 
 	if expectedStr != actualString {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -260,7 +260,7 @@ func TestStrOps_StripLeadingChars_002(t *testing.T) {
 	expectedStr = testString
 	expectedStrLen := len(expectedStr)
 
-	actualString, actualStrLen := StrOps{}.StripLeadingChars(testString, badChars)
+	actualString, actualStrLen := StrOps{}.Ptr().StripLeadingChars(testString, badChars)
 
 	if expectedStr != actualString {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -299,7 +299,7 @@ func TestStrOps_StripLeadingChars_003(t *testing.T) {
 	expectedStrLen := len(expectedStr)
 	testString := expectedStr
 
-	actualString, actualStrLen := StrOps{}.StripLeadingChars(testString, badChars)
+	actualString, actualStrLen := StrOps{}.Ptr().StripLeadingChars(testString, badChars)
 
 	if expectedStr != actualString {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
