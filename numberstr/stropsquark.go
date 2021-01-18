@@ -701,6 +701,50 @@ func (sOpsQuark *strOpsQuark) findRegExIndex(
 	return re.FindStringIndex(targetStr)
 }
 
+// getCharCountInStr - Uses the 'len' method to return the number
+// of rune characters in a string.
+//
+// There is a difference in counting characters or bytes in a string
+// and counting 'runes' in a string.
+//
+// For information on an alternative counting method, see
+// strOpsQuark.getRuneCountInStr() and research the 'utf8' Rune
+// Count In String function at:
+//
+//   https://golang.org/pkg/unicode/utf8/#RuneCountInString
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - The number of 'runes' in this string will be counted and
+//       that count will be returned to the calling function.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  int
+//     - This returned integer value will be set to the number of
+//       of 'runes' counted in 'targetStr'.
+//
+func (sOpsQuark *strOpsQuark) getCharCountInStr(
+	targetStr string) int {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	return len([]rune(targetStr))
+}
+
 // getRuneCountInStr - Uses utf8 Rune Count function to return the
 // number of characters, or runes, within a string.
 //

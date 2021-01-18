@@ -1711,7 +1711,9 @@ func (sops StrOps) StrCenterInStrLeft(
 // The returned string will effectively center the original string ('strToCenter')
 // in a field of specified length ('fieldLen').
 //
-func (sops StrOps) StrCenterInStr(strToCenter string, fieldLen int) (string, error) {
+func (sops StrOps) StrCenterInStr(
+	strToCenter string,
+	fieldLen int) (string, error) {
 
 	ePrefix := "StrOps.StrCenterInStr() "
 
@@ -1776,8 +1778,19 @@ func (sops *StrOps) StrGetRuneCnt(targetStr string) int {
 // StrGetCharCnt - Uses the 'len' method to
 // return the number of rune characters in a
 // string.
-func (sops StrOps) StrGetCharCnt(targetStr string) int {
-	return len([]rune(targetStr))
+func (sops *StrOps) StrGetCharCnt(targetStr string) int {
+
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
+	sOpsQuark := strOpsQuark{}
+
+	return sOpsQuark.getCharCountInStr(targetStr)
 }
 
 // StripBadChars - Removes/deletes specified characters from a string.
