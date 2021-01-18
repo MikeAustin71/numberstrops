@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"math"
 	"regexp"
 	"strings"
 	"sync"
@@ -1162,8 +1163,162 @@ func (sOpsQuark *strOpsQuark) removeStringChar(
 	return newStr, numOfDeletions, err
 }
 
-// replaceRunes - Replaces characters in a target array of runes ([]rune) with those specified in
-// a two-dimensional slice of runes, 'replacementRunes[][]'.
+// removeSubString - Removes or deletes a sub-string
+// ('targetSubStr') from a parent string ('strToSearch'). The
+// returned string is identical to the original string with the
+// sole exception that all specified instances of the target
+// sub-string have been deleted and removed.
+//
+// The number of 'targetSubStr' instances deleted from 'strToSearch'
+// is controlled by input parameter, 'maxRemovalCount'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  strToSearch                string
+//     - This is the parent string which will be searched for
+//       instances of the target sub-string to be deleted.
+//
+//
+//  targetSubStr               string
+//     - This is the sub-string which will be targeted for deletion
+//       and removal when located in 'strToSearch'.
+//
+//
+//  maxRemovalCount            int
+//     - Specifies the maximum number of 'targetSubStr' instances
+//       which will be deleted and removed from 'strToSearch'.
+//
+//       If 'maxRemovalCount' is set to a value less than one (+1),
+//       it specifies that all instances of 'targetSubStr' which
+//       exist in 'strToSearch' will be deleted and removed.
+//
+//
+//  ePrefix                    string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - If this method completes successfully, this string will be
+//       populated with an identical copy of 'strToSearch' minus the
+//       target sub-strings deleted and removed.
+//
+//
+//  int
+//     - If this method completes successfully, this integer value
+//       will record the number of target sub-strings removed from
+//       'strToSearch'.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. Remember that this error message will
+//       incorporate the method chain and text passed by input
+//       parameter, 'ePrefix'. The 'ePrefix' or error prefix text
+//       will be prefixed to the beginning of the error message.
+//
+func (sOpsQuark *strOpsQuark) removeSubString(
+	strToSearch string,
+	targetSubStr string,
+	maxRemovalCount int,
+	ePrefix string) (
+	string,
+	int,
+	error) {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsQuark.removeSubString() "
+	var err error
+
+	if len(strToSearch) == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: input parameter 'strToSearch' is"+
+			" a zero length or empty string!\n",
+			ePrefix)
+		return "", 0, err
+	}
+
+	if len(targetSubStr) == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: input parameter 'targetSubStr' is"+
+			" a zero length or empty string!\n",
+			ePrefix)
+		return "", 0, err
+	}
+
+	if maxRemovalCount < 1 {
+		maxRemovalCount = math.MaxInt32
+	}
+
+	newRunes := make([]rune, 0, 100)
+
+	targetRunesSubArray := []rune(targetSubStr)
+	lenTargetRunes := len(targetRunesSubArray)
+	runesToSearch := []rune(strToSearch)
+	lenRunesToSearch := len(runesToSearch)
+
+	isCorrectCharCnt := 0
+	removalCnt := 0
+
+	for i := 0; i < lenRunesToSearch; i++ {
+
+		if runesToSearch[i] == targetRunesSubArray[0] &&
+			i+lenTargetRunes <= lenRunesToSearch &&
+			removalCnt < maxRemovalCount {
+
+			isCorrectCharCnt = 1
+
+			for j := 1; j < lenTargetRunes; j++ {
+
+				if runesToSearch[i+j] == targetRunesSubArray[j] {
+					isCorrectCharCnt++
+				} else {
+					break
+				}
+			}
+
+			if isCorrectCharCnt == lenTargetRunes {
+				i += lenTargetRunes - 1
+				removalCnt++
+			} else {
+				newRunes = append(newRunes, runesToSearch[i])
+			}
+
+			continue
+
+		} else {
+			newRunes = append(newRunes, runesToSearch[i])
+		}
+	}
+
+	return string(newRunes), removalCnt, err
+}
+
+// replaceRunes - Replaces individual characters in a target array
+// of runes ([]rune) with those specified in a two-dimensional slice
+// of runes, 'replacementRunes[][]'.
 //
 // ------------------------------------------------------------------------
 //
@@ -1351,6 +1506,7 @@ func (sOpsQuark *strOpsQuark) replaceRunes(
 //     - If this method completes successfully, a new string will be
 //       returned with the designated replacement characters.
 //
+//
 //  error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'. If errors are encountered
@@ -1433,4 +1589,179 @@ func (sOpsQuark *strOpsQuark) replaceStringChar(
 	}
 
 	return string(runeArray), err
+}
+
+// replaceSubString - Replaces instances of a sub-string
+// ('targetSubStr') found in a parent string ('strToSearch') with
+// a replacement string ('replacementStr').
+//
+// The number of instances located and replaced in 'strToSearch' is
+// controlled by input parameter 'maxReplacementCount'.
+//
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  strToSearch                string
+//     - This is the parent string which will be searched for
+//       instances of the target sub-string to be replaced.
+//
+//
+//  targetSubStr               string
+//     - This is the sub-string which will be targeted for
+//       replacement when located in 'strToSearch'.
+//
+//
+//  replacementStr             string
+//     - This is the replacement string which will replace instances
+//       of 'targetSubStr' located in 'strToSearch'.
+//
+//
+//  maxReplacementCount        int
+//     - Specifies the maximum number of 'targetSubStr' instances
+//       which will be replaced with 'replacementStr' in the parent
+//       string, 'strToSearch'.
+//
+//       If 'maxReplacementCount' is set to a value less than one
+//       (+1), it specifies that all instances of 'targetSubStr'
+//       which exist in 'strToSearch' will be replaced with the
+//       replacement string, 'replacementStr' .
+//
+//
+//  ePrefix                    string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - If this method completes successfully, this string will be
+//       populated with an identical copy of 'strToSearch' where
+//       instances of the target sub-string have been replaced with
+//       the replacement string, 'replacementStr'.
+//
+//
+//  int
+//     - If this method completes successfully, this integer value
+//       will record the number of target sub-strings replaced
+//       within 'strToSearch'.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. Remember that this error message will
+//       incorporate the method chain and text passed by input
+//       parameter, 'ePrefix'. The 'ePrefix' or error prefix text
+//       will be prefixed to the beginning of the error message.
+//
+func (sOpsQuark *strOpsQuark) replaceSubString(
+	strToSearch string,
+	targetSubStr string,
+	replacementStr string,
+	maxReplacementCount int,
+	ePrefix string) (
+	string,
+	int,
+	error) {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsQuark.replaceSubString() "
+	var err error
+
+	err = nil
+
+	if len(strToSearch) == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: input parameter 'strToSearch' is"+
+			" a zero length or empty string!\n",
+			ePrefix)
+		return "", 0, err
+	}
+
+	if len(targetSubStr) == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: input parameter 'targetSubStr' is"+
+			" a zero length or empty string!\n",
+			ePrefix)
+		return "", 0, err
+	}
+
+	if len(replacementStr) == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: input parameter 'replacementStr' is"+
+			" a zero length or empty string!\n",
+			ePrefix)
+		return "", 0, err
+	}
+
+	if maxReplacementCount < 1 {
+		maxReplacementCount = math.MaxInt32
+	}
+
+	newRunes := make([]rune, 0, 100)
+
+	targetRunes := []rune(targetSubStr)
+	lenTargetRunes := len(targetRunes)
+	replacementRunes := []rune(replacementStr)
+	runesToSearch := []rune(strToSearch)
+	lenRunesToSearch := len(runesToSearch)
+
+	isCorrectCharCnt := 0
+	replacementCnt := 0
+
+	for i := 0; i < lenRunesToSearch; i++ {
+
+		if runesToSearch[i] == targetRunes[0] &&
+			i+lenTargetRunes <= lenRunesToSearch &&
+			replacementCnt < maxReplacementCount {
+
+			isCorrectCharCnt = 1
+
+			for j := 1; j < lenTargetRunes; j++ {
+
+				if runesToSearch[i+j] == targetRunes[j] {
+					isCorrectCharCnt++
+				} else {
+					break
+				}
+			}
+
+			if isCorrectCharCnt == lenTargetRunes {
+				i += lenTargetRunes - 1
+				replacementCnt++
+				// copy(newRunes[i:], replacementRunes)
+				newRunes = append(newRunes, replacementRunes...)
+
+			} else {
+				newRunes = append(newRunes, runesToSearch[i])
+			}
+
+			continue
+
+		} else {
+			newRunes = append(newRunes, runesToSearch[i])
+		}
+	}
+
+	return string(newRunes), replacementCnt, err
 }

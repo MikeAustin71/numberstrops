@@ -1449,7 +1449,36 @@ func (sops *StrOps) ReplaceNewLines(
 
 	defer sops.stringDataMutex.Unlock()
 
-	return strings.Replace(targetStr, "\n", replacementStr, -1)
+	if len(targetStr) == 0 {
+		return targetStr
+	}
+
+	sOpsQuark := strOpsQuark{}
+	var newStr string
+
+	if len(replacementStr) == 0 {
+		newStr,
+			_,
+			_ =
+			sOpsQuark.removeSubString(
+				targetStr,
+				"\n",
+				-1,
+				"")
+
+		return newStr
+	}
+
+	newStr,
+		_,
+		_ = sOpsQuark.replaceSubString(
+		targetStr,
+		"\n",
+		replacementStr,
+		-1,
+		"")
+
+	return newStr
 }
 
 // ReplaceRunes - Replaces characters in a target array of runes ([]rune) with those specified in
