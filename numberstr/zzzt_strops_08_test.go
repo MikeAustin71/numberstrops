@@ -338,7 +338,7 @@ func TestStrOps_StripTrailingChars_001(t *testing.T) {
 	expectedStrLen := len(expectedStr)
 	testString := expectedStr + "..........      ./../.\\.\\..\\////   "
 
-	actualString, actualStrLen := StrOps{}.StripTrailingChars(testString, badChars)
+	actualString, actualStrLen := StrOps{}.Ptr().StripTrailingChars(testString, badChars)
 
 	if expectedStr != actualString {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -364,7 +364,7 @@ func TestStrOps_StripTrailingChars_002(t *testing.T) {
 	expectedStr = testString
 	expectedStrLen := len(expectedStr)
 
-	actualString, actualStrLen := StrOps{}.StripTrailingChars(testString, badChars)
+	actualString, actualStrLen := StrOps{}.Ptr().StripTrailingChars(testString, badChars)
 
 	if expectedStr != actualString {
 		t.Errorf("ERROR: Expected result string='%v'\n"+
@@ -403,7 +403,7 @@ func TestStrOps_StripTrailingChars_003(t *testing.T) {
 	expectedStrLen := len(expectedStr)
 	testString := expectedStr
 
-	actualString, actualStrLen := StrOps{}.StripTrailingChars(testString, badChars)
+	actualString, actualStrLen := StrOps{}.Ptr().StripTrailingChars(testString, badChars)
 
 	if expectedStr != actualString {
 		t.Errorf("ERROR: Expected result string='%v'\n"+

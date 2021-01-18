@@ -1952,6 +1952,14 @@ func (sOpsQuark *strOpsQuark) stripLeadingChars(
 	cleanStr string,
 	strLen int) {
 
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
 	cleanStr = targetStr
 	strLen = len(cleanStr)
 
@@ -1997,6 +2005,87 @@ func (sOpsQuark *strOpsQuark) stripLeadingChars(
 		if k-cycleWhereStringRemoved > 3 || k > 1000000 {
 			goto Done
 		}
+	}
+
+Done:
+
+	return cleanStr, strLen
+}
+
+// StripTrailingChars - Strips or deletes bad characters from the
+// end of input parameter 'targetStr'. Bad characters are identified
+// by the input parameter, 'badChars'.
+//
+// The method then returns the cleaned string and the length of the
+// cleaned string to the caller.  The cleaned string is equivalent
+// to input parameter 'targetStr' minus the trailing bad characters
+// at the end of 'targetStr'.
+//
+func (sOpsQuark *strOpsQuark) stripTrailingChars(
+	targetStr string,
+	badChars []string) (
+	cleanStr string,
+	strLen int) {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	cleanStr = targetStr
+	strLen = len(cleanStr)
+
+	lenBadChars := len(badChars)
+
+	if lenBadChars == 0 {
+		return cleanStr, strLen
+	}
+
+	if strLen == 0 {
+		return cleanStr, strLen
+	}
+
+	k := -1
+	cycleWhereStringRemoved := 0
+
+	for {
+
+		k++
+
+		for i := 0; i < lenBadChars; i++ {
+
+			for {
+
+				if !strings.HasSuffix(cleanStr, badChars[i]) {
+					break
+				}
+
+				strLen = len(cleanStr) - len(badChars[i])
+
+				cleanStr = cleanStr[0:strLen]
+
+				cycleWhereStringRemoved = k
+
+			}
+
+			if len(cleanStr) == 0 {
+				goto Done
+			}
+		}
+
+		strLen = len(cleanStr)
+
+		if strLen == 0 {
+			goto Done
+		}
+
+		if k-cycleWhereStringRemoved > 3 || k > 1000000 {
+			goto Done
+		}
+
 	}
 
 Done:

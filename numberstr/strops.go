@@ -1786,7 +1786,6 @@ func (sops *StrOps) StripBadChars(
 func (sops *StrOps) StripLeadingChars(
 	targetStr string,
 	badChars []string) (cleanStr string, strLen int) {
-	sOpsQuark := strOpsQuark{}
 
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
@@ -1795,6 +1794,8 @@ func (sops *StrOps) StripLeadingChars(
 	sops.stringDataMutex.Lock()
 
 	defer sops.stringDataMutex.Unlock()
+
+	sOpsQuark := strOpsQuark{}
 
 	return sOpsQuark.stripLeadingChars(
 		targetStr,
@@ -1810,66 +1811,23 @@ func (sops *StrOps) StripLeadingChars(
 // to input parameter 'targetStr' minus the trailing bad characters
 // at the end of 'targetStr'.
 //
-func (sops StrOps) StripTrailingChars(
+func (sops *StrOps) StripTrailingChars(
 	targetStr string,
 	badChars []string) (cleanStr string, strLen int) {
 
-	cleanStr = targetStr
-	strLen = len(cleanStr)
-
-	lenBadChars := len(badChars)
-
-	if lenBadChars == 0 {
-		return cleanStr, strLen
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	if strLen == 0 {
-		return cleanStr, strLen
-	}
+	sops.stringDataMutex.Lock()
 
-	k := -1
-	cycleWhereStringRemoved := 0
+	defer sops.stringDataMutex.Unlock()
 
-	for {
+	sOpsQuark := strOpsQuark{}
 
-		k++
-
-		for i := 0; i < lenBadChars; i++ {
-
-			for {
-
-				if !strings.HasSuffix(cleanStr, badChars[i]) {
-					break
-				}
-
-				strLen = len(cleanStr) - len(badChars[i])
-
-				cleanStr = cleanStr[0:strLen]
-
-				cycleWhereStringRemoved = k
-
-			}
-
-			if len(cleanStr) == 0 {
-				goto Done
-			}
-		}
-
-		strLen = len(cleanStr)
-
-		if strLen == 0 {
-			goto Done
-		}
-
-		if k-cycleWhereStringRemoved > 3 || k > 1000000 {
-			goto Done
-		}
-
-	}
-
-Done:
-
-	return cleanStr, strLen
+	return sOpsQuark.stripTrailingChars(
+		targetStr,
+		badChars)
 }
 
 // StrLeftJustify - Creates a new string with a total length equal to input parameter
