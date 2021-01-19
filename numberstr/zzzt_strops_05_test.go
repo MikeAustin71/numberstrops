@@ -97,13 +97,18 @@ func TestStrOps_GetSoftwareVersion_01(t *testing.T) {
 
 func TestStrOps_GetValidBytes_01(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidBytes_01() "
+
 	validBytes := []byte{'v', 'a', 'l', 'i', 'd'}
 
 	testBytes := []byte{'x', 'j', 'v', 'm', 'R', 'a', 'J', 'l', 'Z', 'i', 'F', 'd', 'S'}
 
 	expected := "valid"
 
-	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
+	actualBytes, err := StrOps{}.Ptr().GetValidBytes(
+		testBytes,
+		validBytes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidBytes(testBytes, validBytes). "+
@@ -121,13 +126,18 @@ func TestStrOps_GetValidBytes_01(t *testing.T) {
 
 func TestStrOps_GetValidBytes_02(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidBytes_02() "
+
 	validBytes := []byte{'1', '2', '3', '4', '5'}
 
 	testBytes := []byte{'x', '1', '3', 'm', '5', 'a', 'J', '7', 'Z', 'i', 'F', 'd', '5'}
 
 	expected := "1355"
 
-	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
+	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(
+		testBytes,
+		validBytes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidBytes(testBytes, validBytes). "+
@@ -145,13 +155,18 @@ func TestStrOps_GetValidBytes_02(t *testing.T) {
 
 func TestStrOps_GetValidBytes_03(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidBytes_03() "
+
 	validBytes := []byte{'1', '2', '3', '4', '5'}
 
 	testBytes := []byte{'x', 'z', '3', 'm', '5', 'a', 'J', '7', 'Z', 'i', 'F', 'd', '5'}
 
 	expected := "355"
 
-	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
+	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(
+		testBytes,
+		validBytes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidBytes(testBytes, validBytes). "+
@@ -169,13 +184,18 @@ func TestStrOps_GetValidBytes_03(t *testing.T) {
 
 func TestStrOps_GetValidBytes_04(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidBytes_04() "
+
 	validBytes := []byte{'1', '2', '3', '4', '5'}
 
 	testBytes := []byte{'x', 'z', 'J', 'm', '!', 'a', 'J', '%', 'Z', 'i', 'F', 'd', '^'}
 
 	expected := ""
 
-	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
+	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(
+		testBytes,
+		validBytes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidBytes(testBytes, validBytes). "+
@@ -193,13 +213,18 @@ func TestStrOps_GetValidBytes_04(t *testing.T) {
 
 func TestStrOps_GetValidBytes_05(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidBytes_05() "
+
 	validBytes := []byte{'1', '2', '3', '4', '5'}
 
 	testBytes := []byte{'x', 'z', 'U', 'm', 'M', 'a', 'J', '9', 'Z', 'i', 'F', 'd', '&'}
 
 	expected := ""
 
-	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
+	actualBytes, err := StrOps{}.NewPtr().GetValidBytes(
+		testBytes,
+		validBytes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidBytes(testBytes, validBytes). "+
@@ -217,11 +242,16 @@ func TestStrOps_GetValidBytes_05(t *testing.T) {
 
 func TestStrOps_GetValidBytes_06(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidBytes_06() "
+
 	validBytes := []byte{'1', '2', '3', '4', '5'}
 
 	testBytes := make([]byte, 0, 5)
 
-	_, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
+	_, err := StrOps{}.NewPtr().GetValidBytes(
+		testBytes,
+		validBytes,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an Error Return due to empty 'testBytes'. " +
@@ -232,11 +262,16 @@ func TestStrOps_GetValidBytes_06(t *testing.T) {
 
 func TestStrOps_GetValidBytes_07(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidBytes_07() "
+
 	validBytes := make([]byte, 0, 5)
 
 	testBytes := []byte{'x', 'z', 'U', 'm', 'M', 'a', 'J', '9', 'Z', 'i', 'F', 'd', '&'}
 
-	_, err := StrOps{}.NewPtr().GetValidBytes(testBytes, validBytes)
+	_, err := StrOps{}.NewPtr().GetValidBytes(
+		testBytes,
+		validBytes,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected Error return due to empty 'validBytes'. " +

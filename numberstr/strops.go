@@ -1110,30 +1110,68 @@ func (sops *StrOps) GetStringData() string {
 //
 // Input Parameters
 //
-//  targetBytes  [] byte  - An array of characters (bytes) which will be examined
-//                          for valid characters. The list of valid characters is
-//                          found in input parameter 'validBytes'. Valid characters
-//                          in targetBytes will be returned by this method as an
-//                          array of bytes. Invalid characters will be discarded.
+//  targetBytes         [] byte
+//     - An array of characters (bytes) which will be examined
+//       for valid characters. The list of valid characters is
+//       found in input parameter 'validBytes'. Valid characters
+//       in targetBytes will be returned by this method as an
+//       array of bytes. Invalid characters will be discarded.
 //
-//  validBytes  [] byte   - An array of bytes containing valid characters. If a character
-//                          (byte) in 'targetBytes' is also present in 'validBytes' it will
-//                          be classified as 'valid' and included in the returned array of
-//                          bytes. Invalid characters will be discarded.
+//
+//  validBytes          [] byte
+//     - An array of bytes containing valid characters. If a character
+//       (byte) in 'targetBytes' is also present in 'validBytes' it will
+//       be classified as 'valid' and included in the returned array of
+//       bytes. Invalid characters will be discarded.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  [] byte  - An array of bytes which contains bytes that are present in both 'targetBytes'
-//             and 'validBytes'. Note: If all characters in 'targetBytes' are classified as
-//             'invalid', the returned array of bytes will be a zero length array.
+//  [] byte
+//     - An array of bytes which contains bytes that are present in both 'targetBytes'
+//       and 'validBytes'. Note: If all characters in 'targetBytes' are classified as
+//       'invalid', the returned array of bytes will be a zero length array.
 //
-//  error    - If the method completes successfully this value is 'nil'. If an error is
-//             encountered this value will contain the error message. Examples of possible
-//             errors include a zero length 'targetBytes array or 'validBytes' array.
 //
-func (sops *StrOps) GetValidBytes(targetBytes, validBytes []byte) ([]byte, error) {
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//    ePrefix := "TestStrOps_GetValidBytes_01() "
+//    validBytes := []byte{'v', 'a', 'l', 'i', 'd'}
+//    testBytes := []byte{'x', 'j', 'v', 'm', 'R', 'a', 'J', 'l', 'Z', 'i', 'F', 'd', 'S'}
+//
+//    actualBytes, err := StrOps{}.Ptr().GetValidBytes(
+//    testBytes,
+//    validBytes,
+//    ePrefix)
+//
+//    'actualBytes' is now equal to "valid"
+//
+func (sops *StrOps) GetValidBytes(
+	targetBytes,
+	validBytes []byte,
+	ePrefix string) ([]byte, error) {
 
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
@@ -1143,7 +1181,7 @@ func (sops *StrOps) GetValidBytes(targetBytes, validBytes []byte) ([]byte, error
 
 	defer sops.stringDataMutex.Unlock()
 
-	ePrefix := "StrOps.GetValidBytes() "
+	ePrefix += "StrOps.GetValidBytes() "
 
 	sOpsQuark := strOpsQuark{}
 
