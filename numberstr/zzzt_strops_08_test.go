@@ -1357,10 +1357,15 @@ func TestStrOps_TrimMultipleChars_09(t *testing.T) {
 
 func TestStrOps_TrimStringEnds_01(t *testing.T) {
 
+	ePrefix := "TestStrOps_TrimStringEnds_01() "
+
 	tStr := "  Hello    World  "
 	expected := "Hello    World"
 	trimChar := ' '
-	result, err := StrOps{}.TrimStringEnds(tStr, trimChar)
+	result, err := StrOps{}.Ptr().TrimStringEnds(
+		tStr,
+		trimChar,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.TrimStringEnds(tStr, trimChar). "+
@@ -1375,10 +1380,15 @@ func TestStrOps_TrimStringEnds_01(t *testing.T) {
 
 func TestStrOps_TrimStringEnds_02(t *testing.T) {
 
+	ePrefix := "TestStrOps_TrimStringEnds_02() "
+
 	tStr := "Hello X World"
 	expected := "Hello X World"
 	trimChar := 'X'
-	result, err := StrOps{}.TrimStringEnds(tStr, trimChar)
+	result, err := StrOps{}.Ptr().TrimStringEnds(
+		tStr,
+		trimChar,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.TrimStringEnds(tStr, trimChar). "+
@@ -1393,10 +1403,15 @@ func TestStrOps_TrimStringEnds_02(t *testing.T) {
 
 func TestStrOps_TrimStringEnds_03(t *testing.T) {
 
+	ePrefix := "TestStrOps_TrimStringEnds_03() "
+
 	tStr := "Hello WorlXd"
 	expected := "Hello WorlXd"
 	trimChar := 'X'
-	result, err := StrOps{}.TrimStringEnds(tStr, trimChar)
+	result, err := StrOps{}.TrimStringEnds(
+		tStr,
+		trimChar,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.TrimStringEnds(tStr, trimChar). "+
@@ -1411,10 +1426,15 @@ func TestStrOps_TrimStringEnds_03(t *testing.T) {
 
 func TestStrOps_TrimStringEnds_04(t *testing.T) {
 
+	ePrefix := "TestStrOps_TrimStringEnds_04() "
+
 	tStr := "XXXHello WorlXdXXX"
 	expected := "Hello WorlXd"
 	trimChar := 'X'
-	result, err := StrOps{}.TrimStringEnds(tStr, trimChar)
+	result, err := StrOps{}.Ptr().TrimStringEnds(
+		tStr,
+		trimChar,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.TrimStringEnds(tStr, trimChar). "+
@@ -1429,10 +1449,15 @@ func TestStrOps_TrimStringEnds_04(t *testing.T) {
 
 func TestStrOps_TrimStringEnds_05(t *testing.T) {
 
+	ePrefix := "TestStrOps_TrimStringEnds_05() "
+
 	tStr := "XXXHello WorlXd"
 	expected := "Hello WorlXd"
 	trimChar := 'X'
-	result, err := StrOps{}.TrimStringEnds(tStr, trimChar)
+	result, err := StrOps{}.TrimStringEnds(
+		tStr,
+		trimChar,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.TrimStringEnds(tStr, trimChar). "+
@@ -1447,10 +1472,15 @@ func TestStrOps_TrimStringEnds_05(t *testing.T) {
 
 func TestStrOps_TrimStringEnds_06(t *testing.T) {
 
+	ePrefix := "TestStrOps_TrimStringEnds_06() "
+
 	tStr := "Hello WorlXdXXXX"
 	expected := "Hello WorlXd"
 	trimChar := 'X'
-	result, err := StrOps{}.TrimStringEnds(tStr, trimChar)
+	result, err := StrOps{}.TrimStringEnds(
+		tStr,
+		trimChar,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.TrimStringEnds(tStr, trimChar). "+
@@ -1465,10 +1495,15 @@ func TestStrOps_TrimStringEnds_06(t *testing.T) {
 
 func TestStrOps_TrimStringEnds_07(t *testing.T) {
 
+	ePrefix := "TestStrOps_TrimStringEnds_07() "
+
 	tStr := "X"
 	expected := ""
 	trimChar := 'X'
-	result, err := StrOps{}.TrimStringEnds(tStr, trimChar)
+	result, err := StrOps{}.Ptr().TrimStringEnds(
+		tStr,
+		trimChar,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.TrimStringEnds(tStr, trimChar). "+
@@ -1483,8 +1518,13 @@ func TestStrOps_TrimStringEnds_07(t *testing.T) {
 
 func TestStrOps_TrimStringEnds_08(t *testing.T) {
 
+	ePrefix := "TestStrOps_TrimStringEnds_08() "
+
 	tStr := ""
-	_, err := StrOps{}.TrimStringEnds(tStr, '!')
+	_, err := StrOps{}.TrimStringEnds(
+		tStr,
+		'!',
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an error to be returned. NO ERROR RETURNED!")
@@ -1493,9 +1533,14 @@ func TestStrOps_TrimStringEnds_08(t *testing.T) {
 
 func TestStrOps_TrimStringEnds_09(t *testing.T) {
 
+	ePrefix := "TestStrOps_TrimStringEnds_09() "
+
 	tStr := "Jay Ray"
 	trimChar := rune(0)
-	_, err := StrOps{}.TrimStringEnds(tStr, trimChar)
+	_, err := StrOps{}.TrimStringEnds(
+		tStr,
+		trimChar,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an error to be returned. NO ERROR RETURNED!")

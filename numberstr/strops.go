@@ -2149,7 +2149,7 @@ func (sops *StrOps) SwapRune(
 //  rStr                string
 //     - This is the 'result' string. It is comprised of all the
 //       characters in the original 'targetStr' minus those
-//       characters deleted in the 'trim' operation.'
+//       'trimChar' characters deleted in the 'trim' operation.
 //
 //
 //  err                 error
@@ -2206,81 +2206,98 @@ func (sops StrOps) TrimMultipleChars(
 		ePrefix)
 }
 
-// TrimStringEnds - Removes all instances of input
-// parameter 'trimChar' from the beginning and end
-// of input parameter string 'targetStr'.
+// TrimStringEnds - Removes all instances of input parameter
+// 'trimChar' from the beginning and end of input parameter string
+// 'targetStr'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - The parent or host string which will be searched for
+//       instances of the character 'trimChar'.
+//
+//
+//  trimChar            rune
+//     - 'targetStr' will be searched for instances of this
+//       character. If the character is found to be either a
+//       trailing character or a leading character, it will be
+//       deleted. If this character exists in the interior of
+//       'targetStr' it will be ignored and NOT deleted.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  rStr                string
+//     - This is the 'result' string. It is comprised of all the
+//       characters in the original 'targetStr' minus those
+//       'trimChar' characters deleted in the 'trim' operation.
+//
+//
+//  err                 error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//     ePrefix := "TestStrOps_TrimStringEnds_01() "
+//     tStr := "XXXHello WorlXdXXX"
+//     trimChar := 'X'
+//
+//     sops := StrOps{}
+//
+//     result,
+//     err := sops.TrimStringEnds(
+//              tStr,
+//              trimChar,
+//              ePrefix)
+//
+//  result is now equal to "Hello WorlXd"
+//
 //
 func (sops StrOps) TrimStringEnds(
 	targetStr string,
-	trimChar rune) (rStr string, err error) {
+	trimChar rune,
+	ePrefix string) (
+	rStr string,
+	err error) {
 
-	ePrefix := "StrOps.TrimStringEnds() "
-	rStr = ""
-	err = nil
-
-	targetStrLen := len(targetStr)
-
-	if targetStrLen == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'targetStr' is an EMPTY STRING!\n",
-			ePrefix)
-
-		return rStr, err
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	if trimChar == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'trimChar' is ZERO!\n",
-			ePrefix)
+	sops.stringDataMutex.Lock()
 
-		return rStr, err
-	}
+	defer sops.stringDataMutex.Unlock()
 
-	foundGoodChar := false
-	firstIdx := 0
+	ePrefix += "StrOps.TrimStringEnds() "
 
-	for !foundGoodChar {
+	sOpsQuark := strOpsQuark{}
 
-		if rune(targetStr[firstIdx]) == trimChar {
-			firstIdx++
-		} else {
-			foundGoodChar = true
-		}
-
-		if firstIdx >= targetStrLen {
-			rStr = ""
-			return rStr, err
-		}
-	}
-
-	if firstIdx >= targetStrLen {
-
-		rStr = targetStr
-
-		return rStr, err
-	}
-
-	foundGoodChar = false
-	lastIdx := targetStrLen - 1
-
-	for !foundGoodChar {
-
-		if rune(targetStr[lastIdx]) == trimChar {
-			lastIdx--
-		} else {
-			foundGoodChar = true
-		}
-	}
-
-	if lastIdx < 0 {
-		rStr = targetStr[firstIdx:]
-		return rStr, err
-	}
-
-	lastIdx++
-	rStr = targetStr[firstIdx:lastIdx]
-
-	return rStr, err
+	return sOpsQuark.trimStringEnds(
+		targetStr,
+		trimChar,
+		ePrefix)
 }
 
 // UpperCaseFirstLetter - Finds the first alphabetic character in a string
