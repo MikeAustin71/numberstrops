@@ -1170,6 +1170,48 @@ func (sops *StrOps) LowerCaseFirstLetter(str string) string {
 //
 //     outputStr is now equal to "====="
 //
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  charRune            rune
+//     - The text character which will be repeated throughout the
+//       length of the returned string.
+//
+//
+//  strLen              int
+//     - The length of the returned string containing the repeated
+//       characters.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - This returned string will have a length of 'strLen' and
+//       contain 'strLen' characters all of which will be equal to
+//       'charRune'.
+//
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
 func (sops *StrOps) MakeSingleCharString(
 	charRune rune,
 	strLen int) (string, error) {
@@ -1938,103 +1980,230 @@ func (sops *StrOps) StrRightJustify(
 		ePrefix)
 }
 
-// SwapRune - Swaps all instances of 'oldRune' character with 'newRune'
-// character in input parameter target string ('targetStr').
+// SwapRune - Swaps, or replaces, instances of the 'oldRune'
+// character with the 'newRune' character in the input parameter
+// target string ('targetStr'). The number of character
+// substitutions performed is controlled by input parameter
+// 'maxNumOfSwaps'.
 //
-func (sops StrOps) SwapRune(targetStr string, oldRune rune, newRune rune) (string, error) {
+// If input parameter 'targetStr' is an empty string, no error will
+// be generated and the empty 'targetStr' will be returned.
+//
+// For more information on 'runes', reference:
+//   https://www.geeksforgeeks.org/rune-in-golang/
+//   https://golangbyexample.com/understanding-rune-in-golang/
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - This string will be searched for instances of 'oldRune'.
+//       When 'oldRune' is located in this string, it will be
+//       replaced with 'newRune'.
+//
+//
+//  oldRune             rune
+//     - This rune or text character will be used search the parent
+//       string, 'targetStr'. When instances of 'oldRune' are
+//       located in 'targetStr', they will be replaced with
+//       'newRune'.
+//
+//
+//  newRune             rune
+//     - This rune or text character will be used to replaced
+//       instances of 'oldRune' located in a search of 'targetStr'.
+//
+//
+//  maxNumOfSwaps       int
+//     - This integer value constitutes the upper limit for the
+//       number of character substitutions performed by this method.
+//       If this value is less than one (+1), no limit will be
+//       imposed and all instances of 'oldRune' found in 'targetStr'
+//       will be replaced with 'newRune'.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - This string will be populated with the contents of
+//       'targetStr' after instances of 'oldRune' have been
+//        replaced by 'newRune'. Effectively, this string is the
+//        result of the character substitution operation.
+//
+//  int
+//     - The value of this returned integer records the number of
+//       character substitutions performed on 'targetStr'.
+//
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//     tStr := "  Hello   World  "
+//     ePrefix := "theCallingMethodName "
+//
+//     su := StrOps{}
+//        resultStr,
+//        numOfReplacements,
+//        err := su.SwapRune(
+//                 tStr,
+//                 ' ',
+//                 '!',
+//                 -1,
+//                 ePrefix)
+//
+//
+//    resultSt is now equal to "!!Hello!!!World!!"
+//    numOfReplacements is equal to '7'
+//
+func (sops *StrOps) SwapRune(
+	targetStr string,
+	oldRune rune,
+	newRune rune,
+	maxNumOfSwaps int,
+	ePrefix string) (
+	string,
+	int,
+	error) {
 
-	if targetStr == "" {
-		return targetStr, nil
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	rStr := []rune(targetStr)
+	sops.stringDataMutex.Lock()
 
-	lrStr := len(rStr)
+	defer sops.stringDataMutex.Unlock()
 
-	for i := 0; i < lrStr; i++ {
-		if rStr[i] == oldRune {
-			rStr[i] = newRune
-		}
-	}
+	ePrefix += "StrOps.SwapRune() "
 
-	return string(rStr), nil
+	sOpsQuark := strOpsQuark{}
+
+	return sOpsQuark.swapRune(
+		targetStr,
+		oldRune,
+		newRune,
+		maxNumOfSwaps,
+		ePrefix)
 }
 
 // TrimMultipleChars - Performs the following operations on strings:
 //
-// 	1. Trims Right and Left ends of 'targetStr' for all instances of 'trimChar'
-// 	2. Within the interior of a string, multiple instances of 'trimChar' are reduced
-//	   to a single instance.
+//  1. Trims Right and Left ends of 'targetStr' for all instances
+//     of 'trimChar'
 //
-// Example:
+//  2. Within the interior of a string, multiple instances of
+//     'trimChar' are reduced to a single instance.
 //
-//	targetStr = "       Hello          World        "
-//	trimChar  = ' ' (One Space)
-//	returned string (rStr) = "Hello World"
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - The parent or host string which will be searched for
+//       instances of the character 'trimChar'.
+//
+//
+//  trimChar            rune
+//     - 'targetStr' will be searched for instances of this
+//       character. If this character is a leading or trailing
+//       character in 'targetStr', those instances will be deleted.
+//       If this character is found in the interior of 'targetStr',
+//       it will be reduced to one single instance of the
+//       character.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  rStr                string
+//     - This is the 'result' string. It is comprised of all the
+//       characters in the original 'targetStr' minus those
+//       characters deleted in the 'trim' operation.'
+//
+//
+//  err                 error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//  ePrefix := "theCallingFunctionName() "
+//  targetStr = "       Hello          World        "
+//  trimChar  = ' ' (One Space Character)
+//  sops := StrOps{}
+//
+//  rStr,
+//  err := sops.TrimMultipleChars(
+//           targetStr,
+//           trimChar,
+//           ePrefix)
+//
+//  returned string (rStr) now equal to "Hello World"
+//
 //
 func (sops StrOps) TrimMultipleChars(
 	targetStr string,
-	trimChar rune) (rStr string, err error) {
+	trimChar rune,
+	ePrefix string) (
+	rStr string,
+	err error) {
 
-	ePrefix := "StrOps.TrimMultipleChars() "
-
-	rStr = ""
-	err = nil
-
-	if targetStr == "" {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'targetStr' is an EMPTY STRING!\n",
-			ePrefix)
-
-		return rStr, err
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	if trimChar == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'trimChar' is ZERO!\n",
-			ePrefix)
+	sops.stringDataMutex.Lock()
 
-		return rStr, err
-	}
+	defer sops.stringDataMutex.Unlock()
 
-	fStr := []rune(targetStr)
-	lenTargetStr := len(fStr)
-	outputStr := make([]rune, lenTargetStr)
-	lenTargetStr--
-	idx := lenTargetStr
-	foundFirstChar := false
+	ePrefix += "StrOps.TrimMultipleChars() "
 
-	for i := lenTargetStr; i >= 0; i-- {
+	sOpsQuark := strOpsQuark{}
 
-		if !foundFirstChar && fStr[i] == trimChar {
-			continue
-		}
-
-		if i > 0 && fStr[i] == trimChar && fStr[i-1] == trimChar {
-			continue
-		}
-
-		if i == 0 && fStr[i] == trimChar {
-			continue
-		}
-
-		foundFirstChar = true
-		outputStr[idx] = fStr[i]
-		idx--
-	}
-
-	if idx != lenTargetStr {
-		idx++
-	}
-
-	if outputStr[idx] == trimChar {
-		idx++
-	}
-
-	rStr = string(outputStr[idx:])
-	err = nil
-
-	return rStr, err
+	return sOpsQuark.trimMultipleChars(
+		targetStr,
+		trimChar,
+		ePrefix)
 }
 
 // TrimStringEnds - Removes all instances of input

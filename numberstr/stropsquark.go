@@ -300,8 +300,8 @@ func (sOpsQuark *strOpsQuark) findLastNonSpaceChar(
 //       an appropriate error message.
 //
 //       If an error message is returned, the input parameter
-//       'ePrefix' will be inserted or prefixed at the beginning
-//       of the error message.
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 func (sOpsQuark *strOpsQuark) findLastSpace(
 	targetStr string,
@@ -453,29 +453,41 @@ func (sOpsQuark *strOpsQuark) findLastSpace(
 //
 // Return Values
 //
-//  beginWrdIdx    int  - The index marking the beginning of the last word
-//                        in the string segment identified by input parameters
-//                        'startIndex' and 'endIndex'. If the string segment
-//                        consists of all spaces or is empty, this value is
-//                        set to -1.
+//  beginWrdIdx         int
+//     - The index marking the beginning of the last word
+//       in the string segment identified by input parameters
+//       'startIndex' and 'endIndex'. If the string segment
+//       consists of all spaces or is empty, this value is
+//       set to minus one (-1).
 //
-//  endWrdIdx      int  - The index marking the end of the last word in the
-//                        string segment identified by input parameters 'startIndex'
-//                        and 'endIndex'. If the string segment consists of all
-//                        spaces or is empty, this value is set to -1.
+//  endWrdIdx           int
+//     - The index marking the end of the last word in the
+//       string segment identified by input parameters 'startIndex'
+//       and 'endIndex'. If the string segment consists of all
+//       spaces or is empty, this value is set to -1.
 //
-//  isAllOneWord   bool - If the string segment identified by input parameters
-//                        'startIndex' and 'endIndex' consists entirely of non-space
-//                        characters (characters other than ' '), this value is set
-//                        to 'true'.
+//  isAllOneWord        bool
+//     - If the string segment identified by input parameters
+//       'startIndex' and 'endIndex' consists entirely of non-space
+//       characters (characters other than ' '), this value is set
+//       to 'true'.
 //
-//  isAllSpaces    bool - If the string segment identified by input parameters
-//                        'startIndex' and 'endIndex' consists entirely of space
-//                        characters (character = ' '), this value is set to 'true'.
+//  isAllSpaces         bool
+//     - If the string segment identified by input parameters
+//       'startIndex' and 'endIndex' consists entirely of space
+//       characters (character = ' '), this value is set to 'true'.
 //
-//  err           error - If targetStr is empty or if startIndex or endIndex is invalid,
-//                        an error is returned. If the method completes successfully,
-//                        err = nil.
+//
+//
+//  err                 error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 func (sOpsQuark *strOpsQuark) findLastWord(
 	targetStr string,
@@ -831,9 +843,14 @@ func (sOpsQuark *strOpsQuark) getRuneCountInStr(
 //
 //
 //  error
-//     - If the method completes successfully this value is
-//       'nil'. If an error is encountered this value will
-//       contain the error message.
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 func (sOpsQuark *strOpsQuark) getValidBytes(
 	targetBytes []byte,
@@ -923,9 +940,16 @@ func (sOpsQuark *strOpsQuark) getValidBytes(
 //             'validRunes'. Note: If all characters in 'targetRunes' are classified as
 //             'invalid', the returned array of runes will be a zero length array.
 //
-//  error    - If the method completes successfully this value is 'nil'. If an error is
-//             encountered this value will contain the error message. Examples of possible
-//             errors include a zero length 'targetRunes array or 'validRunes' array.
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 func (sOpsQuark *strOpsQuark) getValidRunes(
 	targetRunes []rune,
@@ -1066,6 +1090,48 @@ func (sOpsQuark *strOpsQuark) lowerCaseFirstLetter(
 //
 //     outputStr is now equal to "====="
 //
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  charRune            rune
+//     - The text character which will be repeated throughout the
+//       length of the returned string.
+//
+//
+//  strLen              int
+//     - The length of the returned string containing the repeated
+//       characters.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - This returned string will have a length of 'strLen' and
+//       contain 'strLen' characters all of which will be equal to
+//       'charRune'.
+//
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
 func (sOpsQuark *strOpsQuark) makeSingleCharString(
 	charRune rune,
 	strLen int,
@@ -1176,13 +1242,14 @@ func (sOpsQuark *strOpsQuark) makeSingleCharString(
 //
 //
 //  err                        error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. Remember that this error message will
-//       incorporate the method chain and text passed by input
-//       parameter, 'ePrefix'. The 'ePrefix' or error prefix text
-//       will be prefixed to the beginning of the error message.
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 func (sOpsQuark *strOpsQuark) removeStringChar(
 	targetStr string,
@@ -1308,13 +1375,14 @@ func (sOpsQuark *strOpsQuark) removeStringChar(
 //
 //
 //  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. Remember that this error message will
-//       incorporate the method chain and text passed by input
-//       parameter, 'ePrefix'. The 'ePrefix' or error prefix text
-//       will be prefixed to the beginning of the error message.
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 func (sOpsQuark *strOpsQuark) removeSubString(
 	strToSearch string,
@@ -1442,8 +1510,8 @@ func (sOpsQuark *strOpsQuark) removeSubString(
 // Return Values
 //
 //  []rune
-//     - The returned rune array containing the characters and
-//       replaced characters from the original 'targetRunes' array.
+//     - The returned rune array containing the characters replaced
+//       from the original 'targetRunes' array.
 //
 //
 //  error
@@ -1455,6 +1523,10 @@ func (sOpsQuark *strOpsQuark) removeSubString(
 //       In addition, if any of the replacementRunes[][x] 2nd
 //       dimension elements have a length less than two, an
 //       error will be returned.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 func (sOpsQuark *strOpsQuark) replaceRunes(
 	targetRunes []rune,
@@ -1553,17 +1625,16 @@ func (sOpsQuark *strOpsQuark) replaceRunes(
 //
 //
 //  charToReplace              rune
-//     - The character with input parameter string 'targetStr' which
-//       will be replaced. If this parameter is set to zero
+//     - The character within input parameter string 'targetStr'
+//       which will be replaced. If this parameter is set to zero
 //       signaling an empty character, this method will return an
 //       error.
 //
 //
 //  replacementChar            rune
 //     - The character which will replace 'charToReplace' in
-//       'targetStr'. If this parameter is set to zero
-//       signaling an empty character, this method will return an
-//       error.
+//       'targetStr'. If this parameter is set to zero signaling an
+//       empty character, this method will return an error.
 //
 //
 //  maxNumOfReplacements       int
@@ -1595,14 +1666,20 @@ func (sOpsQuark *strOpsQuark) replaceRunes(
 //       returned with the designated replacement characters.
 //
 //
+//  int
+//     - The integer value records the number of characters
+//       replaced in 'targetStr'.
+//
+//
 //  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. Remember that this error message will
-//       incorporate the method chain and text passed by input
-//       parameter, 'ePrefix'. The 'ePrefix' or error prefix text
-//       will be prefixed to the beginning of the error message.
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 func (sOpsQuark *strOpsQuark) replaceStringChar(
 	targetStr string,
@@ -1611,6 +1688,7 @@ func (sOpsQuark *strOpsQuark) replaceStringChar(
 	maxNumOfReplacements int,
 	ePrefix string) (
 	string,
+	int,
 	error) {
 
 	if sOpsQuark.lock == nil {
@@ -1632,7 +1710,7 @@ func (sOpsQuark *strOpsQuark) replaceStringChar(
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetStr' is an empty string!\n",
 			ePrefix)
-		return "", err
+		return "", 0, err
 	}
 
 	if charToReplace == 0 {
@@ -1640,7 +1718,7 @@ func (sOpsQuark *strOpsQuark) replaceStringChar(
 			"Error: Input parameter 'charToReplace' is an empty character!\n"+
 			"charToReplace == 0\n",
 			ePrefix)
-		return "", err
+		return "", 0, err
 	}
 
 	if replacementChar == 0 {
@@ -1648,14 +1726,14 @@ func (sOpsQuark *strOpsQuark) replaceStringChar(
 			"Error: Input parameter 'replacementChar' is an empty character!\n"+
 			"replacementChar == 0\n",
 			ePrefix)
-		return "", err
+		return "", 0, err
 	}
 
 	if maxNumOfReplacements == 0 {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'maxNumOfReplacements' is zero!\n",
 			ePrefix)
-		return "", err
+		return "", 0, err
 	}
 
 	runeArray := []rune(targetStr)
@@ -1676,7 +1754,7 @@ func (sOpsQuark *strOpsQuark) replaceStringChar(
 
 	}
 
-	return string(runeArray), err
+	return string(runeArray), numOfReplacements, err
 }
 
 // replaceSubString - Replaces instances of a sub-string
@@ -1743,13 +1821,14 @@ func (sOpsQuark *strOpsQuark) replaceStringChar(
 //
 //
 //  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. Remember that this error message will
-//       incorporate the method chain and text passed by input
-//       parameter, 'ePrefix'. The 'ePrefix' or error prefix text
-//       will be prefixed to the beginning of the error message.
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' will be inserted or prefixed at the beginning
+//       of the error message.
 //
 func (sOpsQuark *strOpsQuark) replaceSubString(
 	strToSearch string,
@@ -1774,6 +1853,7 @@ func (sOpsQuark *strOpsQuark) replaceSubString(
 	}
 
 	ePrefix += "strOpsQuark.replaceSubString() "
+
 	var err error
 
 	err = nil
@@ -1861,6 +1941,17 @@ func (sOpsQuark *strOpsQuark) replaceSubString(
 // All instances of a 'badChars' character are deleted from the target
 // string. The target string is passed through input parameter, 'targetStr'.
 //
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - This string will be searched for the presence of specific
+//       characters targeted for deletion. These targeted characters
+//       are referred to as 'badChars' or bad characters.
+//
+//  badChars []string
 func (sOpsQuark *strOpsQuark) stripBadChars(
 	targetStr string,
 	badChars []string) (
@@ -2091,4 +2182,308 @@ func (sOpsQuark *strOpsQuark) stripTrailingChars(
 Done:
 
 	return cleanStr, strLen
+}
+
+// SwapRune - Swaps, or replaces, instances of the 'oldRune'
+// character with the 'newRune' character in the input parameter
+// target string ('targetStr'). The number of character
+// substitutions performed is controlled by input parameter
+// 'maxNumOfSwaps'.
+//
+// If input parameter 'targetStr' is an empty string, no error will
+// be generated and the empty 'targetStr' will be returned.
+//
+// For more information on 'runes', reference:
+//   https://www.geeksforgeeks.org/rune-in-golang/
+//   https://golangbyexample.com/understanding-rune-in-golang/
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - This string will be searched for instances of 'oldRune'.
+//       When 'oldRune' is located in this string, it will be
+//       replaced with 'newRune'.
+//
+//
+//  oldRune             rune
+//     - This rune or text character will be used search the parent
+//       string, 'targetStr'. When instances of 'oldRune' are
+//       located in 'targetStr', they will be replaced with
+//       'newRune'.
+//
+//
+//  newRune             rune
+//     - This rune or text character will be used to replaced
+//       instances of 'oldRune' located in a search of 'targetStr'.
+//
+//
+//  maxNumOfSwaps       int
+//     - This integer value constitutes the upper limit for the
+//       number of character substitutions performed by this method.
+//       If this value is less than one (+1), no limit will be
+//       imposed and all instances of 'oldRune' found in 'targetStr'
+//       will be replaced with 'newRune'.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - This string will be populated with the contents of
+//       'targetStr' after instances of 'oldRune' have been
+//        replaced by 'newRune'. Effectively, this string is the
+//        result of the character substitution operation.
+//
+//  int
+//     - The value of this returned integer records the number of
+//       character substitutions performed on 'targetStr'.
+//
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//     tStr := "  Hello   World  "
+//     ePrefix := "theCallingMethodName "
+//
+//     su := StrOps{}
+//        resultStr,
+//        numOfReplacements,
+//        err := su.SwapRune(
+//                 tStr,
+//                 ' ',
+//                 '!',
+//                 -1,
+//                 ePrefix)
+//
+//
+//    resultSt is now equal to "!!Hello!!!World!!"
+//    numOfReplacements is equal to '7'
+//
+func (sOpsQuark *strOpsQuark) swapRune(
+	targetStr string,
+	oldRune rune,
+	newRune rune,
+	maxNumOfSwaps int,
+	ePrefix string) (
+	string,
+	int,
+	error) {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsQuark.swapRune() "
+
+	if targetStr == "" {
+		return targetStr, 0, nil
+	}
+
+	if maxNumOfSwaps < 1 {
+		maxNumOfSwaps = math.MaxInt32
+	}
+
+	rStr := []rune(targetStr)
+
+	lrStr := len(rStr)
+	numOfSwapsCnt := 0
+
+	for i := 0; i < lrStr; i++ {
+
+		if numOfSwapsCnt >= maxNumOfSwaps {
+			break
+		}
+
+		if rStr[i] == oldRune {
+			numOfSwapsCnt++
+			rStr[i] = newRune
+		}
+
+	}
+
+	return string(rStr), numOfSwapsCnt, nil
+}
+
+// TrimMultipleChars - Performs the following operations on strings:
+//
+//  1. Trims Right and Left ends of 'targetStr' for all instances
+//     of 'trimChar'
+//
+//  2. Within the interior of a string, multiple instances of
+//     'trimChar' are reduced to a single instance.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - The parent or host string which will be searched for
+//       instances of the character 'trimChar'.
+//
+//
+//  trimChar            rune
+//     - 'targetStr' will be searched for instances of this
+//       character. If this character is a leading or trailing
+//       character in 'targetStr', those instances will be deleted.
+//       If this character is found in the interior of 'targetStr',
+//       it will be reduced to one single instance of the
+//       character.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  rStr                string
+//     - This is the 'result' string. It is comprised of all the
+//       characters in the original 'targetStr' minus those
+//       characters deleted in the 'trim' operation.'
+//
+//
+//  err                 error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//  ePrefix := "theCallingFunctionName() "
+//  targetStr = "       Hello          World        "
+//  trimChar  = ' ' (One Space Character)
+//  sops := StrOps{}
+//
+//  rStr,
+//  err := sops.TrimMultipleChars(
+//           targetStr,
+//           trimChar,
+//           ePrefix)
+//
+//  returned string (rStr) now equal to "Hello World"
+//
+//
+func (sOpsQuark *strOpsQuark) trimMultipleChars(
+	targetStr string,
+	trimChar rune,
+	ePrefix string) (
+	rStr string,
+	err error) {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsQuark.trimMultipleChars() "
+
+	rStr = ""
+	err = nil
+
+	if targetStr == "" {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'targetStr' is an EMPTY STRING!\n",
+			ePrefix)
+
+		return rStr, err
+	}
+
+	if trimChar == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'trimChar' is ZERO!\n",
+			ePrefix)
+
+		return rStr, err
+	}
+
+	fStr := []rune(targetStr)
+	lenTargetStr := len(fStr)
+	outputStr := make([]rune, lenTargetStr)
+	lenTargetStr--
+	idx := lenTargetStr
+	foundFirstChar := false
+
+	for i := lenTargetStr; i >= 0; i-- {
+
+		if !foundFirstChar && fStr[i] == trimChar {
+			continue
+		}
+
+		if i > 0 && fStr[i] == trimChar && fStr[i-1] == trimChar {
+			continue
+		}
+
+		if i == 0 && fStr[i] == trimChar {
+			continue
+		}
+
+		foundFirstChar = true
+		outputStr[idx] = fStr[i]
+		idx--
+	}
+
+	if idx != lenTargetStr {
+		idx++
+	}
+
+	if outputStr[idx] == trimChar {
+		idx++
+	}
+
+	rStr = string(outputStr[idx:])
+	err = nil
+
+	return rStr, err
 }

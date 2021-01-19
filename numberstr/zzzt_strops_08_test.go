@@ -975,11 +975,21 @@ func TestStrOps_StrPadLeftToCenter_05(t *testing.T) {
 }
 
 func TestStrOps_SwapRune_01(t *testing.T) {
+	ePrefix := "TestStrOps_SwapRune_01() "
+
 	su := StrOps{}
 
 	tStr := "  Hello   World  "
 	expected := "!!Hello!!!World!!"
-	result, err := su.SwapRune(tStr, ' ', '!')
+
+	result,
+		numOfReplacements,
+		err := su.SwapRune(
+		tStr,
+		' ',
+		'!',
+		-1,
+		ePrefix)
 
 	if err != nil {
 		t.Error("Error returned from SwapRune: ", err.Error())
@@ -987,6 +997,7 @@ func TestStrOps_SwapRune_01(t *testing.T) {
 
 	if result != expected {
 		t.Errorf("Expected result == '%v' instead received result== '%v'", expected, result)
+		return
 	}
 
 	resultLen := len(result)
@@ -994,16 +1005,34 @@ func TestStrOps_SwapRune_01(t *testing.T) {
 
 	if resultLen != expectedLen {
 		t.Errorf("Expected result length == '%v' instead received result length == '%v'", expectedLen, resultLen)
+		return
+	}
+
+	if numOfReplacements != 7 {
+		t.Errorf("Error: Expected number of replacements==7.\n"+
+			"Instead, numOfReplacements=='%v'\n",
+			numOfReplacements)
 	}
 
 }
 
 func TestStrOps_SwapRune_02(t *testing.T) {
+
+	ePrefix := "TestStrOps_SwapRune_02() "
+
 	su := StrOps{}
 
 	tStr := "HelloWorld"
 	expected := "HelloWorld"
-	result, err := su.SwapRune(tStr, ' ', '!')
+
+	result,
+		numOfReplacements,
+		err := su.SwapRune(
+		tStr,
+		' ',
+		'!',
+		-1,
+		ePrefix)
 
 	if err != nil {
 		t.Error("Error returned from SwapRune: ", err.Error())
@@ -1011,6 +1040,7 @@ func TestStrOps_SwapRune_02(t *testing.T) {
 
 	if result != expected {
 		t.Errorf("Expected result == '%v' instead received result== '%v'", expected, result)
+		return
 	}
 
 	resultLen := len(result)
@@ -1018,16 +1048,34 @@ func TestStrOps_SwapRune_02(t *testing.T) {
 
 	if resultLen != expectedLen {
 		t.Errorf("Expected result length == '%v' instead received result length == '%v'", expectedLen, resultLen)
+		return
+	}
+
+	if numOfReplacements != 0 {
+		t.Errorf("Expected number of replacements=='0'.\n"+
+			"Instead, numOfReplacements == '%v'\n",
+			numOfReplacements)
 	}
 
 }
 
 func TestStrOps_SwapRune_03(t *testing.T) {
+
+	ePrefix := "TestStrOps_SwapRune_03() "
 	su := StrOps{}
 
 	tStr := "Hello Worldx"
 	expected := "Hello WorldX"
-	result, err := su.SwapRune(tStr, 'x', 'X')
+
+	result,
+		_,
+		err :=
+		su.SwapRune(
+			tStr,
+			'x',
+			'X',
+			-1,
+			ePrefix)
 
 	if err != nil {
 		t.Error("Error returned from SwapRune: ", err.Error())
@@ -1047,11 +1095,22 @@ func TestStrOps_SwapRune_03(t *testing.T) {
 }
 
 func TestStrOps_SwapRune_04(t *testing.T) {
+
+	ePrefix := "TestStrOps_SwapRune_04() "
+
 	su := StrOps{}
 
 	tStr := "xHello World"
 	expected := "XHello World"
-	result, err := su.SwapRune(tStr, 'x', 'X')
+
+	result,
+		_,
+		err := su.SwapRune(
+		tStr,
+		'x',
+		'X',
+		-1,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned from SwapRune:\n%v", err.Error())
@@ -1071,12 +1130,22 @@ func TestStrOps_SwapRune_04(t *testing.T) {
 
 func TestStrOps_SwapRune_05(t *testing.T) {
 
+	ePrefix := "TestStrOps_SwapRune_03() "
+
 	tStr := ""
 
-	newStr, err := StrOps{}.SwapRune(tStr, 'x', 'X')
+	newStr,
+		_,
+		err := StrOps{}.Ptr().SwapRune(
+		tStr,
+		'x',
+		'X',
+		-1,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned from SwapRune:\n%v", err.Error())
+		return
 	}
 
 	if newStr != tStr {
@@ -1088,11 +1157,18 @@ func TestStrOps_SwapRune_05(t *testing.T) {
 }
 
 func TestStrOps_TrimMultipleChars_01(t *testing.T) {
+
+	ePrefix := "TestStrOps_TrimMultipleChars_01() "
+
 	tStr := " 16:26:32   CST "
 	expected := "16:26:32 CST"
 	su := StrOps{}
 
-	result, err := su.TrimMultipleChars(tStr, ' ')
+	result,
+		err := su.TrimMultipleChars(
+		tStr,
+		' ',
+		ePrefix)
 
 	if err != nil {
 		t.Error("Error Return from TrimMultipleChars: ", err.Error())
@@ -1105,11 +1181,17 @@ func TestStrOps_TrimMultipleChars_01(t *testing.T) {
 }
 
 func TestStrOps_TrimMultipleChars_02(t *testing.T) {
+
+	ePrefix := "TestStrOps_TrimMultipleChars_02() "
+
 	tStr := "       Hello          World        "
 	expected := "Hello World"
 	su := StrOps{}
 
-	result, err := su.TrimMultipleChars(tStr, ' ')
+	result, err := su.TrimMultipleChars(
+		tStr,
+		' ',
+		ePrefix)
 
 	if err != nil {
 		t.Error("Error Return from TrimMultipleChars: ", err.Error())
@@ -1122,11 +1204,17 @@ func TestStrOps_TrimMultipleChars_02(t *testing.T) {
 }
 
 func TestStrOps_TrimMultipleChars_03(t *testing.T) {
+
+	ePrefix := "TestStrOps_TrimMultipleChars_03() "
+
 	tStr := "Hello          World        "
 	expected := "Hello World"
 	su := StrOps{}
 
-	result, err := su.TrimMultipleChars(tStr, ' ')
+	result, err := su.TrimMultipleChars(
+		tStr,
+		' ',
+		ePrefix)
 
 	if err != nil {
 		t.Error("Error Return from TrimMultipleChars: ", err.Error())
@@ -1139,11 +1227,17 @@ func TestStrOps_TrimMultipleChars_03(t *testing.T) {
 }
 
 func TestStrOps_TrimMultipleChars_04(t *testing.T) {
+
+	ePrefix := "TestStrOps_TrimMultipleChars_04() "
+
 	tStr := " Hello          World"
 	expected := "Hello World"
 	su := StrOps{}
 
-	result, err := su.TrimMultipleChars(tStr, ' ')
+	result, err := su.TrimMultipleChars(
+		tStr,
+		' ',
+		ePrefix)
 
 	if err != nil {
 		t.Error("Error Return from TrimMultipleChars: ", err.Error())
@@ -1156,11 +1250,17 @@ func TestStrOps_TrimMultipleChars_04(t *testing.T) {
 }
 
 func TestStrOps_TrimMultipleChars_05(t *testing.T) {
+
+	ePrefix := "TestStrOps_TrimMultipleChars_05() "
+
 	tStr := "Hello World"
 	expected := "Hello World"
 	su := StrOps{}
 
-	result, err := su.TrimMultipleChars(tStr, ' ')
+	result, err := su.TrimMultipleChars(
+		tStr,
+		' ',
+		ePrefix)
 
 	if err != nil {
 		t.Error("Error Return from TrimMultipleChars: ", err.Error())
@@ -1173,11 +1273,17 @@ func TestStrOps_TrimMultipleChars_05(t *testing.T) {
 }
 
 func TestStrOps_TrimMultipleChars_06(t *testing.T) {
+
+	ePrefix := "TestStrOps_TrimMultipleChars_06() "
+
 	tStr := "Hello World "
 	expected := "Hello World"
 	su := StrOps{}
 
-	result, err := su.TrimMultipleChars(tStr, ' ')
+	result, err := su.TrimMultipleChars(
+		tStr,
+		' ',
+		ePrefix)
 
 	if err != nil {
 		t.Error("Error Return from TrimMultipleChars: ", err.Error())
@@ -1190,11 +1296,17 @@ func TestStrOps_TrimMultipleChars_06(t *testing.T) {
 }
 
 func TestStrOps_TrimMultipleChars_07(t *testing.T) {
+
+	ePrefix := "TestStrOps_TrimMultipleChars_07() "
+
 	tStr := " Hello World "
 	expected := "Hello World"
 	su := StrOps{}
 
-	result, err := su.TrimMultipleChars(tStr, ' ')
+	result, err := su.TrimMultipleChars(
+		tStr,
+		' ',
+		ePrefix)
 
 	if err != nil {
 		t.Error("Error Return from TrimMultipleChars: ", err.Error())
@@ -1207,9 +1319,15 @@ func TestStrOps_TrimMultipleChars_07(t *testing.T) {
 }
 
 func TestStrOps_TrimMultipleChars_08(t *testing.T) {
+
+	ePrefix := "TestStrOps_TrimMultipleChars_08() "
+
 	tStr := ""
 
-	_, err := StrOps{}.TrimMultipleChars(tStr, ' ')
+	_, err := StrOps{}.TrimMultipleChars(
+		tStr,
+		' ',
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an error return from StrOps{}.TrimMultipleChars(tStr, ' ')\n" +
@@ -1219,9 +1337,15 @@ func TestStrOps_TrimMultipleChars_08(t *testing.T) {
 }
 
 func TestStrOps_TrimMultipleChars_09(t *testing.T) {
+
+	ePrefix := "TestStrOps_TrimMultipleChars_09() "
+
 	tStr := "Hello World"
 	replaceRune := rune(0)
-	_, err := StrOps{}.TrimMultipleChars(tStr, replaceRune)
+	_, err := StrOps{}.TrimMultipleChars(
+		tStr,
+		replaceRune,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an error return from StrOps{}.TrimMultipleChars(tStr, replaceRune)\n" +
