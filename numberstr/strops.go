@@ -610,6 +610,13 @@ func (sops *StrOps) ExtractNumericDigits(
 //       the ending index for the search.
 //
 //
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
 // ------------------------------------------------------------------------
 //
 // Return Values
@@ -623,14 +630,20 @@ func (sops *StrOps) ExtractNumericDigits(
 //
 //
 //  error
-//     - If the method completes successfully this value is
-//       'nil'. If an error is encountered this value will
-//       contain the error message.
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 func (sops *StrOps) FindFirstNonSpaceChar(
 	targetStr string,
 	startIndex,
-	endIndex int) (
+	endIndex int,
+	ePrefix string) (
 	int,
 	error) {
 
@@ -642,7 +655,7 @@ func (sops *StrOps) FindFirstNonSpaceChar(
 
 	defer sops.stringDataMutex.Unlock()
 
-	ePrefix := "StrOps.FindFirstNonSpaceChar() "
+	ePrefix += "StrOps.FindFirstNonSpaceChar() "
 
 	sOpsElectron := strOpsElectron{}
 

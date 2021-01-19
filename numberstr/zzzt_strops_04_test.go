@@ -3,11 +3,18 @@ package numberstr
 import "testing"
 
 func TestStrOps_FindFirstNonSpaceChar_01(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindFirstNonSpaceChar_01() "
+
 	//012345678901234
 	testStr := "   Hello World"
 
 	firstNonSpaceIdx, err :=
-		StrOps{}.NewPtr().FindFirstNonSpaceChar(testStr, 0, 4)
+		StrOps{}.NewPtr().FindFirstNonSpaceChar(
+			testStr,
+			0,
+			4,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindFirstNonSpaceChar(testStr,0,4). "+
@@ -23,11 +30,17 @@ func TestStrOps_FindFirstNonSpaceChar_01(t *testing.T) {
 
 func TestStrOps_FindFirstNonSpaceChar_02(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindFirstNonSpaceChar_02() "
+
 	//012345678901234
 	testStr := "       Hello"
 
 	firstNonSpaceIdx, err :=
-		StrOps{}.NewPtr().FindFirstNonSpaceChar(testStr, 0, 6)
+		StrOps{}.NewPtr().FindFirstNonSpaceChar(
+			testStr,
+			0,
+			6,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindFirstNonSpaceChar(testStr,0,4). "+
@@ -43,11 +56,17 @@ func TestStrOps_FindFirstNonSpaceChar_02(t *testing.T) {
 
 func TestStrOps_FindFirstNonSpaceChar_03(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindFirstNonSpaceChar_01() "
+
 	//012345678901234
 	testStr := "Hello  There"
 
 	firstNonSpaceIdx, err :=
-		StrOps{}.NewPtr().FindFirstNonSpaceChar(testStr, 7, 9)
+		StrOps{}.NewPtr().FindFirstNonSpaceChar(
+			testStr,
+			7,
+			9,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindFirstNonSpaceChar(testStr,0,4). "+
@@ -62,11 +81,18 @@ func TestStrOps_FindFirstNonSpaceChar_03(t *testing.T) {
 }
 
 func TestStrOps_FindFirstNonSpaceChar_04(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindFirstNonSpaceChar_04() "
+
 	//012345678901234
 	testStr := "xx       H"
 
 	firstNonSpaceIdx, err :=
-		StrOps{}.NewPtr().FindFirstNonSpaceChar(testStr, 2, 9)
+		StrOps{}.NewPtr().FindFirstNonSpaceChar(
+			testStr,
+			2,
+			9,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindFirstNonSpaceChar(testStr,0,4). "+
@@ -81,11 +107,18 @@ func TestStrOps_FindFirstNonSpaceChar_04(t *testing.T) {
 }
 
 func TestStrOps_FindFirstNonSpaceChar_05(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindFirstNonSpaceChar_05() "
+
 	//012345678901234
 	testStr := "      Hello World"
 
 	firstNonSpaceIdx, err :=
-		StrOps{}.NewPtr().FindFirstNonSpaceChar(testStr, 0, 9)
+		StrOps{}.NewPtr().FindFirstNonSpaceChar(
+			testStr,
+			0,
+			9,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindFirstNonSpaceChar(testStr,0,4). "+
@@ -100,11 +133,18 @@ func TestStrOps_FindFirstNonSpaceChar_05(t *testing.T) {
 }
 
 func TestStrOps_FindFirstNonSpaceChar_06(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindFirstNonSpaceChar_06() "
+
 	//012345678901234
 	testStr := "Hello World"
 
 	_, err :=
-		StrOps{}.NewPtr().FindFirstNonSpaceChar(testStr, -1, 9)
+		StrOps{}.NewPtr().FindFirstNonSpaceChar(
+			testStr,
+			-1,
+			9,
+			ePrefix)
 
 	if err == nil {
 		t.Error("Expected an ERROR return. NO ERROR RETURNED!")
@@ -114,11 +154,17 @@ func TestStrOps_FindFirstNonSpaceChar_06(t *testing.T) {
 
 func TestStrOps_FindFirstNonSpaceChar_07(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindFirstNonSpaceChar_07() "
+
 	//          012345678901234
 	testStr := "        Hello "
 
 	_, err :=
-		StrOps{}.NewPtr().FindFirstNonSpaceChar(testStr, 10, 9)
+		StrOps{}.NewPtr().FindFirstNonSpaceChar(
+			testStr,
+			10,
+			9,
+			ePrefix)
 
 	if err == nil {
 		t.Error("Expected an ERROR return. NO ERROR RETURNED!")
@@ -128,11 +174,17 @@ func TestStrOps_FindFirstNonSpaceChar_07(t *testing.T) {
 
 func TestStrOps_FindFirstNonSpaceChar_08(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindFirstNonSpaceChar_08() "
+
 	//          012345678901234
 	testStr := "012345 78901234"
 
 	_, err :=
-		StrOps{}.NewPtr().FindFirstNonSpaceChar(testStr, 0, 15)
+		StrOps{}.NewPtr().FindFirstNonSpaceChar(
+			testStr,
+			0,
+			15,
+			ePrefix)
 
 	if err == nil {
 		t.Error("Expected an ERROR return. NO ERROR RETURNED!")
@@ -142,11 +194,17 @@ func TestStrOps_FindFirstNonSpaceChar_08(t *testing.T) {
 
 func TestStrOps_FindFirstNonSpaceChar_09(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindFirstNonSpaceChar_09() "
+
 	//          012345678901234
 	testStr := "012345 78901234"
 
 	_, err :=
-		StrOps{}.NewPtr().FindFirstNonSpaceChar(testStr, 0, -1)
+		StrOps{}.NewPtr().FindFirstNonSpaceChar(
+			testStr,
+			0,
+			-1,
+			ePrefix)
 
 	if err == nil {
 		t.Error("Expected an ERROR return. NO ERROR RETURNED!")
@@ -155,11 +213,18 @@ func TestStrOps_FindFirstNonSpaceChar_09(t *testing.T) {
 }
 
 func TestStrOps_FindFirstNonSpaceChar_10(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindFirstNonSpaceChar_10() "
+
 	//012345678901234
 	testStr := "xx       Hxglt"
 
 	firstNonSpaceIdx, err :=
-		StrOps{}.NewPtr().FindFirstNonSpaceChar(testStr, 2, 9)
+		StrOps{}.NewPtr().FindFirstNonSpaceChar(
+			testStr,
+			2,
+			9,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindFirstNonSpaceChar(testStr,0,4). "+
@@ -173,11 +238,18 @@ func TestStrOps_FindFirstNonSpaceChar_10(t *testing.T) {
 }
 
 func TestStrOps_FindFirstNonSpaceChar_11(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindFirstNonSpaceChar_11() "
+
 	//012345678901234
 	testStr := "  "
 
 	index, err :=
-		StrOps{}.NewPtr().FindFirstNonSpaceChar(testStr, 0, 4)
+		StrOps{}.NewPtr().FindFirstNonSpaceChar(
+			testStr,
+			0,
+			4,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindFirstNonSpaceChar(testStr,0,4)\n"+
