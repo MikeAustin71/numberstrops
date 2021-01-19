@@ -1913,42 +1913,29 @@ func (sops *StrOps) StrPadLeftToCenter(
 //  length of string to justify ('strToJustify') is 20-characters, then this method
 //  would return a string consisting of 30-space characters plus the 'strToJustify'.
 //
-func (sops StrOps) StrRightJustify(strToJustify string, fieldLen int) (string, error) {
+func (sops *StrOps) StrRightJustify(
+	strToJustify string,
+	fieldLen int,
+	ePrefix string) (
+	string,
+	error) {
 
-	ePrefix := "StrOps.StrRightJustify() "
-
-	sOpsQuark := strOpsQuark{}
-
-	if sOpsQuark.isEmptyOrWhiteSpace(strToJustify) {
-		return strToJustify,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'strToJustify' is "+
-				"All White Space or an EMPTY String!\n",
-				ePrefix)
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	strLen := len(strToJustify)
+	sops.stringDataMutex.Lock()
 
-	if fieldLen == strLen {
-		return strToJustify, nil
-	}
+	defer sops.stringDataMutex.Unlock()
 
-	if fieldLen < strLen {
-		return strToJustify,
-			fmt.Errorf(ePrefix+
-				"\n"+
-				"Error: Length of string to right justify is '%v'.\n"+
-				"However, 'fieldLen' is less.\n"+
-				"'fieldLen'= '%v'\n",
-				strLen, fieldLen)
-	}
+	ePrefix += "StrOps.StrRightJustify() "
 
-	// fieldLen must be greater than strLen
-	lefPadCnt := fieldLen - strLen
+	sOpsElectron := strOpsElectron{}
 
-	leftPadStr := strings.Repeat(" ", lefPadCnt)
-
-	return leftPadStr + strToJustify, nil
+	return sOpsElectron.strRightJustify(
+		strToJustify,
+		fieldLen,
+		ePrefix)
 }
 
 // SwapRune - Swaps all instances of 'oldRune' character with 'newRune'

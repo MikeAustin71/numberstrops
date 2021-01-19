@@ -643,6 +643,8 @@ func TestStrOps_StrLeftJustify_04(t *testing.T) {
 
 func TestStrOps_StrRightJustify_01(t *testing.T) {
 
+	ePrefix := "TestStrOps_StrRightJustify_01() "
+
 	strToJustify := "1234567"
 	fieldLen := 45
 	exTotalLen := fieldLen
@@ -650,7 +652,11 @@ func TestStrOps_StrRightJustify_01(t *testing.T) {
 	exStr := exLeftPad + strToJustify
 
 	su := StrOps{}
-	str, err := su.StrRightJustify(strToJustify, fieldLen)
+	str, err := su.StrRightJustify(
+		strToJustify,
+		fieldLen,
+		ePrefix)
+
 	if err != nil {
 		t.Error("StrRightJustify() generated error: ", err.Error())
 	}
@@ -669,10 +675,15 @@ func TestStrOps_StrRightJustify_01(t *testing.T) {
 
 func TestStrOps_StrRightJustify_02(t *testing.T) {
 
+	ePrefix := "TestStrOps_StrRightJustify_02() "
+
 	strToJustify := "   "
 	fieldLen := 45
 
-	_, err := StrOps{}.StrRightJustify(strToJustify, fieldLen)
+	_, err := StrOps{}.Ptr().StrRightJustify(
+		strToJustify,
+		fieldLen,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an error return from StrRightJustify(strToJustify, fieldLen)\n" +
@@ -683,10 +694,15 @@ func TestStrOps_StrRightJustify_02(t *testing.T) {
 
 func TestStrOps_StrRightJustify_03(t *testing.T) {
 
+	ePrefix := "TestStrOps_StrRightJustify_03() "
+
 	strToJustify := "1234567"
 	fieldLen := len(strToJustify)
 
-	actualStr, err := StrOps{}.StrRightJustify(strToJustify, fieldLen)
+	actualStr, err := StrOps{}.Ptr().StrRightJustify(
+		strToJustify,
+		fieldLen,
+		ePrefix)
 
 	if err != nil {
 		t.Error("StrRightJustify() generated error: ", err.Error())
@@ -701,10 +717,15 @@ func TestStrOps_StrRightJustify_03(t *testing.T) {
 
 func TestStrOps_StrRightJustify_04(t *testing.T) {
 
+	ePrefix := "TestStrOps_StrRightJustify_04() "
+
 	strToJustify := "1234567"
 	fieldLen := 6
 
-	_, err := StrOps{}.StrRightJustify(strToJustify, fieldLen)
+	_, err := StrOps{}.Ptr().StrRightJustify(
+		strToJustify,
+		fieldLen,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an error return from StrRightJustify(strToJustify, fieldLen)\n" +

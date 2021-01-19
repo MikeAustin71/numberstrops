@@ -776,3 +776,68 @@ func (sOpsElectron *strOpsElectron) strLeftJustify(
 
 	return strToJustify + rightPadStr, nil
 }
+
+// StrRightJustify - Returns a string where input parameter
+// 'strToJustify' is right justified. The length of the returned
+// string is determined by input parameter 'fieldlen'.
+//
+// Example:
+//
+//  If the total field length ('fieldLen') is specified as 50-characters and the
+//  length of string to justify ('strToJustify') is 20-characters, then this method
+//  would return a string consisting of 30-space characters plus the 'strToJustify'.
+//
+func (sOpsElectron *strOpsElectron) strRightJustify(
+	strToJustify string,
+	fieldLen int,
+	ePrefix string) (
+	string,
+	error) {
+
+	if sOpsElectron.lock == nil {
+		sOpsElectron.lock = new(sync.Mutex)
+	}
+
+	sOpsElectron.lock.Lock()
+
+	defer sOpsElectron.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsElectron.strRightJustify() "
+
+	sOpsQuark := strOpsQuark{}
+
+	if sOpsQuark.isEmptyOrWhiteSpace(strToJustify) {
+		return strToJustify,
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'strToJustify' is "+
+				"All White Space or an EMPTY String!\n",
+				ePrefix)
+	}
+
+	strLen := len(strToJustify)
+
+	if fieldLen == strLen {
+		return strToJustify, nil
+	}
+
+	if fieldLen < strLen {
+		return strToJustify,
+			fmt.Errorf(ePrefix+
+				"\n"+
+				"Error: Length of string to right justify is '%v'.\n"+
+				"However, 'fieldLen' is less.\n"+
+				"'fieldLen'= '%v'\n",
+				strLen, fieldLen)
+	}
+
+	// fieldLen must be greater than strLen
+	lefPadCnt := fieldLen - strLen
+
+	leftPadStr := strings.Repeat(" ", lefPadCnt)
+
+	return leftPadStr + strToJustify, nil
+}
