@@ -2645,3 +2645,80 @@ func (sOpsQuark *strOpsQuark) trimStringEnds(
 
 	return rStr, err
 }
+
+// upperCaseFirstLetter - Finds the first alphabetic character in a string
+// (a-z A-Z) and converts it to upper case.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  str                 string
+//     - The first character in this string will be converted to
+//       an Upper Case Letter.
+//
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string              string
+//     - This is copy of input parameter 'str' with the first
+//       character converted to upper case (a.k.a. a capital
+//       letter).
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//   str := "how now brown cow."
+//
+//   sops := StrOps{}
+//
+//   actualStr := sops.upperCaseFirstLetter(str)
+//
+//  'actualStr' is now equal to "How now brown cow."
+//
+//
+func (sOpsQuark *strOpsQuark) upperCaseFirstLetter(
+	str string) string {
+
+	if sOpsQuark.lock == nil {
+		sOpsQuark.lock = new(sync.Mutex)
+	}
+
+	sOpsQuark.lock.Lock()
+
+	defer sOpsQuark.lock.Unlock()
+
+	if len(str) == 0 {
+		return str
+	}
+
+	runesStr := []rune(str)
+
+	for i := 0; i < len(runesStr); i++ {
+
+		// Skip leading spaces
+		if runesStr[i] == ' ' {
+			continue
+		}
+
+		// Find the first alphabetic character and
+		// convert to upper case.
+		if runesStr[i] >= 'a' && runesStr[i] <= 'z' {
+
+			runesStr[i] -= 32
+			break
+
+		} else if runesStr[i] >= 'A' && runesStr[i] <= 'Z' {
+			break
+		}
+
+	}
+
+	return string(runesStr)
+}

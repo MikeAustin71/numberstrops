@@ -2303,35 +2303,54 @@ func (sops StrOps) TrimStringEnds(
 // UpperCaseFirstLetter - Finds the first alphabetic character in a string
 // (a-z A-Z) and converts it to upper case.
 //
-func (sops *StrOps) UpperCaseFirstLetter(str string) string {
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  str                 string
+//     - The first character in this string will be converted to
+//       an Upper Case Letter.
+//
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string              string
+//     - This is copy of input parameter 'str' with the first
+//       character converted to upper case (a.k.a. a capital
+//       letter).
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//   str := "how now brown cow."
+//
+//   sops := StrOps{}
+//
+//   actualStr := sops.UpperCaseFirstLetter(str)
+//
+//  'actualStr' is now equal to "How now brown cow."
+//
+//
+func (sops *StrOps) UpperCaseFirstLetter(
+	str string) string {
 
-	if len(str) == 0 {
-		return str
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
 	}
 
-	runesStr := []rune(str)
+	sops.stringDataMutex.Lock()
 
-	for i := 0; i < len(runesStr); i++ {
+	defer sops.stringDataMutex.Unlock()
 
-		// Skip leading spaces
-		if runesStr[i] == ' ' {
-			continue
-		}
+	sOpsQuark := strOpsQuark{}
 
-		// Find the first alphabetic character and
-		// convert to upper case.
-		if runesStr[i] >= 'a' && runesStr[i] <= 'z' {
-
-			runesStr[i] -= 32
-			break
-
-		} else if runesStr[i] >= 'A' && runesStr[i] <= 'Z' {
-			break
-		}
-
-	}
-
-	return string(runesStr)
+	return sOpsQuark.upperCaseFirstLetter(str)
 }
 
 // Write - Implements the io.Writer interface.
