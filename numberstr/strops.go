@@ -798,6 +798,13 @@ func (sops *StrOps) FindLastNonSpaceChar(
 //       marked by the input parameter, 'startIdx'.
 //
 //
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
 // ------------------------------------------------------------------------
 //
 // Return Values
@@ -819,13 +826,33 @@ func (sops *StrOps) FindLastNonSpaceChar(
 //       an appropriate error message.
 //
 //       If an error message is returned, the input parameter
-//       'ePrefix' will be inserted or prefixed at the beginning
-//       of the error message.
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//
+//                 012345678901234
+//       testStr := "xx       Hxgltx"
+//
+//       lastSpaceIdx, err :=
+//       StrOps{}.Ptr().FindLastSpace(
+//       testStr,
+//       0,
+//       14,
+//       ePrefix)
+//
+//  lastSpaceIdx is now equal to '8'
+//
 //
 func (sops *StrOps) FindLastSpace(
 	targetStr string,
 	startIdx int,
-	endIdx int) (
+	endIdx int,
+	ePrefix string) (
 	int,
 	error) {
 
@@ -837,7 +864,7 @@ func (sops *StrOps) FindLastSpace(
 
 	defer sops.stringDataMutex.Unlock()
 
-	ePrefix := "StrOps.FindLastSpace() "
+	ePrefix += "StrOps.FindLastSpace() "
 
 	sOpsQuark := strOpsQuark{}
 

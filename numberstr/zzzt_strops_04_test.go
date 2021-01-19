@@ -613,11 +613,17 @@ func TestStrOps_FindLastNonSpaceChar_16(t *testing.T) {
 
 func TestStrOps_FindLastSpace_01(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_01() "
+
 	//          012345678901234
 	testStr := "xx       Hxgltx"
 
 	lastSpaceIdx, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, 0, 14)
+		StrOps{}.Ptr().FindLastSpace(
+			testStr,
+			0,
+			14,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 0, 14). "+
@@ -632,11 +638,17 @@ func TestStrOps_FindLastSpace_01(t *testing.T) {
 
 func TestStrOps_FindLastSpace_02(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_02() "
+
 	//          012345678901234
 	testStr := "xx1111111Hxglt "
 
 	lastSpaceIdx, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, 0, 14)
+		StrOps{}.Ptr().FindLastSpace(
+			testStr,
+			0,
+			14,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 0, 14). "+
@@ -651,11 +663,17 @@ func TestStrOps_FindLastSpace_02(t *testing.T) {
 
 func TestStrOps_FindLastSpace_03(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_03() "
+
 	//          012345678901234
 	testStr := " x1111111Hxgltf"
 
 	lastSpaceIdx, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, 0, 14)
+		StrOps{}.Ptr().FindLastSpace(
+			testStr,
+			0,
+			14,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 0, 14). "+
@@ -670,11 +688,17 @@ func TestStrOps_FindLastSpace_03(t *testing.T) {
 
 func TestStrOps_FindLastSpace_04(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_04() "
+
 	//          012345678901234
 	testStr := " x1111111Hxglt "
 
 	lastSpaceIdx, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, 1, 13)
+		StrOps{}.Ptr().FindLastSpace(
+			testStr,
+			1,
+			13,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 1, 13). "+
@@ -689,11 +713,17 @@ func TestStrOps_FindLastSpace_04(t *testing.T) {
 
 func TestStrOps_FindLastSpace_05(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_05() "
+
 	//          012345678901234
 	testStr := " x1111   Hxgl  "
 
 	lastSpaceIdx, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, 5, 12)
+		StrOps{}.Ptr().FindLastSpace(
+			testStr,
+			5,
+			12,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 5, 12). "+
@@ -708,11 +738,17 @@ func TestStrOps_FindLastSpace_05(t *testing.T) {
 
 func TestStrOps_FindLastSpace_06(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_06() "
+
 	//          012345678901234
 	testStr := "fx1111rg3luHxgl"
 
 	lastSpaceIdx, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, 0, 14)
+		StrOps{}.Ptr().FindLastSpace(
+			testStr,
+			0,
+			14,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 0, 14). "+
@@ -727,11 +763,17 @@ func TestStrOps_FindLastSpace_06(t *testing.T) {
 
 func TestStrOps_FindLastSpace_07(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_07() "
+
 	//          012345678901234
 	testStr := "fx1111  3luHxgl"
 
 	lastSpaceIdx, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, 0, 14)
+		StrOps{}.Ptr().FindLastSpace(
+			testStr,
+			0,
+			14,
+			ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 0, 14). "+
@@ -746,11 +788,17 @@ func TestStrOps_FindLastSpace_07(t *testing.T) {
 
 func TestStrOps_FindLastSpace_08(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_08() "
+
 	//          012345678901234
 	testStr := "fx1111  3luHxgl"
 
 	_, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, -1, 14)
+		StrOps{}.Ptr().FindLastSpace(
+			testStr,
+			-1,
+			14,
+			ePrefix)
 
 	if err == nil {
 		t.Error("Error: Expected an Error return from FindLastSpace(). " +
@@ -760,11 +808,17 @@ func TestStrOps_FindLastSpace_08(t *testing.T) {
 
 func TestStrOps_FindLastSpace_09(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_09() "
+
 	//          012345678901234
 	testStr := "fx1111  3luHxgl"
 
 	_, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, 0, -1)
+		StrOps{}.Ptr().FindLastSpace(
+			testStr,
+			0,
+			-1,
+			ePrefix)
 
 	if err == nil {
 		t.Error("Error: Expected an Error return from FindLastSpace(). " +
@@ -774,11 +828,17 @@ func TestStrOps_FindLastSpace_09(t *testing.T) {
 
 func TestStrOps_FindLastSpace_10(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_10() "
+
 	//          012345678901234
 	testStr := "fx1111  3luHxgl"
 
 	_, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, 0, 15)
+		StrOps{}.Ptr().FindLastSpace(
+			testStr,
+			0,
+			15,
+			ePrefix)
 
 	if err == nil {
 		t.Error("Error: Expected an Error return from FindLastSpace(). " +
@@ -788,11 +848,17 @@ func TestStrOps_FindLastSpace_10(t *testing.T) {
 
 func TestStrOps_FindLastSpace_11(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_11() "
+
 	//          012345678901234
 	testStr := "fx1111  3luHxgl"
 
 	_, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, 19, 14)
+		StrOps{}.Ptr().FindLastSpace(
+			testStr,
+			19,
+			14,
+			ePrefix)
 
 	if err == nil {
 		t.Error("Error: Expected an Error return from FindLastSpace(). " +
@@ -802,11 +868,17 @@ func TestStrOps_FindLastSpace_11(t *testing.T) {
 
 func TestStrOps_FindLastSpace_12(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_12() "
+
 	//          012345678901234
 	testStr := "fx1111  3luHxgl"
 
 	_, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, 5, 3)
+		StrOps{}.Ptr().FindLastSpace(
+			testStr,
+			5,
+			3,
+			ePrefix)
 
 	if err == nil {
 		t.Error("Error: Expected an Error return from FindLastSpace(). " +
@@ -816,11 +888,17 @@ func TestStrOps_FindLastSpace_12(t *testing.T) {
 
 func TestStrOps_FindLastSpace_13(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_13() "
+
 	//          012345678901234
 	testStr := ""
 
 	_, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, 0, 0)
+		StrOps{}.Ptr().FindLastSpace(
+			testStr,
+			0,
+			0,
+			ePrefix)
 
 	if err == nil {
 		t.Error("Error: Expected an Error return from FindLastSpace(). " +
@@ -830,11 +908,16 @@ func TestStrOps_FindLastSpace_13(t *testing.T) {
 
 func TestStrOps_FindLastSpace_14(t *testing.T) {
 
+	ePrefix := "TestStrOps_FindLastSpace_14() "
+
 	//          012345678901234
 	testStr := ""
 
 	_, err :=
-		StrOps{}.Ptr().FindLastSpace(testStr, 0, 9)
+		StrOps{}.Ptr().FindLastSpace(testStr,
+			0,
+			9,
+			ePrefix)
 
 	if err == nil {
 		t.Error("Error: Expected an Error return from FindLastSpace(). " +
