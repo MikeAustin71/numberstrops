@@ -282,13 +282,18 @@ func TestStrOps_GetValidBytes_07(t *testing.T) {
 
 func TestStrOps_GetValidRunes_01(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidRunes_01() "
+
 	validRunes := []rune{'v', 'a', 'l', 'i', 'd'}
 
 	testRunes := []rune{'x', 'j', 'v', 'm', 'R', 'a', 'J', 'l', 'Z', 'i', 'F', 'd', 'S'}
 
 	expected := "valid"
 
-	actualRunes, err := StrOps{}.NewPtr().GetValidRunes(testRunes, validRunes)
+	actualRunes, err := StrOps{}.NewPtr().GetValidRunes(
+		testRunes,
+		validRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidRunes(testRunes, validRunes). "+
@@ -306,13 +311,18 @@ func TestStrOps_GetValidRunes_01(t *testing.T) {
 
 func TestStrOps_GetValidRunes_02(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidRunes_02() "
+
 	validRunes := []rune{'1', '2', '3', '4', '5'}
 
 	testRunes := []rune{'x', '1', '3', 'm', '5', 'a', 'J', '7', 'Z', 'i', 'F', 'd', '5'}
 
 	expected := "1355"
 
-	actualRunes, err := StrOps{}.GetValidRunes(testRunes, validRunes)
+	actualRunes, err := StrOps{}.Ptr().GetValidRunes(
+		testRunes,
+		validRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidRunes(testRunes, validRunes). "+
@@ -330,13 +340,18 @@ func TestStrOps_GetValidRunes_02(t *testing.T) {
 
 func TestStrOps_GetValidRunes_03(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidRunes_03() "
+
 	validRunes := []rune{'1', '2', '3', '4', '5'}
 
 	testRunes := []rune{'x', 'z', '3', 'm', '5', 'a', 'J', '7', 'Z', 'i', 'F', 'd', '5'}
 
 	expected := "355"
 
-	actualRunes, err := StrOps{}.GetValidRunes(testRunes, validRunes)
+	actualRunes, err := StrOps{}.Ptr().GetValidRunes(
+		testRunes,
+		validRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidRunes(testRunes, validRunes). "+
@@ -354,13 +369,18 @@ func TestStrOps_GetValidRunes_03(t *testing.T) {
 
 func TestStrOps_GetValidRunes_04(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidRunes_04() "
+
 	validRunes := []rune{'1', '2', '3', '4', '5'}
 
 	testRunes := []rune{'x', 'z', 'J', 'm', '!', 'a', 'J', '%', 'Z', 'i', 'F', 'd', '^'}
 
 	expected := ""
 
-	actualRunes, err := StrOps{}.GetValidRunes(testRunes, validRunes)
+	actualRunes, err := StrOps{}.Ptr().GetValidRunes(
+		testRunes,
+		validRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidRunes(testRunes, validRunes). "+
@@ -378,13 +398,18 @@ func TestStrOps_GetValidRunes_04(t *testing.T) {
 
 func TestStrOps_GetValidRunes_05(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidRunes_05() "
+
 	validRunes := []rune{'1', '2', '3', '4', '5'}
 
 	testRunes := []rune{'x', 'z', 'U', 'm', 'M', 'a', 'J', '9', 'Z', 'i', 'F', 'd', '&'}
 
 	expected := ""
 
-	actualRunes, err := StrOps{}.GetValidRunes(testRunes, validRunes)
+	actualRunes, err := StrOps{}.Ptr().GetValidRunes(
+		testRunes,
+		validRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidRunes(testRunes, validRunes). "+
@@ -402,11 +427,16 @@ func TestStrOps_GetValidRunes_05(t *testing.T) {
 
 func TestStrOps_GetValidRunes_06(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidRunes_06() "
+
 	validRunes := []rune{'1', '2', '3', '4', '5'}
 
 	testRunes := make([]rune, 0, 5)
 
-	_, err := StrOps{}.GetValidRunes(testRunes, validRunes)
+	_, err := StrOps{}.Ptr().GetValidRunes(
+		testRunes,
+		validRunes,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an Error Return due to empty 'testRunes'. " +
@@ -417,11 +447,16 @@ func TestStrOps_GetValidRunes_06(t *testing.T) {
 
 func TestStrOps_GetValidRunes_07(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidRunes_01() "
+
 	validRunes := make([]rune, 0, 5)
 
 	testRunes := []rune{'x', 'z', 'U', 'm', 'M', 'a', 'J', '9', 'Z', 'i', 'F', 'd', '&'}
 
-	_, err := StrOps{}.GetValidRunes(testRunes, validRunes)
+	_, err := StrOps{}.Ptr().GetValidRunes(
+		testRunes,
+		validRunes,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected Error return due to empty 'validRunes'. " +

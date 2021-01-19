@@ -1201,30 +1201,75 @@ func (sops *StrOps) GetValidBytes(
 //
 // Input Parameters
 //
-//  targetRunes    [] rune  - An array of characters (runes) which will be examined
-//                            for valid characters. The list of valid characters is
-//                            found in input parameter 'validRunes'. Valid characters
-//                            in targetRunes will be returned by this method as an
-//                            array of runes. Invalid characters will be discarded.
+//  targetRunes         [] rune
+//     - An array of characters (runes) which will be examined
+//       for valid characters. The list of valid characters is
+//       found in input parameter 'validRunes'. Valid characters
+//       in targetRunes will be returned by this method as an
+//       array of runes. Invalid characters will be discarded.
 //
-//  validRunes    [] rune  - An array of runes containing valid characters. If a character
-//                           (rune) in targetRunes is also present in 'validRunes' it will
-//                           be classified as 'valid' and included in the returned array of
-//                           runes. Invalid characters will be discarded.
+//
+//  validRunes          [] rune
+//     - An array of runes containing valid characters. If a character
+//       (rune) in targetRunes is also present in 'validRunes' it will
+//       be classified as 'valid' and included in the returned array of
+//       runes. Invalid characters will be discarded.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  [] rune  - An array of runes which contains runes that are present in 'targetRunes' and
-//             'validRunes'. Note: If all characters in 'targetRunes' are classified as
-//             'invalid', the returned array of runes will be a zero length array.
+//  [] rune
+//     - An array of runes which contains runes that are present in 'targetRunes' and
+//       'validRunes'. Note: If all characters in 'targetRunes' are classified as
+//       'invalid', the returned array of runes will be a zero length array.
 //
-//  error    - If the method completes successfully this value is 'nil'. If an error is
-//             encountered this value will contain the error message. Examples of possible
-//             errors include a zero length 'targetRunes array or 'validRunes' array.
 //
-func (sops StrOps) GetValidRunes(targetRunes []rune, validRunes []rune) ([]rune, error) {
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//     ePrefix := "TestStrOps_GetValidRunes_01() "
+//
+//     validRunes := []rune{'v', 'a', 'l', 'i', 'd'}
+//
+//     testRunes := []rune{'x', 'j', 'v', 'm', 'R', 'a', 'J', 'l', 'Z', 'i', 'F', 'd', 'S'}
+//
+//     expected := "valid"
+//
+//     actualRunes, err := StrOps{}.Ptr().GetValidRunes(
+//     testRunes,
+//     validRunes,
+//     ePrefix)
+//
+//     actualRunes is now equal to string(actualRunes) == "valid"
+//
+//
+func (sops *StrOps) GetValidRunes(
+	targetRunes []rune,
+	validRunes []rune,
+	ePrefix string) (
+	[]rune,
+	error) {
 
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
@@ -1234,7 +1279,7 @@ func (sops StrOps) GetValidRunes(targetRunes []rune, validRunes []rune) ([]rune,
 
 	defer sops.stringDataMutex.Unlock()
 
-	ePrefix := "StrOps.GetValidRunes() "
+	ePrefix += "StrOps.GetValidRunes() "
 
 	sOpsQuark := strOpsQuark{}
 
