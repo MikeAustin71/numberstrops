@@ -236,55 +236,62 @@ func (sops StrOps) DoesLastCharExist(
 //
 // Input Values
 //
-//  targetStr               string   - The target string from which the data field will be extracted.
+//  targetStr                  string
+//     - The target string from which the data field will be extracted.
 //
 //
-//  leadingKeyWordDelimiters []string- Data fields are often preceded by field names or field designators.
-//                                       The 'leadingKeyWordDelimiters' parameter is a string array
-//                                       containing 'Key Word Delimiters'. A Key Word Delimiter may be
-//                                       a Key Word string or a character which identifies and immediately
-//                                       precedes the data field. If multiple Key Word Delimiters exist
-//                                       in 'targetStr' the first instance of a key word in targetStr'
-//                                       will be designated as the Key Word Delimiter.
+//  leadingKeyWordDelimiters   []string
+//     - Data fields are often preceded by field names or field designators.
+//       The 'leadingKeyWordDelimiters' parameter is a string array
+//       containing 'Key Word Delimiters'. A Key Word Delimiter may be
+//       a Key Word string or a character which identifies and immediately
+//       precedes the data field. If multiple Key Word Delimiters exist
+//       in 'targetStr' the first instance of a key word in targetStr'
+//       will be designated as the Key Word Delimiter.
 //
-//                                       If this parameter is populated, the search for a data field
-//                                       will begin immediately after the first located Key Word
-//                                       Delimiter string. If none of Key Words in this string array
-//                                       are located in 'targetStr', an empty string will be returned
-//                                       for data field. If this parameter is populated, at least one
-//                                       of the Key Words MUST exist in 'targetStr' before a data field
-//                                       will be extracted and returned.
+//       If this parameter is populated, the search for a data field
+//       will begin immediately after the first located Key Word
+//       Delimiter string. If none of Key Words in this string array
+//       are located in 'targetStr', an empty string will be returned
+//       for data field. If this parameter is populated, at least one
+//       of the Key Words MUST exist in 'targetStr' before a data field
+//       will be extracted and returned.
 //
-//                                       If this parameter is an empty string array, the search for a
-//                                       data field will begin at the string index designated by
-//                                       parameter, 'startIdx'.
-//
-//
-//  startIdx                int      - The string index in parameter 'targetStr' from which the search for
-//                                       a data field will begin. Note that the starting index will be adjusted
-//                                       according to the existence of a Key Word Delimiter as explained
-//                                       above.
+//       If this parameter is an empty string array, the search for a
+//       data field will begin at the string index designated by
+//       parameter, 'startIdx'.
 //
 //
-//  leadingFieldSeparators  []string - An array of characters or groups of characters which delimit the
-//                                       leading edge of the data field.
+//  startIdx                   int
+//     - The string index in parameter 'targetStr' from which the search for
+//       a data field will begin. Note that the starting index will be adjusted
+//       according to the existence of a Key Word Delimiter as explained
+//       above.
 //
 //
-//  trailingFieldSeparators []string - An array of characters or groups of characters which delimit the
-//                                       end of a data field.
+//  leadingFieldSeparators     []string
+//     - An array of characters or groups of characters which delimit the
+//       leading edge of the data field.
 //
 //
-//  commentDelimiters       []string - Comments effectively terminate the search for a data field. This
-//                                       array stores comment characters or phrases which signal the beginning
-//                                       of a comment.
+//  trailingFieldSeparators    []string
+//     - An array of characters or groups of characters which delimit the
+//       end of a data field.
 //
 //
-//  endOfLineDelimiters     []string - Those characters or groups of characters which mark the end of a line.
-//                                       Generally this includes characters like 'new line' or 'carriage return'.
-//                                       End of line characters will terminate the search for a data field.
+//  commentDelimiters        []string
+//     - Comments effectively terminate the search for a data field. This
+//       array stores comment characters or phrases which signal the beginning
+//       of a comment.
 //
 //
-//  ePrefix             string
+//  endOfLineDelimiters        []string
+//     - Those characters or groups of characters which mark the end of a line.
+//       Generally this includes characters like 'new line' or 'carriage return'.
+//       End of line characters will terminate the search for a data field.
+//
+//
+//  ePrefix                    string
 //     - This is an error prefix which is included in all returned
 //       error messages. Usually, it contains the names of the calling
 //       method or methods. Be sure to leave a space at the end of
@@ -317,14 +324,15 @@ func (sops StrOps) DoesLastCharExist(
 //       EndOfLineDelimiterIndex        int    //  If an End-Of-Line Delimiter is detected, the string index in 'TargetStr' showing its location is stored here.
 //     }
 //
-//   error              - If the method completes successfully and no errors are encountered
-//                        this return value is set to 'nil'. Otherwise, if errors are encountered
-//                        this return value will contain an appropriate error message.
+//   error
+//     - If the method completes successfully and no errors are encountered
+//       this return value is set to 'nil'. Otherwise, if errors are encountered
+//       this return value will contain an appropriate error message.
 //
-//                        The most likely source of errors are invalid input parameters.
-//                        Input parameters 'targetStr', 'startIdx', 'leadingFieldSeparators',
-//                        'trailingFieldSeparators' and 'endOfStringDelimiters' are required input
-//                        parameters and must be populated with valid data.
+//       The most likely source of errors are invalid input parameters.
+//       Input parameters 'targetStr', 'startIdx', 'leadingFieldSeparators',
+//       'trailingFieldSeparators' and 'endOfStringDelimiters' are required input
+//       parameters and must be populated with valid data.
 //
 func (sops *StrOps) ExtractDataField(
 	targetStr string,
@@ -391,86 +399,107 @@ func (sops *StrOps) ExtractDataField(
 //
 // Input Parameters
 //
-//  targetStr           string    - The target string to be searched for the first instance of
-//                                  a number string. A number string is usually defined as a
-//                                  string comprised of one or more consecutive numeric digits.
-//                                  Additional parameters provided by this method will allow
-//                                  the caller to insert specified non-numeric characters at
-//                                  the beginning, end or interior of a number string.
+//  targetStr           string
+//     - The target string to be searched for the first instance of
+//       a number string. A number string is usually defined as a
+//       string comprised of one or more consecutive numeric digits.
+//       Additional parameters provided by this method will allow
+//       the caller to insert specified non-numeric characters at
+//       the beginning, end or interior of a number string.
 //
-//  startIdx               int    - The starting index in input parameter 'targetStr'
-//                                  from which the search for a number string will be
-//                                  initiated. This useful in extracting multiple number
-//                                  strings form a single 'targetStr'.
 //
-//  keepLeadingChars    string    - This string contains non-numeric characters which will be
-//                                  retained as a prefix to the final number string extracted
-//                                  from the 'targetStr' parameter. To be included, these characters
-//                                  must exist in 'targetStr' and must immediately precede the
-//                                  first instance of a number string.
+//  startIdx            int
+//     - The starting index in input parameter 'targetStr'
+//       from which the search for a number string will be
+//       initiated. This useful in extracting multiple number
+//       strings form a single 'targetStr'.
 //
-//                                  For example, if the target string is "Hello $123789 world" and
-//                                  parameter 'keepLeadingChars' includes the USA currency character,
-//                                  '$', the returned number string would be '$123789'.  If no currency
-//                                  character was included in 'keepLeadingChars', the returned number
-//                                  string would be '123789'. It is worth noting that if the target
-//                                  string was '$ 123789' and a currency symbol, '$', was included
-//                                  in 'keepLeadingChars', the returned number string would still be
-//                                  '123789' because 'keepLeadingChars' characters must immediately
-//                                  precede the string of numeric digits in 'targetStr'.
+//       If 'startIndex' is less than zero or if 'startIndex' exceeds
+//       the last character index in 'targetStr', an error will be
+//       returned.
 //
-//                                  Specifically, if the plus ('+') and minus ('-') sign are NOT
-//                                  included in 'keepLeadingChars' those leading number signs will
-//                                  never be included in the final number string.
 //
-//                                  Leading characters will not be repeated. If for some reason you
-//                                  wanted to retain two leading currency symbols ("$$") it would be
-//                                  necessary to include two currency characters in 'keepLeadingChars'.
+//  keepLeadingChars    string
+//     - This string contains non-numeric characters which will be
+//       retained as a prefix to the final number string extracted
+//       from the 'targetStr' parameter. To be included, these characters
+//       must exist in 'targetStr' and must immediately precede the
+//       first instance of a number string.
 //
-//  keepInteriorChars   string    - This string contains non-numeric characters which will be retained
-//                                  as valid characters within the final extracted number string. The
-//                                  characters must exist withing the first instance of a number string
-//                                  located in 'targetStr'. Such interior characters might include
-//                                  thousands separators (commas) or decimal points (periods).
+//       For example, if the target string is "Hello $123789 world" and
+//       parameter 'keepLeadingChars' includes the USA currency character,
+//       '$', the returned number string would be '$123789'.  If no currency
+//       character was included in 'keepLeadingChars', the returned number
+//       string would be '123789'. It is worth noting that if the target
+//       string was '$ 123789' and a currency symbol, '$', was included
+//       in 'keepLeadingChars', the returned number string would still be
+//       '123789' because 'keepLeadingChars' characters must immediately
+//       precede the string of numeric digits in 'targetStr'.
 //
-//                                  For example, if a comma and a period are included in 'keepInteriorChars'
-//                                  and the target string is "Hello word 123,456,789.25 !", the returned
-//                                  number string would be "123,456,789.25".  If the comma character was
-//                                  NOT included in the 'keepInteriorChars' string, the returned number
-//                                  string would be '123', since the number string extraction parser
-//                                  would break on the comma, a non-numeric digit.
+//       Specifically, if the plus ('+') and minus ('-') sign are NOT
+//       included in 'keepLeadingChars' those leading number signs will
+//       never be included in the final number string.
 //
-//                                  'keepInteriorChars' will NOT allow multiple non-numeric characters
-//                                  to exist within the interior of the final extracted number string.
-//                                  Only single non-numeric characters are allowed within a number string.
+//       Leading characters will not be repeated. If for some reason you
+//       wanted to retain two leading currency symbols ("$$") it would be
+//       necessary to include two currency characters in 'keepLeadingChars'.
 //
-//  keepTrailingChars   string    - This string contains non-numeric characters which should be retained
-//                                  at the end of the final number string. By default, a non-numeric
-//                                  character will mark the end of a number string. However, if the caller
-//                                  elects to use parameter 'keepTrailingChars' to retain non-numeric
-//                                  characters such as a trailing right-parenthesis, then those non-numeric
-//                                  characters will be retained in the final extracted number string.
 //
-//                                  Trailing characters will not be repeated. If for some reason you
-//                                  wanted to retain two closing parentheses symbols ("))") it would be
-//                                  necessary to include closing parentheses characters in 'keepTrailingChars'.
+//  keepInteriorChars   string
+//     - This string contains non-numeric characters which will be retained
+//       as valid characters within the final extracted number string. The
+//       characters must exist withing the first instance of a number string
+//       located in 'targetStr'. Such interior characters might include
+//       thousands separators (commas) or decimal points (periods).
 //
-//                                  It should be emphasized that 'keepTrailingChars' must immediately
-//                                  follow the first instance of a number string in parameter, 'targetStr'.
+//       For example, if a comma and a period are included in 'keepInteriorChars'
+//       and the target string is "Hello word 123,456,789.25 !", the returned
+//       number string would be "123,456,789.25".  If the comma character was
+//       NOT included in the 'keepInteriorChars' string, the returned number
+//       string would be '123', since the number string extraction parser
+//       would break on the comma, a non-numeric digit.
 //
-//                                  Example #1:
-//                                    Target String = "Hello world, (1234). Today is new day."
-//                                    keepLeadingChars = "("
-//                                    keepInteriorChars = ""
-//                                    keepTrailingChars= ")"
-//                                    Extracted Number String = "(1234)"
+//       'keepInteriorChars' will NOT allow multiple non-numeric characters
+//       to exist within the interior of the final extracted number string.
+//       Only single non-numeric characters are allowed within a number string.
 //
-//                                  Example #2:
-//                                    Target String = "Hello world, USA GDP growth is projected at 1.8%."
-//                                    keepLeadingChars = ""
-//                                    keepInteriorChars = "."
-//                                    keepTrailingChars= "%"
-//                                    Extracted Number String = "1.8%"
+//
+//  keepTrailingChars   string
+//     - This string contains non-numeric characters which should be retained
+//       at the end of the final number string. By default, a non-numeric
+//       character will mark the end of a number string. However, if the caller
+//       elects to use parameter 'keepTrailingChars' to retain non-numeric
+//       characters such as a trailing right-parenthesis, then those non-numeric
+//       characters will be retained in the final extracted number string.
+//
+//       Trailing characters will not be repeated. If for some reason you
+//       wanted to retain two closing parentheses symbols ("))") it would be
+//       necessary to include closing parentheses characters in 'keepTrailingChars'.
+//
+//       It should be emphasized that 'keepTrailingChars' must immediately
+//       follow the first instance of a number string in parameter, 'targetStr'.
+//
+//       Example #1:
+//         Target String = "Hello world, (1234). Today is new day."
+//         keepLeadingChars = "("
+//         keepInteriorChars = ""
+//         keepTrailingChars= ")"
+//         Extracted Number String = "(1234)"
+//
+//       Example #2:
+//         Target String = "Hello world, USA GDP growth is projected at 1.8%."
+//         keepLeadingChars = ""
+//         keepInteriorChars = "."
+//         keepTrailingChars= "%"
+//         Extracted Number String = "1.8%"
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -508,16 +537,29 @@ func (sops *StrOps) ExtractDataField(
 //     }
 //
 //
-//  error               - If 'startIndex' is less than zero or if 'startIndex' exceeds the last character
-//                        index in 'targetStr', an error will be returned. If no errors are encountered,
-//                        this value is set to 'nil'.
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//       If 'startIndex' is less than zero or if 'startIndex'
+//       exceeds the last character index in 'targetStr', an error
+//       will be returned.
 //
 func (sops *StrOps) ExtractNumericDigits(
 	targetStr string,
 	startIndex int,
 	keepLeadingChars string,
 	keepInteriorChars string,
-	keepTrailingChars string) (NumStrProfileDto, error) {
+	keepTrailingChars string,
+	ePrefix string) (
+	NumStrProfileDto,
+	error) {
 
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
@@ -527,7 +569,7 @@ func (sops *StrOps) ExtractNumericDigits(
 
 	defer sops.stringDataMutex.Unlock()
 
-	ePrefix := "StrOps.ExtractNumericDigits() "
+	ePrefix += "StrOps.ExtractNumericDigits() "
 
 	sOpsAtom := strOpsAtom{}
 
