@@ -467,13 +467,18 @@ func TestStrOps_GetValidRunes_07(t *testing.T) {
 
 func TestStrOps_GetValidString_01(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidString_01() "
+
 	validRunes := []rune{'v', 'a', 'l', 'i', 'd'}
 
 	testStr := "xjvmRaJlZiFdS"
 
 	expected := "valid"
 
-	actualStr, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
+	actualStr, err := StrOps{}.NewPtr().GetValidString(
+		testStr,
+		validRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidString(testStr, validRunes). "+
@@ -488,13 +493,18 @@ func TestStrOps_GetValidString_01(t *testing.T) {
 
 func TestStrOps_GetValidString_02(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidString_02() "
+
 	validRunes := []rune{'1', '2', '3', '4', '5'}
 
 	testStr := "x13m5aJ7ZiFd5"
 
 	expected := "1355"
 
-	actualStr, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
+	actualStr, err := StrOps{}.NewPtr().GetValidString(
+		testStr,
+		validRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidString(testStr, validRunes). "+
@@ -510,13 +520,18 @@ func TestStrOps_GetValidString_02(t *testing.T) {
 
 func TestStrOps_GetValidString_03(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidString_03() "
+
 	validRunes := []rune{'1', '2', '3', '4', '5'}
 
 	testStr := "xz3m5aJ7ZiFd5"
 
 	expected := "355"
 
-	actualStr, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
+	actualStr, err := StrOps{}.NewPtr().GetValidString(
+		testStr,
+		validRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidString(testStr, validRunes). "+
@@ -532,13 +547,18 @@ func TestStrOps_GetValidString_03(t *testing.T) {
 
 func TestStrOps_GetValidString_04(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidString_04() "
+
 	validRunes := []rune{'1', '2', '3', '4', '5'}
 
 	testStr := "xzJm!aJ%ZiFd^"
 
 	expected := ""
 
-	actualStr, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
+	actualStr, err := StrOps{}.NewPtr().GetValidString(
+		testStr,
+		validRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidString(testStr, validRunes). "+
@@ -553,13 +573,18 @@ func TestStrOps_GetValidString_04(t *testing.T) {
 
 func TestStrOps_GetValidString_05(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidString_05() "
+
 	validRunes := []rune{'1', '2', '3', '4', '5'}
 
 	testStr := "xzUmMaJ9ZiFd&"
 
 	expected := ""
 
-	actualStr, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
+	actualStr, err := StrOps{}.NewPtr().GetValidString(
+		testStr,
+		validRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.GetValidString(testStr, validRunes). "+
@@ -575,11 +600,16 @@ func TestStrOps_GetValidString_05(t *testing.T) {
 
 func TestStrOps_GetValidString_06(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidString_06() "
+
 	validRunes := []rune{'1', '2', '3', '4', '5'}
 
 	testStr := ""
 
-	_, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
+	_, err := StrOps{}.NewPtr().GetValidString(
+		testStr,
+		validRunes,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an Error Return due to empty 'testStr'. " +
@@ -590,11 +620,16 @@ func TestStrOps_GetValidString_06(t *testing.T) {
 
 func TestStrOps_GetValidString_07(t *testing.T) {
 
+	ePrefix := "TestStrOps_GetValidString_07() "
+
 	validRunes := make([]rune, 0, 5)
 
 	testStr := "xzUmMaJ9ZiFd&"
 
-	_, err := StrOps{}.NewPtr().GetValidString(testStr, validRunes)
+	_, err := StrOps{}.NewPtr().GetValidString(
+		testStr,
+		validRunes,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected Error return due to empty 'validRunes'. " +

@@ -1299,30 +1299,70 @@ func (sops *StrOps) GetValidRunes(
 //
 // Input Parameter
 //
-//  targetStr  string - The string which will be screened for valid characters.
+//  targetStr           string
+//     - The string which will be screened for valid characters.
 //
-//  validRunes []rune - An array of type rune containing valid characters. Characters
-//                      which exist in both 'targetStr' and 'validRunes' will be
-//                      returned as a new string. Invalid characters are discarded.
+//
+//  validRunes []rune
+//     - An array of type rune containing valid characters. Characters
+//       which exist in both 'targetStr' and 'validRunes' will be
+//       returned as a new string. Invalid characters are discarded.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  string - This string will be returned containing valid characters extracted
-//           from 'targetStr'. A character is considered valid if it exists in
-//           both 'targetStr' and 'validRunes'. Invalid characters are discarded.
-//           This means that if no valid characters are identified, a zero length
-//           string will be returned.
+//  string
+//     - This string will be returned containing valid characters extracted
+//       from 'targetStr'. A character is considered valid if it exists in
+//       both 'targetStr' and 'validRunes'. Invalid characters are discarded.
+//       This means that if no valid characters are identified, a zero length
+//       string will be returned.
 //
-//  error  - If the method completes successfully this value is 'nil'. If an error is
-//           encountered this value will contain the error message. Examples of possible
-//           errors include a zero length 'targetStr' (string) or a zero length
-//           'validRunes' array.
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//    ePrefix := "TestStrOps_GetValidString_01() "
+//
+//    validRunes := []rune{'v', 'a', 'l', 'i', 'd'}
+//
+//    testStr := "xjvmRaJlZiFdS"
+//
+//    actualStr, err := StrOps{}.Ptr().GetValidString(
+//                        testStr,
+//                        validRunes,
+//                        ePrefix)
+//
+//  actualStr is now equal to "valid"
+//
 //
 func (sops *StrOps) GetValidString(
 	targetStr string,
-	validRunes []rune) (string, error) {
+	validRunes []rune,
+	ePrefix string) (
+	string,
+	error) {
 
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
@@ -1332,7 +1372,7 @@ func (sops *StrOps) GetValidString(
 
 	defer sops.stringDataMutex.Unlock()
 
-	ePrefix := "StrOps.GetValidString() "
+	ePrefix += "StrOps.GetValidString() "
 
 	sOpsElectron := strOpsElectron{}
 
