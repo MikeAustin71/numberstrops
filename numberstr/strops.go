@@ -7,7 +7,6 @@
 package numberstr
 
 import (
-	"fmt"
 	"io"
 	"strings"
 	"sync"
@@ -2366,63 +2365,18 @@ func (sops *StrOps) UpperCaseFirstLetter(
 //
 func (sops *StrOps) Write(p []byte) (n int, err error) {
 
-	ePrefix := "StrOps.Write() "
-	n = 0
-	err = nil
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
 
 	sops.stringDataMutex.Lock()
 
-	if sops.cntBytesWritten == 0 {
-		sops.stringData = ""
-	}
+	defer sops.stringDataMutex.Unlock()
 
-	n = len(p)
+	sOpsElectron := strOpsElectron{}
 
-	if n == 0 {
-
-		sops.cntBytesWritten = 0
-
-		sops.stringDataMutex.Unlock()
-
-		err = fmt.Errorf("%v\n"+
-			"Error: Input byte array 'p' is ZERO LENGTH!\n",
-			ePrefix)
-
-		return n, err
-	}
-
-	sops.stringDataMutex.Unlock()
-
-	w := strings.Builder{}
-	w.Grow(n + 5)
-	cnt := 0
-
-	endOfString := false
-
-	for i := 0; i < n; i++ {
-
-		if p[i] == 0 {
-			endOfString = true
-			break
-		}
-
-		w.WriteByte(p[i])
-		cnt++
-	}
-
-	n = cnt
-
-	sops.stringDataMutex.Lock()
-
-	sops.stringData += w.String()
-
-	if endOfString {
-		sops.cntBytesWritten = 0
-	} else {
-		sops.cntBytesWritten += uint64(n)
-	}
-
-	sops.stringDataMutex.Unlock()
-
-	return n, err
+	return sOpsElectron.write(
+		sops,
+		p,
+		"StrOps.Write() ")
 }

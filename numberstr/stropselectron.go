@@ -841,3 +841,85 @@ func (sOpsElectron *strOpsElectron) strRightJustify(
 
 	return leftPadStr + strToJustify, nil
 }
+
+// write - Implements the io.Writer interface.
+// Write writes len(p) bytes from p to the underlying
+// data stream. In this case the underlying data stream
+// is private member variable string, 'StrOps.stringData'.
+//
+// Receives a byte array 'p' and writes the contents to
+// a string, private structure data element 'StrOps.stringData'.
+//
+// 'StrOps.stringData' can be accessed through 'Getter' and
+// 'Setter' methods, 'GetStringData()' and 'SetStringData()'.
+//
+func (sOpsElectron *strOpsElectron) write(
+	strOpsInstance *StrOps,
+	p []byte,
+	ePrefix string) (
+	n int,
+	err error) {
+
+	if sOpsElectron.lock == nil {
+		sOpsElectron.lock = new(sync.Mutex)
+	}
+
+	sOpsElectron.lock.Lock()
+
+	defer sOpsElectron.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "strOpsElectron.write() "
+
+	n = 0
+	err = nil
+
+	if strOpsInstance.cntBytesWritten == 0 {
+		strOpsInstance.stringData = ""
+	}
+
+	n = len(p)
+
+	if n == 0 {
+
+		strOpsInstance.cntBytesWritten = 0
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input byte array 'p' is ZERO LENGTH!\n",
+			ePrefix)
+
+		return n, err
+	}
+
+	w := strings.Builder{}
+	w.Grow(n + 5)
+	cnt := 0
+
+	endOfString := false
+
+	for i := 0; i < n; i++ {
+
+		if p[i] == 0 {
+			endOfString = true
+			break
+		}
+
+		w.WriteByte(p[i])
+		cnt++
+	}
+
+	n = cnt
+
+	strOpsInstance.stringData += w.String()
+
+	if endOfString {
+		strOpsInstance.cntBytesWritten = 0
+	} else {
+		strOpsInstance.cntBytesWritten += uint64(n)
+	}
+
+	return n, err
+}
