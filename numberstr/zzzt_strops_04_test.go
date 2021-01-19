@@ -264,11 +264,18 @@ func TestStrOps_FindFirstNonSpaceChar_11(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_01(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_01() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := "xx       Hxgltx     "
 
-	lastNonSpaceChar, err := StrOps{}.FindLastNonSpaceChar(tStr, 0, 19)
+	lastNonSpaceChar, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		0,
+		19,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastNonSpaceChar(...). "+
@@ -283,11 +290,18 @@ func TestStrOps_FindLastNonSpaceChar_01(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_02(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_02() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := "Now is the time for all good men to come to the aid of their country."
 
-	lastNonSpaceChar, err := StrOps{}.FindLastNonSpaceChar(tStr, 0, 68)
+	lastNonSpaceChar, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		0,
+		68,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastNonSpaceChar(...). "+
@@ -302,11 +316,18 @@ func TestStrOps_FindLastNonSpaceChar_02(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_03(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_01() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := "Now is the time for all good men to come to the aid of their country.           "
 
-	lastNonSpaceChar, err := StrOps{}.FindLastNonSpaceChar(tStr, 0, 79)
+	lastNonSpaceChar, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		0,
+		79,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastNonSpaceChar(...). "+
@@ -321,11 +342,18 @@ func TestStrOps_FindLastNonSpaceChar_03(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_04(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_04() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := "Now is the time for all good men to come to the aid of their country.           "
 
-	lastNonSpaceChar, err := StrOps{}.FindLastNonSpaceChar(tStr, 68, 79)
+	lastNonSpaceChar, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		68,
+		79,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastNonSpaceChar(...). "+
@@ -340,11 +368,18 @@ func TestStrOps_FindLastNonSpaceChar_04(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_05(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_05() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := "Now is the time for all good men to come to the aid of their country.           "
 
-	lastNonSpaceChar, err := StrOps{}.FindLastNonSpaceChar(tStr, 59, 79)
+	lastNonSpaceChar, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		59,
+		79,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastNonSpaceChar(...). "+
@@ -359,11 +394,18 @@ func TestStrOps_FindLastNonSpaceChar_05(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_06(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_06() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := "                                                                                 "
 
-	lastNonSpaceChar, err := StrOps{}.FindLastNonSpaceChar(tStr, 0, 80)
+	lastNonSpaceChar, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		0,
+		80,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastNonSpaceChar(...). "+
@@ -378,11 +420,18 @@ func TestStrOps_FindLastNonSpaceChar_06(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_07(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_07() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := "        XX        XX          XX             XXX      XXX.                       "
 
-	lastNonSpaceChar, err := StrOps{}.FindLastNonSpaceChar(tStr, 40, 80)
+	lastNonSpaceChar, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		40,
+		80,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastNonSpaceChar(...). "+
@@ -397,11 +446,18 @@ func TestStrOps_FindLastNonSpaceChar_07(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_08(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_08() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := " The cow jumped over the moon."
 
-	lastNonSpaceChar, err := StrOps{}.FindLastNonSpaceChar(tStr, 10, 29)
+	lastNonSpaceChar, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		10,
+		29,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastNonSpaceChar(...). "+
@@ -416,11 +472,18 @@ func TestStrOps_FindLastNonSpaceChar_08(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_09(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_09() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := " The cow jumped over the moon.    "
 
-	_, err := StrOps{}.FindLastNonSpaceChar(tStr, 34, 33)
+	_, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		34,
+		33,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an Error return.  NO ERROR RETURNED!")
@@ -428,11 +491,18 @@ func TestStrOps_FindLastNonSpaceChar_09(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_10(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_10() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := ""
 
-	_, err := StrOps{}.FindLastNonSpaceChar(tStr, 0, 0)
+	_, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		0,
+		0,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an Error return.  NO ERROR RETURNED!")
@@ -440,11 +510,18 @@ func TestStrOps_FindLastNonSpaceChar_10(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_12(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_12() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := "The cow jumped over the dark side of the moon.   "
 
-	_, err := StrOps{}.FindLastNonSpaceChar(tStr, 0, 49)
+	_, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		0,
+		49,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an Error return.  NO ERROR RETURNED!")
@@ -452,11 +529,18 @@ func TestStrOps_FindLastNonSpaceChar_12(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_13(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_13() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := "The cow jumped over the dark side of the moon.   "
 
-	_, err := StrOps{}.FindLastNonSpaceChar(tStr, 49, 50)
+	_, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		49,
+		50,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an Error return.  NO ERROR RETURNED!")
@@ -464,11 +548,18 @@ func TestStrOps_FindLastNonSpaceChar_13(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_14(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_14() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := "The cow jumped over the dark side of the moon.   "
 
-	_, err := StrOps{}.FindLastNonSpaceChar(tStr, -1, 47)
+	_, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		-1,
+		47,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an Error return.  NO ERROR RETURNED!")
@@ -476,11 +567,18 @@ func TestStrOps_FindLastNonSpaceChar_14(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_15(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_15() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := "The cow jumped over the dark side of the moon.   "
 
-	_, err := StrOps{}.FindLastNonSpaceChar(tStr, 0, -1)
+	_, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		0,
+		-1,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an Error return.  NO ERROR RETURNED!")
@@ -488,11 +586,18 @@ func TestStrOps_FindLastNonSpaceChar_15(t *testing.T) {
 }
 
 func TestStrOps_FindLastNonSpaceChar_16(t *testing.T) {
+
+	ePrefix := "TestStrOps_FindLastNonSpaceChar_16() "
+
 	//                 1         2         3         4         5         6         7         8
 	//       012345678901234567890123456789012345678901234567890123456789012345678901234567890
 	tStr := "Now is the time for all good men to come to the aid of their country.           "
 
-	lastNonSpaceChar, err := StrOps{}.FindLastNonSpaceChar(tStr, 10, 62)
+	lastNonSpaceChar, err := StrOps{}.Ptr().FindLastNonSpaceChar(
+		tStr,
+		10,
+		62,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.FindLastNonSpaceChar(...). "+
