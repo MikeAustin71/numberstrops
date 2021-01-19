@@ -238,6 +238,7 @@ func (sops StrOps) DoesLastCharExist(
 //
 //  targetStr               string   - The target string from which the data field will be extracted.
 //
+//
 //  leadingKeyWordDelimiters []string- Data fields are often preceded by field names or field designators.
 //                                       The 'leadingKeyWordDelimiters' parameter is a string array
 //                                       containing 'Key Word Delimiters'. A Key Word Delimiter may be
@@ -258,24 +259,37 @@ func (sops StrOps) DoesLastCharExist(
 //                                       data field will begin at the string index designated by
 //                                       parameter, 'startIdx'.
 //
+//
 //  startIdx                int      - The string index in parameter 'targetStr' from which the search for
 //                                       a data field will begin. Note that the starting index will be adjusted
 //                                       according to the existence of a Key Word Delimiter as explained
 //                                       above.
 //
+//
 //  leadingFieldSeparators  []string - An array of characters or groups of characters which delimit the
 //                                       leading edge of the data field.
 //
+//
 //  trailingFieldSeparators []string - An array of characters or groups of characters which delimit the
 //                                       end of a data field.
+//
 //
 //  commentDelimiters       []string - Comments effectively terminate the search for a data field. This
 //                                       array stores comment characters or phrases which signal the beginning
 //                                       of a comment.
 //
+//
 //  endOfLineDelimiters     []string - Those characters or groups of characters which mark the end of a line.
 //                                       Generally this includes characters like 'new line' or 'carriage return'.
 //                                       End of line characters will terminate the search for a data field.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -319,7 +333,10 @@ func (sops *StrOps) ExtractDataField(
 	leadingFieldSeparators []string,
 	trailingFieldSeparators []string,
 	commentDelimiters []string,
-	endOfLineDelimiters []string) (DataFieldProfileDto, error) {
+	endOfLineDelimiters []string,
+	ePrefix string) (
+	DataFieldProfileDto,
+	error) {
 
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
@@ -329,7 +346,7 @@ func (sops *StrOps) ExtractDataField(
 
 	defer sops.stringDataMutex.Unlock()
 
-	ePrefix := "StrOps.ExtractDataField() "
+	ePrefix += "StrOps.ExtractDataField() "
 
 	sOpsAtom := strOpsAtom{}
 
