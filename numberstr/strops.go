@@ -922,49 +922,76 @@ func (sops *StrOps) FindLastSpace(
 //
 // Input Parameters
 //
+//  targetStr           string
+//     - The string containing the string segment which
+//       will be searched to identify the last word
+//       in the string segment.
 //
-//  targetStr   string - The string containing the string segment which
-//                       will be searched to identify the last word
-//                       in the string segment.
 //
-//  startIndex     int - The index marking the beginning of the string
-//                       segment in 'targetStr'.
+//  startIndex          int
+//     - The index marking the beginning of the string
+//       segment in 'targetStr'.
 //
-//  endIndex       int - The index marking the end of the string segment
-//                       in 'targetStr'.
+//
+//  endIndex       int
+//     - The index marking the end of the string segment
+//       in 'targetStr'.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  beginWrdIdx    int  - The index marking the beginning of the last word
-//                        in the string segment identified by input parameters
-//                        'startIndex' and 'endIndex'. If the string segment
-//                        consists of all spaces or is empty, this value is
-//                        set to -1.
+//  beginWrdIdx         int
+//     - The index marking the beginning of the last word
+//       in the string segment identified by input parameters
+//       'startIndex' and 'endIndex'. If the string segment
+//       consists of all spaces or is empty, this value is
+//       set to -1.
 //
-//  endWrdIdx      int  - The index marking the end of the last word in the
-//                        string segment identified by input parameters 'startIndex'
-//                        and 'endIndex'. If the string segment consists of all
-//                        spaces or is empty, this value is set to -1.
 //
-//  isAllOneWord   bool - If the string segment identified by input parameters
-//                        'startIndex' and 'endIndex' consists entirely of non-space
-//                        characters (characters other than ' '), this value is set
-//                        to 'true'.
+//  endWrdIdx           int
+//     - The index marking the end of the last word in the
+//       string segment identified by input parameters 'startIndex'
+//       and 'endIndex'. If the string segment consists of all
+//       spaces or is empty, this value is set to -1.
 //
-//  isAllSpaces    bool - If the string segment identified by input parameters
-//                        'startIndex' and 'endIndex' consists entirely of space
-//                        characters (character = ' '), this value is set to 'true'.
 //
-//  err           error - If targetStr is empty or if startIndex or endIndex is invalid,
-//                        an error is returned. If the method completes successfully,
-//                        err = nil.
+//  isAllOneWord        bool
+//     - If the string segment identified by input parameters
+//       'startIndex' and 'endIndex' consists entirely of non-space
+//       characters (characters other than ' '), this value is set
+//       to 'true'.
+//
+//
+//  isAllSpaces         bool
+//     - If the string segment identified by input parameters
+//       'startIndex' and 'endIndex' consists entirely of space
+//       characters (character = ' '), this value is set to 'true'.
+//
+//
+//  err                 error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 func (sops *StrOps) FindLastWord(
 	targetStr string,
 	startIndex,
-	endIndex int) (beginWrdIdx,
+	endIndex int,
+	ePrefix string) (beginWrdIdx,
 	endWrdIdx int,
 	isAllOneWord,
 	isAllSpaces bool,
@@ -978,7 +1005,7 @@ func (sops *StrOps) FindLastWord(
 
 	defer sops.stringDataMutex.Unlock()
 
-	ePrefix := "StrOps.FindLastWord() "
+	ePrefix += "StrOps.FindLastWord() "
 
 	sOpsQuark := strOpsQuark{}
 
