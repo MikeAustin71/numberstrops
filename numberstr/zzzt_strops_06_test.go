@@ -9,12 +9,17 @@ import (
 
 func TestStrOps_MakeSingleCharString_01(t *testing.T) {
 
+	ePrefix := "TestStrOps_MakeSingleCharString_01() "
+
 	sUtil := StrOps{}
 	requestedLen := 20
 
 	charRune := '*'
 
-	outputStr, err := sUtil.MakeSingleCharString(charRune, requestedLen)
+	outputStr, err := sUtil.MakeSingleCharString(
+		charRune,
+		requestedLen,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by sUtil.MakeSingleCharString(charRune, 10). "+
@@ -41,12 +46,17 @@ func TestStrOps_MakeSingleCharString_01(t *testing.T) {
 
 func TestStrOps_MakeSingleCharString_02(t *testing.T) {
 
+	ePrefix := "TestStrOps_MakeSingleCharString_02() "
+
 	sUtil := StrOps{}
 	requestedLen := 100
 
 	charRune := '='
 
-	outputStr, err := sUtil.MakeSingleCharString(charRune, requestedLen)
+	outputStr, err := sUtil.MakeSingleCharString(
+		charRune,
+		requestedLen,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by sUtil.MakeSingleCharString(charRune, 10). "+
@@ -73,12 +83,17 @@ func TestStrOps_MakeSingleCharString_02(t *testing.T) {
 
 func TestStrOps_MakeSingleCharString_03(t *testing.T) {
 
+	ePrefix := "TestStrOps_MakeSingleCharString_03() "
+
 	sUtil := StrOps{}
 	requestedLen := 20
 
 	charRune := rune(0)
 
-	_, err := sUtil.MakeSingleCharString(charRune, requestedLen)
+	_, err := sUtil.MakeSingleCharString(
+		charRune,
+		requestedLen,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an error return from sUtil.MakeSingleCharString(charRune, 10)\n" +
@@ -89,12 +104,17 @@ func TestStrOps_MakeSingleCharString_03(t *testing.T) {
 
 func TestStrOps_MakeSingleCharString_04(t *testing.T) {
 
+	ePrefix := "TestStrOps_MakeSingleCharString_04() "
+
 	sUtil := StrOps{}
 	requestedLen := 0
 
 	charRune := 'x'
 
-	_, err := sUtil.MakeSingleCharString(charRune, requestedLen)
+	_, err := sUtil.MakeSingleCharString(
+		charRune,
+		requestedLen,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Expected an error return from sUtil.MakeSingleCharString(charRune, 10)\n" +

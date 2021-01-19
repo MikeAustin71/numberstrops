@@ -1354,7 +1354,7 @@ func (sops *StrOps) GetValidRunes(
 //                        validRunes,
 //                        ePrefix)
 //
-//  actualStr is now equal to "valid"
+//  'actualStr' is now equal to "valid"
 //
 //
 func (sops *StrOps) GetValidString(
@@ -1476,7 +1476,10 @@ func (sops *StrOps) LowerCaseFirstLetter(str string) string {
 //
 func (sops *StrOps) MakeSingleCharString(
 	charRune rune,
-	strLen int) (string, error) {
+	strLen int,
+	ePrefix string) (
+	string,
+	error) {
 
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
@@ -1486,7 +1489,8 @@ func (sops *StrOps) MakeSingleCharString(
 
 	defer sops.stringDataMutex.Unlock()
 
-	ePrefix := "StrOps.MakeSingleCharString() "
+	ePrefix += "StrOps.MakeSingleCharString() "
+
 	sOpsQuark := strOpsQuark{}
 
 	return sOpsQuark.makeSingleCharString(
