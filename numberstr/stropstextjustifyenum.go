@@ -189,7 +189,7 @@ func (sopsTxtJustify StrOpsTextJustify) String() string {
 }
 
 // XIsValid - Returns a boolean value signaling whether the current
-// Calendar Specification value is valid.
+// StrOpsTextJustify value is valid.
 //
 // This is a standard utility method and is not part of the valid
 // enumerations for this type.
@@ -271,9 +271,9 @@ func (sopsTxtJustify StrOpsTextJustify) XParseString(
 	valueString string,
 	caseSensitive bool) (StrOpsTextJustify, error) {
 
-	lockCalendarSpec.Lock()
+	lockStrOpsTextJustify.Lock()
 
-	defer lockCalendarSpec.Unlock()
+	defer lockStrOpsTextJustify.Unlock()
 
 	ePrefix := "StrOpsTextJustify.XParseString() "
 
@@ -312,6 +312,38 @@ func (sopsTxtJustify StrOpsTextJustify) XParseString(
 	}
 
 	return strOpsTxtJustification, nil
+}
+
+// XValue - This method returns the enumeration value of the current
+// StrOpsTextJustify instance.
+//
+// This is a standard utility method and is not part of the valid
+// enumerations for this type.
+//
+//
+func (sopsTxtJustify StrOpsTextJustify) XValue() StrOpsTextJustify {
+
+	lockStrOpsTextJustify.Lock()
+
+	defer lockStrOpsTextJustify.Unlock()
+
+	return sopsTxtJustify
+}
+
+// XValueInt - This method returns the integer value of the current
+// StrOpsTextJustify instance.
+//
+// This is a standard utility method and is not part of the valid
+// enumerations for this type.
+//
+//
+func (sopsTxtJustify StrOpsTextJustify) XValueInt() int {
+
+	lockStrOpsTextJustify.Lock()
+
+	defer lockStrOpsTextJustify.Unlock()
+
+	return int(sopsTxtJustify)
 }
 
 // TxtJustify - public global variable of
