@@ -2047,8 +2047,9 @@ func (sops *StrOps) ReplaceRunes(
 		ePrefix)
 }
 
-// ReplaceStringChars - Replaces string characters in a target string ('targetStr') with those
-// specified in a two dimensional slice of runes, 'replacementRunes[][]'.
+// ReplaceStringChars - Replaces string characters in a target
+// string ('targetStr') with those specified in a two dimensional
+// slice of runes, 'replacementRunes[][]'.
 //
 // ------------------------------------------------------------------------
 //
@@ -2089,6 +2090,46 @@ func (sops *StrOps) ReplaceRunes(
 //            errors include a zero length 'targetStr' or 'replacementRunes[][]' array.
 //            In addition, if any of the replacementRunes[][x] 2nd dimension elements have
 //            a length less than two, an error will be returned.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//  ePrefix := "TestStrOps_ReplaceStringChars_06() "
+//
+//  testStr := "1a2b3c4d5e6"
+//
+//  replaceRunes := make([][]rune, 5, 10)
+//
+//  for i := 0; i < 5; i++ {
+//  replaceRunes[i] = make([]rune, 2, 5)
+//  }
+//
+//  replaceRunes[0][0] = 'a'
+//  replaceRunes[0][1] = 0
+//
+//  replaceRunes[1][0] = 'b'
+//  replaceRunes[1][1] = 0
+//
+//  replaceRunes[2][0] = 'c'
+//  replaceRunes[2][1] = 0
+//
+//  replaceRunes[3][0] = 'd'
+//  replaceRunes[3][1] = 0
+//
+//  replaceRunes[4][0] = 'e'
+//  replaceRunes[4][1] = 0
+//
+//  actualStr, err := StrOps{}.Ptr().ReplaceStringChars(
+//  testStr,
+//  replaceRunes,
+//  ePrefix)
+//
+//  ---------------------------------------------------
+//  Original testStr := "1a2b3c4d5e6"
+//
+//  actualStr is now equal to = "123456"
 //
 func (sops *StrOps) ReplaceStringChars(
 	targetStr string,
