@@ -574,7 +574,7 @@ func TestStrOps_StrCenterInStr_05(t *testing.T) {
 }
 
 func TestStrOps_StrLeftJustify_01(t *testing.T) {
-	ePrefix := "TestStrOps_StrLeftJustify_01"
+	ePrefix := "TestStrOps_StrLeftJustify_01() "
 	strToJustify := "1234567"
 	fieldLen := 45
 	exTotalLen := fieldLen

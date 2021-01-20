@@ -2681,19 +2681,78 @@ func (sops *StrOps) StripTrailingChars(
 		badChars)
 }
 
-// StrLeftJustify - Creates a new string with a total length equal to input parameter
+// StrLeftJustify - Creates a new string, left-justified, within a
+// with a wider text field or output string. The text to be left
+// justified is specified by input parameter 'strToJustify'. The
+// length of the output string is defined by input parameter,
 // 'fieldLen'.
 //
-// Input parameter 'strToJustify' is placed on the left side of the output string and
-// spaces are padded to the right in order to create a string with total length of
-// 'fieldLen'.
+// Input parameter 'strToJustify' is placed on the left side of the
+// output string and spaces are padded to the right in order to
+// create a string with total length of 'fieldLen'.
 //
-// Example:
 //
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  strToJustify        string
+//     - The text content which will be left-justified in the
+//       output string returned by this method.
+//
+//  fieldLen            int
+//     - Defines the length of the output string in which input
+//       parameter 'strToJustify' will be left-justified.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - The output string resulting from the 'left-justify'
+//       operation. Input parameter, 'strToJustify' will be
+//       left-justified in this output string which will have a
+//       total string length as defined by input parameter,
+//       'fieldLen'.
+//
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//
+//  ePrefix := "TestStrOps_StrLeftJustify_01() "
 //  fieldLen = 15
 //  strToJustify    = "Hello World"
-//  Returned String = "Hello World    "
-//  String Index    =  012345648901234
+//  su := StrOps{}
+//  justifiedStr, err := su.StrLeftJustify(
+//                           strToJustify,
+//                           fieldLen,
+//                           ePrefix)
+//
+//  ------------------------------------------------
+//  justifiedStr is now equal to "Hello World    "
+//             String Length      123456789012345
+//
 //
 func (sops *StrOps) StrLeftJustify(
 	strToJustify string,
@@ -2712,9 +2771,9 @@ func (sops *StrOps) StrLeftJustify(
 
 	ePrefix += "StrOps.StrLeftJustify() "
 
-	sOpsElectron := strOpsElectron{}
+	sOpsMolecule := strOpsMolecule{}
 
-	return sOpsElectron.strLeftJustify(
+	return sOpsMolecule.strLeftJustify(
 		strToJustify,
 		fieldLen,
 		ePrefix)
@@ -2781,9 +2840,9 @@ func (sops *StrOps) StrRightJustify(
 
 	ePrefix += "StrOps.StrRightJustify() "
 
-	sOpsElectron := strOpsElectron{}
+	sOpsMolecule := strOpsMolecule{}
 
-	return sOpsElectron.strRightJustify(
+	return sOpsMolecule.strRightJustify(
 		strToJustify,
 		fieldLen,
 		ePrefix)
