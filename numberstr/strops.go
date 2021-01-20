@@ -2215,7 +2215,7 @@ func (sops *StrOps) SetStringData(str string) {
 //       centering.
 //
 //
-//  err                 error
+//  error
 //     - If the method completes successfully and no errors are
 //       encountered this return value is set to 'nil'. Otherwise,
 //       if errors are encountered this return value will contain
@@ -2279,6 +2279,71 @@ func (sops *StrOps) StrCenterInStrLeft(
 // The returned string will effectively center the original string ('strToCenter')
 // in a field of specified length ('fieldLen').
 //
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  strToCenter         string
+//     - This string will be centered in a text field. The text
+//       field length is defined by input parameter, 'fieldLen'.
+//
+//
+//  fieldLen            int
+//     - Defines the length of a text field in which 'strToCenter'
+//       will be centered.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - This returned string contains 'strToCenter' with the
+//       necessary left-pad and right-pad number of spaces
+//       required for centering. The total length of this string
+//       will be equal to input parameter, 'fieldLen'.
+//
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//  ePrefix := "TestStrOps_StrCenterInStr_02() "
+//  strToCenter := "Hello"
+//  fieldLen := 15
+//
+//  su := StrOps{}
+//  centeredStr, err := su.StrCenterInStr(
+//  strToCenter,
+//  fieldLen,
+//  ePrefix)
+//
+//  ---------------------------------------------
+//                               123456789012345
+//  centeredStr is now equal to "     Hello     "
+//  'Hello' is centered in a field of length 15
+//  with left and right pad of 5-spaces.
+//
 func (sops *StrOps) StrCenterInStr(
 	strToCenter string,
 	fieldLen int,
@@ -2305,7 +2370,8 @@ func (sops *StrOps) StrCenterInStr(
 // StrGetRuneCnt - Uses utf8 Rune Count
 // function to return the number of characters
 // in a string.
-func (sops *StrOps) StrGetRuneCnt(targetStr string) int {
+func (sops *StrOps) StrGetRuneCnt(
+	targetStr string) int {
 
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
@@ -2323,7 +2389,8 @@ func (sops *StrOps) StrGetRuneCnt(targetStr string) int {
 // StrGetCharCnt - Uses the 'len' method to
 // return the number of rune characters in a
 // string.
-func (sops *StrOps) StrGetCharCnt(targetStr string) int {
+func (sops *StrOps) StrGetCharCnt(
+	targetStr string) int {
 
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
@@ -2338,12 +2405,64 @@ func (sops *StrOps) StrGetCharCnt(targetStr string) int {
 	return sOpsQuark.getCharCountInStr(targetStr)
 }
 
-// StripBadChars - Removes/deletes specified characters from a string.
-// The characters to remove are contained in a string array passed as
-// input parameter, 'badChars'.
+// StripBadChars - Removes/deletes specified sub-strings from a
+// parent or host string.
 //
-// All instances of a 'badChars' character are deleted from the target
-// string. The target string is passed through input parameter, 'targetStr'.
+// The sub-strings to be removed are identified in a string array
+// passed as input parameter, 'badChars'.
+//
+// All instances of a 'badChars' sub-strings are deleted from the
+// target string which is passed as input parameter, 'targetStr'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - The string which will be searched for the sub-strings
+//       identified in the bad chars array for deletion.
+//
+//
+//  badChars            []string
+//     - A one dimensional array of strings which contains the
+//       sub-strings to be deleted from input parameter,
+//       'targetStr'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  cleanStr            string
+//     - This returned string is a copy of 'targetStr' minus the
+//       sub-strings identified in the 'badChars' array which are
+//       deleted.
+//
+//  strLen              int
+//     - This integer value contains the length of the newly
+//       generated, 'cleanStr', described above.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//
+//   badChars := []string{"@@"}
+//
+//   expectedStrLen := len(expectedStr)
+//                  12    123456789    12  12
+//   testString := "@@Some@@@@@@@@@Stri@@ng@@"
+//
+//   actualString, actualStrLen :=
+//         StrOps{}.Ptr().StripBadChars(
+//                            testString,
+//                            badChars)
+//
+//  -----------------------------------------------
+//   actualString is now equal to "Some@String"
+//
 //
 func (sops *StrOps) StripBadChars(
 	targetStr string,

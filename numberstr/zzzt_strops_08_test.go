@@ -210,6 +210,31 @@ func TestStrOps_StripBadChars_004(t *testing.T) {
 	}
 }
 
+func TestStrOps_StripBadChars_005(t *testing.T) {
+
+	badChars := []string{"@@"}
+
+	expectedStr := "Some@String"
+	expectedStrLen := len(expectedStr)
+	testString := "@@Some@@@@@@@@@Stri@@ng@@"
+
+	actualString, actualStrLen := StrOps{}.Ptr().StripBadChars(testString, badChars)
+
+	if expectedStr != actualString {
+		t.Errorf("ERROR: Expected result string='%v'\n"+
+			"Instead, result string='%v'\n",
+			expectedStr, actualString)
+		return
+	}
+
+	if expectedStrLen != actualStrLen {
+		t.Errorf("ERROR: Expected result string length='%v'\n"+
+			"Instead, result string length='%v'\n",
+			expectedStrLen, actualStrLen)
+		return
+	}
+}
+
 func TestStrOps_StripLeadingChars_001(t *testing.T) {
 
 	badChars := []string{
