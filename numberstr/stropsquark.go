@@ -14,14 +14,61 @@ type strOpsQuark struct {
 	lock *sync.Mutex
 }
 
-// ConvertNonPrintableChars - Receives a string containing non-printable characters
-// and converts them to 'printable' characters returned in a string.
+// convertNonPrintableChars - Receives a string containing
+// non-printable characters and converts them to 'printable'
+// characters returned in a string.
 //
-// If the input parameter 'convertSpace' is set to 'true' then all spaces are converted
-// to "[SPACE]" in the returned string.
+// Examples of non-printable characters are '\n', '\t' or 0x06
+// (Acknowledge). These example characters would be translated into
+// printable string characters as: "\\n", "\\t" and "[ACK]".
+//
+// Space characters are typically translated as " ". However, if
+// the input parameter 'convertSpace' is set to 'true' then all
+// spaces are converted to "[SPACE]" in the returned string.
 //
 // Reference:
 //    https://www.juniper.net/documentation/en_US/idp5.1/topics/reference/general/intrusion-detection-prevention-custom-attack-object-extended-ascii.html
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  nonPrintableChars   []rune
+//     - An array of runes containing non-printable characters.
+//       The non-printable characters will be converted to
+//       printable characters.
+//
+//  convertSpace        bool
+//     - Space or white space characters (0x20) are by default
+//       translated as " ". However, if this parameter is set to
+//       'true', space characters will be converted to "[SPACE]".
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  printableChars      string
+//     - This returned string is identical to input parameter
+//       'nonPrintableChars' with the exception that non-printable
+//       characters are translated into printable characters.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//  testStr := "Hello world!\n"
+//  testRunes := []rune(testStr)
+//
+//  actualStr :=
+//    StrOps{}.NewPtr().
+//      ConvertNonPrintableChars(testRunes, true)
+//
+//  ----------------------------------------------------
+//  'actualStr' is now equal to:
+//     "Hello[SPACE]world!\\n"
 //
 func (sOpsQuark *strOpsQuark) convertNonPrintableChars(
 	nonPrintableChars []rune,
