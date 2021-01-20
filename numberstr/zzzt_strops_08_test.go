@@ -892,7 +892,7 @@ func TestStrOps_StrGetCharCnt01(t *testing.T) {
 
 func TestStrOps_StrPadLeftToCenter_01(t *testing.T) {
 
-	ePrefix := "TestStrOps_StrPadLeftToCenter_01("
+	ePrefix := "TestStrOps_StrPadLeftToCenter_01() "
 
 	strToCenter := "1234567"
 	fieldLen := 79
@@ -917,7 +917,7 @@ func TestStrOps_StrPadLeftToCenter_01(t *testing.T) {
 
 func TestStrOps_StrPadLeftToCenter_02(t *testing.T) {
 
-	ePrefix := "TestStrOps_StrPadLeftToCenter_02("
+	ePrefix := "TestStrOps_StrPadLeftToCenter_02() "
 	strToCenter := "Hello"
 	fieldLen := 15
 	exLen := 5

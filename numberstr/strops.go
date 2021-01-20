@@ -2779,16 +2779,91 @@ func (sops *StrOps) StrLeftJustify(
 		ePrefix)
 }
 
-// StrPadLeftToCenter - Returns a blank string which allows centering of the target
-// string in a fixed length field.
+// StrPadLeftToCenter - Returns a blank string which allows
+// centering of the target string in a fixed length field. A blank
+// string is defined here as a string consisting entirely of white
+// space characters (' ' 0x20). This string can be prefixed or
+// added to the beginning of a text string to achieve a centering
+// effect when displayed.
 //
-// Example:
+// Therefore the blank string returned by this method only
+// constitutes the left-padding of white space necessary to center
+// the input parameter, 'strToCenter'. It does not include the
+// right padding of white space.
 //
-// Assume that total field length ('fieldlen') is 70. Assume that the string to Center
-// ('strToCenter') is 10-characters. In order to center a 10-character string in a
-// 70-character field, 30-space characters would need to be positioned on each side
-// of the string to center. This method only returns the left margin, or a string
-// consisting of 30-spaces.
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  strToCenter         string
+//    - The content or text string which will be centered.
+//
+//
+//  fieldLen            int
+//     - The total length of the text field in which 'strToCenter'
+//       will be centered.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - The output string resulting from the string centering
+//       operation. This string will consist entirely of white
+//       space (' ' 0x20 characters). It will represent the left
+//       padding necessary to center the text string,
+//       'strToCenter'. See 'Example Usage' section below.
+//
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+// Assume that total field length ('fieldlen') is 70. Further
+// assume that the string to Center ('strToCenter') is
+// 10-characters in length. In order to center a 10-character
+// string in a 70-character field, 30-space characters would need
+// to be positioned on each side of the string to center. This
+// method only returns the left margin, or in this example, a
+// string consisting of 30-spaces.
+//
+//
+//  ePrefix := "TestStrOps_StrPadLeftToCenter_02() "
+//  //              12345
+//  strToCenter := "Hello"
+//  fieldLen := 15
+//  su := StrOps{}
+//  padStr, err := su.StrPadLeftToCenter(
+//                   strToCenter,
+//                   fieldLen,
+//                   ePrefix)
+//
+//  -------------------------------------------------------------
+//                          12345
+//  'padStr' is now equal to "     "
+//  'padStr' consists of 5-spaces.
+//  padStr + strToCenter will yield a centered string.
+//
 //
 func (sops *StrOps) StrPadLeftToCenter(
 	strToCenter string,
