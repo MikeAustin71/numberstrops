@@ -1949,6 +1949,14 @@ func (sops *StrOps) ReplaceNewLines(
 //       eliminated or removed from the returned rune array
 //       ([]rune).
 //
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
 // ------------------------------------------------------------------------
 //
 // Return Values
@@ -1968,9 +1976,56 @@ func (sops *StrOps) ReplaceNewLines(
 //       dimension elements have a length less than two, an
 //       error will be returned.
 //
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//  ePrefix := "TestStrOps_ReplaceRunes_02() "
+//
+//  testStr := "1a2b3c4d5e6"
+//  testRunes := []rune(testStr)
+//
+//  replaceRunes := make([][]rune, 5, 10)
+//
+//  for i := 0; i < 5; i++ {
+//    replaceRunes[i] = make([]rune, 2, 5)
+//  }
+//
+//  replaceRunes[0][0] = 'a'
+//  replaceRunes[0][1] = 0
+//
+//  replaceRunes[1][0] = 'b'
+//  replaceRunes[1][1] = 0
+//
+//  replaceRunes[2][0] = 'c'
+//  replaceRunes[2][1] = 0
+//
+//  replaceRunes[3][0] = 'd'
+//  replaceRunes[3][1] = 0
+//
+//  replaceRunes[4][0] = 'e'
+//  replaceRunes[4][1] = 0
+//
+//  actualRunes, err := StrOps{}.Ptr().ReplaceRunes(
+//  testRunes,
+//  replaceRunes,
+//  ePrefix)
+//
+//  actualStr := string(actualRunes)
+//  --------------------------------------
+//  Original testStr := "1a2b3c4d5e6"
+//  actualStr is now equal to "123456"
+//
 func (sops *StrOps) ReplaceRunes(
 	targetRunes []rune,
-	replacementRunes [][]rune) (
+	replacementRunes [][]rune,
+	ePrefix string) (
 	[]rune,
 	error) {
 
@@ -1982,7 +2037,7 @@ func (sops *StrOps) ReplaceRunes(
 
 	defer sops.stringDataMutex.Unlock()
 
-	ePrefix := "StrOps.ReplaceRunes() "
+	ePrefix += "StrOps.ReplaceRunes() "
 
 	sOpsQuark := strOpsQuark{}
 

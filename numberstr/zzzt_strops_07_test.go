@@ -350,6 +350,8 @@ func TestStrOps_ReplaceStringChars_09(t *testing.T) {
 
 func TestStrOps_ReplaceRunes_01(t *testing.T) {
 
+	ePrefix := "TestStrOps_ReplaceRunes_01() "
+
 	testStr := "1a2b3c4d5e6"
 	testRunes := []rune(testStr)
 
@@ -376,7 +378,10 @@ func TestStrOps_ReplaceRunes_01(t *testing.T) {
 	replaceRunes[4][0] = 'e'
 	replaceRunes[4][1] = 'E'
 
-	actualRunes, err := StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes)
+	actualRunes, err := StrOps{}.Ptr().ReplaceRunes(
+		testRunes,
+		replaceRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes). "+
@@ -393,6 +398,8 @@ func TestStrOps_ReplaceRunes_01(t *testing.T) {
 }
 
 func TestStrOps_ReplaceRunes_02(t *testing.T) {
+
+	ePrefix := "TestStrOps_ReplaceRunes_02() "
 
 	testStr := "1a2b3c4d5e6"
 	testRunes := []rune(testStr)
@@ -420,7 +427,10 @@ func TestStrOps_ReplaceRunes_02(t *testing.T) {
 	replaceRunes[4][0] = 'e'
 	replaceRunes[4][1] = 'E'
 
-	actualRunes, err := StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes)
+	actualRunes, err := StrOps{}.Ptr().ReplaceRunes(
+		testRunes,
+		replaceRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes). "+
@@ -437,6 +447,8 @@ func TestStrOps_ReplaceRunes_02(t *testing.T) {
 }
 
 func TestStrOps_ReplaceRunes_03(t *testing.T) {
+
+	ePrefix := "TestStrOps_ReplaceRunes_03() "
 
 	testStr := "1a2b3c4d5e6"
 	testRunes := []rune(testStr)
@@ -464,7 +476,10 @@ func TestStrOps_ReplaceRunes_03(t *testing.T) {
 	replaceRunes[4][0] = 'v'
 	replaceRunes[4][1] = 'V'
 
-	actualRunes, err := StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes)
+	actualRunes, err := StrOps{}.Ptr().ReplaceRunes(
+		testRunes,
+		replaceRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes). "+
@@ -480,6 +495,8 @@ func TestStrOps_ReplaceRunes_03(t *testing.T) {
 }
 
 func TestStrOps_ReplaceRunes_04(t *testing.T) {
+
+	ePrefix := "TestStrOps_ReplaceRunes_04() "
 
 	testStr := "1a2b3c4d5e6"
 	testRunes := []rune(testStr)
@@ -507,7 +524,10 @@ func TestStrOps_ReplaceRunes_04(t *testing.T) {
 	replaceRunes[4][0] = '5'
 	replaceRunes[4][1] = '7'
 
-	actualRunes, err := StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes)
+	actualRunes, err := StrOps{}.Ptr().ReplaceRunes(
+		testRunes,
+		replaceRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes). "+
@@ -523,6 +543,8 @@ func TestStrOps_ReplaceRunes_04(t *testing.T) {
 }
 
 func TestStrOps_ReplaceRunes_05(t *testing.T) {
+
+	ePrefix := "TestStrOps_ReplaceRunes_05() "
 
 	testStr := "1a2b3c4d5e6"
 	testRunes := []rune(testStr)
@@ -550,7 +572,10 @@ func TestStrOps_ReplaceRunes_05(t *testing.T) {
 	replaceRunes[4][0] = 'b'
 	replaceRunes[4][1] = 0
 
-	actualRunes, err := StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes)
+	actualRunes, err := StrOps{}.Ptr().ReplaceRunes(
+		testRunes,
+		replaceRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes). "+
@@ -566,6 +591,8 @@ func TestStrOps_ReplaceRunes_05(t *testing.T) {
 }
 
 func TestStrOps_ReplaceRunes_06(t *testing.T) {
+
+	ePrefix := "TestStrOps_ReplaceRunes_06() "
 
 	testStr := "1a2b3c4d5e6"
 	testRunes := []rune(testStr)
@@ -593,7 +620,10 @@ func TestStrOps_ReplaceRunes_06(t *testing.T) {
 	replaceRunes[4][0] = 'e'
 	replaceRunes[4][1] = 0
 
-	actualRunes, err := StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes)
+	actualRunes, err := StrOps{}.Ptr().ReplaceRunes(
+		testRunes,
+		replaceRunes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes). "+
@@ -609,6 +639,8 @@ func TestStrOps_ReplaceRunes_06(t *testing.T) {
 }
 
 func TestStrOps_ReplaceRunes_07(t *testing.T) {
+
+	ePrefix := "TestStrOps_ReplaceRunes_07() "
 
 	testRunes := make([]rune, 0, 0)
 
@@ -633,7 +665,10 @@ func TestStrOps_ReplaceRunes_07(t *testing.T) {
 	replaceRunes[4][0] = 'e'
 	replaceRunes[4][1] = 0
 
-	_, err := StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes)
+	_, err := StrOps{}.Ptr().ReplaceRunes(
+		testRunes,
+		replaceRunes,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Error: Expected an error return. NO ERROR RETURNED!. ")
@@ -642,12 +677,17 @@ func TestStrOps_ReplaceRunes_07(t *testing.T) {
 
 func TestStrOps_ReplaceRunes_08(t *testing.T) {
 
+	ePrefix := "TestStrOps_ReplaceRunes_08() "
+
 	testStr := "1a2b3c4d5e6"
 	testRunes := []rune(testStr)
 
 	replaceRunes := make([][]rune, 0, 0)
 
-	_, err := StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes)
+	_, err := StrOps{}.Ptr().ReplaceRunes(
+		testRunes,
+		replaceRunes,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Error: Expected an error return. NO ERROR WAS RETURNED! ")
@@ -657,12 +697,17 @@ func TestStrOps_ReplaceRunes_08(t *testing.T) {
 
 func TestStrOps_ReplaceRunes_09(t *testing.T) {
 
+	ePrefix := "TestStrOps_ReplaceRunes_09() "
+
 	testStr := "1a2b3c4d5e6"
 	testRunes := []rune(testStr)
 
 	replaceRunes := make([][]rune, 5, 10)
 
-	_, err := StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes)
+	_, err := StrOps{}.Ptr().ReplaceRunes(
+		testRunes,
+		replaceRunes,
+		ePrefix)
 
 	if err == nil {
 		t.Errorf("Error: Expected error return. NO ERROR WAS RETURNED!")
