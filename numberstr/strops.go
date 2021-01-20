@@ -2406,12 +2406,13 @@ func (sops *StrOps) StrGetCharCnt(
 }
 
 // StripBadChars - Removes/deletes specified sub-strings from a
-// parent or host string.
+// parent or host string. The targeted sub-strings are deleted
+// wherever found in the parent or host string.
 //
 // The sub-strings to be removed are identified in a string array
 // passed as input parameter, 'badChars'.
 //
-// All instances of a 'badChars' sub-strings are deleted from the
+// All instances of 'badChars' sub-strings are deleted from the
 // target string which is passed as input parameter, 'targetStr'.
 //
 //
@@ -2461,8 +2462,9 @@ func (sops *StrOps) StrGetCharCnt(
 //                            badChars)
 //
 //  -----------------------------------------------
+//                                 12345678901
 //   actualString is now equal to "Some@String"
-//
+//   actualStrLen is now equal to 11
 //
 func (sops *StrOps) StripBadChars(
 	targetStr string,
@@ -2556,12 +2558,15 @@ func (sops *StrOps) StripBadChars(
 //                       badChars)
 //
 //  ----------------------------------------------------
+//                                1234567890
 //  actualString is now equal to "SomeString"
 //  actualStrLen is now equal to 10
 //
 func (sops *StrOps) StripLeadingChars(
 	targetStr string,
-	badChars []string) (cleanStr string, strLen int) {
+	badChars []string) (
+	cleanStr string,
+	strLen int) {
 
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
@@ -2578,14 +2583,84 @@ func (sops *StrOps) StripLeadingChars(
 		badChars)
 }
 
-// StripTrailingChars - Strips or deletes bad characters from the
-// end of input parameter 'targetStr'. Bad characters are identified
-// by the input parameter, 'badChars'.
+// StripTrailingChars - Strips or deletes sub-strings from the
+// end of a parent or host string. The sub-strings to be deleted
+// are identified in a string array input parameter labeled,
+// 'badChars'.  The parent string to be searched is passed as input
+// parameter, 'targetStr'. The targeted sub-strings are only deleted
+// if they exist at the end of 'targetStr'.
 //
-// The method then returns the cleaned string and the length of the
-// cleaned string to the caller.  The cleaned string is equivalent
-// to input parameter 'targetStr' minus the trailing bad characters
-// at the end of 'targetStr'.
+// Upon completion, this method returns the cleaned string and the
+// length of the cleaned string to the caller.  The cleaned string
+// is equivalent to input parameter, 'targetStr', minus the trailing
+// sub-strings identified by string array 'badChars'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - The parent or host string which will be searched for
+//       instances of trailing sub-strings identified in the
+//       'badChars' string array for deletion.
+//
+//
+//  badChars            []string
+//     - A one dimensional array of strings which contains the
+//       sub-strings to be deleted from the end of 'targetStr'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  cleanStr            string
+//     - This returned string is a copy of 'targetStr' minus the
+//       trailing sub-strings identified for deletion in the
+//       'badChars' array.
+//
+//  strLen              int
+//     - This integer value contains the length of the newly
+//       generated, 'cleanStr', described above.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//
+//  badChars := []string{
+//                 " ", // Single white space character
+//                 "/",
+//                 "//",
+//                 "\\\\",
+//                 "\\",
+//                 ".\\",
+//                 "../",
+//                 ".",
+//                 "..\\",
+//                 "\\\\\\",
+//                 "..",
+//                 "./",
+//                 "//",
+//                 "///",
+//                 "////",
+//                 "..."}
+//
+//  testString :=
+//   "SomeString..........      ./../.\\.\\..\\////   "
+//
+//  actualString, actualStrLen :=
+//    StrOps{}.Ptr().StripTrailingChars(
+//                      testString,
+//                      badChars)
+//
+//  -------------------------------------------------------------
+//
+//                                1234567890
+//  actualString is now equal to "SomeString"
+//  actualStrLen is now equal to 10
 //
 func (sops *StrOps) StripTrailingChars(
 	targetStr string,
