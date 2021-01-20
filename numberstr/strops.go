@@ -1749,15 +1749,89 @@ func (sops *StrOps) ReplaceBytes(
 // ReplaceMultipleStrs - Replaces all instances of string replaceArray[i][0] with
 // replacement string from replaceArray[i][1] in 'targetStr'.
 //
-// Note: The original 'targetStr' is NOT altered.
-//
 // Input parameter 'replaceArray' should be passed as a two-dimensional slice.
 // If the length of the 'replaceArray' second dimension is less than '2', an
 // error will be returned.
 //
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - The parent or host string which will be searched for
+//       instances of sub-string replaceArray[i][0]. Instances of
+//       this string found in 'targetStr' will be replaced with the
+//       string from replaceArray[i][1].
+//
+//  replaceArray        [][]string
+//     - A two dimensional array of type 'string'. 'targetStr' will
+//       be searched for instances of replaceArray[i][0]. If found
+//       in 'targetStr' this string will be replaced with the string
+//       from replaceArray[i][1].
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - This is the 'result' string. It is identical to 'targetStr'
+//       except for the string substitutions made from replaceArray[i][1].
+//
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//  ePrefix := "TestStrOps_ReplaceMultipleStrs_08() "
+//  rStrs := make([][]string, 3, 5)
+//
+//  for i := 0; i < 3; i++ {
+//   rStrs[i] = make([]string, 2, 5)
+//  }
+//
+//  testStr := "HeFFxJWxrFd"
+//
+//  rStrs[0][0] = "x"
+//  rStrs[0][1] = "o"
+//  rStrs[1][0] = "J"
+//  rStrs[1][1] = " "
+//  rStrs[2][0] = "F"
+//  rStrs[2][1] = "l"
+//
+//
+//  actualStr, err := StrOps{}.Ptr().ReplaceMultipleStrs(
+//                      testStr,
+//                      rStrs,
+//                      ePrefix)
+//
+//  'actualStr' is now equal to "Hello World"
+//
+//
 func (sops *StrOps) ReplaceMultipleStrs(
 	targetStr string,
-	replaceArray [][]string) (string, error) {
+	replaceArray [][]string,
+	ePrefix string) (
+	string,
+	error) {
 
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
@@ -1767,7 +1841,7 @@ func (sops *StrOps) ReplaceMultipleStrs(
 
 	defer sops.stringDataMutex.Unlock()
 
-	ePrefix := "StrOps.ReplaceMultipleStrs() "
+	ePrefix += "StrOps.ReplaceMultipleStrs() "
 
 	sOpsElectron := strOpsElectron{}
 
