@@ -2183,21 +2183,70 @@ func (sops *StrOps) SetStringData(str string) {
 // Nevertheless, the complete string will effectively center the original string
 // in a field of specified length.
 //
-// Example:
-//   In this example the total field length is 15. The length of the test string,
-//   "Hello", is 5. In order to center the test string in a field with length of 15,
-//   there will be 5-spaces on the left and 5-spaces on the right. This method will
-//   compute the left-pad spaces necessary to center the string in a field with length
-//   of 15, but will only include the padded left margin of 5-spaces. It will NOT
-//   include the trailing 5-spaces on the right.
 //
-//   In the following example, the final result string will substitute the'@' character
-//   for the white space character (0x20) in order to illustrate the padding added by
-//   this method.
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  strToCenter         string
+//     - This string will be centered in a text field. The text
+//       field length is defined by input parameter, 'fieldLen'.
+//
+//
+//  fieldLen            int
+//     - Defines the length of a text field in which 'strToCenter'
+//       will be centered.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - This returned string contains 'strToCenter' with the
+//       necessary left-pad number of spaces required for
+//       centering.
+//
+//
+//  err                 error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//   In this example the total field length is 15. The length of the
+//   test string, "Hello", is 5. In order to center the test string
+//   in a field with length of 15, there will be 5-spaces on the
+//   left and 5-spaces on the right. This method will compute the
+//   left-pad spaces necessary to center the string in a field with
+//   length of 15, but will only include the padded left margin of
+//   5-spaces. It will NOT include the trailing 5-spaces on the
+//   right.
+//
+//   In the following example, the final result string will
+//   substitute the'@' character for the white space character
+//   (0x20) in order to illustrate the padding added by this method.
 //
 //    strToCenter     = "Hello"
 //    fieldLen        = 15
 //    Returned String = "@@@@@Hello" or "     Hello"
+//
 //
 func (sops *StrOps) StrCenterInStrLeft(
 	strToCenter string,
