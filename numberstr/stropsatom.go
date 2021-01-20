@@ -478,14 +478,62 @@ func (sOpsAtom *strOpsAtom) copyOut(
 //
 //
 //   error
-//     - If the method completes successfully and no errors are
-//       encountered this return value is set to 'nil'. Otherwise,
-//       if errors are encountered this return value will contain
-//       an appropriate error message.
+//     - If the method completes successfully and no errors are encountered
+//       this return value is set to 'nil'. Otherwise, if errors are encountered
+//       this return value will contain an appropriate error message.
+//
+//       The most likely source of errors are invalid input parameters.
+//       Input parameters 'targetStr', 'startIdx', 'leadingFieldSeparators',
+//       'trailingFieldSeparators' and 'endOfStringDelimiters' are required input
+//       parameters and must be populated with valid data.
 //
 //       If an error message is returned, the input parameter
 //       'ePrefix' will be inserted or prefixed at the beginning
 //       of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//  ePrefix := "TestStrOps_ExtractDataField_01() "
+//  endOfLineDelimiters := []string{"\n"}
+//  commentDelimiters := []string{"#"}
+//  leadingFieldDelimiters := []string{
+//  "\t",
+//  "\r",
+//  "\f",
+//  "\v",
+//  " "}
+//
+//  trailingFieldDelimiters := []string{
+//  "\t",
+//  "\r",
+//  "\f",
+//  "\v",
+//  " "}
+//
+//  targetStr := " Zone:\t America/Chicago\t Link:\t US/Central\t\n"
+//  startIdx := 0
+//  leadingKeyWordDelimiters := []string{"Zone:", "Link:"}
+//
+//  datDto,
+//  err :=
+//    StrOps{}.Ptr().
+//        ExtractDataField(
+//           targetStr,
+//           leadingKeyWordDelimiters,
+//           startIdx,
+//           leadingFieldDelimiters,
+//           trailingFieldDelimiters,
+//           commentDelimiters,
+//           endOfLineDelimiters,
+//           ePrefix)
+//
+//  -----------------------------------------------
+//  datDto.DataFieldStr is now equal to:
+//          "America/Chicago"
+//
 //
 func (sOpsAtom *strOpsAtom) extractDataField(
 	targetStr string,
@@ -1042,9 +1090,13 @@ exitMainTargetLoop:
 //       if errors are encountered this return value will contain
 //       an appropriate error message.
 //
+//       If 'startIndex' is less than zero or if 'startIndex'
+//       exceeds the last character index in 'targetStr', an error
+//       will be returned.
+//
 //       If an error message is returned, the input parameter
-//       'ePrefix' will be inserted or prefixed at the beginning
-//       of the error message.
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 //
 // ------------------------------------------------------------------------

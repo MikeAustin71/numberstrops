@@ -381,6 +381,54 @@ func (sops StrOps) DoesLastCharExist(
 //       'trailingFieldSeparators' and 'endOfStringDelimiters' are required input
 //       parameters and must be populated with valid data.
 //
+//       If an error message is returned, the input parameter
+//       'ePrefix' will be inserted or prefixed at the beginning
+//       of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//  ePrefix := "TestStrOps_ExtractDataField_01() "
+//  endOfLineDelimiters := []string{"\n"}
+//  commentDelimiters := []string{"#"}
+//  leadingFieldDelimiters := []string{
+//  "\t",
+//  "\r",
+//  "\f",
+//  "\v",
+//  " "}
+//
+//  trailingFieldDelimiters := []string{
+//  "\t",
+//  "\r",
+//  "\f",
+//  "\v",
+//  " "}
+//
+//  targetStr := " Zone:\t America/Chicago\t Link:\t US/Central\t\n"
+//  startIdx := 0
+//  leadingKeyWordDelimiters := []string{"Zone:", "Link:"}
+//
+//  datDto,
+//  err :=
+//    StrOps{}.Ptr().
+//        ExtractDataField(
+//           targetStr,
+//           leadingKeyWordDelimiters,
+//           startIdx,
+//           leadingFieldDelimiters,
+//           trailingFieldDelimiters,
+//           commentDelimiters,
+//           endOfLineDelimiters,
+//           ePrefix)
+//
+//  -----------------------------------------------
+//  datDto.DataFieldStr is now equal to:
+//          "America/Chicago"
+//
+//
 func (sops *StrOps) ExtractDataField(
 	targetStr string,
 	leadingKeyWordDelimiters []string,
@@ -590,13 +638,13 @@ func (sops *StrOps) ExtractDataField(
 //       if errors are encountered this return value will contain
 //       an appropriate error message.
 //
-//       If an error message is returned, the input parameter
-//       'ePrefix' (error prefix) will be inserted or prefixed at
-//       the beginning of the error message.
-//
 //       If 'startIndex' is less than zero or if 'startIndex'
 //       exceeds the last character index in 'targetStr', an error
 //       will be returned.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 //
 // ------------------------------------------------------------------------
