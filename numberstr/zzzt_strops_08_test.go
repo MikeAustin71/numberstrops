@@ -760,6 +760,38 @@ func TestStrOps_StrRightJustify_04(t *testing.T) {
 
 }
 
+func TestStrOps_StrRightJustify_05(t *testing.T) {
+
+	ePrefix := "TestStrOps_StrRightJustify_05() "
+
+	strToJustify := "12345"
+	fieldLen := 10
+	exTotalLen := fieldLen
+	exLeftPad := strings.Repeat(" ", 5)
+	exStr := exLeftPad + strToJustify
+
+	su := StrOps{}
+	str, err := su.StrRightJustify(
+		strToJustify,
+		fieldLen,
+		ePrefix)
+
+	if err != nil {
+		t.Error("StrRightJustify() generated error: ", err.Error())
+	}
+
+	l1 := su.StrGetRuneCnt(str)
+
+	if l1 != exTotalLen {
+		t.Error(fmt.Sprintf("Expected total str length '%v', got", exTotalLen), l1)
+	}
+
+	if str != exStr {
+		t.Error(fmt.Sprintf("Strings did not match. Expected string '%v', got ", exStr), str)
+	}
+
+}
+
 func TestStrOps_StrCenterInStrLeft_01(t *testing.T) {
 	ePrefix := "TestStrOps_StrCenterInStrLeft_01() "
 	strToCenter := "1234567"

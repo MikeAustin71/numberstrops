@@ -2750,8 +2750,9 @@ func (sops *StrOps) StripTrailingChars(
 //                           ePrefix)
 //
 //  ------------------------------------------------
-//  justifiedStr is now equal to "Hello World    "
-//             String Length      123456789012345
+//                                  123456789012345
+//  'justifiedStr' is now equal to "Hello World    "
+//  The string length of 'justifiedStr' is 15
 //
 //
 func (sops *StrOps) StrLeftJustify(
@@ -2888,15 +2889,87 @@ func (sops *StrOps) StrPadLeftToCenter(
 		ePrefix)
 }
 
-// StrRightJustify - Returns a string where input parameter
-// 'strToJustify' is right justified. The length of the returned
-// string is determined by input parameter 'fieldlen'.
+// StrRightJustify - Creates a new string, right-justified, within
+// a wider text field or output string. The text to be right
+// justified is specified by input parameter 'strToJustify'. The
+// length of the output string is defined by input parameter,
+// 'fieldLen'.
 //
-// Example:
+// Input parameter 'strToJustify' is placed on the right side of
+// the output string and spaces are padded to the left in order to
+// create a string with total length of 'fieldLen'.
 //
-//  If the total field length ('fieldLen') is specified as 50-characters and the
-//  length of string to justify ('strToJustify') is 20-characters, then this method
-//  would return a string consisting of 30-space characters plus the 'strToJustify'.
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  strToJustify        string
+//    - The content or text string which will be right justified.
+//
+//
+//  fieldLen            int
+//     - The total length of the text field in which 'strToCenter'
+//       will be right-justified.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - The output string resulting from the 'right-justify'
+//       operation. Input parameter, 'strToJustify' will be
+//       right-justified in this output string which will have a
+//       total string length as defined by input parameter,
+//       'fieldLen'.
+//
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//
+//  If the total field length ('fieldLen') is specified as
+//  10-characters and the length of string to justify
+//  ('strToJustify') is 5-characters, then this method would return
+//  a string consisting of 5-space characters plus the
+//  'strToJustify'.
+//
+//  ePrefix := "TestStrOps_StrRightJustify_05() "
+//  strToJustify := "12345"
+//  fieldLen := 10
+//
+//  su := StrOps{}
+//  strRightJustified, err :=
+//   su.StrRightJustify(
+//               strToJustify,
+//               fieldLen,
+//               ePrefix)
+//
+//  --------------------------------------------------------
+//                                       1234567890
+//  'strRightJustified' is now equal to "     12345"
+//  The string length of 'strRightJustified' is 10
+//
 //
 func (sops *StrOps) StrRightJustify(
 	strToJustify string,
