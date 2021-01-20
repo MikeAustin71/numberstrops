@@ -1589,13 +1589,15 @@ func (sops *StrOps) Read(p []byte) (n int, err error) {
 //
 // Input Parameters
 //
-//  bytes          []byte - An array of bytes from which a string will be extracted
-//                          and returned.
+//  bytes               []byte
+//     - An array of bytes from which a string will be extracted
+//       and returned.
 //
-//  startIdx          int - The starting index in input parameter 'bytes' where the string
-//                          extraction will begin. The string extraction will cease when
-//                          a carriage return ('\r'), a vertical tab ('\v') or a new line
-//                          character ('\n') is encountered.
+//  startIdx            int
+//     - The starting index in input parameter 'bytes' where the string
+//       extraction will begin. The string extraction will cease when
+//       a carriage return ('\r'), a vertical tab ('\v') or a new line
+//       character ('\n') is encountered.
 //
 //
 //
@@ -1603,16 +1605,20 @@ func (sops *StrOps) Read(p []byte) (n int, err error) {
 //
 // Return Values
 //
-//  extractedStr   string - The string extracted from input parameter 'bytes' beginning
-//                          at the index in 'bytes' indicated by input parameter 'startIdx'.
+//  extractedStr        string
+//     - The string extracted from input parameter 'bytes' beginning
+//       at the index in 'bytes' indicated by input parameter 'startIdx'.
 //
-//  nextStartIdx      int - The index of the beginning of the next string in the byte array
-//                          'bytes' after 'extractedString'. If no more strings exist in the
-//                          the byte array, 'nextStartIdx' will be set to -1.
+//  nextStartIdx        int
+//     - The index of the beginning of the next string in the byte array
+//       'bytes' after 'extractedString'. If no more strings exist in the
+//       the byte array, 'nextStartIdx' will be set to -1.
 //
 func (sops *StrOps) ReadStringFromBytes(
 	bytes []byte,
-	startIdx int) (extractedStr string, nextStartIdx int) {
+	startIdx int) (
+	extractedStr string,
+	nextStartIdx int) {
 
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
@@ -1636,34 +1642,91 @@ func (sops *StrOps) ReadStringFromBytes(
 //
 // Input Parameters
 //
+//  targetBytes         []byte
+//     - The byte array which will be examined. If characters ('bytes') eligible
+//       for replacement are identified by replacementBytes[i][0] they will be
+//       replaced by the character specified in replacementBytes[i][1].
 //
-//  targetBytes  []byte       - The byte array which will be examined. If characters ('bytes') eligible
-//                              for replacement are identified by replacementBytes[i][0] they will be
-//                              replaced by the character specified in replacementBytes[i][1].
 //
-//  replacementBytes [][]byte - A two dimensional slice of type byte. Element [i][0] contains the
-//                              target character to locate in 'targetBytes'. Element[i][1] contains
-//                              the replacement character which will replace the target character
-//                              in 'targetBytes'. If the replacement character element [i][1] is
-//                              a zero value, the target character will not be replaced. Instead,
-//                              it will be eliminated or removed from the returned byte array ([]byte).
+//  replacementBytes    [][]byte
+//     - A two dimensional slice of type byte. Element [i][0] contains the
+//       target character to locate in 'targetBytes'. Element[i][1] contains
+//       the replacement character which will replace the target character
+//       in 'targetBytes'. If the replacement character element [i][1] is
+//       a zero value, the target character will not be replaced. Instead,
+//       it will be eliminated or removed from the returned byte array ([]byte).
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  []byte  - The returned byte array containing the characters and replaced characters
-//            from the original 'targetBytes' array.
+//  []byte
+//     - The returned byte array containing the characters and replaced characters
+//       from the original 'targetBytes' array.
 //
-//  error  - If the method completes successfully this value is 'nil'. If an error is
-//           encountered this value will contain the error message. Examples of possible
-//           errors include a zero length targetBytes[] array or replacementBytes[][] array.
-//           In addition, if any of the replacementBytes[][x] 2nd dimension elements have
-//           a length less than two, an error will be returned.
+//
+//  err                 error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//  testStr := "1a2b3c4d5e6"
+//  testBytes := []byte(testStr)
+//
+//  replaceBytes := make([][]byte, 5, 10)
+//
+//  for i := 0; i < 5; i++ {
+//   replaceBytes[i] = make([]byte, 2, 5)
+//  }
+//
+//  replaceBytes[0][0] = 'a'
+//  replaceBytes[0][1] = 'A'
+//
+//  replaceBytes[1][0] = 'b'
+//  replaceBytes[1][1] = 'B'
+//
+//  replaceBytes[2][0] = 'c'
+//  replaceBytes[2][1] = 'C'
+//
+//  replaceBytes[3][0] = 'd'
+//  replaceBytes[3][1] = 'D'
+//
+//  replaceBytes[4][0] = 'e'
+//  replaceBytes[4][1] = 'E'
+//
+//  ePrefix := "TestStrOps_ReplaceBytes_01() "
+
+//  actualRunes, err := StrOps{}.Ptr().ReplaceBytes(
+//  testBytes,
+//  replaceBytes,
+//  ePrefix)
+//
+//  actualRunes = "1A2B3C4D5E6"
 //
 func (sops *StrOps) ReplaceBytes(
 	targetBytes []byte,
-	replacementBytes [][]byte) ([]byte, error) {
+	replacementBytes [][]byte,
+	ePrefix string) (
+	[]byte,
+	error) {
 
 	if sops.stringDataMutex == nil {
 		sops.stringDataMutex = new(sync.Mutex)
@@ -1673,7 +1736,7 @@ func (sops *StrOps) ReplaceBytes(
 
 	defer sops.stringDataMutex.Unlock()
 
-	ePrefix := "StrOps.ReplaceBytes() "
+	ePrefix += "StrOps.ReplaceBytes() "
 
 	sOpsElectron := strOpsElectron{}
 

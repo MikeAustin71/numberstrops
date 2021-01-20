@@ -613,6 +613,8 @@ func TestStrOps_ReadStringFromBytes_14(t *testing.T) {
 
 func TestStrOps_ReplaceBytes_01(t *testing.T) {
 
+	ePrefix := "TestStrOps_ReplaceBytes_01() "
+
 	testStr := "1a2b3c4d5e6"
 	testBytes := []byte(testStr)
 
@@ -639,7 +641,10 @@ func TestStrOps_ReplaceBytes_01(t *testing.T) {
 	replaceBytes[4][0] = 'e'
 	replaceBytes[4][1] = 'E'
 
-	actualRunes, err := StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes)
+	actualRunes, err := StrOps{}.Ptr().ReplaceBytes(
+		testBytes,
+		replaceBytes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes). "+
@@ -656,6 +661,8 @@ func TestStrOps_ReplaceBytes_01(t *testing.T) {
 }
 
 func TestStrOps_ReplaceBytes_02(t *testing.T) {
+
+	ePrefix := "TestStrOps_ReplaceBytes_02() "
 
 	testStr := "1a2b3c4d5e6"
 	testBytes := []byte(testStr)
@@ -683,7 +690,10 @@ func TestStrOps_ReplaceBytes_02(t *testing.T) {
 	replaceBytes[4][0] = 'e'
 	replaceBytes[4][1] = 'E'
 
-	actualRunes, err := StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes)
+	actualRunes, err := StrOps{}.Ptr().ReplaceBytes(
+		testBytes,
+		replaceBytes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes). "+
@@ -700,6 +710,8 @@ func TestStrOps_ReplaceBytes_02(t *testing.T) {
 }
 
 func TestStrOps_ReplaceBytes_03(t *testing.T) {
+
+	ePrefix := "TestStrOps_ReplaceBytes_03() "
 
 	testStr := "1a2b3c4d5e6"
 	testBytes := []byte(testStr)
@@ -727,7 +739,10 @@ func TestStrOps_ReplaceBytes_03(t *testing.T) {
 	replaceBytes[4][0] = 'v'
 	replaceBytes[4][1] = 'V'
 
-	actualRunes, err := StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes)
+	actualRunes, err := StrOps{}.Ptr().ReplaceBytes(
+		testBytes,
+		replaceBytes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes). "+
@@ -743,6 +758,8 @@ func TestStrOps_ReplaceBytes_03(t *testing.T) {
 }
 
 func TestStrOps_ReplaceBytes_04(t *testing.T) {
+
+	ePrefix := "TestStrOps_ReplaceBytes_04() "
 
 	testStr := "1a2b3c4d5e6"
 	testBytes := []byte(testStr)
@@ -770,7 +787,10 @@ func TestStrOps_ReplaceBytes_04(t *testing.T) {
 	replaceBytes[4][0] = '5'
 	replaceBytes[4][1] = '7'
 
-	actualRunes, err := StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes)
+	actualRunes, err := StrOps{}.Ptr().ReplaceBytes(
+		testBytes,
+		replaceBytes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes). "+
@@ -786,6 +806,8 @@ func TestStrOps_ReplaceBytes_04(t *testing.T) {
 }
 
 func TestStrOps_ReplaceBytes_05(t *testing.T) {
+
+	ePrefix := "TestStrOps_ReplaceBytes_05() "
 
 	testStr := "1a2b3c4d5e6"
 	testBytes := []byte(testStr)
@@ -813,7 +835,10 @@ func TestStrOps_ReplaceBytes_05(t *testing.T) {
 	replaceBytes[4][0] = 'b'
 	replaceBytes[4][1] = 0
 
-	actualRunes, err := StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes)
+	actualRunes, err := StrOps{}.Ptr().ReplaceBytes(
+		testBytes,
+		replaceBytes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes). "+
@@ -829,6 +854,8 @@ func TestStrOps_ReplaceBytes_05(t *testing.T) {
 }
 
 func TestStrOps_ReplaceBytes_06(t *testing.T) {
+
+	ePrefix := "TestStrOps_ReplaceBytes_06() "
 
 	testStr := "1a2b3c4d5e6"
 	testBytes := []byte(testStr)
@@ -856,7 +883,10 @@ func TestStrOps_ReplaceBytes_06(t *testing.T) {
 	replaceBytes[4][0] = 'e'
 	replaceBytes[4][1] = 0
 
-	actualRunes, err := StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes)
+	actualRunes, err := StrOps{}.Ptr().ReplaceBytes(
+		testBytes,
+		replaceBytes,
+		ePrefix)
 
 	if err != nil {
 		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes). "+
@@ -872,6 +902,8 @@ func TestStrOps_ReplaceBytes_06(t *testing.T) {
 }
 
 func TestStrOps_ReplaceBytes_07(t *testing.T) {
+
+	ePrefix := "TestStrOps_ReplaceBytes_07() "
 
 	testBytes := make([]byte, 0, 0)
 
@@ -896,7 +928,10 @@ func TestStrOps_ReplaceBytes_07(t *testing.T) {
 	replaceBytes[4][0] = 'e'
 	replaceBytes[4][1] = 0
 
-	_, err := StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes)
+	_, err := StrOps{}.Ptr().ReplaceBytes(
+		testBytes,
+		replaceBytes,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Error: Expected an error return. NO ERROR RETURNED!. ")
@@ -905,12 +940,17 @@ func TestStrOps_ReplaceBytes_07(t *testing.T) {
 
 func TestStrOps_ReplaceBytes_08(t *testing.T) {
 
+	ePrefix := "TestStrOps_ReplaceBytes_08() "
+
 	testStr := "1a2b3c4d5e6"
 	testBytes := []byte(testStr)
 
 	replaceBytes := make([][]byte, 0, 0)
 
-	_, err := StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes)
+	_, err := StrOps{}.Ptr().ReplaceBytes(
+		testBytes,
+		replaceBytes,
+		ePrefix)
 
 	if err == nil {
 		t.Error("Error: Expected an error return. NO ERROR WAS RETURNED! ")
@@ -920,12 +960,17 @@ func TestStrOps_ReplaceBytes_08(t *testing.T) {
 
 func TestStrOps_ReplaceBytes_09(t *testing.T) {
 
+	ePrefix := "TestStrOps_ReplaceBytes_09() "
+
 	testStr := "1a2b3c4d5e6"
 	testBytes := []byte(testStr)
 
 	replaceBytes := make([][]byte, 5, 10)
 
-	_, err := StrOps{}.Ptr().ReplaceBytes(testBytes, replaceBytes)
+	_, err := StrOps{}.Ptr().ReplaceBytes(
+		testBytes,
+		replaceBytes,
+		ePrefix)
 
 	if err == nil {
 		t.Errorf("Error: Expected error return. NO ERROR WAS RETURNED!")
