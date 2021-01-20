@@ -2030,12 +2030,80 @@ Done:
 	return cleanStr, strLen
 }
 
-// stripLeadingChars - Strips or deletes characters specified by
-// input parameter 'badChars' from the front of 'targetStr'.
+// stripLeadingChars - Strips or deletes sub-strings from the front
+// of a parent or host string labeled here as 'targetStr'. The
+// sub-strings to be deleted are specified by input parameter and
+// string array, 'badChars'.
 //
 // The method then returns a string which does not contain leading
-// 'bad characters'. In addition, the length of the 'clean string'
-// is also returned.
+// sub-strings identified in the 'badChars' array. In addition, the
+// length of the final 'clean string' is also returned.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  targetStr           string
+//     - The string which will be searched for leading sub-strings
+//       identified in the 'badChars' array for deletion.
+//
+//
+//  badChars            []string
+//     - A one dimensional array of strings which contains the
+//       sub-strings to be deleted from input parameter,
+//       'targetStr'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  cleanStr            string
+//     - This returned string is a copy of 'targetStr' minus the
+//       sub-strings identified in the 'badChars' array which are
+//       deleted from the front of 'targetStr'.
+//
+//  strLen              int
+//     - This integer value contains the length of the newly
+//       generated, 'cleanStr', described above.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//
+//  badChars := []string{
+//                 " ", // A single white-space character
+//                 "/",
+//                 "//",
+//                 "\\\\",
+//                 "\\",
+//                 ".\\",
+//                 "../",
+//                 ".",
+//                 "..\\",
+//                 "\\\\\\",
+//                 "..",
+//                 "./",
+//                 "//",
+//                 "///",
+//                 "////",
+//                 "..."}
+//
+//  testString :=
+//   "..........      ./../.\\.\\..\\////   SomeString"
+//
+//  actualString, actualStrLen :=
+//      StrOps{}.Ptr().StripLeadingChars(
+//                       testString,
+//                       badChars)
+//
+//  ----------------------------------------------------
+//  actualString is now equal to "SomeString"
+//  actualStrLen is now equal to 10
+//
 //
 func (sOpsQuark *strOpsQuark) stripLeadingChars(
 	targetStr string,
