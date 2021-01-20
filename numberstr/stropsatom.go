@@ -1046,6 +1046,36 @@ exitMainTargetLoop:
 //       'ePrefix' will be inserted or prefixed at the beginning
 //       of the error message.
 //
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//  ePrefix := "TestStrOps_ExtractNumericDigits_06() "
+//  targetStr := "Hello World! Your bank account =$(1,250,364.33).44 What do you think?"
+//  startIndex := 0
+//  keepLeadingChars := "$("
+//  keepInteriorChars := ",."
+//  keepTrailingChars := ")"
+//
+//
+//  nStrDto,
+//  err :=
+//    StrOps{}.Ptr().
+//         ExtractNumericDigits(
+//             targetStr,
+//             startIndex,
+//             keepLeadingChars,
+//             keepInteriorChars,
+//             keepTrailingChars,
+//             ePrefix)
+//
+//  ----------------------------------------
+//
+//  nStrDto.NumStr is now equal to:
+//     "$(1,250,364.33)"
+//
+//
 func (sOpsAtom *strOpsAtom) extractNumericDigits(
 	targetStr string,
 	startIndex int,

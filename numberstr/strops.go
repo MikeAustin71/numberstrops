@@ -598,6 +598,36 @@ func (sops *StrOps) ExtractDataField(
 //       exceeds the last character index in 'targetStr', an error
 //       will be returned.
 //
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//  ePrefix := "TestStrOps_ExtractNumericDigits_06() "
+//  targetStr := "Hello World! Your bank account =$(1,250,364.33).44 What do you think?"
+//  startIndex := 0
+//  keepLeadingChars := "$("
+//  keepInteriorChars := ",."
+//  keepTrailingChars := ")"
+//
+//
+//  nStrDto,
+//  err :=
+//    StrOps{}.Ptr().
+//         ExtractNumericDigits(
+//             targetStr,
+//             startIndex,
+//             keepLeadingChars,
+//             keepInteriorChars,
+//             keepTrailingChars,
+//             ePrefix)
+//
+//  ----------------------------------------
+//
+//  nStrDto.NumStr is now equal to:
+//     "$(1,250,364.33)"
+//
+//
 func (sops *StrOps) ExtractNumericDigits(
 	targetStr string,
 	startIndex int,
