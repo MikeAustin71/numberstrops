@@ -10,12 +10,76 @@ type strOpsMolecule struct {
 	lock *sync.Mutex
 }
 
-// StrCenterInStr - returns a string which includes a left pad blank
-// string plus the original string ('strToCenter'), plus a right pad
-// blank string.
+// strCenterInStr - returns a string which includes a left pad blank string plus
+// the original string ('strToCenter'), plus a right pad blank string.
 //
-// The returned string will effectively center the original string
-// ('strToCenter') in a field of specified length ('fieldLen').
+// The returned string will effectively center the original string ('strToCenter')
+// in a field of specified length ('fieldLen').
+//
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  strToCenter         string
+//     - This string will be centered in a text field. The text
+//       field length is defined by input parameter, 'fieldLen'.
+//
+//
+//  fieldLen            int
+//     - Defines the length of a text field in which 'strToCenter'
+//       will be centered.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - This returned string contains 'strToCenter' with the
+//       necessary left-pad and right-pad number of spaces
+//       required for centering. The total length of this string
+//       will be equal to input parameter, 'fieldLen'.
+//
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//  ePrefix := "TestStrOps_StrCenterInStr_02() "
+//  strToCenter := "Hello"
+//  fieldLen := 15
+//
+//  su := StrOps{}
+//  centeredStr, err := su.strCenterInStr(
+//  strToCenter,
+//  fieldLen,
+//  ePrefix)
+//
+//  ---------------------------------------------
+//                               123456789012345
+//  centeredStr is now equal to "     Hello     "
+//  'Hello' is centered in a field of length 15
+//  with left and right pad of 5-spaces.
 //
 func (sOpsMolecule *strOpsMolecule) strCenterInStr(
 	strToCenter string,
@@ -77,7 +141,7 @@ func (sOpsMolecule *strOpsMolecule) strCenterInStr(
 	return leftPadStr + strToCenter + rightPadStr, nil
 }
 
-// StrLeftJustify - Creates a new string, left-justified, within a
+// strLeftJustify - Creates a new string, left-justified, within a
 // a wider text field or output string. The text to be left
 // justified is specified by input parameter 'strToJustify'. The
 // length of the output string is defined by input parameter,
@@ -140,7 +204,7 @@ func (sOpsMolecule *strOpsMolecule) strCenterInStr(
 //  fieldLen = 15
 //  strToJustify    = "Hello World"
 //  su := StrOps{}
-//  justifiedStr, err := su.StrLeftJustify(
+//  justifiedStr, err := su.strLeftJustify(
 //                           strToJustify,
 //                           fieldLen,
 //                           ePrefix)
@@ -339,7 +403,7 @@ func (sOpsMolecule *strOpsMolecule) strPadLeftToCenter(
 	return strings.Repeat(" ", margin), nil
 }
 
-// StrRightJustify - Creates a new string, right-justified, within
+// strRightJustify - Creates a new string, right-justified, within
 // a wider text field or output string. The text to be right
 // justified is specified by input parameter 'strToJustify'. The
 // length of the output string is defined by input parameter,

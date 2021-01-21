@@ -1526,6 +1526,149 @@ func (sops *StrOps) IsEmptyOrWhiteSpace(targetStr string) bool {
 	return sOpsQuark.isEmptyOrWhiteSpace(targetStr)
 }
 
+// justifyTextInStrField - Creates a and returns a new string text
+// field with text 'strToJustify' positioned inside that new string
+// in accordance with the string justification formatting passed in
+// input parameter, 'textJustify'.
+//
+// 'textJustify' will specify either 'Right-Justify', 'Left-Justify'
+// or 'Center'. Based on this specification, the newly created and
+// returned text string will contain 'strToJustify' properly
+// formatted as 'Right-Justified', 'Left-Justified' or 'Centered'.
+//
+// If the length of 'strToJustify' is greater than the output field
+// length value, 'fieldLen', this method will increase the value of
+// 'fieldLen' to match the length of 'strToJustify'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  strToJustify        string
+//    - The string content or text which will be positioned and
+//      formatted inside the returned output string according to
+//      the text justification specification contained in input
+//      parameter, 'textJustify'.
+//
+//      If 'strToJustify' is a zero length empty string, this
+//      method will return a string of white-space characters
+//      equal in length to the value of input parameter,
+//      'fieldLen'.
+//
+//
+//  fieldLen            int
+//     - The total length of the returned output string in which
+//       'strToJustify' will be positioned and formatted. If this
+//       'fieldLen' value is less than the length of 'strToJustify',
+//       'fieldLen' will be automatically increased to a value equal
+//       to the length of 'strToJustify'.
+//
+//
+//  textJustify         StrOpsTextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to 'strToJustify' when
+//       it is positioned inside of the returned output string.
+//       This enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - The output string resulting from the text justification
+//       operation described above. Input parameter, 'strToJustify'
+//       will be formatted in this output string according to the
+//       format specification defined by input parameter,
+//       'textJustify'. The length of this output string is
+//       controlled by input parameter, 'fieldLen'.
+//
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Example Usage
+//
+//
+//  ePrefix := "TestStrOps_StrJustify_01() "
+//  strToJustify := "12345"
+//  fieldLen := 10
+//
+//  su := StrOps{}
+//  strJustified, err :=
+//   su.justifyTextInStrField(
+//               strToJustify,
+//               fieldLen,
+//               StrOpsTextJustify(0).Right()
+//               ePrefix)
+//
+//  --------------------------------------------------------
+//                                  1234567890
+//  'strJustified' is now equal to "     12345"
+//  The string length of 'strJustified' is 10
+//
+func (sops *StrOps) JustifyTextInStrField(
+	strToJustify string,
+	fieldLen int,
+	textJustify StrOpsTextJustify,
+	ePrefix string) (
+	string,
+	error) {
+
+	if sops.stringDataMutex == nil {
+		sops.stringDataMutex = new(sync.Mutex)
+	}
+
+	sops.stringDataMutex.Lock()
+
+	defer sops.stringDataMutex.Unlock()
+
+	ePrefix += "StrOps.JustifyTextInStrField() "
+
+	sOpsNanobot := strOpsNanobot{}
+
+	return sOpsNanobot.justifyTextInStrField(
+		strToJustify,
+		fieldLen,
+		textJustify,
+		ePrefix)
+}
+
 // LowerCaseFirstLetter - Finds the first alphabetic character
 // in a string (a-z A-Z) and converts it to lower case.
 //
