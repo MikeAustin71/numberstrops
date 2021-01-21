@@ -6,7 +6,7 @@ func TestDataFieldTrailingDelimiterType_ParseString_01(t *testing.T) {
 
 	testStr := "Comment"
 
-	dTypEnum, err := DfTrailDelimiter.ParseString(testStr, true)
+	dTypEnum, err := DfTrailDelimiter.XParseString(testStr, true)
 
 	if err != nil {
 		t.Errorf("Error returned by DfTrailDelimiter.ParseString(testStr, true).\n"+
@@ -26,7 +26,7 @@ func TestDataFieldTrailingDelimiterType_ParseString_02(t *testing.T) {
 
 	testStr := "Co"
 
-	_, err := DfTrailDelimiter.ParseString(testStr, true)
+	_, err := DfTrailDelimiter.XParseString(testStr, true)
 
 	if err == nil {
 		t.Error("Expected and error return from DfTrailDelimiter.ParseString(testStr, true).\n" +
@@ -41,7 +41,7 @@ func TestDataFieldTrailingDelimiterType_ParseString_03(t *testing.T) {
 
 	testStr := "BadEnumerationStr"
 
-	_, err := DfTrailDelimiter.ParseString(testStr, true)
+	_, err := DfTrailDelimiter.XParseString(testStr, true)
 
 	if err == nil {
 		t.Error("Expected and error return from DfTrailDelimiter.ParseString(testStr, true).\n" +
@@ -55,7 +55,7 @@ func TestDataFieldTrailingDelimiterType_ParseString_04(t *testing.T) {
 
 	testStr := "comment"
 
-	dTypEnum, err := DfTrailDelimiter.ParseString(testStr, false)
+	dTypEnum, err := DfTrailDelimiter.XParseString(testStr, false)
 
 	if err != nil {
 		t.Errorf("Error returned by DfTrailDelimiter.ParseString(testStr, true).\n"+
@@ -75,7 +75,7 @@ func TestDataFieldTrailingDelimiterType_ParseString_05(t *testing.T) {
 
 	testStr := "co"
 
-	_, err := DfTrailDelimiter.ParseString(testStr, false)
+	_, err := DfTrailDelimiter.XParseString(testStr, false)
 
 	if err == nil {
 		t.Error("Expected and error return from DfTrailDelimiter.ParseString(testStr, true).\n" +
@@ -90,7 +90,7 @@ func TestDataFieldTrailingDelimiterType_ParseString_06(t *testing.T) {
 
 	testStr := "badenumerationstr"
 
-	_, err := DfTrailDelimiter.ParseString(testStr, false)
+	_, err := DfTrailDelimiter.XParseString(testStr, false)
 
 	if err == nil {
 		t.Error("Expected and error return from DfTrailDelimiter.ParseString(testStr, true).\n" +
@@ -105,7 +105,7 @@ func TestDataFieldTrailingDelimiterType_ParseString_07(t *testing.T) {
 
 	testStr := "EndOfString()"
 
-	dTypEnum, err := DfTrailDelimiter.ParseString(testStr, true)
+	dTypEnum, err := DfTrailDelimiter.XParseString(testStr, true)
 
 	if err != nil {
 		t.Errorf("Error returned by DfTrailDelimiter.ParseString(testStr, true).\n"+
@@ -169,7 +169,7 @@ func TestDataFieldTrailingDelimiterType_Value_01(t *testing.T) {
 
 	testDFType := DataFieldTrailingDelimiterType(0).EndOfString()
 
-	testDFType2 := DataFieldTrailingDelimiterType(testDFType.Value())
+	testDFType2 := DataFieldTrailingDelimiterType(testDFType.XValueInt())
 
 	if testDFType2 != testDFType {
 		t.Errorf("ERROR: Expected testDFType2 == testDFType. It Does NOT!\n"+
