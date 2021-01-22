@@ -81,6 +81,24 @@ func (nFieldDto *NumberFieldDto) CopyIn(
 
 // CopyOut - Returns a deep copy of the current NumberFieldDto instance.
 //
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  --- NONE ---
+//
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumberFieldDto
+//     - A new instance of NumberFieldDto containing data values
+//       identical to those contained in the current NumberFieldDto
+//       instance.
+//
 func (nFieldDto *NumberFieldDto) CopyOut() NumberFieldDto {
 
 	if nFieldDto.lock == nil {
@@ -91,21 +109,13 @@ func (nFieldDto *NumberFieldDto) CopyOut() NumberFieldDto {
 
 	defer nFieldDto.lock.Unlock()
 
-	newNumFieldDto := NumberFieldDto{}
+	nStrNumFieldDtoElectron :=
+		numStrNumFieldDtoElectron{}
 
-	newNumFieldDto.requestedNumFieldLength =
-		nFieldDto.requestedNumFieldLength
-
-	newNumFieldDto.actualNumFieldLength =
-		nFieldDto.actualNumFieldLength
-
-	newNumFieldDto.minimumNumFieldLength =
-		nFieldDto.minimumNumFieldLength
-
-	newNumFieldDto.textJustifyFormat =
-		nFieldDto.textJustifyFormat
-
-	newNumFieldDto.lock = new(sync.Mutex)
+	newNumFieldDto,
+		_ := nStrNumFieldDtoElectron.copyOut(
+		nFieldDto,
+		"")
 
 	return newNumFieldDto
 }

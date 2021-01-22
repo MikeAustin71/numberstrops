@@ -120,3 +120,87 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 
 	return err
 }
+
+// CopyOut - Returns a deep copy of the NumberFieldDto instance
+// passed as input parameter, 'numFieldDto'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numFieldDto                *NumberFieldDto
+//     - A pointer to an instance of NumberFieldDto. The internal
+//       member variable data values for this instance will be
+//       copied to a new instance of NumberFieldDto,
+//       ('newNumFieldDto'), which is returned to the caller.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  newNumFieldDto             NumberFieldDto
+//     - A new instance of NumberFieldDto containing data values
+//       identical to those contained in input parameter,
+//       'numFieldDto'. This returned instance of NumberFieldDto
+//       represents a deep copy of input parameter, 'numFieldDto'.
+//
+//
+//  err                 error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyOut(
+	numFieldDto *NumberFieldDto,
+	ePrefix string) (
+	newNumFieldDto NumberFieldDto,
+	err error) {
+
+	if nStrNumFieldDtoElectron.lock == nil {
+		nStrNumFieldDtoElectron.lock = new(sync.Mutex)
+	}
+
+	nStrNumFieldDtoElectron.lock.Lock()
+
+	defer nStrNumFieldDtoElectron.lock.Unlock()
+
+	if numFieldDto == nil {
+		err = fmt.Errorf("%v"+
+			"Error: Input parameter 'numFieldDto' is a 'nil' pointer!\n",
+			ePrefix)
+
+		return newNumFieldDto, err
+	}
+
+	if numFieldDto.lock == nil {
+		numFieldDto.lock = new(sync.Mutex)
+	}
+
+	newNumFieldDto.requestedNumFieldLength =
+		numFieldDto.requestedNumFieldLength
+
+	newNumFieldDto.actualNumFieldLength =
+		numFieldDto.actualNumFieldLength
+
+	newNumFieldDto.minimumNumFieldLength =
+		numFieldDto.minimumNumFieldLength
+
+	newNumFieldDto.textJustifyFormat =
+		numFieldDto.textJustifyFormat
+
+	return newNumFieldDto, err
+}
