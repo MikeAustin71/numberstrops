@@ -69,18 +69,11 @@ func (nStrFmtSpecCntryQuark *numStrFmtSpecCountryDtoQuark) copyIn(
 	lenAltNames :=
 		len(inComingNStrFmtSpecCntryDto.alternateCountryNames)
 
-	if lenAltNames == 0 {
-		targetNStrFmtSpecCntryDto.alternateCountryNames =
-			make([]string, 0, 10)
-	} else {
-		targetNStrFmtSpecCntryDto.alternateCountryNames =
-			make([]string, lenAltNames, 10)
+	targetNStrFmtSpecCntryDto.alternateCountryNames =
+		make([]string, lenAltNames, lenAltNames+10)
 
-		for i := 0; i < lenAltNames; i++ {
-			targetNStrFmtSpecCntryDto.alternateCountryNames[i] =
-				inComingNStrFmtSpecCntryDto.alternateCountryNames[i]
-		}
-	}
+	_ = copy(targetNStrFmtSpecCntryDto.alternateCountryNames,
+		inComingNStrFmtSpecCntryDto.alternateCountryNames)
 
 	targetNStrFmtSpecCntryDto.countryCodeTwoChar =
 		inComingNStrFmtSpecCntryDto.countryCodeTwoChar

@@ -54,22 +54,20 @@ func (nStrFmtSpecDigitsSepsQuark *numStrFmtSpecDigitsSeparatorsDtoQuark) copyIn(
 	targetNStrFmtSpecDigitsSepsDto.integerDigitsSeparator =
 		inComingNStrFmtSpecDigitsSepsDto.integerDigitsSeparator
 
-	lenIntDigitsGroupingSequence :=
+	lenIntDigitsGroupSeq :=
 		len(inComingNStrFmtSpecDigitsSepsDto.integerDigitsGroupingSequence)
 
-	if lenIntDigitsGroupingSequence == 0 {
+	if lenIntDigitsGroupSeq == 0 {
 		targetNStrFmtSpecDigitsSepsDto.integerDigitsGroupingSequence =
 			make([]uint, 0, 10)
 		return
 	}
 
 	targetNStrFmtSpecDigitsSepsDto.integerDigitsGroupingSequence =
-		make([]uint, lenIntDigitsGroupingSequence)
+		make([]uint, lenIntDigitsGroupSeq, lenIntDigitsGroupSeq+5)
 
-	for i := 0; i < lenIntDigitsGroupingSequence; i++ {
-		targetNStrFmtSpecDigitsSepsDto.integerDigitsGroupingSequence[i] =
-			inComingNStrFmtSpecDigitsSepsDto.integerDigitsGroupingSequence[i]
-	}
+	_ = copy(targetNStrFmtSpecDigitsSepsDto.integerDigitsGroupingSequence,
+		inComingNStrFmtSpecDigitsSepsDto.integerDigitsGroupingSequence)
 
 	return err
 }

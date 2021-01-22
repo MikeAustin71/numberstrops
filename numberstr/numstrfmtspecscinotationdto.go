@@ -58,6 +58,26 @@ type NumStrFmtSpecSciNotationDto struct {
 	lock                       *sync.Mutex
 }
 
+func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyIn(
+	incomingSciNotDto *NumStrFmtSpecSciNotationDto,
+	ePrefix string) error {
+
+	if nStrFmtSpecSciNotDto.lock == nil {
+		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSciNotDto.lock.Lock()
+
+	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	ePrefix += "\nNumStrFmtSpecSciNotationDto.CopyIn()\n"
+
+	nStrFmtSpecSciNotDto.numFieldLenDto.CopyIn(
+		&incomingSciNotDto.numFieldLenDto)
+
+	return nil
+}
+
 // SetExponentChar - Sets the exponent character which will be
 // displayed in number strings formatted with scientific notation.
 //
