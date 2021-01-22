@@ -43,45 +43,19 @@ func (fmtSpecDto NumStrFmtSpecDto) New(
 
 	newFmtSpecDto := NumStrFmtSpecDto{}
 
-	newFmtSpecDto.idNo = idNo
-	newFmtSpecDto.idString = idString
-	newFmtSpecDto.description = description
-	newFmtSpecDto.tag = tag
+	nStrFmtSpecDtoMech := numStrFmtSpecDtoMechanics{}
 
-	err := newFmtSpecDto.countryCulture.CopyIn(
-		&countryCulture,
-		ePrefix)
-
-	if err != nil {
-		return NumStrFmtSpecDto{}, err
-	}
-
-	err = newFmtSpecDto.absoluteValue.CopyIn(
-		&absoluteValue,
-		ePrefix)
-
-	if err != nil {
-		return NumStrFmtSpecDto{}, err
-	}
-
-	err = newFmtSpecDto.currencyValue.CopyIn(
-		&currencyValue,
-		ePrefix)
-
-	if err != nil {
-		return NumStrFmtSpecDto{}, err
-	}
-
-	err = newFmtSpecDto.signedNumValue.CopyIn(
-		&signedNumValue,
-		ePrefix)
-
-	if err != nil {
-		return NumStrFmtSpecDto{}, err
-	}
-
-	err = newFmtSpecDto.sciNotation.CopyIn(
-		&sciNotation,
+	err := nStrFmtSpecDtoMech.setNumStrFmtSpecDto(
+		&newFmtSpecDto,
+		idNo,
+		idString,
+		description,
+		tag,
+		countryCulture,
+		absoluteValue,
+		currencyValue,
+		signedNumValue,
+		sciNotation,
 		ePrefix)
 
 	return newFmtSpecDto, err
