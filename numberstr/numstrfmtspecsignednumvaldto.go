@@ -1034,14 +1034,30 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNegativeV
 //       }
 //
 //
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
 // -----------------------------------------------------------------
 //
 // Return Values
 //
-//  --- NONE ---
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFieldLengthDto(
-	numberFieldLenDto NumberFieldDto) {
+	numberFieldLenDto NumberFieldDto,
+	ePrefix string) error {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
 		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
@@ -1051,8 +1067,11 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFie
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	nStrFmtSpecSignedNumValueDto.numFieldLenDto.CopyIn(
-		&numberFieldLenDto)
+	ePrefix += "NumStrFmtSpecSignedNumValueDto.SetNumberFieldLengthDto()\n"
+
+	return nStrFmtSpecSignedNumValueDto.numFieldLenDto.CopyIn(
+		&numberFieldLenDto,
+		ePrefix)
 }
 
 // SetNumberSeparatorsDto - Sets the Number Separators Dto object

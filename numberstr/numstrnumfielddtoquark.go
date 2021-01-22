@@ -52,6 +52,18 @@ func (nStrNFldDtoQuark *numStrNumFieldDtoQuark) testValidityNumberFieldDto(
 		return isValid, err
 	}
 
+	if numFieldDto.requestedNumFieldLength < -1 {
+		numFieldDto.requestedNumFieldLength = -1
+	}
+
+	if numFieldDto.actualNumFieldLength < -1 {
+		numFieldDto.requestedNumFieldLength = -1
+	}
+
+	if numFieldDto.minimumNumFieldLength < -1 {
+		numFieldDto.requestedNumFieldLength = -1
+	}
+
 	if !numFieldDto.textJustifyFormat.XIsValid() {
 		err = fmt.Errorf("%v"+
 			"Error: numFieldDto.textJustifyFormat is invalid\n"+

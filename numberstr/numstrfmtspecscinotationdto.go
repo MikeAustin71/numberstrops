@@ -72,10 +72,9 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyIn(
 
 	ePrefix += "\nNumStrFmtSpecSciNotationDto.CopyIn()\n"
 
-	nStrFmtSpecSciNotDto.numFieldLenDto.CopyIn(
-		&incomingSciNotDto.numFieldLenDto)
-
-	return nil
+	return nStrFmtSpecSciNotDto.numFieldLenDto.CopyIn(
+		&incomingSciNotDto.numFieldLenDto,
+		ePrefix)
 }
 
 // SetExponentChar - Sets the exponent character which will be
@@ -267,14 +266,30 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetMantissaLength(
 //       }
 //
 //
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
 // -----------------------------------------------------------------
 //
 // Return Values
 //
-//  --- NONE ---
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
 //
 func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetNumberFieldLengthDto(
-	numberFieldLenDto NumberFieldDto) {
+	numberFieldLenDto NumberFieldDto,
+	ePrefix string) error {
 
 	if nStrFmtSpecSciNotDto.lock == nil {
 		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
@@ -284,8 +299,12 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetNumberFieldLengthDto
 
 	defer nStrFmtSpecSciNotDto.lock.Unlock()
 
-	nStrFmtSpecSciNotDto.numFieldLenDto.CopyIn(
-		&numberFieldLenDto)
+	ePrefix += "\nNumStrFmtSpecSciNotationDto.SetNumberFieldLengthDto()\n"
+
+	return nStrFmtSpecSciNotDto.numFieldLenDto.CopyIn(
+		&numberFieldLenDto,
+		ePrefix+
+			"nStrFmtSpecSciNotDto\n")
 }
 
 // SetSignificandUsesLeadingPlus - Sets the boolean flag which

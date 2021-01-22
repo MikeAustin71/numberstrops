@@ -16,8 +16,50 @@ type NumberFieldDto struct {
 // CopyIn - Copies the data fields from an incoming NumberFieldDto
 // to the data fields of the current instance of NumberFieldDto.
 //
+// When this method completes processing both the current
+// NumberFieldDto instance and the incoming NumberFieldDto instance
+// will have identical data values.
+//
+// This method will overwrite the member variable data values of
+// the current NumberFieldDto instance.
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingNumFieldDto        *NumberFieldDto
+//     - A pointer to an instance of NumberFieldDto. The member
+//       variable data fields from this instance will be copied to
+//       those contained in the current NumberFieldDto instance.
+//
+//       If this instance of NumberFieldDto is judged to be invalid,
+//       an error will be returned.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
 func (nFieldDto *NumberFieldDto) CopyIn(
-	numFieldDtoIn *NumberFieldDto) {
+	incomingNumFieldDto *NumberFieldDto,
+	ePrefix string) error {
 
 	if nFieldDto.lock == nil {
 		nFieldDto.lock = new(sync.Mutex)
@@ -27,18 +69,14 @@ func (nFieldDto *NumberFieldDto) CopyIn(
 
 	defer nFieldDto.lock.Unlock()
 
-	nFieldDto.requestedNumFieldLength =
-		numFieldDtoIn.requestedNumFieldLength
+	ePrefix += "NumberFieldDto.CopyIn() "
+	nStrNumFieldDtoElectron :=
+		numStrNumFieldDtoElectron{}
 
-	nFieldDto.actualNumFieldLength =
-		numFieldDtoIn.actualNumFieldLength
-
-	nFieldDto.minimumNumFieldLength =
-		numFieldDtoIn.minimumNumFieldLength
-
-	nFieldDto.textJustifyFormat =
-		numFieldDtoIn.textJustifyFormat
-
+	return nStrNumFieldDtoElectron.copyIn(
+		nFieldDto,
+		incomingNumFieldDto,
+		ePrefix)
 }
 
 // CopyOut - Returns a deep copy of the current NumberFieldDto instance.

@@ -1251,7 +1251,15 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 		return NumStrFmtSpecDto{}, err
 	}
 
-	currencyValFmt.numFieldLenDto.CopyIn(&numFieldDto)
+	err =
+		currencyValFmt.numFieldLenDto.CopyIn(
+			&numFieldDto,
+			ePrefix+
+				"currencyValFmt\n")
+
+	if err != nil {
+		return NumStrFmtSpecDto{}, err
+	}
 
 	// Absolute Value Format
 	absValFmt := NumStrFmtSpecAbsoluteValueDto{}
@@ -1270,7 +1278,15 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 		return NumStrFmtSpecDto{}, err
 	}
 
-	absValFmt.numFieldLenDto.CopyIn(&numFieldDto)
+	err =
+		absValFmt.numFieldLenDto.CopyIn(
+			&numFieldDto,
+			ePrefix+
+				"absValFmt\n")
+
+	if err != nil {
+		return NumStrFmtSpecDto{}, err
+	}
 
 	// Signed Number Format
 	signedNumValFmt := NumStrFmtSpecSignedNumValueDto{}
@@ -1289,7 +1305,15 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 		return NumStrFmtSpecDto{}, err
 	}
 
-	signedNumValFmt.numFieldLenDto.CopyIn(&numFieldDto)
+	err =
+		signedNumValFmt.numFieldLenDto.CopyIn(
+			&numFieldDto,
+			ePrefix+
+				"signedNumValFmt\n")
+
+	if err != nil {
+		return NumStrFmtSpecDto{}, err
+	}
 
 	// Scientific Notation Format
 	sciNotFmt := NumStrFmtSpecSciNotationDto{}
@@ -1298,7 +1322,16 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 	sciNotFmt.mantissaLength = 5
 	sciNotFmt.exponentChar = 'E'
 	sciNotFmt.exponentUsesLeadingPlus = true
-	sciNotFmt.numFieldLenDto.CopyIn(&numFieldDto)
+
+	err =
+		sciNotFmt.numFieldLenDto.CopyIn(
+			&numFieldDto,
+			ePrefix+
+				"sciNotFmt\n")
+
+	if err != nil {
+		return NumStrFmtSpecDto{}, err
+	}
 
 	return NumStrFmtSpecDto{}.New(
 		countryDto.idNo,
