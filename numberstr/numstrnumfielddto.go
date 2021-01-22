@@ -9,7 +9,7 @@ type NumberFieldDto struct {
 	requestedNumFieldLength int
 	actualNumFieldLength    int
 	minimumNumFieldLength   int
-	textJustifyFormat       StrOpsTextJustify
+	textJustifyFormat       TextJustify
 	lock                    *sync.Mutex
 }
 
@@ -126,7 +126,7 @@ func (nFieldDto *NumberFieldDto) GetRequestedNumFieldLength() int {
 // Text Justification Format:
 //    NumberFieldDto.textJustifyFormat
 //
-func (nFieldDto *NumberFieldDto) GetTextJustification() StrOpsTextJustify {
+func (nFieldDto *NumberFieldDto) GetTextJustification() TextJustify {
 
 	if nFieldDto.lock == nil {
 		nFieldDto.lock = new(sync.Mutex)
@@ -182,7 +182,7 @@ func (nFieldDto NumberFieldDto) New(
 
 	// Default to Right-Justified text format
 	newNumFieldDto.textJustifyFormat =
-		StrOpsTextJustify(0).Right()
+		TextJustify(0).Right()
 
 	newNumFieldDto.lock = new(sync.Mutex)
 
@@ -266,7 +266,7 @@ func (nFieldDto NumberFieldDto) New(
 //
 func (nFieldDto NumberFieldDto) NewFromComponents(
 	requestedNumberFieldLen int,
-	textJustify StrOpsTextJustify,
+	textJustify TextJustify,
 	ePrefix string) (
 	NumberFieldDto,
 	error) {
@@ -284,11 +284,11 @@ func (nFieldDto NumberFieldDto) NewFromComponents(
 	if !textJustify.XIsValid() {
 
 		return NumberFieldDto{},
-		fmt.Errorf("%v\n" +
-			"Error: Input parameter 'textJustify' is invalid!\n" +
-			"'textJustify' integer value = '%v'\n",
-			ePrefix,
-			textJustify.XValueInt())
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'textJustify' is invalid!\n"+
+				"'textJustify' integer value = '%v'\n",
+				ePrefix,
+				textJustify.XValueInt())
 
 	}
 
@@ -414,7 +414,7 @@ func (nFieldDto *NumberFieldDto) SetRequestedNumFieldLength(
 //  --- NONE ---
 //
 func (nFieldDto *NumberFieldDto) SetTextJustification(
-	textJustify StrOpsTextJustify) {
+	textJustify TextJustify) {
 
 	if nFieldDto.lock == nil {
 		nFieldDto.lock = new(sync.Mutex)

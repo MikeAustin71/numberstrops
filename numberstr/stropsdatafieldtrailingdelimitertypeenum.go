@@ -193,7 +193,7 @@ func (dfTrailDelimiter DataFieldTrailingDelimiterType) String() string {
 }
 
 // XIsValid - Returns a boolean value signaling whether the current
-// StrOpsTextJustify value is valid.
+// TextJustify value is valid.
 //
 // This is a standard utility method and is not part of the valid
 // enumerations for this type.
@@ -292,7 +292,7 @@ func (dfTrailDelimiter DataFieldTrailingDelimiterType) XParseString(
 	}
 
 	if lenValueStr < 3 {
-		return DataFieldTrailingDelimiterType(0).Unknown(),
+		return DataFieldTrailingDelimiterType(0),
 			fmt.Errorf(ePrefix+
 				"Input parameter 'valueString' is INVALID! Length Less than 3-characters\n"+
 				"valueString='%v'\n", valueString)

@@ -85,7 +85,7 @@ func TestStrOps_GetReader_02(t *testing.T) {
 }
 
 func TestStrOps_GetSoftwareVersion_01(t *testing.T) {
-	expectedStr := "2.0.4"
+	expectedStr := "3.0.0"
 	actualStr := StrOps{}.GetSoftwareVersion()
 
 	if expectedStr != actualStr {

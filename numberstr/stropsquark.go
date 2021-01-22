@@ -1349,7 +1349,8 @@ func (sOpsQuark *strOpsQuark) removeStringChar(
 
 		if maxNumOfCharDeletions > -1 &&
 			numOfDeletions >= maxNumOfCharDeletions {
-			break
+			runeArray = append(runeArray, r)
+			continue
 		}
 
 		if r == charToRemove {
@@ -1655,9 +1656,8 @@ func (sOpsQuark *strOpsQuark) replaceRunes(
 	return output, nil
 }
 
-// replaceStringChar - Replaces a specific character
-// found anywhere in a string with another specified
-// substitute character.
+// replaceStringChar - Replaces a specific character found anywhere
+// in a string with another specified substitute character.
 //
 // The replacement operation proceeds from left to right within the
 // 'targetStr' beginning with index zero (0).
