@@ -88,6 +88,127 @@ func (nFieldDto *NumberFieldDto) GetActualNumFieldLength() int {
 	return nFieldDto.actualNumFieldLength
 }
 
+// GetNumberField - Receives a formatted number string and
+// positions that number string in a number field that is returned
+// to the caller. This output number field is a text string with
+// string length and justification positioning determined by the
+// settings of the current NumberFieldDto instance.
+//
+// The output field length will be determined by internal member
+// variable, 'NumberFieldDto.requestedNumFieldLength'.
+//
+// If the current value of 'NumberFieldDto.requestedNumFieldLength'
+// is less than the length of input parameter, 'formattedNumStr',
+// the value of 'NumberFieldDto.requestedNumFieldLength' will be
+// automatically increased to equal the length of 'formattedNumStr'.
+//
+// The position in the output number field will be determined by
+// internal member variable 'NumberFieldDto.textJustifyFormat'. The
+// text justification format specification will support one of
+// three values: 'Right-Justified', 'Left-Justified' or 'Centered'.
+//
+// If the member variable,'NumberFieldDto.textJustifyFormat',is
+// currently set to an invalid value, such as 'None', this method
+// will default 'NumberFieldDto.textJustifyFormat' to a value of
+// 'Right-Justified'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameter
+//
+//  formattedNumStr     string
+//     - This is the formatted number string which will be inserted
+//       into, and positioned within, the output number field text
+//       string. This string will remain unaltered in content. It
+//       will simply be positioned within a number field of equal
+//       or greater length.
+//
+//       If 'formattedNumStr' is passed as an empty string, this
+//       method, will return an error.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  newNumberField      string
+//     - This is output text number field. The length of this field
+//       will be determined by the internal member variable
+//       'requestedNumFieldLength' from the current NumberFieldDto
+//       instance. The position of of input parameter
+//       'formattedNumStr' within the output text number field will
+//       be determined by internal member variable
+//       'textJustifyFormat' from the current NumberFieldDto
+//       instance.
+//
+//
+//  err                 error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+func (nFieldDto *NumberFieldDto) GetNumberField(
+	formattedNumStr string,
+	ePrefix string) (
+	newNumberField string,
+	err error) {
+
+	if nFieldDto.lock == nil {
+		nFieldDto.lock = new(sync.Mutex)
+	}
+
+	nFieldDto.lock.Lock()
+
+	defer nFieldDto.lock.Unlock()
+
+	ePrefix += "NumberFieldDto.GetNumberField() "
+
+	lenFormattedNumStr := len(formattedNumStr)
+
+	if lenFormattedNumStr == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'formattedNumStr' is"+
+			" an empty string!\n",
+			ePrefix)
+		return newNumberField, err
+	}
+
+	if nFieldDto.requestedNumFieldLength < lenFormattedNumStr {
+
+		nFieldDto.requestedNumFieldLength = lenFormattedNumStr
+	}
+
+	if !nFieldDto.textJustifyFormat.XIsValid() {
+
+		nFieldDto.textJustifyFormat =
+			TextJustify(0).Right()
+	}
+
+	sOpsNanobot := strOpsNanobot{}
+
+	newNumberField,
+		err = sOpsNanobot.justifyTextInStrField(
+		formattedNumStr,
+		nFieldDto.requestedNumFieldLength,
+		nFieldDto.textJustifyFormat,
+		ePrefix)
+
+	return newNumberField, err
+}
+
 // GetMinimumNumFieldLength - Returns the internal member variable
 // Minimum Number Field Length:
 //    NumberFieldDto.minimumNumFieldLength
