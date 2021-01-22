@@ -260,6 +260,101 @@ func (nFieldDto *NumberFieldDto) GetTextJustification() TextJustify {
 	return nFieldDto.textJustifyFormat
 }
 
+// IsValidInstance - Performs a diagnostic review of the current
+// NumberFieldDto instance to determine whether the current
+// instance is valid in all respects.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  --- NONE ---
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  isValid             bool
+//     - This returned boolean value will signal whether the current
+//       NumberFieldDto is valid, or not. If the current
+//       NumberFieldDto contains valid data, this method returns
+//       'true'. If the data is invalid, this method will return
+//       'false'.
+//
+func (nFieldDto *NumberFieldDto) IsValidInstance() (
+	isValid bool) {
+
+	if nFieldDto.lock == nil {
+		nFieldDto.lock = new(sync.Mutex)
+	}
+
+	nFieldDto.lock.Lock()
+
+	defer nFieldDto.lock.Unlock()
+
+	nStrNFldDtoQuark := numStrNumFieldDtoQuark{}
+
+	isValid,
+		_ = nStrNFldDtoQuark.testValidityNumberFieldDto(
+		nFieldDto,
+		"")
+
+	return isValid
+}
+
+// IsValidInstanceError - Performs a diagnostic review of the
+// current NumberFieldDto instance to determine whether the current
+// instance is valid in all respects.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If the current instance of NumberFieldDto contains invalid
+//       data, a detailed error message will be returned
+//       identifying the invalid data item.
+//
+//       If the current instance is valid, this error parameter
+//       will be set to nil.
+//
+func (nFieldDto *NumberFieldDto) IsValidInstanceError(
+	ePrefix string) error {
+
+	if nFieldDto.lock == nil {
+		nFieldDto.lock = new(sync.Mutex)
+	}
+
+	nFieldDto.lock.Lock()
+
+	defer nFieldDto.lock.Unlock()
+
+	nStrNFldDtoQuark := numStrNumFieldDtoQuark{}
+
+	ePrefix += "\nNumberFieldDto.IsValidInstanceError() "
+
+	_,
+		err := nStrNFldDtoQuark.testValidityNumberFieldDto(
+		nFieldDto,
+		ePrefix)
+
+	return err
+}
+
 // New - Creates and returns a new instance of 'NumberFieldDto'.
 //
 // Be advised that this version of method 'New()' will default
@@ -272,15 +367,20 @@ func (nFieldDto *NumberFieldDto) GetTextJustification() TextJustify {
 //
 //  requestedNumberFieldLen    int
 //     - This is the requested length of the number field in which
-//       the number string will be displayed. If this field length
-//       is greater than the actual length of the number string,
-//       the number string will be right justified within the the
-//       number field. If the actual number string length is greater
-//       than the requested number field length, the number field
-//       length will be automatically expanded to display the entire
-//       number string. The 'requested' number field length is used
-//       to create number fields of standard lengths for text
-//       presentations.
+//       the number string will be displayed.
+//
+//       If this field length is greater than the actual length of
+//       the number string, the number string will be justified
+//       within the number field. If the actual number string
+//       length is greater than the requested number field length,
+//       the number field length will be automatically expanded
+//       to display the entire number string. The 'requested'
+//       number field length is used to create number fields
+//       of standard lengths for text presentations.
+//
+//       If 'requestedNumberFieldLen' is set to a value of minus
+//       one (-1), the final number field length will be set to
+//       the length of the actual number string.
 //
 func (nFieldDto NumberFieldDto) New(
 	requestedNumberFieldLen int) NumberFieldDto {
@@ -295,17 +395,13 @@ func (nFieldDto NumberFieldDto) New(
 
 	newNumFieldDto := NumberFieldDto{}
 
-	newNumFieldDto.requestedNumFieldLength = requestedNumberFieldLen
+	nStrNumFieldDtoMech := numStrNumFieldDtoMechanics{}
 
-	newNumFieldDto.minimumNumFieldLength = -1
-
-	newNumFieldDto.actualNumFieldLength = -1
-
-	// Default to Right-Justified text format
-	newNumFieldDto.textJustifyFormat =
-		TextJustify(0).Right()
-
-	newNumFieldDto.lock = new(sync.Mutex)
+	_ = nStrNumFieldDtoMech.setNumberFieldDto(
+		&newNumFieldDto,
+		requestedNumberFieldLen,
+		TextJustify(0).Right(),
+		"")
 
 	return newNumFieldDto
 }
@@ -315,7 +411,6 @@ func (nFieldDto NumberFieldDto) New(
 // this version provides the caller with the flexibility to
 // configure the text justification format used when inserting a
 // number string in a text number field.
-//
 //
 //
 // ------------------------------------------------------------------------
@@ -402,32 +497,17 @@ func (nFieldDto NumberFieldDto) NewFromComponents(
 
 	ePrefix += "NumberFieldDto.NewFromComponents()\n"
 
-	if !textJustify.XIsValid() {
-
-		return NumberFieldDto{},
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'textJustify' is invalid!\n"+
-				"'textJustify' integer value = '%v'\n",
-				ePrefix,
-				textJustify.XValueInt())
-
-	}
-
 	newNumFieldDto := NumberFieldDto{}
 
-	newNumFieldDto.requestedNumFieldLength = requestedNumberFieldLen
+	nStrNumFieldDtoMech := numStrNumFieldDtoMechanics{}
 
-	newNumFieldDto.minimumNumFieldLength = -1
+	err := nStrNumFieldDtoMech.setNumberFieldDto(
+		&newNumFieldDto,
+		requestedNumberFieldLen,
+		textJustify,
+		ePrefix)
 
-	newNumFieldDto.actualNumFieldLength = -1
-
-	// Default to Right-Justified text format
-	newNumFieldDto.textJustifyFormat =
-		textJustify
-
-	newNumFieldDto.lock = new(sync.Mutex)
-
-	return newNumFieldDto, nil
+	return newNumFieldDto, err
 }
 
 // SetActualNumFieldLength - Sets the actual number field
