@@ -132,5 +132,14 @@ func (nStrNumFieldDtoMech *numStrNumFieldDtoMechanics) setNumberFieldDto(
 	numFieldDto.textJustifyFormat =
 		textJustify
 
+	nStrNFldDtoQuark := numStrNumFieldDtoQuark{}
+
+	_,
+		err =
+		nStrNFldDtoQuark.testValidityNumberFieldDto(
+			numFieldDto,
+			ePrefix+
+				"Testing validity of final 'numFieldDto'\n")
+
 	return err
 }
