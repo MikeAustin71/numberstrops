@@ -577,7 +577,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) New(
 	newNStrFmtSpecSignedNumValueDto := NumStrFmtSpecSignedNumValueDto{}
 
 	numberSeparatorsDto,
-		err := NumStrFmtSpecDigitsSeparatorsDto{}.New(
+		err := NumStrFmtSpecDigitsSeparatorsDto{}.NewFromComponents(
 		decimalSeparatorChar,
 		thousandsSeparatorChar,
 		[]uint{3},

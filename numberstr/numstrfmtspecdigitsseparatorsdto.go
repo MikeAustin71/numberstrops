@@ -305,7 +305,131 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstance
 	return err
 }
 
-// New() - Creates and returns a new instance of NumStrFmtSpecDigitsSeparatorsDto.
+// NewFromComponents() - Creates and returns a new instance of
+// NumStrFmtSpecDigitsSeparatorsDto. This type encapsulates the
+// digit separators used in formatting a number string for text
+// display. Digit separators are commonly referred to as the
+// decimal point and thousands separator characters. In addition,
+// Digit Separators include the integer digits grouping sequence.
+//
+// This method default the integer digits grouping sequence to that
+// used in most of the world.
+//
+// In most countries, integer digits to the left of the decimal
+// separator (a.k.a. decimal point) are separated into groups of
+// three (3) digits representing a grouping of 'thousands' like
+// this: '1,000,000,000,000'. In this case the 'integer digits
+// grouping sequence' would be configured as:
+//        integer digits grouping sequence = []uint{3}
+// This method applies the 3-digit integer digits grouping sequence
+// by default.
+//
+// In some countries and cultures other integer groupings are used.
+// In India, for example, a number might be formatted as like this:
+// '6,78,90,00,00,00,00,000'. The right most group has three digits
+// and all the others are grouped by two. In this case 'integer
+// digits grouping sequence' would be configured as:
+//        integerDigitsGroupingSequence = []uint{3,2}
+//
+// Again, this method will automatically set the 'integer digits
+// grouping sequence' to a default of 3-digits or []uint{3}.
+//
+// If you wish to configure the 'integer digits grouping sequence'
+// to some value other than the default, see method:
+//     NumStrFmtSpecDigitsSeparatorsDto.NewFromComponents()
+
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparator           rune
+//     - A text character used to separate integer and fractional
+//       digits in a floating point number string. In the United
+//       States, the standard decimal separator is the period
+//       ('.') or decimal point.
+//
+//       If this input parameter is set to zero, an error will be
+//       returned.
+//
+//
+//  integerDigitsSeparator     rune
+//     - This separator is also known as the 'thousands' separator.
+//       It is used to separate groups of integer digits to the left
+//       of the decimal separator (a.k.a. decimal point). In the
+//       United States, the standard integer digits separator is the
+//       comma (',').
+//
+//        Example:  1,000,000,000
+//
+//       If this input parameter is set to zero, an error will be
+//       returned.
+//
+//
+//  ePrefix                    string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrFmtSpecDigitsSeparatorsDto
+//     - If this method completes successfully, new instance of
+//       NumStrFmtSpecDigitsSeparatorsDto will be created and
+//       returned. The 'integer digits grouping sequence' will be
+//       automatically set to default of 3-digits or []uint{3}.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) NewWithDefaults(
+	ePrefix string,
+	decimalSeparator rune,
+	integerDigitsSeparator rune) (
+	NumStrFmtSpecDigitsSeparatorsDto,
+	error) {
+
+	if nStrFmtSpecDigitsSepDto.lock == nil {
+		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDigitsSepDto.lock.Lock()
+
+	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.NewWithDefaults() "
+
+	newDigitsSepsDto := NumStrFmtSpecDigitsSeparatorsDto{}
+
+	nStrFmtSpecDigitsSepsDtoMech :=
+		numStrFmtSpecDigitsSepsDtoMechanics{}
+
+	err := nStrFmtSpecDigitsSepsDtoMech.setDigitsSeps(
+		&newDigitsSepsDto,
+		decimalSeparator,
+		integerDigitsSeparator,
+		[]uint{3},
+		ePrefix)
+
+	return newDigitsSepsDto, err
+
+}
+
+// NewFromComponents() - Creates and returns a new instance of NumStrFmtSpecDigitsSeparatorsDto.
 // This type encapsulates the digit separators used in formatting a
 // number string for text display.
 //
@@ -374,7 +498,7 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstance
 //       The 'ePrefix' text will be prefixed to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) New(
+func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) NewFromComponents(
 	decimalSeparator rune,
 	integerDigitsSeparator rune,
 	integerDigitsGroupingSequence []uint,
@@ -394,7 +518,7 @@ func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) New(
 		ePrefix += "\n"
 	}
 
-	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.New() "
+	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.NewFromComponents() "
 
 	newDigitsSepsDto := NumStrFmtSpecDigitsSeparatorsDto{}
 

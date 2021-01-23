@@ -44,6 +44,24 @@ func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigi
 		return err
 	}
 
+	if decimalSeparator == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'decimalSeparator' is invalid!\n"+
+			"decimalSeparator == 0\n",
+			ePrefix)
+
+		return err
+	}
+
+	if integerDigitsSeparator == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'integerDigitsSeparator' is invalid!\n"+
+			"integerDigitsSeparator == 0\n",
+			ePrefix)
+
+		return err
+	}
+
 	if nStrFmtSpecDigitsSepsDto.lock == nil {
 		nStrFmtSpecDigitsSepsDto.lock = new(sync.Mutex)
 	}

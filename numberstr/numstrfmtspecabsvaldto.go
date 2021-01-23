@@ -484,7 +484,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) New(
 	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
 	numberSeparatorsDto,
-		err := NumStrFmtSpecDigitsSeparatorsDto{}.New(
+		err := NumStrFmtSpecDigitsSeparatorsDto{}.NewFromComponents(
 		decimalSeparatorChar,
 		thousandsSeparatorChar,
 		[]uint{3},

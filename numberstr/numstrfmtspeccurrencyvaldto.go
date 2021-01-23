@@ -757,7 +757,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) New(
 	newNStrFmtSpecCurrencyValDto := NumStrFmtSpecCurrencyValueDto{}
 
 	numberSeparatorsDto,
-		err := NumStrFmtSpecDigitsSeparatorsDto{}.New(
+		err := NumStrFmtSpecDigitsSeparatorsDto{}.NewFromComponents(
 		decimalSeparatorChar,
 		thousandsSeparatorChar,
 		[]uint{3},
