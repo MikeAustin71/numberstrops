@@ -574,6 +574,14 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewFromFmtSpecSetupDto(
 
 	newCountryDto := NumStrFmtSpecCountryDto{}
 
+	if fmtSpecSetupDto.Lock == nil {
+		fmtSpecSetupDto.Lock = new(sync.Mutex)
+	}
+
+	fmtSpecSetupDto.Lock.Lock()
+
+	defer fmtSpecSetupDto.Lock.Unlock()
+
 	err := nStrFmtSpecCntryMech.setCountryDto(
 		&newCountryDto,
 		fmtSpecSetupDto.CountryIdNo,
@@ -978,6 +986,14 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetFromFmtSpecSetupDto(
 	defer nStrFmtSpecCntryDto.lock.Unlock()
 
 	ePrefix += "\nNumStrFmtSpecCountryDto.SetFromFmtSpecSetupDto() "
+
+	if fmtSpecSetupDto.Lock == nil {
+		fmtSpecSetupDto.Lock = new(sync.Mutex)
+	}
+
+	fmtSpecSetupDto.Lock.Lock()
+
+	defer fmtSpecSetupDto.Lock.Unlock()
 
 	nStrFmtSpecCntryMech :=
 		numStrFmtSpecCountryDtoMechanics{}

@@ -1,5 +1,7 @@
 package numberstr
 
+import "sync"
+
 type NumStrFmtSpecSetupDto struct {
 	IdNo                                      uint64
 	IdString                                  string
@@ -37,4 +39,5 @@ type NumStrFmtSpecSetupDto struct {
 	SciNotExponentChar                        rune
 	SciNotExponentUsesLeadingPlus             bool
 	SciNotNumFieldLen                         int
+	Lock                                      *sync.Mutex
 }
