@@ -405,9 +405,10 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 
 // New - Creates and returns a new instance of 'NumberFieldDto'.
 //
-// Be advised that this version of method 'New()' will default
-// the text justification to right-justify the number string in
-// the number field.
+// This method will default the text justification to
+// 'right-justify'. This setting will position the number string on
+// the right margin of the number field.
+//            Example: "      123456.54"
 //
 // ----------------------------------------------------------------
 //
@@ -430,7 +431,11 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 //       one (-1), the final number field length will be set to
 //       the length of the actual number string.
 //
-func (nFieldDto NumberFieldDto) New(
+//       If 'requestedNumberFieldLen' is set equal to zero or to a
+//       value less than minus one (-1), it will be automatically
+//       converted to minus one (-1).
+//
+func (nFieldDto NumberFieldDto) NewWithDefaults(
 	requestedNumberFieldLen int) NumberFieldDto {
 
 	if nFieldDto.lock == nil {

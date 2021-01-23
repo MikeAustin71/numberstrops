@@ -572,7 +572,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) New(
 
 	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.New() "
 
-	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
+	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
 	newNStrFmtSpecSignedNumValueDto := NumStrFmtSpecSignedNumValueDto{}
 
@@ -854,7 +854,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 
 	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.NewFromComponents() "
 
-	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
+	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
 	newNStrFmtSpecSignedNumValueDto := NumStrFmtSpecSignedNumValueDto{}
 
@@ -1510,7 +1510,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetSignedNum
 
 	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.SetSignedNumValDto() "
 
-	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
+	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
 	nStrFmtSpecSignedNumValMech :=
 		nStrFmtSpecSignedNumValMechanics{}

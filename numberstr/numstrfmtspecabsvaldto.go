@@ -481,7 +481,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) New(
 	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.New() \n" +
 		"Setting data values for 'newNumStrFmtSpecAbsValueDto'\n "
 
-	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
+	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
 	numberSeparatorsDto,
 		err := NumStrFmtSpecDigitsSeparatorsDto{}.New(
@@ -686,7 +686,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 
 	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.NewFromComponents()\n "
 
-	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
+	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
 	newNStrFmtSpecAbsoluteValueDto := NumStrFmtSpecAbsoluteValueDto{}
 
@@ -1122,7 +1122,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueDto(
 
 	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.SetAbsoluteValueDto() "
 
-	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
+	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
 	nStrFmtSpecAbsValDtoMech :=
 		numStrFmtSpecAbsoluteValueDtoMechanics{}

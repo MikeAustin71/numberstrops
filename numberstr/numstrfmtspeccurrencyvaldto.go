@@ -752,7 +752,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) New(
 
 	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.New() "
 
-	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
+	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
 	newNStrFmtSpecCurrencyValDto := NumStrFmtSpecCurrencyValueDto{}
 
@@ -1143,7 +1143,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 
 	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.NewFromComponents() "
 
-	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
+	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
 	newNStrFmtSpecCurrencyValueDto := NumStrFmtSpecCurrencyValueDto{}
 
@@ -1521,7 +1521,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 
 	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.SetCurrencyValDto() "
 
-	numFieldDto := NumberFieldDto{}.New(requestedNumberFieldLen)
+	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
 	nStrFmtSpecCurrValMech :=
 		numStrFmtSpecCurrencyValueDtoMechanics{}

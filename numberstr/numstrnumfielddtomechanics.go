@@ -34,6 +34,14 @@ type numStrNumFieldDtoMechanics struct {
 //       to create number fields of standard lengths for text
 //       presentations.
 //
+//       If 'requestedNumberFieldLen' is set to a value of minus
+//       one (-1), the final number field length will be set to
+//       the length of the actual number string.
+//
+//       If 'requestedNumberFieldLen' is set equal to zero or to a
+//       value less than minus one (-1), it will be automatically
+//       converted to minus one (-1).
+//
 //
 //  textJustify         StrOpsTextJustify
 //     - An enumeration value used to specify the type of text
