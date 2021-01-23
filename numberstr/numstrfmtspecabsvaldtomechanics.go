@@ -59,8 +59,10 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 		return err
 	}
 
-	newNStrFmtSpecAbsValDto.numFieldLenDto.CopyIn(
-		&numFieldLenDto)
+	err =
+		newNStrFmtSpecAbsValDto.numFieldLenDto.CopyIn(
+			&numFieldLenDto,
+			ePrefix+"numFieldLenDto")
 
 	nStrFmtSpecAbsValDtoMolecule :=
 		numStrFmtSpecAbsoluteValueDtoMolecule{}

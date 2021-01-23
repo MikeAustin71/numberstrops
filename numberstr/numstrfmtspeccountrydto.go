@@ -521,6 +521,7 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) New(
 //         SciNotExponentChar                        rune
 //         SciNotExponentUsesLeadingPlus             bool
 //         SciNotNumFieldLen                         int
+//         Lock                                      *sync.Mutex
 //       }
 //
 //
