@@ -9,96 +9,110 @@ type numStrFmtSpecDigitsSeparatorsDtoElectron struct {
 	lock *sync.Mutex
 }
 
-// setDigitsSeps - Transfers new data to an instance of NumStrFmtSpecDigitsSeparatorsDto.
-// After completion, all the data fields within input parameter 'nStrFmtSpecDigitsSepDto'
+// copyIn - Copies the data fields from input parameter
+// 'inComingNStrFmtSpecDigitsSepsDto' to input parameter
+// 'targetNStrFmtSpecDigitsSepsDto'.
+//
+// Be advised - All data fields in 'targetNStrFmtSpecDigitsSepsDto'
 // will be overwritten.
 //
-func (nStrFmtSpecDigitsSepsDtoElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) setDigitsSeps(
-	nStrFmtSpecDigitsSepsDto *NumStrFmtSpecDigitsSeparatorsDto,
-	decimalSeparator rune,
-	integerDigitsSeparator rune,
-	integerDigitsGroupingSequence []uint,
+func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) copyIn(
+	targetNStrFmtSpecDigitsSepsDto *NumStrFmtSpecDigitsSeparatorsDto,
+	inComingNStrFmtSpecDigitsSepsDto *NumStrFmtSpecDigitsSeparatorsDto,
 	ePrefix string) (
 	err error) {
 
-	if nStrFmtSpecDigitsSepsDtoElectron.lock == nil {
-		nStrFmtSpecDigitsSepsDtoElectron.lock = new(sync.Mutex)
+	if nStrFmtSpecDigitsSepsElectron.lock == nil {
+		nStrFmtSpecDigitsSepsElectron.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecDigitsSepsDtoElectron.lock.Lock()
+	nStrFmtSpecDigitsSepsElectron.lock.Lock()
 
-	defer nStrFmtSpecDigitsSepsDtoElectron.lock.Unlock()
+	defer nStrFmtSpecDigitsSepsElectron.lock.Unlock()
 
-	if len(ePrefix) > 0 {
-		ePrefix += "\n"
+	ePrefix += "\nnumStrFmtSpecDigitsSeparatorsDtoElectron.copyIn()\n"
+
+	if targetNStrFmtSpecDigitsSepsDto == nil {
+		err = fmt.Errorf("%v"+
+			"Error: Input parameter 'targetNStrFmtSpecDigitsSepsDto' is"+
+			" a 'nil' pointer!\n",
+			ePrefix)
+		return err
 	}
 
-	ePrefix += "numStrFmtSpecDigitsSeparatorsDtoElectron.setDigitsSeps() "
+	if inComingNStrFmtSpecDigitsSepsDto == nil {
+		err = fmt.Errorf("%v"+
+			"Error: Input parameter 'inComingNStrFmtSpecDigitsSepsDto' is"+
+			" a 'nil' pointer!\n",
+			ePrefix)
+		return err
+	}
+
+	targetNStrFmtSpecDigitsSepsDto.decimalSeparator =
+		inComingNStrFmtSpecDigitsSepsDto.decimalSeparator
+
+	targetNStrFmtSpecDigitsSepsDto.integerDigitsSeparator =
+		inComingNStrFmtSpecDigitsSepsDto.integerDigitsSeparator
+
+	lenIntDigitsGroupSeq :=
+		len(inComingNStrFmtSpecDigitsSepsDto.integerDigitsGroupingSequence)
+
+	targetNStrFmtSpecDigitsSepsDto.integerDigitsGroupingSequence =
+		make([]uint, lenIntDigitsGroupSeq, lenIntDigitsGroupSeq+5)
+
+	if lenIntDigitsGroupSeq == 0 {
+		return
+	}
+
+	_ =
+		copy(targetNStrFmtSpecDigitsSepsDto.integerDigitsGroupingSequence,
+			inComingNStrFmtSpecDigitsSepsDto.integerDigitsGroupingSequence)
+
+	return err
+}
+
+// copyOut - Returns a deep copy of input parameter
+// 'nStrFmtSpecDigitsSepsDto' styled as a new instance
+// of NumStrFmtSpecDigitsSeparatorsDto.
+//
+func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) copyOut(
+	nStrFmtSpecDigitsSepsDto *NumStrFmtSpecDigitsSeparatorsDto,
+	ePrefix string) (
+	newDigitsSepsDto NumStrFmtSpecDigitsSeparatorsDto,
+	err error) {
+
+	ePrefix += "\nnumStrFmtSpecDigitsSeparatorsDtoElectron.copyOut() "
 
 	if nStrFmtSpecDigitsSepsDto == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDigitsSepsDto' is invalid!\n"+
-			"'nStrFmtSpecDigitsSepsDto' is a 'nil' pointer\n",
+			"Error: Input parameter 'nStrFmtSpecDigitsSepsDto' is"+
+			" a 'nil' pointer!\n",
 			ePrefix)
 
-		return err
+		return newDigitsSepsDto, err
 	}
-
-	if nStrFmtSpecDigitsSepsDto.lock == nil {
-		nStrFmtSpecDigitsSepsDto.lock = new(sync.Mutex)
-	}
-
-	lenIntDigitsGroupingSequence :=
-		len(integerDigitsGroupingSequence)
-
-	if lenIntDigitsGroupingSequence == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'integerDigitsGroupingSequence' is invalid!\n"+
-			"'integerDigitsGroupingSequence' is a zero length array or empty array.\n",
-			ePrefix)
-
-		return err
-	}
-
-	newDigitsSepsDto := NumStrFmtSpecDigitsSeparatorsDto{}
 
 	newDigitsSepsDto.decimalSeparator =
-		decimalSeparator
+		nStrFmtSpecDigitsSepsDto.decimalSeparator
 
 	newDigitsSepsDto.integerDigitsSeparator =
-		integerDigitsSeparator
+		nStrFmtSpecDigitsSepsDto.integerDigitsSeparator
+
+	lenIntDigitsGroupingSequence :=
+		len(nStrFmtSpecDigitsSepsDto.integerDigitsGroupingSequence)
 
 	newDigitsSepsDto.integerDigitsGroupingSequence =
-		make([]uint, 0, 10)
+		make([]uint, lenIntDigitsGroupingSequence)
 
-	newDigitsSepsDto.integerDigitsGroupingSequence =
-		make([]uint, lenIntDigitsGroupingSequence, 10)
-
-	for i := 0; i < lenIntDigitsGroupingSequence; i++ {
-		newDigitsSepsDto.integerDigitsGroupingSequence[i] =
-			integerDigitsGroupingSequence[i]
+	if lenIntDigitsGroupingSequence == 0 {
+		return newDigitsSepsDto, err
 	}
+
+	_ = copy(
+		newDigitsSepsDto.integerDigitsGroupingSequence,
+		nStrFmtSpecDigitsSepsDto.integerDigitsGroupingSequence)
 
 	newDigitsSepsDto.lock = new(sync.Mutex)
 
-	nStrFmtSpecDigitsSepsQuark := numStrFmtSpecDigitsSeparatorsDtoQuark{}
-	_,
-		err =
-		nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
-			&newDigitsSepsDto,
-			ePrefix+
-				"\nTesting validity of preliminary 'newDigitsSepsDto'\n ")
-
-	if err != nil {
-		return err
-	}
-
-	err =
-		nStrFmtSpecDigitsSepsQuark.copyIn(
-			nStrFmtSpecDigitsSepsDto,
-			&newDigitsSepsDto,
-			ePrefix+
-				"\nnewDigitsSepsDto->nStrFmtSpecDigitsSepsDto\n ")
-
-	return err
+	return newDigitsSepsDto, err
 }

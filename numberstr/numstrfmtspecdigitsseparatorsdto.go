@@ -53,9 +53,12 @@ type NumStrFmtSpecDigitsSeparatorsDto struct {
 }
 
 // CopyIn - Copies the data fields from an incoming
-// NumStrFmtSpecDigitsSeparatorsDto instance  to the data fields
+// NumStrFmtSpecDigitsSeparatorsDto instance to the data fields
 // of the current instance of NumStrFmtSpecDigitsSeparatorsDto
 // instance.
+//
+// This method will OVERWRITE the data fields of the current
+// NumStrFmtSpecDigitsSeparatorsDto instance.
 //
 func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) CopyIn(
 	incomingSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto,
@@ -75,10 +78,10 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) CopyIn(
 
 	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.CopyIn() "
 
-	nStrFmtSpecDigitsSepsQuark :=
-		numStrFmtSpecDigitsSeparatorsDtoQuark{}
+	nStrFmtSpecDigitsSepsElectron :=
+		numStrFmtSpecDigitsSeparatorsDtoElectron{}
 
-	return nStrFmtSpecDigitsSepsQuark.copyIn(
+	return nStrFmtSpecDigitsSepsElectron.copyIn(
 		nStrFmtSpecDigitsSepDto,
 		incomingSpecDigitsSepDto,
 		ePrefix)
@@ -97,11 +100,11 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) CopyOut() NumSt
 
 	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
 
-	nStrFmtSpecDigitsSepsQuark :=
-		numStrFmtSpecDigitsSeparatorsDtoQuark{}
+	nStrFmtSpecDigitsSepsElectron :=
+		numStrFmtSpecDigitsSeparatorsDtoElectron{}
 
 	newDigitsSepDto,
-		_ := nStrFmtSpecDigitsSepsQuark.copyOut(
+		_ := nStrFmtSpecDigitsSepsElectron.copyOut(
 		nStrFmtSpecDigitsSepDto,
 		"")
 
@@ -392,10 +395,10 @@ func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) New(
 
 	newDigitsSepsDto := NumStrFmtSpecDigitsSeparatorsDto{}
 
-	nStrFmtSpecDigitsSepsDtoElectron :=
-		numStrFmtSpecDigitsSeparatorsDtoElectron{}
+	nStrFmtSpecDigitsSepsDtoMech :=
+		numStrFmtSpecDigitsSepsDtoMechanics{}
 
-	err := nStrFmtSpecDigitsSepsDtoElectron.setDigitsSeps(
+	err := nStrFmtSpecDigitsSepsDtoMech.setDigitsSeps(
 		&newDigitsSepsDto,
 		decimalSeparator,
 		integerDigitsSeparator,
@@ -514,10 +517,10 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetDigitsSeps(
 
 	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.SetDigitsSeps() "
 
-	nStrFmtSpecDigitsSepsDtoElectron :=
-		numStrFmtSpecDigitsSeparatorsDtoElectron{}
+	nStrFmtSpecDigitsSepsDtoMech :=
+		numStrFmtSpecDigitsSepsDtoMechanics{}
 
-	return nStrFmtSpecDigitsSepsDtoElectron.setDigitsSeps(
+	return nStrFmtSpecDigitsSepsDtoMech.setDigitsSeps(
 		nStrFmtSpecDigitsSepDto,
 		decimalSeparator,
 		integerDigitsSeparator,
