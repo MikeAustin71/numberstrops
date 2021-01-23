@@ -58,6 +58,54 @@ type NumStrFmtSpecSciNotationDto struct {
 	lock                       *sync.Mutex
 }
 
+// CopyIn - Copies the data fields from an incoming instance
+// of NumStrFmtSpecSciNotationDto ('incomingSciNotDto') to the
+// current NumStrFmtSpecSciNotationDto instance.
+//
+// The NumStrFmtSpecSciNotationDto type encapsulates the Scientific
+// Notation format specification used to format number strings for
+// text displays.
+//
+// When this method completes processing current instance of
+// NumStrFmtSpecSciNotationDto and the 'incomingSciNotDto' will
+// have identical data values.
+//
+// This method will overwrite the member variable data values of
+// the current NumStrFmtSpecSciNotationDto instance.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingSciNotDto        *NumStrFmtSpecSciNotationDto
+//     - A pointer to an instance of NumStrFmtSpecSciNotationDto.
+//       The member variable data fields from this instance will be
+//       copied to those contained in the current instance of
+//       NumStrFmtSpecSciNotationDto.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
 func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyIn(
 	incomingSciNotDto *NumStrFmtSpecSciNotationDto,
 	ePrefix string) error {
@@ -72,9 +120,75 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyIn(
 
 	ePrefix += "\nNumStrFmtSpecSciNotationDto.CopyIn()\n"
 
-	return nStrFmtSpecSciNotDto.numFieldLenDto.CopyIn(
-		&incomingSciNotDto.numFieldLenDto,
-		ePrefix)
+	nStrFmtSpecSciNotDtoElectron :=
+		numStrFmtSpecSciNotationDtoElectron{}
+
+	return nStrFmtSpecSciNotDtoElectron.copyIn(
+		nStrFmtSpecSciNotDto,
+		incomingSciNotDto,
+		ePrefix+
+			"incomingSciNotDto->nStrFmtSpecSciNotDto\n")
+}
+
+// CopyOut - Returns a deep copy of the current instance of
+// NumStrFmtSpecSciNotationDto.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                    string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrFmtSpecSciNotationDto
+//     - A new instance of NumStrFmtSpecSciNotationDto containing
+//       data values identical to those contained in the current
+//       NumStrFmtSpecSciNotationDto instance. This returned
+//       instance of NumStrFmtSpecSciNotationDto represents a deep
+//       copy of the current NumStrFmtSpecSciNotationDto instance.
+//
+//
+//  error
+//     - If the method completes successfully and no errors are
+//       encountered this return value is set to 'nil'. Otherwise,
+//       if errors are encountered this return value will contain
+//       an appropriate error message.
+//
+//       If an error message is returned, the input parameter
+//       'ePrefix' (error prefix) will be inserted or prefixed at
+//       the beginning of the error message.
+//
+func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyOut(
+	ePrefix string) (
+	NumStrFmtSpecSciNotationDto,
+	error) {
+
+	if nStrFmtSpecSciNotDto.lock == nil {
+		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSciNotDto.lock.Lock()
+
+	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	ePrefix += "\nNumStrFmtSpecSciNotationDto.CopyOut() "
+
+	nStrFmtSpecSciNotDtoElectron :=
+		numStrFmtSpecSciNotationDtoElectron{}
+
+	return nStrFmtSpecSciNotDtoElectron.copyOut(
+		nStrFmtSpecSciNotDto,
+		ePrefix+
+			"nStrFmtSpecSciNotDto->\n")
 }
 
 // SetExponentChar - Sets the exponent character which will be

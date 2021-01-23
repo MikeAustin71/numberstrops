@@ -121,7 +121,7 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 	return err
 }
 
-// CopyOut - Returns a deep copy of the NumberFieldDto instance
+// copyOut - Returns a deep copy of the NumberFieldDto instance
 // passed as input parameter, 'numFieldDto'.
 //
 //
@@ -136,7 +136,7 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 //       ('newNumFieldDto'), which is returned to the caller.
 //
 //
-//  ePrefix             string
+//  ePrefix                    string
 //     - This is an error prefix which is included in all returned
 //       error messages. Usually, it contains the names of the calling
 //       method or methods. Be sure to leave a space at the end
@@ -154,7 +154,7 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 //       represents a deep copy of input parameter, 'numFieldDto'.
 //
 //
-//  err                 error
+//  err                        error
 //     - If the method completes successfully and no errors are
 //       encountered this return value is set to 'nil'. Otherwise,
 //       if errors are encountered this return value will contain
@@ -188,6 +188,18 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyOut(
 
 	if numFieldDto.lock == nil {
 		numFieldDto.lock = new(sync.Mutex)
+	}
+
+	nStrNFldDtoQuark := numStrNumFieldDtoQuark{}
+
+	_,
+		err = nStrNFldDtoQuark.testValidityNumberFieldDto(
+		numFieldDto,
+		ePrefix+"\n"+
+			"Testing Validity of 'numFieldDto' ")
+
+	if err != nil {
+		return newNumFieldDto, err
 	}
 
 	newNumFieldDto.requestedNumFieldLength =
