@@ -13,8 +13,11 @@ type numStrFmtSpecDigitsSeparatorsDtoElectron struct {
 // 'inComingNStrFmtSpecDigitsSepsDto' to input parameter
 // 'targetNStrFmtSpecDigitsSepsDto'.
 //
-// Be advised - All data fields in 'targetNStrFmtSpecDigitsSepsDto'
-// will be overwritten.
+// If 'inComingNStrFmtSpecDigitsSepsDto' is judged to be invalid,
+// this method will return an error.
+//
+// This method will OVERWRITE the data fields of the
+// 'targetNStrFmtSpecDigitsSepsDto' instance.
 //
 func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) copyIn(
 	targetNStrFmtSpecDigitsSepsDto *NumStrFmtSpecDigitsSeparatorsDto,
@@ -45,6 +48,24 @@ func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) c
 			"Error: Input parameter 'inComingNStrFmtSpecDigitsSepsDto' is"+
 			" a 'nil' pointer!\n",
 			ePrefix)
+		return err
+	}
+
+	if targetNStrFmtSpecDigitsSepsDto.lock == nil {
+		targetNStrFmtSpecDigitsSepsDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDigitsSepsQuark :=
+		numStrFmtSpecDigitsSeparatorsDtoQuark{}
+
+	_,
+		err =
+		nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
+			inComingNStrFmtSpecDigitsSepsDto,
+			ePrefix+
+				"Testing validity of 'inComingNStrFmtSpecDigitsSepsDto'\n")
+
+	if err != nil {
 		return err
 	}
 

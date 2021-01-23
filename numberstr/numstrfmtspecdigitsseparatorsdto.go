@@ -57,6 +57,9 @@ type NumStrFmtSpecDigitsSeparatorsDto struct {
 // of the current instance of NumStrFmtSpecDigitsSeparatorsDto
 // instance.
 //
+// If the incoming NumStrFmtSpecDigitsSeparatorsDto is judged to be
+// invalid, this method will return an error.
+//
 // This method will OVERWRITE the data fields of the current
 // NumStrFmtSpecDigitsSeparatorsDto instance.
 //
