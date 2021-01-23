@@ -40,10 +40,10 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) CopyIn(
 
 	ePrefix += "NumStrFmtSpecCountryDto.CopyIn() "
 
-	nStrFmtSpecCntryQuark :=
-		numStrFmtSpecCountryDtoQuark{}
+	nStrFmtSpecCntryElectron :=
+		numStrFmtSpecCountryDtoElectron{}
 
-	return nStrFmtSpecCntryQuark.copyIn(
+	return nStrFmtSpecCntryElectron.copyIn(
 		nStrFmtSpecCntryDto,
 		inComingSpecCntryDto,
 		ePrefix)
@@ -52,7 +52,10 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) CopyIn(
 // CopyOut - Returns a deep copy of the current
 // NumStrFmtSpecCountryDto instance.
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) CopyOut() NumStrFmtSpecCountryDto {
+func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) CopyOut(
+	ePrefix string) (
+	NumStrFmtSpecCountryDto,
+	error) {
 
 	if nStrFmtSpecCntryDto.lock == nil {
 		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
@@ -62,16 +65,14 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) CopyOut() NumStrFmtSpecCount
 
 	defer nStrFmtSpecCntryDto.lock.Unlock()
 
-	nStrFmtSpecCntryQuark :=
-		numStrFmtSpecCountryDtoQuark{}
+	ePrefix += "NumStrFmtSpecCountryDto.CopyOut() "
 
-	newFmtSpecCntryDto,
-		_ :=
-		nStrFmtSpecCntryQuark.copyOut(
-			nStrFmtSpecCntryDto,
-			"")
+	nStrFmtSpecCntryElectron :=
+		numStrFmtSpecCountryDtoElectron{}
 
-	return newFmtSpecCntryDto
+	return nStrFmtSpecCntryElectron.copyOut(
+		nStrFmtSpecCntryDto,
+		ePrefix+"nStrFmtSpecCntryDto->\n")
 }
 
 // GetIdNo - Returns the value of member variable 'idNo'.
