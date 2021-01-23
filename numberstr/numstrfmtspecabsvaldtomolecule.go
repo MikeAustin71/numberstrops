@@ -10,7 +10,7 @@ type numStrFmtSpecAbsoluteValueDtoMolecule struct {
 }
 
 // testValidityOfAbsoluteValDto - Receives an instance of
-// numStrFmtSpecAbsoluteValueDtoAtom and proceeds to test the
+// NumStrFmtSpecAbsoluteValueDto and proceeds to test the
 // validity of the member data fields.
 //
 // If one or more data elements are found to be invalid, an

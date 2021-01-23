@@ -238,10 +238,30 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetTag() string {
 	return nStrFmtSpecCntryDto.tag
 }
 
-// HasData - Returns 'true' if any of the significant data fields has
-// a non-zero value. If all of the data fields have zero value, this
-// method returns 'false'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) HasData() bool {
+// IsValidInstance - Performs a diagnostic review of the current
+// NumStrFmtSpecCountryDto instance to determine whether
+// the current instance is valid in all respects.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  --- NONE ---
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  isValid             bool
+//     - This returned boolean value will signal whether the current
+//       NumStrFmtSpecCountryDto is valid, or not. If the current
+//       NumStrFmtSpecCountryDto contains valid data, this method
+//       returns 'true'. If the data is invalid, this method will
+//       return 'false'.
+//
+func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) IsValidInstance() bool {
 
 	if nStrFmtSpecCntryDto.lock == nil {
 		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
@@ -254,12 +274,68 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) HasData() bool {
 	nStrFmtSpecCntryQuark :=
 		numStrFmtSpecCountryDtoQuark{}
 
-	hasData,
-		_ := nStrFmtSpecCntryQuark.hasData(
+	isValid,
+		_ := nStrFmtSpecCntryQuark.testValidityOfCountryDto(
 		nStrFmtSpecCntryDto,
 		"")
 
-	return hasData
+	return isValid
+}
+
+// IsValidInstanceError - Performs a diagnostic review of the current
+// NumStrFmtSpecCountryDto instance to determine whether the current
+// instance is valid in all respects.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+//       If this instance of NumStrFmtSpecCountryDto contains
+//       invalid data, a detailed error message will be returned
+//       identifying the invalid data item.
+//
+func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) IsValidInstanceError(
+	ePrefix string) error {
+
+	if nStrFmtSpecCntryDto.lock == nil {
+		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCntryDto.lock.Lock()
+
+	defer nStrFmtSpecCntryDto.lock.Unlock()
+
+	ePrefix += "\nNumStrFmtSpecCountryDto.IsValidInstanceError() "
+
+	nStrFmtSpecCntryQuark := numStrFmtSpecCountryDtoQuark{}
+
+	_,
+		err := nStrFmtSpecCntryQuark.testValidityOfCountryDto(
+		nStrFmtSpecCntryDto,
+		ePrefix)
+
+	return err
 }
 
 // New() - Creates and returns a new instance of NumStrFmtSpecDigitsSeparatorsDto.

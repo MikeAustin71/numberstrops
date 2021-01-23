@@ -9,15 +9,18 @@ type numStrFmtSpecCountryDtoQuark struct {
 	lock *sync.Mutex
 }
 
-// hasData - Examines an instance of NumStrFmtSpecCountryDto.
-// If any of the member variables have non-zero values, this
-// method returns 'true'. If all member variables are set to
-// their zero values, this method returns, 'false'.
+// testValidityOfCountryDto - Receives an instance of
+// NumStrFmtSpecCountryDto and proceeds to test the
+// validity of the member data fields.
 //
-func (nStrFmtSpecCntryQuark *numStrFmtSpecCountryDtoQuark) hasData(
+// If one or more data elements are found to be invalid, an
+// error is returned and the return boolean parameter, 'isValid',
+// is set to 'false'.
+//
+func (nStrFmtSpecCntryQuark *numStrFmtSpecCountryDtoQuark) testValidityOfCountryDto(
 	nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto,
 	ePrefix string) (
-	hasData bool,
+	isValid bool,
 	err error) {
 
 	if nStrFmtSpecCntryQuark.lock == nil {
@@ -28,9 +31,9 @@ func (nStrFmtSpecCntryQuark *numStrFmtSpecCountryDtoQuark) hasData(
 
 	defer nStrFmtSpecCntryQuark.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecCountryDtoQuark.hasData() "
+	ePrefix += "\nnumStrFmtSpecCountryDtoQuark.testValidityOfCountryDto() "
 
-	hasData = false
+	isValid = false
 
 	if nStrFmtSpecCntryDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -38,41 +41,22 @@ func (nStrFmtSpecCntryQuark *numStrFmtSpecCountryDtoQuark) hasData(
 			"'nStrFmtSpecCntryDto' is a 'nil' pointer\n",
 			ePrefix)
 
-		return hasData, err
+		return isValid, err
 	}
 
-	hasData = true
+	isValid = false
 
-	if len(nStrFmtSpecCntryDto.idString) > 0 {
-		return hasData, err
+	if len(nStrFmtSpecCntryDto.countryCultureName) == 0 {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: countryCultureName is Empty!\n",
+			ePrefix)
+
+		return isValid, err
 	}
 
-	if len(nStrFmtSpecCntryDto.countryCultureName) > 0 {
-		return hasData, err
-	}
-
-	if len(nStrFmtSpecCntryDto.abbreviatedCountryName) > 0 {
-		return hasData, err
-	}
-
-	if len(nStrFmtSpecCntryDto.alternateCountryNames) > 0 {
-		return hasData, err
-	}
-
-	if len(nStrFmtSpecCntryDto.countryCodeTwoChar) > 0 {
-		return hasData, err
-	}
-
-	if len(nStrFmtSpecCntryDto.countryCodeThreeChar) > 0 {
-		return hasData, err
-	}
-
-	if len(nStrFmtSpecCntryDto.countryCodeNumber) > 0 {
-		return hasData, err
-	}
-
-	hasData = false
-	return hasData, err
+	isValid = true
+	return isValid, err
 }
 
 // setCountryDto - Transfers new data to an instance of NumStrFmtSpecCountryDto.
