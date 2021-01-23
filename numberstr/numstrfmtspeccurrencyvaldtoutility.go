@@ -5,14 +5,17 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecCurrencyValueDtoMechanics struct {
+type numStrFmtSpecCurrencyValueDtoUtility struct {
 	lock *sync.Mutex
 }
 
-// setCurrencyValDtoFromComponents - Transfers new data to an instance of
-// NumStrFmtSpecCurrencyValueDto. After completion, all the data
-// fields within input parameter 'nStrFmtSpecCurrencyValDto' will be
-// overwritten.
+// setAbsValDtoWithDefaults() - Sets the data values for an
+// instance NumStrFmtSpecAbsoluteValueDto passed as an input
+// parameter.
+//
+// The NumStrFmtSpecAbsoluteValueDto type encapsulates the
+// formatting parameters necessary to format absolute numeric
+// values for display in text number strings.
 //
 //
 // ----------------------------------------------------------------
@@ -266,53 +269,44 @@ type numStrFmtSpecCurrencyValueDtoMechanics struct {
 //            Example: '1000000000'
 //
 //
-//  numberSeparatorsDto           NumStrFmtSpecDigitsSeparatorsDto
-//     - This instance of 'NumStrFmtSpecDigitsSeparatorsDto' is
-//       used to specify the separator characters which will be
-//       including in the number string text display.
-//
-//        type NumStrFmtSpecDigitsSeparatorsDto struct {
-//         decimalSeparator              rune
-//         integerDigitsSeparator        rune
-//         integerDigitsGroupingSequence []uint
-//        }
-//
-//        decimalSeparator rune
-//
-//        The 'Decimal Separator' is used to separate integer and
-//        fractional digits within a floating point number display.
-//
-//        integerDigitsSeparator rune
-//
-//        This type also encapsulates the integer digits separator, often
-//        referred to as the 'Thousands Separator'. This is used to
-//        separate thousands digits within the integer component of a
-//        number string.
-//
-//        integerDigitsGroupingSequence []uint
-//
-//        Related to the integer digits separator, the integer digits
-//        grouping sequence is also encapsulated in this type. The integer
-//        digits grouping sequence is used to identify the digits which
-//        will be grouped and separated by the integer digits separator.
-//
-//        In most western countries integer digits to the left of the
-//        decimal separator (a.k.a. decimal point) are separated into
-//        groups of three digits representing a grouping of 'thousands'
-//        like this: '1,000,000,000,000'. In this case the parameter
-//        integer digits grouping sequence would be configured as:
-//                     integerDigitsGroupingSequence = []uint{3}
-//
-//        In some countries and cultures other integer groupings are used.
-//        In India, for example, a number might be formatted as like this:
-//                      '6,78,90,00,00,00,00,000'
-//        The right most group has three digits and all the others are
-//        grouped by two. In this case integer digits grouping sequence
-//        would be configured as:
-//                     integerDigitsGroupingSequence = []uint{3,2}
+//  decimalSeparatorChar       rune
+//     - The character used to separate integer and fractional
+//       digits in a floating point number string. In the United
+//       States, the Decimal Separator character is the period
+//       ('.') or Decimal Point.
+//           Example: '123.45678'
 //
 //
-//  requestedNumberFieldLen      int
+//  thousandsSeparatorChar     rune
+//     - The character which will be used to delimit 'thousands' in
+//       integer number strings. In the United States, the Thousands
+//       separator is the comma character (',').
+//           Example: '1,000,000,000'
+//
+//
+//  integerDigitsGroupingSequence  []uint
+//     - Sets the integer digit grouping sequence for this instance
+//       of NumStrFmtSpecAbsoluteValueDto. This grouping is
+//       referred to as 'thousands' grouping when the integer
+//       grouping is set to three digits (1,000,000,000).
+//
+//       In most western countries integer digits to the left of the
+//       decimal separator (a.k.a. decimal point) are separated into
+//       groups of three digits representing a grouping of 'thousands'
+//       like this: '1,000,000,000,000'. In this case the parameter
+//       'integerDigitsGroupingSequence' would be configured as:
+//              integerDigitsGroupingSequence = []uint{3}
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted as
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerDigitsGroupingSequence' would be configured
+//       as:
+//              integerDigitsGroupingSequence = []uint{3,2}
+//
+//
+//  requestedNumberFieldLen    int
 //     - This is the requested length of the number field in which
 //       the number string will be displayed. If this field length
 //       is greater than the actual length of the number string,
@@ -325,7 +319,7 @@ type numStrFmtSpecCurrencyValueDtoMechanics struct {
 //       presentations.
 //
 //
-//  ePrefix                       string
+//  ePrefix             string
 //     - This is an error prefix which is included in all returned
 //       error messages. Usually, it contains the names of the calling
 //       method or methods. Note: Be sure to leave a space at the end
@@ -336,7 +330,7 @@ type numStrFmtSpecCurrencyValueDtoMechanics struct {
 //
 // Return Values
 //
-//  err                           error
+//  err                  error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'. If errors are encountered during
 //       processing, the returned error Type will encapsulate an error
@@ -345,7 +339,7 @@ type numStrFmtSpecCurrencyValueDtoMechanics struct {
 //       The 'ePrefix' text will be prefixed to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrencyValDtoFromComponents(
+func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrValDtoWithDefaults(
 	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
 	positiveValueFmt string,
 	negativeValueFmt string,
@@ -354,83 +348,66 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	currencyName string,
 	currencySymbol rune,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumStrFmtSpecDigitsSeparatorsDto,
-	numFieldLenDto NumberFieldDto,
+	decimalSeparatorChar rune,
+	thousandsSeparatorChar rune,
+	integerDigitsGroupingSequence []uint,
+	requestedNumberFieldLen int,
 	ePrefix string) (
 	err error) {
 
-	if nStrFmtSpecCurrValMech.lock == nil {
-		nStrFmtSpecCurrValMech.lock = new(sync.Mutex)
+	if nStrFmtSpecCurrValDtoUtil.lock == nil {
+		nStrFmtSpecCurrValDtoUtil.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValMech.lock.Lock()
+	nStrFmtSpecCurrValDtoUtil.lock.Lock()
 
-	defer nStrFmtSpecCurrValMech.lock.Unlock()
+	defer nStrFmtSpecCurrValDtoUtil.lock.Unlock()
 
-	if len(ePrefix) > 0 {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecCurrencyValueDtoMechanics.setCurrencyValDtoFromComponents() "
+	ePrefix += "\nnStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults() "
 
 	if nStrFmtSpecCurrencyValDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecCurrencyValDto' is invalid!\n"+
-			"'nStrFmtSpecCurrencyValDto' is a 'nil' pointer\n",
+			"'nStrFmtSpecCurrencyValDto' is a 'nil' pointer.\n",
 			ePrefix)
-
 		return err
 	}
 
-	newNStrFmtSpecCurrencyValDto := NumStrFmtSpecCurrencyValueDto{}
+	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
-	newNStrFmtSpecCurrencyValDto.positiveValueFmt =
-		positiveValueFmt
+	var numberSeparatorsDto NumStrFmtSpecDigitsSeparatorsDto
 
-	newNStrFmtSpecCurrencyValDto.negativeValueFmt =
-		negativeValueFmt
-
-	newNStrFmtSpecCurrencyValDto.decimalDigits =
-		decimalDigits
-
-	newNStrFmtSpecCurrencyValDto.currencyCode =
-		currencyCode
-
-	newNStrFmtSpecCurrencyValDto.currencyName =
-		currencyName
-
-	newNStrFmtSpecCurrencyValDto.currencySymbol =
-		currencySymbol
-
-	newNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation =
-		turnOnIntegerDigitsSeparation
-
-	err =
-		newNStrFmtSpecCurrencyValDto.numberSeparatorsDto.CopyIn(
-			&numberSeparatorsDto,
-			ePrefix+
-				"\nnumberSeparatorsDto->newNStrFmtSpecCurrencyValDto\n ")
+	numberSeparatorsDto,
+		err = NumStrFmtSpecDigitsSeparatorsDto{}.NewFromComponents(
+		decimalSeparatorChar,
+		thousandsSeparatorChar,
+		integerDigitsGroupingSequence,
+		ePrefix+
+			fmt.Sprintf("\n"+
+				"decimalSeparatorChar='%v'\n"+
+				"thousandsSeparatorChar='%v'\n",
+				decimalSeparatorChar,
+				thousandsSeparatorChar))
 
 	if err != nil {
 		return err
 	}
 
-	err =
-		newNStrFmtSpecCurrencyValDto.numFieldLenDto.CopyIn(
-			&numFieldLenDto,
-			ePrefix+
-				" numFieldLenDto->\n")
+	nStrFmtSpecCurrValMech :=
+		numStrFmtSpecCurrencyValueDtoMechanics{}
 
-	nStrFmtSpecCurrValNanobot :=
-		numStrFmtSpecCurrencyValueDtoNanobot{}
-
-	err =
-		nStrFmtSpecCurrValNanobot.copyIn(
-			nStrFmtSpecCurrencyValDto,
-			&newNStrFmtSpecCurrencyValDto,
-			ePrefix+
-				"\nnewNStrFmtSpecCurrencyValDto-> "+
-				"nStrFmtSpecCurrencyValDto\n ")
+	err = nStrFmtSpecCurrValMech.setCurrencyValDtoFromComponents(
+		nStrFmtSpecCurrencyValDto,
+		positiveValueFmt,
+		negativeValueFmt,
+		decimalDigits,
+		currencyCode,
+		currencyName,
+		currencySymbol,
+		turnOnIntegerDigitsSeparation,
+		numberSeparatorsDto,
+		numFieldDto,
+		ePrefix)
 
 	return err
 }

@@ -412,7 +412,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 	return err
 }
 
-// New() - Creates and returns a new instance of
+// NewWithDefaults() - Creates and returns a new instance of
 // NumStrFmtSpecCurrencyValueDto.
 //
 // This variant of the 'NumStrFmtSpecCurrencyValueDto.New()'
@@ -727,7 +727,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //       The 'ePrefix' text will be prefixed to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) New(
+func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -750,35 +750,30 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) New(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.New() "
+	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.NewWithDefaults() "
 
-	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
+	newNStrFmtSpecCurrencyValDto :=
+		NumStrFmtSpecCurrencyValueDto{}
 
-	newNStrFmtSpecCurrencyValDto := NumStrFmtSpecCurrencyValueDto{}
+	nStrFmtSpecCurrValDtoUtil :=
+		numStrFmtSpecCurrencyValueDtoUtility{}
 
-	numberSeparatorsDto,
-		err := NumStrFmtSpecDigitsSeparatorsDto{}.NewFromComponents(
-		decimalSeparatorChar,
-		thousandsSeparatorChar,
-		[]uint{3},
-		ePrefix)
-
-	nStrFmtSpecCurrValMech :=
-		numStrFmtSpecCurrencyValueDtoMechanics{}
-
-	err = nStrFmtSpecCurrValMech.setCurrencyValDto(
-		&newNStrFmtSpecCurrencyValDto,
-		positiveValueFmt,
-		negativeValueFmt,
-		decimalDigits,
-		currencyCode,
-		currencyName,
-		currencySymbol,
-		turnOnIntegerDigitsSeparation,
-		numberSeparatorsDto,
-		numFieldDto,
-		ePrefix+
-			"\n Setting 'newNStrFmtSpecCurrencyValDto'\n ")
+	err :=
+		nStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults(
+			&newNStrFmtSpecCurrencyValDto,
+			positiveValueFmt,
+			negativeValueFmt,
+			decimalDigits,
+			currencyCode,
+			currencyName,
+			currencySymbol,
+			turnOnIntegerDigitsSeparation,
+			decimalSeparatorChar,
+			thousandsSeparatorChar,
+			[]uint{3},
+			requestedNumberFieldLen,
+			ePrefix+
+				"\n Setting 'newNStrFmtSpecCurrencyValDto'\n ")
 
 	return newNStrFmtSpecCurrencyValDto, err
 }
@@ -1150,7 +1145,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 	nStrFmtSpecCurrValMech :=
 		numStrFmtSpecCurrencyValueDtoMechanics{}
 
-	err := nStrFmtSpecCurrValMech.setCurrencyValDto(
+	err := nStrFmtSpecCurrValMech.setCurrencyValDtoFromComponents(
 		&newNStrFmtSpecCurrencyValueDto,
 		positiveValueFmt,
 		negativeValueFmt,
@@ -1167,7 +1162,140 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 	return newNStrFmtSpecCurrencyValueDto, err
 }
 
-// SetCurrencyValDto() - This method will set all of the member
+// NewFromFmtSpecSetupDto - Creates and returns a new
+// NumStrFmtSpecAbsoluteValueDto instance based on input received
+// from an instance of NumStrFmtSpecSetupDto.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
+//     - A data structure conveying setup information for a
+//       NumStrFmtSpecAbsoluteValueDto object. Only the following
+//       data fields with a prefix of "AbsoluteVal" are used.
+//
+//       type NumStrFmtSpecSetupDto struct {
+//         IdNo                                      uint64
+//         IdString                                  string
+//         Description                               string
+//         Tag                                       string
+//         CountryIdNo                               uint64
+//         CountryIdString                           string
+//         CountryDescription                        string
+//         CountryTag                                string
+//         CountryCultureName                        string
+//         CountryAbbreviatedName                    string
+//         CountryAlternateNames                     []string
+//         CountryCodeTwoChar                        string
+//         CountryCodeThreeChar                      string
+//         CountryCodeNumber                         string
+//         AbsoluteValFmt                            string
+//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
+//         AbsoluteValNumFieldLen                    int
+//         CurrencyPositiveValueFmt                  string
+//         CurrencyNegativeValueFmt                  string
+//         CurrencyDecimalDigits                     int
+//         CurrencyCode                              string
+//         CurrencyName                              string
+//         CurrencySymbol                            rune
+//         CurrencyTurnOnIntegerDigitsSeparation     bool
+//         CurrencyNumFieldLen                       int
+//         DecimalSeparator                          rune
+//         IntegerDigitsSeparator                    rune
+//         IntegerDigitsGroupingSequence             []uint
+//         SignedNumValPositiveValueFmt              string
+//         SignedNumValNegativeValueFmt              string
+//         SignedNumValTurnOnIntegerDigitsSeparation bool
+//         SignedNumValNumFieldLen                   int
+//         SciNotMantissaLength                      uint
+//         SciNotExponentChar                        rune
+//         SciNotExponentUsesLeadingPlus             bool
+//         SciNotNumFieldLen                         int
+//         Lock                                      *sync.Mutex
+//       }
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrFmtSpecAbsoluteValueDto
+//     - If this method completes successfully, a new instance of
+//       NumStrFmtSpecAbsoluteValueDto will be returned to the
+//       caller.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDto(
+	fmtSpecSetupDto NumStrFmtSpecSetupDto,
+	ePrefix string) (
+	NumStrFmtSpecCurrencyValueDto,
+	error) {
+
+	if nStrFmtSpecCurrValDto.lock == nil {
+		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDto.lock.Lock()
+
+	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.NewFromFmtSpecSetupDto() "
+
+	newNStrFmtSpecCurrencyValDto :=
+		NumStrFmtSpecCurrencyValueDto{}
+
+	nStrFmtSpecCurrValDtoUtil :=
+		numStrFmtSpecCurrencyValueDtoUtility{}
+
+	if fmtSpecSetupDto.Lock == nil {
+		fmtSpecSetupDto.Lock = new(sync.Mutex)
+	}
+
+	fmtSpecSetupDto.Lock.Lock()
+
+	defer fmtSpecSetupDto.Lock.Unlock()
+
+	err := nStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults(
+		&newNStrFmtSpecCurrencyValDto,
+		fmtSpecSetupDto.CurrencyPositiveValueFmt,
+		fmtSpecSetupDto.CurrencyNegativeValueFmt,
+		fmtSpecSetupDto.CurrencyDecimalDigits,
+		fmtSpecSetupDto.CurrencyCode,
+		fmtSpecSetupDto.CurrencyName,
+		fmtSpecSetupDto.CurrencySymbol,
+		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
+		fmtSpecSetupDto.DecimalSeparator,
+		fmtSpecSetupDto.IntegerDigitsSeparator,
+		fmtSpecSetupDto.IntegerDigitsGroupingSequence,
+		fmtSpecSetupDto.AbsoluteValNumFieldLen,
+		ePrefix)
+
+	return newNStrFmtSpecCurrencyValDto, err
+}
+
+// SetCurrValDtoWithComponents() - This method will set all of the member
 // variable data values for the current instance of
 // NumStrFmtSpecCurrencyValueDto.
 //
@@ -1499,7 +1627,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 //       The 'ePrefix' text will be prefixed to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrValDtoWithComponents(
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -1519,14 +1647,14 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.SetCurrencyValDto() "
+	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.SetCurrValDtoWithComponents() "
 
 	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
 	nStrFmtSpecCurrValMech :=
 		numStrFmtSpecCurrencyValueDtoMechanics{}
 
-	return nStrFmtSpecCurrValMech.setCurrencyValDto(
+	return nStrFmtSpecCurrValMech.setCurrencyValDtoFromComponents(
 		nStrFmtSpecCurrValDto,
 		positiveValueFmt,
 		negativeValueFmt,

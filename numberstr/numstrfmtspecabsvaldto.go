@@ -322,10 +322,9 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 // NewWithDefaults() - Creates and returns a new instance of
 // NumStrFmtSpecAbsoluteValueDto.
 //
-// This variant of the 'NumStrFmtSpecAbsoluteValueDto.New()'
-// method automatically sets a default integer digits grouping
-// sequence of '3'. This means that integers will be grouped by
-// thousands.
+// This method automatically sets a default integer digits
+// grouping sequence of '3'. This means that integers will
+// be grouped by thousands.
 //
 //     Example: '1,000,000,000'
 //

@@ -22,7 +22,7 @@ type NumStrFmtSpecSetupDto struct {
 	AbsoluteValNumFieldLen                    int
 	CurrencyPositiveValueFmt                  string
 	CurrencyNegativeValueFmt                  string
-	CurrencyDecimalDigits                     int
+	CurrencyDecimalDigits                     uint
 	CurrencyCode                              string
 	CurrencyName                              string
 	CurrencySymbol                            rune
