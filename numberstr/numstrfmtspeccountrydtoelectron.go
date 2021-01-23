@@ -48,6 +48,18 @@ func (nStrFmtSpecCntryElectron *numStrFmtSpecCountryDtoElectron) copyIn(
 		return err
 	}
 
+	nStrFmtSpecCntryQuark := numStrFmtSpecCountryDtoQuark{}
+
+	_,
+		err = nStrFmtSpecCntryQuark.testValidityOfCountryDto(
+		inComingNStrFmtSpecCntryDto,
+		ePrefix+
+			"\nTesting validity of 'inComingNStrFmtSpecCntryDto'\n")
+
+	if err != nil {
+		return err
+	}
+
 	targetNStrFmtSpecCntryDto.idNo =
 		inComingNStrFmtSpecCntryDto.idNo
 
@@ -112,6 +124,18 @@ func (nStrFmtSpecCntryElectron *numStrFmtSpecCountryDtoElectron) copyOut(
 			"Error: Input parameter 'nStrFmtSpecCntryDto' is"+
 			" a 'nil' pointer!\n",
 			ePrefix)
+		return newFmtSpecCntryDto, err
+	}
+
+	nStrFmtSpecCntryQuark := numStrFmtSpecCountryDtoQuark{}
+
+	_,
+		err = nStrFmtSpecCntryQuark.testValidityOfCountryDto(
+		nStrFmtSpecCntryDto,
+		ePrefix+
+			"\nTesting validity of 'nStrFmtSpecCntryDto'\n")
+
+	if err != nil {
 		return newFmtSpecCntryDto, err
 	}
 
