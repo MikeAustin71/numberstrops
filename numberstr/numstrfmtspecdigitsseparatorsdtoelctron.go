@@ -113,6 +113,20 @@ func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) c
 		return newDigitsSepsDto, err
 	}
 
+	nStrFmtSpecDigitsSepsQuark :=
+		numStrFmtSpecDigitsSeparatorsDtoQuark{}
+
+	_,
+		err =
+		nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
+			nStrFmtSpecDigitsSepsDto,
+			ePrefix+
+				"\nTesting validity of 'nStrFmtSpecDigitsSepsDto'\n")
+
+	if err != nil {
+		return newDigitsSepsDto, err
+	}
+
 	newDigitsSepsDto.decimalSeparator =
 		nStrFmtSpecDigitsSepsDto.decimalSeparator
 

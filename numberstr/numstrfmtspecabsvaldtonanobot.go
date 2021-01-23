@@ -74,15 +74,18 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
 		targetNStrFmtSpecAbsoluteValDto.numberSeparatorsDto.CopyIn(
 			&inComingNStrFmtSpecAbsoluteValDto.numberSeparatorsDto,
 			ePrefix+
-				"\nCopying inComingNStrFmtSpecAbsoluteValDto->"+
+				"Copying inComingNStrFmtSpecAbsoluteValDto->"+
 				"targetNStrFmtSpecAbsoluteValDto\n ")
 
 	if err != nil {
 		return err
 	}
 
-	targetNStrFmtSpecAbsoluteValDto.numFieldLenDto.CopyIn(
-		&inComingNStrFmtSpecAbsoluteValDto.numFieldLenDto)
+	err =
+		targetNStrFmtSpecAbsoluteValDto.numFieldLenDto.CopyIn(
+			&inComingNStrFmtSpecAbsoluteValDto.numFieldLenDto,
+			ePrefix+
+				"\ninComingNStrFmtSpecAbsoluteValDto->targetNStrFmtSpecAbsoluteValDto\n")
 
 	return err
 }
@@ -147,10 +150,13 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyOut
 		return newNStrFmtSpecAbsoluteValDto, err
 	}
 
-	newNStrFmtSpecAbsoluteValDto.numFieldLenDto.CopyIn(
-		&nStrFmtSpecAbsoluteValDto.numFieldLenDto)
-
 	newNStrFmtSpecAbsoluteValDto.lock = new(sync.Mutex)
+
+	err =
+		newNStrFmtSpecAbsoluteValDto.numFieldLenDto.CopyIn(
+			&nStrFmtSpecAbsoluteValDto.numFieldLenDto,
+			ePrefix+
+				"\nStrFmtSpecAbsoluteValDto->newNStrFmtSpecAbsoluteValDto\n")
 
 	return newNStrFmtSpecAbsoluteValDto, err
 }
