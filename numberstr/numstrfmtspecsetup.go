@@ -9,7 +9,7 @@ type NumStrFmtSpecSetupDto struct {
 	CountryIdString                           string
 	CountryDescription                        string
 	CountryTag                                string
-	CountryName                               string
+	CountryCultureName                        string
 	CountryAbbreviatedName                    string
 	CountryAlternateNames                     []string
 	CountryCodeTwoChar                        string
