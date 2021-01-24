@@ -957,7 +957,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 	return err
 }
 
-// SetAbsValDtoWithComponents() - This method will set all of the member
+// SetAbsValDto() - This method will set all of the member
 // variable data values for the current instance of
 // NumStrFmtSpecAbsoluteValueDto.
 //
@@ -1110,7 +1110,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 //       The 'ePrefix' text will be prefixed to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsValDtoWithComponents(
+func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsValDto(
 	absoluteValFmt string,
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumStrFmtSpecDigitsSeparatorsDto,
@@ -1125,7 +1125,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsValDtoWithComponent
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.SetAbsValDtoWithComponents() "
+	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.SetAbsValDto() "
 
 	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
