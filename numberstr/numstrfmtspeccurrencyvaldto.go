@@ -1171,7 +1171,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 //
 // Input Parameters
 //
-//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
+//  fmtSpecSetupDto     *NumStrFmtSpecSetupDto
 //     - A data structure conveying setup information for a
 //       NumStrFmtSpecAbsoluteValueDto object. Only the following
 //       data fields with a prefix of "AbsoluteVal" are used.
@@ -1244,7 +1244,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 //       error message.
 //
 func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDto(
-	fmtSpecSetupDto NumStrFmtSpecSetupDto,
+	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix string) (
 	NumStrFmtSpecCurrencyValueDto,
 	error) {
@@ -1289,10 +1289,88 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDt
 		fmtSpecSetupDto.DecimalSeparator,
 		fmtSpecSetupDto.IntegerDigitsSeparator,
 		fmtSpecSetupDto.IntegerDigitsGroupingSequence,
-		fmtSpecSetupDto.AbsoluteValNumFieldLen,
+		fmtSpecSetupDto.CurrencyNumFieldLen,
 		ePrefix)
 
 	return newNStrFmtSpecCurrencyValDto, err
+}
+
+// SetCurrencyCode - Sets the currency code associated with
+// this currency. Currency codes are designated by the ISO
+// 4217 standard. Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyCode(
+	currencyCode string) {
+
+	if nStrFmtSpecCurrValDto.lock == nil {
+		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDto.lock.Lock()
+
+	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	nStrFmtSpecCurrValDto.currencyCode = currencyCode
+}
+
+// SetCurrencyName - Sets the currency name associated with
+// this currency.
+// Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyName(
+	currencyName string) {
+
+	if nStrFmtSpecCurrValDto.lock == nil {
+		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDto.lock.Lock()
+
+	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	nStrFmtSpecCurrValDto.currencyName = currencyName
+}
+
+// SetCurrencySymbol - Sets the currency name associated with
+// this currency.
+// Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
+	currencySymbol rune,
+	ePrefix string) (
+	err error) {
+
+	if nStrFmtSpecCurrValDto.lock == nil {
+		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDto.lock.Lock()
+
+	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetCurrencySymbol()"
+
+	err = nil
+
+	if currencySymbol == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'currencySymbol' is invalid!\n"+
+			"The currency symbol is empty or missing.\n"+
+			"currencySymbol==0\n",
+			ePrefix)
+		return err
+	}
+
+	nStrFmtSpecCurrValDto.currencySymbol = currencySymbol
+
+	return err
 }
 
 // SetCurrValDtoWithComponents() - This method will set all of the member
@@ -1669,84 +1747,6 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrValDtoWithCom
 			"\n Setting 'nStrFmtSpecCurrValDto'\n ")
 }
 
-// SetCurrencyCode - Sets the currency code associated with
-// this currency. Currency codes are designated by the ISO
-// 4217 standard. Reference:
-//        https://en.wikipedia.org/wiki/ISO_4217
-//
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyCode(
-	currencyCode string) {
-
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCurrValDto.lock.Lock()
-
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
-
-	nStrFmtSpecCurrValDto.currencyCode = currencyCode
-}
-
-// SetCurrencyName - Sets the currency name associated with
-// this currency.
-// Reference:
-//        https://en.wikipedia.org/wiki/ISO_4217
-//
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyName(
-	currencyName string) {
-
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCurrValDto.lock.Lock()
-
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
-
-	nStrFmtSpecCurrValDto.currencyName = currencyName
-}
-
-// SetCurrencySymbol - Sets the currency name associated with
-// this currency.
-// Reference:
-//        https://en.wikipedia.org/wiki/ISO_4217
-//
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
-	currencySymbol rune,
-	ePrefix string) (
-	err error) {
-
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCurrValDto.lock.Lock()
-
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
-
-	if len(ePrefix) > 0 {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetCurrencySymbol()"
-
-	err = nil
-
-	if currencySymbol == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'currencySymbol' is invalid!\n"+
-			"The currency symbol is empty or missing.\n"+
-			"currencySymbol==0\n",
-			ePrefix)
-		return err
-	}
-
-	nStrFmtSpecCurrValDto.currencySymbol = currencySymbol
-
-	return err
-}
-
 // SetDecimalDigits - Sets the number of digits to the right of the
 // decimal point which are typically included in currency text
 // number string displays. For example, in the United States,
@@ -1767,6 +1767,125 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetDecimalDigits(
 
 	nStrFmtSpecCurrValDto.decimalDigits = decimalDigits
 
+}
+
+// SetFromFmtSpecSetupDto - Sets the data values for current
+// NumStrFmtSpecCurrencyValueDto instance based on input received
+// from an instance of NumStrFmtSpecSetupDto.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
+//     - A data structure conveying setup information for a
+//       NumStrFmtSpecCurrencyValueDto object. Only the following
+//       data fields with a prefix of "Currency" are used.
+//
+//       type NumStrFmtSpecSetupDto struct {
+//         IdNo                                      uint64
+//         IdString                                  string
+//         Description                               string
+//         Tag                                       string
+//         CountryIdNo                               uint64
+//         CountryIdString                           string
+//         CountryDescription                        string
+//         CountryTag                                string
+//         CountryCultureName                        string
+//         CountryAbbreviatedName                    string
+//         CountryAlternateNames                     []string
+//         CountryCodeTwoChar                        string
+//         CountryCodeThreeChar                      string
+//         CountryCodeNumber                         string
+//         AbsoluteValFmt                            string
+//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
+//         AbsoluteValNumFieldLen                    int
+//         CurrencyPositiveValueFmt                  string
+//         CurrencyNegativeValueFmt                  string
+//         CurrencyDecimalDigits                     int
+//         CurrencyCode                              string
+//         CurrencyName                              string
+//         CurrencySymbol                            rune
+//         CurrencyTurnOnIntegerDigitsSeparation     bool
+//         CurrencyNumFieldLen                       int
+//         DecimalSeparator                          rune
+//         IntegerDigitsSeparator                    rune
+//         IntegerDigitsGroupingSequence             []uint
+//         SignedNumValPositiveValueFmt              string
+//         SignedNumValNegativeValueFmt              string
+//         SignedNumValTurnOnIntegerDigitsSeparation bool
+//         SignedNumValNumFieldLen                   int
+//         SciNotMantissaLength                      uint
+//         SciNotExponentChar                        rune
+//         SciNotExponentUsesLeadingPlus             bool
+//         SciNotNumFieldLen                         int
+//       }
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupDto(
+	fmtSpecSetupDto NumStrFmtSpecSetupDto,
+	ePrefix string) error {
+
+	if nStrFmtSpecCurrValDto.lock == nil {
+		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDto.lock.Lock()
+
+	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.SetFromFmtSpecSetupDto() "
+
+	nStrFmtSpecCurrValDtoUtil :=
+		numStrFmtSpecCurrencyValueDtoUtility{}
+
+	if fmtSpecSetupDto.Lock == nil {
+		fmtSpecSetupDto.Lock = new(sync.Mutex)
+	}
+
+	fmtSpecSetupDto.Lock.Lock()
+
+	defer fmtSpecSetupDto.Lock.Unlock()
+
+	return nStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults(
+		nStrFmtSpecCurrValDto,
+		fmtSpecSetupDto.CurrencyPositiveValueFmt,
+		fmtSpecSetupDto.CurrencyNegativeValueFmt,
+		fmtSpecSetupDto.CurrencyDecimalDigits,
+		fmtSpecSetupDto.CurrencyCode,
+		fmtSpecSetupDto.CurrencyName,
+		fmtSpecSetupDto.CurrencySymbol,
+		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
+		fmtSpecSetupDto.DecimalSeparator,
+		fmtSpecSetupDto.IntegerDigitsSeparator,
+		fmtSpecSetupDto.IntegerDigitsGroupingSequence,
+		fmtSpecSetupDto.CurrencyNumFieldLen,
+		ePrefix)
 }
 
 // SetNegativeValueFormat - Sets the currency negative value format

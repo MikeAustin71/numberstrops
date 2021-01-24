@@ -551,7 +551,7 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) New(
 //       error message.
 //
 func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewFromFmtSpecSetupDto(
-	fmtSpecSetupDto NumStrFmtSpecSetupDto,
+	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix string) (
 	NumStrFmtSpecCountryDto,
 	error) {
@@ -975,7 +975,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetDescription(
 //       error message.
 //
 func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetFromFmtSpecSetupDto(
-	fmtSpecSetupDto NumStrFmtSpecSetupDto,
+	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix string) error {
 
 	if nStrFmtSpecCntryDto.lock == nil {

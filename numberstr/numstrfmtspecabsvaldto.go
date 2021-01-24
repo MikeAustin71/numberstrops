@@ -774,7 +774,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 //       error message.
 //
 func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromFmtSpecSetupDto(
-	fmtSpecSetupDto NumStrFmtSpecSetupDto,
+	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix string) (
 	NumStrFmtSpecAbsoluteValueDto,
 	error) {
@@ -1186,7 +1186,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsValDtoWithComponent
 //       error message.
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetFromFmtSpecSetupDto(
-	fmtSpecSetupDto NumStrFmtSpecSetupDto,
+	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix string) error {
 
 	if nStrFmtAbsValDto.lock == nil {
