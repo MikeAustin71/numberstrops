@@ -1294,12 +1294,12 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDt
 				ePrefix)
 	}
 
-	nStrFmtSpecCurrValDtoUtil :=
-		numStrFmtSpecCurrencyValueDtoUtility{}
-
 	if fmtSpecSetupDto.Lock == nil {
 		fmtSpecSetupDto.Lock = new(sync.Mutex)
 	}
+
+	nStrFmtSpecCurrValDtoUtil :=
+		numStrFmtSpecCurrencyValueDtoUtility{}
 
 	fmtSpecSetupDto.Lock.Lock()
 
@@ -1916,12 +1916,12 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupD
 			ePrefix)
 	}
 
-	nStrFmtSpecCurrValDtoUtil :=
-		numStrFmtSpecCurrencyValueDtoUtility{}
-
 	if fmtSpecSetupDto.Lock == nil {
 		fmtSpecSetupDto.Lock = new(sync.Mutex)
 	}
+
+	nStrFmtSpecCurrValDtoUtil :=
+		numStrFmtSpecCurrencyValueDtoUtility{}
 
 	fmtSpecSetupDto.Lock.Lock()
 
