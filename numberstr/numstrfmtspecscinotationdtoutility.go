@@ -142,20 +142,18 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 
 	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
-	nStrFmtSpecSciNotDto.significandUsesLeadingPlus =
-		significandUsesLeadingPlus
+	nStrFmtSpecSciNotDtoMech :=
+		numStrFmtSpecSciNotationDtoMechanics{}
 
-	nStrFmtSpecSciNotDto.mantissaLength =
-		mantissaLength
-
-	nStrFmtSpecSciNotDto.exponentChar =
-		exponentChar
-
-	nStrFmtSpecSciNotDto.exponentUsesLeadingPlus =
-		exponentUsesLeadingPlus
-
-	return nStrFmtSpecSciNotDto.numFieldLenDto.CopyIn(
-		&numFieldDto,
+	err = nStrFmtSpecSciNotDtoMech.setSciNotationDto(
+		nStrFmtSpecSciNotDto,
+		significandUsesLeadingPlus,
+		mantissaLength,
+		exponentChar,
+		exponentUsesLeadingPlus,
+		numFieldDto,
 		ePrefix+
-			"numFieldLenDto->nStrFmtSpecSciNotDto.numFieldLenDto\n")
+			"nStrFmtSpecSciNotDto\n")
+
+	return err
 }

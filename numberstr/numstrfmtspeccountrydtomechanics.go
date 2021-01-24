@@ -56,40 +56,49 @@ func (nStrFmtSpecCntryMech *numStrFmtSpecCountryDtoMechanics) setCountryDto(
 		return err
 	}
 
-	nStrFmtSpecCntryDto.idNo = idNo
+	testStrFmtSpecCntryDto := NumStrFmtSpecCountryDto{}
 
-	nStrFmtSpecCntryDto.idString = idString
+	testStrFmtSpecCntryDto.idNo = idNo
 
-	nStrFmtSpecCntryDto.description = description
+	testStrFmtSpecCntryDto.idString = idString
 
-	nStrFmtSpecCntryDto.tag = tag
+	testStrFmtSpecCntryDto.description = description
 
-	nStrFmtSpecCntryDto.countryCultureName = countryCultureName
+	testStrFmtSpecCntryDto.tag = tag
 
-	nStrFmtSpecCntryDto.abbreviatedCountryName = abbreviatedCountryName
+	testStrFmtSpecCntryDto.countryCultureName = countryCultureName
 
-	nStrFmtSpecCntryDto.countryCodeTwoChar = countryCodeTwoChar
+	testStrFmtSpecCntryDto.abbreviatedCountryName = abbreviatedCountryName
 
-	nStrFmtSpecCntryDto.countryCodeThreeChar = countryCodeThreeChar
+	testStrFmtSpecCntryDto.countryCodeTwoChar = countryCodeTwoChar
 
-	nStrFmtSpecCntryDto.countryCodeNumber = countryCodeNumber
+	testStrFmtSpecCntryDto.countryCodeThreeChar = countryCodeThreeChar
+
+	testStrFmtSpecCntryDto.countryCodeNumber = countryCodeNumber
 
 	lenAltNames := len(alternateCountryNames)
 
-	nStrFmtSpecCntryDto.alternateCountryNames =
+	testStrFmtSpecCntryDto.alternateCountryNames =
 		make([]string, lenAltNames, 10)
 
 	if lenAltNames != 0 {
 
 		_ =
-			copy(nStrFmtSpecCntryDto.alternateCountryNames,
+			copy(testStrFmtSpecCntryDto.alternateCountryNames,
 				alternateCountryNames)
 
 	}
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
-	}
+	testStrFmtSpecCntryDto.lock = new(sync.Mutex)
+
+	nStrFmtSpecCntryElectron :=
+		numStrFmtSpecCountryDtoElectron{}
+
+	err = nStrFmtSpecCntryElectron.copyIn(
+		nStrFmtSpecCntryDto,
+		&testStrFmtSpecCntryDto,
+		ePrefix+
+			"\ntestStrFmtSpecCntryDto->nStrFmtSpecCntryDto\n")
 
 	return err
 }

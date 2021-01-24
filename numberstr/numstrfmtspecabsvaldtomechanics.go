@@ -239,24 +239,14 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 			&numFieldLenDto,
 			ePrefix+"numFieldLenDto")
 
-	nStrFmtSpecAbsValDtoMolecule :=
-		numStrFmtSpecAbsoluteValueDtoMolecule{}
+	nStrFmtSpecAbsValDtoNanobot :=
+		numStrFmtSpecAbsoluteValueDtoNanobot{}
 
-	_,
-		err = nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
+	err = nStrFmtSpecAbsValDtoNanobot.copyIn(
+		nStrFmtSpecAbValDto,
 		&newNStrFmtSpecAbsValDto,
 		ePrefix+
-			"Testing validity of 'newNStrFmtSpecAbsValDto'\n ")
-
-	if err != nil {
-		return err
-	}
-
-	err =
-		nStrFmtSpecAbValDto.CopyIn(
-			&newNStrFmtSpecAbsValDto,
-			ePrefix+
-				"'newNStrFmtSpecAbsValDto'->'nStrFmtSpecAbValDto'\n ")
+			"newNStrFmtSpecAbsValDto -> nStrFmtSpecAbValDto\n ")
 
 	return err
 }
