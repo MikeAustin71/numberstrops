@@ -236,6 +236,64 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstance() (isVa
 	return isValid
 }
 
+// IsValidInstanceError - Performs a diagnostic review of the current
+// NumStrFmtSpecSciNotationDto instance to determine whether the
+// current instance is valid in all respects.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If the current instance of NumStrFmtSpecSciNotationDto
+//       contains invalid data, a detailed error message will be
+//       returned identifying the invalid data item.
+//
+//       If the current instance is valid, this error parameter
+//       will be set to nil.
+//
+func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstanceError(
+	ePrefix string) error {
+
+	if nStrFmtSpecSciNotDto.lock == nil {
+		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSciNotDto.lock.Lock()
+
+	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecSciNotationDto.IsValidInstanceError() "
+
+	nStrFmtSpecSciNotQuark :=
+		numStrFmtSpecSciNotationDtoQuark{}
+
+	_,
+		err := nStrFmtSpecSciNotQuark.
+		testValidityOfNumStrFmtSpecSciNotationDto(
+			nStrFmtSpecSciNotDto,
+			ePrefix+
+				"\nnStrFmtSpecSciNotDto ")
+
+	return err
+}
+
 // NewWithDefaults() - Creates and returns a new instance of
 // NumStrFmtSpecSciNotationDto.
 //
