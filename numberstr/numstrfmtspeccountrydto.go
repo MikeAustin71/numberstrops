@@ -1,6 +1,9 @@
 package numberstr
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+)
 
 type NumStrFmtSpecCountryDto struct {
 	idNo                   uint64
@@ -570,6 +573,14 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewFromFmtSpecSetupDto(
 
 	ePrefix += "NumStrFmtSpecCountryDto.NewFromFmtSpecSetupDto() "
 
+	if fmtSpecSetupDto == nil {
+		return NumStrFmtSpecCountryDto{},
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
+				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
+				ePrefix)
+	}
+
 	nStrFmtSpecCntryMech :=
 		numStrFmtSpecCountryDtoMechanics{}
 
@@ -988,6 +999,12 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetFromFmtSpecSetupDto(
 
 	ePrefix += "\nNumStrFmtSpecCountryDto.SetFromFmtSpecSetupDto() "
 
+	if fmtSpecSetupDto == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
+			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
+			ePrefix)
+	}
 	if fmtSpecSetupDto.Lock == nil {
 		fmtSpecSetupDto.Lock = new(sync.Mutex)
 	}

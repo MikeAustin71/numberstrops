@@ -1286,6 +1286,14 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDt
 	newNStrFmtSpecCurrencyValDto :=
 		NumStrFmtSpecCurrencyValueDto{}
 
+	if fmtSpecSetupDto == nil {
+		return newNStrFmtSpecCurrencyValDto,
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
+				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
+				ePrefix)
+	}
+
 	nStrFmtSpecCurrValDtoUtil :=
 		numStrFmtSpecCurrencyValueDtoUtility{}
 
@@ -1393,7 +1401,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 	return err
 }
 
-// SetCurrValDtoWithComponents() - This method will set all of the member
+// SetCurrencyValDto() - This method will set all of the member
 // variable data values for the current instance of
 // NumStrFmtSpecCurrencyValueDto.
 //
@@ -1747,7 +1755,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 //       The 'ePrefix' text will be prefixed to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrValDtoWithComponents(
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -1767,7 +1775,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrValDtoWithCom
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.SetCurrValDtoWithComponents() "
+	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.SetCurrencyValDto() "
 
 	nStrFmtSpecCurrValMech :=
 		numStrFmtSpecCurrencyValueDtoMechanics{}
@@ -1884,7 +1892,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetDecimalDigits(
 //       error message.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupDto(
-	fmtSpecSetupDto NumStrFmtSpecSetupDto,
+	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix string) error {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -1900,6 +1908,13 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupD
 	}
 
 	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.SetFromFmtSpecSetupDto() "
+
+	if fmtSpecSetupDto == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
+			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
+			ePrefix)
+	}
 
 	nStrFmtSpecCurrValDtoUtil :=
 		numStrFmtSpecCurrencyValueDtoUtility{}

@@ -1,6 +1,9 @@
 package numberstr
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+)
 
 type NumStrFmtSpecAbsoluteValueDto struct {
 	absoluteValFmt                string
@@ -813,6 +816,14 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromFmtSpecSetupDto(
 
 	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.NewFromFmtSpecSetupDto() "
 
+	if fmtSpecSetupDto == nil {
+		return NumStrFmtSpecAbsoluteValueDto{},
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
+				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
+				ePrefix)
+	}
+
 	newNumStrFmtSpecAbsValueDto :=
 		NumStrFmtSpecAbsoluteValueDto{}
 
@@ -1218,6 +1229,13 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetFromFmtSpecSetupDto(
 	defer nStrFmtAbsValDto.lock.Unlock()
 
 	ePrefix += "\nNumStrFmtSpecCountryDto.SetFromFmtSpecSetupDto() "
+
+	if fmtSpecSetupDto == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
+			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
+			ePrefix)
+	}
 
 	nStrFmtSpecAbsValDtoUtil :=
 		numStrFmtSpecAbsoluteValueDtoUtility{}
