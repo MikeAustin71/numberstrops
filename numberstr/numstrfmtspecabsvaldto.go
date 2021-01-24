@@ -1261,7 +1261,6 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetFromFmtSpecSetupDto(
 		fmtSpecSetupDto.IntegerDigitsGroupingSequence,
 		fmtSpecSetupDto.AbsoluteValNumFieldLen,
 		ePrefix)
-
 }
 
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object
