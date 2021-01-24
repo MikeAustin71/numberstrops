@@ -111,6 +111,19 @@ type numStrFmtSpecSciNotationDtoUtility struct {
 //       of 'ePrefix'.
 //
 //
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
 func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotationDtoWithDefaults(
 	nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto,
 	significandUsesLeadingPlus bool,
@@ -129,7 +142,7 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 
 	defer nStrFmtSpecSciNotDtoUtil.lock.Unlock()
 
-	ePrefix += "numStrFmtSpecSciNotationDtoUtility.setSciNotationDto() "
+	ePrefix += "numStrFmtSpecSciNotationDtoUtility.setSciNotationDtoWithDefaults() "
 
 	if nStrFmtSpecSciNotDto == nil {
 		err = fmt.Errorf("%v\n"+

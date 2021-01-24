@@ -191,6 +191,169 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyOut(
 			"nStrFmtSpecSciNotDto->\n")
 }
 
+// NewWithDefaults() - Creates and returns a new instance of
+// NumStrFmtSpecSciNotationDto.
+//
+// Scientific Notation Format Specification objects encapsulate the
+// format specifications used in formatting scientific notation
+// numeric values for text display.
+//
+// This method will apply default "Right-Justification" for the
+// Number Field specification created from input parameter,
+// 'requestedNumberFieldLen'.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  significandUsesLeadingPlus    bool
+//     - "Significand uses leading plus sign". This refers to the
+//       integer digit in a significand.
+//
+//       Positive significand integer digits may have a leading
+//       plus sign, '+2.652E+8'. The default is no leading plus
+//       sign, '2.652E+8'.
+//
+//       If this value is set to true, positive significand integer
+//       digit values will be prefixed with a leading plus sign
+//       ('+').
+//               Example: '+2.652E+8'
+//
+//       If this value is set to true, positive significand integer
+//       digit values will NOT be prefixed with a leading plus sign
+//       ('+').
+//               Example: '2.652E+8'
+//
+//
+//  mantissaLength                uint
+//     - This parameter sets the length of the mantissa used in the
+//       scientific notation format instructions.
+//
+//       In scientific notation, the term 'mantissa' refers to the
+//       fractional digits contained in the significand. In the
+//       scientific notation example, '2.652E+8', the 'mantissa'
+//       identifies the fractional digits, '.652'.
+//
+//       The input parameter, 'mantissaLength' controls the number
+//       of fractional digits displayed in the mantissa.
+//
+//
+//  exponentChar                  rune
+//     - This parameter specifies the exponent character to be used
+//       int the scientific notation format instructions.
+//
+//       In scientific notation example, '2.652E+8', the exponent
+//       character is 'E'.  The character 'E' is used as the
+//       default to avoid confusion with Euler's number 'e'.
+//       However the character 'e' is often used in scientific
+//       notation and may therefore be specified by the user.
+//
+//
+//  exponentUsesLeadingPlus       bool
+//     - This parameter signals whether a leading plus will be
+//       included for positive exponent value in scientific
+//       notation displays.
+//
+//       In scientific notation example, '2.652E8', the exponent
+//       value is '8'.
+//
+//       If input parameter 'exponentUsesLeadingPlus' is set to
+//       'true', the scientific notation text display will prefix
+//       a leading plus sign ('+') for positive exponent values.
+//             Example: '2.652E+8'
+//
+//       If input parameter 'exponentUsesLeadingPlus' is set to
+//       'false', the scientific notation text display will NOT
+//       include a leading plus sign ('+') for positive exponent
+//       values.
+//             Example: '2.652E8'
+//
+//
+//  requestedNumberFieldLen    int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
+//
+//       The 'NumberFieldDto' object created from this parameter
+//       will be configured with default 'Right-Justification' text
+//       alignment.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrFmtSpecSciNotationDto
+//     - If this method completes successfully, this parameter will
+//       return a new, populated instance of NumStrFmtSpecSciNotationDto.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithDefaults(
+	significandUsesLeadingPlus bool,
+	mantissaLength uint,
+	exponentChar rune,
+	exponentUsesLeadingPlus bool,
+	requestedNumberFieldLen int,
+	ePrefix string) (
+	NumStrFmtSpecSciNotationDto,
+	error) {
+
+	if nStrFmtSpecSciNotDto.lock == nil {
+		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSciNotDto.lock.Lock()
+
+	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecSciNotationDto.NewWithDefaults() "
+
+	newNStrFmtSpecSciNotationDto :=
+		NumStrFmtSpecSciNotationDto{}
+
+	nStrFmtSpecSciNotDtoUtil :=
+		numStrFmtSpecSciNotationDtoUtility{}
+
+	err := nStrFmtSpecSciNotDtoUtil.setSciNotationDtoWithDefaults(
+		&newNStrFmtSpecSciNotationDto,
+		significandUsesLeadingPlus,
+		mantissaLength,
+		exponentChar,
+		exponentUsesLeadingPlus,
+		requestedNumberFieldLen,
+		ePrefix)
+
+	return newNStrFmtSpecSciNotationDto, err
+}
+
 // SetExponentChar - Sets the exponent character which will be
 // displayed in number strings formatted with scientific notation.
 //
