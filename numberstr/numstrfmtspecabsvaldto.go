@@ -824,6 +824,10 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromFmtSpecSetupDto(
 				ePrefix)
 	}
 
+	if fmtSpecSetupDto.Lock == nil {
+		fmtSpecSetupDto.Lock = new(sync.Mutex)
+	}
+
 	newNumStrFmtSpecAbsValueDto :=
 		NumStrFmtSpecAbsoluteValueDto{}
 
