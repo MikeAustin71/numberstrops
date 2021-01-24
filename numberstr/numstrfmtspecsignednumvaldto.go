@@ -1003,12 +1003,12 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromFmtSpe
 				ePrefix)
 	}
 
-	nStrFmtSpecSignedNumValDtoUtil :=
-		nStrFmtSpecSignedNumValUtility{}
-
 	if fmtSpecSetupDto.Lock == nil {
 		fmtSpecSetupDto.Lock = new(sync.Mutex)
 	}
+
+	nStrFmtSpecSignedNumValDtoUtil :=
+		nStrFmtSpecSignedNumValUtility{}
 
 	fmtSpecSetupDto.Lock.Lock()
 
@@ -1124,6 +1124,11 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetFromFmtSp
 			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
 			ePrefix)
 	}
+
+	if fmtSpecSetupDto.Lock == nil {
+		fmtSpecSetupDto.Lock = new(sync.Mutex)
+	}
+
 	nStrFmtSpecSignedNumValDtoUtil :=
 		nStrFmtSpecSignedNumValUtility{}
 
