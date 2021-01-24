@@ -228,11 +228,6 @@ type nStrFmtSpecSignedNumValUtility struct {
 //
 // Return Values
 //
-//  NumStrFmtSpecSignedNumValueDto
-//     - If this method completes successfully, this parameter will
-//       return a new, populated instance of NumStrFmtSpecSignedNumValueDto.
-//
-//
 //  error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'. If errors are encountered during

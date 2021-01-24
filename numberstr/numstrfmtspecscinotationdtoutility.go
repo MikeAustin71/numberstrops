@@ -5,11 +5,11 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecSciNotationDtoMechanics struct {
+type numStrFmtSpecSciNotationDtoUtility struct {
 	lock *sync.Mutex
 }
 
-// setSciNotationDto - Transfers new data to an instance of
+// setSciNotationDtoWithDefaults - Transfers new data to an instance of
 // NumStrFmtSpecSciNotationDto. After completion, all the data
 // fields within input parameter 'nStrFmtSpecSciNotDto' will be
 // overwritten.
@@ -91,40 +91,17 @@ type numStrFmtSpecSciNotationDtoMechanics struct {
 //             Example: '2.652E8'
 //
 //
-//  numFieldDto                NumberFieldDto
-//     - The NumberFieldDto object contains formatting instructions
-//       for the creation and implementation of a number field.
-//       Number fields are text strings which contain number strings
-//       for use in text displays.
-//
-//       The NumberFieldDto object contains specifications for number
-//       field length. Typically, the length of a number field is
-//       greater than the length of the number string, or scientific
-//       notation string, which will be inserted and displayed within
-//       the number field.
-//
-//       The NumberFieldDto object also contains specifications
-//       for positioning or alignment of the number string within
-//       the number field. This alignment dynamic is described as
-//       text justification. The member variable '
-//       NumberFieldDto.textJustifyFormat' is used to specify one
-//       of three possible alignment formats. One of these formats
-//       will be selected to control the alignment of the number
-//       string within the number field. These optional alignment
-//       formats are shown below with examples:
-//
-//       (1) 'Right-Justification' - "       NumberString"
-//       (2) 'Left-Justification' - "NumberString        "
-//       (3) 'Centered'           - "    NumberString    "
-//
-//       The NumberFieldDto type is detailed as follows:
-//
-//       type NumberFieldDto struct {
-//         requestedNumFieldLength int // User requested number field length
-//         actualNumFieldLength    int // Machine generated actual number field Length
-//         minimumNumFieldLength   int // Machine generated minimum number field length
-//         textJustifyFormat       TextJustify // User specified text justification
-//       }
+//  requestedNumberFieldLen    int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
 //
 //
 //  ePrefix             string
@@ -134,38 +111,25 @@ type numStrFmtSpecSciNotationDtoMechanics struct {
 //       of 'ePrefix'.
 //
 //
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
-//       error message.
-//
-func (nStrFmtSpecSciNotDtoMech *numStrFmtSpecSciNotationDtoMechanics) setSciNotationDto(
+func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotationDtoWithDefaults(
 	nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto,
 	significandUsesLeadingPlus bool,
 	mantissaLength uint,
 	exponentChar rune,
 	exponentUsesLeadingPlus bool,
-	numFieldDto NumberFieldDto,
+	requestedNumberFieldLen int,
 	ePrefix string) (
 	err error) {
 
-	if nStrFmtSpecSciNotDtoMech.lock == nil {
-		nStrFmtSpecSciNotDtoMech.lock = new(sync.Mutex)
+	if nStrFmtSpecSciNotDtoUtil.lock == nil {
+		nStrFmtSpecSciNotDtoUtil.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDtoMech.lock.Lock()
+	nStrFmtSpecSciNotDtoUtil.lock.Lock()
 
-	defer nStrFmtSpecSciNotDtoMech.lock.Unlock()
+	defer nStrFmtSpecSciNotDtoUtil.lock.Unlock()
 
-	ePrefix += "numStrFmtSpecSciNotationDtoMechanics.setSciNotationDto() "
+	ePrefix += "numStrFmtSpecSciNotationDtoUtility.setSciNotationDto() "
 
 	if nStrFmtSpecSciNotDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -176,37 +140,22 @@ func (nStrFmtSpecSciNotDtoMech *numStrFmtSpecSciNotationDtoMechanics) setSciNota
 		return err
 	}
 
-	testNumStrFmtSpecSciNotDto := NumStrFmtSpecSciNotationDto{}
+	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
 
-	testNumStrFmtSpecSciNotDto.significandUsesLeadingPlus =
+	nStrFmtSpecSciNotDto.significandUsesLeadingPlus =
 		significandUsesLeadingPlus
 
-	testNumStrFmtSpecSciNotDto.mantissaLength =
+	nStrFmtSpecSciNotDto.mantissaLength =
 		mantissaLength
 
-	testNumStrFmtSpecSciNotDto.exponentChar =
+	nStrFmtSpecSciNotDto.exponentChar =
 		exponentChar
 
-	testNumStrFmtSpecSciNotDto.exponentUsesLeadingPlus =
+	nStrFmtSpecSciNotDto.exponentUsesLeadingPlus =
 		exponentUsesLeadingPlus
 
-	err = testNumStrFmtSpecSciNotDto.numFieldLenDto.CopyIn(
+	return nStrFmtSpecSciNotDto.numFieldLenDto.CopyIn(
 		&numFieldDto,
 		ePrefix+
-			"numFieldDto->nStrFmtSpecSciNotDto.numFieldDto\n")
-
-	if err != nil {
-		return err
-	}
-
-	nStrFmtSpecSciNotDtoElectron :=
-		numStrFmtSpecSciNotationDtoElectron{}
-
-	err = nStrFmtSpecSciNotDtoElectron.copyIn(
-		nStrFmtSpecSciNotDto,
-		&testNumStrFmtSpecSciNotDto,
-		ePrefix+
-			"\ntestNumStrFmtSpecSciNotDto->nStrFmtSpecSciNotDto\n")
-
-	return err
+			"numFieldLenDto->nStrFmtSpecSciNotDto.numFieldLenDto\n")
 }
