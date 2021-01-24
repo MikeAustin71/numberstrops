@@ -6,10 +6,10 @@ import (
 )
 
 type NumberFieldDto struct {
-	requestedNumFieldLength int
-	actualNumFieldLength    int
-	minimumNumFieldLength   int
-	textJustifyFormat       TextJustify
+	requestedNumFieldLength int         // User requested number field length
+	actualNumFieldLength    int         // Machine generated actual number field Length
+	minimumNumFieldLength   int         // Machine generated minimum number field length
+	textJustifyFormat       TextJustify // User specified text justification
 	lock                    *sync.Mutex
 }
 
