@@ -22,31 +22,31 @@ import "sync"
 //      Integer digit is between 1 - 9, including 1 and 9.
 //
 //      significand uses leading plus sign
-//      Positive significand integer digits may have a
-//       leading plus sign, '+2.652E+8'. The default is
-//       no leading plus sign, '2.652E8'
+//         Positive significand integer digits may have a
+//         leading plus sign, '+2.652E+8'. The default is
+//         no leading plus sign, '2.652E+8'
 //
 //  Mantissa
 //      mantissa = significand factional digits = '.652'
 //      mantissaLength = length of fractional digits displayed in scientific notation.
 //
 //  Exponent
-//      exponent character or exponentChar = 'E'
-//        The character 'E' is used as the default to avoid confusion
+//      Exponent character or exponentChar = 'E'
+//          The character 'E' is used as the default to avoid confusion
 //          with Euler's number 'e'.  However the character 'e' is
 //          often used and may therefore be specified by the user.
-//           Examples: 2.652E+8 or 2.652e+8
+//             Examples: 2.652E+8 or 2.652e+8
 //
 //      exponent = '8'  (10^8) 2.652E+8
-//      '+' exponent leading plus sign = exponentUsesLeadingPlus== true
-//          The exponent is often displayed without a leading plus sign.
-//          Example: 2.652E+8
+//        '+' exponent leading plus sign = exponentUsesLeadingPlus== true
+//        The exponent is often displayed without a leading plus sign.
+//             Example: 2.652E+8
 //
-//  Number Field
+//  Number Field Length
 //      number field  length = Length of string in which
 //        scientific notation is right justified.
 //        Example: Number Field Length = 9
-//                                         123456789
+//  -------------------------------------- 123456789
 //        Formatted Scientific Notation = " 2.652E+8"
 //
 type NumStrFmtSpecSciNotationDto struct {

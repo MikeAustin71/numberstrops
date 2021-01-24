@@ -35,6 +35,7 @@ type NumStrFmtSpecSetupDto struct {
 	SignedNumValNegativeValueFmt              string
 	SignedNumValTurnOnIntegerDigitsSeparation bool
 	SignedNumValNumFieldLen                   int
+	SciNotSignificandUsesLeadingPlus          bool
 	SciNotMantissaLength                      uint
 	SciNotExponentChar                        rune
 	SciNotExponentUsesLeadingPlus             bool
