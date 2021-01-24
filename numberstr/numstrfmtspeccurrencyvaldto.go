@@ -1183,7 +1183,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 }
 
 // NewFromFmtSpecSetupDto - Creates and returns a new
-// NumStrFmtSpecAbsoluteValueDto instance based on input received
+// NumStrFmtSpecCurrencyValueDto instance based on input received
 // from an instance of NumStrFmtSpecSetupDto.
 //
 //
@@ -1193,8 +1193,8 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 //
 //  fmtSpecSetupDto     *NumStrFmtSpecSetupDto
 //     - A data structure conveying setup information for a
-//       NumStrFmtSpecAbsoluteValueDto object. Only the following
-//       data fields with a prefix of "AbsoluteVal" are used.
+//       NumStrFmtSpecCurrencyValueDto object. Only the following
+//       data fields with a prefix of "Currency" are used.
 //
 //       type NumStrFmtSpecSetupDto struct {
 //         IdNo                                      uint64
@@ -1248,9 +1248,9 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 //
 // Return Values
 //
-//  NumStrFmtSpecAbsoluteValueDto
+//  NumStrFmtSpecCurrencyValueDto
 //     - If this method completes successfully, a new instance of
-//       NumStrFmtSpecAbsoluteValueDto will be returned to the
+//       NumStrFmtSpecCurrencyValueDto will be returned to the
 //       caller.
 //
 //

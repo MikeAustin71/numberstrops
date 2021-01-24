@@ -892,6 +892,145 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 	return newNStrFmtSpecSignedNumValueDto, err
 }
 
+// NewFromFmtSpecSetupDto - Creates and returns a new
+// NumStrFmtSpecSignedNumValueDto instance based on input received
+// from an instance of NumStrFmtSpecSetupDto.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtSpecSetupDto     *NumStrFmtSpecSetupDto
+//     - A data structure conveying setup information for a
+//       NumStrFmtSpecSignedNumValueDto object. Only the following
+//       data fields with a prefix of "AbsoluteVal" are used.
+//
+//       type NumStrFmtSpecSetupDto struct {
+//         IdNo                                      uint64
+//         IdString                                  string
+//         Description                               string
+//         Tag                                       string
+//         CountryIdNo                               uint64
+//         CountryIdString                           string
+//         CountryDescription                        string
+//         CountryTag                                string
+//         CountryCultureName                        string
+//         CountryAbbreviatedName                    string
+//         CountryAlternateNames                     []string
+//         CountryCodeTwoChar                        string
+//         CountryCodeThreeChar                      string
+//         CountryCodeNumber                         string
+//         AbsoluteValFmt                            string
+//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
+//         AbsoluteValNumFieldLen                    int
+//         CurrencyPositiveValueFmt                  string
+//         CurrencyNegativeValueFmt                  string
+//         CurrencyDecimalDigits                     int
+//         CurrencyCode                              string
+//         CurrencyName                              string
+//         CurrencySymbol                            rune
+//         CurrencyTurnOnIntegerDigitsSeparation     bool
+//         CurrencyNumFieldLen                       int
+//         DecimalSeparator                          rune
+//         IntegerDigitsSeparator                    rune
+//         IntegerDigitsGroupingSequence             []uint
+//         SignedNumValPositiveValueFmt              string
+//         SignedNumValNegativeValueFmt              string
+//         SignedNumValTurnOnIntegerDigitsSeparation bool
+//         SignedNumValNumFieldLen                   int
+//         SciNotMantissaLength                      uint
+//         SciNotExponentChar                        rune
+//         SciNotExponentUsesLeadingPlus             bool
+//         SciNotNumFieldLen                         int
+//         Lock                                      *sync.Mutex
+//       }
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrFmtSpecSignedNumValueDto
+//     - If this method completes successfully, a new instance of
+//       NumStrFmtSpecSignedNumValueDto will be returned to the
+//       caller.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromFmtSpecSetupDto(
+	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
+	ePrefix string) (
+	NumStrFmtSpecSignedNumValueDto,
+	error) {
+
+	if nStrFmtSpecSignedNumValueDto.lock == nil {
+		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSignedNumValueDto.lock.Lock()
+
+	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.NewFromFmtSpecSetupDto() "
+
+	newNStrFmtSpecSignedNumValueDto :=
+		NumStrFmtSpecSignedNumValueDto{}
+
+	if fmtSpecSetupDto == nil {
+		return newNStrFmtSpecSignedNumValueDto,
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
+				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
+				ePrefix)
+	}
+
+	nStrFmtSpecSignedNumValDtoUtil :=
+		nStrFmtSpecSignedNumValUtility{}
+
+	if fmtSpecSetupDto.Lock == nil {
+		fmtSpecSetupDto.Lock = new(sync.Mutex)
+	}
+
+	fmtSpecSetupDto.Lock.Lock()
+
+	defer fmtSpecSetupDto.Lock.Unlock()
+
+	err :=
+		nStrFmtSpecSignedNumValDtoUtil.setSignedNumValDtoWithDefaults(
+			&newNStrFmtSpecSignedNumValueDto,
+			fmtSpecSetupDto.SignedNumValPositiveValueFmt,
+			fmtSpecSetupDto.SignedNumValNegativeValueFmt,
+			fmtSpecSetupDto.SignedNumValTurnOnIntegerDigitsSeparation,
+			fmtSpecSetupDto.DecimalSeparator,
+			fmtSpecSetupDto.IntegerDigitsSeparator,
+			fmtSpecSetupDto.IntegerDigitsGroupingSequence,
+			fmtSpecSetupDto.SignedNumValNumFieldLen,
+			ePrefix+
+				"\n Setting 'newNStrFmtSpecSignedNumValueDto'\n ")
+
+	return newNStrFmtSpecSignedNumValueDto, err
+}
+
 // SetFromFmtSpecSetupDto - Sets the data values for current
 // NumStrFmtSpecSignedNumValueDto instance based on input received
 // from an instance of NumStrFmtSpecSetupDto.
@@ -988,6 +1127,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetFromFmtSp
 	}
 	nStrFmtSpecSignedNumValDtoUtil :=
 		nStrFmtSpecSignedNumValUtility{}
+
+	fmtSpecSetupDto.Lock.Lock()
+
+	defer fmtSpecSetupDto.Lock.Unlock()
 
 	return nStrFmtSpecSignedNumValDtoUtil.setSignedNumValDtoWithDefaults(
 		nStrFmtSpecSignedNumValueDto,
