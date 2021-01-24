@@ -337,7 +337,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 	return err
 }
 
-// New() - Creates and returns a new instance of
+// NewWithDefaults() - Creates and returns a new instance of
 // NumStrFmtSpecSignedNumValueDto.
 //
 // This variant of the 'NumStrFmtSpecSignedNumValueDto.New()'
@@ -551,7 +551,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //       The 'ePrefix' text will be prefixed to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) New(
+func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaults(
 	positiveValueFmt string,
 	negativeValueFmt string,
 	turnOnIntegerDigitsSeparation bool,
@@ -570,31 +570,26 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) New(
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.New() "
+	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.NewWithDefaults() "
 
-	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
+	newNStrFmtSpecSignedNumValueDto :=
+		NumStrFmtSpecSignedNumValueDto{}
 
-	newNStrFmtSpecSignedNumValueDto := NumStrFmtSpecSignedNumValueDto{}
+	nStrFmtSpecSignedNumValDtoUtil :=
+		nStrFmtSpecSignedNumValUtility{}
 
-	numberSeparatorsDto,
-		err := NumStrFmtSpecDigitsSeparatorsDto{}.NewFromComponents(
-		decimalSeparatorChar,
-		thousandsSeparatorChar,
-		[]uint{3},
-		ePrefix)
-
-	nStrFmtSpecSignedNumValMech :=
-		nStrFmtSpecSignedNumValMechanics{}
-
-	err = nStrFmtSpecSignedNumValMech.setSignedNumValDto(
-		&newNStrFmtSpecSignedNumValueDto,
-		positiveValueFmt,
-		negativeValueFmt,
-		turnOnIntegerDigitsSeparation,
-		numberSeparatorsDto,
-		numFieldDto,
-		ePrefix+
-			"\n Setting 'newNStrFmtSpecSignedNumValueDto'\n ")
+	err :=
+		nStrFmtSpecSignedNumValDtoUtil.setSignedNumValDtoWithDefaults(
+			&newNStrFmtSpecSignedNumValueDto,
+			positiveValueFmt,
+			negativeValueFmt,
+			turnOnIntegerDigitsSeparation,
+			decimalSeparatorChar,
+			thousandsSeparatorChar,
+			[]uint{3},
+			requestedNumberFieldLen,
+			ePrefix+
+				"\n Setting 'newNStrFmtSpecSignedNumValueDto'\n ")
 
 	return newNStrFmtSpecSignedNumValueDto, err
 }

@@ -9,11 +9,11 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 	lock *sync.Mutex
 }
 
-// setAbsValDtoWithDefaults() - Sets the data values for an
-// instance NumStrFmtSpecAbsoluteValueDto passed as an input
+// setCurrValDtoWithDefaults() - Sets the data values for an
+// instance NumStrFmtSpecCurrencyValueDto passed as an input
 // parameter.
 //
-// The NumStrFmtSpecAbsoluteValueDto type encapsulates the
+// The NumStrFmtSpecCurrencyValueDto type encapsulates the
 // formatting parameters necessary to format absolute numeric
 // values for display in text number strings.
 //
@@ -23,9 +23,8 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 // Input Parameters
 //
 //  nStrFmtSpecCurrencyValDto     *NumStrFmtSpecCurrencyValueDto,
-//
 //     - A pointer to an instance of NumStrFmtSpecCurrencyValueDto.
-//       All of the data values in this object will be overwritten
+//       All data values in this object will be overwritten and
 //       set to new values based on the following input parameters.
 //
 //
