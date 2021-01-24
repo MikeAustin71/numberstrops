@@ -1241,12 +1241,12 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetFromFmtSpecSetupDto(
 			ePrefix)
 	}
 
-	nStrFmtSpecAbsValDtoUtil :=
-		numStrFmtSpecAbsoluteValueDtoUtility{}
-
 	if fmtSpecSetupDto.Lock == nil {
 		fmtSpecSetupDto.Lock = new(sync.Mutex)
 	}
+
+	nStrFmtSpecAbsValDtoUtil :=
+		numStrFmtSpecAbsoluteValueDtoUtility{}
 
 	fmtSpecSetupDto.Lock.Lock()
 
