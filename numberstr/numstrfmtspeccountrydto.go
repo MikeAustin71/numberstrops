@@ -78,34 +78,6 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) CopyOut(
 		ePrefix+"nStrFmtSpecCntryDto->\n")
 }
 
-// GetIdNo - Returns the value of member variable 'idNo'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetIdNo() uint64 {
-
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCntryDto.lock.Lock()
-
-	defer nStrFmtSpecCntryDto.lock.Unlock()
-
-	return nStrFmtSpecCntryDto.idNo
-}
-
-// GetIdString - Returns the value of member variable 'idString'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetIdString() string {
-
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCntryDto.lock.Lock()
-
-	defer nStrFmtSpecCntryDto.lock.Unlock()
-
-	return nStrFmtSpecCntryDto.idString
-}
-
 // GetAbbreviatedCountryName - Returns the value of member variable
 // 'abbreviatedCountryName'.
 func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetAbbreviatedCountryName() string {
@@ -225,6 +197,34 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetDescription() string {
 	defer nStrFmtSpecCntryDto.lock.Unlock()
 
 	return nStrFmtSpecCntryDto.description
+}
+
+// GetIdNo - Returns the value of member variable 'idNo'.
+func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetIdNo() uint64 {
+
+	if nStrFmtSpecCntryDto.lock == nil {
+		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCntryDto.lock.Lock()
+
+	defer nStrFmtSpecCntryDto.lock.Unlock()
+
+	return nStrFmtSpecCntryDto.idNo
+}
+
+// GetIdString - Returns the value of member variable 'idString'.
+func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetIdString() string {
+
+	if nStrFmtSpecCntryDto.lock == nil {
+		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCntryDto.lock.Lock()
+
+	defer nStrFmtSpecCntryDto.lock.Unlock()
+
+	return nStrFmtSpecCntryDto.idString
 }
 
 // GetTag - Returns the value of member variable 'tag'.
@@ -581,6 +581,10 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewFromFmtSpecSetupDto(
 				ePrefix)
 	}
 
+	if fmtSpecSetupDto.Lock == nil {
+		fmtSpecSetupDto.Lock = new(sync.Mutex)
+	}
+
 	nStrFmtSpecCntryMech :=
 		numStrFmtSpecCountryDtoMechanics{}
 
@@ -609,36 +613,6 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewFromFmtSpecSetupDto(
 		ePrefix)
 
 	return newCountryDto, err
-}
-
-// SetIdNo - Sets the value of member variable 'idNo'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetIdNo(
-	idNo uint64) {
-
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCntryDto.lock.Lock()
-
-	defer nStrFmtSpecCntryDto.lock.Unlock()
-
-	nStrFmtSpecCntryDto.idNo = idNo
-}
-
-// SetIdString - Sets the value of member variable 'idString'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetIdString(
-	idString string) {
-
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCntryDto.lock.Lock()
-
-	defer nStrFmtSpecCntryDto.lock.Unlock()
-
-	nStrFmtSpecCntryDto.idString = idString
 }
 
 // SetAbbreviatedCountryName - Sets the value of member variable
@@ -1005,6 +979,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetFromFmtSpecSetupDto(
 			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
 			ePrefix)
 	}
+
 	if fmtSpecSetupDto.Lock == nil {
 		fmtSpecSetupDto.Lock = new(sync.Mutex)
 	}
@@ -1029,6 +1004,36 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetFromFmtSpecSetupDto(
 		fmtSpecSetupDto.CountryCodeThreeChar,
 		fmtSpecSetupDto.CountryCodeNumber,
 		ePrefix)
+}
+
+// SetIdNo - Sets the value of member variable 'idNo'.
+func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetIdNo(
+	idNo uint64) {
+
+	if nStrFmtSpecCntryDto.lock == nil {
+		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCntryDto.lock.Lock()
+
+	defer nStrFmtSpecCntryDto.lock.Unlock()
+
+	nStrFmtSpecCntryDto.idNo = idNo
+}
+
+// SetIdString - Sets the value of member variable 'idString'.
+func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetIdString(
+	idString string) {
+
+	if nStrFmtSpecCntryDto.lock == nil {
+		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCntryDto.lock.Lock()
+
+	defer nStrFmtSpecCntryDto.lock.Unlock()
+
+	nStrFmtSpecCntryDto.idString = idString
 }
 
 // SetTag - Sets the value of member variable 'tag'.
