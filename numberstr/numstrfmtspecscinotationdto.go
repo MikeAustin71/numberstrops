@@ -868,6 +868,42 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetNumberFieldLengthDto
 			"nStrFmtSpecSciNotDto\n")
 }
 
+func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetSciNotDto(
+	significandUsesLeadingPlus bool,
+	mantissaLength uint,
+	exponentChar rune,
+	exponentUsesLeadingPlus bool,
+	numFieldDto NumberFieldDto,
+	ePrefix string) error {
+
+	if nStrFmtSpecSciNotDto.lock == nil {
+		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSciNotDto.lock.Lock()
+
+	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecSciNotationDto.SetSciNotDto() "
+
+	nStrFmtSpecSciNotDtoMech :=
+		numStrFmtSpecSciNotationDtoMechanics{}
+
+	return nStrFmtSpecSciNotDtoMech.setSciNotationDto(
+		nStrFmtSpecSciNotDto,
+		significandUsesLeadingPlus,
+		mantissaLength,
+		exponentChar,
+		exponentUsesLeadingPlus,
+		numFieldDto,
+		ePrefix+
+			"nStrFmtSpecSciNotDto\n")
+}
+
 // SetSignificandUsesLeadingPlus - Sets the boolean flag which
 // determines whether positive significand integer digit values
 // will be prefixed with a leading plus sign.
