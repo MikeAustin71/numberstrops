@@ -1904,8 +1904,8 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnInt
 // SetWithDefaults - This method will set all of the member
 // variable data values for the current instance of
 // NumStrFmtSpecSignedNumValueDto. The input parameters
-// represent the minimum information required to set the data
-// values for a NumStrFmtSpecSignedNumValueDto object.
+// represent the minimum information required to configure
+// the data values for a NumStrFmtSpecSignedNumValueDto object.
 //
 // This method automatically sets a default integer digits grouping
 // sequence of '3'. This means that integers will be grouped by

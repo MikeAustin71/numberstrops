@@ -477,7 +477,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.New() "
+	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.NewWithDefaults() "
 
 	newNumStrFmtSpecAbsValueDto :=
 		NumStrFmtSpecAbsoluteValueDto{}
@@ -1460,4 +1460,164 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetTurnOnIntegerDigitsSep
 
 	nStrFmtAbsValDto.turnOnIntegerDigitsSeparation =
 		turnOnIntegerDigitsSeparation
+}
+
+// SetWithDefaults - This method will set all of the member
+// variable data values for the current instance of
+// NumStrFmtSpecAbsoluteValueDto. The input parameters
+// represent the minimum information required to configure
+// the data values for a NumStrFmtSpecAbsoluteValueDto object.
+//
+// This method automatically sets a default integer digits grouping
+// sequence of '3'. This means that integers will be grouped by
+// thousands.
+//
+//        Example: '1,000,000,000'
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  absoluteValFmt                string
+//     - A string specifying the number string format to be used in
+//       formatting absolute numeric values in text number strings.
+//
+//       Absolute Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for absolute value number formatting.
+//
+//       Valid format strings for absolute value number strings
+//       (NOT Currency) are listed as follows:
+//
+//               "+NUMFIELD"
+//               "+ NUMFIELD"
+//               "NUMFIELD+"
+//               "NUMFIELD +"
+//               "NUMFIELD"
+//               "+127.54"
+//               "+ 127.54"
+//               "127.54+"
+//               "127.54 +"
+//               "127.54" THE DEFAULT Absolute Value Format
+//
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
+//  decimalSeparatorChar       rune
+//     - The character used to separate integer and fractional
+//       digits in a floating point number string. In the United
+//       States, the Decimal Separator character is the period
+//       ('.') or Decimal Point.
+//           Example: '123.45678'
+//
+//
+//  thousandsSeparatorChar     rune
+//     - The character which will be used to delimit 'thousands' in
+//       integer number strings. In the United States, the Thousands
+//       separator is the comma character (',').
+//           Example: '1,000,000,000'
+//
+//
+//  requestedNumberFieldLen    int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
+	absoluteValFmt string,
+	turnOnIntegerDigitsSeparation bool,
+	decimalSeparatorChar rune,
+	thousandsSeparatorChar rune,
+	requestedNumberFieldLen int,
+	ePrefix string) error {
+
+	if nStrFmtAbsValDto.lock == nil {
+		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtAbsValDto.lock.Lock()
+
+	defer nStrFmtAbsValDto.lock.Unlock()
+
+	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.SetWithDefaults() "
+
+	nStrFmtSpecAbsValDtoUtil :=
+		numStrFmtSpecAbsoluteValueDtoUtility{}
+
+	return nStrFmtSpecAbsValDtoUtil.setAbsValDtoWithDefaults(
+		nStrFmtAbsValDto,
+		absoluteValFmt,
+		turnOnIntegerDigitsSeparation,
+		decimalSeparatorChar,
+		thousandsSeparatorChar,
+		[]uint{3},
+		requestedNumberFieldLen,
+		ePrefix)
 }
