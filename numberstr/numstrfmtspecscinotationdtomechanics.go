@@ -18,6 +18,7 @@ type numStrFmtSpecSciNotationDtoMechanics struct {
 // format specifications used in formatting scientific notation
 // numeric values for text display.
 //
+//
 // ----------------------------------------------------------------
 //
 // Input Parameters
