@@ -65,6 +65,15 @@ func (nStrFmtSpecSciNotQuark *numStrFmtSpecSciNotationDtoQuark) testValidityOfNu
 		return isValid, err
 	}
 
+	if nStrFmtSpecSicNotDto.mantissaLength == 0 {
+		err = fmt.Errorf("%v\n" +
+			"Error: 'nStrFmtSpecSicNotDto.mantissaLength' is invalid!\n" +
+			"nStrFmtSpecSicNotDto.mantissaLength is equal to zero.\n" +
+			ePrefix)
+
+		return isValid, err
+	}
+
 	if nStrFmtSpecSicNotDto.exponentChar == 0 {
 		err = fmt.Errorf("%v\n"+
 			"Error: 'nStrFmtSpecSicNotDto.exponentChar' is invalid!\n"+

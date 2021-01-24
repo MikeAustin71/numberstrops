@@ -191,6 +191,51 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyOut(
 			"nStrFmtSpecSciNotDto->\n")
 }
 
+// IsValidInstance - Performs a diagnostic review of the current
+// NumStrFmtSpecSciNotationDto instance to determine whether
+// the current instance is valid in all respects.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  --- NONE ---
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  isValid             bool
+//     - This returned boolean value will signal whether the current
+//       NumStrFmtSpecSciNotationDto is valid, or not. If the
+//       current NumStrFmtSpecSciNotationDto contains valid data,
+//       this method returns 'true'. If the data is invalid, this
+//       method will return 'false'.
+//
+func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstance() (isValid bool) {
+
+	if nStrFmtSpecSciNotDto.lock == nil {
+		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSciNotDto.lock.Lock()
+
+	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	nStrFmtSpecSciNotQuark :=
+		numStrFmtSpecSciNotationDtoQuark{}
+
+	isValid,
+		_ = nStrFmtSpecSciNotQuark.
+		testValidityOfNumStrFmtSpecSciNotationDto(
+			nStrFmtSpecSciNotDto,
+			"")
+
+	return isValid
+}
+
 // NewWithDefaults() - Creates and returns a new instance of
 // NumStrFmtSpecSciNotationDto.
 //
