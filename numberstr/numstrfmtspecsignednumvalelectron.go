@@ -14,7 +14,6 @@ type numStrSignedNumValElectron struct {
 // Number Format string for a Signed Number Value Formatter and returns
 // an error if the format string is invalid.
 //
-//
 func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativeValueFormatStr(
 	negativeValueFmtStr string,
 	ePrefix string) (

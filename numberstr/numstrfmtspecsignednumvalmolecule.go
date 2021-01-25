@@ -10,12 +10,12 @@ type numStrFmtSpecSignedNumValMolecule struct {
 }
 
 // testValidityOfSignedNumValDto - Receives an instance of
-// NumStrFmtSpecSignedNumValueDto and proceeds to test the
-// validity of the member data fields.
+// NumStrFmtSpecSignedNumValueDto and proceeds to test the validity
+// of the member data fields.
 //
-// If one or more data elements are found to be invalid, an
-// error is returned and the return boolean parameter, 'isValid',
-// is set to 'false'.
+// If one or more data elements are found to be invalid, an error
+// is returned and the return boolean parameter, 'isValid', is set
+// to 'false'.
 //
 func (nStrFmtSpecSignedNumValMolecule *numStrFmtSpecSignedNumValMolecule) testValidityOfSignedNumValDto(
 	nStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
