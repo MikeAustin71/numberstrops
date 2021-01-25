@@ -286,9 +286,9 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 	return isValid
 }
 
-// IsValidInstanceError - Performs a diagnostic review of the current
-// NumStrFmtSpecSignedNumValueDto instance to determine whether the
-// current instance is valid in all respects.
+// IsValidInstanceError - Performs a diagnostic review of the
+// current NumStrFmtSpecSignedNumValueDto instance to determine
+// whether the current instance is valid in all respects.
 //
 //
 // ----------------------------------------------------------------
@@ -297,9 +297,9 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //
 //  ePrefix             string
 //     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//       error messages. Usually, it contains the names of the
+//       calling method or methods. Note: Be sure to leave a space
+//       at the end of 'ePrefix'.
 //
 //
 // -----------------------------------------------------------------

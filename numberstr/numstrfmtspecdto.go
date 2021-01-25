@@ -18,6 +18,105 @@ type NumStrFmtSpecDto struct {
 	lock           *sync.Mutex
 }
 
+// IsValidInstance - Performs a diagnostic review of the current
+// NumStrFmtSpecDto instance to determine whether the current
+// instance is valid in all respects.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  --- NONE ---
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  isValid             bool
+//     - This returned boolean value will signal whether the current
+//       NumStrFmtSpecDto is valid, or not. If the current
+//       NumStrFmtSpecDto contains valid data, this method returns
+//       'true'. If the data is invalid, this method will return
+//       'false'.
+//
+func (fmtSpecDto *NumStrFmtSpecDto) IsValidInstance() (
+	isValid bool) {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	nStrFmtSpecDtoQuark :=
+		numStrFmtSpecDtoQuark{}
+
+	isValid,
+		_ = nStrFmtSpecDtoQuark.testValidityOfNumStrFmtSpecDto(
+		fmtSpecDto,
+		"")
+
+	return isValid
+}
+
+// IsValidInstanceError - Performs a diagnostic review of the
+// current NumStrFmtSpecDto instance to determine whether the
+// current instance is valid in all respects.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If the current instance of NumStrFmtSpecDto contains
+//       invalid data, a detailed error message will be returned
+//       identifying the invalid data item.
+//
+//       If the current instance is valid, this error parameter
+//       will be set to nil.
+//
+func (fmtSpecDto *NumStrFmtSpecDto) IsValidInstanceError(
+	ePrefix string) error {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	ePrefix += "NumStrFmtSpecDto.IsValidInstanceError() \n" +
+		"Testing Validity of 'fmtSpecDto' "
+
+	nStrFmtSpecDtoQuark :=
+		numStrFmtSpecDtoQuark{}
+
+	_,
+		err :=
+		nStrFmtSpecDtoQuark.testValidityOfNumStrFmtSpecDto(
+			fmtSpecDto,
+			ePrefix)
+
+	return err
+}
+
 // NewFromComponents - Creates and returns a new instance of
 // NumStrFmtSpecDto.
 //
