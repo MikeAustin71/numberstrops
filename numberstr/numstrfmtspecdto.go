@@ -290,3 +290,111 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromFmtSpecSetupDto(
 
 	return newNumStrFmtSpecDto, err
 }
+
+// SetFromFmtSpecSetupDto - Overwrites and sets the data values
+// for the current NumStrFmtSpecDto instance based on the input
+// data values passed in a NumStrFmtSpecSetupDto structure.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
+//     - A data structure conveying setup and configuration
+//       information for a NumStrFmtSpecDto object.
+//
+//       type NumStrFmtSpecSetupDto struct {
+//         IdNo                                      uint64
+//         IdString                                  string
+//         Description                               string
+//         Tag                                       string
+//         CountryIdNo                               uint64
+//         CountryIdString                           string
+//         CountryDescription                        string
+//         CountryTag                                string
+//         CountryCultureName                        string
+//         CountryAbbreviatedName                    string
+//         CountryAlternateNames                     []string
+//         CountryCodeTwoChar                        string
+//         CountryCodeThreeChar                      string
+//         CountryCodeNumber                         string
+//         AbsoluteValFmt                            string
+//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
+//         AbsoluteValNumFieldLen                    int
+//         CurrencyPositiveValueFmt                  string
+//         CurrencyNegativeValueFmt                  string
+//         CurrencyDecimalDigits                     int
+//         CurrencyCode                              string
+//         CurrencyName                              string
+//         CurrencySymbol                            rune
+//         CurrencyTurnOnIntegerDigitsSeparation     bool
+//         CurrencyNumFieldLen                       int
+//         DecimalSeparator                          rune
+//         IntegerDigitsSeparator                    rune
+//         IntegerDigitsGroupingSequence             []uint
+//         SignedNumValPositiveValueFmt              string
+//         SignedNumValNegativeValueFmt              string
+//         SignedNumValTurnOnIntegerDigitsSeparation bool
+//         SignedNumValNumFieldLen                   int
+//         SciNotMantissaLength                      uint
+//         SciNotExponentChar                        rune
+//         SciNotExponentUsesLeadingPlus             bool
+//         SciNotNumFieldLen                         int
+//       }
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
+	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
+	ePrefix string) error {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	ePrefix += "NumStrFmtSpecDto.NewFromFmtSpecSetupDto() "
+
+	if fmtSpecSetupDto == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
+			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
+			ePrefix)
+	}
+
+	if fmtSpecSetupDto.Lock == nil {
+		fmtSpecSetupDto.Lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDtoMech :=
+		numStrFmtSpecDtoMechanics{}
+
+	return nStrFmtSpecDtoMech.setFromFmtSpecSetupDto(
+		fmtSpecDto,
+		fmtSpecSetupDto,
+		ePrefix+
+			"fmtSpecDto\n")
+}

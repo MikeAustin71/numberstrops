@@ -27,7 +27,7 @@ type numStrFmtSpecDtoMechanics struct {
 //
 //  fmtSpecSetupDto     NumStrFmtSpecSetupDto
 //     - A data structure conveying setup and configuration
-//       information for a NumStrFmtSpecSetupDto object.
+//       information for a NumStrFmtSpecDto object.
 //
 //       type NumStrFmtSpecSetupDto struct {
 //         IdNo                                      uint64
