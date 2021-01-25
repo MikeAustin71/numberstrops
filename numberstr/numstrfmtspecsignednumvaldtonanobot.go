@@ -43,6 +43,10 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyIn(
 		return err
 	}
 
+	if targetNStrFmtSpecSignedNumValDto.lock == nil {
+		targetNStrFmtSpecSignedNumValDto.lock = new(sync.Mutex)
+	}
+
 	if inComingNStrFmtSpecSignedNumValDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'inComingNStrFmtSpecSignedNumValDto' is"+
@@ -85,8 +89,11 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyIn(
 		return err
 	}
 
-	targetNStrFmtSpecSignedNumValDto.numFieldLenDto.CopyIn(
-		&inComingNStrFmtSpecSignedNumValDto.numFieldLenDto)
+	err =
+		targetNStrFmtSpecSignedNumValDto.numFieldLenDto.CopyIn(
+			&inComingNStrFmtSpecSignedNumValDto.numFieldLenDto,
+			ePrefix+
+				"\ninComingNStrFmtSpecSignedNumValDto->targetNStrFmtSpecSignedNumValDto\n")
 
 	return err
 }
@@ -155,8 +162,11 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyOut(
 		return newNStrFmtSpecSignedNumValDto, err
 	}
 
-	newNStrFmtSpecSignedNumValDto.numFieldLenDto.CopyIn(
-		&nStrFmtSpecSignedNumValDto.numFieldLenDto)
+	err =
+		newNStrFmtSpecSignedNumValDto.numFieldLenDto.CopyIn(
+			&nStrFmtSpecSignedNumValDto.numFieldLenDto,
+			ePrefix+
+				"\nnStrFmtSpecSignedNumValDto->newNStrFmtSpecSignedNumValDto\n")
 
 	newNStrFmtSpecSignedNumValDto.lock = new(sync.Mutex)
 

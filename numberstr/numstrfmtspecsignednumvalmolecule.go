@@ -44,6 +44,10 @@ func (nStrFmtSpecSignedNumValMolecule *numStrFmtSpecSignedNumValMolecule) testVa
 		return isValid, err
 	}
 
+	if nStrFmtSpecSignedNumValDto.lock == nil {
+		nStrFmtSpecSignedNumValDto.lock = new(sync.Mutex)
+	}
+
 	nStrSignedNumAtom :=
 		numStrFmtSpecSignedNumValAtom{}
 
