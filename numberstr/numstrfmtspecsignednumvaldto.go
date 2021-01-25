@@ -1040,9 +1040,10 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromFmtSpe
 // Input Parameters
 //
 //  fmtSpecSetupDto     NumStrFmtSpecSetupDto
-//     - A data structure conveying setup information for a
-//       NumStrFmtSpecSignedNumValueDto object. Only the following
-//       data fields with a prefix of "SignedNumVal" are used.
+//     - A data structure conveying setup and configuration
+//       information for a NumStrFmtSpecSignedNumValueDto
+//       object. Only the following data fields with a prefix of
+//       "SignedNumVal" are used.
 //
 //       type NumStrFmtSpecSetupDto struct {
 //         IdNo                                      uint64
