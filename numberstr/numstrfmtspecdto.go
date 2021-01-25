@@ -26,12 +26,6 @@ type NumStrFmtSpecDto struct {
 //
 // Input Parameters
 //
-//  nStrFmtSpecDto                *NumStrFmtSpecDto
-//     - A pointer to an instance of NumStrFmtSpecDto. The data
-//       values for this object will be overwritten and set
-//       according to information passed in the following input'
-//       parameters.
-//
 //  idNo                          uint64
 //     - A user created identification number associated with the
 //       'nStrFmtSpecDto' object.
@@ -397,4 +391,137 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 		fmtSpecSetupDto,
 		ePrefix+
 			"fmtSpecDto\n")
+}
+
+// SetNumStrFmtSpecDto - Overwrites and sets the data values
+// for the current NumStrFmtSpecDto instance based on component
+// values passed as input parameters.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  idNo                          uint64
+//     - A user created identification number associated with the
+//       'nStrFmtSpecDto' object.
+//
+//
+//  idString                      string
+//     - User defined text identification associated with the
+//       'nStrFmtSpecDto' object.
+//
+//  description                   string
+//     - User defined text description associated with the
+//       'nStrFmtSpecDto' object.
+//
+//
+//  tag                           string
+//     - User defined tag associated with the 'nStrFmtSpecDto'
+//       object.
+//
+//
+//  countryCulture                NumStrFmtSpecCountryDto
+//     - A valid and fully populated NumStrFmtSpecCountryDto
+//       object. This object contains information on the country
+//       or culture related to this number string format.
+//
+//       If this object is judged to be invalid, an error
+//       will be returned.
+//
+//
+//  absoluteValue                 NumStrFmtSpecAbsoluteValueDto
+//     - A valid and fully populated NumStrFmtSpecAbsoluteValueDto
+//       object. This object contains formatting specifications
+//       controlling the text display of absolute numeric values.
+//
+//       If this object is judged to be invalid, an error
+//       will be returned.
+//
+//
+//  currencyValue                 NumStrFmtSpecCurrencyValueDto
+//     - A valid and fully populated NumStrFmtSpecCurrencyValueDto
+//       object. This object contains formatting specifications
+//       controlling the text display of currency number strings.
+//
+//       If this object is judged to be invalid, an error
+//       will be returned.
+//
+//
+//  signedNumValue                NumStrFmtSpecSignedNumValueDto
+//     - A valid and fully populated NumStrFmtSpecSignedNumValueDto
+//       object. This object contains formatting specifications
+//       controlling the text display of signed numeric values.
+//
+//       If this object is judged to be invalid, an error
+//       will be returned.
+//
+//
+//  sciNotation                   NumStrFmtSpecSciNotationDto
+//     - A valid and fully populated NumStrFmtSpecCountryDto
+//       object. This object contains formatting specifications
+//       controlling the text display of scientific notation.
+//
+//       If this object is judged to be invalid, an error
+//       will be returned.
+//
+//
+//  ePrefix                    string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (fmtSpecDto *NumStrFmtSpecDto) SetNumStrFmtSpecDto(
+	idNo uint64,
+	idString string,
+	description string,
+	tag string,
+	countryCulture NumStrFmtSpecCountryDto,
+	absoluteValue NumStrFmtSpecAbsoluteValueDto,
+	currencyValue NumStrFmtSpecCurrencyValueDto,
+	signedNumValue NumStrFmtSpecSignedNumValueDto,
+	sciNotation NumStrFmtSpecSciNotationDto,
+	ePrefix string) error {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	ePrefix += "NumStrFmtSpecDto.SetNumStrFmtSpecDto() "
+
+	nStrFmtSpecDtoMech := numStrFmtSpecDtoMechanics{}
+
+	err := nStrFmtSpecDtoMech.setNumStrFmtSpecDto(
+		fmtSpecDto,
+		idNo,
+		idString,
+		description,
+		tag,
+		countryCulture,
+		absoluteValue,
+		currencyValue,
+		signedNumValue,
+		sciNotation,
+		ePrefix)
+
+	return err
 }
