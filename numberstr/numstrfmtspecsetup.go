@@ -20,6 +20,7 @@ type NumStrFmtSpecSetupDto struct {
 	AbsoluteValFmt                            string
 	AbsoluteValTurnOnIntegerDigitsSeparation  bool
 	AbsoluteValNumFieldLen                    int
+	AbsoluteValNumFieldTextJustify            TextJustify
 	CurrencyPositiveValueFmt                  string
 	CurrencyNegativeValueFmt                  string
 	CurrencyDecimalDigits                     uint
@@ -28,6 +29,7 @@ type NumStrFmtSpecSetupDto struct {
 	CurrencySymbol                            rune
 	CurrencyTurnOnIntegerDigitsSeparation     bool
 	CurrencyNumFieldLen                       int
+	CurrencyNumFieldTextJustify               TextJustify
 	DecimalSeparator                          rune
 	IntegerDigitsSeparator                    rune
 	IntegerDigitsGroupingSequence             []uint
@@ -35,10 +37,12 @@ type NumStrFmtSpecSetupDto struct {
 	SignedNumValNegativeValueFmt              string
 	SignedNumValTurnOnIntegerDigitsSeparation bool
 	SignedNumValNumFieldLen                   int
+	SignedNumValNumFieldTextJustify           TextJustify
 	SciNotSignificandUsesLeadingPlus          bool
 	SciNotMantissaLength                      uint
 	SciNotExponentChar                        rune
 	SciNotExponentUsesLeadingPlus             bool
 	SciNotNumFieldLen                         int
+	SciNotNumFieldTextJustify                 TextJustify
 	Lock                                      *sync.Mutex
 }

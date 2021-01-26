@@ -1,6 +1,9 @@
 package numberstr
 
-import "sync"
+import (
+	"strings"
+	"sync"
+)
 
 // NumStrFormatCountry - Returns the number string formats used
 // by specific countries.
@@ -1189,8 +1192,8 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() map[NumStrValSpec]Num
 // United States.
 func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 	ePrefix string) (
-	NumStrFmtSpecDto,
-	error) {
+	nStrFmtSpecDto NumStrFmtSpecDto,
+	err error) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -1200,148 +1203,68 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	ePrefix += "\nNumStrFormatCountry.UnitedStates() "
+	if !strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
-	var err error
+	ePrefix += "NumStrFormatCountry.UnitedStates() "
 
-	countryDto := NumStrFmtSpecCountryDto{}
+	setupDto := NumStrFmtSpecSetupDto{}
+	setupDto.Lock = new(sync.Mutex)
 
-	countryDto.idNo = 840
-	countryDto.idString = "840"
-	countryDto.description = "Country Setup"
-	countryDto.countryCultureName = "United States"
-	countryDto.abbreviatedCountryName = "USA"
-	countryDto.alternateCountryNames = []string{
-		"United States of America",
-		"America"}
-	countryDto.countryCodeTwoChar = "US"
-	countryDto.countryCodeThreeChar = "USA"
-	countryDto.countryCodeNumber = "840"
+	setupDto.IdNo = 840
+	setupDto.IdString = "840"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 840
+	setupDto.CountryIdString = "840"
+	setupDto.CountryDescription = "Country Setup"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "United States"
+	setupDto.CountryAbbreviatedName = "USA"
 
-	numFieldDto := NumberFieldDto{}
-	numFieldDto.requestedNumFieldLength = -1
-	numFieldDto.actualNumFieldLength = -1
-	numFieldDto.minimumNumFieldLength = -1
-	numFieldDto.textJustifyFormat = TextJustify(0).Right()
+	setupDto.CountryAlternateNames =
+		[]string{
+			"United States of America",
+			"America"}
 
-	digitsSepsDto := NumStrFmtSpecDigitsSeparatorsDto{}
-	digitsSepsDto.integerDigitsGroupingSequence =
+	setupDto.CountryCodeTwoChar = "US"
+	setupDto.CountryCodeThreeChar = "USA"
+	setupDto.CountryCodeNumber = "840"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "-$127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "USD"
+	setupDto.CurrencyName = "Dollar"
+	setupDto.CurrencySymbol = '\U00000024'
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
-	digitsSepsDto.integerDigitsSeparator = ','
-	digitsSepsDto.decimalSeparator = '.'
 
-	// Currency Format
-	currencyValFmt := NumStrFmtSpecCurrencyValueDto{}
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
 
-	currencyValFmt.positiveValueFmt = "$127.54"
-	currencyValFmt.negativeValueFmt = "-$127.54"
-	currencyValFmt.decimalDigits = 2
-	currencyValFmt.currencyCode = "USD"
-	currencyValFmt.currencyName = "Dollar"
-	currencyValFmt.currencySymbol = '\U00000024'
-	currencyValFmt.turnOnIntegerDigitsSeparation = true
+	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
+		&setupDto,
+		ePrefix+
+			"United States Setup\n")
 
-	err =
-		currencyValFmt.numberSeparatorsDto.CopyIn(
-			&digitsSepsDto,
-			ePrefix+
-				"currencyValFmt\n")
-
-	if err != nil {
-		return NumStrFmtSpecDto{}, err
-	}
-
-	err =
-		currencyValFmt.numFieldLenDto.CopyIn(
-			&numFieldDto,
-			ePrefix+
-				"currencyValFmt\n")
-
-	if err != nil {
-		return NumStrFmtSpecDto{}, err
-	}
-
-	// Absolute Value Format
-	absValFmt := NumStrFmtSpecAbsoluteValueDto{}
-
-	absValFmt.absoluteValFmt = "127.54"
-
-	absValFmt.turnOnIntegerDigitsSeparation = false
-
-	err =
-		absValFmt.numberSeparatorsDto.CopyIn(
-			&digitsSepsDto,
-			ePrefix+
-				"absValFmt\n")
-
-	if err != nil {
-		return NumStrFmtSpecDto{}, err
-	}
-
-	err =
-		absValFmt.numFieldLenDto.CopyIn(
-			&numFieldDto,
-			ePrefix+
-				"absValFmt\n")
-
-	if err != nil {
-		return NumStrFmtSpecDto{}, err
-	}
-
-	// Signed Number Format
-	signedNumValFmt := NumStrFmtSpecSignedNumValueDto{}
-
-	signedNumValFmt.positiveValueFmt = "127.54"
-	signedNumValFmt.negativeValueFmt = "-127.54"
-	signedNumValFmt.turnOnIntegerDigitsSeparation = false
-
-	err =
-		signedNumValFmt.numberSeparatorsDto.CopyIn(
-			&digitsSepsDto,
-			ePrefix+
-				"signedNumValFmt\n")
-
-	if err != nil {
-		return NumStrFmtSpecDto{}, err
-	}
-
-	err =
-		signedNumValFmt.numFieldLenDto.CopyIn(
-			&numFieldDto,
-			ePrefix+
-				"signedNumValFmt\n")
-
-	if err != nil {
-		return NumStrFmtSpecDto{}, err
-	}
-
-	// Scientific Notation Format
-	sciNotFmt := NumStrFmtSpecSciNotationDto{}
-
-	sciNotFmt.significandUsesLeadingPlus = true
-	sciNotFmt.mantissaLength = 5
-	sciNotFmt.exponentChar = 'E'
-	sciNotFmt.exponentUsesLeadingPlus = true
-
-	err =
-		sciNotFmt.numFieldLenDto.CopyIn(
-			&numFieldDto,
-			ePrefix+
-				"sciNotFmt\n")
-
-	if err != nil {
-		return NumStrFmtSpecDto{}, err
-	}
-
-	return NumStrFmtSpecDto{}.New(
-		countryDto.idNo,
-		countryDto.idString,
-		countryDto.description,
-		countryDto.tag,
-		countryDto,
-		absValFmt,
-		currencyValFmt,
-		signedNumValFmt,
-		sciNotFmt,
-		ePrefix)
+	return nStrFmtSpecDto, err
 }
