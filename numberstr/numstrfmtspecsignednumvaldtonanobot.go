@@ -119,7 +119,7 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyOut(
 
 	defer nStrFmtSpecSignedNumValNanobot.lock.Unlock()
 
-	ePrefix += "\nnStrFmtSpecSignedNumValNanobot.copyOut()\n "
+	ePrefix += "nStrFmtSpecSignedNumValNanobot.copyOut()\n "
 
 	if nStrFmtSpecSignedNumValDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -166,7 +166,7 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyOut(
 		newNStrFmtSpecSignedNumValDto.numFieldLenDto.CopyIn(
 			&nStrFmtSpecSignedNumValDto.numFieldLenDto,
 			ePrefix+
-				"\nnStrFmtSpecSignedNumValDto->newNStrFmtSpecSignedNumValDto\n")
+				"nStrFmtSpecSignedNumValDto->newNStrFmtSpecSignedNumValDto\n")
 
 	newNStrFmtSpecSignedNumValDto.lock = new(sync.Mutex)
 

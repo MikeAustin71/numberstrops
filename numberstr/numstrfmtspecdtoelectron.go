@@ -33,7 +33,7 @@ func (nStrFmtSpecDtoElectron *numStrFmtSpecDtoElectron) copyIn(
 
 	defer nStrFmtSpecDtoElectron.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecDtoElectron.copyIn()\n "
+	ePrefix += "numStrFmtSpecDtoElectron.copyIn()\n "
 
 	if targetNStrFmtSpecDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -84,7 +84,7 @@ func (nStrFmtSpecDtoElectron *numStrFmtSpecDtoElectron) copyIn(
 	err = targetNStrFmtSpecDto.countryCulture.CopyIn(
 		&inComingNStrFmtSpecDto.countryCulture,
 		ePrefix+
-			"\ninComingNStrFmtSpecDto->targetNStrFmtSpecDto ")
+			"inComingNStrFmtSpecDto->targetNStrFmtSpecDto\n")
 
 	if err != nil {
 		return err
@@ -93,7 +93,7 @@ func (nStrFmtSpecDtoElectron *numStrFmtSpecDtoElectron) copyIn(
 	err = targetNStrFmtSpecDto.absoluteValue.CopyIn(
 		&inComingNStrFmtSpecDto.absoluteValue,
 		ePrefix+
-			"\ninComingNStrFmtSpecDto->targetNStrFmtSpecDto ")
+			"inComingNStrFmtSpecDto->targetNStrFmtSpecDto\n")
 
 	if err != nil {
 		return err
@@ -102,7 +102,7 @@ func (nStrFmtSpecDtoElectron *numStrFmtSpecDtoElectron) copyIn(
 	err = targetNStrFmtSpecDto.currencyValue.CopyIn(
 		&inComingNStrFmtSpecDto.currencyValue,
 		ePrefix+
-			"\ninComingNStrFmtSpecDto->targetNStrFmtSpecDto ")
+			"inComingNStrFmtSpecDto->targetNStrFmtSpecDto\n")
 
 	if err != nil {
 		return err
@@ -111,7 +111,7 @@ func (nStrFmtSpecDtoElectron *numStrFmtSpecDtoElectron) copyIn(
 	err = targetNStrFmtSpecDto.signedNumValue.CopyIn(
 		&inComingNStrFmtSpecDto.signedNumValue,
 		ePrefix+
-			"\ninComingNStrFmtSpecDto->targetNStrFmtSpecDto ")
+			"inComingNStrFmtSpecDto->targetNStrFmtSpecDto\n")
 
 	if err != nil {
 		return err
@@ -120,7 +120,7 @@ func (nStrFmtSpecDtoElectron *numStrFmtSpecDtoElectron) copyIn(
 	err = targetNStrFmtSpecDto.sciNotation.CopyIn(
 		&inComingNStrFmtSpecDto.sciNotation,
 		ePrefix+
-			"\ninComingNStrFmtSpecDto->targetNStrFmtSpecDto ")
+			"inComingNStrFmtSpecDto->targetNStrFmtSpecDto\n")
 
 	return err
 }
@@ -145,7 +145,7 @@ func (nStrFmtSpecDtoElectron *numStrFmtSpecDtoElectron) copyOut(
 
 	defer nStrFmtSpecDtoElectron.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecDtoElectron.copyOut()\n "
+	ePrefix += "numStrFmtSpecDtoElectron.copyOut()\n "
 
 	if nStrFmtSpecDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -185,7 +185,7 @@ func (nStrFmtSpecDtoElectron *numStrFmtSpecDtoElectron) copyOut(
 	err = newNStrFmtSpecDto.countryCulture.CopyIn(
 		&nStrFmtSpecDto.countryCulture,
 		ePrefix+
-			"\nnStrFmtSpecDto->newNStrFmtSpecDto ")
+			"nStrFmtSpecDto->newNStrFmtSpecDto\n")
 
 	if err != nil {
 		return newNStrFmtSpecDto, err
@@ -194,7 +194,7 @@ func (nStrFmtSpecDtoElectron *numStrFmtSpecDtoElectron) copyOut(
 	err = newNStrFmtSpecDto.absoluteValue.CopyIn(
 		&nStrFmtSpecDto.absoluteValue,
 		ePrefix+
-			"\nnStrFmtSpecDto->newNStrFmtSpecDto ")
+			"nStrFmtSpecDto->newNStrFmtSpecDto\n")
 
 	if err != nil {
 		return newNStrFmtSpecDto, err
@@ -203,7 +203,7 @@ func (nStrFmtSpecDtoElectron *numStrFmtSpecDtoElectron) copyOut(
 	err = newNStrFmtSpecDto.currencyValue.CopyIn(
 		&nStrFmtSpecDto.currencyValue,
 		ePrefix+
-			"\nnStrFmtSpecDto->newNStrFmtSpecDto ")
+			"nStrFmtSpecDto->newNStrFmtSpecDto\n")
 
 	if err != nil {
 		return newNStrFmtSpecDto, err
@@ -212,7 +212,7 @@ func (nStrFmtSpecDtoElectron *numStrFmtSpecDtoElectron) copyOut(
 	err = newNStrFmtSpecDto.signedNumValue.CopyIn(
 		&nStrFmtSpecDto.signedNumValue,
 		ePrefix+
-			"\nnStrFmtSpecDto->newNStrFmtSpecDto ")
+			"nStrFmtSpecDto->newNStrFmtSpecDto\n")
 
 	if err != nil {
 		return newNStrFmtSpecDto, err
@@ -221,7 +221,7 @@ func (nStrFmtSpecDtoElectron *numStrFmtSpecDtoElectron) copyOut(
 	err = newNStrFmtSpecDto.sciNotation.CopyIn(
 		&nStrFmtSpecDto.sciNotation,
 		ePrefix+
-			"\nnStrFmtSpecDto->newNStrFmtSpecDto ")
+			"nStrFmtSpecDto->newNStrFmtSpecDto\n")
 
 	return newNStrFmtSpecDto, err
 }

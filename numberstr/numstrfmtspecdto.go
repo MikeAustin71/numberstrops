@@ -73,7 +73,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) CopyIn(
 		ePrefix += "\n"
 	}
 
-	ePrefix += "NumStrFmtSpecDto.CopyIn()\n "
+	ePrefix += "\nNumStrFmtSpecDto.CopyIn() "
 
 	nStrFmtSpecDtoElectron :=
 		numStrFmtSpecDtoElectron{}
@@ -81,7 +81,69 @@ func (fmtSpecDto *NumStrFmtSpecDto) CopyIn(
 	return nStrFmtSpecDtoElectron.copyIn(
 		fmtSpecDto,
 		incomingFmtSpecDto,
-		ePrefix)
+		ePrefix+
+			"incomingFmtSpecDto->fmtSpecDto\n")
+}
+
+// CopyOut - Creates and returns a deep copy of the current
+// NumStrFmtSpecDto instance.
+//
+// If the current NumStrFmtSpecDto instance is judged to be
+// invalid, this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Be sure to leave a space at the end of
+//       'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrFmtSpecDto
+//     - If this method completes successfully, a new instance of
+//       NumStrFmtSpecDto will be created and returned containing
+//       all of the data values copied from the current instance of
+//       NumStrFmtSpecDto.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. The input parameter, 'ePrefix', will be
+//       prefixed and inserted at the beginning of the returned
+//       error message.
+//
+func (fmtSpecDto *NumStrFmtSpecDto) CopyOut(
+	ePrefix string) (
+	NumStrFmtSpecDto,
+	error) {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	ePrefix += "NumStrFmtSpecDto.CopyOut()\n"
+
+	nStrFmtSpecDtoElectron :=
+		numStrFmtSpecDtoElectron{}
+
+	return nStrFmtSpecDtoElectron.copyOut(
+		fmtSpecDto,
+		ePrefix+
+			"Copy Out from 'fmtSpecDto'\n ")
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
