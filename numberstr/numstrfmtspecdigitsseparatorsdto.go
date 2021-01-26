@@ -1,6 +1,7 @@
 package numberstr
 
 import (
+	"strings"
 	"sync"
 )
 
@@ -75,7 +76,9 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) CopyIn(
 
 	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
@@ -292,6 +295,12 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstance
 
 	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
 
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
 	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.IsValidInstanceError() \n" +
 		"Testing Validity of 'nStrFmtSpecDigitsSepDto' "
 
@@ -407,7 +416,9 @@ func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) NewWithDefaults(
 
 	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
@@ -514,7 +525,9 @@ func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) NewFromComponent
 
 	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
@@ -638,7 +651,9 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetDigitsSeps(
 
 	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 

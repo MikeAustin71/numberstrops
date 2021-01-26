@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -37,7 +38,9 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) CopyIn(
 
 	defer nStrFmtSpecCntryDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
@@ -67,6 +70,12 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) CopyOut(
 	nStrFmtSpecCntryDto.lock.Lock()
 
 	defer nStrFmtSpecCntryDto.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "NumStrFmtSpecCountryDto.CopyOut() "
 
@@ -329,7 +338,13 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) IsValidInstanceError(
 
 	defer nStrFmtSpecCntryDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCountryDto.IsValidInstanceError() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecCountryDto.IsValidInstanceError() "
 
 	nStrFmtSpecCntryQuark := numStrFmtSpecCountryDtoQuark{}
 
@@ -444,7 +459,9 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) New(
 
 	defer nStrFmtSpecCntryDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
@@ -567,7 +584,9 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewFromFmtSpecSetupDto(
 
 	defer nStrFmtSpecCntryDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
@@ -847,7 +866,13 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetCountryDto(
 
 	defer nStrFmtSpecCntryDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCountryDto.SetCountryDto() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecCountryDto.SetCountryDto() "
 
 	nStrFmtSpecCntryMech :=
 		numStrFmtSpecCountryDtoMechanics{}
@@ -971,7 +996,13 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetFromFmtSpecSetupDto(
 
 	defer nStrFmtSpecCntryDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCountryDto.SetFromFmtSpecSetupDto() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecCountryDto.SetFromFmtSpecSetupDto() "
 
 	if fmtSpecSetupDto == nil {
 		return fmt.Errorf("%v\n"+

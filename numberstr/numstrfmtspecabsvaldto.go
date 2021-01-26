@@ -66,7 +66,13 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyIn(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.CopyIn()\n "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecAbsoluteValueDto.CopyIn()\n "
 
 	nStrFmtSpecAbsValDtoNanobot :=
 		numStrFmtSpecAbsoluteValueDtoNanobot{}
@@ -126,7 +132,13 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyOut(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.CopyOut()\n "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecAbsoluteValueDto.CopyOut()\n "
 
 	nStrFmtSpecAbsValDtoNanobot :=
 		numStrFmtSpecAbsoluteValueDtoNanobot{}
@@ -309,7 +321,13 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.IsValidInstanceError() \n" +
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecAbsoluteValueDto.IsValidInstanceError() \n" +
 		"Testing Validity of 'nStrFmtAbsValDto'\n "
 
 	nStrFmtSpecAbsValDtoMolecule :=
@@ -729,7 +747,13 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.NewFromComponents()\n "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecAbsoluteValueDto.NewFromComponents()\n "
 
 	newNStrFmtSpecAbsoluteValueDto := NumStrFmtSpecAbsoluteValueDto{}
 
@@ -843,11 +867,13 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromFmtSpecSetupDto(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
-	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.NewFromFmtSpecSetupDto() "
+	ePrefix += "nNumStrFmtSpecAbsoluteValueDto.NewFromFmtSpecSetupDto() "
 
 	if fmtSpecSetupDto == nil {
 		return NumStrFmtSpecAbsoluteValueDto{},
@@ -1185,7 +1211,13 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsValDto(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.SetAbsValDto() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecAbsoluteValueDto.SetAbsValDto() "
 
 	nStrFmtSpecAbsValDtoMech :=
 		numStrFmtSpecAbsoluteValueDtoMechanics{}
@@ -1286,7 +1318,13 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetFromFmtSpecSetupDto(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCountryDto.SetFromFmtSpecSetupDto() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecCountryDto.SetFromFmtSpecSetupDto() "
 
 	if fmtSpecSetupDto == nil {
 		return fmt.Errorf("%v\n"+
@@ -1372,6 +1410,12 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberFieldLengthDto(
 	nStrFmtAbsValDto.lock.Lock()
 
 	defer nStrFmtAbsValDto.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "NumStrFmtSpecAbsoluteValueDto.SetNumberFieldLengthDto()\n"
 

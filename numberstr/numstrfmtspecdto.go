@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -69,11 +70,13 @@ func (fmtSpecDto *NumStrFmtSpecDto) CopyIn(
 
 	defer fmtSpecDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
-	ePrefix += "\nNumStrFmtSpecDto.CopyIn() "
+	ePrefix += "NumStrFmtSpecDto.CopyIn() "
 
 	nStrFmtSpecDtoElectron :=
 		numStrFmtSpecDtoElectron{}
@@ -134,6 +137,12 @@ func (fmtSpecDto *NumStrFmtSpecDto) CopyOut(
 	fmtSpecDto.lock.Lock()
 
 	defer fmtSpecDto.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "NumStrFmtSpecDto.CopyOut()\n"
 
@@ -229,6 +238,12 @@ func (fmtSpecDto *NumStrFmtSpecDto) IsValidInstanceError(
 	fmtSpecDto.lock.Lock()
 
 	defer fmtSpecDto.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "NumStrFmtSpecDto.IsValidInstanceError() \n" +
 		"Testing Validity of 'fmtSpecDto' "
@@ -364,6 +379,12 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromComponents(
 
 	defer fmtSpecDto.lock.Unlock()
 
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
 	ePrefix += "NumStrFmtSpecDto.NewFromComponents() "
 
 	newFmtSpecDto := NumStrFmtSpecDto{}
@@ -483,6 +504,12 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromFmtSpecSetupDto(
 
 	ePrefix += "NumStrFmtSpecDto.NewFromFmtSpecSetupDto() "
 
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
 	newNumStrFmtSpecDto :=
 		NumStrFmtSpecDto{}
 
@@ -596,6 +623,12 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 	fmtSpecDto.lock.Lock()
 
 	defer fmtSpecDto.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "NumStrFmtSpecDto.NewFromFmtSpecSetupDto() "
 
@@ -732,6 +765,12 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetNumStrFmtSpecDto(
 	fmtSpecDto.lock.Lock()
 
 	defer fmtSpecDto.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "NumStrFmtSpecDto.SetNumStrFmtSpecDto() "
 

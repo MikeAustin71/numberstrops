@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -27,6 +28,12 @@ func (nStrCurrencyAtom *numStrFmtSpecCurrencyValueDtoAtom) testCurrencyPositiveV
 	nStrCurrencyAtom.lock.Lock()
 
 	defer nStrCurrencyAtom.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "numStrFmtSpecCurrencyValueDtoElectron.testCurrencyPositiveValueFormat() "
 
@@ -70,6 +77,12 @@ func (nStrCurrencyAtom *numStrFmtSpecCurrencyValueDtoAtom) testCurrencyNegativeV
 	nStrCurrencyAtom.lock.Lock()
 
 	defer nStrCurrencyAtom.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "numStrFmtSpecCurrencyValueDtoAtom.testCurrencyNegativeValueFormat() "
 

@@ -394,7 +394,13 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 
 	nStrNFldDtoQuark := numStrNumFieldDtoQuark{}
 
-	ePrefix += "\nNumberFieldDto.IsValidInstanceError() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumberFieldDto.IsValidInstanceError() "
 
 	_,
 		err := nStrNFldDtoQuark.testValidityNumberFieldDto(
@@ -619,6 +625,12 @@ func (nFieldDto NumberFieldDto) NewFromComponents(
 
 	defer nFieldDto.lock.Unlock()
 
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
 	ePrefix += "NumberFieldDto.NewFromComponents()\n"
 
 	newNumFieldDto := NumberFieldDto{}
@@ -749,6 +761,12 @@ func (nFieldDto *NumberFieldDto) SetNumberFieldDto(
 	nFieldDto.lock.Lock()
 
 	defer nFieldDto.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "NumberFieldDto.SetNumberFieldDto() "
 

@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -205,7 +206,13 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 
 	defer nStrFmtSpecAbsValDtoMech.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecAbsoluteValueDtoMechanics.setAbsValDto()\n "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "numStrFmtSpecAbsoluteValueDtoMechanics.setAbsValDto()\n "
 
 	if nStrFmtSpecAbValDto == nil {
 		err = fmt.Errorf("%v\n"+

@@ -28,6 +28,12 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 
 	defer nStrSignedNumElectron.lock.Unlock()
 
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
 	ePrefix += "numStrSignedNumValElectron.testSignedNumValNegativeValueFormat() "
 
 	isValid = false
@@ -140,6 +146,12 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValPositiv
 	nStrSignedNumElectron.lock.Lock()
 
 	defer nStrSignedNumElectron.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "numStrSignedNumValElectron.testSignedNumValPositiveValueFormatStr() "
 

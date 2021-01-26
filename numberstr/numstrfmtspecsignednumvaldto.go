@@ -67,7 +67,9 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
@@ -131,6 +133,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut(
 	nStrFmtSpecSignedNumValueDto.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "NumStrFmtSpecSignedNumValueDto.CopyOut()\n "
 
@@ -325,6 +333,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 	nStrFmtSpecSignedNumValueDto.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "NumStrFmtSpecSignedNumValueDto.IsValidInstanceError() \n" +
 		"Testing Validity of 'nStrFmtSpecSignedNumValueDto' "
@@ -904,7 +918,13 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.NewFromComponents() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecSignedNumValueDto.NewFromComponents() "
 
 	newNStrFmtSpecSignedNumValueDto := NumStrFmtSpecSignedNumValueDto{}
 
@@ -1312,7 +1332,13 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNegativeV
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.SetNegativeValueFormat()\n"
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecSignedNumValueDto.SetNegativeValueFormat()\n"
 
 	nStrSignedNumElectron :=
 		numStrSignedNumValElectron{}
@@ -1409,6 +1435,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFie
 	nStrFmtSpecSignedNumValueDto.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "NumStrFmtSpecSignedNumValueDto.SetNumberFieldLengthDto()\n"
 
@@ -1583,6 +1615,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 	nStrFmtSpecSignedNumValueDto.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "NumStrFmtSpecSignedNumValueDto.SetPositiveValueFormat()\n"
 
@@ -1873,7 +1911,13 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetSignedNum
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.SetSignedNumValDto() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecSignedNumValueDto.SetSignedNumValDto() "
 
 	nStrFmtSpecSignedNumValMech :=
 		nStrFmtSpecSignedNumValMechanics{}

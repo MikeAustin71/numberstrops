@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -27,7 +28,13 @@ func (nStrSignedNumAtom *numStrFmtSpecSignedNumValAtom) testSignedNumValPositive
 
 	defer nStrSignedNumAtom.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecSignedNumValAtom.testSignedNumValPositiveValueFormat() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "numStrFmtSpecSignedNumValAtom.testSignedNumValPositiveValueFormat() "
 
 	isValid = false
 
@@ -68,6 +75,12 @@ func (nStrSignedNumAtom *numStrFmtSpecSignedNumValAtom) testSignedNumValNegative
 	nStrSignedNumAtom.lock.Lock()
 
 	defer nStrSignedNumAtom.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "numStrFmtSpecSignedNumValAtom.testSignedNumValNegativeValueFormat()\n "
 

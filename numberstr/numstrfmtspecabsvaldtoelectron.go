@@ -28,6 +28,12 @@ func (nStrAbsValDtoElectron *numStrFmtSpecAbsoluteValueDtoElectron) testAbsolute
 
 	defer nStrAbsValDtoElectron.lock.Unlock()
 
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
 	ePrefix += "numStrFmtSpecAbsoluteValueDtoElectron.testAbsoluteValueFormatStr() "
 
 	isValid = false

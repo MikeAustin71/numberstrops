@@ -212,7 +212,7 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 		ePrefix += "\n"
 	}
 
-	ePrefix += "\nnumStrFmtSpecAbsoluteValueDtoUtility.setAbsValDtoWithDefaults() "
+	ePrefix += "numStrFmtSpecAbsoluteValueDtoUtility.setAbsValDtoWithDefaults() "
 
 	if nStrFmtSpecAbsValDto == nil {
 		err = fmt.Errorf("%v\n"+

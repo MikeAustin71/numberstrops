@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -30,6 +31,12 @@ func (nStrNFldDtoQuark *numStrNumFieldDtoQuark) testValidityNumberFieldDto(
 	nStrNFldDtoQuark.lock.Lock()
 
 	defer nStrNFldDtoQuark.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "\nnumStrNumFieldDtoQuark.testValidityNumberFieldDto()\n"
 	isValid = false

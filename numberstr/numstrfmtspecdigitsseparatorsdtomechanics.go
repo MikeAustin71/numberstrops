@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -29,7 +30,9 @@ func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigi
 
 	defer nStrFmtSpecDigitsSepsDtoMech.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 

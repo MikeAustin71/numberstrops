@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -33,7 +34,13 @@ func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) c
 
 	defer nStrFmtSpecDigitsSepsElectron.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecDigitsSeparatorsDtoElectron.copyIn()\n"
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "numStrFmtSpecDigitsSeparatorsDtoElectron.copyIn()\n"
 
 	if targetNStrFmtSpecDigitsSepsDto == nil {
 		err = fmt.Errorf("%v"+
@@ -101,6 +108,20 @@ func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) c
 	ePrefix string) (
 	newDigitsSepsDto NumStrFmtSpecDigitsSeparatorsDto,
 	err error) {
+
+	if nStrFmtSpecDigitsSepsElectron.lock == nil {
+		nStrFmtSpecDigitsSepsElectron.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDigitsSepsElectron.lock.Lock()
+
+	defer nStrFmtSpecDigitsSepsElectron.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "\nnumStrFmtSpecDigitsSeparatorsDtoElectron.copyOut() "
 

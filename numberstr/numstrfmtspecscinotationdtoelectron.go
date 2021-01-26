@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -76,6 +77,12 @@ func (nStrFmtSpecSciNotDtoElectron *numStrFmtSpecSciNotationDtoElectron) copyIn(
 	nStrFmtSpecSciNotDtoElectron.lock.Lock()
 
 	defer nStrFmtSpecSciNotDtoElectron.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "numStrFmtSpecSciNotationDtoElectron.copyIn() "
 
@@ -193,6 +200,12 @@ func (nStrFmtSpecSciNotDtoElectron *numStrFmtSpecSciNotationDtoElectron) copyOut
 	nStrFmtSpecSciNotDtoElectron.lock.Lock()
 
 	defer nStrFmtSpecSciNotDtoElectron.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "numStrFmtSpecSciNotationDtoElectron.copyOut() "
 

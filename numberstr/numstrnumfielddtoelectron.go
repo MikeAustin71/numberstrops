@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -72,7 +73,13 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 
 	defer nStrNumFieldDtoElectron.lock.Unlock()
 
-	ePrefix += "\nnumStrNumFieldDtoElectron.copyIn() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "numStrNumFieldDtoElectron.copyIn() "
 
 	if targetNumFieldDto == nil {
 		err = fmt.Errorf("%v"+

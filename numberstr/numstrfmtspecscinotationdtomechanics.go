@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -165,6 +166,12 @@ func (nStrFmtSpecSciNotDtoMech *numStrFmtSpecSciNotationDtoMechanics) setSciNota
 	nStrFmtSpecSciNotDtoMech.lock.Lock()
 
 	defer nStrFmtSpecSciNotDtoMech.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "numStrFmtSpecSciNotationDtoMechanics.setSciNotationDto() "
 

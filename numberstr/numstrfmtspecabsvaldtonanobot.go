@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -33,7 +34,13 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
 
 	defer nStrFmtSpecAbsValDtoNanobot.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecAbsoluteValueDtoNanobot.copyIn() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "numStrFmtSpecAbsoluteValueDtoNanobot.copyIn() "
 
 	if targetNStrFmtSpecAbsoluteValDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -111,7 +118,13 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyOut
 
 	defer nStrFmtSpecAbsValDtoNanobot.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecAbsoluteValueDtoNanobot.copyOut() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "numStrFmtSpecAbsoluteValueDtoNanobot.copyOut() "
 
 	if nStrFmtSpecAbsoluteValDto == nil {
 		err = fmt.Errorf("%v\n"+

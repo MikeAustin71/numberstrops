@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -26,6 +27,12 @@ func (nStrAbsValDtoAtom *numStrFmtSpecAbsoluteValueDtoAtom) testAbsoluteValueFor
 	nStrAbsValDtoAtom.lock.Lock()
 
 	defer nStrAbsValDtoAtom.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "numStrFmtSpecAbsoluteValueDtoElectron.testAbsoluteValueFormat() "
 

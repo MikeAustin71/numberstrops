@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -36,6 +37,12 @@ func (nStrFmtSpecSciNotQuark *numStrFmtSpecSciNotationDtoQuark) testValidityOfNu
 	nStrFmtSpecSciNotQuark.lock.Lock()
 
 	defer nStrFmtSpecSciNotQuark.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "numStrFmtSpecSciNotationDtoQuark.testValidityOfNumStrFmtSpecSciNotationDto()\n"
 

@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -102,6 +103,12 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 	nStrFmtSpecDtoMech.lock.Lock()
 
 	defer nStrFmtSpecDtoMech.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "numStrFmtSpecDtoMechanics.setFromFmtSpecSetupDto()\n"
 
@@ -300,6 +307,12 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
 	nStrFmtSpecDtoMech.lock.Lock()
 
 	defer nStrFmtSpecDtoMech.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "numStrFmtSpecDtoMechanics.setNumStrFmtSpecDto() "
 

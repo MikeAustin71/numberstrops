@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -36,7 +37,13 @@ func (nStrFmtSpecCntryMech *numStrFmtSpecCountryDtoMechanics) setCountryDto(
 
 	defer nStrFmtSpecCntryMech.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecCountryDtoMechanics.setCountryDto() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "numStrFmtSpecCountryDtoMechanics.setCountryDto() "
 
 	if nStrFmtSpecCntryDto == nil {
 		err = fmt.Errorf("%v\n"+
