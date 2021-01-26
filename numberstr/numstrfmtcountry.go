@@ -1079,7 +1079,10 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel() map[NumStrValSpec]NumStrForm
 // UnitedKingdom - Returns the number string format used in the
 // United Kingdom of Great Britain and Northern Ireland.
 //
-func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() map[NumStrValSpec]NumStrFormatter {
+func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom(
+	ePrefix string) (
+	nStrFmtSpecDto NumStrFmtSpecDto,
+	err error) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -1089,103 +1092,85 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() map[NumStrValSpec]Num
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	currencyFmt := NumStrFormatter{}
-	currencyFmt.valueDisplaySpec = NumStrValSpec(0).CurrencyValue()
-	currencyFmt.idNo = 826
-	currencyFmt.idString = "826"
-	currencyFmt.description = "Currency Format: United Kingdom"
-	currencyFmt.countryName = "United Kingdom"
-	currencyFmt.abbreviatedCountryName = "UK"
-	currencyFmt.alternateCountryName = "United Kingdom of Great Britain and Northern Ireland"
-	currencyFmt.countryCodeTwoChar = "GB"
-	currencyFmt.countryCodeThreeChar = "GBR"
-	currencyFmt.countryCodeNumber = "826"
-	currencyFmt.positiveValueFmt = "$127.54"
-	currencyFmt.negativeValueFmt = "(-) $127.54"
-	currencyFmt.decimalSeparator = '.'
-	currencyFmt.currencySymbol = '\U000000a3'
-	currencyFmt.currencyDecimalDigits = 2
-	currencyFmt.currencyCode = "GBP"
-	currencyFmt.currencyName = "Pound"
-	currencyFmt.integerDigitsGroupingSequence =
-		[]uint{3}
-	currencyFmt.integerDigitsSeparator = ','
-	currencyFmt.turnOnIntegerDigitsSeparation = true
-	currencyFmt.numFieldDto = NumberFieldDto{
-		requestedNumFieldLength: -1,
-		actualNumFieldLength:    -1,
-		minimumNumFieldLength:   -1,
-		lock:                    new(sync.Mutex),
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
 	}
-	currencyFmt.lock = new(sync.Mutex)
 
-	absValFmt := NumStrFormatter{}
-	absValFmt.valueDisplaySpec = NumStrValSpec(0).AbsoluteValue()
-	absValFmt.idNo = 826
-	absValFmt.idString = "826"
-	absValFmt.description = "Absolute Value Format: United Kingdom"
-	absValFmt.countryName = "United Kingdom"
-	absValFmt.abbreviatedCountryName = "UK"
-	absValFmt.alternateCountryName = "United Kingdom of Great Britain and Northern Ireland"
-	absValFmt.countryCodeTwoChar = "GB"
-	absValFmt.countryCodeThreeChar = "GBR"
-	absValFmt.countryCodeNumber = "826"
-	absValFmt.positiveValueFmt = "127.54"
-	absValFmt.negativeValueFmt = "127.54"
-	absValFmt.decimalSeparator = '.'
-	absValFmt.currencySymbol = 0
-	absValFmt.currencyDecimalDigits = -1
-	absValFmt.currencyCode = ""
-	absValFmt.currencyName = ""
-	absValFmt.integerDigitsGroupingSequence =
+	ePrefix += "NumStrFormatCountry.UnitedStates() "
+
+	setupDto := NumStrFmtSpecSetupDto{}
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 826
+	setupDto.IdString = "826"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 826
+	setupDto.CountryIdString = "826"
+	setupDto.CountryDescription = "Country Setup - United Kingdom"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "United Kingdom"
+	setupDto.CountryAbbreviatedName = "UK"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"United Kingdom of Great Britain and Northern Ireland",
+			"England",
+			"Great Britain"}
+
+	setupDto.CountryCodeTwoChar = "GB"
+	setupDto.CountryCodeThreeChar = "GBR"
+	setupDto.CountryCodeNumber = "826"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "(-) $127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "GBP"
+	setupDto.CurrencyName = "Pound"
+	setupDto.CurrencySymbol = '\U000000a3'
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
-	absValFmt.integerDigitsSeparator = ','
-	absValFmt.turnOnIntegerDigitsSeparation = false
-	absValFmt.numFieldDto = NumberFieldDto{
-		requestedNumFieldLength: -1,
-		actualNumFieldLength:    -1,
-		minimumNumFieldLength:   -1,
-		lock:                    new(sync.Mutex),
-	}
-	absValFmt.lock = new(sync.Mutex)
 
-	signedNumValFmt := NumStrFormatter{}
-	signedNumValFmt.valueDisplaySpec = NumStrValSpec(0).SignedNumberValue()
-	signedNumValFmt.idNo = 826
-	signedNumValFmt.idString = "826"
-	signedNumValFmt.description = "Signed Number Format: United Kingdom"
-	signedNumValFmt.countryName = "United Kingdom"
-	signedNumValFmt.abbreviatedCountryName = "UK"
-	signedNumValFmt.alternateCountryName = "United Kingdom of Great Britain and Northern Ireland"
-	signedNumValFmt.countryCodeTwoChar = "GB"
-	signedNumValFmt.countryCodeThreeChar = "GBR"
-	signedNumValFmt.countryCodeNumber = "826"
-	signedNumValFmt.positiveValueFmt = "127.54"
-	signedNumValFmt.negativeValueFmt = "-127.54"
-	signedNumValFmt.decimalSeparator = '.'
-	signedNumValFmt.currencySymbol = 0
-	signedNumValFmt.currencyDecimalDigits = -1
-	signedNumValFmt.currencyCode = ""
-	signedNumValFmt.currencyName = ""
-	signedNumValFmt.integerDigitsGroupingSequence =
-		[]uint{3}
-	signedNumValFmt.integerDigitsSeparator = ','
-	signedNumValFmt.turnOnIntegerDigitsSeparation = false
-	signedNumValFmt.numFieldDto = NumberFieldDto{
-		requestedNumFieldLength: -1,
-		actualNumFieldLength:    -1,
-		minimumNumFieldLength:   -1,
-		lock:                    new(sync.Mutex),
-	}
-	signedNumValFmt.lock = new(sync.Mutex)
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
 
-	var numStrFmtMap = make(map[NumStrValSpec]NumStrFormatter)
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
 
-	numStrFmtMap[NumStrValSpec(0).CurrencyValue()] = currencyFmt
-	numStrFmtMap[NumStrValSpec(0).AbsoluteValue()] = absValFmt
-	numStrFmtMap[NumStrValSpec(0).SignedNumberValue()] = signedNumValFmt
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
 
-	return numStrFmtMap
+	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
+		&setupDto,
+		ePrefix+
+			"United Kingdom Setup\n")
+
+	return nStrFmtSpecDto, err
+
 }
 
 // UnitedStates - Returns the number string format used in the
@@ -1220,7 +1205,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 	setupDto.Tag = ""
 	setupDto.CountryIdNo = 840
 	setupDto.CountryIdString = "840"
-	setupDto.CountryDescription = "Country Setup"
+	setupDto.CountryDescription = "Country Setup - United States"
 	setupDto.CountryTag = ""
 	setupDto.CountryCultureName = "United States"
 	setupDto.CountryAbbreviatedName = "USA"
@@ -1238,6 +1223,9 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
 	setupDto.AbsoluteValNumFieldLen = -1
 
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
 	setupDto.CurrencyPositiveValueFmt = "$127.54"
 	setupDto.CurrencyNegativeValueFmt = "-$127.54"
 	setupDto.CurrencyDecimalDigits = 2
@@ -1246,6 +1234,9 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 	setupDto.CurrencySymbol = '\U00000024'
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = '.'
 	setupDto.IntegerDigitsSeparator = ','
@@ -1256,11 +1247,18 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 	setupDto.SignedNumValNegativeValueFmt = "-127.54"
 	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
 	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
 	setupDto.SciNotSignificandUsesLeadingPlus = false
 	setupDto.SciNotMantissaLength = 6
 	setupDto.SciNotExponentChar = 'E'
 	setupDto.SciNotExponentUsesLeadingPlus = true
 	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
 
 	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
 		&setupDto,
