@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -69,7 +70,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyIn(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
@@ -134,6 +137,12 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyOut(
 	nStrFmtSpecCurrValDto.lock.Lock()
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "NumStrFmtSpecCurrencyValueDto.CopyOut()\n "
 
@@ -397,6 +406,12 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 	nStrFmtSpecCurrValDto.lock.Lock()
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "NumStrFmtSpecCurrencyValueDto.IsValidInstanceError()\n" +
 		"Testing Validity of 'nStrFmtSpecCurrValDto'\n"
@@ -702,6 +717,30 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //       presentations.
 //
 //
+//  textJustification   StrOpsTextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to 'strToJustify' when
+//       it is positioned inside of the returned output string.
+//       This enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
 //  ePrefix                       string
 //     - This is an error prefix which is included in all returned
 //       error messages. Usually, it contains the names of the calling
@@ -738,6 +777,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
+	textJustification TextJustify,
 	ePrefix string) (
 	NumStrFmtSpecCurrencyValueDto,
 	error) {
@@ -750,7 +790,13 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.NewWithDefaults() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecCurrencyValueDto.NewWithDefaults() "
 
 	newNStrFmtSpecCurrencyValDto :=
 		NumStrFmtSpecCurrencyValueDto{}
@@ -772,8 +818,9 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 			thousandsSeparatorChar,
 			[]uint{3},
 			requestedNumberFieldLen,
+			textJustification,
 			ePrefix+
-				"\n Setting 'newNStrFmtSpecCurrencyValDto'\n ")
+				"\nSetting 'newNStrFmtSpecCurrencyValDto'\n ")
 
 	return newNStrFmtSpecCurrencyValDto, err
 }
@@ -1158,7 +1205,13 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.NewFromComponents() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecCurrencyValueDto.NewFromComponents() "
 
 	newNStrFmtSpecCurrencyValueDto := NumStrFmtSpecCurrencyValueDto{}
 
@@ -1277,11 +1330,13 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDt
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
-	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.NewFromFmtSpecSetupDto() "
+	ePrefix += "NumStrFmtSpecCurrencyValueDto.NewFromFmtSpecSetupDto() "
 
 	newNStrFmtSpecCurrencyValDto :=
 		NumStrFmtSpecCurrencyValueDto{}
@@ -1318,6 +1373,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDt
 		fmtSpecSetupDto.IntegerDigitsSeparator,
 		fmtSpecSetupDto.IntegerDigitsGroupingSequence,
 		fmtSpecSetupDto.CurrencyNumFieldLen,
+		fmtSpecSetupDto.CurrencyNumFieldTextJustify,
 		ePrefix)
 
 	return newNStrFmtSpecCurrencyValDto, err
@@ -1379,7 +1435,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
@@ -1775,7 +1833,13 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.SetCurrencyValDto() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetCurrencyValDto() "
 
 	nStrFmtSpecCurrValMech :=
 		numStrFmtSpecCurrencyValueDtoMechanics{}
@@ -1903,11 +1967,13 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupD
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
-	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.SetFromFmtSpecSetupDto() "
+	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetFromFmtSpecSetupDto() "
 
 	if fmtSpecSetupDto == nil {
 		return fmt.Errorf("%v\n"+
@@ -1940,6 +2006,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupD
 		fmtSpecSetupDto.IntegerDigitsSeparator,
 		fmtSpecSetupDto.IntegerDigitsGroupingSequence,
 		fmtSpecSetupDto.CurrencyNumFieldLen,
+		fmtSpecSetupDto.CurrencyNumFieldTextJustify,
 		ePrefix)
 }
 
@@ -2113,7 +2180,13 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueForm
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.SetNegativeValueFormat()\n "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetNegativeValueFormat()\n "
 
 	nStrCurrencyElectron :=
 		numStrFmtSpecCurrencyValueDtoElectron{}
@@ -2190,7 +2263,13 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLength
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.SetNumberFieldLengthDto()\n"
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetNumberFieldLengthDto()\n"
 
 	err =
 		nStrFmtSpecCurrValDto.numFieldLenDto.CopyIn(
@@ -2396,7 +2475,13 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetPositiveValueForm
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.SetPositiveValueFormat()\n "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetPositiveValueFormat()\n "
 
 	nStrCurrencyElectron :=
 		numStrFmtSpecCurrencyValueDtoElectron{}
@@ -2763,6 +2848,30 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //       presentations.
 //
 //
+//  textJustification   StrOpsTextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to 'strToJustify' when
+//       it is positioned inside of the returned output string.
+//       This enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
 //  ePrefix                       string
 //     - This is an error prefix which is included in all returned
 //       error messages. Usually, it contains the names of the calling
@@ -2794,6 +2903,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
+	textJustification TextJustify,
 	ePrefix string) error {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -2804,7 +2914,13 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecCurrencyValueDto.SetWithDefaults() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetWithDefaults() "
 
 	nStrFmtSpecCurrValDtoUtil :=
 		numStrFmtSpecCurrencyValueDtoUtility{}
@@ -2822,6 +2938,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 		thousandsSeparatorChar,
 		[]uint{3},
 		requestedNumberFieldLen,
+		textJustification,
 		ePrefix+
-			"\n Setting 'nStrFmtSpecCurrValDto'\n ")
+			"\nSetting 'nStrFmtSpecCurrValDto'\n ")
 }

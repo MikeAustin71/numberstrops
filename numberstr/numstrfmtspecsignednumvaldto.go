@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -528,6 +529,30 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //       presentations.
 //
 //
+//  numberFieldTextJustify        StrOpsTextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
 //  ePrefix                       string
 //     - This is an error prefix which is included in all returned
 //       error messages. Usually, it contains the names of the calling
@@ -560,6 +585,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
 	ePrefix string) (
 	NumStrFmtSpecSignedNumValueDto,
 	error) {
@@ -572,7 +598,13 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.NewWithDefaults() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecSignedNumValueDto.NewWithDefaults() "
 
 	newNStrFmtSpecSignedNumValueDto :=
 		NumStrFmtSpecSignedNumValueDto{}
@@ -590,6 +622,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 			thousandsSeparatorChar,
 			[]uint{3},
 			requestedNumberFieldLen,
+			numberFieldTextJustify,
 			ePrefix+
 				"\n Setting 'newNStrFmtSpecSignedNumValueDto'\n ")
 
@@ -986,11 +1019,13 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromFmtSpe
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	if len(ePrefix) > 0 {
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
 
-	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.NewFromFmtSpecSetupDto() "
+	ePrefix += "NumStrFmtSpecSignedNumValueDto.NewFromFmtSpecSetupDto() "
 
 	newNStrFmtSpecSignedNumValueDto :=
 		NumStrFmtSpecSignedNumValueDto{}
@@ -1024,6 +1059,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromFmtSpe
 			fmtSpecSetupDto.IntegerDigitsSeparator,
 			fmtSpecSetupDto.IntegerDigitsGroupingSequence,
 			fmtSpecSetupDto.SignedNumValNumFieldLen,
+			fmtSpecSetupDto.SignedNumValNumFieldTextJustify,
 			ePrefix+
 				"\n Setting 'newNStrFmtSpecSignedNumValueDto'\n ")
 
@@ -1117,7 +1153,13 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetFromFmtSp
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.SetFromFmtSpecSetupDto()\n"
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecSignedNumValueDto.SetFromFmtSpecSetupDto()\n"
 
 	if fmtSpecSetupDto == nil {
 		return fmt.Errorf("%v\n"+
@@ -1146,8 +1188,9 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetFromFmtSp
 		fmtSpecSetupDto.IntegerDigitsSeparator,
 		fmtSpecSetupDto.IntegerDigitsGroupingSequence,
 		fmtSpecSetupDto.SignedNumValNumFieldLen,
+		fmtSpecSetupDto.SignedNumValNumFieldTextJustify,
 		ePrefix+
-			"\n Setting 'nStrFmtSpecSignedNumValueDto'\n ")
+			"\nSetting 'nStrFmtSpecSignedNumValueDto'\n ")
 
 }
 
@@ -2091,6 +2134,30 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnInt
 //       presentations.
 //
 //
+//  numberFieldTextJustify        StrOpsTextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
 //  ePrefix                       string
 //     - This is an error prefix which is included in all returned
 //       error messages. Usually, it contains the names of the calling
@@ -2118,6 +2185,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefau
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
 	ePrefix string) error {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
@@ -2128,7 +2196,13 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefau
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecSignedNumValueDto.SetWithDefaults() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecSignedNumValueDto.SetWithDefaults() "
 
 	nStrFmtSpecSignedNumValDtoUtil :=
 		nStrFmtSpecSignedNumValUtility{}
@@ -2142,6 +2216,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefau
 		thousandsSeparatorChar,
 		[]uint{3},
 		requestedNumberFieldLen,
+		numberFieldTextJustify,
 		ePrefix+
 			"\n Setting 'nStrFmtSpecSignedNumValueDto'\n ")
 

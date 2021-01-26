@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -434,6 +435,30 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 //       presentations.
 //
 //
+//  textJustification   StrOpsTextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to 'strToJustify' when
+//       it is positioned inside of the returned output string.
+//       This enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
 //  ePrefix             string
 //     - This is an error prefix which is included in all returned
 //       error messages. Usually, it contains the names of the calling
@@ -465,6 +490,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
+	textJustification TextJustify,
 	ePrefix string) (
 	NumStrFmtSpecAbsoluteValueDto,
 	error) {
@@ -477,7 +503,13 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.NewWithDefaults() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecAbsoluteValueDto.NewWithDefaults() "
 
 	newNumStrFmtSpecAbsValueDto :=
 		NumStrFmtSpecAbsoluteValueDto{}
@@ -493,6 +525,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 		thousandsSeparatorChar,
 		[]uint{3},
 		requestedNumberFieldLen,
+		textJustification,
 		ePrefix)
 
 	return newNumStrFmtSpecAbsValueDto, err
@@ -850,6 +883,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromFmtSpecSetupDto(
 		fmtSpecSetupDto.IntegerDigitsSeparator,
 		fmtSpecSetupDto.IntegerDigitsGroupingSequence,
 		fmtSpecSetupDto.AbsoluteValNumFieldLen,
+		fmtSpecSetupDto.AbsoluteValNumFieldTextJustify,
 		ePrefix)
 
 	return newNumStrFmtSpecAbsValueDto, err
@@ -1280,6 +1314,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetFromFmtSpecSetupDto(
 		fmtSpecSetupDto.IntegerDigitsSeparator,
 		fmtSpecSetupDto.IntegerDigitsGroupingSequence,
 		fmtSpecSetupDto.AbsoluteValNumFieldLen,
+		fmtSpecSetupDto.AbsoluteValNumFieldTextJustify,
 		ePrefix)
 }
 
@@ -1593,6 +1628,30 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetTurnOnIntegerDigitsSep
 //       presentations.
 //
 //
+//  textJustification   StrOpsTextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to 'strToJustify' when
+//       it is positioned inside of the returned output string.
+//       This enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
 //  ePrefix             string
 //     - This is an error prefix which is included in all returned
 //       error messages. Usually, it contains the names of the calling
@@ -1619,6 +1678,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
+	textJustification TextJustify,
 	ePrefix string) error {
 
 	if nStrFmtAbsValDto.lock == nil {
@@ -1629,7 +1689,13 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	ePrefix += "\nNumStrFmtSpecAbsoluteValueDto.SetWithDefaults() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecAbsoluteValueDto.SetWithDefaults() "
 
 	nStrFmtSpecAbsValDtoUtil :=
 		numStrFmtSpecAbsoluteValueDtoUtility{}
@@ -1642,5 +1708,6 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
 		thousandsSeparatorChar,
 		[]uint{3},
 		requestedNumberFieldLen,
+		textJustification,
 		ePrefix)
 }

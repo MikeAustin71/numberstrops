@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -33,7 +34,13 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 
 	defer nStrFmtSpecCurrValNanobot.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecCurrencyValueDtoNanobot.copyIn()\n "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "numStrFmtSpecCurrencyValueDtoNanobot.copyIn() "
 
 	if targetNStrFmtSpecCurrencyValDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -97,8 +104,11 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 		return err
 	}
 
-	targetNStrFmtSpecCurrencyValDto.numFieldLenDto.CopyIn(
-		&inComingNStrFmtSpecCurrencyValDto.numFieldLenDto)
+	err =
+		targetNStrFmtSpecCurrencyValDto.numFieldLenDto.CopyIn(
+			&inComingNStrFmtSpecCurrencyValDto.numFieldLenDto,
+			ePrefix+
+				"\ninComingNStrFmtSpecCurrencyValDto->targetNStrFmtSpecCurrencyValDto\n")
 
 	return err
 }
@@ -124,7 +134,13 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 
 	defer nStrFmtSpecCurrValNanobot.lock.Unlock()
 
-	ePrefix += "\nnumStrFmtSpecCurrencyValueDtoNanobot.copyOut() "
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "numStrFmtSpecCurrencyValueDtoNanobot.copyOut() "
 
 	if nStrFmtSpecCurrencyValDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -179,8 +195,11 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 		return newNStrFmtSpecCurrencyValDto, err
 	}
 
-	newNStrFmtSpecCurrencyValDto.numFieldLenDto.CopyIn(
-		&nStrFmtSpecCurrencyValDto.numFieldLenDto)
+	err =
+		newNStrFmtSpecCurrencyValDto.numFieldLenDto.CopyIn(
+			&nStrFmtSpecCurrencyValDto.numFieldLenDto,
+			ePrefix+
+				"\nnStrFmtSpecCurrencyValDto->newNStrFmtSpecCurrencyValDto\n")
 
 	newNStrFmtSpecCurrencyValDto.lock = new(sync.Mutex)
 

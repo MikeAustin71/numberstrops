@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -435,8 +436,62 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 //       value less than minus one (-1), it will be automatically
 //       converted to minus one (-1).
 //
+//
+//  numberFieldTextJustify        StrOpsTextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
+//  ePrefix             string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  newNumFieldDto      NumberFieldDto
+//     - If this method completes successfully, a new instance of
+//       NumberFieldDto will be returned to the caller.
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
 func (nFieldDto NumberFieldDto) NewWithDefaults(
-	requestedNumberFieldLen int) NumberFieldDto {
+	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
+	ePrefix string) (
+	newNumFieldDto NumberFieldDto,
+	err error) {
 
 	if nFieldDto.lock == nil {
 		nFieldDto.lock = new(sync.Mutex)
@@ -446,17 +501,33 @@ func (nFieldDto NumberFieldDto) NewWithDefaults(
 
 	defer nFieldDto.lock.Unlock()
 
-	newNumFieldDto := NumberFieldDto{}
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumberFieldDto.NewWithDefaults() "
+
+	if !numberFieldTextJustify.XIsValid() {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numberFieldTextJustify' is invalid!\n"+
+			"numberFieldTextJustify integer value='%v'\n",
+			ePrefix,
+			numberFieldTextJustify.XValueInt())
+
+		return newNumFieldDto, err
+	}
 
 	nStrNumFieldDtoMech := numStrNumFieldDtoMechanics{}
 
-	_ = nStrNumFieldDtoMech.setNumberFieldDto(
+	err = nStrNumFieldDtoMech.setNumberFieldDto(
 		&newNumFieldDto,
 		requestedNumberFieldLen,
-		TextJustify(0).Right(),
-		"")
+		numberFieldTextJustify,
+		ePrefix)
 
-	return newNumFieldDto
+	return newNumFieldDto, err
 }
 
 // NewFromComponents - This version of the 'New' method also
@@ -483,7 +554,7 @@ func (nFieldDto NumberFieldDto) NewWithDefaults(
 //       presentations.
 //
 //
-//  textJustify         StrOpsTextJustify
+//  textJustification   StrOpsTextJustify
 //     - An enumeration value used to specify the type of text
 //       formatting which will be applied to 'strToJustify' when
 //       it is positioned inside of the returned output string.
@@ -535,7 +606,7 @@ func (nFieldDto NumberFieldDto) NewWithDefaults(
 //
 func (nFieldDto NumberFieldDto) NewFromComponents(
 	requestedNumberFieldLen int,
-	textJustify TextJustify,
+	textJustification TextJustify,
 	ePrefix string) (
 	NumberFieldDto,
 	error) {
@@ -557,7 +628,7 @@ func (nFieldDto NumberFieldDto) NewFromComponents(
 	err := nStrNumFieldDtoMech.setNumberFieldDto(
 		&newNumFieldDto,
 		requestedNumberFieldLen,
-		textJustify,
+		textJustification,
 		ePrefix)
 
 	return newNumFieldDto, err

@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -91,7 +92,7 @@ type numStrFmtSpecSciNotationDtoUtility struct {
 //             Example: '2.652E8'
 //
 //
-//  requestedNumberFieldLen    int
+//  requestedNumberFieldLen       int
 //     - This is the requested length of the number field in which
 //       the number string will be displayed. If this field length
 //       is greater than the actual length of the number string,
@@ -104,7 +105,31 @@ type numStrFmtSpecSciNotationDtoUtility struct {
 //       presentations.
 //
 //
-//  ePrefix             string
+//  numberFieldTextJustify        StrOpsTextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to 'strToJustify' when
+//       it is positioned inside of the returned output string.
+//       This enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
+//  ePrefix                       string
 //     - This is an error prefix which is included in all returned
 //       error messages. Usually, it contains the names of the calling
 //       method or methods. Note: Be sure to leave a space at the end
@@ -131,6 +156,7 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 	exponentChar rune,
 	exponentUsesLeadingPlus bool,
 	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
 	ePrefix string) (
 	err error) {
 
@@ -141,6 +167,12 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 	nStrFmtSpecSciNotDtoUtil.lock.Lock()
 
 	defer nStrFmtSpecSciNotDtoUtil.lock.Unlock()
+
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
+		!strings.HasSuffix(ePrefix, "\n") {
+		ePrefix += "\n"
+	}
 
 	ePrefix += "numStrFmtSpecSciNotationDtoUtility.setSciNotationDtoWithDefaults() "
 
@@ -153,7 +185,17 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 		return err
 	}
 
-	numFieldDto := NumberFieldDto{}.NewWithDefaults(requestedNumberFieldLen)
+	var numFieldDto NumberFieldDto
+
+	numFieldDto,
+		err = NumberFieldDto{}.NewWithDefaults(
+		requestedNumberFieldLen,
+		numberFieldTextJustify,
+		ePrefix)
+
+	if err != nil {
+		return err
+	}
 
 	nStrFmtSpecSciNotDtoMech :=
 		numStrFmtSpecSciNotationDtoMechanics{}

@@ -1203,7 +1203,8 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if !strings.HasSuffix(ePrefix, "\n ") &&
+	if len(ePrefix) > 0 &&
+		!strings.HasSuffix(ePrefix, "\n ") &&
 		!strings.HasSuffix(ePrefix, "\n") {
 		ePrefix += "\n"
 	}
