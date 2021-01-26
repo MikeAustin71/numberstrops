@@ -103,10 +103,10 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 
 	defer nStrFmtSpecDtoMech.lock.Unlock()
 
-	ePrefix += "numStrFmtSpecDtoMechanics.setFromFmtSpecSetupDto() "
+	ePrefix += "numStrFmtSpecDtoMechanics.setFromFmtSpecSetupDto()\n"
 
 	if nStrFmtSpecDto == nil {
-		err = fmt.Errorf("%v\n"+
+		err = fmt.Errorf("%v"+
 			"Error: Input parameter 'nStrFmtSpecDto' is nil pointer!\n",
 			ePrefix)
 		return err
@@ -117,7 +117,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 	}
 
 	if fmtSpecSetupDto == nil {
-		err = fmt.Errorf("%v\n"+
+		err = fmt.Errorf("%v"+
 			"Error: Input parameter 'fmtSpecSetupDto' is nil pointer!\n",
 			ePrefix)
 		return err
