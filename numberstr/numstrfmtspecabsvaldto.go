@@ -435,11 +435,11 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 //       presentations.
 //
 //
-//  textJustification   StrOpsTextJustify
+//  numberFieldTextJustify        TextJustify
 //     - An enumeration value used to specify the type of text
-//       formatting which will be applied to 'strToJustify' when
-//       it is positioned inside of the returned output string.
-//       This enumeration value must be one of the three following
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
 //       format specifications:
 //
 //       1. Left   - Signals that the text justification format is
@@ -490,7 +490,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
-	textJustification TextJustify,
+	numberFieldTextJustify TextJustify,
 	ePrefix string) (
 	NumStrFmtSpecAbsoluteValueDto,
 	error) {
@@ -525,7 +525,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 		thousandsSeparatorChar,
 		[]uint{3},
 		requestedNumberFieldLen,
-		textJustification,
+		numberFieldTextJustify,
 		ePrefix)
 
 	return newNumStrFmtSpecAbsValueDto, err
@@ -1628,11 +1628,11 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetTurnOnIntegerDigitsSep
 //       presentations.
 //
 //
-//  textJustification   StrOpsTextJustify
+//  numberFieldTextJustify        TextJustify
 //     - An enumeration value used to specify the type of text
-//       formatting which will be applied to 'strToJustify' when
-//       it is positioned inside of the returned output string.
-//       This enumeration value must be one of the three following
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
 //       format specifications:
 //
 //       1. Left   - Signals that the text justification format is
@@ -1678,7 +1678,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
-	textJustification TextJustify,
+	numberFieldTextJustify TextJustify,
 	ePrefix string) error {
 
 	if nStrFmtAbsValDto.lock == nil {
@@ -1708,6 +1708,6 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
 		thousandsSeparatorChar,
 		[]uint{3},
 		requestedNumberFieldLen,
-		textJustification,
+		numberFieldTextJustify,
 		ePrefix)
 }

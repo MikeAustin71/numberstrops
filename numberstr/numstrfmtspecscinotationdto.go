@@ -408,11 +408,11 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstanceError(
 //       alignment.
 //
 //
-//  textJustification   StrOpsTextJustify
+//  numberFieldTextJustify        TextJustify
 //     - An enumeration value used to specify the type of text
-//       formatting which will be applied to 'strToJustify' when
-//       it is positioned inside of the returned output string.
-//       This enumeration value must be one of the three following
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
 //       format specifications:
 //
 //       1. Left   - Signals that the text justification format is
@@ -463,7 +463,7 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithDefaults(
 	exponentChar rune,
 	exponentUsesLeadingPlus bool,
 	requestedNumberFieldLen int,
-	textJustification TextJustify,
+	numberFieldTextJustify TextJustify,
 	ePrefix string) (
 	NumStrFmtSpecSciNotationDto,
 	error) {
@@ -497,7 +497,7 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithDefaults(
 		exponentChar,
 		exponentUsesLeadingPlus,
 		requestedNumberFieldLen,
-		textJustification,
+		numberFieldTextJustify,
 		ePrefix)
 
 	return newNStrFmtSpecSciNotationDto, err
@@ -1513,11 +1513,11 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetSignificandUsesLeadi
 //       alignment.
 //
 //
-//  textJustification   StrOpsTextJustify
+//  numberFieldTextJustify        TextJustify
 //     - An enumeration value used to specify the type of text
-//       formatting which will be applied to 'strToJustify' when
-//       it is positioned inside of the returned output string.
-//       This enumeration value must be one of the three following
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
 //       format specifications:
 //
 //       1. Left   - Signals that the text justification format is
@@ -1563,7 +1563,7 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithDefaults(
 	exponentChar rune,
 	exponentUsesLeadingPlus bool,
 	requestedNumberFieldLen int,
-	textJustification TextJustify,
+	numberFieldTextJustify TextJustify,
 	ePrefix string) error {
 
 	if nStrFmtSpecSciNotDto.lock == nil {
@@ -1592,7 +1592,7 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithDefaults(
 		exponentChar,
 		exponentUsesLeadingPlus,
 		requestedNumberFieldLen,
-		textJustification,
+		numberFieldTextJustify,
 		ePrefix+
 			"nStrFmtSpecSciNotDto\n")
 }

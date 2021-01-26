@@ -92,7 +92,7 @@ type numStrFmtSpecAbsoluteValueDtoUtility struct {
 //            Example: '1000000000'
 //
 //
-//  decimalSeparatorChar       rune
+//  decimalSeparatorChar          rune
 //     - The character used to separate integer and fractional
 //       digits in a floating point number string. In the United
 //       States, the Decimal Separator character is the period
@@ -100,14 +100,14 @@ type numStrFmtSpecAbsoluteValueDtoUtility struct {
 //           Example: '123.45678'
 //
 //
-//  thousandsSeparatorChar     rune
+//  thousandsSeparatorChar        rune
 //     - The character which will be used to delimit 'thousands' in
 //       integer number strings. In the United States, the Thousands
 //       separator is the comma character (',').
 //           Example: '1,000,000,000'
 //
 //
-//  integerDigitsGroupingSequence  []uint
+//  integerDigitsGroupingSequence []uint
 //     - Sets the integer digit grouping sequence for this instance
 //       of NumStrFmtSpecAbsoluteValueDto. This grouping is
 //       referred to as 'thousands' grouping when the integer
@@ -129,7 +129,7 @@ type numStrFmtSpecAbsoluteValueDtoUtility struct {
 //              integerDigitsGroupingSequence = []uint{3,2}
 //
 //
-//  requestedNumberFieldLen    int
+//  requestedNumberFieldLen       int
 //     - This is the requested length of the number field in which
 //       the number string will be displayed. If this field length
 //       is greater than the actual length of the number string,
@@ -142,11 +142,11 @@ type numStrFmtSpecAbsoluteValueDtoUtility struct {
 //       presentations.
 //
 //
-//  textJustification   StrOpsTextJustify
+//  numberFieldTextJustify        TextJustify
 //     - An enumeration value used to specify the type of text
-//       formatting which will be applied to 'strToJustify' when
-//       it is positioned inside of the returned output string.
-//       This enumeration value must be one of the three following
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
 //       format specifications:
 //
 //       1. Left   - Signals that the text justification format is
@@ -166,7 +166,7 @@ type numStrFmtSpecAbsoluteValueDtoUtility struct {
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             string
+//  ePrefix                       string
 //     - This is an error prefix which is included in all returned
 //       error messages. Usually, it contains the names of the calling
 //       method or methods. Note: Be sure to leave a space at the end
@@ -194,7 +194,7 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 	thousandsSeparatorChar rune,
 	integerDigitsGroupingSequence []uint,
 	requestedNumberFieldLen int,
-	textJustification TextJustify,
+	numberFieldTextJustify TextJustify,
 	ePrefix string) (
 	err error) {
 
@@ -227,7 +227,7 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 	numFieldDto,
 		err = NumberFieldDto{}.NewWithDefaults(
 		requestedNumberFieldLen,
-		textJustification,
+		numberFieldTextJustify,
 		ePrefix)
 
 	if err != nil {

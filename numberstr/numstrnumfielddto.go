@@ -437,7 +437,7 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 //       converted to minus one (-1).
 //
 //
-//  numberFieldTextJustify        StrOpsTextJustify
+//  numberFieldTextJustify        TextJustify
 //     - An enumeration value used to specify the type of text
 //       formatting which will be applied to a number string when
 //       it is positioned inside of a number field. This
@@ -554,11 +554,11 @@ func (nFieldDto NumberFieldDto) NewWithDefaults(
 //       presentations.
 //
 //
-//  textJustification   StrOpsTextJustify
+//  numberFieldTextJustify        TextJustify
 //     - An enumeration value used to specify the type of text
-//       formatting which will be applied to 'strToJustify' when
-//       it is positioned inside of the returned output string.
-//       This enumeration value must be one of the three following
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
 //       format specifications:
 //
 //       1. Left   - Signals that the text justification format is
@@ -606,7 +606,7 @@ func (nFieldDto NumberFieldDto) NewWithDefaults(
 //
 func (nFieldDto NumberFieldDto) NewFromComponents(
 	requestedNumberFieldLen int,
-	textJustification TextJustify,
+	numberFieldTextJustify TextJustify,
 	ePrefix string) (
 	NumberFieldDto,
 	error) {
@@ -628,7 +628,7 @@ func (nFieldDto NumberFieldDto) NewFromComponents(
 	err := nStrNumFieldDtoMech.setNumberFieldDto(
 		&newNumFieldDto,
 		requestedNumberFieldLen,
-		textJustification,
+		numberFieldTextJustify,
 		ePrefix)
 
 	return newNumFieldDto, err
@@ -692,11 +692,11 @@ func (nFieldDto *NumberFieldDto) SetMinimumNumFieldLength(
 //       presentations.
 //
 //
-//  textJustify         StrOpsTextJustify
+//  numberFieldTextJustify        TextJustify
 //     - An enumeration value used to specify the type of text
-//       formatting which will be applied to 'strToJustify' when
-//       it is positioned inside of the returned output string.
-//       This enumeration value must be one of the three following
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
 //       format specifications:
 //
 //       1. Left   - Signals that the text justification format is
@@ -739,7 +739,7 @@ func (nFieldDto *NumberFieldDto) SetMinimumNumFieldLength(
 //
 func (nFieldDto *NumberFieldDto) SetNumberFieldDto(
 	requestedNumberFieldLen int,
-	textJustify TextJustify,
+	numberFieldTextJustify TextJustify,
 	ePrefix string) error {
 
 	if nFieldDto.lock == nil {
@@ -757,7 +757,7 @@ func (nFieldDto *NumberFieldDto) SetNumberFieldDto(
 	return nStrNumFieldDtoMech.setNumberFieldDto(
 		nFieldDto,
 		requestedNumberFieldLen,
-		textJustify,
+		numberFieldTextJustify,
 		ePrefix)
 }
 
@@ -797,11 +797,11 @@ func (nFieldDto *NumberFieldDto) SetRequestedNumFieldLength(
 //
 // Input Parameters
 //
-//  textJustify         StrOpsTextJustify
+//  numberFieldTextJustify        TextJustify
 //     - An enumeration value used to specify the type of text
-//       formatting which will be applied to 'strToJustify' when
-//       it is positioned inside of the returned output string.
-//       This enumeration value must be one of the three following
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
 //       format specifications:
 //
 //       1. Left   - Signals that the text justification format is
@@ -828,7 +828,7 @@ func (nFieldDto *NumberFieldDto) SetRequestedNumFieldLength(
 //  --- NONE ---
 //
 func (nFieldDto *NumberFieldDto) SetTextJustification(
-	textJustify TextJustify) {
+	numberFieldTextJustify TextJustify) {
 
 	if nFieldDto.lock == nil {
 		nFieldDto.lock = new(sync.Mutex)
@@ -838,5 +838,5 @@ func (nFieldDto *NumberFieldDto) SetTextJustification(
 
 	defer nFieldDto.lock.Unlock()
 
-	nFieldDto.textJustifyFormat = textJustify
+	nFieldDto.textJustifyFormat = numberFieldTextJustify
 }

@@ -43,11 +43,11 @@ type numStrNumFieldDtoMechanics struct {
 //       converted to minus one (-1).
 //
 //
-//  textJustify         StrOpsTextJustify
+//  numberFieldTextJustify        TextJustify
 //     - An enumeration value used to specify the type of text
-//       formatting which will be applied to 'strToJustify' when
-//       it is positioned inside of the returned output string.
-//       This enumeration value must be one of the three following
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
 //       format specifications:
 //
 //       1. Left   - Signals that the text justification format is
@@ -91,7 +91,7 @@ type numStrNumFieldDtoMechanics struct {
 func (nStrNumFieldDtoMech *numStrNumFieldDtoMechanics) setNumberFieldDto(
 	numFieldDto *NumberFieldDto,
 	requestedNumberFieldLen int,
-	textJustify TextJustify,
+	numberFieldTextJustify TextJustify,
 	ePrefix string) (err error) {
 
 	if nStrNumFieldDtoMech.lock == nil {
@@ -121,12 +121,12 @@ func (nStrNumFieldDtoMech *numStrNumFieldDtoMechanics) setNumberFieldDto(
 		requestedNumberFieldLen = -1
 	}
 
-	if !textJustify.XIsValid() {
+	if !numberFieldTextJustify.XIsValid() {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'textJustify' is invalid!\n"+
-			"'textJustify' integer value = '%v'\n",
+			"Error: Input parameter 'numberFieldTextJustify' is invalid!\n"+
+			"'numberFieldTextJustify' integer value = '%v'\n",
 			ePrefix,
-			textJustify.XValueInt())
+			numberFieldTextJustify.XValueInt())
 		return err
 	}
 
@@ -138,7 +138,7 @@ func (nStrNumFieldDtoMech *numStrNumFieldDtoMechanics) setNumberFieldDto(
 	numFieldDto.actualNumFieldLength = -1
 
 	numFieldDto.textJustifyFormat =
-		textJustify
+		numberFieldTextJustify
 
 	nStrNFldDtoQuark := numStrNumFieldDtoQuark{}
 

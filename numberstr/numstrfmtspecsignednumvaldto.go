@@ -529,7 +529,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //       presentations.
 //
 //
-//  numberFieldTextJustify        StrOpsTextJustify
+//  numberFieldTextJustify        TextJustify
 //     - An enumeration value used to specify the type of text
 //       formatting which will be applied to a number string when
 //       it is positioned inside of a number field. This
@@ -2134,7 +2134,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnInt
 //       presentations.
 //
 //
-//  numberFieldTextJustify        StrOpsTextJustify
+//  numberFieldTextJustify        TextJustify
 //     - An enumeration value used to specify the type of text
 //       formatting which will be applied to a number string when
 //       it is positioned inside of a number field. This
