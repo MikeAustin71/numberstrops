@@ -18,6 +18,72 @@ type NumStrFmtSpecDto struct {
 	lock           *sync.Mutex
 }
 
+// CopyIn - Copies the data fields from an incoming
+// NumStrFmtSpecDto instance  to the data fields of the current
+// instance of NumStrFmtSpecDto instance.
+//
+// If input parameter 'incomingFmtSpecDto' is judged to be invalid,
+// this method will return an error.
+//
+// Be advised, all of the data fields in the current
+// NumStrFmtSpecDto instance will be overwritten.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingFmtSpecDto         *NumStrFmtSpecDto
+//     - A pointer to an instance of NumStrFmtSpecDto.
+//       The data values in this object will be copied to the
+//       current NumStrFmtSpecDto instance.
+//
+//
+//  ePrefix                    string
+//     - This is an error prefix which is included in all returned
+//       error messages. Usually, it contains the names of the calling
+//       method or methods. Note: Be sure to leave a space at the end
+//       of 'ePrefix'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered
+//       during processing, the returned error Type will encapsulate
+//       an error message. The input parameter, 'ePrefix', will be
+//       prefixed and inserted at the beginning of the returned
+//       error message.
+//
+func (fmtSpecDto *NumStrFmtSpecDto) CopyIn(
+	incomingFmtSpecDto *NumStrFmtSpecDto,
+	ePrefix string) error {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	if len(ePrefix) > 0 {
+		ePrefix += "\n"
+	}
+
+	ePrefix += "NumStrFmtSpecDto.CopyIn()\n "
+
+	nStrFmtSpecDtoElectron :=
+		numStrFmtSpecDtoElectron{}
+
+	return nStrFmtSpecDtoElectron.copyIn(
+		fmtSpecDto,
+		incomingFmtSpecDto,
+		ePrefix)
+}
+
 // IsValidInstance - Performs a diagnostic review of the current
 // NumStrFmtSpecDto instance to determine whether the current
 // instance is valid in all respects.
