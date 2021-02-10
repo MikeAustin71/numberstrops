@@ -70,11 +70,10 @@ type numStrFmtSpecDtoMechanics struct {
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             ErrPrefixDto
+//     - This is an error prefix object which is included in all
+//       returned error messages. Usually, it contains the names of
+//       the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -93,7 +92,7 @@ type numStrFmtSpecDtoMechanics struct {
 func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 	nStrFmtSpecDto *NumStrFmtSpecDto,
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix string) (
+	ePrefix ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecDtoMech.lock == nil {
@@ -104,13 +103,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 
 	defer nStrFmtSpecDtoMech.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecDtoMechanics.setFromFmtSpecSetupDto()\n"
+	ePrefix.SetEPref("numStrFmtSpecDtoMechanics.setFromFmtSpecSetupDto()")
 
 	if nStrFmtSpecDto == nil {
 		err = fmt.Errorf("%v"+
@@ -148,17 +141,21 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 
 	fmtSpecSetupDto.Lock.Unlock()
 
+	ePrefix.SetCtx("fmtSpecSetupDto")
+
 	err = nStrFmtSpecDto.countryCulture.SetFromFmtSpecSetupDto(
 		fmtSpecSetupDto,
-		ePrefix+"fmtSpecSetupDto\n ")
+		ePrefix)
 
 	if err != nil {
 		return err
 	}
 
+	ePrefix.SetCtx("fmtSpecSetupDto")
+
 	err = nStrFmtSpecDto.absoluteValue.SetFromFmtSpecSetupDto(
 		fmtSpecSetupDto,
-		ePrefix+"fmtSpecSetupDto\n ")
+		ePrefix)
 
 	if err != nil {
 		return err

@@ -614,7 +614,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromFmtSpecSetupDto(
 //
 func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix string) error {
+	ePrefix ErrPrefixDto) error {
 
 	if fmtSpecDto.lock == nil {
 		fmtSpecDto.lock = new(sync.Mutex)
@@ -624,19 +624,13 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 
 	defer fmtSpecDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecDto.NewFromFmtSpecSetupDto() "
+	ePrefix.SetEPref("NumStrFmtSpecDto.NewFromFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
 		return fmt.Errorf("%v\n"+
 			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
 			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 	}
 
 	if fmtSpecSetupDto.Lock == nil {
@@ -646,11 +640,12 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 	nStrFmtSpecDtoMech :=
 		numStrFmtSpecDtoMechanics{}
 
+	ePrefix.SetCtx("fmtSpecDto")
+
 	return nStrFmtSpecDtoMech.setFromFmtSpecSetupDto(
 		fmtSpecDto,
 		fmtSpecSetupDto,
-		ePrefix+
-			"fmtSpecDto\n")
+		ePrefix)
 }
 
 // SetNumStrFmtSpecDto - Overwrites and sets the data values
