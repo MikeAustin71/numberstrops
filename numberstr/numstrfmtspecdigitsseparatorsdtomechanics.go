@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -19,7 +18,7 @@ func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigi
 	decimalSeparator rune,
 	integerDigitsSeparator rune,
 	integerDigitsGroupingSequence []uint,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecDigitsSepsDtoMech.lock == nil {
@@ -30,19 +29,13 @@ func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigi
 
 	defer nStrFmtSpecDigitsSepsDtoMech.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecDigitsSepsDtoMechanics.setDigitsSeps() "
+	ePrefix.SetEPref("numStrFmtSpecDigitsSepsDtoMechanics.setDigitsSeps()")
 
 	if nStrFmtSpecDigitsSepsDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecDigitsSepsDto' is invalid!\n"+
 			"'nStrFmtSpecDigitsSepsDto' is a 'nil' pointer\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
@@ -51,7 +44,7 @@ func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigi
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'decimalSeparator' is invalid!\n"+
 			"decimalSeparator == 0\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
@@ -60,7 +53,7 @@ func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigi
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'integerDigitsSeparator' is invalid!\n"+
 			"integerDigitsSeparator == 0\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
@@ -76,7 +69,7 @@ func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigi
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'integerDigitsGroupingSequence' is invalid!\n"+
 			"'integerDigitsGroupingSequence' is a zero length array or empty array.\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
@@ -107,8 +100,7 @@ func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigi
 		err =
 		nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
 			&newDigitsSepsDto,
-			ePrefix+
-				"\nTesting validity of preliminary 'newDigitsSepsDto'\n ")
+			ePrefix.XCtx("Testing validity of preliminary 'newDigitsSepsDto'"))
 
 	if err != nil {
 		return err
@@ -121,8 +113,7 @@ func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigi
 		nStrFmtSpecDigitsSepsElectron.copyIn(
 			nStrFmtSpecDigitsSepsDto,
 			&newDigitsSepsDto,
-			ePrefix+
-				"\nnewDigitsSepsDto->nStrFmtSpecDigitsSepsDto\n ")
+			ePrefix.XCtx("newDigitsSepsDto->nStrFmtSpecDigitsSepsDto"))
 
 	return err
 }

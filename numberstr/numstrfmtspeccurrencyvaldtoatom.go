@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -17,7 +16,7 @@ type numStrFmtSpecCurrencyValueDtoAtom struct {
 //
 func (nStrCurrencyAtom *numStrFmtSpecCurrencyValueDtoAtom) testCurrencyPositiveValueFormat(
 	nStrFmtSpecCurrencyValueDto *NumStrFmtSpecCurrencyValueDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -29,20 +28,14 @@ func (nStrCurrencyAtom *numStrFmtSpecCurrencyValueDtoAtom) testCurrencyPositiveV
 
 	defer nStrCurrencyAtom.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecCurrencyValueDtoElectron.testCurrencyPositiveValueFormat() "
+	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoElectron.testCurrencyPositiveValueFormat()")
 
 	isValid = false
 
 	if nStrFmtSpecCurrencyValueDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecCurrencyValueDto' is a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 		return isValid, err
 	}
 
@@ -52,8 +45,7 @@ func (nStrCurrencyAtom *numStrFmtSpecCurrencyValueDtoAtom) testCurrencyPositiveV
 	isValid,
 		err = nStrCurrencyElectron.testCurrencyPositiveValueFormatStr(
 		nStrFmtSpecCurrencyValueDto.positiveValueFmt,
-		ePrefix+
-			"Testing validity of 'nStrFmtSpecCurrencyValueDto.positiveValueFmt'\n ")
+		ePrefix.XCtx("Testing validity of 'nStrFmtSpecCurrencyValueDto.positiveValueFmt'"))
 
 	isValid = true
 	return isValid, err
@@ -66,7 +58,7 @@ func (nStrCurrencyAtom *numStrFmtSpecCurrencyValueDtoAtom) testCurrencyPositiveV
 //
 func (nStrCurrencyAtom *numStrFmtSpecCurrencyValueDtoAtom) testCurrencyNegativeValueFormat(
 	nStrFmtSpecCurrencyValueDto *NumStrFmtSpecCurrencyValueDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -78,20 +70,14 @@ func (nStrCurrencyAtom *numStrFmtSpecCurrencyValueDtoAtom) testCurrencyNegativeV
 
 	defer nStrCurrencyAtom.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecCurrencyValueDtoAtom.testCurrencyNegativeValueFormat() "
+	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoAtom.testCurrencyNegativeValueFormat()")
 
 	isValid = false
 
 	if nStrFmtSpecCurrencyValueDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecCurrencyValueDto' is a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 		return isValid, err
 	}
 
@@ -101,8 +87,7 @@ func (nStrCurrencyAtom *numStrFmtSpecCurrencyValueDtoAtom) testCurrencyNegativeV
 	isValid,
 		err = nStrCurrencyElectron.testCurrencyNegativeValueFormatStr(
 		nStrFmtSpecCurrencyValueDto.negativeValueFmt,
-		ePrefix+
-			"Testing validity of 'nStrFmtSpecCurrencyValueDto.negativeValueFmt'\n ")
+		ePrefix.XCtx("Testing validity of 'nStrFmtSpecCurrencyValueDto.negativeValueFmt'"))
 
 	isValid = true
 	return isValid, err

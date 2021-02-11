@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -20,7 +19,7 @@ type numStrFmtSpecSignedNumValMolecule struct {
 //
 func (nStrFmtSpecSignedNumValMolecule *numStrFmtSpecSignedNumValMolecule) testValidityOfSignedNumValDto(
 	nStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -32,13 +31,7 @@ func (nStrFmtSpecSignedNumValMolecule *numStrFmtSpecSignedNumValMolecule) testVa
 
 	defer nStrFmtSpecSignedNumValMolecule.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto() "
+	ePrefix.SetEPref("numStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto()")
 
 	isValid = false
 
@@ -46,7 +39,7 @@ func (nStrFmtSpecSignedNumValMolecule *numStrFmtSpecSignedNumValMolecule) testVa
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecSignedNumValDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 
 		return isValid, err
 	}
@@ -61,8 +54,7 @@ func (nStrFmtSpecSignedNumValMolecule *numStrFmtSpecSignedNumValMolecule) testVa
 	isValid,
 		err = nStrSignedNumAtom.testSignedNumValPositiveValueFormat(
 		nStrFmtSpecSignedNumValDto,
-		ePrefix+
-			"\nValidating nStrFmtSpecSignedNumValDto Positive Value Format\n ")
+		ePrefix.XCtx("Validating nStrFmtSpecSignedNumValDto Positive Value Format"))
 
 	if err != nil {
 		return isValid, err
@@ -71,8 +63,7 @@ func (nStrFmtSpecSignedNumValMolecule *numStrFmtSpecSignedNumValMolecule) testVa
 	isValid,
 		err = nStrSignedNumAtom.testSignedNumValNegativeValueFormat(
 		nStrFmtSpecSignedNumValDto,
-		ePrefix+
-			"\nValidating nStrFmtSpecSignedNumValDto Negative Value Format\n ")
+		ePrefix.XCtx("Validating nStrFmtSpecSignedNumValDto Negative Value Format"))
 
 	if err != nil {
 		return isValid, err
@@ -80,8 +71,7 @@ func (nStrFmtSpecSignedNumValMolecule *numStrFmtSpecSignedNumValMolecule) testVa
 
 	err =
 		nStrFmtSpecSignedNumValDto.numberSeparatorsDto.IsValidInstanceError(
-			ePrefix +
-				"\nValidating 'nStrFmtSpecSignedNumValDto' Number Separators\n ")
+			ePrefix.XCtx("Validating 'nStrFmtSpecSignedNumValDto' Number Separators"))
 
 	if err != nil {
 		isValid = false

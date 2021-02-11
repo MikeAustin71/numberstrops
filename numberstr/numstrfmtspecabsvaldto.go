@@ -1308,7 +1308,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsValDto(
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetFromFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtAbsValDto.lock == nil {
 		nStrFmtAbsValDto.lock = new(sync.Mutex)
@@ -1318,19 +1318,13 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetFromFmtSpecSetupDto(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCountryDto.SetFromFmtSpecSetupDto() "
+	ePrefix.SetEPref("NumStrFmtSpecCountryDto.SetFromFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
 		return fmt.Errorf("%v\n"+
 			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
 			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 	}
 
 	if fmtSpecSetupDto.Lock == nil {

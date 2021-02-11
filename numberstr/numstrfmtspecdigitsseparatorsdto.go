@@ -1,7 +1,6 @@
 package numberstr
 
 import (
-	"strings"
 	"sync"
 )
 
@@ -66,7 +65,7 @@ type NumStrFmtSpecDigitsSeparatorsDto struct {
 //
 func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) CopyIn(
 	incomingSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecDigitsSepDto.lock == nil {
 		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
@@ -76,13 +75,7 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) CopyIn(
 
 	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.CopyIn() "
+	ePrefix.SetEPref("NumStrFmtSpecDigitsSeparatorsDto.CopyIn()")
 
 	nStrFmtSpecDigitsSepsElectron :=
 		numStrFmtSpecDigitsSeparatorsDtoElectron{}
@@ -112,7 +105,7 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) CopyOut() NumSt
 	newDigitsSepDto,
 		_ := nStrFmtSpecDigitsSepsElectron.copyOut(
 		nStrFmtSpecDigitsSepDto,
-		"")
+		new(ErrPrefixDto))
 
 	return newDigitsSepDto
 }
@@ -246,7 +239,7 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstance
 	isValid,
 		_ = nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
 		nStrFmtSpecDigitsSepDto,
-		"")
+		new(ErrPrefixDto))
 
 	return isValid
 }
@@ -273,11 +266,13 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstance
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 //       If this instance of NumStrFmtSpecDigitsSeparatorsDto contains
@@ -285,7 +280,7 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstance
 //       identifying the invalid data item.
 //
 func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstanceError(
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecDigitsSepDto.lock == nil {
 		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
@@ -295,14 +290,9 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstance
 
 	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.IsValidInstanceError() \n" +
-		"Testing Validity of 'nStrFmtSpecDigitsSepDto' "
+	ePrefix.SetEPrefCtx(
+		"NumStrFmtSpecDigitsSeparatorsDto.IsValidInstanceError()",
+		"Testing Validity of 'nStrFmtSpecDigitsSepDto'")
 
 	nStrFmtSpecDigitsSepsQuark := numStrFmtSpecDigitsSeparatorsDtoQuark{}
 
@@ -314,7 +304,7 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstance
 	return err
 }
 
-// NewFromComponents() - Creates and returns a new instance of
+// NewWithDefaults - Creates and returns a new instance of
 // NumStrFmtSpecDigitsSeparatorsDto. This type encapsulates the
 // digit separators used in formatting a number string for text
 // display. Digit separators are commonly referred to as the
@@ -346,7 +336,8 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstance
 // If you wish to configure the 'integer digits grouping sequence'
 // to some value other than the default, see method:
 //     NumStrFmtSpecDigitsSeparatorsDto.NewFromComponents()
-
+//
+//
 // ----------------------------------------------------------------
 //
 // Input Parameters
@@ -374,11 +365,10 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstance
 //       returned.
 //
 //
-//  ePrefix                    string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -391,18 +381,19 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) IsValidInstance
 //       returned. The 'integer digits grouping sequence' will be
 //       automatically set to default of 3-digits or []uint{3}.
 //
-//
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) NewWithDefaults(
-	ePrefix string,
+	ePrefix *ErrPrefixDto,
 	decimalSeparator rune,
 	integerDigitsSeparator rune) (
 	NumStrFmtSpecDigitsSeparatorsDto,
@@ -416,13 +407,8 @@ func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) NewWithDefaults(
 
 	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.NewWithDefaults() "
+	ePrefix.SetEPref(
+		"NumStrFmtSpecDigitsSeparatorsDto.NewWithDefaults()")
 
 	newDigitsSepsDto := NumStrFmtSpecDigitsSeparatorsDto{}
 
@@ -440,7 +426,7 @@ func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) NewWithDefaults(
 
 }
 
-// NewFromComponents() - Creates and returns a new instance of NumStrFmtSpecDigitsSeparatorsDto.
+// NewFromComponents - Creates and returns a new instance of NumStrFmtSpecDigitsSeparatorsDto.
 // This type encapsulates the digit separators used in formatting a
 // number string for text display.
 //
@@ -483,11 +469,10 @@ func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) NewWithDefaults(
 //              integerDigitsGroupingSequence = []uint{3,2}
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -502,18 +487,20 @@ func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) NewWithDefaults(
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) NewFromComponents(
 	decimalSeparator rune,
 	integerDigitsSeparator rune,
 	integerDigitsGroupingSequence []uint,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecDigitsSeparatorsDto,
 	error) {
 
@@ -525,13 +512,7 @@ func (nStrFmtSpecDigitsSepDto NumStrFmtSpecDigitsSeparatorsDto) NewFromComponent
 
 	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.NewFromComponents() "
+	ePrefix.SetEPref("NumStrFmtSpecDigitsSeparatorsDto.NewFromComponents()")
 
 	newDigitsSepsDto := NumStrFmtSpecDigitsSeparatorsDto{}
 
@@ -572,7 +553,7 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetDecimalSepar
 
 }
 
-// SetDigitsSeps() - This method will set all of the member variable
+// SetDigitsSeps - This method will set all of the member variable
 // data values for the current instance of NumStrFmtSpecDigitsSeparatorsDto.
 //
 // The NumStrFmtSpecDigitsSeparatorsDto type encapsulates the digit separators
@@ -617,11 +598,10 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetDecimalSepar
 //              integerDigitsGroupingSequence = []uint{3,2}
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -630,18 +610,20 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetDecimalSepar
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetDigitsSeps(
 	decimalSeparator rune,
 	integerDigitsSeparator rune,
 	integerDigitsGroupingSequence []uint,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecDigitsSepDto.lock == nil {
 		nStrFmtSpecDigitsSepDto.lock = new(sync.Mutex)
@@ -651,13 +633,7 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetDigitsSeps(
 
 	defer nStrFmtSpecDigitsSepDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecDigitsSeparatorsDto.SetDigitsSeps() "
+	ePrefix.SetEPref("NumStrFmtSpecDigitsSeparatorsDto.SetDigitsSeps()")
 
 	nStrFmtSpecDigitsSepsDtoMech :=
 		numStrFmtSpecDigitsSepsDtoMechanics{}
@@ -667,8 +643,7 @@ func (nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto) SetDigitsSeps(
 		decimalSeparator,
 		integerDigitsSeparator,
 		integerDigitsGroupingSequence,
-		ePrefix+
-			"\nSetting Data Values for current instance 'nStrFmtSpecDigitsSepDto' ")
+		ePrefix.XCtx("Setting Data Values for current instance 'nStrFmtSpecDigitsSepDto'"))
 }
 
 // SetIntegerDigitsGroupingSequence - Sets the value of the integer

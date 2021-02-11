@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -242,11 +241,10 @@ type nStrFmtSpecSignedNumValUtility struct {
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix                       string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -255,11 +253,13 @@ type nStrFmtSpecSignedNumValUtility struct {
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedNumValDtoWithDefaults(
@@ -272,7 +272,7 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 	integerDigitsGroupingSequence []uint,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecSignedNumValDtoUtil.lock == nil {
@@ -283,19 +283,13 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 
 	defer nStrFmtSpecSignedNumValDtoUtil.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "nStrFmtSpecSignedNumValUtility.setSignedNumValDtoWithDefaults() "
+	ePrefix.SetEPref("nStrFmtSpecSignedNumValUtility.setSignedNumValDtoWithDefaults()")
 
 	if nStrFmtSpecSignedNumValDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecSignedNumValDto' is invalid!\n"+
 			"'nStrFmtSpecSignedNumValDto' is a 'nil' pointer.\n",
-			ePrefix)
+			ePrefix.String())
 		return err
 	}
 
@@ -314,11 +308,11 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 		decimalSeparatorChar,
 		thousandsSeparatorChar,
 		integerDigitsGroupingSequence,
-		ePrefix+
-			fmt.Sprintf("\ndecimalSeparatorChar='%v'\n"+
-				"thousandsSeparatorChar='%v'\n",
+		ePrefix.XCtx(
+			fmt.Sprintf("decimalSeparatorChar='%v'\n"+
+				"thousandsSeparatorChar='%v'",
 				decimalSeparatorChar,
-				thousandsSeparatorChar))
+				thousandsSeparatorChar)))
 
 	if err != nil {
 		return err
@@ -334,8 +328,7 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 		turnOnIntegerDigitsSeparation,
 		numberSeparatorsDto,
 		numFieldDto,
-		ePrefix+
-			"\n Setting 'nStrFmtSpecSignedNumValDto'\n ")
+		ePrefix.XCtx("Setting 'nStrFmtSpecSignedNumValDto'\n"))
 
 	return err
 }

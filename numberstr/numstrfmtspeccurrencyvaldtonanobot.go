@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -23,7 +22,7 @@ type numStrFmtSpecCurrencyValueDtoNanobot struct {
 func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 	targetNStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
 	inComingNStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecCurrValNanobot.lock == nil {
@@ -34,19 +33,14 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 
 	defer nStrFmtSpecCurrValNanobot.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecCurrencyValueDtoNanobot.copyIn() "
+	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoNanobot.copyIn()")
 
 	if targetNStrFmtSpecCurrencyValDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetNStrFmtSpecCurrencyValDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
+
 		return err
 	}
 
@@ -54,7 +48,7 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'inComingNStrFmtSpecCurrencyValDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 		return err
 	}
 
@@ -65,8 +59,7 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 		err =
 		nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(
 			inComingNStrFmtSpecCurrencyValDto,
-			ePrefix+
-				"\nTesting validity of 'inComingNStrFmtSpecCurrencyValDto'\n ")
+			ePrefix.XCtx("Testing validity of 'inComingNStrFmtSpecCurrencyValDto'"))
 
 	if err != nil {
 		return err
@@ -96,9 +89,8 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 	err =
 		targetNStrFmtSpecCurrencyValDto.numberSeparatorsDto.CopyIn(
 			&inComingNStrFmtSpecCurrencyValDto.numberSeparatorsDto,
-			ePrefix+
-				"'inComingNStrFmtSpecCurrencyValDto' -> "+
-				"'targetNStrFmtSpecCurrencyValDto'\n ")
+			ePrefix.XCtx("'inComingNStrFmtSpecCurrencyValDto' -> "+
+				"'targetNStrFmtSpecCurrencyValDto'"))
 
 	if err != nil {
 		return err
@@ -107,8 +99,7 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 	err =
 		targetNStrFmtSpecCurrencyValDto.numFieldLenDto.CopyIn(
 			&inComingNStrFmtSpecCurrencyValDto.numFieldLenDto,
-			ePrefix+
-				"\ninComingNStrFmtSpecCurrencyValDto->targetNStrFmtSpecCurrencyValDto\n")
+			ePrefix.XCtx("\ninComingNStrFmtSpecCurrencyValDto->targetNStrFmtSpecCurrencyValDto"))
 
 	return err
 }
@@ -122,7 +113,7 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 //
 func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNStrFmtSpecCurrencyValDto NumStrFmtSpecCurrencyValueDto,
 	err error) {
 
@@ -134,19 +125,13 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 
 	defer nStrFmtSpecCurrValNanobot.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecCurrencyValueDtoNanobot.copyOut() "
+	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoNanobot.copyOut()")
 
 	if nStrFmtSpecCurrencyValDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecCurrencyValDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 
 		return newNStrFmtSpecCurrencyValDto, err
 	}
@@ -158,8 +143,7 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 		err =
 		nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(
 			nStrFmtSpecCurrencyValDto,
-			ePrefix+
-				"Testing validity of 'nStrFmtSpecCurrencyValDto'\n ")
+			ePrefix.XCtx("Testing validity of 'nStrFmtSpecCurrencyValDto'"))
 
 	if err != nil {
 		return newNStrFmtSpecCurrencyValDto, err
@@ -188,8 +172,7 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 
 	err = newNStrFmtSpecCurrencyValDto.numberSeparatorsDto.CopyIn(
 		&nStrFmtSpecCurrencyValDto.numberSeparatorsDto,
-		ePrefix+
-			"nStrFmtSpecCurrencyValDto->newNStrFmtSpecCurrencyValDto\n ")
+		ePrefix.XCtx("nStrFmtSpecCurrencyValDto->newNStrFmtSpecCurrencyValDto"))
 
 	if err != nil {
 		return newNStrFmtSpecCurrencyValDto, err
@@ -198,8 +181,7 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 	err =
 		newNStrFmtSpecCurrencyValDto.numFieldLenDto.CopyIn(
 			&nStrFmtSpecCurrencyValDto.numFieldLenDto,
-			ePrefix+
-				"\nnStrFmtSpecCurrencyValDto->newNStrFmtSpecCurrencyValDto\n")
+			ePrefix.XCtx("nStrFmtSpecCurrencyValDto->newNStrFmtSpecCurrencyValDto"))
 
 	newNStrFmtSpecCurrencyValDto.lock = new(sync.Mutex)
 

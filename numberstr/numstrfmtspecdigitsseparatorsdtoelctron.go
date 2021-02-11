@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -23,7 +22,7 @@ type numStrFmtSpecDigitsSeparatorsDtoElectron struct {
 func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) copyIn(
 	targetNStrFmtSpecDigitsSepsDto *NumStrFmtSpecDigitsSeparatorsDto,
 	inComingNStrFmtSpecDigitsSepsDto *NumStrFmtSpecDigitsSeparatorsDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecDigitsSepsElectron.lock == nil {
@@ -34,19 +33,13 @@ func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) c
 
 	defer nStrFmtSpecDigitsSepsElectron.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecDigitsSeparatorsDtoElectron.copyIn()\n"
+	ePrefix.SetEPref("numStrFmtSpecDigitsSeparatorsDtoElectron.copyIn()")
 
 	if targetNStrFmtSpecDigitsSepsDto == nil {
 		err = fmt.Errorf("%v"+
 			"Error: Input parameter 'targetNStrFmtSpecDigitsSepsDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 		return err
 	}
 
@@ -54,7 +47,7 @@ func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) c
 		err = fmt.Errorf("%v"+
 			"Error: Input parameter 'inComingNStrFmtSpecDigitsSepsDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 		return err
 	}
 
@@ -69,8 +62,7 @@ func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) c
 		err =
 		nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
 			inComingNStrFmtSpecDigitsSepsDto,
-			ePrefix+
-				"Testing validity of 'inComingNStrFmtSpecDigitsSepsDto'\n")
+			ePrefix.XCtx("Testing validity of 'inComingNStrFmtSpecDigitsSepsDto'"))
 
 	if err != nil {
 		return err
@@ -105,7 +97,7 @@ func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) c
 //
 func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) copyOut(
 	nStrFmtSpecDigitsSepsDto *NumStrFmtSpecDigitsSeparatorsDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newDigitsSepsDto NumStrFmtSpecDigitsSeparatorsDto,
 	err error) {
 
@@ -117,19 +109,13 @@ func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) c
 
 	defer nStrFmtSpecDigitsSepsElectron.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "\nnumStrFmtSpecDigitsSeparatorsDtoElectron.copyOut() "
+	ePrefix.SetEPref("numStrFmtSpecDigitsSeparatorsDtoElectron.copyOut()")
 
 	if nStrFmtSpecDigitsSepsDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecDigitsSepsDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 
 		return newDigitsSepsDto, err
 	}
@@ -141,8 +127,7 @@ func (nStrFmtSpecDigitsSepsElectron *numStrFmtSpecDigitsSeparatorsDtoElectron) c
 		err =
 		nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
 			nStrFmtSpecDigitsSepsDto,
-			ePrefix+
-				"\nTesting validity of 'nStrFmtSpecDigitsSepsDto'\n")
+			ePrefix.XCtx("Testing validity of 'nStrFmtSpecDigitsSepsDto'"))
 
 	if err != nil {
 		return newDigitsSepsDto, err

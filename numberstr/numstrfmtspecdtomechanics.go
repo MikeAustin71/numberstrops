@@ -70,10 +70,10 @@ type numStrFmtSpecDtoMechanics struct {
 //       }
 //
 //
-//  ePrefix             ErrPrefixDto
-//     - This is an error prefix object which is included in all
-//       returned error messages. Usually, it contains the names of
-//       the calling method or methods.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -82,17 +82,19 @@ type numStrFmtSpecDtoMechanics struct {
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 	nStrFmtSpecDto *NumStrFmtSpecDto,
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix ErrPrefixDto) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecDtoMech.lock == nil {
@@ -108,7 +110,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 	if nStrFmtSpecDto == nil {
 		err = fmt.Errorf("%v"+
 			"Error: Input parameter 'nStrFmtSpecDto' is nil pointer!\n",
-			ePrefix)
+			ePrefix.String())
 		return err
 	}
 
@@ -119,7 +121,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 	if fmtSpecSetupDto == nil {
 		err = fmt.Errorf("%v"+
 			"Error: Input parameter 'fmtSpecSetupDto' is nil pointer!\n",
-			ePrefix)
+			ePrefix.String())
 		return err
 	}
 
@@ -141,21 +143,17 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 
 	fmtSpecSetupDto.Lock.Unlock()
 
-	ePrefix.SetCtx("fmtSpecSetupDto")
-
 	err = nStrFmtSpecDto.countryCulture.SetFromFmtSpecSetupDto(
 		fmtSpecSetupDto,
-		ePrefix)
+		ePrefix.XCtx("fmtSpecSetupDto->CountryCulture"))
 
 	if err != nil {
 		return err
 	}
 
-	ePrefix.SetCtx("fmtSpecSetupDto")
-
 	err = nStrFmtSpecDto.absoluteValue.SetFromFmtSpecSetupDto(
 		fmtSpecSetupDto,
-		ePrefix)
+		ePrefix.XCtx("fmtSpecSetupDto->AbsoluteValue"))
 
 	if err != nil {
 		return err
@@ -163,7 +161,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 
 	err = nStrFmtSpecDto.currencyValue.SetFromFmtSpecSetupDto(
 		fmtSpecSetupDto,
-		ePrefix+"fmtSpecSetupDto\n ")
+		ePrefix.XCtx("fmtSpecSetupDto"))
 
 	if err != nil {
 		return err
@@ -171,7 +169,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 
 	err = nStrFmtSpecDto.signedNumValue.SetFromFmtSpecSetupDto(
 		fmtSpecSetupDto,
-		ePrefix+"fmtSpecSetupDto\n ")
+		ePrefix.XCtx("fmtSpecSetupDto"))
 
 	if err != nil {
 		return err

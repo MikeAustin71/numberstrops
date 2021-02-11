@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -23,7 +22,7 @@ type numStrFmtSpecSignedNumValNanobot struct {
 func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyIn(
 	targetNStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
 	inComingNStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecSignedNumValNanobot.lock == nil {
@@ -34,19 +33,13 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyIn(
 
 	defer nStrFmtSpecSignedNumValNanobot.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecSignedNumValNanobot.copyIn()\n "
+	ePrefix.SetEPref("numStrFmtSpecSignedNumValNanobot.copyIn()")
 
 	if targetNStrFmtSpecSignedNumValDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetNStrFmtSpecSignedNumValDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 		return err
 	}
 
@@ -58,7 +51,7 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyIn(
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'inComingNStrFmtSpecSignedNumValDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 		return err
 	}
 
@@ -69,8 +62,7 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyIn(
 		err =
 		nStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto(
 			inComingNStrFmtSpecSignedNumValDto,
-			ePrefix+
-				"Testing validity of 'inComingNStrFmtSpecSignedNumValDto'\n ")
+			ePrefix.XCtx("Testing validity of 'inComingNStrFmtSpecSignedNumValDto'"))
 
 	if err != nil {
 		return err
@@ -88,9 +80,8 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyIn(
 	err =
 		targetNStrFmtSpecSignedNumValDto.numberSeparatorsDto.CopyIn(
 			&inComingNStrFmtSpecSignedNumValDto.numberSeparatorsDto,
-			ePrefix+
-				"'inComingNStrFmtSpecSignedNumValDto' -> "+
-				"'targetNStrFmtSpecSignedNumValDto'\n ")
+			ePrefix.XCtx("'inComingNStrFmtSpecSignedNumValDto' -> "+
+				"'targetNStrFmtSpecSignedNumValDto'"))
 
 	if err != nil {
 		return err
@@ -99,8 +90,7 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyIn(
 	err =
 		targetNStrFmtSpecSignedNumValDto.numFieldLenDto.CopyIn(
 			&inComingNStrFmtSpecSignedNumValDto.numFieldLenDto,
-			ePrefix+
-				"\ninComingNStrFmtSpecSignedNumValDto->targetNStrFmtSpecSignedNumValDto\n")
+			ePrefix.XCtx("inComingNStrFmtSpecSignedNumValDto->targetNStrFmtSpecSignedNumValDto"))
 
 	return err
 }
@@ -114,7 +104,7 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyIn(
 //
 func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyOut(
 	nStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNStrFmtSpecSignedNumValDto NumStrFmtSpecSignedNumValueDto,
 	err error) {
 
@@ -126,19 +116,13 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyOut(
 
 	defer nStrFmtSpecSignedNumValNanobot.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecSignedNumValNanobot.copyOut()\n "
+	ePrefix.SetEPref("numStrFmtSpecSignedNumValNanobot.copyOut()")
 
 	if nStrFmtSpecSignedNumValDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecSignedNumValDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 
 		return newNStrFmtSpecSignedNumValDto, err
 	}
@@ -150,8 +134,7 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyOut(
 		err =
 		nStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto(
 			nStrFmtSpecSignedNumValDto,
-			ePrefix+
-				"Testing validity of 'nStrFmtSpecSignedNumValDto'\n ")
+			ePrefix.XCtx("Testing validity of 'nStrFmtSpecSignedNumValDto'"))
 
 	if err != nil {
 		return newNStrFmtSpecSignedNumValDto, err
@@ -168,8 +151,7 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyOut(
 
 	err = newNStrFmtSpecSignedNumValDto.numberSeparatorsDto.CopyIn(
 		&nStrFmtSpecSignedNumValDto.numberSeparatorsDto,
-		ePrefix+
-			"nStrFmtSpecSignedNumValDto->newNStrFmtSpecSignedNumValDto\n ")
+		ePrefix.XCtx("nStrFmtSpecSignedNumValDto->newNStrFmtSpecSignedNumValDto"))
 
 	if err != nil {
 		return newNStrFmtSpecSignedNumValDto, err
@@ -178,8 +160,7 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyOut(
 	err =
 		newNStrFmtSpecSignedNumValDto.numFieldLenDto.CopyIn(
 			&nStrFmtSpecSignedNumValDto.numFieldLenDto,
-			ePrefix+
-				"nStrFmtSpecSignedNumValDto->newNStrFmtSpecSignedNumValDto\n")
+			ePrefix.XCtx("nStrFmtSpecSignedNumValDto->newNStrFmtSpecSignedNumValDto"))
 
 	newNStrFmtSpecSignedNumValDto.lock = new(sync.Mutex)
 

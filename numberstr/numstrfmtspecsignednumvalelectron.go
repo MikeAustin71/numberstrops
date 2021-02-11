@@ -16,7 +16,7 @@ type numStrSignedNumValElectron struct {
 //
 func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativeValueFormatStr(
 	negativeValueFmtStr string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -28,13 +28,7 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 
 	defer nStrSignedNumElectron.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrSignedNumValElectron.testSignedNumValNegativeValueFormat() "
+	ePrefix.SetEPref("numStrSignedNumValElectron.testSignedNumValNegativeValueFormat()")
 
 	isValid = false
 
@@ -42,7 +36,8 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'negativeValueFmtStr' is an empty string!\n"+
 			"len(negativeValueFmtStr) == 0\n",
-			ePrefix)
+			ePrefix.String())
+
 		return isValid, err
 	}
 
@@ -77,7 +72,7 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 				"Signed Number Negative Value Formats are NOT allowed to include this character.\n"+
 				"Complete Signed Value Negative Number Format String= '%v'\n"+
 				"invalid char == '%v' at Index [%v] \n",
-				ePrefix,
+				ePrefix.String(),
 				negativeValueFmtStr,
 				string(runesToTest[i]),
 				i)
@@ -98,7 +93,7 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 			"to designate a place holder for the numeric value. This Number String Format has\n"+
 			"neither placeholder!\n"+
 			"Complete Signed Value Negative Number Format String= '%v'\n",
-			ePrefix,
+			ePrefix.String(),
 			negativeValueFmtStr)
 
 		return isValid, err
@@ -118,7 +113,7 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 			"a minus sign '-' or parenthesis '()' to designate a negative value.\n This Signed\n"+
 			"Number Negative Value Format String does NOT contain a negative value placeholder!\n"+
 			"Complete Signed Number Negative Value Format String= '%v'\n",
-			ePrefix,
+			ePrefix.String(),
 			negativeValueFmtStr)
 
 		return isValid, err
@@ -135,7 +130,7 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 //
 func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValPositiveValueFormatStr(
 	positiveValueFmtStr string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -147,13 +142,7 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValPositiv
 
 	defer nStrSignedNumElectron.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrSignedNumValElectron.testSignedNumValPositiveValueFormatStr() "
+	ePrefix.SetEPref("numStrSignedNumValElectron.testSignedNumValPositiveValueFormatStr()")
 
 	isValid = false
 
@@ -162,7 +151,7 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValPositiv
 			"Error: Input parameter 'positiveValueFmtStr' is an empty string!\n"+
 			"The Signed Number Value Positive Value Format string is missing.\n"+
 			"len(positiveValueFmtStr) == 0\n",
-			ePrefix)
+			ePrefix.String())
 		return isValid, err
 	}
 

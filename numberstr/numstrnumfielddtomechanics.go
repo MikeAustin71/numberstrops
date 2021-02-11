@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -68,32 +67,32 @@ type numStrNumFieldDtoMechanics struct {
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  err                 error
-//     - If the method completes successfully and no errors are
-//       encountered this return value is set to 'nil'. Otherwise,
-//       if errors are encountered this return value will contain
-//       an appropriate error message.
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
 //
-//       If an error message is returned, the input parameter
-//       'ePrefix' (error prefix) will be inserted or prefixed at
-//       the beginning of the error message.
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrNumFieldDtoMech *numStrNumFieldDtoMechanics) setNumberFieldDto(
 	numFieldDto *NumberFieldDto,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
-	ePrefix string) (err error) {
+	ePrefix *ErrPrefixDto) (err error) {
 
 	if nStrNumFieldDtoMech.lock == nil {
 		nStrNumFieldDtoMech.lock = new(sync.Mutex)
@@ -103,19 +102,13 @@ func (nStrNumFieldDtoMech *numStrNumFieldDtoMechanics) setNumberFieldDto(
 
 	defer nStrNumFieldDtoMech.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrNumFieldDtoMechanics.setNumberFieldDto()\n"
+	ePrefix.SetEPref("numStrNumFieldDtoMechanics.setNumberFieldDto()")
 	err = nil
 
 	if numFieldDto == nil {
 		err = fmt.Errorf("%v"+
 			"Error: Input parameter 'numFieldDto' is a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
@@ -132,7 +125,7 @@ func (nStrNumFieldDtoMech *numStrNumFieldDtoMechanics) setNumberFieldDto(
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'numberFieldTextJustify' is invalid!\n"+
 			"'numberFieldTextJustify' integer value = '%v'\n",
-			ePrefix,
+			ePrefix.String(),
 			numberFieldTextJustify.XValueInt())
 		return err
 	}
@@ -153,8 +146,7 @@ func (nStrNumFieldDtoMech *numStrNumFieldDtoMechanics) setNumberFieldDto(
 		err =
 		nStrNFldDtoQuark.testValidityNumberFieldDto(
 			numFieldDto,
-			ePrefix+
-				"Testing validity of final 'numFieldDto'\n")
+			ePrefix.XCtx("Testing validity of final 'numFieldDto'"))
 
 	return err
 }

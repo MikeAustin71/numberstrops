@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -37,32 +36,31 @@ type numStrNumFieldDtoElectron struct {
 //       'targetNumFieldDto'.
 //
 //
-//
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  err                 error
-//     - If the method completes successfully and no errors are
-//       encountered this return value is set to 'nil'. Otherwise,
-//       if errors are encountered this return value will contain
-//       an appropriate error message.
+//  err                        error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
 //
-//       If an error message is returned, the input parameter
-//       'ePrefix' (error prefix) will be inserted or prefixed at
-//       the beginning of the error message.
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 	targetNumFieldDto *NumberFieldDto,
 	incomingNumFieldDto *NumberFieldDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrNumFieldDtoElectron.lock == nil {
@@ -73,26 +71,20 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 
 	defer nStrNumFieldDtoElectron.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrNumFieldDtoElectron.copyIn() "
+	ePrefix.SetEPref("numStrNumFieldDtoElectron.copyIn()")
 
 	if targetNumFieldDto == nil {
-		err = fmt.Errorf("%v"+
+		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetNumFieldDto' is a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
 
 	if incomingNumFieldDto == nil {
-		err = fmt.Errorf("%v"+
+		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'incomingNumFieldDto' is a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
@@ -106,8 +98,7 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 	_,
 		err = nStrNFldDtoQuark.testValidityNumberFieldDto(
 		incomingNumFieldDto,
-		ePrefix+"\n"+
-			"Testing Validity of 'incomingNumFieldDto' ")
+		ePrefix.XCtx("Testing Validity of 'incomingNumFieldDto'"))
 
 	if err != nil {
 		return err
@@ -143,11 +134,10 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 //       ('newNumFieldDto'), which is returned to the caller.
 //
 //
-//  ePrefix                    string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
@@ -161,19 +151,20 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 //       represents a deep copy of input parameter, 'numFieldDto'.
 //
 //
-//  err                        error
-//     - If the method completes successfully and no errors are
-//       encountered this return value is set to 'nil'. Otherwise,
-//       if errors are encountered this return value will contain
-//       an appropriate error message.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
 //
-//       If an error message is returned, the input parameter
-//       'ePrefix' (error prefix) will be inserted or prefixed at
-//       the beginning of the error message.
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyOut(
 	numFieldDto *NumberFieldDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumFieldDto NumberFieldDto,
 	err error) {
 
@@ -202,8 +193,7 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyOut(
 	_,
 		err = nStrNFldDtoQuark.testValidityNumberFieldDto(
 		numFieldDto,
-		ePrefix+"\n"+
-			"Testing Validity of 'numFieldDto' ")
+		ePrefix.XCtx("Testing Validity of 'numFieldDto'"))
 
 	if err != nil {
 		return newNumFieldDto, err

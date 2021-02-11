@@ -986,7 +986,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetDescription(
 //
 func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetFromFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecCntryDto.lock == nil {
 		nStrFmtSpecCntryDto.lock = new(sync.Mutex)

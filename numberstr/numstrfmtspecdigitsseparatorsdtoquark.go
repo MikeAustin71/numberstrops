@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -20,7 +19,7 @@ type numStrFmtSpecDigitsSeparatorsDtoQuark struct {
 //
 func (nStrFmtSpecDigitsSepsQuark *numStrFmtSpecDigitsSeparatorsDtoQuark) testValidityOfNumSepsDto(
 	nStrFmtSpecDigitsSepDto *NumStrFmtSpecDigitsSeparatorsDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -32,13 +31,7 @@ func (nStrFmtSpecDigitsSepsQuark *numStrFmtSpecDigitsSeparatorsDtoQuark) testVal
 
 	defer nStrFmtSpecDigitsSepsQuark.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecDigitsSeparatorsDtoQuark.testValidityOfNumSepsDto() "
+	ePrefix.SetEPref("numStrFmtSpecDigitsSeparatorsDtoQuark.testValidityOfNumSepsDto()")
 
 	isValid = false
 
@@ -46,7 +39,7 @@ func (nStrFmtSpecDigitsSepsQuark *numStrFmtSpecDigitsSeparatorsDtoQuark) testVal
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecDigitsSepDto' is invalid!\n"+
 			"'nStrFmtSpecDigitsSepDto' is a 'nil' pointer\n",
-			ePrefix)
+			ePrefix.String())
 
 		return isValid, err
 	}
@@ -55,7 +48,7 @@ func (nStrFmtSpecDigitsSepsQuark *numStrFmtSpecDigitsSeparatorsDtoQuark) testVal
 		err = fmt.Errorf("%v\n"+
 			"Error: Internal member varialbe 'decimalSeparator' is invalid!\n"+
 			"'decimalSeparator' is empty and has a zero value.\n",
-			ePrefix)
+			ePrefix.String())
 
 		return isValid, err
 	}
@@ -64,7 +57,7 @@ func (nStrFmtSpecDigitsSepsQuark *numStrFmtSpecDigitsSeparatorsDtoQuark) testVal
 		err = fmt.Errorf("%v\n"+
 			"Error: Internal member varialbe 'integerDigitsSeparator' is invalid!\n"+
 			"'integerDigitsSeparator' is empty and has a zero value.\n",
-			ePrefix)
+			ePrefix.String())
 
 		return isValid, err
 	}
@@ -73,7 +66,7 @@ func (nStrFmtSpecDigitsSepsQuark *numStrFmtSpecDigitsSeparatorsDtoQuark) testVal
 		err = fmt.Errorf("%v\n"+
 			"Error: Internal member varialbe 'integerDigitsGroupingSequence' is invalid!\n"+
 			"'integerDigitsGroupingSequence' is empty and has no member elements.\n",
-			ePrefix)
+			ePrefix.String())
 
 		return isValid, err
 	}

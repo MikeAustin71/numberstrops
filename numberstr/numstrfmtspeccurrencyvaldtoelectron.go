@@ -91,11 +91,10 @@ type numStrFmtSpecCurrencyValueDtoElectron struct {
 //          + 127.54 $
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -110,11 +109,13 @@ type numStrFmtSpecCurrencyValueDtoElectron struct {
 //
 //  err                 error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 //     - If the input parameter 'positiveValFmtStr' is judged to be
@@ -124,7 +125,7 @@ type numStrFmtSpecCurrencyValueDtoElectron struct {
 //
 func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyPositiveValueFormatStr(
 	positiveValFmtStr string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -136,13 +137,7 @@ func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyP
 
 	defer nStrCurrencyElectron.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecCurrencyValueDtoElectron.testCurrencyPositiveValueFormatStr() "
+	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoElectron.testCurrencyPositiveValueFormatStr()")
 
 	isValid = false
 
@@ -151,7 +146,7 @@ func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyP
 			"Error: Input parameter 'positiveValFmtStr' is an empty string!\n"+
 			"The Currency Positive Value Format string is missing.\n"+
 			"len(positiveValFmtStr) == 0\n",
-			ePrefix)
+			ePrefix.String())
 		return isValid, err
 	}
 
@@ -236,7 +231,7 @@ func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyP
 //
 func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyNegativeValueFormatStr(
 	negativeValFmtStr string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -248,13 +243,7 @@ func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyN
 
 	defer nStrCurrencyElectron.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecCurrencyValueDtoElectron.testCurrencyNegativeValueFormatStr() "
+	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoElectron.testCurrencyNegativeValueFormatStr()")
 
 	isValid = false
 
@@ -262,7 +251,7 @@ func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyN
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'negativeValFmtStr' is an empty string!\n"+
 			"len(negativeValFmtStr) == 0\n",
-			ePrefix)
+			ePrefix.String())
 		return isValid, err
 	}
 

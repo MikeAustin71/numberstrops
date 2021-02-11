@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -10,9 +9,12 @@ type numStrFmtSpecCurrencyValueDtoMolecule struct {
 	lock *sync.Mutex
 }
 
+// testValidityOfCurrencyValDto - Tests the validity of
+// NumStrFmtSpecCurrencyValueDto objects.
+//
 func (nStrFmtSpecCurrDtoMolecule *numStrFmtSpecCurrencyValueDtoMolecule) testValidityOfCurrencyValDto(
 	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -24,13 +26,7 @@ func (nStrFmtSpecCurrDtoMolecule *numStrFmtSpecCurrencyValueDtoMolecule) testVal
 
 	defer nStrFmtSpecCurrDtoMolecule.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecCurrencyValueDtoMolecule.testValidityOfCurrencyValDto() "
+	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoMolecule.testValidityOfCurrencyValDto()")
 
 	isValid = false
 
@@ -38,7 +34,7 @@ func (nStrFmtSpecCurrDtoMolecule *numStrFmtSpecCurrencyValueDtoMolecule) testVal
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecCurrencyValDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 
 		return isValid, err
 	}
@@ -48,14 +44,14 @@ func (nStrFmtSpecCurrDtoMolecule *numStrFmtSpecCurrencyValueDtoMolecule) testVal
 			"Error: The Currency Symbol is missing!\n"+
 			"The currency symbol is set to zero and is therefore invalid.\n"+
 			"NumStrFmtSpecCurrencyValueDto.currencySymbol == 0\n",
-			ePrefix)
+			ePrefix.String())
+
 		return isValid, err
 	}
 
 	err =
 		nStrFmtSpecCurrencyValDto.numberSeparatorsDto.IsValidInstanceError(
-			ePrefix +
-				"\nValidating 'nStrFmtSpecCurrencyValDto' Number Separators\n ")
+			ePrefix.XCtx("Validating 'nStrFmtSpecCurrencyValDto' Number Separators"))
 
 	if err != nil {
 		return isValid, err
@@ -67,8 +63,7 @@ func (nStrFmtSpecCurrDtoMolecule *numStrFmtSpecCurrencyValueDtoMolecule) testVal
 	_,
 		err = nStrCurrencyAtom.testCurrencyPositiveValueFormat(
 		nStrFmtSpecCurrencyValDto,
-		ePrefix+
-			"\nTesting nStrFmtSpecCurrencyValDto.positiveValueFmt\n")
+		ePrefix.XCtx("Testing nStrFmtSpecCurrencyValDto.positiveValueFmt"))
 
 	if err != nil {
 		return isValid, err
@@ -77,8 +72,7 @@ func (nStrFmtSpecCurrDtoMolecule *numStrFmtSpecCurrencyValueDtoMolecule) testVal
 	_,
 		err = nStrCurrencyAtom.testCurrencyNegativeValueFormat(
 		nStrFmtSpecCurrencyValDto,
-		ePrefix+
-			"\nTesting nStrFmtSpecCurrencyValDto.positiveValueFmt\n")
+		ePrefix.XCtx("\nTesting nStrFmtSpecCurrencyValDto.positiveValueFmt"))
 
 	if err != nil {
 		return isValid, err

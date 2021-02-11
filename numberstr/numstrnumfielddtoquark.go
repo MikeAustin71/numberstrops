@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -20,7 +19,7 @@ type numStrNumFieldDtoQuark struct {
 //
 func (nStrNFldDtoQuark *numStrNumFieldDtoQuark) testValidityNumberFieldDto(
 	numFieldDto *NumberFieldDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -32,19 +31,14 @@ func (nStrNFldDtoQuark *numStrNumFieldDtoQuark) testValidityNumberFieldDto(
 
 	defer nStrNFldDtoQuark.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "\nnumStrNumFieldDtoQuark.testValidityNumberFieldDto()\n"
+	ePrefix.SetEPref("numStrNumFieldDtoQuark.testValidityNumberFieldDto()")
 	isValid = false
 
 	if numFieldDto == nil {
 		err = fmt.Errorf("%v"+
 			"Error: Input parameter 'numFieldDto' is a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
+
 		return isValid, err
 	}
 
@@ -55,7 +49,8 @@ func (nStrNFldDtoQuark *numStrNumFieldDtoQuark) testValidityNumberFieldDto(
 	if numFieldDto.requestedNumFieldLength == 0 {
 		err = fmt.Errorf("%v"+
 			"Error: numFieldDto.requestedNumFieldLength == 0\n",
-			ePrefix)
+			ePrefix.String())
+
 		return isValid, err
 	}
 
@@ -75,7 +70,7 @@ func (nStrNFldDtoQuark *numStrNumFieldDtoQuark) testValidityNumberFieldDto(
 		err = fmt.Errorf("%v"+
 			"Error: numFieldDto.textJustifyFormat is invalid\n"+
 			"numFieldDto.textJustifyFormat integer value=='%v'\n",
-			ePrefix,
+			ePrefix.String(),
 			numFieldDto.textJustifyFormat.XValueInt())
 
 		return isValid, err

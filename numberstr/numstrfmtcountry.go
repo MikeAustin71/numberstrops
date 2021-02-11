@@ -61,7 +61,7 @@ func (nStrFmtCountry NumStrFormatCountry) NewPtr() *NumStrFormatCountry {
 // https://freeformatter.com/argentina-standards-code-snippets.html
 //
 func (nStrFmtCountry *NumStrFormatCountry) Argentina(
-	ePrefix ErrPrefixDto) (
+	ePrefix *ErrPrefixDto) (
 	nStrFmtSpecDto NumStrFmtSpecDto,
 	err error) {
 
@@ -152,7 +152,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina(
 // Australia.
 //
 func (nStrFmtCountry *NumStrFormatCountry) Australia(
-	ePrefix ErrPrefixDto) (
+	ePrefix *ErrPrefixDto) (
 	nStrFmtSpecDto NumStrFmtSpecDto,
 	err error) {
 
@@ -243,7 +243,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia(
 // Canada.
 //
 func (nStrFmtCountry *NumStrFormatCountry) Canada(
-	ePrefix ErrPrefixDto) (
+	ePrefix *ErrPrefixDto) (
 	nStrFmtSpecDto NumStrFmtSpecDto,
 	err error) {
 
@@ -333,7 +333,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Canada(
 // French Canada.
 //
 func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench(
-	ePrefix ErrPrefixDto) (
+	ePrefix *ErrPrefixDto) (
 	nStrFmtSpecDto NumStrFmtSpecDto,
 	err error) {
 
@@ -424,7 +424,7 @@ func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench(
 // Peoples Republic of China.
 //
 func (nStrFmtCountry *NumStrFormatCountry) China(
-	ePrefix ErrPrefixDto) (
+	ePrefix *ErrPrefixDto) (
 	nStrFmtSpecDto NumStrFmtSpecDto,
 	err error) {
 
@@ -518,7 +518,7 @@ func (nStrFmtCountry *NumStrFormatCountry) China(
 // https://freeformatter.com/france-standards-code-snippets.html
 //
 func (nStrFmtCountry *NumStrFormatCountry) France(
-	ePrefix ErrPrefixDto) (
+	ePrefix *ErrPrefixDto) (
 	nStrFmtSpecDto NumStrFmtSpecDto,
 	err error) {
 
@@ -612,7 +612,7 @@ func (nStrFmtCountry *NumStrFormatCountry) France(
 // https://www.evertype.com/standards/euro/formats.html
 //
 func (nStrFmtCountry *NumStrFormatCountry) Germany(
-	ePrefix ErrPrefixDto) (
+	ePrefix *ErrPrefixDto) (
 	nStrFmtSpecDto NumStrFmtSpecDto,
 	err error) {
 
@@ -706,7 +706,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Germany(
 // https://italian.stackexchange.com/questions/5674/what-is-the-correct-way-to-format-currency-in-italian
 //
 func (nStrFmtCountry *NumStrFormatCountry) Italy(
-	ePrefix ErrPrefixDto) (
+	ePrefix *ErrPrefixDto) (
 	nStrFmtSpecDto NumStrFmtSpecDto,
 	err error) {
 
@@ -799,7 +799,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy(
 //  https://freeformatter.com/israel-standards-code-snippets.html
 //
 func (nStrFmtCountry *NumStrFormatCountry) Israel(
-	ePrefix ErrPrefixDto) (
+	ePrefix *ErrPrefixDto) (
 	nStrFmtSpecDto NumStrFmtSpecDto,
 	err error) {
 
@@ -889,7 +889,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel(
 // United Kingdom of Great Britain and Northern Ireland.
 //
 func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom(
-	ePrefix ErrPrefixDto) (
+	ePrefix *ErrPrefixDto) (
 	nStrFmtSpecDto NumStrFmtSpecDto,
 	err error) {
 
@@ -981,7 +981,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom(
 // United States.
 //
 func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
-	ePrefix ErrPrefixDto) (
+	ePrefix *ErrPrefixDto) (
 	nStrFmtSpecDto NumStrFmtSpecDto,
 	err error) {
 

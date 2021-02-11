@@ -195,7 +195,7 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 	integerDigitsGroupingSequence []uint,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecAbsValDtoUtil.lock == nil {
@@ -206,19 +206,13 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 
 	defer nStrFmtSpecAbsValDtoUtil.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecAbsoluteValueDtoUtility.setAbsValDtoWithDefaults() "
+	ePrefix.SetEPref("numStrFmtSpecAbsoluteValueDtoUtility.setAbsValDtoWithDefaults()")
 
 	if nStrFmtSpecAbsValDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecAbsValDto' is invalid!\n"+
 			"'nStrFmtSpecAbsValDto' is a 'nil' pointer.\n",
-			ePrefix)
+			ePrefix.String())
 		return err
 	}
 

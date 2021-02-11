@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -37,11 +36,10 @@ type NumberFieldDto struct {
 //       an error will be returned.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
@@ -49,18 +47,19 @@ type NumberFieldDto struct {
 // Return Values
 //
 //  err                 error
-//     - If the method completes successfully and no errors are
-//       encountered this return value is set to 'nil'. Otherwise,
-//       if errors are encountered this return value will contain
-//       an appropriate error message.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
 //
-//       If an error message is returned, the input parameter
-//       'ePrefix' (error prefix) will be inserted or prefixed at
-//       the beginning of the error message.
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nFieldDto *NumberFieldDto) CopyIn(
 	incomingNumFieldDto *NumberFieldDto,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nFieldDto.lock == nil {
 		nFieldDto.lock = new(sync.Mutex)
@@ -70,7 +69,8 @@ func (nFieldDto *NumberFieldDto) CopyIn(
 
 	defer nFieldDto.lock.Unlock()
 
-	ePrefix += "NumberFieldDto.CopyIn() "
+	ePrefix.SetEPref("NumberFieldDto.CopyIn()")
+
 	nStrNumFieldDtoElectron :=
 		numStrNumFieldDtoElectron{}
 
@@ -116,7 +116,7 @@ func (nFieldDto *NumberFieldDto) CopyOut() NumberFieldDto {
 	newNumFieldDto,
 		_ := nStrNumFieldDtoElectron.copyOut(
 		nFieldDto,
-		"")
+		new(ErrPrefixDto))
 
 	return newNumFieldDto
 }
@@ -275,7 +275,7 @@ func (nFieldDto *NumberFieldDto) GetMinimumNumFieldLength() int {
 	return nFieldDto.minimumNumFieldLength
 }
 
-// GetMinimumNumFieldLength - Returns the internal member variable
+// GetRequestedNumFieldLength - Returns the internal member variable
 // Requested Number Field Length:
 //    NumberFieldDto.requestedNumFieldLength
 //
@@ -348,7 +348,7 @@ func (nFieldDto *NumberFieldDto) IsValidInstance() (
 	isValid,
 		_ = nStrNFldDtoQuark.testValidityNumberFieldDto(
 		nFieldDto,
-		"")
+		new(ErrPrefixDto))
 
 	return isValid
 }
@@ -382,7 +382,7 @@ func (nFieldDto *NumberFieldDto) IsValidInstance() (
 //       will be set to nil.
 //
 func (nFieldDto *NumberFieldDto) IsValidInstanceError(
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nFieldDto.lock == nil {
 		nFieldDto.lock = new(sync.Mutex)
@@ -394,13 +394,7 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 
 	nStrNFldDtoQuark := numStrNumFieldDtoQuark{}
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumberFieldDto.IsValidInstanceError() "
+	ePrefix.SetEPref("NumberFieldDto.IsValidInstanceError()")
 
 	_,
 		err := nStrNFldDtoQuark.testValidityNumberFieldDto(
@@ -410,7 +404,7 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 	return err
 }
 
-// New - Creates and returns a new instance of 'NumberFieldDto'.
+// NewWithDefaults - Creates and returns a new instance of 'NumberFieldDto'.
 //
 // This method will default the text justification to
 // 'right-justify'. This setting will position the number string on
@@ -467,11 +461,10 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -485,17 +478,19 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 //
 //  err                 error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nFieldDto NumberFieldDto) NewWithDefaults(
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumFieldDto NumberFieldDto,
 	err error) {
 
@@ -507,19 +502,13 @@ func (nFieldDto NumberFieldDto) NewWithDefaults(
 
 	defer nFieldDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumberFieldDto.NewWithDefaults() "
+	ePrefix.SetEPref("NumberFieldDto.NewWithDefaults()")
 
 	if !numberFieldTextJustify.XIsValid() {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'numberFieldTextJustify' is invalid!\n"+
 			"numberFieldTextJustify integer value='%v'\n",
-			ePrefix,
+			ePrefix.String(),
 			numberFieldTextJustify.XValueInt())
 
 		return newNumFieldDto, err
@@ -613,7 +602,7 @@ func (nFieldDto NumberFieldDto) NewWithDefaults(
 func (nFieldDto NumberFieldDto) NewFromComponents(
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumberFieldDto,
 	error) {
 
@@ -625,13 +614,7 @@ func (nFieldDto NumberFieldDto) NewFromComponents(
 
 	defer nFieldDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumberFieldDto.NewFromComponents()\n"
+	ePrefix.SetEPref("NumberFieldDto.NewFromComponents()")
 
 	newNumFieldDto := NumberFieldDto{}
 
@@ -752,7 +735,7 @@ func (nFieldDto *NumberFieldDto) SetMinimumNumFieldLength(
 func (nFieldDto *NumberFieldDto) SetNumberFieldDto(
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nFieldDto.lock == nil {
 		nFieldDto.lock = new(sync.Mutex)
@@ -762,13 +745,7 @@ func (nFieldDto *NumberFieldDto) SetNumberFieldDto(
 
 	defer nFieldDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumberFieldDto.SetNumberFieldDto() "
+	ePrefix.SetEPref("NumberFieldDto.SetNumberFieldDto()")
 
 	nStrNumFieldDtoMech := numStrNumFieldDtoMechanics{}
 

@@ -39,28 +39,30 @@ type NumStrFmtSpecCurrencyValueDto struct {
 //       current NumStrFmtSpecCurrencyValueDto instance.
 //
 //
-//  ePrefix                    string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end of
-//       'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  error
+//  err                 error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. The input parameter, 'ePrefix', will be
-//       prefixed and inserted at the beginning of the returned
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyIn(
 	incomingCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -70,13 +72,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyIn(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.CopyIn() "
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.CopyIn()")
 
 	nStrFmtSpecCurrValNanobot :=
 		numStrFmtSpecCurrencyValueDtoNanobot{}
@@ -84,8 +80,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyIn(
 	return nStrFmtSpecCurrValNanobot.copyIn(
 		nStrFmtSpecCurrValDto,
 		incomingCurrencyValDto,
-		ePrefix+
-			"\nincomingCurrencyValDto->nStrFmtSpecCurrValDto ")
+		ePrefix.XCtx("incomingCurrencyValDto->nStrFmtSpecCurrValDto"))
 }
 
 // CopyOut - Creates and returns a deep copy of the current
@@ -99,11 +94,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyIn(
 //
 // Input Parameters
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end of
-//       'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
@@ -117,16 +111,19 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyIn(
 //       instance of NumStrFmtSpecCurrencyValueDto.
 //
 //
-//  error
+//  err                 error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. The input parameter, 'ePrefix', will be
-//       prefixed and inserted at the beginning of the returned
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyOut(
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecCurrencyValueDto,
 	error) {
 
@@ -138,21 +135,14 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyOut(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.CopyOut()\n "
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.CopyOut()")
 
 	nStrFmtSpecCurrValNanobot :=
 		numStrFmtSpecCurrencyValueDtoNanobot{}
 
 	return nStrFmtSpecCurrValNanobot.copyOut(
 		nStrFmtSpecCurrValDto,
-		ePrefix+
-			"Copy Out from 'nStrFmtSpecCurrValDto'\n ")
+		ePrefix.XCtx("Copy Out from 'nStrFmtSpecCurrValDto'"))
 }
 
 // GetNegativeValueFormat - Returns the formatting string used to
@@ -363,7 +353,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstance() (
 	isValid,
 		_ = nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(
 		nStrFmtSpecCurrValDto,
-		"")
+		new(ErrPrefixDto))
 
 	return isValid
 }
@@ -377,11 +367,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstance() (
 //
 // Input Parameters
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -393,11 +382,18 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstance() (
 //       contains invalid data, a detailed error message will be
 //       returned identifying the invalid data item.
 //
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
 //       If the current instance is valid, this error parameter
 //       will be set to nil.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError(
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -407,14 +403,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.IsValidInstanceError()\n" +
-		"Testing Validity of 'nStrFmtSpecCurrValDto'\n"
+	ePrefix.SetEPrefCtx("NumStrFmtSpecCurrencyValueDto.IsValidInstanceError()",
+		"Testing Validity of 'nStrFmtSpecCurrValDto'")
 
 	nStrFmtSpecCurrDtoMolecule :=
 		numStrFmtSpecCurrencyValueDtoMolecule{}
@@ -427,7 +417,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 	return err
 }
 
-// NewWithDefaults() - Creates and returns a new instance of
+// NewWithDefaults - Creates and returns a new instance of
 // NumStrFmtSpecCurrencyValueDto.
 //
 // This variant of the 'NumStrFmtSpecCurrencyValueDto.New()'
@@ -741,11 +731,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix                       string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end of
-//       'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -759,11 +748,13 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
@@ -778,7 +769,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecCurrencyValueDto,
 	error) {
 
@@ -790,13 +781,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.NewWithDefaults() "
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.NewWithDefaults()")
 
 	newNStrFmtSpecCurrencyValDto :=
 		NumStrFmtSpecCurrencyValueDto{}
@@ -819,13 +804,12 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 			[]uint{3},
 			requestedNumberFieldLen,
 			numberFieldTextJustify,
-			ePrefix+
-				"\nSetting 'newNStrFmtSpecCurrencyValDto'\n ")
+			ePrefix.XCtx("Setting 'newNStrFmtSpecCurrencyValDto'"))
 
 	return newNStrFmtSpecCurrencyValDto, err
 }
 
-// NewFromComponents() - Creates and returns a new instance of
+// NewFromComponents - Creates and returns a new instance of
 // NumStrFmtSpecSignedNumValueDto.
 //
 // This type encapsulates the formatting parameters necessary to
@@ -1158,11 +1142,10 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -1176,11 +1159,13 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
@@ -1193,7 +1178,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumStrFmtSpecDigitsSeparatorsDto,
 	numFieldDto NumberFieldDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecCurrencyValueDto,
 	error) {
 
@@ -1205,13 +1190,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.NewFromComponents() "
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.NewFromComponents()")
 
 	newNStrFmtSpecCurrencyValueDto := NumStrFmtSpecCurrencyValueDto{}
 
@@ -1229,8 +1208,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 		turnOnIntegerDigitsSeparation,
 		numberSeparatorsDto,
 		numFieldDto,
-		ePrefix+
-			"\n Setting 'newNStrFmtSpecCurrencyValueDto'\n ")
+		ePrefix.XCtx("Setting 'newNStrFmtSpecCurrencyValueDto'"))
 
 	return newNStrFmtSpecCurrencyValueDto, err
 }
@@ -1290,11 +1268,10 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -1309,16 +1286,18 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecCurrencyValueDto,
 	error) {
 
@@ -1330,13 +1309,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDt
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.NewFromFmtSpecSetupDto() "
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.NewFromFmtSpecSetupDto()")
 
 	newNStrFmtSpecCurrencyValDto :=
 		NumStrFmtSpecCurrencyValueDto{}
@@ -1346,7 +1319,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDt
 			fmt.Errorf("%v\n"+
 				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
 				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-				ePrefix)
+				ePrefix.String())
 	}
 
 	if fmtSpecSetupDto.Lock == nil {
@@ -1459,7 +1432,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 	return err
 }
 
-// SetCurrencyValDto() - This method will set all of the member
+// SetCurrencyValDto - This method will set all of the member
 // variable data values for the current instance of
 // NumStrFmtSpecCurrencyValueDto.
 //
@@ -1793,11 +1766,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -1806,11 +1778,13 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
@@ -1823,7 +1797,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumStrFmtSpecDigitsSeparatorsDto,
 	numFieldDto NumberFieldDto,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -1833,13 +1807,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetCurrencyValDto() "
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetCurrencyValDto()")
 
 	nStrFmtSpecCurrValMech :=
 		numStrFmtSpecCurrencyValueDtoMechanics{}
@@ -1855,8 +1823,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 		turnOnIntegerDigitsSeparation,
 		numberSeparatorsDto,
 		numFieldDto,
-		ePrefix+
-			"\n Setting 'nStrFmtSpecCurrValDto'\n ")
+		ePrefix.XCtx("Setting 'nStrFmtSpecCurrValDto'"))
 }
 
 // SetDecimalDigits - Sets the number of digits to the right of the
@@ -1935,11 +1902,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetDecimalDigits(
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -1948,16 +1914,18 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetDecimalDigits(
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -1967,19 +1935,13 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupD
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetFromFmtSpecSetupDto() "
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetFromFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
 		return fmt.Errorf("%v\n"+
 			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
 			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 	}
 
 	if fmtSpecSetupDto.Lock == nil {
@@ -2147,11 +2109,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupD
 //          $ 127.54 -
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -2160,16 +2121,18 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupD
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueFormat(
 	negativeValueFmt string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -2180,13 +2143,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueForm
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetNegativeValueFormat()\n "
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetNegativeValueFormat()")
 
 	nStrCurrencyElectron :=
 		numStrFmtSpecCurrencyValueDtoElectron{}
@@ -2194,8 +2151,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueForm
 	_,
 		err = nStrCurrencyElectron.testCurrencyNegativeValueFormatStr(
 		negativeValueFmt,
-		ePrefix+
-			"\nTesting validity of 'negativeValueFmt'\n ")
+		ePrefix.XCtx("Testing validity of 'negativeValueFmt'"))
 
 	if err != nil {
 		return err
@@ -2217,7 +2173,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueForm
 //
 // Input Parameters
 //
-//  numberFieldLenDto  NumberFieldDto
+//  numberFieldLenDto   NumberFieldDto
 //     - The NumberFieldDto details the length of the number field
 //       in which the signed numeric value will be displayed and
 //       right justified.
@@ -2229,11 +2185,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueForm
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -2241,18 +2196,19 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueForm
 // Return Values
 //
 //  err                 error
-//     - If the method completes successfully and no errors are
-//       encountered this return value is set to 'nil'. Otherwise,
-//       if errors are encountered this return value will contain
-//       an appropriate error message.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
 //
-//       If an error message is returned, the input parameter
-//       'ePrefix' (error prefix) will be inserted or prefixed at
-//       the beginning of the error message.
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLengthDto(
 	numberFieldLenDto NumberFieldDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -2263,13 +2219,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLength
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetNumberFieldLengthDto()\n"
+	ePrefix.SetEPref(
+		"NumStrFmtSpecCurrencyValueDto.SetNumberFieldLengthDto()")
 
 	err =
 		nStrFmtSpecCurrValDto.numFieldLenDto.CopyIn(
@@ -2355,7 +2306,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberSeparatorsD
 
 	_ = nStrFmtSpecCurrValDto.numberSeparatorsDto.CopyIn(
 		&numberSeparatorsDto,
-		"")
+		new(ErrPrefixDto))
 }
 
 // SetPositiveValueFormat - Sets the currency positive value format
@@ -2442,11 +2393,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberSeparatorsD
 //          + 127.54 $
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -2455,16 +2405,18 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberSeparatorsD
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetPositiveValueFormat(
 	positiveValueFmt string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -2475,13 +2427,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetPositiveValueForm
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetPositiveValueFormat()\n "
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetPositiveValueFormat()")
 
 	nStrCurrencyElectron :=
 		numStrFmtSpecCurrencyValueDtoElectron{}
@@ -2489,8 +2435,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetPositiveValueForm
 	_,
 		err = nStrCurrencyElectron.testCurrencyPositiveValueFormatStr(
 		positiveValueFmt,
-		ePrefix+
-			"\nTesting validity of 'positiveValueFmt'\n ")
+		ePrefix.XCtx("Testing validity of 'positiveValueFmt'"))
 
 	if err != nil {
 		return err
@@ -2872,11 +2817,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix                       string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end of
-//       'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -2885,11 +2829,13 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
@@ -2904,7 +2850,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -2914,13 +2860,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetWithDefaults() "
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetWithDefaults()")
 
 	nStrFmtSpecCurrValDtoUtil :=
 		numStrFmtSpecCurrencyValueDtoUtility{}
@@ -2939,6 +2879,5 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 		[]uint{3},
 		requestedNumberFieldLen,
 		numberFieldTextJustify,
-		ePrefix+
-			"\nSetting 'nStrFmtSpecCurrValDto'\n ")
+		ePrefix.XCtx("Setting 'nStrFmtSpecCurrValDto'"))
 }

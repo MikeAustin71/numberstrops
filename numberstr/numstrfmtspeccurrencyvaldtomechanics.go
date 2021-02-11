@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -379,7 +378,7 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumStrFmtSpecDigitsSeparatorsDto,
 	numFieldLenDto NumberFieldDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecCurrValMech.lock == nil {
@@ -390,19 +389,13 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 
 	defer nStrFmtSpecCurrValMech.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecCurrencyValueDtoMechanics.setCurrencyValDtoFromComponents() "
+	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoMechanics.setCurrencyValDtoFromComponents()")
 
 	if nStrFmtSpecCurrencyValDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecCurrencyValDto' is invalid!\n"+
 			"'nStrFmtSpecCurrencyValDto' is a 'nil' pointer\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
@@ -433,8 +426,7 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	err =
 		newNStrFmtSpecCurrencyValDto.numberSeparatorsDto.CopyIn(
 			&numberSeparatorsDto,
-			ePrefix+
-				"\nnumberSeparatorsDto->newNStrFmtSpecCurrencyValDto\n ")
+			ePrefix.XCtx("numberSeparatorsDto->newNStrFmtSpecCurrencyValDto"))
 
 	if err != nil {
 		return err
@@ -443,8 +435,7 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	err =
 		newNStrFmtSpecCurrencyValDto.numFieldLenDto.CopyIn(
 			&numFieldLenDto,
-			ePrefix+
-				" numFieldLenDto->\n")
+			ePrefix.XCtx(" numFieldLenDto->newNStrFmtSpecCurrencyValDto"))
 
 	nStrFmtSpecCurrValNanobot :=
 		numStrFmtSpecCurrencyValueDtoNanobot{}
@@ -453,9 +444,8 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 		nStrFmtSpecCurrValNanobot.copyIn(
 			nStrFmtSpecCurrencyValDto,
 			&newNStrFmtSpecCurrencyValDto,
-			ePrefix+
-				"\nnewNStrFmtSpecCurrencyValDto-> "+
-				"nStrFmtSpecCurrencyValDto\n ")
+			ePrefix.XCtx("newNStrFmtSpecCurrencyValDto-> "+
+				"nStrFmtSpecCurrencyValDto"))
 
 	return err
 }

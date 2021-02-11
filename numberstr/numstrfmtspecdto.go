@@ -463,11 +463,10 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromComponents(
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -481,16 +480,18 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromComponents(
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (fmtSpecDto NumStrFmtSpecDto) NewFromFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecDto,
 	error) {
 
@@ -502,13 +503,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromFmtSpecSetupDto(
 
 	defer fmtSpecDto.lock.Unlock()
 
-	ePrefix += "NumStrFmtSpecDto.NewFromFmtSpecSetupDto() "
-
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
+	ePrefix.SetEPref("NumStrFmtSpecDto.NewFromFmtSpecSetupDto()")
 
 	newNumStrFmtSpecDto :=
 		NumStrFmtSpecDto{}
@@ -520,7 +515,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromFmtSpecSetupDto(
 			fmt.Errorf("%v\n"+
 				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
 				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-				ePrefix)
+				ePrefix.String())
 	}
 
 	if fmtSpecSetupDto.Lock == nil {
@@ -533,8 +528,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromFmtSpecSetupDto(
 	err := nStrFmtSpecDtoMech.setFromFmtSpecSetupDto(
 		&newNumStrFmtSpecDto,
 		fmtSpecSetupDto,
-		ePrefix+
-			"newNumStrFmtSpecDto\n")
+		ePrefix.XCtx("newNumStrFmtSpecDto"))
 
 	return newNumStrFmtSpecDto, err
 }
@@ -592,11 +586,10 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromFmtSpecSetupDto(
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -605,16 +598,18 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromFmtSpecSetupDto(
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix ErrPrefixDto) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if fmtSpecDto.lock == nil {
 		fmtSpecDto.lock = new(sync.Mutex)
