@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -91,11 +90,11 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
 //
 // Input Parameters
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end of
-//       'ePrefix'.
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
@@ -109,16 +108,20 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
 //       instance of NumStrFmtSpecSignedNumValueDto.
 //
 //
+//
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. The input parameter, 'ePrefix', will be
-//       prefixed and inserted at the beginning of the returned
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut(
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecSignedNumValueDto,
 	error) {
 
@@ -130,21 +133,15 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut(
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecSignedNumValueDto.CopyOut()\n "
+	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.CopyOut()")
 
 	nStrFmtSpecSignedNumValNanobot :=
 		numStrFmtSpecSignedNumValNanobot{}
 
 	return nStrFmtSpecSignedNumValNanobot.copyOut(
 		nStrFmtSpecSignedNumValueDto,
-		ePrefix+
-			"Copy Out from 'nStrFmtSpecSignedNumValueDto'\n ")
+		ePrefix.XCtx(
+			"Copy Out from 'nStrFmtSpecSignedNumValueDto'"))
 }
 
 // GetNegativeValueFormat - Returns the formatting string used to
@@ -286,7 +283,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 	isValid,
 		_ = nStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto(
 		nStrFmtSpecSignedNumValueDto,
-		"")
+		new(ErrPrefixDto))
 
 	return isValid
 }
@@ -300,11 +297,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //
 // Input Parameters
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the
-//       calling method or methods. Note: Be sure to leave a space
-//       at the end of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -320,7 +316,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //       will be set to nil.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInstanceError(
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
 		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
@@ -330,14 +326,8 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecSignedNumValueDto.IsValidInstanceError() \n" +
-		"Testing Validity of 'nStrFmtSpecSignedNumValueDto' "
+	ePrefix.SetEPrefCtx("NumStrFmtSpecSignedNumValueDto.IsValidInstanceError()",
+		"Testing Validity of 'nStrFmtSpecSignedNumValueDto'")
 
 	nStrFmtSpecSignedNumValMolecule :=
 		numStrFmtSpecSignedNumValMolecule{}
@@ -351,7 +341,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 	return err
 }
 
-// NewWithDefaults() - Creates and returns a new instance of
+// NewWithDefaults - Creates and returns a new instance of
 // NumStrFmtSpecSignedNumValueDto.
 //
 // This method automatically sets a default integer digits grouping
@@ -563,11 +553,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix                       string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -581,11 +570,13 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaults(
@@ -596,7 +587,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecSignedNumValueDto,
 	error) {
 
@@ -608,13 +599,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecSignedNumValueDto.NewWithDefaults() "
+	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.NewWithDefaults()")
 
 	newNStrFmtSpecSignedNumValueDto :=
 		NumStrFmtSpecSignedNumValueDto{}
@@ -633,13 +618,13 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 			[]uint{3},
 			requestedNumberFieldLen,
 			numberFieldTextJustify,
-			ePrefix+
-				"\n Setting 'newNStrFmtSpecSignedNumValueDto'\n ")
+			ePrefix.XCtx(
+				"Setting 'newNStrFmtSpecSignedNumValueDto'"))
 
 	return newNStrFmtSpecSignedNumValueDto, err
 }
 
-// NewFromComponents() - Creates and returns a new instance of
+// NewFromComponents - Creates and returns a new instance of
 // NumStrFmtSpecSignedNumValueDto.
 //
 // This type encapsulates the formatting parameters necessary to
@@ -871,11 +856,10 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 //       }
 //
 //
-//  ePrefix                    string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -889,11 +873,13 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromComponents(
@@ -902,7 +888,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumStrFmtSpecDigitsSeparatorsDto,
 	numFieldDto NumberFieldDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecSignedNumValueDto,
 	error) {
 
@@ -914,13 +900,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecSignedNumValueDto.NewFromComponents() "
+	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.NewFromComponents()")
 
 	newNStrFmtSpecSignedNumValueDto := NumStrFmtSpecSignedNumValueDto{}
 
@@ -934,8 +914,8 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 		turnOnIntegerDigitsSeparation,
 		numberSeparatorsDto,
 		numFieldDto,
-		ePrefix+
-			"\n Setting 'newNStrFmtSpecSignedNumValueDto'\n ")
+		ePrefix.XCtx(
+			"Setting 'newNStrFmtSpecSignedNumValueDto'"))
 
 	return newNStrFmtSpecSignedNumValueDto, err
 }
@@ -995,11 +975,10 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -1014,16 +993,18 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecSignedNumValueDto,
 	error) {
 
@@ -1035,13 +1016,8 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromFmtSpe
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecSignedNumValueDto.NewFromFmtSpecSetupDto() "
+	ePrefix.SetEPref(
+		"NumStrFmtSpecSignedNumValueDto.NewFromFmtSpecSetupDto()")
 
 	newNStrFmtSpecSignedNumValueDto :=
 		NumStrFmtSpecSignedNumValueDto{}
@@ -1051,7 +1027,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromFmtSpe
 			fmt.Errorf("%v\n"+
 				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
 				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-				ePrefix)
+				ePrefix.String())
 	}
 
 	if fmtSpecSetupDto.Lock == nil {
@@ -1076,8 +1052,8 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromFmtSpe
 			fmtSpecSetupDto.IntegerDigitsGroupingSequence,
 			fmtSpecSetupDto.SignedNumValNumFieldLen,
 			fmtSpecSetupDto.SignedNumValNumFieldTextJustify,
-			ePrefix+
-				"\n Setting 'newNStrFmtSpecSignedNumValueDto'\n ")
+			ePrefix.XCtx(
+				"Setting 'newNStrFmtSpecSignedNumValueDto'"))
 
 	return newNStrFmtSpecSignedNumValueDto, err
 }
@@ -1289,11 +1265,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetFromFmtSp
 //               ( NUMFIELD )
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -1302,16 +1277,18 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetFromFmtSp
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNegativeValueFormat(
 	negativeValueFmt string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
@@ -1322,13 +1299,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNegativeV
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecSignedNumValueDto.SetNegativeValueFormat()\n"
+	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.SetNegativeValueFormat()")
 
 	nStrSignedNumElectron :=
 		numStrSignedNumValElectron{}
@@ -1336,8 +1307,8 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNegativeV
 	_,
 		err = nStrSignedNumElectron.testSignedNumValNegativeValueFormatStr(
 		negativeValueFmt,
-		ePrefix+
-			"Testing validity of 'negativeValueFmt'\n")
+		ePrefix.XCtx(
+			"Testing validity of 'negativeValueFmt'"))
 
 	if err != nil {
 		return err
@@ -1393,11 +1364,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNegativeV
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -1405,18 +1375,19 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNegativeV
 // Return Values
 //
 //  error
-//     - If the method completes successfully and no errors are
-//       encountered this return value is set to 'nil'. Otherwise,
-//       if errors are encountered this return value will contain
-//       an appropriate error message.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
 //
-//       If an error message is returned, the input parameter
-//       'ePrefix' (error prefix) will be inserted or prefixed at
-//       the beginning of the error message.
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFieldLengthDto(
 	numberFieldLenDto NumberFieldDto,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
 		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
@@ -1426,13 +1397,8 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFie
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecSignedNumValueDto.SetNumberFieldLengthDto()\n"
+	ePrefix.SetEPref(
+		"NumStrFmtSpecSignedNumValueDto.SetNumberFieldLengthDto()")
 
 	return nStrFmtSpecSignedNumValueDto.numFieldLenDto.CopyIn(
 		&numberFieldLenDto,
@@ -1573,11 +1539,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberSep
 //               "127.54" THE DEFAULT Positive Value Format
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -1586,16 +1551,18 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberSep
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveValueFormat(
 	positiveValueFmt string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
@@ -1606,13 +1573,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecSignedNumValueDto.SetPositiveValueFormat()\n"
+	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.SetPositiveValueFormat()")
 
 	nStrSignedNumElectron :=
 		numStrSignedNumValElectron{}
@@ -1620,8 +1581,8 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 	_,
 		err = nStrSignedNumElectron.testSignedNumValPositiveValueFormatStr(
 		positiveValueFmt,
-		ePrefix+
-			"Testing validity of 'positiveValueFmt'\n")
+		ePrefix.XCtx(
+			"Testing validity of 'positiveValueFmt'"))
 
 	if err != nil {
 		return err
@@ -1632,7 +1593,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 	return err
 }
 
-// SetSignedNumValDto() - This method will set all of the member
+// SetSignedNumValDto - This method will set all of the member
 // variable data values for the current instance of
 // NumStrFmtSpecSignedNumValueDto.
 //
@@ -1865,11 +1826,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end of
-//      'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -1878,12 +1838,14 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. Remember that this error message will
-//       incorporate the method chain and text passed by input
-//       parameter, 'ePrefix'. The 'ePrefix' or error prefix text
-//       will be prefixed to the beginning of the error message.
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetSignedNumValDto(
 	positiveValueFmt string,
@@ -1891,7 +1853,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetSignedNum
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumStrFmtSpecDigitsSeparatorsDto,
 	numFieldDto NumberFieldDto,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
 		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
@@ -1901,13 +1863,8 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetSignedNum
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecSignedNumValueDto.SetSignedNumValDto() "
+	ePrefix.SetEPref(
+		"NumStrFmtSpecSignedNumValueDto.SetSignedNumValDto()")
 
 	nStrFmtSpecSignedNumValMech :=
 		nStrFmtSpecSignedNumValMechanics{}
@@ -1919,8 +1876,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetSignedNum
 		turnOnIntegerDigitsSeparation,
 		numberSeparatorsDto,
 		numFieldDto,
-		ePrefix+
-			"\n Setting 'nStrFmtSpecSignedNumValueDto'\n ")
+		ePrefix.XCtx("Setting 'nStrFmtSpecSignedNumValueDto'"))
 }
 
 // SetTurnOnIntegerDigitsSeparationFlag - Sets the
@@ -2192,11 +2148,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnInt
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix                       string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -2205,11 +2160,13 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnInt
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefaults(
@@ -2220,7 +2177,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefau
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
 		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
@@ -2230,13 +2187,8 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefau
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecSignedNumValueDto.SetWithDefaults() "
+	ePrefix.SetEPref(
+		"NumStrFmtSpecSignedNumValueDto.SetWithDefaults()")
 
 	nStrFmtSpecSignedNumValDtoUtil :=
 		nStrFmtSpecSignedNumValUtility{}
@@ -2251,7 +2203,6 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefau
 		[]uint{3},
 		requestedNumberFieldLen,
 		numberFieldTextJustify,
-		ePrefix+
-			"\n Setting 'nStrFmtSpecSignedNumValueDto'\n ")
+		ePrefix.XCtx("Setting 'nStrFmtSpecSignedNumValueDto'"))
 
 }

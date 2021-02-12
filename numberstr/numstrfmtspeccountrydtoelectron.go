@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -20,7 +19,7 @@ type numStrFmtSpecCountryDtoElectron struct {
 func (nStrFmtSpecCntryElectron *numStrFmtSpecCountryDtoElectron) copyIn(
 	targetNStrFmtSpecCntryDto *NumStrFmtSpecCountryDto,
 	inComingNStrFmtSpecCntryDto *NumStrFmtSpecCountryDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecCntryElectron.lock == nil {
@@ -31,19 +30,14 @@ func (nStrFmtSpecCntryElectron *numStrFmtSpecCountryDtoElectron) copyIn(
 
 	defer nStrFmtSpecCntryElectron.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecCountryDtoElectron.copyIn() "
+	ePrefix.SetEPref(
+		"numStrFmtSpecCountryDtoElectron.copyIn()")
 
 	if targetNStrFmtSpecCntryDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetNStrFmtSpecCntryDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 		return err
 	}
 
@@ -51,7 +45,7 @@ func (nStrFmtSpecCntryElectron *numStrFmtSpecCountryDtoElectron) copyIn(
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'inComingNStrFmtSpecCntryDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 		return err
 	}
 
@@ -60,8 +54,8 @@ func (nStrFmtSpecCntryElectron *numStrFmtSpecCountryDtoElectron) copyIn(
 	_,
 		err = nStrFmtSpecCntryQuark.testValidityOfCountryDto(
 		inComingNStrFmtSpecCntryDto,
-		ePrefix+
-			"\nTesting validity of 'inComingNStrFmtSpecCntryDto'\n")
+		ePrefix.XCtx(
+			"Testing validity of 'inComingNStrFmtSpecCntryDto'"))
 
 	if err != nil {
 		return err
@@ -112,7 +106,7 @@ func (nStrFmtSpecCntryElectron *numStrFmtSpecCountryDtoElectron) copyIn(
 //
 func (nStrFmtSpecCntryElectron *numStrFmtSpecCountryDtoElectron) copyOut(
 	nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newFmtSpecCntryDto NumStrFmtSpecCountryDto,
 	err error) {
 
@@ -124,19 +118,14 @@ func (nStrFmtSpecCntryElectron *numStrFmtSpecCountryDtoElectron) copyOut(
 
 	defer nStrFmtSpecCntryElectron.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecCountryDtoElectron.copyOut() "
+	ePrefix.SetEPref(
+		"numStrFmtSpecCountryDtoElectron.copyOut()")
 
 	if nStrFmtSpecCntryDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecCntryDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 		return newFmtSpecCntryDto, err
 	}
 
@@ -145,8 +134,7 @@ func (nStrFmtSpecCntryElectron *numStrFmtSpecCountryDtoElectron) copyOut(
 	_,
 		err = nStrFmtSpecCntryQuark.testValidityOfCountryDto(
 		nStrFmtSpecCntryDto,
-		ePrefix+
-			"\nTesting validity of 'nStrFmtSpecCntryDto'\n")
+		ePrefix.XCtx("Testing validity of 'nStrFmtSpecCntryDto'"))
 
 	if err != nil {
 		return newFmtSpecCntryDto, err

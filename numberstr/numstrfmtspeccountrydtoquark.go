@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -20,7 +19,7 @@ type numStrFmtSpecCountryDtoQuark struct {
 //
 func (nStrFmtSpecCntryQuark *numStrFmtSpecCountryDtoQuark) testValidityOfCountryDto(
 	nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -32,13 +31,8 @@ func (nStrFmtSpecCntryQuark *numStrFmtSpecCountryDtoQuark) testValidityOfCountry
 
 	defer nStrFmtSpecCntryQuark.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "nnumStrFmtSpecCountryDtoQuark.testValidityOfCountryDto() "
+	ePrefix.SetEPref(
+		"numStrFmtSpecCountryDtoQuark.testValidityOfCountryDto()")
 
 	isValid = false
 
@@ -46,7 +40,7 @@ func (nStrFmtSpecCntryQuark *numStrFmtSpecCountryDtoQuark) testValidityOfCountry
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecCntryDto' is invalid!\n"+
 			"'nStrFmtSpecCntryDto' is a 'nil' pointer\n",
-			ePrefix)
+			ePrefix.String())
 
 		return isValid, err
 	}
@@ -57,7 +51,7 @@ func (nStrFmtSpecCntryQuark *numStrFmtSpecCountryDtoQuark) testValidityOfCountry
 
 		err = fmt.Errorf("%v\n"+
 			"Error: countryCultureName is Empty!\n",
-			ePrefix)
+			ePrefix.String())
 
 		return isValid, err
 	}

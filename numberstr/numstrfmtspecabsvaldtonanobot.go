@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -23,7 +22,7 @@ type numStrFmtSpecAbsoluteValueDtoNanobot struct {
 func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
 	targetNStrFmtSpecAbsoluteValDto *NumStrFmtSpecAbsoluteValueDto,
 	inComingNStrFmtSpecAbsoluteValDto *NumStrFmtSpecAbsoluteValueDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecAbsValDtoNanobot.lock == nil {
@@ -34,19 +33,15 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
 
 	defer nStrFmtSpecAbsValDtoNanobot.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecAbsoluteValueDtoNanobot.copyIn() "
+	ePrefix.SetEPref(
+		"numStrFmtSpecAbsoluteValueDtoNanobot.copyIn()")
 
 	if targetNStrFmtSpecAbsoluteValDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetNStrFmtSpecAbsoluteValDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
+
 		return err
 	}
 
@@ -54,7 +49,8 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'inComingNStrFmtSpecAbsoluteValDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
+
 		return err
 	}
 
@@ -64,8 +60,8 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
 	_,
 		err = nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
 		inComingNStrFmtSpecAbsoluteValDto,
-		ePrefix+
-			"\nTesting validity of 'inComingNStrFmtSpecAbsoluteValDto'\n ")
+		ePrefix.XCtx(
+			"Testing validity of 'inComingNStrFmtSpecAbsoluteValDto'"))
 
 	if err != nil {
 		return err
@@ -80,9 +76,9 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
 	err =
 		targetNStrFmtSpecAbsoluteValDto.numberSeparatorsDto.CopyIn(
 			&inComingNStrFmtSpecAbsoluteValDto.numberSeparatorsDto,
-			ePrefix+
+			ePrefix.XCtx(
 				"Copying inComingNStrFmtSpecAbsoluteValDto->"+
-				"targetNStrFmtSpecAbsoluteValDto\n ")
+					"targetNStrFmtSpecAbsoluteValDto"))
 
 	if err != nil {
 		return err
@@ -91,8 +87,9 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
 	err =
 		targetNStrFmtSpecAbsoluteValDto.numFieldLenDto.CopyIn(
 			&inComingNStrFmtSpecAbsoluteValDto.numFieldLenDto,
-			ePrefix+
-				"\ninComingNStrFmtSpecAbsoluteValDto->targetNStrFmtSpecAbsoluteValDto\n")
+			ePrefix.XCtx(
+				"inComingNStrFmtSpecAbsoluteValDto->"+
+					"targetNStrFmtSpecAbsoluteValDto"))
 
 	return err
 }
@@ -106,7 +103,7 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
 //
 func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyOut(
 	nStrFmtSpecAbsoluteValDto *NumStrFmtSpecAbsoluteValueDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNStrFmtSpecAbsoluteValDto NumStrFmtSpecAbsoluteValueDto,
 	err error) {
 
@@ -118,19 +115,14 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyOut
 
 	defer nStrFmtSpecAbsValDtoNanobot.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecAbsoluteValueDtoNanobot.copyOut() "
+	ePrefix.SetEPref(
+		"numStrFmtSpecAbsoluteValueDtoNanobot.copyOut()")
 
 	if nStrFmtSpecAbsoluteValDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecSignedNumValDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 
 		return newNStrFmtSpecAbsoluteValDto, err
 	}
@@ -141,8 +133,7 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyOut
 	_,
 		err = nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
 		nStrFmtSpecAbsoluteValDto,
-		ePrefix+
-			"\nTesting validity of 'nStrFmtSpecAbsoluteValDto'\n ")
+		ePrefix.XCtx("\nTesting validity of 'nStrFmtSpecAbsoluteValDto'"))
 
 	if err != nil {
 		return newNStrFmtSpecAbsoluteValDto, err
@@ -156,8 +147,9 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyOut
 
 	err = newNStrFmtSpecAbsoluteValDto.numberSeparatorsDto.CopyIn(
 		&nStrFmtSpecAbsoluteValDto.numberSeparatorsDto,
-		ePrefix+
-			"\nnStrFmtSpecAbsoluteValDto->newNStrFmtSpecAbsoluteValDto ")
+		ePrefix.XCtx(
+			"nStrFmtSpecAbsoluteValDto->"+
+				"newNStrFmtSpecAbsoluteValDto"))
 
 	if err != nil {
 		return newNStrFmtSpecAbsoluteValDto, err
@@ -168,8 +160,8 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyOut
 	err =
 		newNStrFmtSpecAbsoluteValDto.numFieldLenDto.CopyIn(
 			&nStrFmtSpecAbsoluteValDto.numFieldLenDto,
-			ePrefix+
-				"\nStrFmtSpecAbsoluteValDto->newNStrFmtSpecAbsoluteValDto\n")
+			ePrefix.XCtx(
+				"StrFmtSpecAbsoluteValDto->newNStrFmtSpecAbsoluteValDto"))
 
 	return newNStrFmtSpecAbsoluteValDto, err
 }

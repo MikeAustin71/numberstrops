@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -16,7 +15,7 @@ type numStrFmtSpecAbsoluteValueDtoAtom struct {
 //
 func (nStrAbsValDtoAtom *numStrFmtSpecAbsoluteValueDtoAtom) testAbsoluteValueFormat(
 	nStrFmtSpecAbsValDto *NumStrFmtSpecAbsoluteValueDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -28,20 +27,15 @@ func (nStrAbsValDtoAtom *numStrFmtSpecAbsoluteValueDtoAtom) testAbsoluteValueFor
 
 	defer nStrAbsValDtoAtom.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecAbsoluteValueDtoElectron.testAbsoluteValueFormat() "
+	ePrefix.SetEPref(
+		"numStrFmtSpecAbsoluteValueDtoElectron.testAbsoluteValueFormat()")
 
 	isValid = false
 
 	if nStrFmtSpecAbsValDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecAbsValDto' is a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 		return isValid, err
 	}
 
@@ -50,7 +44,8 @@ func (nStrAbsValDtoAtom *numStrFmtSpecAbsoluteValueDtoAtom) testAbsoluteValueFor
 			"Error: Input parameter 'absoluteValFmt' is an empty string!\n"+
 			"The Absolute Value Dto Format string is missing.\n"+
 			"len(nStrFmtSpecAbsValDto.absoluteValFmt) == 0\n",
-			ePrefix)
+			ePrefix.String())
+
 		return isValid, err
 	}
 
@@ -60,8 +55,7 @@ func (nStrAbsValDtoAtom *numStrFmtSpecAbsoluteValueDtoAtom) testAbsoluteValueFor
 	isValid,
 		err = nStrAbsValDtoElectron.testAbsoluteValueFormatStr(
 		nStrFmtSpecAbsValDto.absoluteValFmt,
-		ePrefix+
-			"\nTesting validity of 'nStrFmtSpecAbsValDto.absoluteValFmt'\n ")
+		ePrefix.XCtx("Testing validity of 'nStrFmtSpecAbsValDto.absoluteValFmt'"))
 
 	return isValid, err
 }

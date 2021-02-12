@@ -16,7 +16,7 @@ type numStrFmtSpecAbsoluteValueDtoElectron struct {
 //
 func (nStrAbsValDtoElectron *numStrFmtSpecAbsoluteValueDtoElectron) testAbsoluteValueFormatStr(
 	absoluteValueFormatStr string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -28,13 +28,8 @@ func (nStrAbsValDtoElectron *numStrFmtSpecAbsoluteValueDtoElectron) testAbsolute
 
 	defer nStrAbsValDtoElectron.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecAbsoluteValueDtoElectron.testAbsoluteValueFormatStr() "
+	ePrefix.SetEPref(
+		"numStrFmtSpecAbsoluteValueDtoElectron.testAbsoluteValueFormatStr()")
 
 	isValid = false
 
@@ -43,7 +38,8 @@ func (nStrAbsValDtoElectron *numStrFmtSpecAbsoluteValueDtoElectron) testAbsolute
 			"Error: Input parameter 'absoluteValueFormatStr' is an empty string!\n"+
 			"The Absolute Value Dto Format String is missing.\n"+
 			"len(absoluteValueFormatStr) == 0\n",
-			ePrefix)
+			ePrefix.String())
+
 		return isValid, err
 	}
 
@@ -78,7 +74,7 @@ func (nStrAbsValDtoElectron *numStrFmtSpecAbsoluteValueDtoElectron) testAbsolute
 				"Absolute Value Format Strings are NOT allowed to include this character.\n"+
 				"Complete Absolute Value Format String= '%v'\n"+
 				"invalid character == '%v' at Index [%v] \n",
-				ePrefix,
+				ePrefix.String(),
 				absoluteValueFormatStr,
 				string(runesToTest[i]),
 				i)
@@ -98,7 +94,7 @@ func (nStrAbsValDtoElectron *numStrFmtSpecAbsoluteValueDtoElectron) testAbsolute
 			"'NUMFIELD' to designate a place holder for the numeric value. This Number\n"+
 			"String Format has neither placeholder!\n"+
 			"Complete Absolute Value Number String Format= '%v'\n",
-			ePrefix,
+			ePrefix.String(),
 			absoluteValueFormatStr)
 
 		return isValid, err

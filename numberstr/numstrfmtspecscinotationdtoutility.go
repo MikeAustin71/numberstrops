@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -129,11 +128,10 @@ type numStrFmtSpecSciNotationDtoUtility struct {
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix                       string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -142,11 +140,13 @@ type numStrFmtSpecSciNotationDtoUtility struct {
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotationDtoWithDefaults(
@@ -157,7 +157,7 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 	exponentUsesLeadingPlus bool,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecSciNotDtoUtil.lock == nil {
@@ -168,19 +168,14 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 
 	defer nStrFmtSpecSciNotDtoUtil.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecSciNotationDtoUtility.setSciNotationDtoWithDefaults() "
+	ePrefix.SetEPref(
+		"numStrFmtSpecSciNotationDtoUtility.setSciNotationDtoWithDefaults()")
 
 	if nStrFmtSpecSciNotDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetSciNotDto' is invalid!\n"+
 			"'targetSciNotDto' is a 'nil' pointer.\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
@@ -207,8 +202,7 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 		exponentChar,
 		exponentUsesLeadingPlus,
 		numFieldDto,
-		ePrefix+
-			"nStrFmtSpecSciNotDto\n")
+		ePrefix.XCtx("nStrFmtSpecSciNotDto"))
 
 	return err
 }

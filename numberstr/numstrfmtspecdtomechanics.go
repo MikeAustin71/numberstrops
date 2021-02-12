@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -177,7 +176,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 
 	err = nStrFmtSpecDto.sciNotation.SetFromFmtSpecSetupDto(
 		fmtSpecSetupDto,
-		ePrefix+"fmtSpecSetupDto\n ")
+		ePrefix.XCtx("fmtSpecSetupDto"))
 
 	return err
 }
@@ -262,11 +261,10 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 //       will be returned.
 //
 //
-//  ePrefix                    string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -275,11 +273,13 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
@@ -293,7 +293,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
 	currencyValue NumStrFmtSpecCurrencyValueDto,
 	signedNumValue NumStrFmtSpecSignedNumValueDto,
 	sciNotation NumStrFmtSpecSciNotationDto,
-	ePrefix string) (err error) {
+	ePrefix *ErrPrefixDto) (err error) {
 
 	if nStrFmtSpecDtoMech.lock == nil {
 		nStrFmtSpecDtoMech.lock = new(sync.Mutex)
@@ -303,18 +303,15 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
 
 	defer nStrFmtSpecDtoMech.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecDtoMechanics.setNumStrFmtSpecDto() "
+	ePrefix.SetEPref(
+		"numStrFmtSpecDtoMechanics.setNumStrFmtSpecDto()")
 
 	if nStrFmtSpecDto == nil {
+
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecDto' is nil pointer!\n",
-			ePrefix)
+			ePrefix.String())
+
 		return err
 	}
 
@@ -337,8 +334,8 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
 
 	err = nStrFmtSpecDto.absoluteValue.CopyIn(
 		&absoluteValue,
-		ePrefix+
-			"\nabsoluteValue->nStrFmtSpecDto.absoluteValue\n")
+		ePrefix.XCtx(
+			"absoluteValue->nStrFmtSpecDto.absoluteValue"))
 
 	if err != nil {
 		return err
@@ -346,8 +343,8 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
 
 	err = nStrFmtSpecDto.currencyValue.CopyIn(
 		&currencyValue,
-		ePrefix+
-			"\ncurrencyValue->nStrFmtSpecDto.currencyValue\n")
+		ePrefix.XCtx(
+			"currencyValue->nStrFmtSpecDto.currencyValue"))
 
 	if err != nil {
 		return err
@@ -355,8 +352,8 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
 
 	err = nStrFmtSpecDto.signedNumValue.CopyIn(
 		&signedNumValue,
-		ePrefix+
-			"\nsignedNumValue->nStrFmtSpecDto.signedNumValue\n")
+		ePrefix.XCtx(
+			"signedNumValue->nStrFmtSpecDto.signedNumValue"))
 
 	if err != nil {
 		return err
@@ -364,8 +361,8 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
 
 	err = nStrFmtSpecDto.sciNotation.CopyIn(
 		&sciNotation,
-		ePrefix+
-			"\nsciNotation->nStrFmtSpecDto.sciNotation\n")
+		ePrefix.XCtx(
+			"sciNotation->nStrFmtSpecDto.sciNotation"))
 
 	return err
 }

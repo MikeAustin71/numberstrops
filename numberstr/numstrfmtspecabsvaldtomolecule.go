@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -20,7 +19,7 @@ type numStrFmtSpecAbsoluteValueDtoMolecule struct {
 //
 func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) testValidityOfAbsoluteValDto(
 	nStrFmtSpecAbsoluteValDto *NumStrFmtSpecAbsoluteValueDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -32,13 +31,7 @@ func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) testV
 
 	defer nStrFmtSpecAbsValDtoMolecule.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecAbsoluteValueDtoMolecule.testValidityOfAbsoluteValDto() "
+	ePrefix.SetEPref("numStrFmtSpecAbsoluteValueDtoMolecule.testValidityOfAbsoluteValDto()")
 
 	isValid = false
 
@@ -46,7 +39,7 @@ func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) testV
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecAbsoluteValDto' is"+
 			" a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 
 		return isValid, err
 	}
@@ -57,8 +50,7 @@ func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) testV
 	isValid,
 		err = nStrAbsValDtoAtom.testAbsoluteValueFormat(
 		nStrFmtSpecAbsoluteValDto,
-		ePrefix+
-			"\nValidating nStrFmtSpecAbsoluteValDto Format\n ")
+		ePrefix.XCtx("Validating nStrFmtSpecAbsoluteValDto Format"))
 
 	if err != nil {
 		return isValid, err
@@ -66,8 +58,8 @@ func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) testV
 
 	err =
 		nStrFmtSpecAbsoluteValDto.numberSeparatorsDto.IsValidInstanceError(
-			ePrefix +
-				"\nValidating nStrFmtSpecAbsoluteValDto Number Separators\n ")
+			ePrefix.XCtx(
+				"Validating nStrFmtSpecAbsoluteValDto Number Separators"))
 
 	if err != nil {
 		isValid = false

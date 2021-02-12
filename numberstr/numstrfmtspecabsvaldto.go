@@ -35,11 +35,10 @@ type NumStrFmtSpecAbsoluteValueDto struct {
 //       current NumStrFmtSpecAbsoluteValueDto instance.
 //
 //
-//  ePrefix                    string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end of
-//       'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
@@ -48,15 +47,18 @@ type NumStrFmtSpecAbsoluteValueDto struct {
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. The input parameter, 'ePrefix', will be
-//       prefixed and inserted at the beginning of the returned
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyIn(
 	inComingNStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtAbsValDto.lock == nil {
 		nStrFmtAbsValDto.lock = new(sync.Mutex)
@@ -66,13 +68,8 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyIn(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecAbsoluteValueDto.CopyIn()\n "
+	ePrefix.SetEPref(
+		"NumStrFmtSpecAbsoluteValueDto.CopyIn()")
 
 	nStrFmtSpecAbsValDtoNanobot :=
 		numStrFmtSpecAbsoluteValueDtoNanobot{}
@@ -80,8 +77,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyIn(
 	return nStrFmtSpecAbsValDtoNanobot.copyIn(
 		nStrFmtAbsValDto,
 		inComingNStrFmtAbsValDto,
-		ePrefix+
-			"inComingNStrFmtAbsValDto -> nStrFmtAbsValDto\n ")
+		ePrefix.XCtx("inComingNStrFmtAbsValDto -> nStrFmtAbsValDto"))
 }
 
 // CopyOut - Returns a deep copy of the current
@@ -95,11 +91,10 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyIn(
 //
 // Input Parameters
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end of
-//       'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
@@ -115,14 +110,17 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyIn(
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. The input parameter, 'ePrefix', will be
-//       prefixed and inserted at the beginning of the returned
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyOut(
-	ePrefix string) (NumStrFmtSpecAbsoluteValueDto, error) {
+	ePrefix *ErrPrefixDto) (NumStrFmtSpecAbsoluteValueDto, error) {
 
 	if nStrFmtAbsValDto.lock == nil {
 		nStrFmtAbsValDto.lock = new(sync.Mutex)
@@ -130,23 +128,16 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyOut(
 
 	nStrFmtAbsValDto.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
-
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecAbsoluteValueDto.CopyOut()\n "
+	ePrefix.SetEPref(
+		"NumStrFmtSpecAbsoluteValueDto.CopyOut()")
 
 	nStrFmtSpecAbsValDtoNanobot :=
 		numStrFmtSpecAbsoluteValueDtoNanobot{}
 
 	return nStrFmtSpecAbsValDtoNanobot.copyOut(
 		nStrFmtAbsValDto,
-		ePrefix+
-			"Copy -> 'nStrFmtAbsValDto'\n ")
+		ePrefix.XCtx(
+			"Copy -> 'nStrFmtAbsValDto'"))
 }
 
 // GetAbsoluteValueFormat - Returns the formatting string used to
@@ -272,7 +263,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstance() (
 	isValid,
 		_ = nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
 		nStrFmtAbsValDto,
-		"")
+		ErrPrefixDto{}.Ptr())
 
 	return isValid
 }
@@ -286,11 +277,10 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstance() (
 //
 // Input Parameters
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -299,19 +289,17 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstance() (
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-//       If this instance of NumStrFmtSpecAbsoluteValueDto contains
-//       invalid data, a detailed error message will be returned
-//       identifying the invalid data item.
-//
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtAbsValDto.lock == nil {
 		nStrFmtAbsValDto.lock = new(sync.Mutex)
@@ -321,14 +309,8 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecAbsoluteValueDto.IsValidInstanceError() \n" +
-		"Testing Validity of 'nStrFmtAbsValDto'\n "
+	ePrefix.SetEPrefCtx("NumStrFmtSpecAbsoluteValueDto.IsValidInstanceError()",
+		"Testing Validity of 'nStrFmtAbsValDto'")
 
 	nStrFmtSpecAbsValDtoMolecule :=
 		numStrFmtSpecAbsoluteValueDtoMolecule{}
@@ -341,7 +323,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 	return err
 }
 
-// NewWithDefaults() - Creates and returns a new instance of
+// NewWithDefaults - Creates and returns a new instance of
 // NumStrFmtSpecAbsoluteValueDto.
 //
 // This method automatically sets a default integer digits
@@ -477,11 +459,10 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -495,11 +476,13 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
@@ -509,7 +492,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecAbsoluteValueDto,
 	error) {
 
@@ -521,13 +504,8 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecAbsoluteValueDto.NewWithDefaults() "
+	ePrefix.SetEPref(
+		"NumStrFmtSpecAbsoluteValueDto.NewWithDefaults()")
 
 	newNumStrFmtSpecAbsValueDto :=
 		NumStrFmtSpecAbsoluteValueDto{}
@@ -549,7 +527,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 	return newNumStrFmtSpecAbsValueDto, err
 }
 
-// NewFromComponents() - Creates and returns a new instance of
+// NewFromComponents - Creates and returns a new instance of
 // NumStrFmtSpecAbsoluteValueDto.
 //
 // This type encapsulates the formatting parameters necessary to
@@ -827,11 +805,10 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -843,19 +820,20 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 //       NumStrFmtSpecAbsoluteValueDto will be returned to the
 //       caller.
 //
-//
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecAbsoluteValueDto,
 	error) {
 
@@ -867,31 +845,16 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromFmtSpecSetupDto(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "nNumStrFmtSpecAbsoluteValueDto.NewFromFmtSpecSetupDto() "
+	ePrefix.SetEPref(
+		"nNumStrFmtSpecAbsoluteValueDto.NewFromFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
 		return NumStrFmtSpecAbsoluteValueDto{},
 			fmt.Errorf("%v\n"+
 				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
 				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-				ePrefix)
+				ePrefix.String())
 	}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	newNumStrFmtSpecAbsValueDto :=
-		NumStrFmtSpecAbsoluteValueDto{}
-
-	nStrFmtSpecAbsValDtoUtil :=
-		numStrFmtSpecAbsoluteValueDtoUtility{}
 
 	if fmtSpecSetupDto.Lock == nil {
 		fmtSpecSetupDto.Lock = new(sync.Mutex)
@@ -900,6 +863,12 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromFmtSpecSetupDto(
 	fmtSpecSetupDto.Lock.Lock()
 
 	defer fmtSpecSetupDto.Lock.Unlock()
+
+	newNumStrFmtSpecAbsValueDto :=
+		NumStrFmtSpecAbsoluteValueDto{}
+
+	nStrFmtSpecAbsValDtoUtil :=
+		numStrFmtSpecAbsoluteValueDtoUtility{}
 
 	err := nStrFmtSpecAbsValDtoUtil.setAbsValDtoWithDefaults(
 		&newNumStrFmtSpecAbsValueDto,
@@ -970,11 +939,10 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromFmtSpecSetupDto(
 //               "127.54" THE DEFAULT Absolute Value Format
 //
 //
-//  ePrefix                    string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -983,16 +951,18 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromFmtSpecSetupDto(
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 	absoluteValueFormatStr string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtAbsValDto.lock == nil {
@@ -1003,14 +973,17 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
+	ePrefix.SetEPref(
+		"NumStrFmtSpecAbsoluteValueDto.SetAbsoluteValueFormat()")
+
 	nStrAbsValDtoElectron :=
 		numStrFmtSpecAbsoluteValueDtoElectron{}
 
 	_,
 		err = nStrAbsValDtoElectron.testAbsoluteValueFormatStr(
 		absoluteValueFormatStr,
-		ePrefix+"\n"+
-			"Testing validity of 'absoluteValueFormatStr'\n ")
+		ePrefix.XCtx(
+			"Testing validity of 'absoluteValueFormatStr'"))
 
 	if err != nil {
 		return err
@@ -1021,7 +994,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 	return err
 }
 
-// SetAbsValDto() - This method will set all of the member
+// SetAbsValDto - This method will set all of the member
 // variable data values for the current instance of
 // NumStrFmtSpecAbsoluteValueDto.
 //
@@ -1372,11 +1345,10 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetFromFmtSpecSetupDto(
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -1384,18 +1356,19 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetFromFmtSpecSetupDto(
 // Return Values
 //
 //  error
-//     - If the method completes successfully and no errors are
-//       encountered this return value is set to 'nil'. Otherwise,
-//       if errors are encountered this return value will contain
-//       an appropriate error message.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
 //
-//       If an error message is returned, the input parameter
-//       'ePrefix' (error prefix) will be inserted or prefixed at
-//       the beginning of the error message.
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberFieldLengthDto(
 	numberFieldLenDto NumberFieldDto,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtAbsValDto.lock == nil {
 		nStrFmtAbsValDto.lock = new(sync.Mutex)
@@ -1405,13 +1378,8 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberFieldLengthDto(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecAbsoluteValueDto.SetNumberFieldLengthDto()\n"
+	ePrefix.SetEPref(
+		"NumStrFmtSpecAbsoluteValueDto.SetNumberFieldLengthDto()")
 
 	return nStrFmtAbsValDto.numFieldLenDto.CopyIn(
 		&numberFieldLenDto,
@@ -1494,7 +1462,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberSeparatorsDto(
 
 	_ = nStrFmtAbsValDto.numberSeparatorsDto.CopyIn(
 		&numberSeparatorsDto,
-		"")
+		ErrPrefixDto{}.Ptr())
 }
 
 // SetTurnOnIntegerDigitsSeparationFlag - Sets the
@@ -1690,11 +1658,10 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetTurnOnIntegerDigitsSep
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -1703,11 +1670,13 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetTurnOnIntegerDigitsSep
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
@@ -1717,7 +1686,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
 	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtAbsValDto.lock == nil {
 		nStrFmtAbsValDto.lock = new(sync.Mutex)
@@ -1725,15 +1694,8 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
 
 	nStrFmtAbsValDto.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
-
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "NumStrFmtSpecAbsoluteValueDto.SetWithDefaults() "
+	ePrefix.SetEPref(
+		"NumStrFmtSpecAbsoluteValueDto.SetWithDefaults()")
 
 	nStrFmtSpecAbsValDtoUtil :=
 		numStrFmtSpecAbsoluteValueDtoUtility{}

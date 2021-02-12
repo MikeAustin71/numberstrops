@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -26,7 +25,7 @@ type numStrFmtSpecSciNotationDtoQuark struct {
 //
 func (nStrFmtSpecSciNotQuark *numStrFmtSpecSciNotationDtoQuark) testValidityOfNumStrFmtSpecSciNotationDto(
 	nStrFmtSpecSicNotDto *NumStrFmtSpecSciNotationDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -38,13 +37,7 @@ func (nStrFmtSpecSciNotQuark *numStrFmtSpecSciNotationDtoQuark) testValidityOfNu
 
 	defer nStrFmtSpecSciNotQuark.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecSciNotationDtoQuark.testValidityOfNumStrFmtSpecSciNotationDto()\n"
+	ePrefix.SetEPref("numStrFmtSpecSciNotationDtoQuark.testValidityOfNumStrFmtSpecSciNotationDto()")
 
 	isValid = false
 
@@ -52,7 +45,7 @@ func (nStrFmtSpecSciNotQuark *numStrFmtSpecSciNotationDtoQuark) testValidityOfNu
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecSicNotDto' is invalid!\n"+
 			"'nStrFmtSpecSicNotDto' is a 'nil' pointer\n",
-			ePrefix)
+			ePrefix.String())
 
 		return isValid, err
 	}
@@ -66,17 +59,18 @@ func (nStrFmtSpecSciNotQuark *numStrFmtSpecSciNotationDtoQuark) testValidityOfNu
 			"Error: 'nStrFmtSpecSicNotDto.mantissaLength' is invalid!\n"+
 			"nStrFmtSpecSicNotDto.mantissaLength is greater than 1000.\n"+
 			"nStrFmtSpecSicNotDto.mantissaLength== '%v'\n",
-			ePrefix,
+			ePrefix.String(),
 			nStrFmtSpecSicNotDto.mantissaLength)
 
 		return isValid, err
 	}
 
 	if nStrFmtSpecSicNotDto.mantissaLength == 0 {
+
 		err = fmt.Errorf("%v\n" +
 			"Error: 'nStrFmtSpecSicNotDto.mantissaLength' is invalid!\n" +
 			"nStrFmtSpecSicNotDto.mantissaLength is equal to zero.\n" +
-			ePrefix)
+			ePrefix.String())
 
 		return isValid, err
 	}
@@ -85,15 +79,15 @@ func (nStrFmtSpecSciNotQuark *numStrFmtSpecSciNotationDtoQuark) testValidityOfNu
 		err = fmt.Errorf("%v\n"+
 			"Error: 'nStrFmtSpecSicNotDto.exponentChar' is invalid!\n"+
 			"nStrFmtSpecSicNotDto.exponentChar== '%v'\n",
-			ePrefix,
+			ePrefix.String(),
 			nStrFmtSpecSicNotDto.exponentChar)
 
 		return isValid, err
 	}
 
 	err = nStrFmtSpecSicNotDto.numFieldLenDto.IsValidInstanceError(
-		ePrefix +
-			"\nTesting Validity of nStrFmtSpecSicNotDto.numFieldLenDto\n")
+		ePrefix.XCtx(
+			"\nTesting Validity of nStrFmtSpecSicNotDto.numFieldLenDto"))
 
 	if err != nil {
 		return isValid, err

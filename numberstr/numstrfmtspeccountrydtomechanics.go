@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -26,7 +25,7 @@ func (nStrFmtSpecCntryMech *numStrFmtSpecCountryDtoMechanics) setCountryDto(
 	countryCodeTwoChar string,
 	countryCodeThreeChar string,
 	countryCodeNumber string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecCntryMech.lock == nil {
@@ -37,19 +36,13 @@ func (nStrFmtSpecCntryMech *numStrFmtSpecCountryDtoMechanics) setCountryDto(
 
 	defer nStrFmtSpecCntryMech.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecCountryDtoMechanics.setCountryDto() "
+	ePrefix.SetEPref("numStrFmtSpecCountryDtoMechanics.setCountryDto()")
 
 	if nStrFmtSpecCntryDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecCntryDto' is invalid!\n"+
 			"'nStrFmtSpecCntryDto' is a 'nil' pointer\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
@@ -58,7 +51,7 @@ func (nStrFmtSpecCntryMech *numStrFmtSpecCountryDtoMechanics) setCountryDto(
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'countryCultureName' is invalid!\n"+
 			"'countryCultureName' is a an empty string!\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
@@ -104,8 +97,8 @@ func (nStrFmtSpecCntryMech *numStrFmtSpecCountryDtoMechanics) setCountryDto(
 	err = nStrFmtSpecCntryElectron.copyIn(
 		nStrFmtSpecCntryDto,
 		&testStrFmtSpecCntryDto,
-		ePrefix+
-			"\ntestStrFmtSpecCntryDto->nStrFmtSpecCntryDto\n")
+		ePrefix.XCtx(
+			"testStrFmtSpecCntryDto->nStrFmtSpecCntryDto"))
 
 	return err
 }

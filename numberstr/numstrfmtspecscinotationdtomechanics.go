@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -129,11 +128,10 @@ type numStrFmtSpecSciNotationDtoMechanics struct {
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -142,11 +140,13 @@ type numStrFmtSpecSciNotationDtoMechanics struct {
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecSciNotDtoMech *numStrFmtSpecSciNotationDtoMechanics) setSciNotationDto(
@@ -156,7 +156,7 @@ func (nStrFmtSpecSciNotDtoMech *numStrFmtSpecSciNotationDtoMechanics) setSciNota
 	exponentChar rune,
 	exponentUsesLeadingPlus bool,
 	numFieldDto NumberFieldDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecSciNotDtoMech.lock == nil {
@@ -167,19 +167,14 @@ func (nStrFmtSpecSciNotDtoMech *numStrFmtSpecSciNotationDtoMechanics) setSciNota
 
 	defer nStrFmtSpecSciNotDtoMech.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecSciNotationDtoMechanics.setSciNotationDto() "
+	ePrefix.SetEPref(
+		"numStrFmtSpecSciNotationDtoMechanics.setSciNotationDto()")
 
 	if nStrFmtSpecSciNotDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetSciNotDto' is invalid!\n"+
 			"'targetSciNotDto' is a 'nil' pointer.\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
@@ -200,8 +195,8 @@ func (nStrFmtSpecSciNotDtoMech *numStrFmtSpecSciNotationDtoMechanics) setSciNota
 
 	err = testNumStrFmtSpecSciNotDto.numFieldLenDto.CopyIn(
 		&numFieldDto,
-		ePrefix+
-			"numFieldDto->nStrFmtSpecSciNotDto.numFieldDto\n")
+		ePrefix.XCtx(
+			"numFieldDto->nStrFmtSpecSciNotDto.numFieldDto"))
 
 	if err != nil {
 		return err
@@ -213,8 +208,8 @@ func (nStrFmtSpecSciNotDtoMech *numStrFmtSpecSciNotationDtoMechanics) setSciNota
 	err = nStrFmtSpecSciNotDtoElectron.copyIn(
 		nStrFmtSpecSciNotDto,
 		&testNumStrFmtSpecSciNotDto,
-		ePrefix+
-			"\ntestNumStrFmtSpecSciNotDto->nStrFmtSpecSciNotDto\n")
+		ePrefix.XCtx(
+			"testNumStrFmtSpecSciNotDto->nStrFmtSpecSciNotDto"))
 
 	return err
 }

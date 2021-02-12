@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -29,7 +28,7 @@ type numStrFmtSpecSciNotationDtoElectron struct {
 //
 // Input Parameters
 //
-//  targetSciNotDto          *NumStrFmtSpecSciNotationDto
+//  targetSciNotDto            *NumStrFmtSpecSciNotationDto
 //     - A pointer to an instance of NumStrFmtSpecSciNotationDto.
 //       The internal member variable data values for this instance
 //       will be set equal to those of the NumStrFmtSpecSciNotationDto
@@ -37,37 +36,37 @@ type numStrFmtSpecSciNotationDtoElectron struct {
 //       existing data values of 'targetSciNotDto' will be
 //       overwritten.
 //
-//  incomingSciNotDto        *NumStrFmtSpecSciNotationDto
+//  incomingSciNotDto          *NumStrFmtSpecSciNotationDto
 //     - A pointer to a second instance of NumStrFmtSpecSciNotationDto.
 //       The member variable data fields from this instance will be
 //       copied to those contained in input parameter,'targetSciNotDto'.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  err                 error
-//     - If the method completes successfully and no errors are
-//       encountered this return value is set to 'nil'. Otherwise,
-//       if errors are encountered this return value will contain
-//       an appropriate error message.
+//  err                        error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
 //
-//       If an error message is returned, the input parameter
-//       'ePrefix' (error prefix) will be inserted or prefixed at
-//       the beginning of the error message.
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrFmtSpecSciNotDtoElectron *numStrFmtSpecSciNotationDtoElectron) copyIn(
 	targetSciNotDto *NumStrFmtSpecSciNotationDto,
 	incomingSciNotDto *NumStrFmtSpecSciNotationDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecSciNotDtoElectron.lock == nil {
@@ -78,19 +77,14 @@ func (nStrFmtSpecSciNotDtoElectron *numStrFmtSpecSciNotationDtoElectron) copyIn(
 
 	defer nStrFmtSpecSciNotDtoElectron.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecSciNotationDtoElectron.copyIn() "
+	ePrefix.SetEPref(
+		"numStrFmtSpecSciNotationDtoElectron.copyIn()")
 
 	if targetSciNotDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetSciNotDto' is invalid!\n"+
 			"'targetSciNotDto' is a 'nil' pointer.\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
@@ -99,7 +93,7 @@ func (nStrFmtSpecSciNotDtoElectron *numStrFmtSpecSciNotationDtoElectron) copyIn(
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'incomingSciNotDto' is invalid!\n"+
 			"'incomingSciNotDto' is a 'nil' pointer.\n",
-			ePrefix)
+			ePrefix.String())
 
 		return err
 	}
@@ -114,8 +108,8 @@ func (nStrFmtSpecSciNotDtoElectron *numStrFmtSpecSciNotationDtoElectron) copyIn(
 	_,
 		err = nStrFmtSpecSciNotQuark.testValidityOfNumStrFmtSpecSciNotationDto(
 		incomingSciNotDto,
-		ePrefix+
-			"incomingSciNotDto\n")
+		ePrefix.XCtx(
+			"incomingSciNotDto"))
 
 	if err != nil {
 		return err
@@ -135,8 +129,9 @@ func (nStrFmtSpecSciNotDtoElectron *numStrFmtSpecSciNotationDtoElectron) copyIn(
 
 	return targetSciNotDto.numFieldLenDto.CopyIn(
 		&incomingSciNotDto.numFieldLenDto,
-		ePrefix+
-			"incomingSciNotDto.numFieldLenDto->targetSciNotDto.numFieldLenDto\n")
+		ePrefix.XCtx(
+			"incomingSciNotDto.numFieldLenDto->"+
+				"targetSciNotDto.numFieldLenDto"))
 }
 
 // copyOut - Returns a deep copy of the NumStrFmtSpecSciNotationDto
@@ -155,11 +150,10 @@ func (nStrFmtSpecSciNotDtoElectron *numStrFmtSpecSciNotationDtoElectron) copyIn(
 //       which is returned to the caller.
 //
 //
-//  ePrefix                    string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
@@ -178,18 +172,19 @@ func (nStrFmtSpecSciNotDtoElectron *numStrFmtSpecSciNotationDtoElectron) copyIn(
 //
 //
 //  err                        error
-//     - If the method completes successfully and no errors are
-//       encountered this return value is set to 'nil'. Otherwise,
-//       if errors are encountered this return value will contain
-//       an appropriate error message.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
 //
-//       If an error message is returned, the input parameter
-//       'ePrefix' (error prefix) will be inserted or prefixed at
-//       the beginning of the error message.
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrFmtSpecSciNotDtoElectron *numStrFmtSpecSciNotationDtoElectron) copyOut(
 	numStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto,
 	err error) {
 
@@ -201,19 +196,14 @@ func (nStrFmtSpecSciNotDtoElectron *numStrFmtSpecSciNotationDtoElectron) copyOut
 
 	defer nStrFmtSpecSciNotDtoElectron.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecSciNotationDtoElectron.copyOut() "
+	ePrefix.SetEPref(
+		"numStrFmtSpecSciNotationDtoElectron.copyOut()")
 
 	if numStrFmtSpecSciNotDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'numStrFmtSpecSciNotDto' is invalid!\n"+
 			"'numStrFmtSpecSciNotDto' is a 'nil' pointer.\n",
-			ePrefix)
+			ePrefix.String())
 
 		return newNumStrFmtSpecSciNotDto, err
 	}
@@ -228,8 +218,7 @@ func (nStrFmtSpecSciNotDtoElectron *numStrFmtSpecSciNotationDtoElectron) copyOut
 	_,
 		err = nStrFmtSpecSciNotQuark.testValidityOfNumStrFmtSpecSciNotationDto(
 		numStrFmtSpecSciNotDto,
-		ePrefix+
-			"numStrFmtSpecSciNotDto\n")
+		ePrefix.XCtx("numStrFmtSpecSciNotDto"))
 
 	if err != nil {
 		return newNumStrFmtSpecSciNotDto, err
@@ -252,8 +241,9 @@ func (nStrFmtSpecSciNotDtoElectron *numStrFmtSpecSciNotationDtoElectron) copyOut
 	err =
 		newNumStrFmtSpecSciNotDto.numFieldLenDto.CopyIn(
 			&numStrFmtSpecSciNotDto.numFieldLenDto,
-			ePrefix+
-				"\nnumStrFmtSpecSciNotDto.numFieldLenDto->newNumStrFmtSpecSciNotDto.numFieldLenDto\n")
+			ePrefix.XCtx(
+				"numStrFmtSpecSciNotDto.numFieldLenDto->"+
+					"newNumStrFmtSpecSciNotDto.numFieldLenDto"))
 
 	return newNumStrFmtSpecSciNotDto, err
 }
