@@ -177,11 +177,10 @@ func (nFieldDto *NumberFieldDto) GetActualNumFieldLength() int {
 //       method, will return an error.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end of
-//       'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
@@ -200,18 +199,19 @@ func (nFieldDto *NumberFieldDto) GetActualNumFieldLength() int {
 //
 //
 //  err                 error
-//     - If the method completes successfully and no errors are
-//       encountered this return value is set to 'nil'. Otherwise,
-//       if errors are encountered this return value will contain
-//       an appropriate error message.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
 //
-//       If an error message is returned, the input parameter
-//       'ePrefix' (error prefix) will be inserted or prefixed at
-//       the beginning of the error message.
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nFieldDto *NumberFieldDto) GetNumberField(
 	formattedNumStr string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumberField string,
 	err error) {
 
@@ -223,7 +223,7 @@ func (nFieldDto *NumberFieldDto) GetNumberField(
 
 	defer nFieldDto.lock.Unlock()
 
-	ePrefix += "NumberFieldDto.GetNumberField() "
+	ePrefix.SetEPref("NumberFieldDto.GetNumberField()")
 
 	lenFormattedNumStr := len(formattedNumStr)
 
@@ -231,7 +231,8 @@ func (nFieldDto *NumberFieldDto) GetNumberField(
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'formattedNumStr' is"+
 			" an empty string!\n",
-			ePrefix)
+			ePrefix.String())
+
 		return newNumberField, err
 	}
 
@@ -253,7 +254,7 @@ func (nFieldDto *NumberFieldDto) GetNumberField(
 		formattedNumStr,
 		nFieldDto.requestedNumFieldLength,
 		nFieldDto.textJustifyFormat,
-		ePrefix)
+		ePrefix.String())
 
 	return newNumberField, err
 }
