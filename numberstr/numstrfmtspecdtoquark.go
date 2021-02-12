@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -20,7 +19,7 @@ type numStrFmtSpecDtoQuark struct {
 //
 func (nStrFmtSpecDtoQuark *numStrFmtSpecDtoQuark) testValidityOfNumStrFmtSpecDto(
 	nStrFmtSpecDto *NumStrFmtSpecDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -32,20 +31,16 @@ func (nStrFmtSpecDtoQuark *numStrFmtSpecDtoQuark) testValidityOfNumStrFmtSpecDto
 
 	defer nStrFmtSpecDtoQuark.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
-	}
-
-	ePrefix += "numStrFmtSpecDtoQuark.testValidityOfNumStrFmtSpecDto() "
+	ePrefix.SetEPref(
+		"numStrFmtSpecDtoQuark.testValidityOfNumStrFmtSpecDto()")
 
 	isValid = false
 
 	if nStrFmtSpecDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrFmtSpecDto' is nil pointer!\n",
-			ePrefix)
+			ePrefix.String())
+
 		return isValid, err
 	}
 
@@ -54,40 +49,39 @@ func (nStrFmtSpecDtoQuark *numStrFmtSpecDtoQuark) testValidityOfNumStrFmtSpecDto
 	}
 
 	err = nStrFmtSpecDto.countryCulture.IsValidInstanceError(
-		ePrefix +
-			"\nTesting validity of nStrFmtSpecDto.countryCulture ")
+		ePrefix.XCtx(
+			"Testing validity of " +
+				"nStrFmtSpecDto.countryCulture"))
 
 	if err != nil {
 		return isValid, err
 	}
 
 	err = nStrFmtSpecDto.absoluteValue.IsValidInstanceError(
-		ePrefix +
-			"\nTesting validity of nStrFmtSpecDto.absoluteValue ")
+		ePrefix.XCtx(
+			"Testing validity of nStrFmtSpecDto" +
+				".absoluteValue "))
 
 	if err != nil {
 		return isValid, err
 	}
 
 	err = nStrFmtSpecDto.currencyValue.IsValidInstanceError(
-		ePrefix +
-			"\nTesting validity of nStrFmtSpecDto.currencyValue ")
+		ePrefix.XCtx("Testing validity of nStrFmtSpecDto.currencyValue"))
 
 	if err != nil {
 		return isValid, err
 	}
 
 	err = nStrFmtSpecDto.signedNumValue.IsValidInstanceError(
-		ePrefix +
-			"\nTesting validity of nStrFmtSpecDto.signedNumValue ")
+		ePrefix.XCtx("Testing validity of nStrFmtSpecDto.signedNumValue"))
 
 	if err != nil {
 		return isValid, err
 	}
 
 	err = nStrFmtSpecDto.sciNotation.IsValidInstanceError(
-		ePrefix +
-			"\nTesting validity of nStrFmtSpecDto.sciNotation ")
+		ePrefix.XCtx("Testing validity of nStrFmtSpecDto.sciNotation"))
 
 	if err != nil {
 		return isValid, err

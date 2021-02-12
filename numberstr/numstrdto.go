@@ -801,11 +801,11 @@ func (nDto *NumStrDto) FindIntArraySignificantDigitLimits(
 		ePrefix)
 }
 
-// FindSignificantDigitLimits - Analyzes an array of characters which
-// constitute a number string and returns the significant digits in
-// the form of a new NumStrDto instance. This operation will effectively
-// eliminate leading zeros from the integer value and trailing zeros
-// from the fractional value.
+// FindNumStrSignificantDigitLimits - Analyzes an array of
+// characters which constitute a number string and returns the
+// significant digits in the form of a new NumStrDto instance. This
+// operation will effectively eliminate leading zeros from the
+// integer value and trailing zeros from the fractional value.
 //
 // See the section below on Example Usage.
 //
@@ -1460,7 +1460,7 @@ func (nDto *NumStrDto) GetCurrencySymbol() rune {
 //
 // Example:
 // numStr = 1000000.23
-
+//
 // GetCurrencyParen(ePrefix) = $1,000,000.23
 //
 // numStr = -1000000.23
@@ -3396,7 +3396,7 @@ func (nDto NumStrDto) NewFloat64(
 		ePrefix)
 }
 
-// Creates a new NumStrDto from an int and a precision specification.
+// NewInt - Creates a new NumStrDto from an int and a precision specification.
 //
 // Input parameter 'precision' indicates the number of digits to be
 // formatted to the right of the decimal place.
@@ -5005,7 +5005,7 @@ func (nDto NumStrDto) NewUintExponent(
 //
 //  Examples:
 //  ---------
-
+//
 //  <-- Input Parameters -->     <-- Output -->
 //                                newNumStrDto
 //  uint64Num     precision          Result
