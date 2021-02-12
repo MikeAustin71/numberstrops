@@ -2,7 +2,7 @@ package numberstr
 
 import "fmt"
 
-// Numeric Separator Data Transfer Object
+// NumericSeparatorDto - Numeric Separator Data Transfer Object
 // Used to transmit symbols used for decimal point,
 // thousands separator and currency symbol.
 //
@@ -48,8 +48,9 @@ func (numSep NumericSeparatorDto) New() NumericSeparatorDto {
 	return n2
 }
 
-// New - Returns a new instance of NumericSeparatorDto. The
-// rune values are automatically set to USA defaults.
+// NewFromNumStrDto - Returns a new instance of
+// NumericSeparatorDto. The rune values are automatically set to
+// USA defaults.
 //
 func (numSep NumericSeparatorDto) NewFromNumStrDto(
 	numStrDto NumStrDto) NumericSeparatorDto {
