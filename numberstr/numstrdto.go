@@ -24,10 +24,11 @@ type NumStrDto struct {
 	absAllNumRunes []rune // An array of runes containing all the numeric digits in a number with
 	//                      //   no preceding plus or minus sign character. Example: 123.456 =
 	//                      //   []rune{'1','2','3','4','5','6'}
-	precision          uint // The number of digits to the right of the decimal point.
-	thousandsSeparator rune // Separates thousands in the integer number: '1,000,000,000
-	decimalSeparator   rune // Separates integer and fractional elements of a number. '123.456'
-	currencySymbol     rune // Currency symbol used in currency string displays
+	fmtSpec            NumStrFmtSpecDto // Format Specifications
+	precision          uint             // The number of digits to the right of the decimal point.
+	thousandsSeparator rune             // Separates thousands in the integer number: '1,000,000,000
+	decimalSeparator   rune             // Separates integer and fractional elements of a number. '123.456'
+	currencySymbol     rune             // Currency symbol used in currency string displays
 }
 
 // Add - Adds the numeric value of input parameter 'n2Dto' to that

@@ -1,6 +1,7 @@
 package numberstr
 
 import (
+	"fmt"
 	"sync"
 )
 
@@ -981,8 +982,8 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom(
 // United States.
 //
 func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
-	ePrefix *ErrPrefixDto) (
-	nStrFmtSpecDto NumStrFmtSpecDto,
+	ePrefix *ErrPrefixDto,
+	nStrFmtSpecDto *NumStrFmtSpecDto) (
 	err error) {
 
 	if nStrFmtCountry.lock == nil {
@@ -993,7 +994,20 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 
 	defer nStrFmtCountry.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("NumStrFormatCountry.UnitedStates()")
+
+	if nStrFmtSpecDto == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'nStrFmtSpecDto' is invalid!\n"+
+			"'nStrFmtSpecDto' is a nil pointer.\n",
+			ePrefix.String())
+
+		return err
+	}
 
 	setupDto := NumStrFmtSpecSetupDto{}
 	setupDto.Lock = new(sync.Mutex)
@@ -1065,5 +1079,5 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 		&setupDto,
 		ePrefix)
 
-	return nStrFmtSpecDto, err
+	return err
 }

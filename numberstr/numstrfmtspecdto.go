@@ -145,6 +145,142 @@ func (fmtSpecDto *NumStrFmtSpecDto) CopyOut(
 		ePrefix.XCtx("Copy Out from 'fmtSpecDto'"))
 }
 
+// GetAbsoluteValueSpec - Returns a deep copy of the member variable
+// 'absoluteValue', of type NumStrFmtSpecAbsoluteValueDto.
+//
+// IMPORTANT
+//
+// No validity tests are performed on the current NumStrFmtSpecDto
+// instance before returning the NumStrFmtSpecAbsoluteValueDto
+// object. To validate the current NumStrFmtSpecDto instance
+// reference methods NumStrFmtSpecDto.IsValidInstance() and
+// NumStrFmtSpecDto.IsValidInstanceError().
+//
+func (fmtSpecDto *NumStrFmtSpecDto) GetAbsoluteValueSpec() NumStrFmtSpecAbsoluteValueDto {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	absVal,
+		_ := fmtSpecDto.absoluteValue.CopyOut(
+		ErrPrefixDto{}.Ptr())
+
+	return absVal
+}
+
+// GetCountryCulture - Returns a deep copy of the member variable
+// 'countryCulture', of type NumStrFmtSpecCountryDto.
+//
+// IMPORTANT
+//
+// No validity tests are performed on the current NumStrFmtSpecDto
+// instance before returning the NumStrFmtSpecCountryDto object. To
+// validate the current NumStrFmtSpecDto instance reference methods
+// NumStrFmtSpecDto.IsValidInstance() and
+// NumStrFmtSpecDto.IsValidInstanceError().
+//
+func (fmtSpecDto *NumStrFmtSpecDto) GetCountryCulture() NumStrFmtSpecCountryDto {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	countryCulture,
+		_ := fmtSpecDto.countryCulture.CopyOut(ErrPrefixDto{}.Ptr())
+
+	return countryCulture
+}
+
+// GetCurrencySpec - Returns a deep copy of the member variable
+// 'currencyValue', of type NumStrFmtSpecCurrencyValueDto.
+//
+// IMPORTANT
+//
+// No validity tests are performed on the current NumStrFmtSpecDto
+// instance before returning the NumStrFmtSpecCountryDto object. To
+// validate the current NumStrFmtSpecDto instance reference methods
+// NumStrFmtSpecDto.IsValidInstance() and
+// NumStrFmtSpecDto.IsValidInstanceError().
+//
+func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySpec() NumStrFmtSpecCurrencyValueDto {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	currencySpec,
+		_ := fmtSpecDto.currencyValue.CopyOut(ErrPrefixDto{}.Ptr())
+
+	return currencySpec
+}
+
+// GetScientificNotationSpec - Returns a deep copy of the member
+// variable 'sciNotation', of type NumStrFmtSpecSciNotationDto.
+//
+// IMPORTANT
+//
+// No validity tests are performed on the current NumStrFmtSpecDto
+// instance before returning the NumStrFmtSpecSciNotationDto
+// object. To validate the current NumStrFmtSpecDto instance
+// reference methods NumStrFmtSpecDto.IsValidInstance() and
+// NumStrFmtSpecDto.IsValidInstanceError().
+//
+func (fmtSpecDto *NumStrFmtSpecDto) GetScientificNotationSpec() NumStrFmtSpecSciNotationDto {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	scientificNotationSpec,
+		_ := fmtSpecDto.sciNotation.CopyOut(ErrPrefixDto{}.Ptr())
+
+	return scientificNotationSpec
+}
+
+// GetSignedNumSpec - Returns a deep copy of the member variable
+// 'signedNumValue', of type NumStrFmtSpecSignedNumValueDto.
+//
+// IMPORTANT
+//
+// No validity tests are performed on the current NumStrFmtSpecDto
+// instance before returning the NumStrFmtSpecSignedNumValueDto
+// object. To validate the current NumStrFmtSpecDto instance
+// reference methods NumStrFmtSpecDto.IsValidInstance() and
+// NumStrFmtSpecDto.IsValidInstanceError().
+//
+func (fmtSpecDto *NumStrFmtSpecDto) GetSignedNumSpec() NumStrFmtSpecSignedNumValueDto {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	signedNumSpec,
+		_ := fmtSpecDto.signedNumValue.CopyOut(ErrPrefixDto{}.Ptr())
+
+	return signedNumSpec
+}
+
 // IsValidInstance - Performs a diagnostic review of the current
 // NumStrFmtSpecDto instance to determine whether the current
 // instance is valid in all respects.
