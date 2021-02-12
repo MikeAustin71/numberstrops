@@ -227,6 +227,22 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySpec() NumStrFmtSpecCurrencyValue
 	return currencySpec
 }
 
+// GetDecimalSeparator - Returns the decimal separator
+// from 'currency' value.
+//
+func (fmtSpecDto *NumStrFmtSpecDto) GetDecimalSeparator() rune {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	return fmtSpecDto.currencyValue.numberSeparatorsDto.GetDecimalSeparator()
+}
+
 // GetScientificNotationSpec - Returns a deep copy of the member
 // variable 'sciNotation', of type NumStrFmtSpecSciNotationDto.
 //

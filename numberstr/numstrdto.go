@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"math/big"
+	"sync"
 )
 
 // NumStrDto - This Type contains data fields and methods used
@@ -29,6 +30,7 @@ type NumStrDto struct {
 	thousandsSeparator rune             // Separates thousands in the integer number: '1,000,000,000
 	decimalSeparator   rune             // Separates integer and fractional elements of a number. '123.456'
 	currencySymbol     rune             // Currency symbol used in currency string displays
+	lock               *sync.Mutex
 }
 
 // Add - Adds the numeric value of input parameter 'n2Dto' to that
@@ -1780,7 +1782,17 @@ func (nDto *NumStrDto) GetNumStrDto() (
 	newNumStrDto NumStrDto,
 	err error) {
 
-	ePrefix := "NumStrDto.GetNumStrDto() "
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
+
+	nDto.lock.Lock()
+
+	defer nDto.lock.Unlock()
+
+	ePrefix := ErrPrefixDto{}.Ptr()
+
+	ePrefix.SetEPref("NumStrDto.GetNumStrDto()")
 
 	nStrDtoQuark := numStrDtoQuark{}
 

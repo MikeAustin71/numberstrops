@@ -1,7 +1,6 @@
 package numberstr
 
 import (
-	"errors"
 	"fmt"
 	"sync"
 )
@@ -44,28 +43,31 @@ type numStrDtoQuark struct {
 //       input parameter 'numStrDto'.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  err                 error
-//     - If this method completes successfully, the returned error Type
-//       is set to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message.
-//       Note that this error message will incorporate the method
-//       chain and text passed by input parameter, 'ePrefix'.
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoQuark *numStrDtoQuark) copyInLowLevel(
 	numStrDto *NumStrDto,
 	nInDto *NumStrDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrDtoQuark.lock == nil {
@@ -76,20 +78,40 @@ func (nStrDtoQuark *numStrDtoQuark) copyInLowLevel(
 
 	defer nStrDtoQuark.lock.Unlock()
 
-	ePrefix += "nStrDtoQuark.copyInLowLevel() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("nStrDtoQuark.copyInLowLevel()")
+
 	err = nil
 
 	if numStrDto == nil {
-		err = errors.New(ePrefix +
-			"\nInput parameter 'numStrDto' is INVALID!\n" +
-			"numStrDto = nil pointer!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"Input parameter 'numStrDto' is INVALID!\n"+
+			"numStrDto = nil pointer!\n",
+			ePrefix.String())
+
 		return err
 	}
 
 	if nInDto == nil {
-		err = errors.New(ePrefix +
-			"\nInput parameter 'nInDto' is INVALID!\n" +
-			"nInDto = nil pointer!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"Input parameter 'nInDto' is INVALID!\n"+
+			"nInDto = nil pointer!\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	err =
+		numStrDto.fmtSpec.CopyIn(
+			&nInDto.fmtSpec,
+			ePrefix)
+
+	if err != nil {
 		return err
 	}
 
@@ -119,27 +141,30 @@ func (nStrDtoQuark *numStrDtoQuark) copyInLowLevel(
 //       to their zero or default values.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  err                 error
-//     - If this method completes successfully, the returned error Type
-//       is set to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message.
-//       Note that this error message will incorporate the method
-//       chain and text passed by input parameter, 'ePrefix'.
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoQuark *numStrDtoQuark) empty(
 	numStrDto *NumStrDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrDtoQuark.lock == nil {
@@ -150,14 +175,22 @@ func (nStrDtoQuark *numStrDtoQuark) empty(
 
 	defer nStrDtoQuark.lock.Unlock()
 
-	ePrefix += "numStrDtoQuark.empty() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrDtoQuark.empty()")
 
 	err = nil
 
 	if numStrDto == nil {
-		err = errors.New(ePrefix +
-			"\nInput parameter 'numStrDto' is INVALID!\n" +
-			"numStrDto = nil pointer!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"Input parameter 'numStrDto' is INVALID!\n"+
+			"numStrDto = nil pointer!\n",
+			ePrefix.String())
+
 		return err
 	}
 
@@ -165,9 +198,101 @@ func (nStrDtoQuark *numStrDtoQuark) empty(
 	numStrDto.signVal = 0
 	numStrDto.absAllNumRunes = make([]rune, 0, 50)
 	numStrDto.precision = 0
+	numStrDto.fmtSpec = NumStrFmtSpecDto{}
 	numStrDto.thousandsSeparator = ','
 	numStrDto.decimalSeparator = '.'
 	numStrDto.currencySymbol = '$'
+
+	return err
+}
+
+// ptr - Returns a pointer to a new instance of numStrDtoQuark.
+//
+func (nStrDtoQuark numStrDtoQuark) ptr() *numStrDtoQuark {
+
+	if nStrDtoQuark.lock == nil {
+		nStrDtoQuark.lock = new(sync.Mutex)
+	}
+
+	nStrDtoQuark.lock.Lock()
+
+	defer nStrDtoQuark.lock.Unlock()
+
+	newNumStrDtoQuark := new(numStrDtoQuark)
+
+	newNumStrDtoQuark.lock = new(sync.Mutex)
+
+	return newNumStrDtoQuark
+}
+
+// setDefaultFormatSpec - Sets the format specification for a
+// NumStrDto object to the default values. The default numeric
+// format specification is United States.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numStrDto           *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method will
+//       set the numeric format parameters to default values. Default
+//       numeric format parameters are those of the United States.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrDtoQuark *numStrDtoQuark) setDefaultFormatSpec(
+	numStrDto *NumStrDto,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrDtoQuark.lock == nil {
+		nStrDtoQuark.lock = new(sync.Mutex)
+	}
+
+	nStrDtoQuark.lock.Lock()
+
+	defer nStrDtoQuark.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoQuark.setDefaultFormatSpec()")
+
+	if numStrDto == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrDto' is invalid!\n"+
+			"'numStrDto' is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	err = NumStrFormatCountry{}.Ptr().UnitedStates(
+		&numStrDto.fmtSpec,
+		ePrefix)
 
 	return err
 }
@@ -209,13 +334,16 @@ func (nStrDtoQuark *numStrDtoQuark) empty(
 //       show that 'numStrDto' member variables values are valid, this
 //       'isValid' flag will be set to 'true'.
 //
-//
 //  err                 error
-//     - If this method completes successfully, the returned error Type
-//       is set to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message.
-//       Note that this error message will incorporate the method
-//       chain and text passed by input parameter, 'ePrefix'.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //       An error will also be returned if the method determines that
 //       one or more of the 'numStrDto' member variables contain
@@ -223,7 +351,7 @@ func (nStrDtoQuark *numStrDtoQuark) empty(
 //
 func (nStrDtoQuark *numStrDtoQuark) testNumStrDtoValidity(
 	numStrDto *NumStrDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
@@ -235,15 +363,31 @@ func (nStrDtoQuark *numStrDtoQuark) testNumStrDtoValidity(
 
 	defer nStrDtoQuark.lock.Unlock()
 
-	ePrefix += "numStrDtoQuark.testNumStrDtoValidity() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoQuark.testNumStrDtoValidity()")
 
 	isValid = false
 	err = nil
 
 	if numStrDto == nil {
-		err = errors.New(ePrefix +
-			"\nInput parameter 'numStrDto' is INVALID!\n" +
-			"numStrDto = nil pointer!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"\nInput parameter 'numStrDto' is INVALID!\n"+
+			"numStrDto = nil pointer!\n",
+			ePrefix.String())
+
+		return isValid, err
+	}
+
+	err = numStrDto.fmtSpec.IsValidInstanceError(
+		ePrefix.XCtx(
+			"Testing validity of " +
+				"numStrDto.fmtSpec"))
+
+	if err != nil {
 		return isValid, err
 	}
 
@@ -264,21 +408,29 @@ func (nStrDtoQuark *numStrDtoQuark) testNumStrDtoValidity(
 	lenAbsAllNumRunes := len(numStrDto.absAllNumRunes)
 
 	if lenAbsAllNumRunes == 0 {
-		err = errors.New(ePrefix + "\n" +
-			"- Error: 'numStrDto' Number string is a ZERO length string!\n")
+		err = fmt.Errorf("%v\n"+
+			"- Error: 'numStrDto' Number string is a ZERO length string!\n",
+			ePrefix.String())
+
 		return isValid, err
 	}
 
 	if int(numStrDto.precision) >= lenAbsAllNumRunes {
-		err = errors.New(ePrefix + "\n" +
-			"Error: precision does match number string. Type is Corrupted!")
+
+		err = fmt.Errorf("%v\n"+
+			"Error: precision does match number string.\n"+
+			"Thus 'NumStrDto' instance is Corrupted!\n",
+			ePrefix.String())
+
 		return isValid, err
 	}
 
 	if numStrDto.signVal != 1 && numStrDto.signVal != -1 {
-		err = fmt.Errorf(ePrefix+"\n + "+
+
+		err = fmt.Errorf("%v\n"+
 			"Sign Value is INVALID. Should be +1 or -1.\n"+
 			"This Sign Value (numStrDto.signVal) is %v\n",
+			ePrefix.String(),
 			numStrDto.signVal)
 
 		return isValid, err
@@ -288,9 +440,11 @@ func (nStrDtoQuark *numStrDtoQuark) testNumStrDtoValidity(
 
 		if numStrDto.absAllNumRunes[i] < '0' || numStrDto.absAllNumRunes[i] > '9' {
 
-			err = errors.New(ePrefix + "\n" +
-				"Error: Non-Numeric character found in " +
-				"'numStrDto' number string!\n")
+			err = fmt.Errorf("%v\n"+
+				"Error: Non-Numeric character found in "+
+				"'numStrDto' number string!\n",
+				ePrefix.String())
+
 			return isValid, err
 		}
 	}
