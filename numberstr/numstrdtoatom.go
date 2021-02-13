@@ -613,6 +613,121 @@ func (nStrDtoAtom *numStrDtoAtom) getAbsoluteBigFloat(
 	return absBigFloatNum, err
 }
 
+// getAbsoluteNumSepsDto - Returns a structure containing the
+// character or rune values for decimal point separator, integer
+// digits separator and integer digits grouping sequence
+// for the absolute value format associated with the input
+// parameter, 'numStrDto'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numStrDto           *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method will
+//       NOT change the values of internal member variables to achieve
+//       the method's objectives.
+//
+//       Numeric separators extracted from the absolute value
+//       format residing within this NumStrDto instance are used to
+//       populate the returned instance of NumericSeparatorDto.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  numSepsDto          NumericSeparatorDto
+//     - If this method completes successfully, an instance of
+//       NumericSeparatorDto will be returned populated with the
+//       numeric separators associated with input parameter,
+//       'numStrDto'. The NumericSeparatorDto data structure is
+//       shown below:
+//
+//       type NumericSeparatorDto struct {
+//         decimalSeparator              rune
+//         integerDigitsSeparator        rune
+//         integerDigitsGroupingSequence []uint
+//       }
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrDtoAtom *numStrDtoAtom) getAbsoluteNumSepsDto(
+	numStrDto *NumStrDto,
+	ePrefix *ErrPrefixDto) (
+	numSepsDto NumericSeparatorDto,
+	err error) {
+
+	if nStrDtoAtom.lock == nil {
+		nStrDtoAtom.lock = new(sync.Mutex)
+	}
+
+	nStrDtoAtom.lock.Lock()
+
+	defer nStrDtoAtom.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrDtoAtom.getCurrencyNumSepsDto()")
+
+	numSepsDto = NumericSeparatorDto{}
+
+	err = nil
+
+	if numStrDto == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Input parameter 'numStrDto' is INVALID!\n"+
+			"numStrDto = nil pointer!\n",
+			ePrefix.String())
+
+		return numSepsDto, err
+	}
+
+	_,
+		err = numStrDtoQuark{}.
+		ptr().
+		testNumStrDtoValidity(
+			numStrDto,
+			ePrefix.XCtx(
+				"Testing validity of 'numStrDto'"))
+
+	if err != nil {
+		return numSepsDto, err
+	}
+
+	err =
+		numSepsDto.CopyIn(
+			&numStrDto.
+				fmtSpec.
+				absoluteValue.
+				numberSeparatorsDto,
+			ePrefix.XCtx(
+				"numStrDto.fmtSpec.absoluteValue->numSepsDto"))
+
+	return numSepsDto, err
+}
+
 // getBigRationalNum - Receives an instance of of NumStrDto and
 // converts the associated signed numerical value to a type
 // *big.Rat, big rational number.
@@ -771,8 +886,9 @@ func (nStrDtoAtom *numStrDtoAtom) getBigRationalNum(
 //       NOT change the values of internal member variables to achieve
 //       the method's objectives.
 //
-//       Numeric separators extracted from this NumStrDto instance are
-//       used to populate the returned instance of NumericSeparatorDto.
+//       Numeric separators extracted from the currency value
+//       format residing within this NumStrDto instance are used to
+//       populate the returned instance of NumericSeparatorDto.
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -885,9 +1001,9 @@ func (nStrDtoAtom *numStrDtoAtom) getCurrencyNumSepsDto(
 //       NOT change the values of internal member variables to achieve
 //       the method's objectives.
 //
-//       Numeric separators extracted from the signed number format
-//       contained in this NumStrDto instance are used to populate
-//       the returned instance of NumericSeparatorDto.
+//       Numeric separators extracted from the signed number
+//       format residing within this NumStrDto instance are used to
+//       populate the returned instance of NumericSeparatorDto.
 //
 //
 //  ePrefix             *ErrPrefixDto
