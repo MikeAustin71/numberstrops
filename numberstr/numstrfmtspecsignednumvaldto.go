@@ -9,7 +9,7 @@ type NumStrFmtSpecSignedNumValueDto struct {
 	positiveValueFmt              string
 	negativeValueFmt              string
 	turnOnIntegerDigitsSeparation bool
-	numberSeparatorsDto           NumStrFmtSpecDigitsSeparatorsDto
+	numberSeparatorsDto           NumericSeparatorDto
 	numFieldLenDto                NumberFieldDto
 	lock                          *sync.Mutex
 }
@@ -67,6 +67,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
 	nStrFmtSpecSignedNumValueDto.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.CopyIn()")
 
@@ -133,6 +137,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut(
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.CopyOut()")
 
 	nStrFmtSpecSignedNumValNanobot :=
@@ -142,6 +150,96 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut(
 		nStrFmtSpecSignedNumValueDto,
 		ePrefix.XCtx(
 			"Copy Out from 'nStrFmtSpecSignedNumValueDto'"))
+}
+
+// GetDecimalSeparator - Returns the decimal separator character.
+// This is the character (rune) used to separate integer and
+// fractional digits in a floating point number.
+//
+// In the United States, the Decimal Separator character is the
+// decimal point or period ('.').
+//
+//  Example:   123.45
+//
+// Decimal Separator is extracted from the underlying member
+// variable, 'nStrFmtSpecSignedNumValueDto.numberSeparatorsDto'.
+//
+func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetDecimalSeparator() rune {
+
+	if nStrFmtSpecSignedNumValueDto.lock == nil {
+		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSignedNumValueDto.lock.Lock()
+
+	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	return nStrFmtSpecSignedNumValueDto.
+		numberSeparatorsDto.
+		GetDecimalSeparator()
+}
+
+// GetIntegerDigitsSeparator - Returns the unicode character (rune)
+// used to separate integer digits. This is typically known as the
+// 'thousands' separator which is used to separate thousands in
+// three digit groups. In the United States, the inter digits
+// separator is the comma (',').
+//
+//  Example 1,000,000,000
+//
+// Integer Digits Separator is extracted from the underlying member
+// variable, 'nStrFmtSpecSignedNumValueDto.numberSeparatorsDto'.
+//
+func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetIntegerDigitsSeparator() rune {
+
+	if nStrFmtSpecSignedNumValueDto.lock == nil {
+		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSignedNumValueDto.lock.Lock()
+
+	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	return nStrFmtSpecSignedNumValueDto.
+		numberSeparatorsDto.
+		GetDecimalSeparator()
+}
+
+// GetIntegerDigitsGroupingSequence - Returns the value of the
+// integer digits grouping sequence. This refers to grouping of
+// integer digits within a string of numeric digits.
+//
+// In most western countries integer digits to the left of the
+// decimal separator (a.k.a. decimal point) are separated into
+// groups of three digits representing a grouping of 'thousands'
+// like this: '1,000,000,000,000'. In this case, the integer digits
+// grouping sequence would be configured as:
+//        integerDigitsGroupingSequence = []uint{3}
+//
+// In some countries and cultures, other integer groupings are
+// used. In India, for example, a number might be formatted as
+// like this: '6,78,90,00,00,00,00,000'. The right most group
+// has three digits and all the others are grouped by two digits.
+// In this case integer digits grouping sequence would be
+// configured as:
+//        integerDigitsGroupingSequence = []uint{3,2}
+//
+// The integer digits grouping sequence is extracted from member
+// variable 'nStrFmtSpecCurrValDto.numberSeparatorsDto'.
+//
+func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetIntegerDigitsGroupingSequence() []uint {
+
+	if nStrFmtSpecSignedNumValueDto.lock == nil {
+		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSignedNumValueDto.lock.Lock()
+
+	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	return nStrFmtSpecSignedNumValueDto.
+		numberSeparatorsDto.
+		GetIntegerDigitsGroupingSequence()
 }
 
 // GetNegativeValueFormat - Returns the formatting string used to
@@ -180,7 +278,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumberFie
 	return nStrFmtSpecSignedNumValueDto.numFieldLenDto.CopyOut()
 }
 
-// GetNumberSeparatorsDto - Returns the NumStrFmtSpecDigitsSeparatorsDto
+// GetNumberSeparatorsDto - Returns the NumericSeparatorDto
 // instance currently configured for this Number String Format Specification
 // Signed Number Value Dto.
 //
@@ -188,7 +286,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumberFie
 // 'thousands' separators and the grouping sequence for separating thousands
 // digits in the integer component of a number string.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumberSeparatorsDto() NumStrFmtSpecDigitsSeparatorsDto {
+func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumberSeparatorsDto() NumericSeparatorDto {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
 		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
@@ -325,6 +423,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 	nStrFmtSpecSignedNumValueDto.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPrefCtx("NumStrFmtSpecSignedNumValueDto.IsValidInstanceError()",
 		"Testing Validity of 'nStrFmtSpecSignedNumValueDto'")
@@ -599,6 +701,10 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.NewWithDefaults()")
 
 	newNStrFmtSpecSignedNumValueDto :=
@@ -775,12 +881,12 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 //            Example: 1000000000
 //
 //
-//  numberSeparatorsDto        NumStrFmtSpecDigitsSeparatorsDto
-//     - This instance of 'NumStrFmtSpecDigitsSeparatorsDto' is
+//  numberSeparatorsDto        NumericSeparatorDto
+//     - This instance of 'NumericSeparatorDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumStrFmtSpecDigitsSeparatorsDto struct {
+//        type NumericSeparatorDto struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -886,7 +992,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 	positiveValueFmt string,
 	negativeValueFmt string,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumStrFmtSpecDigitsSeparatorsDto,
+	numberSeparatorsDto NumericSeparatorDto,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecSignedNumValueDto,
@@ -899,6 +1005,10 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 	nStrFmtSpecSignedNumValueDto.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.NewFromComponents()")
 
@@ -1015,6 +1125,10 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromFmtSpe
 	nStrFmtSpecSignedNumValueDto.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSignedNumValueDto.NewFromFmtSpecSetupDto()")
@@ -1145,6 +1259,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetFromFmtSp
 	nStrFmtSpecSignedNumValueDto.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.SetFromFmtSpecSetupDto()")
 
@@ -1299,6 +1417,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNegativeV
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.SetNegativeValueFormat()")
 
 	nStrSignedNumElectron :=
@@ -1397,6 +1519,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFie
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSignedNumValueDto.SetNumberFieldLengthDto()")
 
@@ -1415,12 +1541,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFie
 //
 // Input Parameters
 //
-//  numberSeparatorsDto        NumStrFmtSpecDigitsSeparatorsDto
-//     - This instance of 'NumStrFmtSpecDigitsSeparatorsDto' is
+//  numberSeparatorsDto        NumericSeparatorDto
+//     - This instance of 'NumericSeparatorDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumStrFmtSpecDigitsSeparatorsDto struct {
+//        type NumericSeparatorDto struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -1469,7 +1595,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFie
 //  --- NONE ---
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberSeparatorsDto(
-	numberSeparatorsDto NumStrFmtSpecDigitsSeparatorsDto) {
+	numberSeparatorsDto NumericSeparatorDto) {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
 		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
@@ -1572,6 +1698,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 	nStrFmtSpecSignedNumValueDto.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.SetPositiveValueFormat()")
 
@@ -1745,12 +1875,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 //            Example: 1000000000
 //
 //
-//  numberSeparatorsDto        NumStrFmtSpecDigitsSeparatorsDto
-//     - This instance of 'NumStrFmtSpecDigitsSeparatorsDto' is
+//  numberSeparatorsDto        NumericSeparatorDto
+//     - This instance of 'NumericSeparatorDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumStrFmtSpecDigitsSeparatorsDto struct {
+//        type NumericSeparatorDto struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -1851,7 +1981,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetSignedNum
 	positiveValueFmt string,
 	negativeValueFmt string,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumStrFmtSpecDigitsSeparatorsDto,
+	numberSeparatorsDto NumericSeparatorDto,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
@@ -1862,6 +1992,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetSignedNum
 	nStrFmtSpecSignedNumValueDto.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSignedNumValueDto.SetSignedNumValDto()")
@@ -2186,6 +2320,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefau
 	nStrFmtSpecSignedNumValueDto.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSignedNumValueDto.SetWithDefaults()")

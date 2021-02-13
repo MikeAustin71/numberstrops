@@ -25,12 +25,9 @@ type NumStrDto struct {
 	absAllNumRunes []rune // An array of runes containing all the numeric digits in a number with
 	//                      //   no preceding plus or minus sign character. Example: 123.456 =
 	//                      //   []rune{'1','2','3','4','5','6'}
-	fmtSpec            NumStrFmtSpecDto // Format Specifications
-	precision          uint             // The number of digits to the right of the decimal point.
-	thousandsSeparator rune             // Separates thousands in the integer number: '1,000,000,000
-	decimalSeparator   rune             // Separates integer and fractional elements of a number. '123.456'
-	currencySymbol     rune             // Currency symbol used in currency string displays
-	lock               *sync.Mutex
+	fmtSpec   NumStrFmtSpecDto // Format Specifications
+	precision uint             // The number of digits to the right of the decimal point.
+	lock      *sync.Mutex
 }
 
 // Add - Adds the numeric value of input parameter 'n2Dto' to that
@@ -61,31 +58,39 @@ type NumStrDto struct {
 //      will be returned.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  err                 error
-//     - If this method completes successfully, the returned error Type is set
-//       equal to 'nil'. If errors are encountered during processing, the
-//       returned error Type will encapsulate an error message. Note this
-//       error message will incorporate the method chain and text passed by
-//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //       the beginning of the error message.
 //
 func (nDto *NumStrDto) Add(
 	n2Dto NumStrDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	ePrefix += "NumStrDto.Add() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumStrDto.Add()")
+
 	err = nil
 
 	var numSepsDto NumericSeparatorDto
@@ -94,9 +99,9 @@ func (nDto *NumStrDto) Add(
 
 	numSepsDto,
 		err =
-		nStrDtoAtom.getNumericSeparatorsDto(
+		nStrDtoAtom.getCurrencyNumSepsDto(
 			nDto,
-			ePrefix+"nDto ")
+			ePrefix.XCtx("nDto"))
 
 	if err != nil {
 		return err
@@ -122,7 +127,7 @@ func (nDto *NumStrDto) Add(
 	err = nStrDtoElectron.copyIn(
 		nDto,
 		&sum,
-		ePrefix+"sum->nDto ")
+		ePrefix.XCtx("sum->nDto"))
 
 	return err
 }
@@ -203,7 +208,7 @@ func (nDto *NumStrDto) AddNumStrs(
 
 	numSepsDto,
 		err =
-		nStrDtoAtom.getNumericSeparatorsDto(
+		nStrDtoAtom.getCurrencyNumSepsDto(
 			nDto,
 			ePrefix+"nDto ")
 
@@ -515,7 +520,7 @@ func (nDto *NumStrDto) CopyIn(nInDto NumStrDto) {
 	_ = nStrDtoElectron.copyIn(
 		nDto,
 		&nInDto,
-		"")
+		nil)
 
 }
 
@@ -529,7 +534,7 @@ func (nDto *NumStrDto) CopyOut() NumStrDto {
 	newNumStrDto,
 		err := nStrDtoElectron.copyOut(
 		nDto,
-		"")
+		nil)
 
 	if err != nil {
 		return NumStrDto{}
@@ -595,7 +600,7 @@ func (nDto *NumStrDto) DivideFractionNumStrs(
 	var numSepsDto NumericSeparatorDto
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		nDto,
 		ePrefix+"nDto ")
 
@@ -703,7 +708,7 @@ func (nDto *NumStrDto) Empty() {
 
 	_ = nStrDtoQuark.empty(
 		nDto,
-		"")
+		nil)
 
 	return
 }
@@ -786,7 +791,7 @@ func (nDto *NumStrDto) FindIntArraySignificantDigitLimits(
 
 	numSepsDto,
 		err =
-		nStrDtoAtom.getNumericSeparatorsDto(
+		nStrDtoAtom.getCurrencyNumSepsDto(
 			nDto,
 			ePrefix)
 
@@ -889,7 +894,7 @@ func (nDto *NumStrDto) FindNumStrSignificantDigitLimits(
 	var numSepsDto NumericSeparatorDto
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		nDto,
 		ePrefix+"nDto ")
 
@@ -1624,7 +1629,7 @@ func (nDto *NumStrDto) GetNumericSeparatorsDto() NumericSeparatorDto {
 	nStrDtoAtom := numStrDtoAtom{}
 
 	numSeps,
-		_ := nStrDtoAtom.getNumericSeparatorsDto(
+		_ := nStrDtoAtom.getCurrencyNumSepsDto(
 		nDto,
 		"")
 
@@ -2545,7 +2550,7 @@ func (nDto *NumStrDto) Multiply(
 
 	numSepsDto,
 		err =
-		nStrDtoAtom.getNumericSeparatorsDto(
+		nStrDtoAtom.getCurrencyNumSepsDto(
 			nDto,
 			ePrefix+"nDto ")
 
@@ -2640,7 +2645,7 @@ func (nDto *NumStrDto) MultiplyNumStrs(
 
 	numSepsDto,
 		err =
-		nStrDtoAtom.getNumericSeparatorsDto(
+		nStrDtoAtom.getCurrencyNumSepsDto(
 			nDto,
 			ePrefix+"nDto ")
 
@@ -2818,7 +2823,7 @@ func (nDto NumStrDto) NewBigFloat(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -3122,7 +3127,7 @@ func (nDto NumStrDto) NewBigInt(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -3257,7 +3262,7 @@ func (nDto NumStrDto) NewFloat32(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -3390,7 +3395,7 @@ func (nDto NumStrDto) NewFloat64(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -3529,7 +3534,7 @@ func (nDto NumStrDto) NewInt(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -3660,7 +3665,7 @@ func (nDto NumStrDto) NewIntExponent(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -3775,7 +3780,7 @@ func (nDto NumStrDto) NewInt32(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -3934,7 +3939,7 @@ func (nDto NumStrDto) NewInt32Exponent(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -4077,7 +4082,7 @@ func (nDto NumStrDto) NewInt64(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -4223,7 +4228,7 @@ func (nDto NumStrDto) NewInt64Exponent(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -4366,7 +4371,7 @@ func (nDto NumStrDto) NewNumStr(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -4616,7 +4621,7 @@ func (nDto NumStrDto) NewRational(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -4747,7 +4752,7 @@ func (nDto NumStrDto) NewUint(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -4904,7 +4909,7 @@ func (nDto NumStrDto) NewUintExponent(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -5043,7 +5048,7 @@ func (nDto NumStrDto) NewUint32(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -5194,7 +5199,7 @@ func (nDto NumStrDto) NewUint32Exponent(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -5335,7 +5340,7 @@ func (nDto NumStrDto) NewUint64(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -5479,7 +5484,7 @@ func (nDto NumStrDto) NewUint64Exponent(
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		&nDto,
 		ePrefix)
 
@@ -5586,7 +5591,7 @@ func (nDto *NumStrDto) ParseNumStr(
 	var numSepsDto NumericSeparatorDto
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		nDto,
 		ePrefix+"nDto ")
 
@@ -5690,7 +5695,7 @@ func (nDto *NumStrDto) ScaleNumStr(
 	var numSepsDto NumericSeparatorDto
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		nDto,
 		ePrefix+"nDto ")
 
@@ -6019,7 +6024,7 @@ func (nDto *NumStrDto) SetNumStr(numStr string) error {
 	var err error
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		nDto,
 		ePrefix)
 
@@ -6128,7 +6133,7 @@ func (nDto *NumStrDto) SetPrecision(
 	var numSepsDto NumericSeparatorDto
 
 	numSepsDto,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		nDto,
 		ePrefix+"nDto ")
 
@@ -6352,7 +6357,7 @@ func (nDto *NumStrDto) ShiftPrecisionLeft(
 	var numSeparators NumericSeparatorDto
 
 	numSeparators,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		nDto,
 		ePrefix)
 
@@ -6463,7 +6468,7 @@ func (nDto *NumStrDto) ShiftPrecisionRight(
 	var numSeparators NumericSeparatorDto
 
 	numSeparators,
-		err = nStrDtoAtom.getNumericSeparatorsDto(
+		err = nStrDtoAtom.getCurrencyNumSepsDto(
 		nDto,
 		ePrefix)
 
@@ -6549,7 +6554,7 @@ func (nDto *NumStrDto) Subtract(
 
 	numSepsDto,
 		err =
-		nStrDtoAtom.getNumericSeparatorsDto(
+		nStrDtoAtom.getCurrencyNumSepsDto(
 			nDto,
 			ePrefix+"nDto ")
 
@@ -6656,7 +6661,7 @@ func (nDto *NumStrDto) SubtractNumStrs(
 
 	numSepsDto,
 		err =
-		nStrDtoAtom.getNumericSeparatorsDto(
+		nStrDtoAtom.getCurrencyNumSepsDto(
 			nDto,
 			ePrefix+"nDto ")
 

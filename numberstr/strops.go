@@ -1,9 +1,3 @@
-// String operations provides string management utilities designed to
-// perform a variety of string operations including string centering,
-// justification, multiple replacements numeric and date field extraction
-// as well as implementing the io.Reader and io.Writer interfaces.
-//
-//
 package numberstr
 
 import (
@@ -14,6 +8,11 @@ import (
 
 // StrOps - encapsulates a collection of methods used to manage string
 // operations.
+//
+// String operations provides string management utilities designed to
+// perform a variety of string operations including string centering,
+// justification, multiple replacements numeric and date field extraction
+// as well as implementing the io.Reader and io.Writer interfaces.
 //
 // Most of the utility offered by this type is provided through its
 // associated methods. However, given that two data elements, 'StrIn'
@@ -1526,7 +1525,7 @@ func (sops *StrOps) IsEmptyOrWhiteSpace(targetStr string) bool {
 	return sOpsQuark.isEmptyOrWhiteSpace(targetStr)
 }
 
-// justifyTextInStrField - Creates a and returns a new string text
+// JustifyTextInStrField - Creates a and returns a new string text
 // field with text 'strToJustify' positioned inside that new string
 // in accordance with the string justification formatting passed in
 // input parameter, 'textJustify'.
@@ -2075,7 +2074,7 @@ func (sops *StrOps) RemoveStringChar(
 //  replaceBytes[4][1] = 'E'
 //
 //  ePrefix := "TestStrOps_ReplaceBytes_01() "
-
+//
 //  actualRunes, err := StrOps{}.Ptr().ReplaceBytes(
 //  testBytes,
 //  replaceBytes,

@@ -118,9 +118,6 @@ func (nStrDtoQuark *numStrDtoQuark) copyInLowLevel(
 	numStrDto.signVal = nInDto.signVal
 	numStrDto.absAllNumRunes = nInDto.absAllNumRunes
 	numStrDto.precision = nInDto.precision
-	numStrDto.thousandsSeparator = nInDto.thousandsSeparator
-	numStrDto.decimalSeparator = nInDto.decimalSeparator
-	numStrDto.currencySymbol = nInDto.currencySymbol
 
 	return err
 }
@@ -199,9 +196,6 @@ func (nStrDtoQuark *numStrDtoQuark) empty(
 	numStrDto.absAllNumRunes = make([]rune, 0, 50)
 	numStrDto.precision = 0
 	numStrDto.fmtSpec = NumStrFmtSpecDto{}
-	numStrDto.thousandsSeparator = ','
-	numStrDto.decimalSeparator = '.'
-	numStrDto.currencySymbol = '$'
 
 	return err
 }
@@ -389,20 +383,6 @@ func (nStrDtoQuark *numStrDtoQuark) testNumStrDtoValidity(
 
 	if err != nil {
 		return isValid, err
-	}
-
-	// Set defaults for thousands separators,
-	// decimal separators and currency Symbols
-	if numStrDto.thousandsSeparator == 0 {
-		numStrDto.thousandsSeparator = ','
-	}
-
-	if numStrDto.decimalSeparator == 0 {
-		numStrDto.decimalSeparator = '.'
-	}
-
-	if numStrDto.currencySymbol == 0 {
-		numStrDto.currencySymbol = '$'
 	}
 
 	lenAbsAllNumRunes := len(numStrDto.absAllNumRunes)

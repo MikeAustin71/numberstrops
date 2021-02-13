@@ -228,10 +228,10 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 		return err
 	}
 
-	var numberSeparatorsDto NumStrFmtSpecDigitsSeparatorsDto
+	var numberSeparatorsDto NumericSeparatorDto
 
 	numberSeparatorsDto,
-		err = NumStrFmtSpecDigitsSeparatorsDto{}.NewFromComponents(
+		err = NumericSeparatorDto{}.NewFromComponents(
 		decimalSeparatorChar,
 		thousandsSeparatorChar,
 		integerDigitsGroupingSequence,

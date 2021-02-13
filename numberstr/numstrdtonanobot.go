@@ -1996,7 +1996,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) setNumStrDtoPrecision(
 
 	numSepsDto,
 		err =
-		nStrDtoAtom.getNumericSeparatorsDto(
+		nStrDtoAtom.getCurrencyNumSepsDto(
 			numStrDto,
 			ePrefix+"numStrDto -> numSepsDto ")
 

@@ -1,7 +1,6 @@
 package numberstr
 
 import (
-	"errors"
 	"fmt"
 	"sync"
 )
@@ -428,7 +427,7 @@ func (nStrDtoElectron *numStrDtoElectron) getAbsFracRunesLength(
 //
 func (nStrDtoElectron *numStrDtoElectron) getAbsIntRunes(
 	numStrDto *NumStrDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	absIntRunes []rune,
 	err error) {
 
@@ -440,16 +439,23 @@ func (nStrDtoElectron *numStrDtoElectron) getAbsIntRunes(
 
 	defer nStrDtoElectron.lock.Unlock()
 
-	ePrefix += "numStrDtoElectron.getAbsIntRunes() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoElectron.getAbsIntRunes()")
 
 	absIntRunes = []rune{}
 
 	err = nil
 
 	if numStrDto == nil {
-		err = errors.New(ePrefix +
-			"\nInput parameter 'numStrDto' is INVALID!\n" +
-			"numStrDto = nil pointer!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"Input parameter 'numStrDto' is INVALID!\n"+
+			"numStrDto = nil pointer!\n",
+			ePrefix.String())
+
 		return absIntRunes, err
 	}
 
@@ -1538,35 +1544,12 @@ func (nStrDtoElectron *numStrDtoElectron) newZeroNumStrDto(
 		return newNumStrDto, err
 	}
 
-	// Set defaults for thousands separators,
-	// decimal separators and currency Symbols
-	if numStrDto.thousandsSeparator == 0 {
-		numStrDto.thousandsSeparator = ','
-	}
-
-	if numStrDto.decimalSeparator == 0 {
-		numStrDto.decimalSeparator = '.'
-	}
-
-	if numStrDto.currencySymbol == 0 {
-		numStrDto.currencySymbol = '$'
-	}
-
 	newNumStrDto.signVal = 1
 
 	_ = numStrDtoQuark{}.ptr().
 		setDefaultFormatSpec(
 			&newNumStrDto,
 			ePrefix)
-
-	newNumStrDto.thousandsSeparator =
-		numStrDto.thousandsSeparator
-
-	newNumStrDto.decimalSeparator =
-		numStrDto.decimalSeparator
-
-	newNumStrDto.currencySymbol =
-		numStrDto.currencySymbol
 
 	newNumStrDto.signVal = 1
 	newNumStrDto.precision = 0
@@ -1588,6 +1571,27 @@ func (nStrDtoElectron *numStrDtoElectron) newZeroNumStrDto(
 	newNumStrDto.lock = new(sync.Mutex)
 
 	return newNumStrDto, err
+}
+
+// ptr - Returns a pointer to a new instance of
+// numStrDtoElectron
+//
+func (nStrDtoElectron numStrDtoElectron) ptr() *numStrDtoElectron {
+
+	if nStrDtoElectron.lock == nil {
+		nStrDtoElectron.lock = new(sync.Mutex)
+	}
+
+	nStrDtoElectron.lock.Lock()
+
+	defer nStrDtoElectron.lock.Unlock()
+
+	newNumStrDtoElectron :=
+		new(numStrDtoElectron)
+
+	newNumStrDtoElectron.lock = new(sync.Mutex)
+
+	return newNumStrDtoElectron
 }
 
 // setCurrencySymbol - assigns the input parameter rune as the
@@ -1678,8 +1682,6 @@ func (nStrDtoElectron *numStrDtoElectron) setCurrencySymbol(
 	numStrDto.fmtSpec.
 		currencyValue.
 		currencySymbol = currencySymbol
-
-	numStrDto.currencySymbol = currencySymbol
 
 	return err
 }
@@ -1781,8 +1783,6 @@ func (nStrDtoElectron *numStrDtoElectron) setDecimalSeparator(
 		signedNumValue.
 		numberSeparatorsDto.
 		decimalSeparator = decimalSeparator
-
-	numStrDto.decimalSeparator = decimalSeparator
 
 	return err
 }
@@ -1901,8 +1901,6 @@ func (nStrDtoElectron *numStrDtoElectron) setThousandsSeparator(
 		integerDigitsGroupingSequence =
 		[]uint{3}
 
-	numStrDto.thousandsSeparator = integerDigitsSeparator
-
 	return err
 }
 
@@ -2009,18 +2007,6 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparatorsToDefaultIfEmpty(
 				numStrDto,
 				ePrefix)
 
-	}
-
-	if numStrDto.decimalSeparator == 0 {
-		numStrDto.decimalSeparator = '.'
-	}
-
-	if numStrDto.thousandsSeparator == 0 {
-		numStrDto.thousandsSeparator = ','
-	}
-
-	if numStrDto.currencySymbol == 0 {
-		numStrDto.currencySymbol = '$'
 	}
 
 	return err
@@ -2142,10 +2128,6 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 		currencySymbol = '$'
 	}
 
-	numStrDto.decimalSeparator = decimalSeparator
-	numStrDto.thousandsSeparator = integerDigitsSeparator
-	numStrDto.currencySymbol = currencySymbol
-
 	numStrDto.fmtSpec.
 		absoluteValue.
 		numberSeparatorsDto.
@@ -2225,17 +2207,17 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 //       the second input parameter 'customSeparators'.
 //
 //
-//  customSeparators    NumStrFmtSpecDigitsSeparatorsDto
+//  customSeparators    NumericSeparatorDto
 //     - If any of the data fields in this passed structure
 //       'customSeparators' are set to zero ('0'), this
 //        method will return an error.
 //
 //       The separator values contained in this input parameter
 //       will be copied to input parameter 'numStrDto'. The data
-//       fields included in the NumStrFmtSpecDigitsSeparatorsDto
+//       fields included in the NumericSeparatorDto
 //       are listed as follows:
 //
-//          type NumStrFmtSpecDigitsSeparatorsDto struct {
+//          type NumericSeparatorDto struct {
 //             decimalSeparator              rune
 //             integerDigitsSeparator        rune
 //             integerDigitsGroupingSequence []uint
@@ -2266,7 +2248,7 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 //
 func (nStrDtoElectron *numStrDtoElectron) setNumericSeparatorsDto(
 	numStrDto *NumStrDto,
-	customSeparators NumStrFmtSpecDigitsSeparatorsDto,
+	customSeparators NumericSeparatorDto,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 

@@ -5,36 +5,40 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecDigitsSepsDtoMechanics struct {
+type numericSeparatorDtoMechanics struct {
 	lock *sync.Mutex
 }
 
-// setDigitsSeps - Transfers new data to an instance of NumStrFmtSpecDigitsSeparatorsDto.
+// setDigitsSeps - Transfers new data to an instance of NumericSeparatorDto.
 // After completion, all the data fields within input parameter 'nStrFmtSpecDigitsSepDto'
 // will be overwritten.
 //
-func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigitsSeps(
-	nStrFmtSpecDigitsSepsDto *NumStrFmtSpecDigitsSeparatorsDto,
+func (numSepsDtoMech *numericSeparatorDtoMechanics) setDigitsSeps(
+	numSepsDto *NumericSeparatorDto,
 	decimalSeparator rune,
 	integerDigitsSeparator rune,
 	integerDigitsGroupingSequence []uint,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecDigitsSepsDtoMech.lock == nil {
-		nStrFmtSpecDigitsSepsDtoMech.lock = new(sync.Mutex)
+	if numSepsDtoMech.lock == nil {
+		numSepsDtoMech.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecDigitsSepsDtoMech.lock.Lock()
+	numSepsDtoMech.lock.Lock()
 
-	defer nStrFmtSpecDigitsSepsDtoMech.lock.Unlock()
+	defer numSepsDtoMech.lock.Unlock()
 
-	ePrefix.SetEPref("numStrFmtSpecDigitsSepsDtoMechanics.setDigitsSeps()")
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
-	if nStrFmtSpecDigitsSepsDto == nil {
+	ePrefix.SetEPref("numericSeparatorDtoMechanics.setDigitsSeps()")
+
+	if numSepsDto == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDigitsSepsDto' is invalid!\n"+
-			"'nStrFmtSpecDigitsSepsDto' is a 'nil' pointer\n",
+			"Error: Input parameter 'numSepsDto' is invalid!\n"+
+			"'numSepsDto' is a 'nil' pointer\n",
 			ePrefix.String())
 
 		return err
@@ -58,8 +62,8 @@ func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigi
 		return err
 	}
 
-	if nStrFmtSpecDigitsSepsDto.lock == nil {
-		nStrFmtSpecDigitsSepsDto.lock = new(sync.Mutex)
+	if numSepsDto.lock == nil {
+		numSepsDto.lock = new(sync.Mutex)
 	}
 
 	lenIntDigitsGroupingSequence :=
@@ -74,7 +78,7 @@ func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigi
 		return err
 	}
 
-	newDigitsSepsDto := NumStrFmtSpecDigitsSeparatorsDto{}
+	newDigitsSepsDto := NumericSeparatorDto{}
 
 	newDigitsSepsDto.decimalSeparator =
 		decimalSeparator
@@ -95,7 +99,7 @@ func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigi
 
 	newDigitsSepsDto.lock = new(sync.Mutex)
 
-	nStrFmtSpecDigitsSepsQuark := numStrFmtSpecDigitsSeparatorsDtoQuark{}
+	nStrFmtSpecDigitsSepsQuark := numericSeparatorDtoQuark{}
 	_,
 		err =
 		nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
@@ -107,13 +111,13 @@ func (nStrFmtSpecDigitsSepsDtoMech *numStrFmtSpecDigitsSepsDtoMechanics) setDigi
 	}
 
 	nStrFmtSpecDigitsSepsElectron :=
-		numStrFmtSpecDigitsSeparatorsDtoElectron{}
+		numericSeparatorDtoElectron{}
 
 	err =
 		nStrFmtSpecDigitsSepsElectron.copyIn(
-			nStrFmtSpecDigitsSepsDto,
+			numSepsDto,
 			&newDigitsSepsDto,
-			ePrefix.XCtx("newDigitsSepsDto->nStrFmtSpecDigitsSepsDto"))
+			ePrefix.XCtx("newDigitsSepsDto->numSepsDto"))
 
 	return err
 }
