@@ -37,6 +37,10 @@ func (nStrFmtSpecSciNotQuark *numStrFmtSpecSciNotationDtoQuark) testValidityOfNu
 
 	defer nStrFmtSpecSciNotQuark.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("numStrFmtSpecSciNotationDtoQuark.testValidityOfNumStrFmtSpecSciNotationDto()")
 
 	isValid = false

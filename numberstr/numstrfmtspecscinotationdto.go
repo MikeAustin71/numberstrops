@@ -95,6 +95,9 @@ type NumStrFmtSpecSciNotationDto struct {
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -123,6 +126,10 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyIn(
 
 	defer nStrFmtSpecSciNotDto.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSciNotationDto.CopyIn()")
 
@@ -143,11 +150,13 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyIn(
 //
 // Input Parameters
 //
-//
 //  ePrefix             *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -185,6 +194,10 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyOut(
 	nStrFmtSpecSciNotDto.lock.Lock()
 
 	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSciNotationDto.CopyOut()")
@@ -251,11 +264,13 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstance() (isVa
 //
 // Input Parameters
 //
-//
 //  ePrefix             *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -283,6 +298,10 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstanceError(
 	nStrFmtSpecSciNotDto.lock.Lock()
 
 	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSciNotationDto.IsValidInstanceError()")
@@ -424,6 +443,9 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstanceError(
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -462,6 +484,10 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithDefaults(
 	nStrFmtSpecSciNotDto.lock.Lock()
 
 	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSciNotationDto.NewWithDefaults()")
@@ -599,10 +625,13 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithDefaults(
 //       }
 //
 //
-//  ePrefix                    *ErrPrefixDto
+//  ePrefix             *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -642,6 +671,10 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewFromComponents(
 	nStrFmtSpecSciNotDto.lock.Lock()
 
 	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSciNotationDto.NewFromComponents()")
@@ -723,6 +756,9 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewFromComponents(
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -757,6 +793,10 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewFromFmtSpecSetupDto(
 	nStrFmtSpecSciNotDto.lock.Lock()
 
 	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSciNotationDto.NewFromFmtSpecSetupDto()")
@@ -980,6 +1020,9 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetExponentUsesLeadingP
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -1007,6 +1050,10 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetFromFmtSpecSetupDto(
 	nStrFmtSpecSciNotDto.lock.Lock()
 
 	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSciNotationDto.SetFromFmtSpecSetupDto()")
@@ -1110,6 +1157,9 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetMantissaLength(
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -1137,6 +1187,10 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetNumberFieldLengthDto
 	nStrFmtSpecSciNotDto.lock.Lock()
 
 	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSciNotationDto.SetNumberFieldLengthDto()")
@@ -1259,6 +1313,9 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetNumberFieldLengthDto
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -1290,6 +1347,10 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetSciNotDto(
 	nStrFmtSpecSciNotDto.lock.Lock()
 
 	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSciNotationDto.SetSciNotDto()")
@@ -1501,6 +1562,9 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetSignificandUsesLeadi
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -1533,6 +1597,10 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithDefaults(
 	nStrFmtSpecSciNotDto.lock.Lock()
 
 	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSciNotationDto.SetWithDefaults()")

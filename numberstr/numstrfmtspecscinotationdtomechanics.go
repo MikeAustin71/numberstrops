@@ -133,6 +133,9 @@ type numStrFmtSpecSciNotationDtoMechanics struct {
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -166,6 +169,10 @@ func (nStrFmtSpecSciNotDtoMech *numStrFmtSpecSciNotationDtoMechanics) setSciNota
 	nStrFmtSpecSciNotDtoMech.lock.Lock()
 
 	defer nStrFmtSpecSciNotDtoMech.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"numStrFmtSpecSciNotationDtoMechanics.setSciNotationDto()")
