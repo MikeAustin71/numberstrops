@@ -30,6 +30,10 @@ func (nStrFmtSpecCntryElectron *numStrFmtSpecCountryDtoElectron) copyIn(
 
 	defer nStrFmtSpecCntryElectron.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref(
 		"numStrFmtSpecCountryDtoElectron.copyIn()")
 
@@ -117,6 +121,10 @@ func (nStrFmtSpecCntryElectron *numStrFmtSpecCountryDtoElectron) copyOut(
 	nStrFmtSpecCntryElectron.lock.Lock()
 
 	defer nStrFmtSpecCntryElectron.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"numStrFmtSpecCountryDtoElectron.copyOut()")

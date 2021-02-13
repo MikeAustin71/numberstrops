@@ -39,6 +39,9 @@ type NumStrFmtSpecAbsoluteValueDto struct {
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -98,6 +101,9 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyIn(
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -381,6 +387,9 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstance() (
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -566,6 +575,9 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -789,11 +801,13 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -914,6 +928,9 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -1052,6 +1069,9 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromFmtSpecSetupDto(
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -1262,11 +1282,13 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -1375,6 +1397,9 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsValDto(
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -1463,6 +1488,9 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetFromFmtSpecSetupDto(
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -1559,6 +1587,14 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberFieldLengthDto(
 //        would be configured as:
 //                     integerDigitsGroupingSequence = []uint{3,2}
 //
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -1785,6 +1821,9 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetTurnOnIntegerDigitsSep
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------

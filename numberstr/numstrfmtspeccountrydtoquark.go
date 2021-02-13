@@ -31,6 +31,10 @@ func (nStrFmtSpecCntryQuark *numStrFmtSpecCountryDtoQuark) testValidityOfCountry
 
 	defer nStrFmtSpecCntryQuark.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref(
 		"numStrFmtSpecCountryDtoQuark.testValidityOfCountryDto()")
 

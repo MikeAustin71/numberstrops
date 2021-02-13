@@ -36,6 +36,10 @@ func (nStrFmtSpecCntryMech *numStrFmtSpecCountryDtoMechanics) setCountryDto(
 
 	defer nStrFmtSpecCntryMech.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("numStrFmtSpecCountryDtoMechanics.setCountryDto()")
 
 	if nStrFmtSpecCntryDto == nil {
