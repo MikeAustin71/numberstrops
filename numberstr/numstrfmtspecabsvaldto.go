@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -821,7 +820,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumericSeparatorDto,
 	numFieldDto NumberFieldDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecAbsoluteValueDto,
 	error) {
 
@@ -833,13 +832,11 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix += "NumStrFmtSpecAbsoluteValueDto.NewFromComponents()\n "
+	ePrefix.SetEPref("NumStrFmtSpecAbsoluteValueDto.NewFromComponents()")
 
 	newNStrFmtSpecAbsoluteValueDto := NumStrFmtSpecAbsoluteValueDto{}
 
@@ -852,8 +849,8 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 		turnOnIntegerDigitsSeparation,
 		numberSeparatorsDto,
 		numFieldDto,
-		ePrefix+
-			"Setting 'newNStrFmtSpecAbsoluteValueDto'\n ")
+		ePrefix.XCtx(
+			"Setting 'newNStrFmtSpecAbsoluteValueDto'"))
 
 	return newNStrFmtSpecAbsoluteValueDto, err
 }
@@ -1290,7 +1287,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsValDto(
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumericSeparatorDto,
 	numFieldDto NumberFieldDto,
-	ePrefix string) error {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtAbsValDto.lock == nil {
 		nStrFmtAbsValDto.lock = new(sync.Mutex)
@@ -1300,13 +1297,11 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsValDto(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix += "NumStrFmtSpecAbsoluteValueDto.SetAbsValDto() "
+	ePrefix.SetEPref("NumStrFmtSpecAbsoluteValueDto.SetAbsValDto()")
 
 	nStrFmtSpecAbsValDtoMech :=
 		numStrFmtSpecAbsoluteValueDtoMechanics{}
@@ -1317,8 +1312,8 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsValDto(
 		turnOnIntegerDigitsSeparation,
 		numberSeparatorsDto,
 		numFieldDto,
-		ePrefix+
-			"\n Setting 'nStrFmtAbsValDto'\n ")
+		ePrefix.XCtx(
+			"Setting 'nStrFmtAbsValDto'"))
 }
 
 // SetFromFmtSpecSetupDto - Sets the data values for current
@@ -1573,7 +1568,8 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberFieldLengthDto(
 //  --- NONE ---
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberSeparatorsDto(
-	numberSeparatorsDto NumericSeparatorDto) {
+	numberSeparatorsDto NumericSeparatorDto,
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtAbsValDto.lock == nil {
 		nStrFmtAbsValDto.lock = new(sync.Mutex)
@@ -1583,9 +1579,13 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberSeparatorsDto(
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	_ = nStrFmtAbsValDto.numberSeparatorsDto.CopyIn(
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	return nStrFmtAbsValDto.numberSeparatorsDto.CopyIn(
 		&numberSeparatorsDto,
-		ErrPrefixDto{}.Ptr())
+		ePrefix)
 }
 
 // SetTurnOnIntegerDigitsSeparationFlag - Sets the
