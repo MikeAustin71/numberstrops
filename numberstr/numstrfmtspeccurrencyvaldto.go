@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -43,6 +42,9 @@ type NumStrFmtSpecCurrencyValueDto struct {
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -102,6 +104,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyIn(
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -470,6 +475,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstance() (
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -837,6 +845,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -1253,6 +1264,9 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -1383,6 +1397,9 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -1509,9 +1526,42 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyName(
 // Reference:
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  currencySymbol      rune
+//     - Unicode character for the currency symbol.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 	currencySymbol rune,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -1522,13 +1572,11 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix += "NumStrFmtSpecCurrencyValueDto.SetCurrencySymbol()"
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetCurrencySymbol()")
 
 	err = nil
 
@@ -1537,7 +1585,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 			"Error: Input parameter 'currencySymbol' is invalid!\n"+
 			"The currency symbol is empty or missing.\n"+
 			"currencySymbol==0\n",
-			ePrefix)
+			ePrefix.String())
 		return err
 	}
 
