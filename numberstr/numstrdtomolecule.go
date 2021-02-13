@@ -60,11 +60,10 @@ type numStrDtoMolecule struct {
 //       error will be returned.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -84,18 +83,21 @@ type numStrDtoMolecule struct {
 //         +1 = n1Dto is greater than n2Dto
 //
 //
-//  err                error
-//     - If this method completes successfully, the returned error Type
-//       is set equal to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message. Note
-//       that this error message will incorporate the method chain and text
-//       passed by input parameter, 'ePrefix'. Said text will be prefixed
-//       to the beginning of the error message.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoMolecule *numStrDtoMolecule) compareNumStrDtoSignedValues(
 	n1Dto *NumStrDto,
 	n2Dto *NumStrDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	compareResult int,
 	err error) {
 
@@ -107,21 +109,28 @@ func (nStrDtoMolecule *numStrDtoMolecule) compareNumStrDtoSignedValues(
 
 	defer nStrDtoMolecule.lock.Unlock()
 
-	ePrefix += "numStrDtoMolecule.compareNumStrDtoSignedValues() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrDtoMolecule.compareNumStrDtoSignedValues()")
 
 	err = nil
 	compareResult = -99
 
 	if n1Dto == nil {
-		err = errors.New(ePrefix + "\n" +
-			"Error: Input parameter 'n1Dto' has a 'nil' pointer!\n")
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'n1Dto' has a 'nil' pointer!\n",
+			ePrefix.String())
 
 		return compareResult, err
 	}
 
 	if n2Dto == nil {
-		err = errors.New(ePrefix + "\n" +
-			"Error: Input parameter 'n1Dto' has a 'nil' pointer!\n")
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'n2Dto' has a 'nil' pointer!\n",
+			ePrefix.String())
 
 		return compareResult, err
 	}
@@ -131,7 +140,8 @@ func (nStrDtoMolecule *numStrDtoMolecule) compareNumStrDtoSignedValues(
 	_,
 		err = nStrDtoQuark.testNumStrDtoValidity(
 		n1Dto,
-		ePrefix+"Testing 'n1Dto' Validity ")
+		ePrefix.XCtx(
+			"Testing 'n1Dto' Validity "))
 
 	if err != nil {
 		return compareResult, err
@@ -140,7 +150,8 @@ func (nStrDtoMolecule *numStrDtoMolecule) compareNumStrDtoSignedValues(
 	_,
 		err = nStrDtoQuark.testNumStrDtoValidity(
 		n2Dto,
-		ePrefix+"Testing 'n2Dto' Validity ")
+		ePrefix.XCtx(
+			"Testing 'n2Dto' Validity"))
 
 	if err != nil {
 		return compareResult, err
@@ -154,7 +165,8 @@ func (nStrDtoMolecule *numStrDtoMolecule) compareNumStrDtoSignedValues(
 		err = nStrDtoAtom.compareNumStrDtoAbsoluteValues(
 		n1Dto,
 		n2Dto,
-		"Comparing 'n1Dto' to 'n2Dto' ")
+		ePrefix.XCtx(
+			"Comparing 'n1Dto' to 'n2Dto'"))
 
 	if err != nil {
 		return compareResult, err
