@@ -33,6 +33,10 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 
 	defer nStrFmtSpecCurrValNanobot.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoNanobot.copyIn()")
 
 	if targetNStrFmtSpecCurrencyValDto == nil {
@@ -124,6 +128,10 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 	nStrFmtSpecCurrValNanobot.lock.Lock()
 
 	defer nStrFmtSpecCurrValNanobot.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoNanobot.copyOut()")
 

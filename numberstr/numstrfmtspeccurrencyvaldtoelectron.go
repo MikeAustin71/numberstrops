@@ -19,7 +19,7 @@ type numStrFmtSpecCurrencyValueDtoElectron struct {
 //
 // Input Parameters
 //
-//  positiveValFmtStr   string
+//  positiveValFmtStr             string
 //     - This format string will be used to format positive currency
 //       value in text number strings. Valid positive currency value
 //       format strings must comply with the following constraints.
@@ -91,23 +91,26 @@ type numStrFmtSpecCurrencyValueDtoElectron struct {
 //          + 127.54 $
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
 //
 // Return Values
 //
-//  isValid             bool
+//  isValid                       bool
 //     - If the input parameter 'positiveValFmtStr' is judged to be
 //       valid, 'isValid' will be set to true. If 'positiveValFmtStr'
 //       is invalid, 'isValid' will be set to false.
 //
 //
-//  err                 error
+//  err                           error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'.
 //
@@ -136,6 +139,10 @@ func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyP
 	nStrCurrencyElectron.lock.Lock()
 
 	defer nStrCurrencyElectron.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoElectron.testCurrencyPositiveValueFormatStr()")
 
@@ -181,7 +188,7 @@ func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyP
 				"Signed Number Positive Value Formats are NOT allowed to include this character.\n"+
 				"Complete Number String Format= '%v'\n"+
 				"invalid char == '%v' at Index [%v] \n",
-				ePrefix,
+				ePrefix.String(),
 				positiveValFmtStr,
 				string(runesToTest[i]),
 				i)
@@ -229,6 +236,170 @@ func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyP
 // an error if the format string is invalid.
 //
 //
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  negativeValFmtStr             string
+//     - This format string will be used to format negative currency
+//       values in text number strings. Valid negative currency value
+//       format strings must comply with the following constraints.
+//
+//       Negative Currency Value Formatting Terminology and Placeholders:
+//
+//               "$" - Placeholder for the previously selected currency
+//                     symbol associated with the user's preferred country
+//                     or culture. This placeholder symbol, '$', MUST BE
+//                     present in the positive value format string in order
+//                     to correctly position the actual currency symbol
+//                     relative to the currency numeric value.
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "-" - The Minus Sign ('-'). If present in the
+//                     format string, the minus sign ('-') specifies
+//                     where the minus sign will be positioned
+//                     relative to the numeric value in the text
+//                     number string.
+//
+//             "(-)" - These three characters are often used in
+//                     Europe and the United Kingdom to classify
+//                     a numeric value as negative.
+//
+//              "()" - Opposing parenthesis characters are
+//                     frequently used in the United States
+//                     to classify a numeric value as negative.
+//
+//       Valid format strings for negative currency values are
+//       listed as follows:
+//
+//          ( $127.54 )
+//          ( $ 127.54 )
+//          ($ 127.54)
+//          ($127.54)
+//
+//          $(127.54)
+//          $ (127.54)
+//          $( 127.54 )
+//          $ ( 127.54 )
+//
+//          ( 127.54$ )
+//          ( 127.54 $ )
+//          ( 127.54 $)
+//          (127.54$)
+//
+//          (127.54)$
+//          (127.54) $
+//          ( 127.54 )$
+//          ( 127.54 ) $
+//
+//          (-) $127.54
+//          (-) $ 127.54
+//          (-)$127.54
+//          (-)$ 127.54
+//
+//          $ (-)127.54
+//          $ (-) 127.54
+//          $(-)127.54
+//          $(-) 127.54
+//
+//          (-) 127.54$
+//          (-) 127.54 $
+//          (-)127.54$
+//          (-)127.54 $
+//
+//          127.54(-) $
+//          127.54 (-) $
+//          127.54(-)$
+//          127.54 (-)$
+//
+//          127.54$(-)
+//          127.54$ (-)
+//          127.54 $ (-)
+//          127.54 $(-)
+//
+//          $127.54(-)
+//          $127.54 (-)
+//          $ 127.54(-)
+//          $ 127.54 (-)
+//
+//          - $127.54
+//          - $ 127.54
+//          -$127.54
+//          -$ 127.54
+//
+//          $ -127.54
+//          $ - 127.54
+//          $-127.54
+//          $- 127.54
+//
+//          - 127.54$
+//          - 127.54 $
+//          -127.54$
+//          -127.54 $
+//
+//          127.54- $
+//          127.54 - $
+//          127.54-$
+//          127.54 -$
+//
+//          127.54$-
+//          127.54$ -
+//          127.54 $ -
+//          127.54 $-
+//
+//          $127.54-
+//          $127.54 -
+//          $ 127.54-
+//          $ 127.54 -
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  isValid                       bool
+//     - If the input parameter 'positiveValFmtStr' is judged to be
+//       valid, 'isValid' will be set to true. If 'positiveValFmtStr'
+//       is invalid, 'isValid' will be set to false.
+//
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+//     - If the input parameter 'positiveValFmtStr' is judged to be
+//       valid, 'err' will be set to 'nil'. If 'positiveValFmtStr'
+//       is invalid, 'err' will be returned with an appropriate error
+//       message.
+//
 func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyNegativeValueFormatStr(
 	negativeValFmtStr string,
 	ePrefix *ErrPrefixDto) (
@@ -242,6 +413,10 @@ func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyN
 	nStrCurrencyElectron.lock.Lock()
 
 	defer nStrCurrencyElectron.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoElectron.testCurrencyNegativeValueFormatStr()")
 

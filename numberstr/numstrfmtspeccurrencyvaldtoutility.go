@@ -9,7 +9,7 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 	lock *sync.Mutex
 }
 
-// setCurrValDtoWithDefaults() - Sets the data values for an
+// setCurrValDtoWithDefaults - Sets the data values for an
 // instance NumStrFmtSpecCurrencyValueDto passed as an input
 // parameter.
 //
@@ -347,6 +347,9 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -387,6 +390,10 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 	nStrFmtSpecCurrValDtoUtil.lock.Lock()
 
 	defer nStrFmtSpecCurrValDtoUtil.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("nStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults()")
 

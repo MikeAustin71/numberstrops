@@ -26,6 +26,10 @@ func (nStrFmtSpecCurrDtoMolecule *numStrFmtSpecCurrencyValueDtoMolecule) testVal
 
 	defer nStrFmtSpecCurrDtoMolecule.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoMolecule.testValidityOfCurrencyValDto()")
 
 	isValid = false
