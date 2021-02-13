@@ -41,6 +41,9 @@ type NumberFieldDto struct {
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -68,6 +71,10 @@ func (nFieldDto *NumberFieldDto) CopyIn(
 	nFieldDto.lock.Lock()
 
 	defer nFieldDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("NumberFieldDto.CopyIn()")
 
@@ -182,6 +189,9 @@ func (nFieldDto *NumberFieldDto) GetActualNumFieldLength() int {
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -222,6 +232,10 @@ func (nFieldDto *NumberFieldDto) GetNumberField(
 	nFieldDto.lock.Lock()
 
 	defer nFieldDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("NumberFieldDto.GetNumberField()")
 
@@ -363,11 +377,13 @@ func (nFieldDto *NumberFieldDto) IsValidInstance() (
 //
 // Input Parameters
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -393,9 +409,13 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 
 	defer nFieldDto.lock.Unlock()
 
-	nStrNFldDtoQuark := numStrNumFieldDtoQuark{}
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("NumberFieldDto.IsValidInstanceError()")
+
+	nStrNFldDtoQuark := numStrNumFieldDtoQuark{}
 
 	_,
 		err := nStrNFldDtoQuark.testValidityNumberFieldDto(
@@ -467,6 +487,9 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -502,6 +525,10 @@ func (nFieldDto NumberFieldDto) NewWithDefaults(
 	nFieldDto.lock.Lock()
 
 	defer nFieldDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("NumberFieldDto.NewWithDefaults()")
 
@@ -574,11 +601,13 @@ func (nFieldDto NumberFieldDto) NewWithDefaults(
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -614,6 +643,10 @@ func (nFieldDto NumberFieldDto) NewFromComponents(
 	nFieldDto.lock.Lock()
 
 	defer nFieldDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("NumberFieldDto.NewFromComponents()")
 
@@ -712,11 +745,13 @@ func (nFieldDto *NumberFieldDto) SetMinimumNumFieldLength(
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -745,6 +780,10 @@ func (nFieldDto *NumberFieldDto) SetNumberFieldDto(
 	nFieldDto.lock.Lock()
 
 	defer nFieldDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("NumberFieldDto.SetNumberFieldDto()")
 
@@ -781,7 +820,6 @@ func (nFieldDto *NumberFieldDto) SetRequestedNumFieldLength(
 
 	nFieldDto.requestedNumFieldLength =
 		requestedNumberFieldLen
-
 }
 
 // SetTextJustification - Sets the text justification format
