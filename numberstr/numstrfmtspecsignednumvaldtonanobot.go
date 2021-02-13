@@ -33,6 +33,10 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyIn(
 
 	defer nStrFmtSpecSignedNumValNanobot.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("numStrFmtSpecSignedNumValNanobot.copyIn()")
 
 	if targetNStrFmtSpecSignedNumValDto == nil {
@@ -115,6 +119,10 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyOut(
 	nStrFmtSpecSignedNumValNanobot.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValNanobot.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("numStrFmtSpecSignedNumValNanobot.copyOut()")
 

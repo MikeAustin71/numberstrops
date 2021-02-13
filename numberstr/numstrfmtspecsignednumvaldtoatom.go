@@ -27,6 +27,10 @@ func (nStrSignedNumAtom *numStrFmtSpecSignedNumValAtom) testSignedNumValPositive
 
 	defer nStrSignedNumAtom.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("numStrFmtSpecSignedNumValAtom.testSignedNumValPositiveValueFormat()")
 
 	isValid = false
@@ -69,6 +73,10 @@ func (nStrSignedNumAtom *numStrFmtSpecSignedNumValAtom) testSignedNumValNegative
 	nStrSignedNumAtom.lock.Lock()
 
 	defer nStrSignedNumAtom.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("numStrFmtSpecSignedNumValAtom.testSignedNumValNegativeValueFormat()")
 

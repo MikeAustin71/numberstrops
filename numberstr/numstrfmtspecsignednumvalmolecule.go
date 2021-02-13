@@ -31,6 +31,10 @@ func (nStrFmtSpecSignedNumValMolecule *numStrFmtSpecSignedNumValMolecule) testVa
 
 	defer nStrFmtSpecSignedNumValMolecule.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("numStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto()")
 
 	isValid = false

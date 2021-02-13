@@ -250,6 +250,9 @@ type nStrFmtSpecSignedNumValMechanics struct {
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -283,6 +286,10 @@ func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNu
 	nStrFmtSpecSignedNumValMech.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValMech.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("nStrFmtSpecSignedNumValMechanics.setSignedNumValDto()")
 

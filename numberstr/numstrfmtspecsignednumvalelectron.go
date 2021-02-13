@@ -28,6 +28,10 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 
 	defer nStrSignedNumElectron.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("numStrSignedNumValElectron.testSignedNumValNegativeValueFormat()")
 
 	isValid = false
@@ -141,6 +145,10 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValPositiv
 	nStrSignedNumElectron.lock.Lock()
 
 	defer nStrSignedNumElectron.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("numStrSignedNumValElectron.testSignedNumValPositiveValueFormatStr()")
 
