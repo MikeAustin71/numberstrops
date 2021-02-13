@@ -33,6 +33,10 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
 
 	defer nStrFmtSpecAbsValDtoNanobot.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref(
 		"numStrFmtSpecAbsoluteValueDtoNanobot.copyIn()")
 
@@ -114,6 +118,10 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyOut
 	nStrFmtSpecAbsValDtoNanobot.lock.Lock()
 
 	defer nStrFmtSpecAbsValDtoNanobot.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"numStrFmtSpecAbsoluteValueDtoNanobot.copyOut()")

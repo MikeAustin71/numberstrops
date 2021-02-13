@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -166,24 +165,25 @@ type numStrFmtSpecAbsoluteValueDtoUtility struct {
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix                       string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
 //
 // Return Values
 //
-//  err                  error
+//  err                 error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValDtoWithDefaults(
@@ -205,6 +205,10 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 	nStrFmtSpecAbsValDtoUtil.lock.Lock()
 
 	defer nStrFmtSpecAbsValDtoUtil.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("numStrFmtSpecAbsoluteValueDtoUtility.setAbsValDtoWithDefaults()")
 
@@ -235,12 +239,12 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 		decimalSeparatorChar,
 		thousandsSeparatorChar,
 		integerDigitsGroupingSequence,
-		ePrefix+
+		ePrefix.XCtx(
 			fmt.Sprintf("\n"+
 				"decimalSeparatorChar='%v'\n"+
 				"thousandsSeparatorChar='%v'\n",
 				decimalSeparatorChar,
-				thousandsSeparatorChar))
+				thousandsSeparatorChar)))
 
 	if err != nil {
 		return err

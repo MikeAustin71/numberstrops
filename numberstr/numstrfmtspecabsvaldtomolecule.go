@@ -31,6 +31,10 @@ func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) testV
 
 	defer nStrFmtSpecAbsValDtoMolecule.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("numStrFmtSpecAbsoluteValueDtoMolecule.testValidityOfAbsoluteValDto()")
 
 	isValid = false

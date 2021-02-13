@@ -82,12 +82,8 @@ type NumStrDto struct {
 //
 func (nDto *NumStrDto) Add(
 	n2Dto NumStrDto,
-	ePrefix *ErrPrefixDto) (
+	ePrefix ErrPrefixDto) (
 	err error) {
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
 
 	ePrefix.SetEPref("NumStrDto.Add()")
 

@@ -27,6 +27,10 @@ func (nStrAbsValDtoAtom *numStrFmtSpecAbsoluteValueDtoAtom) testAbsoluteValueFor
 
 	defer nStrAbsValDtoAtom.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref(
 		"numStrFmtSpecAbsoluteValueDtoElectron.testAbsoluteValueFormat()")
 

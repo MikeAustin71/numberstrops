@@ -2,7 +2,6 @@ package numberstr
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 )
 
@@ -169,11 +168,10 @@ type numStrFmtSpecAbsoluteValueDtoMechanics struct {
 //       }
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -182,11 +180,13 @@ type numStrFmtSpecAbsoluteValueDtoMechanics struct {
 //
 //  error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsValDto(
@@ -195,7 +195,7 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumericSeparatorDto,
 	numFieldLenDto NumberFieldDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrFmtSpecAbsValDtoMech.lock == nil {
@@ -206,13 +206,11 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 
 	defer nStrFmtSpecAbsValDtoMech.lock.Unlock()
 
-	if len(ePrefix) > 0 &&
-		!strings.HasSuffix(ePrefix, "\n ") &&
-		!strings.HasSuffix(ePrefix, "\n") {
-		ePrefix += "\n"
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix += "numStrFmtSpecAbsoluteValueDtoMechanics.setAbsValDto()\n "
+	ePrefix.SetEPref("numStrFmtSpecAbsoluteValueDtoMechanics.setAbsValDto()\n")
 
 	if nStrFmtSpecAbValDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -234,8 +232,7 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 	err =
 		newNStrFmtSpecAbsValDto.numberSeparatorsDto.CopyIn(
 			&numberSeparatorsDto,
-			ePrefix+
-				"'numberSeparatorsDto'->'newNStrFmtSpecAbsValDto'\n ")
+			ePrefix.XCtx("'numberSeparatorsDto'->'newNStrFmtSpecAbsValDto'\n "))
 
 	if err != nil {
 		return err
@@ -244,7 +241,7 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 	err =
 		newNStrFmtSpecAbsValDto.numFieldLenDto.CopyIn(
 			&numFieldLenDto,
-			ePrefix+"numFieldLenDto")
+			ePrefix.XCtx("numFieldLenDto"))
 
 	nStrFmtSpecAbsValDtoNanobot :=
 		numStrFmtSpecAbsoluteValueDtoNanobot{}
@@ -252,8 +249,8 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 	err = nStrFmtSpecAbsValDtoNanobot.copyIn(
 		nStrFmtSpecAbValDto,
 		&newNStrFmtSpecAbsValDto,
-		ePrefix+
-			"newNStrFmtSpecAbsValDto -> nStrFmtSpecAbValDto\n ")
+		ePrefix.XCtx(
+			"newNStrFmtSpecAbsValDto -> nStrFmtSpecAbValDto\n"))
 
 	return err
 }
