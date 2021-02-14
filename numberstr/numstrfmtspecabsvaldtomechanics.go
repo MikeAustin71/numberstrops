@@ -87,12 +87,12 @@ type numStrFmtSpecAbsoluteValueDtoMechanics struct {
 //            Example: 1000000000
 //
 //
-//  numberSeparatorsDto        NumericSeparatorDto
-//     - This instance of 'NumericSeparatorDto' is
+//  numberSeparatorsDto        NumericSeparatorsDto
+//     - This instance of 'NumericSeparatorsDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumericSeparatorDto struct {
+//        type NumericSeparatorsDto struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -193,7 +193,7 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 	nStrFmtSpecAbValDto *NumStrFmtSpecAbsoluteValueDto,
 	absoluteValueFormat string,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumericSeparatorDto,
+	numberSeparatorsDto NumericSeparatorsDto,
 	numFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
 	err error) {

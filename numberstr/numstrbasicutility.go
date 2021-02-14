@@ -123,7 +123,7 @@ func (ns *NumStrBasicUtility) ConvertStrToIntNumStr(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	numSepsDto := NumericSeparatorDto{}
+	numSepsDto := NumericSeparatorsDto{}
 
 	numSepsDto.DecimalSeparator = ns.DecimalSeparator
 	numSepsDto.CurrencySymbol = ns.CurrencySymbol
@@ -155,7 +155,7 @@ func (ns NumStrBasicUtility) ConvertInt64ToStr(num int64) (string, error) {
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	numSepsDto := NumericSeparatorDto{}
+	numSepsDto := NumericSeparatorsDto{}
 
 	numSepsDto.DecimalSeparator = ns.DecimalSeparator
 	numSepsDto.CurrencySymbol = ns.CurrencySymbol

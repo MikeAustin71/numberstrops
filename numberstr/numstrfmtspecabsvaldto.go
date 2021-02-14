@@ -8,7 +8,7 @@ import (
 type NumStrFmtSpecAbsoluteValueDto struct {
 	absoluteValFmt                string
 	turnOnIntegerDigitsSeparation bool
-	numberSeparatorsDto           NumericSeparatorDto
+	numberSeparatorsDto           NumericSeparatorsDto
 	numFieldLenDto                NumberFieldDto
 	lock                          *sync.Mutex
 }
@@ -334,7 +334,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto(
 			"nStrFmtAbsValDto.numFieldLenDto->"))
 }
 
-// GetNumericSeparatorsDto - Returns the NumericSeparatorDto
+// GetNumericSeparatorsDto - Returns the NumericSeparatorsDto
 // instance currently configured for this Number String Format
 // Specification Signed Number Value Dto.
 //
@@ -343,7 +343,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto(
 // sequence for separating thousands digits within the integer
 // component of a number string.
 //
-// The returned NumericSeparatorDto object represents the Numeric
+// The returned NumericSeparatorsDto object represents the Numeric
 // Separator values used to configure the current instance of
 // NumStrFmtSpecAbsoluteValueDto.
 //
@@ -368,9 +368,9 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto(
 //
 // Return Values
 //
-//  NumericSeparatorDto
+//  NumericSeparatorsDto
 //     - If this method completes successfully, a new instance of
-//       NumericSeparatorDto will be created and returned
+//       NumericSeparatorsDto will be created and returned
 //       containing all of the data values used to configure the
 //       current instance of NumStrFmtSpecAbsoluteValueDto.
 //
@@ -385,12 +385,12 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-//       Be advised - If the NumericSeparatorDto object is judged
+//       Be advised - If the NumericSeparatorsDto object is judged
 //       to be invalid, this method will return an error.
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumericSeparatorsDto(
 	ePrefix *ErrPrefixDto) (
-	NumericSeparatorDto,
+	NumericSeparatorsDto,
 	error) {
 
 	if nStrFmtAbsValDto.lock == nil {
@@ -829,12 +829,12 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 //            Example: 1000000000
 //
 //
-//  numberSeparatorsDto        NumericSeparatorDto
-//     - This instance of 'NumericSeparatorDto' is
+//  numberSeparatorsDto        NumericSeparatorsDto
+//     - This instance of 'NumericSeparatorsDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumericSeparatorDto struct {
+//        type NumericSeparatorsDto struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -941,7 +941,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 	absoluteValFmt string,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumericSeparatorDto,
+	numberSeparatorsDto NumericSeparatorsDto,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecAbsoluteValueDto,
@@ -1310,12 +1310,12 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 //       Separator' will NOT be inserted into text number strings.
 //            Example: 1000000000
 //
-//  numberSeparatorsDto        NumericSeparatorDto
-//     - This instance of 'NumericSeparatorDto' is
+//  numberSeparatorsDto        NumericSeparatorsDto
+//     - This instance of 'NumericSeparatorsDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumericSeparatorDto struct {
+//        type NumericSeparatorsDto struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -1416,7 +1416,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsValDto(
 	absoluteValFmt string,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumericSeparatorDto,
+	numberSeparatorsDto NumericSeparatorsDto,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
@@ -1651,12 +1651,12 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberFieldLengthDto(
 //
 // Input Parameters
 //
-//  numberSeparatorsDto        NumericSeparatorDto
-//     - This instance of 'NumericSeparatorDto' is
+//  numberSeparatorsDto        NumericSeparatorsDto
+//     - This instance of 'NumericSeparatorsDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumericSeparatorDto struct {
+//        type NumericSeparatorsDto struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -1713,7 +1713,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberFieldLengthDto(
 //  --- NONE ---
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberSeparatorsDto(
-	numberSeparatorsDto NumericSeparatorDto,
+	numberSeparatorsDto NumericSeparatorsDto,
 	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtAbsValDto.lock == nil {

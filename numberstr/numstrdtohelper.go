@@ -22,16 +22,16 @@ type numStrDtoHelper struct {
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -104,7 +104,7 @@ type numStrDtoHelper struct {
 //       prefixed to the beginning of the returned error message.
 //
 func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	multiplicand *NumStrDto,
 	multiplier *NumStrDto,
 	ePrefix string) (
@@ -333,16 +333,16 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -407,7 +407,7 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 //       the beginning of the error message.
 //
 func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	n1DtoSetup *NumStrDto,
 	n2DtoSetup *NumStrDto,
 	ePrefix string) (
@@ -523,16 +523,16 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -597,7 +597,7 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 //       the beginning of the error message.
 //
 func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualSubtractNumStrs(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	n1NumDto *NumStrDto,
 	n2NumDto *NumStrDto,
 	isReversed bool,

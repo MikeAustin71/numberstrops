@@ -18,16 +18,16 @@ type numStrDtoUtility struct {
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -98,7 +98,7 @@ type numStrDtoUtility struct {
 //       the beginning of the error message.
 //
 func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	addend1 *NumStrDto,
 	addend2 *NumStrDto,
 	ePrefix string) (
@@ -263,16 +263,16 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -341,7 +341,7 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 //       prefixed to the beginning of the returned error message.
 //
 func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	numStrDto *NumStrDto,
 	multiplier *NumStrDto,
 	ePrefix string) (
@@ -427,8 +427,8 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 //       The NumStrDto instance be populated with the numeric
 //       value contained in input parameter 'numStr'.
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to
 //       supply the numeric separators for input parameter
 //       'numStrDto' when it is populated with a new numeric value
 //       extracted from input parameter, 'numStr'.
@@ -436,10 +436,10 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 //       Numeric separators include the Thousands Separator, Decimal
 //       Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -496,7 +496,7 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 //
 func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 	numStrDto *NumStrDto,
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	numStr string,
 	ePrefix string) (
 	err error) {
@@ -629,7 +629,7 @@ func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 //       the beginning of the error message.
 //
 func (nStrDtoUtil *numStrDtoUtility) subtractNumStrs(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	minuend *NumStrDto,
 	subtrahend *NumStrDto,
 	ePrefix string) (

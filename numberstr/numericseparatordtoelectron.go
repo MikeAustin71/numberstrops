@@ -19,8 +19,8 @@ type numericSeparatorDtoElectron struct {
 // 'targetNumSepsDto' instance.
 //
 func (numSepsDtoElectron *numericSeparatorDtoElectron) copyIn(
-	targetNumSepsDto *NumericSeparatorDto,
-	inComingNumSepsDto *NumericSeparatorDto,
+	targetNumSepsDto *NumericSeparatorsDto,
+	inComingNumSepsDto *NumericSeparatorsDto,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
@@ -96,15 +96,15 @@ func (numSepsDtoElectron *numericSeparatorDtoElectron) copyIn(
 
 // copyOut - Returns a deep copy of input parameter
 // 'nStrFmtSpecDigitsSepsDto' styled as a new instance
-// of NumericSeparatorDto.
+// of NumericSeparatorsDto.
 //
 // If 'nStrFmtSpecDigitsSepsDto' is judged to be invalid, this
 // method will return an error.
 //
 func (numSepsDtoElectron *numericSeparatorDtoElectron) copyOut(
-	numSepsDto *NumericSeparatorDto,
+	numSepsDto *NumericSeparatorsDto,
 	ePrefix *ErrPrefixDto) (
-	newNumSepsDto NumericSeparatorDto,
+	newNumSepsDto NumericSeparatorsDto,
 	err error) {
 
 	if numSepsDtoElectron.lock == nil {

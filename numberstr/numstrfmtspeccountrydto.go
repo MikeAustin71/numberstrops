@@ -356,7 +356,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) IsValidInstanceError(
 	return err
 }
 
-// New - Creates and returns a new instance of NumericSeparatorDto.
+// New - Creates and returns a new instance of NumericSeparatorsDto.
 // This type encapsulates the digit separators used in formatting a
 // number string for text display.
 //

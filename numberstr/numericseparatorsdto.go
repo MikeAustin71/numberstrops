@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-// NumericSeparatorDto - This type encapsulates the
+// NumericSeparatorsDto - This type encapsulates the
 // number separators used to format numeric values in text strings.
 // These separators include the 'Decimal Separator', The 'Integer
 // Digits Separator' and the 'Integer Digits Grouping Sequence'.
@@ -44,7 +44,7 @@ import (
 // would be configured as:
 //              integerDigitsGroupingSequence = []uint{3,2}
 //
-type NumericSeparatorDto struct {
+type NumericSeparatorsDto struct {
 	decimalSeparator              rune
 	integerDigitsSeparator        rune
 	integerDigitsGroupingSequence []uint
@@ -52,18 +52,18 @@ type NumericSeparatorDto struct {
 }
 
 // CopyIn - Copies the data fields from an incoming
-// NumericSeparatorDto instance to the data fields
-// of the current instance of NumericSeparatorDto
+// NumericSeparatorsDto instance to the data fields
+// of the current instance of NumericSeparatorsDto
 // instance.
 //
-// If the incoming NumericSeparatorDto is judged to be
+// If the incoming NumericSeparatorsDto is judged to be
 // invalid, this method will return an error.
 //
 // This method will OVERWRITE the data fields of the current
-// NumericSeparatorDto instance.
+// NumericSeparatorsDto instance.
 //
-func (numSepDto *NumericSeparatorDto) CopyIn(
-	incomingSpecDigitsSepDto *NumericSeparatorDto,
+func (numSepDto *NumericSeparatorsDto) CopyIn(
+	incomingSpecDigitsSepDto *NumericSeparatorsDto,
 	ePrefix *ErrPrefixDto) error {
 
 	if numSepDto.lock == nil {
@@ -78,7 +78,7 @@ func (numSepDto *NumericSeparatorDto) CopyIn(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumericSeparatorDto.CopyIn()")
+	ePrefix.SetEPref("NumericSeparatorsDto.CopyIn()")
 
 	nStrFmtSpecDigitsSepsElectron :=
 		numericSeparatorDtoElectron{}
@@ -90,9 +90,9 @@ func (numSepDto *NumericSeparatorDto) CopyIn(
 }
 
 // CopyOut - Returns a deep copy of the current
-// NumericSeparatorDto instance.
+// NumericSeparatorsDto instance.
 //
-// If the current NumericSeparatorDto instance is judged to be
+// If the current NumericSeparatorsDto instance is judged to be
 // invalid, this method will return an error.
 //
 //
@@ -113,11 +113,11 @@ func (numSepDto *NumericSeparatorDto) CopyIn(
 //
 // Return Values
 //
-//  NumericSeparatorDto
+//  NumericSeparatorsDto
 //     - If this method completes successfully, a new instance of
-//       NumericSeparatorDto will be created and returned
+//       NumericSeparatorsDto will be created and returned
 //       containing all of the data values copied from the current
-//       instance of NumericSeparatorDto.
+//       instance of NumericSeparatorsDto.
 //
 //
 //  error
@@ -131,9 +131,9 @@ func (numSepDto *NumericSeparatorDto) CopyIn(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (numSepDto *NumericSeparatorDto) CopyOut(
+func (numSepDto *NumericSeparatorsDto) CopyOut(
 	ePrefix *ErrPrefixDto) (
-	NumericSeparatorDto,
+	NumericSeparatorsDto,
 	error) {
 
 	if numSepDto.lock == nil {
@@ -148,7 +148,7 @@ func (numSepDto *NumericSeparatorDto) CopyOut(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumericSeparatorDto.CopyOut()")
+	ePrefix.SetEPref("NumericSeparatorsDto.CopyOut()")
 
 	nStrFmtSpecDigitsSepsElectron :=
 		numericSeparatorDtoElectron{}
@@ -161,13 +161,13 @@ func (numSepDto *NumericSeparatorDto) CopyOut(
 	return newDigitsSepDto, err
 }
 
-// Equal - Receives an incoming NumericSeparatorDto
-// instance and compares it the current NumericSeparatorDto
+// Equal - Receives an incoming NumericSeparatorsDto
+// instance and compares it the current NumericSeparatorsDto
 // instance. If the two objects have equal data values, this method
 // returns 'true'
 //
-func (numSepDto *NumericSeparatorDto) Equal(
-	numSep2 NumericSeparatorDto) bool {
+func (numSepDto *NumericSeparatorsDto) Equal(
+	numSep2 NumericSeparatorsDto) bool {
 
 	if numSepDto.lock == nil {
 		numSepDto.lock = new(sync.Mutex)
@@ -191,7 +191,7 @@ func (numSepDto *NumericSeparatorDto) Equal(
 //
 //             Example: 1234.456
 //
-func (numSepDto *NumericSeparatorDto) GetDecimalSeparator() rune {
+func (numSepDto *NumericSeparatorsDto) GetDecimalSeparator() rune {
 
 	if numSepDto.lock == nil {
 		numSepDto.lock = new(sync.Mutex)
@@ -213,7 +213,7 @@ func (numSepDto *NumericSeparatorDto) GetDecimalSeparator() rune {
 //
 //  Example: 1,000,000,000,000
 //
-func (numSepDto *NumericSeparatorDto) GetIntegerDigitsSeparator() rune {
+func (numSepDto *NumericSeparatorsDto) GetIntegerDigitsSeparator() rune {
 
 	if numSepDto.lock == nil {
 		numSepDto.lock = new(sync.Mutex)
@@ -246,7 +246,7 @@ func (numSepDto *NumericSeparatorDto) GetIntegerDigitsSeparator() rune {
 // configured as:
 //        integerDigitsGroupingSequence = []uint{3,2}
 //
-func (numSepDto *NumericSeparatorDto) GetIntegerDigitsGroupingSequence() []uint {
+func (numSepDto *NumericSeparatorsDto) GetIntegerDigitsGroupingSequence() []uint {
 
 	if numSepDto.lock == nil {
 		numSepDto.lock = new(sync.Mutex)
@@ -273,7 +273,7 @@ func (numSepDto *NumericSeparatorDto) GetIntegerDigitsGroupingSequence() []uint 
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
-// NumericSeparatorDto instance to determine whether
+// NumericSeparatorsDto instance to determine whether
 // the current instance is valid in all respects.
 //
 //
@@ -290,12 +290,12 @@ func (numSepDto *NumericSeparatorDto) GetIntegerDigitsGroupingSequence() []uint 
 //
 //  isValid             bool
 //     - If this method completes successfully, the returned boolean
-//       value will signal whether the current NumericSeparatorDto
-//       is valid, or not. If the current NumericSeparatorDto
+//       value will signal whether the current NumericSeparatorsDto
+//       is valid, or not. If the current NumericSeparatorsDto
 //       contains valid data, this method returns 'true'. If the data is
 //       invalid, this method returns 'false'.
 //
-func (numSepDto *NumericSeparatorDto) IsValidInstance() (
+func (numSepDto *NumericSeparatorsDto) IsValidInstance() (
 	isValid bool) {
 
 	if numSepDto.lock == nil {
@@ -318,7 +318,7 @@ func (numSepDto *NumericSeparatorDto) IsValidInstance() (
 }
 
 // IsValidInstanceError - Performs a diagnostic review of the
-// current NumericSeparatorDto instance to determine
+// current NumericSeparatorsDto instance to determine
 // whether the current instance is valid in all respects.
 //
 //
@@ -348,11 +348,11 @@ func (numSepDto *NumericSeparatorDto) IsValidInstance() (
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-//       If this instance of NumericSeparatorDto contains
+//       If this instance of NumericSeparatorsDto contains
 //       invalid data, a detailed error message will be returned
 //       identifying the invalid data item.
 //
-func (numSepDto *NumericSeparatorDto) IsValidInstanceError(
+func (numSepDto *NumericSeparatorsDto) IsValidInstanceError(
 	ePrefix *ErrPrefixDto) error {
 
 	if numSepDto.lock == nil {
@@ -364,7 +364,7 @@ func (numSepDto *NumericSeparatorDto) IsValidInstanceError(
 	defer numSepDto.lock.Unlock()
 
 	ePrefix.SetEPrefCtx(
-		"NumericSeparatorDto.IsValidInstanceError()",
+		"NumericSeparatorsDto.IsValidInstanceError()",
 		"Testing Validity of 'numSepDto'")
 
 	nStrFmtSpecDigitsSepsQuark := numericSeparatorDtoQuark{}
@@ -377,7 +377,7 @@ func (numSepDto *NumericSeparatorDto) IsValidInstanceError(
 	return err
 }
 
-// New - Returns a new instance of NumericSeparatorDto.
+// New - Returns a new instance of NumericSeparatorsDto.
 //
 // The values are automatically set to USA defaults.
 //
@@ -386,7 +386,7 @@ func (numSepDto *NumericSeparatorDto) IsValidInstanceError(
 //  Integer Digits Grouping Sequence = []uint{3}
 //
 //
-func (numSepDto NumericSeparatorDto) New() NumericSeparatorDto {
+func (numSepDto NumericSeparatorsDto) New() NumericSeparatorsDto {
 
 	if numSepDto.lock == nil {
 		numSepDto.lock = new(sync.Mutex)
@@ -396,7 +396,7 @@ func (numSepDto NumericSeparatorDto) New() NumericSeparatorDto {
 
 	defer numSepDto.lock.Unlock()
 
-	newNumSep := NumericSeparatorDto{}
+	newNumSep := NumericSeparatorsDto{}
 
 	newNumSep.decimalSeparator = '.'
 
@@ -409,7 +409,7 @@ func (numSepDto NumericSeparatorDto) New() NumericSeparatorDto {
 	return newNumSep
 }
 
-// NewFromComponents - Creates and returns a new instance of NumericSeparatorDto.
+// NewFromComponents - Creates and returns a new instance of NumericSeparatorsDto.
 // This type encapsulates the digit separators used in formatting a
 // number string for text display.
 //
@@ -462,9 +462,9 @@ func (numSepDto NumericSeparatorDto) New() NumericSeparatorDto {
 //
 // Return Values
 //
-//  NumericSeparatorDto
+//  NumericSeparatorsDto
 //     - If this method completes successfully, new instance of
-//       NumericSeparatorDto will be created and
+//       NumericSeparatorsDto will be created and
 //       returned.
 //
 //
@@ -479,12 +479,12 @@ func (numSepDto NumericSeparatorDto) New() NumericSeparatorDto {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (numSepDto NumericSeparatorDto) NewFromComponents(
+func (numSepDto NumericSeparatorsDto) NewFromComponents(
 	decimalSeparator rune,
 	integerDigitsSeparator rune,
 	integerDigitsGroupingSequence []uint,
 	ePrefix *ErrPrefixDto) (
-	NumericSeparatorDto,
+	NumericSeparatorsDto,
 	error) {
 
 	if numSepDto.lock == nil {
@@ -495,9 +495,9 @@ func (numSepDto NumericSeparatorDto) NewFromComponents(
 
 	defer numSepDto.lock.Unlock()
 
-	ePrefix.SetEPref("NumericSeparatorDto.NewFromComponents()")
+	ePrefix.SetEPref("NumericSeparatorsDto.NewFromComponents()")
 
-	newDigitsSepsDto := NumericSeparatorDto{}
+	newDigitsSepsDto := NumericSeparatorsDto{}
 
 	numericSeparatorDtoMech :=
 		numericSeparatorDtoMechanics{}
@@ -513,7 +513,7 @@ func (numSepDto NumericSeparatorDto) NewFromComponents(
 }
 
 // NewWithDefaults - Creates and returns a new instance of
-// NumericSeparatorDto. This type encapsulates the
+// NumericSeparatorsDto. This type encapsulates the
 // digit separators used in formatting a number string for text
 // display. Digit separators are commonly referred to as the
 // decimal point and thousands separator characters. In addition,
@@ -543,7 +543,7 @@ func (numSepDto NumericSeparatorDto) NewFromComponents(
 //
 // If you wish to configure the 'integer digits grouping sequence'
 // to some value other than the default, see method:
-//     NumericSeparatorDto.NewFromComponents()
+//     NumericSeparatorsDto.NewFromComponents()
 //
 //
 // ----------------------------------------------------------------
@@ -583,9 +583,9 @@ func (numSepDto NumericSeparatorDto) NewFromComponents(
 //
 // Return Values
 //
-//  NumericSeparatorDto
+//  NumericSeparatorsDto
 //     - If this method completes successfully, new instance of
-//       NumericSeparatorDto will be created and
+//       NumericSeparatorsDto will be created and
 //       returned. The 'integer digits grouping sequence' will be
 //       automatically set to default of 3-digits or []uint{3}.
 //
@@ -600,11 +600,11 @@ func (numSepDto NumericSeparatorDto) NewFromComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (numSepDto NumericSeparatorDto) NewWithDefaults(
+func (numSepDto NumericSeparatorsDto) NewWithDefaults(
 	ePrefix *ErrPrefixDto,
 	decimalSeparator rune,
 	integerDigitsSeparator rune) (
-	NumericSeparatorDto,
+	NumericSeparatorsDto,
 	error) {
 
 	if numSepDto.lock == nil {
@@ -620,9 +620,9 @@ func (numSepDto NumericSeparatorDto) NewWithDefaults(
 	}
 
 	ePrefix.SetEPref(
-		"NumericSeparatorDto.NewWithDefaults()")
+		"NumericSeparatorsDto.NewWithDefaults()")
 
-	newDigitsSepsDto := NumericSeparatorDto{}
+	newDigitsSepsDto := NumericSeparatorsDto{}
 
 	nStrFmtSpecDigitsSepsDtoMech :=
 		numericSeparatorDtoMechanics{}
@@ -647,7 +647,7 @@ func (numSepDto NumericSeparatorDto) NewWithDefaults(
 //             Example: 1234.456
 //
 //
-func (numSepDto *NumericSeparatorDto) SetDecimalSeparator(
+func (numSepDto *NumericSeparatorsDto) SetDecimalSeparator(
 	decimalSeparator rune) {
 
 	if numSepDto.lock == nil {
@@ -663,9 +663,9 @@ func (numSepDto *NumericSeparatorDto) SetDecimalSeparator(
 }
 
 // SetDigitsSeps - This method will set all of the member variable
-// data values for the current instance of NumericSeparatorDto.
+// data values for the current instance of NumericSeparatorsDto.
 //
-// The NumericSeparatorDto type encapsulates the digit separators
+// The NumericSeparatorsDto type encapsulates the digit separators
 // used in formatting a number string for text display.
 //
 //
@@ -728,7 +728,7 @@ func (numSepDto *NumericSeparatorDto) SetDecimalSeparator(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (numSepDto *NumericSeparatorDto) SetDigitsSeps(
+func (numSepDto *NumericSeparatorsDto) SetDigitsSeps(
 	decimalSeparator rune,
 	integerDigitsSeparator rune,
 	integerDigitsGroupingSequence []uint,
@@ -742,7 +742,7 @@ func (numSepDto *NumericSeparatorDto) SetDigitsSeps(
 
 	defer numSepDto.lock.Unlock()
 
-	ePrefix.SetEPref("NumericSeparatorDto.SetDigitsSeps()")
+	ePrefix.SetEPref("NumericSeparatorsDto.SetDigitsSeps()")
 
 	nStrFmtSpecDigitsSepsDtoMech :=
 		numericSeparatorDtoMechanics{}
@@ -774,7 +774,7 @@ func (numSepDto *NumericSeparatorDto) SetDigitsSeps(
 // configured as:
 //        integerDigitsGroupingSequence = []uint{3,2}
 //
-func (numSepDto *NumericSeparatorDto) SetIntegerDigitsGroupingSequence(
+func (numSepDto *NumericSeparatorsDto) SetIntegerDigitsGroupingSequence(
 	integerDigitsGroupingSeq []uint) {
 
 	if numSepDto.lock == nil {
@@ -818,7 +818,7 @@ func (numSepDto *NumericSeparatorDto) SetIntegerDigitsGroupingSequence(
 //
 //        Example:  1,000,000,000
 //
-func (numSepDto *NumericSeparatorDto) SetIntegerDigitsSeparator(
+func (numSepDto *NumericSeparatorsDto) SetIntegerDigitsSeparator(
 	integerDigitsSeparator rune) {
 
 	if numSepDto.lock == nil {
@@ -833,11 +833,11 @@ func (numSepDto *NumericSeparatorDto) SetIntegerDigitsSeparator(
 		integerDigitsSeparator
 }
 
-// SetToUSADefaultsIfEmpty - If any of the NumericSeparatorDto
+// SetToUSADefaultsIfEmpty - If any of the NumericSeparatorsDto
 // data values are zero, this method will set ALL data elements to USA
 // default values.
 //
-func (numSepDto *NumericSeparatorDto) SetToUSADefaultsIfEmpty() {
+func (numSepDto *NumericSeparatorsDto) SetToUSADefaultsIfEmpty() {
 
 	if numSepDto.lock == nil {
 		numSepDto.lock = new(sync.Mutex)
@@ -875,7 +875,7 @@ func (numSepDto *NumericSeparatorDto) SetToUSADefaultsIfEmpty() {
 //
 //   Decimal Separator: '.'
 //
-func (numSepDto *NumericSeparatorDto) SetToUSADefaults() {
+func (numSepDto *NumericSeparatorsDto) SetToUSADefaults() {
 
 	if numSepDto.lock == nil {
 		numSepDto.lock = new(sync.Mutex)
@@ -896,7 +896,7 @@ func (numSepDto *NumericSeparatorDto) SetToUSADefaults() {
 // String - Returns a string detailing numeric separator
 //information.
 //
-func (numSepDto *NumericSeparatorDto) String() string {
+func (numSepDto *NumericSeparatorsDto) String() string {
 
 	if numSepDto.lock == nil {
 		numSepDto.lock = new(sync.Mutex)

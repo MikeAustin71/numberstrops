@@ -9,7 +9,7 @@ type NumStrFmtSpecSignedNumValueDto struct {
 	positiveValueFmt              string
 	negativeValueFmt              string
 	turnOnIntegerDigitsSeparation bool
-	numberSeparatorsDto           NumericSeparatorDto
+	numberSeparatorsDto           NumericSeparatorsDto
 	numFieldLenDto                NumberFieldDto
 	lock                          *sync.Mutex
 }
@@ -338,7 +338,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumberFie
 			"nStrFmtSpecSignedNumValueDto.numFieldLenDto=>"))
 }
 
-// GetNumericSeparatorsDto - Returns the NumericSeparatorDto
+// GetNumericSeparatorsDto - Returns the NumericSeparatorsDto
 // instance currently configured for this Number String Format
 // Specification Signed Number Value Dto.
 //
@@ -347,7 +347,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumberFie
 // sequence for separating thousands digits within the integer
 // component of a number string.
 //
-// The returned NumericSeparatorDto object represents the Numeric
+// The returned NumericSeparatorsDto object represents the Numeric
 // Separator values used to configure the current instance of
 // NumStrFmtSpecSignedNumValueDto.
 //
@@ -372,9 +372,9 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumberFie
 //
 // Return Values
 //
-//  NumericSeparatorDto
+//  NumericSeparatorsDto
 //     - If this method completes successfully, a new instance of
-//       NumericSeparatorDto will be returned through this
+//       NumericSeparatorsDto will be returned through this
 //       parameter. This object is a deep copy of the Numeric
 //       Separator information used to configure the current
 //       instance of NumStrFmtSpecSignedNumValueDto.
@@ -391,12 +391,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumberFie
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-//       Be advised that if the 'NumericSeparatorDto' is judged
+//       Be advised that if the 'NumericSeparatorsDto' is judged
 //       invalid, this method will return an error.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumericSeparatorsDto(
 	ePrefix *ErrPrefixDto) (
-	NumericSeparatorDto,
+	NumericSeparatorsDto,
 	error) {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
@@ -1006,12 +1006,12 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 //            Example: 1000000000
 //
 //
-//  numberSeparatorsDto        NumericSeparatorDto
-//     - This instance of 'NumericSeparatorDto' is
+//  numberSeparatorsDto        NumericSeparatorsDto
+//     - This instance of 'NumericSeparatorsDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumericSeparatorDto struct {
+//        type NumericSeparatorsDto struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -1120,7 +1120,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 	positiveValueFmt string,
 	negativeValueFmt string,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumericSeparatorDto,
+	numberSeparatorsDto NumericSeparatorsDto,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecSignedNumValueDto,
@@ -1681,12 +1681,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFie
 //
 // Input Parameters
 //
-//  numberSeparatorsDto        NumericSeparatorDto
-//     - This instance of 'NumericSeparatorDto' is
+//  numberSeparatorsDto        NumericSeparatorsDto
+//     - This instance of 'NumericSeparatorsDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumericSeparatorDto struct {
+//        type NumericSeparatorsDto struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -1752,7 +1752,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFie
 //       error message.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberSeparatorsDto(
-	numberSeparatorsDto NumericSeparatorDto,
+	numberSeparatorsDto NumericSeparatorsDto,
 	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
@@ -2042,12 +2042,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 //            Example: 1000000000
 //
 //
-//  numberSeparatorsDto        NumericSeparatorDto
-//     - This instance of 'NumericSeparatorDto' is
+//  numberSeparatorsDto        NumericSeparatorsDto
+//     - This instance of 'NumericSeparatorsDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumericSeparatorDto struct {
+//        type NumericSeparatorsDto struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -2151,7 +2151,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetSignedNum
 	positiveValueFmt string,
 	negativeValueFmt string,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumericSeparatorDto,
+	numberSeparatorsDto NumericSeparatorsDto,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 

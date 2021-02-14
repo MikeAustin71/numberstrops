@@ -34,16 +34,16 @@ type numStrDtoNanobot struct {
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -101,7 +101,7 @@ type numStrDtoNanobot struct {
 //       at the beginning of the returned error message.
 //
 func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	absAllRunes []rune,
 	precision uint,
 	signVal int,
@@ -225,16 +225,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -298,7 +298,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 //
 // Example Usage
 //
-//     numSepsDto := NumericSeparatorDto{}
+//     numSepsDto := NumericSeparatorsDto{}
 //     numSepsDto.SetToUSADefaults()
 //
 //     f64Num := float64(123.456)
@@ -326,7 +326,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 //   1234.56            1             1234.6
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	bigFloatNum *big.Float,
 	precision uint,
 	ePrefix string) (
@@ -380,16 +380,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -456,7 +456,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 //  Example #1
 //     int64Num := int64(123456)
 //     bigIntNum := big.NewInt(int64Num)
-//     numSeps := NumericSeparatorDto{}
+//     numSeps := NumericSeparatorsDto{}
 //     numSeps.SetToUSADefaults()
 //     precision := uint(3)
 //     nStrDtoNanobot := numStrDtoNanobot{}
@@ -473,7 +473,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 //  Example #2
 //     int64Num := int64(123456)
 //     bigIntNum := big.NewInt(int64Num)
-//     numSeps := NumericSeparatorDto{}
+//     numSeps := NumericSeparatorsDto{}
 //     numSeps.SetToUSADefaults()
 //     precision := uint(0)
 //     nStrDtoNanobot := numStrDtoNanobot{}
@@ -501,7 +501,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 //   123456          7                   0.0123456
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	bigIntNum *big.Int,
 	precision uint,
 	ePrefix string) (
@@ -641,16 +641,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -709,7 +709,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 //
 // Example Usage
 //
-//  numSepsDto := NumericSeparatorDto{}
+//  numSepsDto := NumericSeparatorsDto{}
 //  numSepsDto.SetToUSADefaults()
 //
 //           f64 := float64(123.456)
@@ -735,7 +735,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 //   1234.56         1                1234.6
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	f64 float64,
 	precision uint,
 	ePrefix string) (
@@ -787,16 +787,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -856,7 +856,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 // Example Usage
 //
 //     int64Num := int64(123456)
-//     numSeps := NumericSeparatorDto{}
+//     numSeps := NumericSeparatorsDto{}
 //     numSeps.SetToUSADefaults()
 //     precision := uint(3)
 //     nStrDtoNanobot := numStrDtoNanobot{}
@@ -884,7 +884,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 //   123456          7                   0.0123456
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	int64Num int64,
 	precision uint,
 	ePrefix string) (
@@ -934,16 +934,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 //
 // Input Parameters
 //
-//  numSeps             NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSeps             NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -1001,7 +1001,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 //
 // Example Usage
 //
-//     numSeps := NumericSeparatorDto{}
+//     numSeps := NumericSeparatorsDto{}
 //     numSeps.SetToUSADefaults()
 //     int64Num := int64(123456)
 //     exponent := -3
@@ -1013,7 +1013,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 //
 //  -- nDto is now equal to "123.456", precision = 3
 //
-//     numSeps := NumericSeparatorDto{}
+//     numSeps := NumericSeparatorsDto{}
 //     numSeps.SetToUSADefaults()
 //     int64Num := int64(123456)
 //     exponent := 3
@@ -1034,7 +1034,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 //    123456         0           123456
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	int64Num int64,
 	exponent int,
 	ePrefix string) (
@@ -1113,16 +1113,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -1183,7 +1183,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 //       to the beginning of the error message.
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	numStr string,
 	ePrefix string) (
 	newNumStrDto NumStrDto,
@@ -1237,16 +1237,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
 //
 // Input Parameters
 //
-//  numSeps             NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSeps             NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -1310,7 +1310,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
 //
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newRational(
-	numSeps NumericSeparatorDto,
+	numSeps NumericSeparatorsDto,
 	bigRatNum *big.Rat,
 	precision uint,
 	ePrefix string) (
@@ -1366,16 +1366,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) newRational(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -1434,7 +1434,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newRational(
 // Example Usage
 //
 //     uint64Num := uint64(123456)
-//     numSepsDto := NumericSeparatorDto{}
+//     numSepsDto := NumericSeparatorsDto{}
 //     numSeps.SetToUSADefaults()
 //     precision := uint(3)
 //
@@ -1460,7 +1460,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newRational(
 //   123456          1               12345.6
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	uint64Num uint64,
 	precision uint,
 	ePrefix string) (
@@ -1511,16 +1511,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 //
 // Input Parameters
 //
-//  numSeps             NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSeps             NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -1585,7 +1585,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 //
 // Example Usage:
 //
-//     numSeps := NumericSeparatorDto{}
+//     numSeps := NumericSeparatorsDto{}
 //     numSeps.SetToUSADefaults()
 //     uint64Num := uint64(123456)
 //     exponent := -3
@@ -1599,7 +1599,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 //   -- nDto is now equal to "123.456", precision = 3
 //
 //
-//     numSeps := NumericSeparatorDto{}
+//     numSeps := NumericSeparatorsDto{}
 //     numSeps.SetToUSADefaults()
 //     uint64Num := uint64(123456)
 //     exponent := 3
@@ -1624,7 +1624,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 //   123456                0            123456
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newUint64Exponent(
-	numSeps NumericSeparatorDto,
+	numSeps NumericSeparatorsDto,
 	uint64Num uint64,
 	exponent int,
 	ePrefix string) (
@@ -1699,15 +1699,15 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64Exponent(
 //
 // Input Parameters
 //
-//  numSeparators       NumericSeparatorDto
+//  numSeparators       NumericSeparatorsDto
 //     - The numeric separator values contained in this input
 //       parameter will be copied to the returned input parameter
 //       'newNumStrDto', a newly created instance of NumStrDto.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -1788,7 +1788,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64Exponent(
 //       by input parameter, 'ePrefix'.
 //
 func (nStrDtoNanobot *numStrDtoNanobot) scaleNumStr(
-	numSeparators NumericSeparatorDto,
+	numSeparators NumericSeparatorsDto,
 	signedNumStr string,
 	shiftPrecision uint,
 	scaleMode PrecisionScaleMode,
@@ -1992,7 +1992,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) setNumStrDtoPrecision(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 
 	numSepsDto,
 		err =

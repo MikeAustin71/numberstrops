@@ -9,12 +9,12 @@ type numericSeparatorDtoMechanics struct {
 	lock *sync.Mutex
 }
 
-// setDigitsSeps - Transfers new data to an instance of NumericSeparatorDto.
+// setDigitsSeps - Transfers new data to an instance of NumericSeparatorsDto.
 // After completion, all the data fields within input parameter 'nStrFmtSpecDigitsSepDto'
 // will be overwritten.
 //
 func (numSepsDtoMech *numericSeparatorDtoMechanics) setDigitsSeps(
-	numSepsDto *NumericSeparatorDto,
+	numSepsDto *NumericSeparatorsDto,
 	decimalSeparator rune,
 	integerDigitsSeparator rune,
 	integerDigitsGroupingSequence []uint,
@@ -78,7 +78,7 @@ func (numSepsDtoMech *numericSeparatorDtoMechanics) setDigitsSeps(
 		return err
 	}
 
-	newDigitsSepsDto := NumericSeparatorDto{}
+	newDigitsSepsDto := NumericSeparatorsDto{}
 
 	newDigitsSepsDto.decimalSeparator =
 		decimalSeparator

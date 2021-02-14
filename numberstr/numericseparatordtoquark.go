@@ -9,12 +9,12 @@ type numericSeparatorDtoQuark struct {
 	lock *sync.Mutex
 }
 
-// numStrSepDtosAreEqual - Returns 'true' if the two NumericSeparatorDto
+// numStrSepDtosAreEqual - Returns 'true' if the two NumericSeparatorsDto
 // objects submitted as input parameters have equal values.
 //
 func (numSepsDtoQuark *numericSeparatorDtoQuark) numStrSepDtosAreEqual(
-	numSep1 *NumericSeparatorDto,
-	numSep2 *NumericSeparatorDto) bool {
+	numSep1 *NumericSeparatorsDto,
+	numSep2 *NumericSeparatorsDto) bool {
 
 	if numSepsDtoQuark.lock == nil {
 		numSepsDtoQuark.lock = new(sync.Mutex)
@@ -89,7 +89,7 @@ func (numSepsDtoQuark numericSeparatorDtoQuark) ptr() *numericSeparatorDtoQuark 
 }
 
 // testValidityOfNumSepsDto - Receives an instance of
-// NumericSeparatorDto and proceeds to test the
+// NumericSeparatorsDto and proceeds to test the
 // validity of the member data fields.
 //
 // If one or more data elements are found to be invalid, an
@@ -97,7 +97,7 @@ func (numSepsDtoQuark numericSeparatorDtoQuark) ptr() *numericSeparatorDtoQuark 
 // is set to 'false'.
 //
 func (numSepsDtoQuark *numericSeparatorDtoQuark) testValidityOfNumSepsDto(
-	numSepsDto *NumericSeparatorDto,
+	numSepsDto *NumericSeparatorsDto,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {

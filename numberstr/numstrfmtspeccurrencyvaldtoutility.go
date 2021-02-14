@@ -417,10 +417,10 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 		return err
 	}
 
-	var numberSeparatorsDto NumericSeparatorDto
+	var numberSeparatorsDto NumericSeparatorsDto
 
 	numberSeparatorsDto,
-		err = NumericSeparatorDto{}.NewFromComponents(
+		err = NumericSeparatorsDto{}.NewFromComponents(
 		decimalSeparatorChar,
 		thousandsSeparatorChar,
 		integerDigitsGroupingSequence,

@@ -952,15 +952,15 @@ func (nStrDtoMolecule *numStrDtoMolecule) getSignedBigIntNum(
 //
 // Input Parameters
 //
-//  numSeparators       NumericSeparatorDto
+//  numSeparators       NumericSeparatorsDto
 //     - The numeric separator values contained in this input
 //       parameter will be copied to the returned input parameter
 //       'newNumStrDto', a newly created instance of NumStrDto.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -1051,7 +1051,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) getSignedBigIntNum(
 // 19    "-123457"            1           true            "-123457.0"
 //
 func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
-	numSeparators NumericSeparatorDto,
+	numSeparators NumericSeparatorsDto,
 	signedNumStr string,
 	precision uint,
 	roundResult bool,
@@ -1304,15 +1304,15 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 //
 // Input Parameters
 //
-//  numSeparators       NumericSeparatorDto
+//  numSeparators       NumericSeparatorsDto
 //     - The numeric separator values contained in this input
 //       parameter will be copied to the returned input parameter
 //       'newNumStrDto', a newly created instance of NumStrDto.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -1393,7 +1393,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 // "-123456789"        6       "-123.456789"
 //
 func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
-	numSeparators NumericSeparatorDto,
+	numSeparators NumericSeparatorsDto,
 	signedNumStr string,
 	shiftLeftPrecision uint,
 	ePrefix string) (
@@ -1571,15 +1571,15 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 //
 // Input Parameters
 //
-//  numSeparators       NumericSeparatorDto
+//  numSeparators       NumericSeparatorsDto
 //     - The numeric separator values contained in this input
 //       parameter will be copied to the returned input parameter
 //       'newNumStrDto', a newly created instance of NumStrDto.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -1661,7 +1661,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 //  "-123456789"             6             "-123456789000000"
 //
 func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
-	numSeparators NumericSeparatorDto,
+	numSeparators NumericSeparatorsDto,
 	signedNumStr string,
 	shiftRightPrecision uint,
 	ePrefix string) (

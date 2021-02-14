@@ -20,16 +20,16 @@ type numStrDtoMechanics struct {
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -95,7 +95,7 @@ type numStrDtoMechanics struct {
 //       at the beginning of the returned error message.
 //
 func (nStrDtoMech *numStrDtoMechanics) findIntArraySignificantDigitLimits(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	intArray []int,
 	precision uint,
 	signVal int,

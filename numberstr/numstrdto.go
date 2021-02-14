@@ -89,7 +89,7 @@ func (nDto *NumStrDto) Add(
 
 	err = nil
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 
 	nStrDtoAtom := numStrDtoAtom{}
 
@@ -198,7 +198,7 @@ func (nDto *NumStrDto) AddNumStrs(
 	sum = NumStrDto{}
 	err = nil
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 
 	nStrDtoAtom := numStrDtoAtom{}
 
@@ -593,7 +593,7 @@ func (nDto *NumStrDto) DivideFractionNumStrs(
 	quotientBigFloat := big.NewFloat(0.0).
 		Quo(dividendBigFloat, dividendBigFloat)
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 
 	numSepsDto,
 		err = nStrDtoAtom.getCurrencyNumSepsDto(
@@ -783,7 +783,7 @@ func (nDto *NumStrDto) FindIntArraySignificantDigitLimits(
 
 	var err error
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 
 	numSepsDto,
 		err =
@@ -887,7 +887,7 @@ func (nDto *NumStrDto) FindNumStrSignificantDigitLimits(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 
 	numSepsDto,
 		err = nStrDtoAtom.getCurrencyNumSepsDto(
@@ -1620,7 +1620,7 @@ func (nDto *NumStrDto) GetDecimalSeparator() rune {
 // character or rune values for decimal point separator, thousands
 // separator and currency symbol.
 //
-func (nDto *NumStrDto) GetNumericSeparatorsDto() NumericSeparatorDto {
+func (nDto *NumStrDto) GetNumericSeparatorsDto() NumericSeparatorsDto {
 
 	nStrDtoAtom := numStrDtoAtom{}
 
@@ -2539,7 +2539,7 @@ func (nDto *NumStrDto) Multiply(
 
 	ePrefix += "NumStrDto.Multiply() "
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 
 	var err error
 	nStrDtoAtom := numStrDtoAtom{}
@@ -2635,7 +2635,7 @@ func (nDto *NumStrDto) MultiplyNumStrs(
 
 	ePrefix += "NumStrDto.MultiplyNumStrs() "
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 
 	nStrDtoAtom := numStrDtoAtom{}
 
@@ -2815,7 +2815,7 @@ func (nDto NumStrDto) NewBigFloat(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -2857,16 +2857,16 @@ func (nDto NumStrDto) NewBigFloat(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -2958,7 +2958,7 @@ func (nDto NumStrDto) NewBigFloat(
 //   1234.56            1             1234.6
 //
 func (nDto NumStrDto) NewBigFloatWithNumSeps(
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	bigFloatNum *big.Float,
 	precision uint,
 	ePrefix string) (
@@ -3119,7 +3119,7 @@ func (nDto NumStrDto) NewBigInt(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -3254,7 +3254,7 @@ func (nDto NumStrDto) NewFloat32(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -3387,7 +3387,7 @@ func (nDto NumStrDto) NewFloat64(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -3526,7 +3526,7 @@ func (nDto NumStrDto) NewInt(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -3657,7 +3657,7 @@ func (nDto NumStrDto) NewIntExponent(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -3772,7 +3772,7 @@ func (nDto NumStrDto) NewInt32(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -3931,7 +3931,7 @@ func (nDto NumStrDto) NewInt32Exponent(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -4074,7 +4074,7 @@ func (nDto NumStrDto) NewInt64(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -4220,7 +4220,7 @@ func (nDto NumStrDto) NewInt64Exponent(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -4363,7 +4363,7 @@ func (nDto NumStrDto) NewNumStr(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -4432,16 +4432,16 @@ func (nDto NumStrDto) NewNumStr(
 //       calculated from the input parameters.
 //
 //
-//  numSepsDto          NumericSeparatorDto
-//     - An instance of NumericSeparatorDto which will be used to supply
+//  numSepsDto          NumericSeparatorsDto
+//     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorDto are
+//       The data fields included in the NumericSeparatorsDto are
 //       listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //
 //            DecimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
@@ -4502,7 +4502,7 @@ func (nDto NumStrDto) NewNumStr(
 //
 func (nDto NumStrDto) NewNumStrWithNumSeps(
 	numStr string,
-	numSepsDto NumericSeparatorDto,
+	numSepsDto NumericSeparatorsDto,
 	ePrefix string) (
 	NumStrDto,
 	error) {
@@ -4613,7 +4613,7 @@ func (nDto NumStrDto) NewRational(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -4744,7 +4744,7 @@ func (nDto NumStrDto) NewUint(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -4901,7 +4901,7 @@ func (nDto NumStrDto) NewUintExponent(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -5040,7 +5040,7 @@ func (nDto NumStrDto) NewUint32(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -5191,7 +5191,7 @@ func (nDto NumStrDto) NewUint32Exponent(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -5332,7 +5332,7 @@ func (nDto NumStrDto) NewUint64(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -5476,7 +5476,7 @@ func (nDto NumStrDto) NewUint64Exponent(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -5584,7 +5584,7 @@ func (nDto *NumStrDto) ParseNumStr(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 
 	numSepsDto,
 		err = nStrDtoAtom.getCurrencyNumSepsDto(
@@ -5688,7 +5688,7 @@ func (nDto *NumStrDto) ScaleNumStr(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 
 	numSepsDto,
 		err = nStrDtoAtom.getCurrencyNumSepsDto(
@@ -5913,15 +5913,15 @@ func (nDto *NumStrDto) SetNumericSeparators(
 //
 // Input Parameters
 //
-//  customSeparators    NumericSeparatorDto
+//  customSeparators    NumericSeparatorsDto
 //     - If any of the data fields in this passed structure 'customSeparators'
 //       are set to zero ('0'), an this method will return an error.
 //
 //       The separator values contained in this input parameter will be
 //       copied to current NumStrDto instance. The data fields included
-//       in the NumericSeparatorDto are listed as follows:
+//       in the NumericSeparatorsDto are listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //            DecimalSeparator   rune // Character used to separate integer and fractional digits ('.')
 //            ThousandsSeparator rune // Character used to separate thousands (1,000,000,000
 //            CurrencySymbol     rune // Currency Symbol
@@ -5947,7 +5947,7 @@ func (nDto *NumStrDto) SetNumericSeparators(
 //       chain and text passed by input parameter, 'ePrefix'.
 //
 func (nDto *NumStrDto) SetNumericSeparatorsDto(
-	customSeparators NumericSeparatorDto,
+	customSeparators NumericSeparatorsDto,
 	ePrefix string) error {
 
 	ePrefix += "NumStrDto.SetNumericSeparatorsDto() "
@@ -6016,7 +6016,7 @@ func (nDto *NumStrDto) SetNumStr(numStr string) error {
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 	var err error
 
 	numSepsDto,
@@ -6126,7 +6126,7 @@ func (nDto *NumStrDto) SetPrecision(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 
 	numSepsDto,
 		err = nStrDtoAtom.getCurrencyNumSepsDto(
@@ -6350,7 +6350,7 @@ func (nDto *NumStrDto) ShiftPrecisionLeft(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSeparators NumericSeparatorDto
+	var numSeparators NumericSeparatorsDto
 
 	numSeparators,
 		err = nStrDtoAtom.getCurrencyNumSepsDto(
@@ -6461,7 +6461,7 @@ func (nDto *NumStrDto) ShiftPrecisionRight(
 
 	nStrDtoAtom := numStrDtoAtom{}
 
-	var numSeparators NumericSeparatorDto
+	var numSeparators NumericSeparatorsDto
 
 	numSeparators,
 		err = nStrDtoAtom.getCurrencyNumSepsDto(
@@ -6544,7 +6544,7 @@ func (nDto *NumStrDto) Subtract(
 
 	var difference NumStrDto
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 
 	nStrDtoAtom := numStrDtoAtom{}
 
@@ -6651,7 +6651,7 @@ func (nDto *NumStrDto) SubtractNumStrs(
 
 	ePrefix += "NumStrDto.SubtractNumStrs() "
 
-	var numSepsDto NumericSeparatorDto
+	var numSepsDto NumericSeparatorsDto
 
 	nStrDtoAtom := numStrDtoAtom{}
 

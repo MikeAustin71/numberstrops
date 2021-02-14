@@ -13,7 +13,7 @@ type NumStrFmtSpecCurrencyValueDto struct {
 	currencyName                  string
 	currencySymbol                rune
 	turnOnIntegerDigitsSeparation bool
-	numberSeparatorsDto           NumericSeparatorDto
+	numberSeparatorsDto           NumericSeparatorsDto
 	numFieldLenDto                NumberFieldDto
 	lock                          *sync.Mutex
 }
@@ -408,7 +408,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 }
 
 // GetNumericSeparatorsDto - Returns a deep copy of the
-// NumericSeparatorDto instance currently configured for this
+// NumericSeparatorsDto instance currently configured for this
 // Number String Format Specification Currency Value Dto.
 //
 // The Numeric Separators Dto object contains the decimal
@@ -416,7 +416,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 // sequence for separating thousands digits within the integer
 // component of a number string.
 //
-// The returned NumericSeparatorDto object represents the Numeric
+// The returned NumericSeparatorsDto object represents the Numeric
 // Separator values used to configure the current instance of
 // NumStrFmtSpecCurrencyValueDto.
 //
@@ -441,9 +441,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 //
 // Return Values
 //
-//  NumericSeparatorDto
+//  NumericSeparatorsDto
 //     - If this method completes successfully, a new instance of
-//       NumericSeparatorDto will be returned through this
+//       NumericSeparatorsDto will be returned through this
 //       parameter. This object is a deep copy of the Numeric
 //       Separator information used to configure the current
 //       instance of NumStrFmtSpecCurrencyValueDto.
@@ -460,12 +460,12 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-//       Be advised that if the 'NumericSeparatorDto' is judged
+//       Be advised that if the 'NumericSeparatorsDto' is judged
 //       invalid, this method will return an error.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumericSeparatorsDto(
 	ePrefix *ErrPrefixDto) (
-	NumericSeparatorDto,
+	NumericSeparatorsDto,
 	error) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -1290,12 +1290,12 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //            Example: 1000000000
 //
 //
-//  numberSeparatorsDto        NumericSeparatorDto
-//     - This instance of 'NumericSeparatorDto' is
+//  numberSeparatorsDto        NumericSeparatorsDto
+//     - This instance of 'NumericSeparatorsDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumericSeparatorDto struct {
+//        type NumericSeparatorsDto struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -1408,7 +1408,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 	currencyName string,
 	currencySymbol rune,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumericSeparatorDto,
+	numberSeparatorsDto NumericSeparatorsDto,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecCurrencyValueDto,
@@ -1959,12 +1959,12 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 //            Example: 1000000000
 //
 //
-//  numberSeparatorsDto        NumericSeparatorDto
-//     - This instance of 'NumericSeparatorDto' is
+//  numberSeparatorsDto        NumericSeparatorsDto
+//     - This instance of 'NumericSeparatorsDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumericSeparatorDto struct {
+//        type NumericSeparatorsDto struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -2069,7 +2069,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 	currencyName string,
 	currencySymbol rune,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumericSeparatorDto,
+	numberSeparatorsDto NumericSeparatorsDto,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
@@ -2530,12 +2530,12 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLength
 //
 // Input Parameters
 //
-//  numberSeparatorsDto        NumericSeparatorDto
-//     - This instance of 'NumericSeparatorDto' is
+//  numberSeparatorsDto        NumericSeparatorsDto
+//     - This instance of 'NumericSeparatorsDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumericSeparatorDto struct {
+//        type NumericSeparatorsDto struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -2584,7 +2584,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLength
 //  --- NONE ---
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberSeparatorsDto(
-	numberSeparatorsDto NumericSeparatorDto) {
+	numberSeparatorsDto NumericSeparatorsDto) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)

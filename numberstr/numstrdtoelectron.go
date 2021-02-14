@@ -2207,17 +2207,17 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 //       the second input parameter 'customSeparators'.
 //
 //
-//  customSeparators    NumericSeparatorDto
+//  customSeparators    NumericSeparatorsDto
 //     - If any of the data fields in this passed structure
 //       'customSeparators' are set to zero ('0'), this
 //        method will return an error.
 //
 //       The separator values contained in this input parameter
 //       will be copied to input parameter 'numStrDto'. The data
-//       fields included in the NumericSeparatorDto
+//       fields included in the NumericSeparatorsDto
 //       are listed as follows:
 //
-//          type NumericSeparatorDto struct {
+//          type NumericSeparatorsDto struct {
 //             decimalSeparator              rune
 //             integerDigitsSeparator        rune
 //             integerDigitsGroupingSequence []uint
@@ -2248,7 +2248,7 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 //
 func (nStrDtoElectron *numStrDtoElectron) setNumericSeparatorsDto(
 	numStrDto *NumStrDto,
-	customSeparators NumericSeparatorDto,
+	customSeparators NumericSeparatorsDto,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
