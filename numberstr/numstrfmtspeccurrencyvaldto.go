@@ -1290,10 +1290,10 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //            Example: 1000000000
 //
 //
-//  numberSeparatorsDto        NumericSeparatorsDto
+//  numericSeparatorsDto          NumericSeparatorsDto
 //     - This instance of 'NumericSeparatorsDto' is
 //       used to specify the separator characters which will be
-//       including in the number string text display.
+//       included in the number string text display.
 //
 //        type NumericSeparatorsDto struct {
 //         decimalSeparator              rune
@@ -1336,7 +1336,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //                     integerDigitsGroupingSequence = []uint{3,2}
 //
 //
-//  numFieldDto                NumberFieldDto
+//  numFieldDto                   NumberFieldDto
 //     - The NumberFieldDto object contains formatting instructions
 //       for the creation and implementation of a number field.
 //       Number fields are text strings which contain number strings
@@ -1371,7 +1371,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //       }
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -1408,7 +1408,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 	currencyName string,
 	currencySymbol rune,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumericSeparatorsDto,
+	numericSeparatorsDto NumericSeparatorsDto,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecCurrencyValueDto,
@@ -1442,7 +1442,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 		currencyName,
 		currencySymbol,
 		turnOnIntegerDigitsSeparation,
-		numberSeparatorsDto,
+		numericSeparatorsDto,
 		numFieldDto,
 		ePrefix.XCtx("Setting 'newNStrFmtSpecCurrencyValueDto'"))
 

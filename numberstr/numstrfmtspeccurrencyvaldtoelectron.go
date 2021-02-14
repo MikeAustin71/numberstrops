@@ -250,7 +250,7 @@ func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyP
 //               "$" - Placeholder for the previously selected currency
 //                     symbol associated with the user's preferred country
 //                     or culture. This placeholder symbol, '$', MUST BE
-//                     present in the positive value format string in order
+//                     present in the negative value format string in order
 //                     to correctly position the actual currency symbol
 //                     relative to the currency numeric value.
 //
@@ -379,7 +379,7 @@ func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyP
 // Return Values
 //
 //  isValid                       bool
-//     - If the input parameter 'positiveValFmtStr' is judged to be
+//     - If the input parameter 'negativeValFmtStr' is judged to be
 //       valid, 'isValid' will be set to true. If 'positiveValFmtStr'
 //       is invalid, 'isValid' will be set to false.
 //
@@ -395,8 +395,8 @@ func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyP
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-//     - If the input parameter 'positiveValFmtStr' is judged to be
-//       valid, 'err' will be set to 'nil'. If 'positiveValFmtStr'
+//     - If the input parameter 'negativeValFmtStr' is judged to be
+//       valid, 'err' will be set to 'nil'. If 'negativeValFmtStr'
 //       is invalid, 'err' will be returned with an appropriate error
 //       message.
 //
