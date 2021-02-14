@@ -74,6 +74,9 @@ type numStrFmtSpecDtoMechanics struct {
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -103,6 +106,10 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 	nStrFmtSpecDtoMech.lock.Lock()
 
 	defer nStrFmtSpecDtoMech.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("numStrFmtSpecDtoMechanics.setFromFmtSpecSetupDto()")
 
@@ -266,6 +273,9 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -302,6 +312,10 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
 	nStrFmtSpecDtoMech.lock.Lock()
 
 	defer nStrFmtSpecDtoMech.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"numStrFmtSpecDtoMechanics.setNumStrFmtSpecDto()")

@@ -71,6 +71,10 @@ func (fmtSpecDto *NumStrFmtSpecDto) CopyIn(
 
 	defer fmtSpecDto.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("NumStrFmtSpecDto.CopyIn()")
 
 	nStrFmtSpecDtoElectron :=
@@ -134,6 +138,10 @@ func (fmtSpecDto *NumStrFmtSpecDto) CopyOut(
 	fmtSpecDto.lock.Lock()
 
 	defer fmtSpecDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("NumStrFmtSpecDto.CopyOut()")
 
@@ -356,6 +364,9 @@ func (fmtSpecDto *NumStrFmtSpecDto) IsValidInstance() (
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -382,6 +393,10 @@ func (fmtSpecDto *NumStrFmtSpecDto) IsValidInstanceError(
 	fmtSpecDto.lock.Lock()
 
 	defer fmtSpecDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPrefCtx(
 		"NumStrFmtSpecDto.IsValidInstanceError()",
@@ -476,6 +491,9 @@ func (fmtSpecDto *NumStrFmtSpecDto) IsValidInstanceError(
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -518,6 +536,10 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromComponents(
 	fmtSpecDto.lock.Lock()
 
 	defer fmtSpecDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecDto.NewFromComponents()")
@@ -603,6 +625,9 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromComponents(
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -637,6 +662,10 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromFmtSpecSetupDto(
 	fmtSpecDto.lock.Lock()
 
 	defer fmtSpecDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("NumStrFmtSpecDto.NewFromFmtSpecSetupDto()")
 
@@ -726,6 +755,9 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromFmtSpecSetupDto(
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -753,6 +785,10 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 	fmtSpecDto.lock.Lock()
 
 	defer fmtSpecDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("NumStrFmtSpecDto.NewFromFmtSpecSetupDto()")
 
@@ -856,6 +892,9 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -891,6 +930,10 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetNumStrFmtSpecDto(
 	fmtSpecDto.lock.Lock()
 
 	defer fmtSpecDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecDto.SetNumStrFmtSpecDto()")

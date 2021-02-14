@@ -31,6 +31,10 @@ func (nStrFmtSpecDtoQuark *numStrFmtSpecDtoQuark) testValidityOfNumStrFmtSpecDto
 
 	defer nStrFmtSpecDtoQuark.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref(
 		"numStrFmtSpecDtoQuark.testValidityOfNumStrFmtSpecDto()")
 
