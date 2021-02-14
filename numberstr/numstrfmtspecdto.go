@@ -415,12 +415,16 @@ func (fmtSpecDto *NumStrFmtSpecDto) IsValidInstanceError(
 }
 
 func (fmtSpecDto NumStrFmtSpecDto) NewCustomFmtSpec(
-	numSeps NumericSeparatorsDto,
+	decimalSeparatorChar rune,
+	thousandsSeparatorChar rune,
+	turnOnThousandsSeparator bool,
 	currencySymbol rune,
 	currencyPositiveValueFmt string,
 	currencyNegativeValueFmt string,
 	signedNumPositiveValueFmt string,
 	signedNumNegativeValueFmt string,
+	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecDto,
 	error) {
@@ -440,6 +444,27 @@ func (fmtSpecDto NumStrFmtSpecDto) NewCustomFmtSpec(
 	ePrefix.SetEPref(
 		"NumStrFmtSpecDto.NewCustomFmtSpec()")
 
+	newNumStrFmtSpecDto := NumStrFmtSpecDto{}
+
+	newNumStrFmtSpecDto.lock = new(sync.Mutex)
+
+	nStrFmtSpecDtoUtil := numStrFmtSpecDtoUtility{}
+
+	err := nStrFmtSpecDtoUtil.setCustomFmtSpecDto(
+		&newNumStrFmtSpecDto,
+		decimalSeparatorChar,
+		thousandsSeparatorChar,
+		turnOnThousandsSeparator,
+		currencySymbol,
+		currencyPositiveValueFmt,
+		currencyNegativeValueFmt,
+		signedNumPositiveValueFmt,
+		signedNumNegativeValueFmt,
+		requestedNumberFieldLen,
+		numberFieldTextJustify,
+		ePrefix)
+
+	return newNumStrFmtSpecDto, err
 }
 
 // NewFromComponents - Creates and returns a new instance of

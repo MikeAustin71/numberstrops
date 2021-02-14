@@ -744,7 +744,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //               "$" - Placeholder for the previously selected currency
 //                     symbol associated with the user's preferred country
 //                     or culture. This placeholder symbol, '$', MUST BE
-//                     present in the positive value format string in order
+//                     present in the negative value format string in order
 //                     to correctly position the actual currency symbol
 //                     relative to the currency numeric value.
 //
@@ -878,8 +878,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //
 //
 //  currencySymbol                rune
-//     - The authorized character symbol associated with this
-//       currency specification.
+//     - The authorized unicode character symbol associated with
+//       this currency specification. Example: '$'
 //
 //
 //  turnOnIntegerDigitsSeparation bool
