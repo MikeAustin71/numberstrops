@@ -74,6 +74,10 @@ func (numSepDto *NumericSeparatorDto) CopyIn(
 
 	defer numSepDto.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("NumericSeparatorDto.CopyIn()")
 
 	nStrFmtSpecDigitsSepsElectron :=

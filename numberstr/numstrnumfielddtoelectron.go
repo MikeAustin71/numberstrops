@@ -36,10 +36,13 @@ type numStrNumFieldDtoElectron struct {
 //       'targetNumFieldDto'.
 //
 //
-//  ePrefix                    *ErrPrefixDto
+//  ePrefix             *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -70,6 +73,10 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 	nStrNumFieldDtoElectron.lock.Lock()
 
 	defer nStrNumFieldDtoElectron.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("numStrNumFieldDtoElectron.copyIn()")
 
@@ -134,10 +141,13 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 //       ('newNumFieldDto'), which is returned to the caller.
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                    *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -151,7 +161,7 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 //       represents a deep copy of input parameter, 'numFieldDto'.
 //
 //
-//  err                 error
+//  err                        error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'.
 //
@@ -176,10 +186,16 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyOut(
 
 	defer nStrNumFieldDtoElectron.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrNumFieldDtoElectron.copyOut()")
+
 	if numFieldDto == nil {
 		err = fmt.Errorf("%v"+
 			"Error: Input parameter 'numFieldDto' is a 'nil' pointer!\n",
-			ePrefix)
+			ePrefix.String())
 
 		return newNumFieldDto, err
 	}

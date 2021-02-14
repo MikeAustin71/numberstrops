@@ -67,10 +67,13 @@ type numStrNumFieldDtoMechanics struct {
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix                       *ErrPrefixDto
+//  ePrefix             *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -101,6 +104,10 @@ func (nStrNumFieldDtoMech *numStrNumFieldDtoMechanics) setNumberFieldDto(
 	nStrNumFieldDtoMech.lock.Lock()
 
 	defer nStrNumFieldDtoMech.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("numStrNumFieldDtoMechanics.setNumberFieldDto()")
 	err = nil

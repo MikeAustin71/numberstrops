@@ -31,6 +31,10 @@ func (nStrNFldDtoQuark *numStrNumFieldDtoQuark) testValidityNumberFieldDto(
 
 	defer nStrNFldDtoQuark.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("numStrNumFieldDtoQuark.testValidityNumberFieldDto()")
 	isValid = false
 
