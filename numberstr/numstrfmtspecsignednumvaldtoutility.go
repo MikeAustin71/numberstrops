@@ -167,7 +167,7 @@ type nStrFmtSpecSignedNumValUtility struct {
 //            Example: '1000000000'
 //
 //
-//  decimalSeparatorChar       rune
+//  decimalSeparatorChar          rune
 //     - The character used to separate integer and fractional
 //       digits in a floating point number string. In the United
 //       States, the Decimal Separator character is the period
@@ -175,14 +175,14 @@ type nStrFmtSpecSignedNumValUtility struct {
 //           Example: '123.45678'
 //
 //
-//  thousandsSeparatorChar     rune
+//  thousandsSeparatorChar        rune
 //     - The character which will be used to delimit 'thousands' in
 //       integer number strings. In the United States, the Thousands
 //       separator is the comma character (',').
 //           Example: '1,000,000,000'
 //
 //
-//  integerDigitsGroupingSequence  []uint
+//  integerDigitsGroupingSequence []uint
 //     - Sets the integer digit grouping sequence for this instance
 //       of NumStrFmtSpecAbsoluteValueDto. This grouping is
 //       referred to as 'thousands' grouping when the integer
@@ -204,7 +204,7 @@ type nStrFmtSpecSignedNumValUtility struct {
 //              integerDigitsGroupingSequence = []uint{3,2}
 //
 //
-//  requestedNumberFieldLen    int
+//  requestedNumberFieldLen       int
 //     - This is the requested length of the number field in which
 //       the number string will be displayed. If this field length
 //       is greater than the actual length of the number string,
@@ -241,7 +241,7 @@ type nStrFmtSpecSignedNumValUtility struct {
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -285,6 +285,10 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 	nStrFmtSpecSignedNumValDtoUtil.lock.Lock()
 
 	defer nStrFmtSpecSignedNumValDtoUtil.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
 	ePrefix.SetEPref("nStrFmtSpecSignedNumValUtility.setSignedNumValDtoWithDefaults()")
 

@@ -164,7 +164,7 @@ type nStrFmtSpecSignedNumValMechanics struct {
 //            Example: 1000000000
 //
 //
-//  numberSeparatorsDto        NumericSeparatorDto
+//  numberSeparatorsDto           NumericSeparatorDto
 //     - This instance of 'NumericSeparatorDto' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
@@ -175,12 +175,12 @@ type nStrFmtSpecSignedNumValMechanics struct {
 //         integerDigitsGroupingSequence []uint
 //        }
 //
-//        decimalSeparator rune
+//        decimalSeparator        rune
 //
 //        The 'Decimal Separator' is used to separate integer and
 //        fractional digits within a floating point number display.
 //
-//        integerDigitsSeparator rune
+//        integerDigitsSeparator  rune
 //
 //        This type also encapsulates the integer digits separator, often
 //        referred to as the 'Thousands Separator'. This is used to
@@ -210,7 +210,7 @@ type nStrFmtSpecSignedNumValMechanics struct {
 //                     integerDigitsGroupingSequence = []uint{3,2}
 //
 //
-//  numFieldDto                NumberFieldDto
+//  numFieldDto                   NumberFieldDto
 //     - The NumberFieldDto object contains formatting instructions
 //       for the creation and implementation of a number field.
 //       Number fields are text strings which contain number strings
@@ -245,7 +245,7 @@ type nStrFmtSpecSignedNumValMechanics struct {
 //       }
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.

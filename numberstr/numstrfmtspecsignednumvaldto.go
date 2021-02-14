@@ -1613,15 +1613,33 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFie
 //                     integerDigitsGroupingSequence = []uint{3,2}
 //
 //
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
 // Return Values
 //
-//  --- NONE ---
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberSeparatorsDto(
-	numberSeparatorsDto NumericSeparatorDto) {
+	numberSeparatorsDto NumericSeparatorDto,
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecSignedNumValueDto.lock == nil {
 		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
@@ -1631,9 +1649,15 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberSep
 
 	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
 
-	_ = nStrFmtSpecSignedNumValueDto.numberSeparatorsDto.CopyIn(
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.SetNumberSeparatorsDto()")
+
+	return nStrFmtSpecSignedNumValueDto.numberSeparatorsDto.CopyIn(
 		&numberSeparatorsDto,
-		new(ErrPrefixDto))
+		ePrefix.XCtx("numberSeparatorsDto->nStrFmtSpecSignedNumValueDto.numberSeparatorsDto"))
 }
 
 // SetPositiveValueFormat - Sets the positive value format string
