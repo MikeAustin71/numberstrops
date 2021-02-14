@@ -20,9 +20,9 @@ type numStrFmtSpecDtoUtility struct {
 //
 //  nStrFmtSpecDto                *NumStrFmtSpecDto
 //     - A pointer to an instance of NumStrFmtSpecDto. The data
-//      values contained in this object will be overwritten and
-//      set to new values based on NumStrFmtSpecSetupDto instance
-//      passed as an input parameter.
+//       values contained in this object will be overwritten and
+//       set to new values based on input parameters passed to this
+//       method.
 //
 //
 //  decimalSeparatorChar          rune
@@ -435,7 +435,7 @@ type numStrFmtSpecDtoUtility struct {
 //       and text passed by input parameter, 'ePrefix'. The
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
-
+//
 func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 	nStrFmtSpecDto *NumStrFmtSpecDto,
 	decimalSeparatorChar rune,
