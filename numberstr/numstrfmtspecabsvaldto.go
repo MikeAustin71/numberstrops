@@ -265,10 +265,55 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetIntegerDigitsGroupingS
 // currently configured for this Number String Format Specification
 // Absolute Value Dto.
 //
-// The NumberFieldDto details the length of the number field in which
-// the signed numeric value will be displayed and right justified.
+// The NumberFieldDto details the length of the number field in
+// which the signed numeric value will be displayed and right
+// justified.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto() NumberFieldDto {
+// If the NumberFieldDto object is judged to be invalid, this
+// method will return an error.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumberFieldDto
+//     - If this method completes successfully, a new instance of
+//       NumberFieldDto will be created and returned containing all
+//       of the data values copied from the Number Field values
+//       used to configure the current instance of
+//       NumStrFmtSpecAbsoluteValueDto.
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+//       Be advised - If the NumberFieldDto object is judged to be
+//       invalid, this method will return an error.
+//
+func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto(
+	ePrefix *ErrPrefixDto) (
+	NumberFieldDto,
+	error) {
 
 	if nStrFmtAbsValDto.lock == nil {
 		nStrFmtAbsValDto.lock = new(sync.Mutex)
@@ -278,18 +323,75 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto()
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	return nStrFmtAbsValDto.numFieldLenDto.CopyOut()
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumStrFmtSpecAbsoluteValueDto.GetNumberFieldLengthDto()")
+
+	return nStrFmtAbsValDto.numFieldLenDto.CopyOut(
+		ePrefix.XCtx(
+			"nStrFmtAbsValDto.numFieldLenDto->"))
 }
 
-// GetNumberSeparatorsDto - Returns the NumericSeparatorDto
-// instance currently configured for this Number String Format Specification
-// Signed Number Value Dto.
+// GetNumericSeparatorsDto - Returns the NumericSeparatorDto
+// instance currently configured for this Number String Format
+// Specification Signed Number Value Dto.
 //
-// The Digits Separator Dto contains the decimal separator as well as the
-// 'thousands' separators and the grouping sequence for separating thousands
-// digits in the integer component of a number string.
+// The Numeric Separators Dto object contains the decimal
+// separator, the 'thousands' separator and the integer grouping
+// sequence for separating thousands digits within the integer
+// component of a number string.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberSeparatorsDto() NumericSeparatorDto {
+// The returned NumericSeparatorDto object represents the Numeric
+// Separator values used to configure the current instance of
+// NumStrFmtSpecAbsoluteValueDto.
+//
+// If the Numeric Separator Dto object is judged to be invalid,
+// this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumericSeparatorDto
+//     - If this method completes successfully, a new instance of
+//       NumericSeparatorDto will be created and returned
+//       containing all of the data values used to configure the
+//       current instance of NumStrFmtSpecAbsoluteValueDto.
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+//       Be advised - If the NumericSeparatorDto object is judged
+//       to be invalid, this method will return an error.
+//
+func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumericSeparatorsDto(
+	ePrefix *ErrPrefixDto) (
+	NumericSeparatorDto,
+	error) {
 
 	if nStrFmtAbsValDto.lock == nil {
 		nStrFmtAbsValDto.lock = new(sync.Mutex)
@@ -299,7 +401,14 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberSeparatorsDto() 
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	return nStrFmtAbsValDto.numberSeparatorsDto.CopyOut()
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumStrFmtSpecAbsoluteValueDto.GetNumericSeparatorsDto()")
+
+	return nStrFmtAbsValDto.numberSeparatorsDto.CopyOut(
+		ePrefix.XCtx("nStrFmtAbsValDto.numberSeparatorsDto->"))
 }
 
 // GetTurnOnIntegerDigitsSeparationFlag - Returns the boolean flag

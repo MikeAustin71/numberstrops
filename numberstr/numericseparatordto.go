@@ -92,7 +92,49 @@ func (numSepDto *NumericSeparatorDto) CopyIn(
 // CopyOut - Returns a deep copy of the current
 // NumericSeparatorDto instance.
 //
-func (numSepDto *NumericSeparatorDto) CopyOut() NumericSeparatorDto {
+// If the current NumericSeparatorDto instance is judged to be
+// invalid, this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumericSeparatorDto
+//     - If this method completes successfully, a new instance of
+//       NumericSeparatorDto will be created and returned
+//       containing all of the data values copied from the current
+//       instance of NumericSeparatorDto.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (numSepDto *NumericSeparatorDto) CopyOut(
+	ePrefix *ErrPrefixDto) (
+	NumericSeparatorDto,
+	error) {
 
 	if numSepDto.lock == nil {
 		numSepDto.lock = new(sync.Mutex)
@@ -102,15 +144,21 @@ func (numSepDto *NumericSeparatorDto) CopyOut() NumericSeparatorDto {
 
 	defer numSepDto.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumericSeparatorDto.CopyOut()")
+
 	nStrFmtSpecDigitsSepsElectron :=
 		numericSeparatorDtoElectron{}
 
 	newDigitsSepDto,
-		_ := nStrFmtSpecDigitsSepsElectron.copyOut(
+		err := nStrFmtSpecDigitsSepsElectron.copyOut(
 		numSepDto,
-		new(ErrPrefixDto))
+		ePrefix.XCtx("numSepDto->"))
 
-	return newDigitsSepDto
+	return newDigitsSepDto, err
 }
 
 // Equal - Receives an incoming NumericSeparatorDto

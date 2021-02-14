@@ -89,13 +89,21 @@ func (nFieldDto *NumberFieldDto) CopyIn(
 
 // CopyOut - Returns a deep copy of the current NumberFieldDto instance.
 //
+// If the current NumberFieldDto instance is judged to be invalid, this
+// method will return an error.
+//
 //
 // ------------------------------------------------------------------------
 //
 // Input Parameters
 //
-//  --- NONE ---
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -107,7 +115,22 @@ func (nFieldDto *NumberFieldDto) CopyIn(
 //       identical to those contained in the current NumberFieldDto
 //       instance.
 //
-func (nFieldDto *NumberFieldDto) CopyOut() NumberFieldDto {
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nFieldDto *NumberFieldDto) CopyOut(
+	ePrefix *ErrPrefixDto) (
+	NumberFieldDto,
+	error) {
 
 	if nFieldDto.lock == nil {
 		nFieldDto.lock = new(sync.Mutex)
@@ -117,15 +140,21 @@ func (nFieldDto *NumberFieldDto) CopyOut() NumberFieldDto {
 
 	defer nFieldDto.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumberFieldDto.CopyOut()")
+
 	nStrNumFieldDtoElectron :=
 		numStrNumFieldDtoElectron{}
 
 	newNumFieldDto,
-		_ := nStrNumFieldDtoElectron.copyOut(
+		err := nStrNumFieldDtoElectron.copyOut(
 		nFieldDto,
-		new(ErrPrefixDto))
+		ePrefix.XCtx("nFieldDto->"))
 
-	return newNumFieldDto
+	return newNumFieldDto, err
 }
 
 // GetActualNumFieldLength - Returns the internal member variable

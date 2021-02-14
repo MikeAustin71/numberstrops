@@ -98,6 +98,9 @@ func (numSepsDtoElectron *numericSeparatorDtoElectron) copyIn(
 // 'nStrFmtSpecDigitsSepsDto' styled as a new instance
 // of NumericSeparatorDto.
 //
+// If 'nStrFmtSpecDigitsSepsDto' is judged to be invalid, this
+// method will return an error.
+//
 func (numSepsDtoElectron *numericSeparatorDtoElectron) copyOut(
 	numSepsDto *NumericSeparatorDto,
 	ePrefix *ErrPrefixDto) (

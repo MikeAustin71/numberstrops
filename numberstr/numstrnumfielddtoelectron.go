@@ -129,6 +129,8 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 // copyOut - Returns a deep copy of the NumberFieldDto instance
 // passed as input parameter, 'numFieldDto'.
 //
+// If the NumberFieldDto instance is judged to be invalid, this
+// method will return an error.
 //
 // ------------------------------------------------------------------------
 //

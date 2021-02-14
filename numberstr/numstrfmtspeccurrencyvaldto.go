@@ -333,14 +333,61 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetIntegerDigitsGrou
 		GetIntegerDigitsGroupingSequence()
 }
 
-// GetNumberFieldLengthDto - Returns the NumberFieldDto object
-// currently configured for this Number String Format Specification
-// Currency Value Dto.
+// GetNumberFieldLengthDto - Returns a deep copy of the
+// NumberFieldDto object/ currently configured for this Number
+// String Format Specification Currency Value Dto.
 //
-// The NumberFieldDto details the length of the number field in which
-// the signed numeric value will be displayed and right justified.
+// The NumberFieldDto details the length of the number field in
+// which the signed numeric value will be displayed and right
+// justified.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLengthDto() NumberFieldDto {
+// If the NumberFieldDto object is judged to be invalid, this
+// method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumberFieldDto
+//     - If this method completes successfully, a new instance of
+//       NumberFieldDto will be returned through this parameter.
+//       This object is deep copy of the Number Field information
+//       used to configure the current instance of
+//       NumStrFmtSpecCurrencyValueDto.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+//       Be advised that if the returned 'NumberFieldDto' object is
+//       judged invalid, this method will return an error.
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLengthDto(
+	ePrefix *ErrPrefixDto) (
+	NumberFieldDto,
+	error) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -350,18 +397,76 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	return nStrFmtSpecCurrValDto.numFieldLenDto.CopyOut()
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.GetNumberFieldLengthDto()")
+
+	return nStrFmtSpecCurrValDto.numFieldLenDto.CopyOut(
+		ePrefix.XCtx("nStrFmtSpecCurrValDto.numFieldLenDto->"))
 }
 
-// GetNumberSeparatorsDto - Returns the NumericSeparatorDto
-// instance currently configured for this Number String Format Specification
-// Currency Value Dto.
+// GetNumericSeparatorsDto - Returns a deep copy of the
+// NumericSeparatorDto instance currently configured for this
+// Number String Format Specification Currency Value Dto.
 //
-// The Digits Separator Dto contains the decimal separator as well as the
-// 'thousands' separators and the grouping sequence for separating thousands
-// digits in the integer component of a number string.
+// The Numeric Separators Dto object contains the decimal
+// separator, the 'thousands' separator and the integer grouping
+// sequence for separating thousands digits within the integer
+// component of a number string.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberSeparatorsDto() NumericSeparatorDto {
+// The returned NumericSeparatorDto object represents the Numeric
+// Separator values used to configure the current instance of
+// NumStrFmtSpecCurrencyValueDto.
+//
+// If the Numeric Separator Dto object is judged to be invalid,
+// this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumericSeparatorDto
+//     - If this method completes successfully, a new instance of
+//       NumericSeparatorDto will be returned through this
+//       parameter. This object is a deep copy of the Numeric
+//       Separator information used to configure the current
+//       instance of NumStrFmtSpecCurrencyValueDto.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+//       Be advised that if the 'NumericSeparatorDto' is judged
+//       invalid, this method will return an error.
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumericSeparatorsDto(
+	ePrefix *ErrPrefixDto) (
+	NumericSeparatorDto,
+	error) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -371,7 +476,14 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberSeparatorsD
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	return nStrFmtSpecCurrValDto.numberSeparatorsDto.CopyOut()
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.GetNumericSeparatorsDto() ")
+
+	return nStrFmtSpecCurrValDto.numberSeparatorsDto.CopyOut(
+		ePrefix.XCtx("nStrFmtSpecCurrValDto.numberSeparatorsDto"))
 }
 
 // GetPositiveValueFormat - Returns the formatting string used to
