@@ -68,11 +68,13 @@ type numStrDtoMechanics struct {
 //       sign of the new NumStrDto instance returned by this method.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -85,21 +87,23 @@ type numStrDtoMechanics struct {
 //       be returned in the form of a new 'NumStrDto' instance.
 //
 //
-//  err                error
+//  err                 error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. Note that this error message will
-//       incorporate the method chain and text passed by input
-//       parameter, 'ePrefix'. The 'ePrefix' text will be prefixed
-//       at the beginning of the returned error message.
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoMech *numStrDtoMechanics) findIntArraySignificantDigitLimits(
 	numSepsDto NumericSeparatorsDto,
 	intArray []int,
 	precision uint,
 	signVal int,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -111,7 +115,11 @@ func (nStrDtoMech *numStrDtoMechanics) findIntArraySignificantDigitLimits(
 
 	defer nStrDtoMech.lock.Unlock()
 
-	ePrefix += "numStrDtoMechanics.findIntArraySignificantDigitLimits() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoMechanics.findIntArraySignificantDigitLimits()")
 
 	lenIntArray := len(intArray)
 
@@ -122,10 +130,11 @@ func (nStrDtoMech *numStrDtoMechanics) findIntArraySignificantDigitLimits(
 		if intArray[i] < 0 ||
 			intArray[i] > 9 {
 
-			err = fmt.Errorf(ePrefix+"\n"+
+			err = fmt.Errorf("%v\n"+
 				"Error: Input parameter 'intArray' contains an invalid value!\n"+
 				"Members of 'intArray' must be integer values between '0' and '9', inclusive.\n"+
 				"intArray[%v]='%v'\n",
+				ePrefix.String(),
 				i,
 				intArray[i])
 
@@ -145,7 +154,7 @@ func (nStrDtoMech *numStrDtoMechanics) findIntArraySignificantDigitLimits(
 		absNumStr,
 		precision,
 		signVal,
-		ePrefix)
+		ePrefix.XCtx("numSepsDto, absNumStr"))
 
 	return newNumStrDto, err
 }

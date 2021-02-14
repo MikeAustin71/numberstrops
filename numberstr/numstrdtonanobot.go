@@ -1,7 +1,6 @@
 package numberstr
 
 import (
-	"errors"
 	"fmt"
 	"math/big"
 	"strconv"
@@ -81,6 +80,15 @@ type numStrDtoNanobot struct {
 //       sign of the new NumStrDto instance returned by this method.
 //
 //
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
 // ------------------------------------------------------------------------
 //
 // Return Values
@@ -91,21 +99,23 @@ type numStrDtoNanobot struct {
 //       be returned in the form of a new 'NumStrDto' instance.
 //
 //
-//  err                error
+//  err                 error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. Note that this error message will
-//       incorporate the method chain and text passed by input
-//       parameter, 'ePrefix'. The 'ePrefix' text will be prefixed
-//       at the beginning of the returned error message.
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 	numSepsDto NumericSeparatorsDto,
 	absAllRunes []rune,
 	precision uint,
 	signVal int,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -117,7 +127,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 
 	defer nStrDtoNanobot.lock.Unlock()
 
-	ePrefix += "numStrDtoNanobot.findNumStrSignificantDigitLimits() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoNanobot.findNumStrSignificantDigitLimits()")
 
 	err = nil
 
@@ -131,19 +145,22 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 	lenAbsAllRunes := len(absAllRunes)
 
 	if lenAbsAllRunes == 0 {
-		err = errors.New(ePrefix + "\n" +
-			"Error: Input parameter 'absAllRunes' is invalid!\n" +
-			"The rune array of 'absAllRunes' is a zero length array.")
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'absAllRunes' is invalid!\n"+
+			"The rune array of 'absAllRunes' is a zero length array.\n",
+			ePrefix.String())
 
 		return newNumStrDto, err
 	}
 
 	if signVal != 1 &&
 		signVal != -1 {
-		err = fmt.Errorf(ePrefix+"\n"+
+		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'signVal' is invalid!\n"+
 			"'signVal' MUST BE EQUAL to +1 or -1.\n"+
-			"signVal='%v'\n", signVal)
+			"signVal='%v'\n",
+			ePrefix.String(),
+			signVal)
 
 		return newNumStrDto, err
 	}
@@ -196,7 +213,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 
 	numStrOut += string(absAllRunes[firstIntIdx : lastIntIdx+1])
 	if isFractional {
-		numStrOut += string(numSepsDto.DecimalSeparator)
+		numStrOut += string(numSepsDto.GetDecimalSeparator())
 		numStrOut += string(absAllRunes[lastIntIdx+1 : lastFracIdx+1])
 	}
 
@@ -269,12 +286,14 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 //       rounded to 'precision' digits after the decimal point.
 //
 //
-//  ePrefix             string
-//     - Error Prefix. A string consisting of the method chain used
-//       to call this method. In case of error, this text string is
-//       included in the error message. Note: Be sure to leave a space
-//       at the end of 'ePrefix'. If no Error Prefix is desired, simply
-//       provide an empty string for this parameter.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -285,13 +304,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 //       calculated from the input parameters.
 //
 //
-//  err                error
-//     - If this method completes successfully, the returned error Type
-//       is set equal to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message. Note
-//       that this error message will incorporate the method chain and text
-//       passed by input parameter, 'ePrefix'. Said text will be prefixed
-//       to the beginning of the error message.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //
 // ------------------------------------------------------------------------
@@ -329,7 +351,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 	numSepsDto NumericSeparatorsDto,
 	bigFloatNum *big.Float,
 	precision uint,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -341,7 +363,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 
 	defer nStrDtoNanobot.lock.Unlock()
 
-	ePrefix += "numStrDtoNanobot.newBigFloat() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoNanobot.newBigFloat()")
 
 	nStrDtoElectron := numStrDtoElectron{}
 
@@ -353,8 +379,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 	numSepsDto.SetToUSADefaultsIfEmpty()
 
 	if bigFloatNum == nil {
-		err = errors.New(ePrefix + "\n" +
-			"Error: Input parameter 'bigFloatNum' has a 'nil' pointer!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'bigFloatNum' has a 'nil' pointer!\n",
+			ePrefix.String())
+
 		return newNumStrDto, err
 	}
 
@@ -366,7 +395,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 		err = nStrDtoAtom.parseNumStr(
 		numStr,
 		numSepsDto,
-		ePrefix+"numStr ")
+		ePrefix.XCtx("numStr"))
 
 	return newNumStrDto, err
 }
@@ -425,12 +454,14 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 //       as a floating point value.
 //
 //
-//  ePrefix             string
-//     - Error Prefix. A string consisting of the method chain used
-//       to call this method. In case of error, this text string is
-//       included in the error message. Note: Be sure to leave a space
-//       at the end of 'ePrefix'. If no Error Prefix is desired, simply
-//       provide an empty string for this parameter.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -441,12 +472,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 //       calculated from the input parameters.
 //
 //
-//  err                error
-//     - If the method completes successfully, the returned error Type
-//       is set equal to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message. Note
-//       that this error message will incorporate the method chain and text
-//       passed by input parameter, 'ePrefix'.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //
 // ------------------------------------------------------------------------
@@ -504,7 +539,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 	numSepsDto NumericSeparatorsDto,
 	bigIntNum *big.Int,
 	precision uint,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -516,7 +551,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 
 	defer nStrDtoNanobot.lock.Unlock()
 
-	ePrefix += "numStrDtoNanobot.newBigInt() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoNanobot.newBigInt()")
 
 	err = nil
 	nStrDtoElectron := numStrDtoElectron{}
@@ -527,8 +566,10 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 	numSepsDto.SetToUSADefaultsIfEmpty()
 
 	if bigIntNum == nil {
-		err = errors.New(ePrefix + "\n" +
-			"Error: Input parameter 'bigIntNum' has a 'nil' pointer!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'bigIntNum' has a 'nil' pointer!\n",
+			ePrefix.String())
 
 		return newNumStrDto, err
 	}
@@ -536,7 +577,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&newNumStrDto,
 		numSepsDto,
-		ePrefix+"newNumStrDto ")
+		ePrefix.XCtx("newNumStrDto"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -614,7 +655,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&newNumStrDto,
 		numSepsDto,
-		ePrefix+"newNumStrDto #2 ")
+		ePrefix.XCtx("newNumStrDto #2"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -626,7 +667,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
 			&newNumStrDto,
-			ePrefix+"Final Validity Check-newNumStrDto ")
+			ePrefix.XCtx("Final Validity Check-newNumStrDto"))
 
 	return newNumStrDto, err
 }
@@ -681,12 +722,14 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 //       rounded to 'precision' digits after the decimal point.
 //
 //
-//  ePrefix             string
-//     - Error Prefix. A string consisting of the method chain used
-//       to call this method. In case of error, this text string is
-//       included in the error message. Note: Be sure to leave a space
-//       at the end of 'ePrefix'. If no Error Prefix is desired, simply
-//       provide an empty string for this parameter.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -697,12 +740,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 //       calculated from the input parameters.
 //
 //
-//  err                error
-//     - If successful the returned error Type is set equal to 'nil'.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
 //       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. Note this error
-//       message will incorporate the method chain and text passed
-//       by input parameter, 'ePrefix'.
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //
 // ------------------------------------------------------------------------
@@ -738,7 +785,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 	numSepsDto NumericSeparatorsDto,
 	f64 float64,
 	precision uint,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -750,7 +797,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 
 	defer nStrDtoNanobot.lock.Unlock()
 
-	ePrefix += "numStrDtoNanobot.newFloat64() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoNanobot.newFloat64()")
 
 	nStrDtoElectron := numStrDtoElectron{}
 
@@ -774,7 +825,8 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 		err = nStrDtoAtom.parseNumStr(
 		numStr,
 		numSepsDto,
-		ePrefix)
+		ePrefix.XCtx(
+			"numStr, numSepsDto"))
 
 	return newNumStrDto, err
 }
@@ -827,12 +879,14 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 //       to the right of the decimal place.
 //
 //
-//  ePrefix             string
-//     - Error Prefix. A string consisting of the method chain used
-//       to call this method. In case of error, this text string is
-//       included in the error message. Note: Be sure to leave a space
-//       at the end of 'ePrefix'. If no Error Prefix is desired, simply
-//       provide an empty string for this parameter.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -843,12 +897,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 //       calculated from the input parameters.
 //
 //
-//  err                error
-//     - If the method completes successfully, the returned error Type
-//       is set equal to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message. Note
-//       that this error message will incorporate the method chain and text
-//       passed by input parameter, 'ePrefix'.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //
 // ------------------------------------------------------------------------
@@ -887,7 +945,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 	numSepsDto NumericSeparatorsDto,
 	int64Num int64,
 	precision uint,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -899,7 +957,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 
 	defer nStrDtoNanobot.lock.Unlock()
 
-	ePrefix += "numStrDtoNanobot.newInt64() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoNanobot.newInt64()")
 
 	err = nil
 	nStrDtoElectron := numStrDtoElectron{}
@@ -919,7 +981,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 		numStr,
 		precision,
 		true,
-		ePrefix+"numSepsDto -> newNumStrDto ")
+		ePrefix.XCtx("numSepsDto -> newNumStrDto"))
 
 	return newNumStrDto, err
 }
@@ -973,12 +1035,14 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 //       generate a new instance of type NumStrDto.
 //
 //
-//  ePrefix             string
-//     - Error Prefix. A string consisting of the method chain used
-//       to call this method. In case of error, this text string is
-//       included in the error message. Note: Be sure to leave a space
-//       at the end of 'ePrefix'. If no Error Prefix is desired, simply
-//       provide an empty string for this parameter.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -989,12 +1053,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 //       calculated from the input parameters.
 //
 //
-//  err                error
-//     - If successful the returned error Type is set equal to 'nil'.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
 //       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. Note this error
-//       message will incorporate the method chain and text passed
-//       by input parameter, 'ePrefix'.
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //
 // ------------------------------------------------------------------------
@@ -1037,7 +1105,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 	numSepsDto NumericSeparatorsDto,
 	int64Num int64,
 	exponent int,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -1049,7 +1117,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 
 	defer nStrDtoNanobot.lock.Unlock()
 
-	ePrefix += "numStrDtoNanobot.newInt64Exponent() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoNanobot.newInt64Exponent()")
 
 	err = nil
 	nStrDtoElectron := numStrDtoElectron{}
@@ -1078,7 +1150,8 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 			err = nStrDtoAtom.parseNumStr(
 			numStr,
 			numSepsDto,
-			ePrefix)
+			ePrefix.XCtx(
+				"numStr, numSepsDto"))
 
 	} else {
 
@@ -1089,7 +1162,8 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 			numSepsDto,
 			numStr,
 			uint(exponent),
-			ePrefix)
+			ePrefix.XCtx(
+				"numSepsDto, numStr"))
 
 	}
 
@@ -1157,12 +1231,14 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 //       '0' and '9'.
 //
 //
-//  ePrefix             string
-//     - Error Prefix. A string consisting of the method chain used
-//       to call this method. In case of error, this text string is
-//       included in the error message. Note: Be sure to leave a space
-//       at the end of 'ePrefix'. If no Error Prefix is desired, simply
-//       provide an empty string for this parameter.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -1173,19 +1249,21 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 //       calculated from the input parameters.
 //
 //
-//  error
-//     - If the method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. Note that this error message will
-//       incorporate the method chain and text passed by input
-//       parameter, 'ePrefix'. The 'ePrefix' text will be prefixed
-//       to the beginning of the error message.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
 	numSepsDto NumericSeparatorsDto,
 	numStr string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -1197,7 +1275,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
 
 	defer nStrDtoNanobot.lock.Unlock()
 
-	ePrefix += "numStrDtoNanobot.newNumStr() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoNanobot.newNumStr()")
 
 	nStrDtoElectron := numStrDtoElectron{}
 
@@ -1207,8 +1289,9 @@ func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
 	err = nil
 
 	if len(numStr) == 0 {
-		err = errors.New(ePrefix + "\n" +
-			"Error: Input parameter 'numStr' is a zero length string!\n")
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStr' is a zero length string!\n",
+			ePrefix.String())
 
 		return newNumStrDto, err
 	}
@@ -1221,7 +1304,8 @@ func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
 		err = nStrDtoAtom.parseNumStr(
 		numStr,
 		numSepsDto,
-		ePrefix)
+		ePrefix.XCtx(
+			"numStr, numSepsDto"))
 
 	return newNumStrDto, err
 }
@@ -1285,12 +1369,14 @@ func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
 //       rounded to 'precision' digits.
 //
 //
-//  ePrefix             string
-//     - Error Prefix. A string consisting of the method chain used
-//       to call this method. In case of error, this text string is
-//       included in the error message. Note: Be sure to leave a space
-//       at the end of 'ePrefix'. If no Error Prefix is desired, simply
-//       provide an empty string for this parameter.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -1301,19 +1387,23 @@ func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
 //       calculated from the input parameters.
 //
 //
-//  err                error
-//     - If successful the returned error Type is set equal to 'nil'.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
 //       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. Note this error
-//       message will incorporate the method chain and text passed
-//       by input parameter, 'ePrefix'.
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newRational(
 	numSeps NumericSeparatorsDto,
 	bigRatNum *big.Rat,
 	precision uint,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -1325,7 +1415,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) newRational(
 
 	defer nStrDtoNanobot.lock.Unlock()
 
-	ePrefix += "numStrDtoNanobot.newRational() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoNanobot.newRational()")
 
 	nStrDtoElectron := numStrDtoElectron{}
 
@@ -1335,8 +1429,10 @@ func (nStrDtoNanobot *numStrDtoNanobot) newRational(
 	err = nil
 
 	if bigRatNum == nil {
-		err = errors.New(ePrefix + "\n" +
-			"Error: Input parameter 'bigRatNum' has a nil pointer!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'bigRatNum' has a nil pointer!\n",
+			ePrefix.String())
 
 		return newNumStrDto, err
 	}
@@ -1351,7 +1447,8 @@ func (nStrDtoNanobot *numStrDtoNanobot) newRational(
 		err = nStrDtoAtom.parseNumStr(
 		numStr,
 		numSeps,
-		ePrefix)
+		ePrefix.XCtx(
+			"numStr, numSeps"))
 
 	return newNumStrDto, err
 }
@@ -1405,12 +1502,14 @@ func (nStrDtoNanobot *numStrDtoNanobot) newRational(
 //       to the right of the decimal place.
 //
 //
-//  ePrefix             string
-//     - Error Prefix. A string consisting of the method chain used
-//       to call this method. In case of error, this text string is
-//       included in the error message. Note: Be sure to leave a space
-//       at the end of 'ePrefix'. If no Error Prefix is desired, simply
-//       provide an empty string for this parameter.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -1421,12 +1520,16 @@ func (nStrDtoNanobot *numStrDtoNanobot) newRational(
 //       calculated from the input parameters.
 //
 //
-//  err                error
-//     - If successful the returned error Type is set equal to 'nil'.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
 //       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. Note this error
-//       message will incorporate the method chain and text passed
-//       by input parameter, 'ePrefix'.
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //
 // ------------------------------------------------------------------------
@@ -1463,7 +1566,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 	numSepsDto NumericSeparatorsDto,
 	uint64Num uint64,
 	precision uint,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -1475,12 +1578,14 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 
 	defer nStrDtoNanobot.lock.Unlock()
 
-	ePrefix += "numStrDtoNanobot.newUint64() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
-	nStrDtoElectron := numStrDtoElectron{}
+	ePrefix.SetEPref("numStrDtoNanobot.newUint64()")
 
 	newNumStrDto =
-		nStrDtoElectron.newBaseZeroNumStrDto(0)
+		numStrDtoElectron{}.ptr().newBaseZeroNumStrDto(0)
 
 	err = nil
 
@@ -1496,7 +1601,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 		numStr,
 		precision,
 		true,
-		ePrefix+"numSepsDto -> newNumStrDto ")
+		ePrefix.XCtx("numSepsDto -> newNumStrDto "))
 
 	return newNumStrDto, err
 }
@@ -1554,11 +1659,13 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 //       NumStrDto returned by this method.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Be sure to leave a space at the end of
-//       'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -1574,11 +1681,15 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 //
 //
 //  err                 error
-//     - If this method completes successfully, the returned error Type
-//       is set to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message.
-//       Note that this error message will incorporate the method
-//       chain and text passed by input parameter, 'ePrefix'.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //
 // ------------------------------------------------------------------------
@@ -1627,7 +1738,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64Exponent(
 	numSeps NumericSeparatorsDto,
 	uint64Num uint64,
 	exponent int,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -1639,7 +1750,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64Exponent(
 
 	defer nStrDtoNanobot.lock.Unlock()
 
-	ePrefix += "numStrDtoNanobot.newUint64Exponent() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoNanobot.newUint64Exponent()")
 
 	nStrDtoElectron := numStrDtoElectron{}
 
@@ -1670,7 +1785,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64Exponent(
 			err = nStrDtoAtom.parseNumStr(
 			numStr,
 			numSeps,
-			ePrefix+"exponent == 0 ")
+			ePrefix.XCtx("exponent == 0"))
 
 	} else {
 
@@ -1681,7 +1796,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64Exponent(
 			numSeps,
 			numStr,
 			uint(exponent),
-			ePrefix+"numStr ")
+			ePrefix.XCtx("numStr"))
 
 	}
 
@@ -1763,11 +1878,13 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64Exponent(
 //       information.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -1780,19 +1897,23 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64Exponent(
 //       the form of a new 'NumStrDto' instance.
 //
 //
-//  err                error
-//     - If successful the returned error Type is set equal to 'nil'.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
 //       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. Note this error
-//       message will incorporate the method chain and text passed
-//       by input parameter, 'ePrefix'.
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoNanobot *numStrDtoNanobot) scaleNumStr(
 	numSeparators NumericSeparatorsDto,
 	signedNumStr string,
 	shiftPrecision uint,
 	scaleMode PrecisionScaleMode,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -1804,7 +1925,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) scaleNumStr(
 
 	defer nStrDtoNanobot.lock.Unlock()
 
-	ePrefix += "numStrDtoNanobot.scaleNumStr() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoNanobot.scaleNumStr()")
 
 	err = nil
 
@@ -1814,9 +1939,10 @@ func (nStrDtoNanobot *numStrDtoNanobot) scaleNumStr(
 		nStrDtoElectron.newBaseZeroNumStrDto(0)
 
 	if len(signedNumStr) == 0 {
-		err = errors.New(ePrefix + "\n" +
-			"Error: Input parameter 'signedNumStr' is INVALID!\n" +
-			"'signedNumStr' is a zero length number string!\n")
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'signedNumStr' is INVALID!\n"+
+			"'signedNumStr' is a zero length number string!\n",
+			ePrefix.String())
 
 		return newNumStrDto, err
 	}
@@ -1828,7 +1954,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) scaleNumStr(
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&newNumStrDto,
 		numSeparators,
-		ePrefix+"Setting 'newNumStrDto' numeric separators ")
+		ePrefix.XCtx("Setting 'newNumStrDto' numeric separators"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1845,16 +1971,18 @@ func (nStrDtoNanobot *numStrDtoNanobot) scaleNumStr(
 			numSeparators,
 			signedNumStr,
 			shiftPrecision,
-			ePrefix)
+			ePrefix.XCtx(
+				"numSeparators, signedNumStr"))
 
 		if err2 != nil {
-			err = fmt.Errorf(ePrefix+"\n"+
+			err = fmt.Errorf("%v\n"+
 				"Error returned from nStrDtoMolecule.ShiftPrecisionLeft"+
 				"(signedNumStr, shiftPrecision)\n"+
 				"signedNumStr='%v'\n"+
 				"shiftPrecision='%v'\n"+
 				"scaleMode='%v'\n"+
 				"Error='%v'\n",
+				ePrefix.String(),
 				signedNumStr,
 				shiftPrecision,
 				scaleMode.String(),
@@ -1870,16 +1998,18 @@ func (nStrDtoNanobot *numStrDtoNanobot) scaleNumStr(
 				numSeparators,
 				signedNumStr,
 				shiftPrecision,
-				ePrefix)
+				ePrefix.XCtx(
+					"numSeparators, signedNumStr"))
 
 		if err2 != nil {
-			err = fmt.Errorf(ePrefix+"\n"+
+			err = fmt.Errorf("%v\n"+
 				"Error returned from nStrDtoMolecule.ShiftPrecisionRight"+
 				"(signedNumStr, shiftPrecision)\n"+
 				"signedNumStr='%v'\n"+
 				"shiftPrecision='%v'\n"+
 				"scaleMode='%v'\n"+
 				"Error='%v'\n",
+				ePrefix.String(),
 				signedNumStr,
 				shiftPrecision,
 				scaleMode.String(),
@@ -1890,10 +2020,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) scaleNumStr(
 
 	} else {
 
-		err = fmt.Errorf(ePrefix+"\n"+
+		err = fmt.Errorf("%v\n"+
 			"Error! Scale Mode is INVALID!\n"+
 			"Scale Mode is NOT Equal to SCALEPRECISIONLEFT or SCALEPRECISIONRIGHT.\n"+
 			"scaleMode='%v'\n",
+			ePrefix.String(),
 			scaleMode.String())
 
 		return newNumStrDto, err
@@ -1939,30 +2070,35 @@ func (nStrDtoNanobot *numStrDtoNanobot) scaleNumStr(
 //       truncation operation will include rounding the last digit.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  err                error
-//     - If this method completes successfully, the returned error Type is
-//       set equal to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message. Note
-//       that this error message will incorporate the method chain and text
-//       passed by input parameter, 'ePrefix'. The 'ePrefix' text will be
-//       prefixed to the beginning of the returned error message.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoNanobot *numStrDtoNanobot) setNumStrDtoPrecision(
 	numStrDto *NumStrDto,
 	precision uint,
 	roundResult bool,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrDtoNanobot.lock == nil {
@@ -1973,7 +2109,11 @@ func (nStrDtoNanobot *numStrDtoNanobot) setNumStrDtoPrecision(
 
 	defer nStrDtoNanobot.lock.Unlock()
 
-	ePrefix += "numStrDtoNanobot.setNumStrDtoPrecision() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoNanobot.setNumStrDtoPrecision()")
 
 	err = nil
 
@@ -1984,7 +2124,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) setNumStrDtoPrecision(
 	numStr,
 		err = nStrDtoMolecule.getNumStr(
 		numStrDto,
-		ePrefix+"Input parameter 'numStrDto' ")
+		ePrefix.XCtx("Input parameter 'numStrDto' "))
 
 	if err != nil {
 		return err
@@ -1998,7 +2138,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) setNumStrDtoPrecision(
 		err =
 		nStrDtoAtom.getCurrencyNumSepsDto(
 			numStrDto,
-			ePrefix+"numStrDto -> numSepsDto ")
+			ePrefix.XCtx("numStrDto -> numSepsDto"))
 
 	if err != nil {
 		return err
@@ -2014,7 +2154,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) setNumStrDtoPrecision(
 		numStr,
 		precision,
 		roundResult,
-		ePrefix+"numStr ")
+		ePrefix.XCtx("numStr"))
 
 	if err != nil {
 		return err
@@ -2025,7 +2165,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) setNumStrDtoPrecision(
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&n2,
 		numSepsDto,
-		ePrefix+"n2 ")
+		ePrefix.XCtx("n2"))
 
 	if err != nil {
 		return err
@@ -2034,7 +2174,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) setNumStrDtoPrecision(
 	err = nStrDtoElectron.copyIn(
 		numStrDto,
 		&n2,
-		ePrefix+"n2 -> numStrDto ")
+		ePrefix.XCtx("n2 -> numStrDto"))
 
 	if err != nil {
 		return err
@@ -2046,7 +2186,8 @@ func (nStrDtoNanobot *numStrDtoNanobot) setNumStrDtoPrecision(
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
 			numStrDto,
-			ePrefix)
+			ePrefix.XCtx(
+				"numStrDto"))
 
 	return err
 }
