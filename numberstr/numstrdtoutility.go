@@ -103,7 +103,7 @@ type numStrDtoUtility struct {
 //       error message.
 //
 func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
-	numSepsDto NumericSeparatorsDto,
+	numStrFormatSpec NumStrFmtSpecDto,
 	addend1 *NumStrDto,
 	addend2 *NumStrDto,
 	ePrefix *ErrPrefixDto) (
@@ -151,7 +151,12 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 		return sum, err
 	}
 
-	numSepsDto.SetToUSADefaultsIfEmpty()
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return sum, err
+	}
 
 	var n1DtoSetup, n2DtoSetup NumStrDto
 	var compare int
@@ -167,7 +172,7 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 		nStrDtoMolecule.formatForMathOps(
 			addend1,
 			addend2,
-			ePrefix)
+			ePrefix.XCtx("addend1, addend2"))
 
 	if err != nil {
 		return sum, err
@@ -422,6 +427,26 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 		ePrefix.XCtx("productNDto->numStrDto"))
 
 	return err
+}
+
+// ptr - Returns a pointer to a new instance of
+// numStrDtoUtility
+//
+func (nStrDtoUtil numStrDtoUtility) ptr() *numStrDtoUtility {
+
+	if nStrDtoUtil.lock == nil {
+		nStrDtoUtil.lock = new(sync.Mutex)
+	}
+
+	nStrDtoUtil.lock.Lock()
+
+	defer nStrDtoUtil.lock.Unlock()
+
+	newNumStrDtoUtility := new(numStrDtoUtility)
+
+	newNumStrDtoUtility.lock = new(sync.Mutex)
+
+	return newNumStrDtoUtility
 }
 
 // setNumStr - Sets the value of of input parameter 'numStrDto' to

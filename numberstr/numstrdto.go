@@ -63,6 +63,9 @@ type NumStrDto struct {
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -78,24 +81,33 @@ type NumStrDto struct {
 //       and text passed by input parameter, 'ePrefix'. The
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
-//       the beginning of the error message.
 //
 func (nDto *NumStrDto) Add(
 	n2Dto NumStrDto,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
+
+	nDto.lock.Lock()
+
+	defer nDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
 	ePrefix.SetEPref("NumStrDto.Add()")
 
 	err = nil
 
-	var numSepsDto NumericSeparatorsDto
+	var numStrFormatSpec NumStrFmtSpecDto
 
-	nStrDtoAtom := numStrDtoAtom{}
-
-	numSepsDto,
+	numStrFormatSpec,
 		err =
-		nStrDtoAtom.getCurrencyNumSepsDto(
+		numStrDtoElectron{}.ptr().getFormatSpec(
 			nDto,
 			ePrefix.XCtx("nDto"))
 
@@ -103,13 +115,11 @@ func (nDto *NumStrDto) Add(
 		return err
 	}
 
-	nStrDtoUtil := numStrDtoUtility{}
-
 	var sum NumStrDto
 
 	sum,
-		err = nStrDtoUtil.addNumStrs(
-		numSepsDto,
+		err = numStrDtoUtility{}.ptr().addNumStrs(
+		numStrFormatSpec,
 		nDto,
 		&n2Dto,
 		ePrefix)
@@ -118,9 +128,7 @@ func (nDto *NumStrDto) Add(
 		return err
 	}
 
-	nStrDtoElectron := numStrDtoElectron{}
-
-	err = nStrDtoElectron.copyIn(
+	err = numStrDtoElectron{}.ptr().copyIn(
 		nDto,
 		&sum,
 		ePrefix.XCtx("sum->nDto"))

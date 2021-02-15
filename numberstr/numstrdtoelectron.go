@@ -1899,6 +1899,15 @@ func (nStrDtoElectron *numStrDtoElectron) setDecimalSeparator(
 	return err
 }
 
+// setFormatSpec - Sets the format specification for a number
+// string data transfer object. (NumStrDto).
+//
+//
+func (nStrDtoElectron *numStrDtoElectron) setFormatSpec() error {
+
+	return nil
+}
+
 // setThousandsSeparator - Sets the value of the character which
 // will be used to separate thousands in the display of NumStrDto
 // number strings. In the USA the thousands separator is the
