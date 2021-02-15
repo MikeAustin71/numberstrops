@@ -1,7 +1,7 @@
 package numberstr
 
 import (
-	"errors"
+	"fmt"
 	"sync"
 )
 
@@ -72,11 +72,13 @@ type numStrDtoUtility struct {
 //      will be returned.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -90,18 +92,21 @@ type numStrDtoUtility struct {
 //
 //
 //  err                 error
-//     - If this method completes successfully, the returned error Type is set
-//       equal to 'nil'. If errors are encountered during processing, the
-//       returned error Type will encapsulate an error message. Note this
-//       error message will incorporate the method chain and text passed by
-//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
-//       the beginning of the error message.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 	numSepsDto NumericSeparatorsDto,
 	addend1 *NumStrDto,
 	addend2 *NumStrDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	sum NumStrDto,
 	err error) {
 
@@ -113,7 +118,11 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 
 	defer nStrDtoUtil.lock.Unlock()
 
-	ePrefix += "numStrDtoUtility.addNumStrs() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoUtility.addNumStrs()")
 
 	nStrDtoElectron := numStrDtoElectron{}
 
@@ -126,7 +135,7 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
 			addend1,
-			ePrefix+"Initial validity test for 'addend1' ")
+			ePrefix.XCtx("Initial validity test for 'addend1'"))
 
 	if err != nil {
 		return sum, err
@@ -136,7 +145,7 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
 			addend2,
-			ePrefix+"Initial validity test for 'addend2' ")
+			ePrefix.XCtx("Initial validity test for 'addend2'"))
 
 	if err != nil {
 		return sum, err
@@ -174,7 +183,7 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 		err = nStrDtoElectron.setSignValue(
 			&n1DtoSetup,
 			1,
-			ePrefix+"n1DtoSetup Sign=1 ")
+			ePrefix.XCtx("n1DtoSetup Sign=1"))
 
 		if err != nil {
 			return sum, err
@@ -183,7 +192,7 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 		err = nStrDtoElectron.setSignValue(
 			&n2DtoSetup,
 			1,
-			ePrefix+"n1DtoSetup Sign=1 ")
+			ePrefix.XCtx("n1DtoSetup Sign=1"))
 
 		if err != nil {
 			return sum, err
@@ -198,7 +207,7 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 			err = nStrDtoElectron.setNumericSeparatorsDto(
 				&sum,
 				numSepsDto,
-				ePrefix+"sum from values are equal ")
+				ePrefix.XCtx("sum from values are equal"))
 
 			return sum, err
 		}
@@ -211,7 +220,7 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 			&n1DtoSetup,
 			&n2DtoSetup,
 			isOrderReversed,
-			ePrefix+"n1DtoSetup, n2DtoSetup ")
+			ePrefix.XCtx("n1DtoSetup, n2DtoSetup "))
 
 		if err != nil {
 			return sum, err
@@ -222,7 +231,7 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 		isZeroValue,
 			err = nStrDtoElectron.isNumStrZeroValue(
 			&sum,
-			ePrefix+"sum ")
+			ePrefix.XCtx("sum"))
 
 		if err != nil {
 			return sum, err
@@ -235,7 +244,7 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 		err = nStrDtoElectron.setSignValue(
 			&sum,
 			newSignVal,
-			ePrefix+"sum ")
+			ePrefix.XCtx("sum"))
 
 		return sum, err
 	}
@@ -321,30 +330,35 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 //       will be returned.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  err                error
-//     - If this method completes successfully, the returned error Type is
-//       set equal to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message. Note
-//       that this error message will incorporate the method chain and text
-//       passed by input parameter, 'ePrefix'. The 'ePrefix' text will be
-//       prefixed to the beginning of the returned error message.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 	numSepsDto NumericSeparatorsDto,
 	numStrDto *NumStrDto,
 	multiplier *NumStrDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrDtoUtil.lock == nil {
@@ -355,7 +369,11 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 
 	defer nStrDtoUtil.lock.Unlock()
 
-	ePrefix += "numStrDtoUtility.multiplyInPlace() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoUtility.multiplyInPlace()")
 
 	nStrDtoQuark := numStrDtoQuark{}
 
@@ -363,7 +381,7 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
 			numStrDto,
-			ePrefix+"Initial validity test for 'numStrDto' ")
+			ePrefix.XCtx("Initial validity test for 'numStrDto'"))
 
 	if err != nil {
 		return err
@@ -373,7 +391,7 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
 			multiplier,
-			ePrefix+"Initial validity test for 'multiplier' ")
+			ePrefix.XCtx("Initial validity test for 'multiplier'"))
 
 	if err != nil {
 		return err
@@ -390,7 +408,7 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 		numSepsDto,
 		numStrDto,
 		multiplier,
-		ePrefix+"numStrDto x multiplier ")
+		ePrefix.XCtx("numStrDto x multiplier"))
 
 	if err != nil {
 		return err
@@ -401,7 +419,7 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 	err = nStrDtoElectron.copyIn(
 		numStrDto,
 		&productNDto,
-		ePrefix+"productNDto->numStrDto ")
+		ePrefix.XCtx("productNDto->numStrDto"))
 
 	return err
 }
@@ -441,13 +459,13 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 //
 //          type NumericSeparatorsDto struct {
 //
-//            DecimalSeparator   rune // Character used to separate
+//            decimalSeparator   rune // Character used to separate
 //                                    //  integer and fractional digits ('.')
 //
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
+//            integerDigitsSeparator rune // Character used to separate thousands
+//                                        //  (1,000,000,000)
 //
-//            CurrencySymbol     rune // Currency Symbol
+//            integerDigitsGroupingSequence  []uint // Usually []uint{3} for thousands
 //          }
 //
 //       If any of the data fields in this passed structure
@@ -455,7 +473,6 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 //       be reset to USA default values. USA default numeric
 //       separators are listed as follows:
 //
-//             Currency Symbol: '$'
 //         Thousands Separator: ','
 //           Decimal Separator: '.'
 //
@@ -474,31 +491,35 @@ func (nStrDtoUtil *numStrDtoUtility) multiplyInPlace(
 //       '0' and '9'.
 //
 //
-//  ePrefix             string
-//     - Error Prefix. A string consisting of the method chain used
-//       to call this method. In case of error, this text string is
-//       included in the error message. Note: Be sure to leave a space
-//       at the end of 'ePrefix'. If no Error Prefix is desired, simply
-//       provide an empty string for this parameter.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
 //  error
-//     - If the method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered
-//       during processing, the returned error Type will encapsulate
-//       an error message. Note that this error message will
-//       incorporate the method chain and text passed by input
-//       parameter, 'ePrefix'. The 'ePrefix' text will be prefixed
-//       to the beginning of the error message.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 	numStrDto *NumStrDto,
 	numSepsDto NumericSeparatorsDto,
 	numStr string,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	if nStrDtoUtil.lock == nil {
@@ -509,11 +530,22 @@ func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 
 	defer nStrDtoUtil.lock.Unlock()
 
-	ePrefix += "numStrDtoUtility.setNumStr() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoUtility.setNumStr()")
 
 	err = nil
 
-	err = nil
+	if numStrDto == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrDto' is invalid!\n"+
+			"'numStrDto' is a 'nil' pointer.\n",
+			ePrefix.String())
+
+	}
 
 	nStrDtoQuark := numStrDtoQuark{}
 
@@ -521,15 +553,19 @@ func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
 			numStrDto,
-			ePrefix+"Initial validity test for 'numStrDto' ")
+			ePrefix.XCtx(
+				"Initial validity test for 'numStrDto'"))
 
 	if err != nil {
 		return err
 	}
 
 	if len(numStr) == 0 {
-		err = errors.New(ePrefix + "\n" +
-			"Error: Input parameter 'numStr' is an empty string!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStr' is an empty string!\n",
+			ePrefix.String())
+
 		return err
 	}
 
@@ -540,7 +576,8 @@ func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 		err = nStrDtoNanobot.newNumStr(
 		numSepsDto,
 		numStr,
-		ePrefix)
+		ePrefix.XCtx(
+			"numSepsDto, numStr"))
 
 	if err != nil {
 		return err
@@ -551,7 +588,8 @@ func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&newNumStrDto,
 		numSepsDto,
-		ePrefix)
+		ePrefix.XCtx(
+			"numSepsDto->newNumStrDto"))
 
 	if err != nil {
 		return err
@@ -561,7 +599,7 @@ func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 		nStrDtoElectron.copyIn(
 			numStrDto,
 			&newNumStrDto,
-			ePrefix+"newNumStrDto->numStrDto ")
+			ePrefix.XCtx("newNumStrDto->numStrDto"))
 
 	return err
 }
@@ -602,11 +640,13 @@ func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 //       will be returned.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -621,18 +661,21 @@ func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 //
 //
 //  err                 error
-//     - If this method completes successfully, the returned error Type is set
-//       equal to 'nil'. If errors are encountered during processing, the
-//       returned error Type will encapsulate an error message. Note this
-//       error message will incorporate the method chain and text passed by
-//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
-//       the beginning of the error message.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoUtil *numStrDtoUtility) subtractNumStrs(
 	numSepsDto NumericSeparatorsDto,
 	minuend *NumStrDto,
 	subtrahend *NumStrDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	difference NumStrDto,
 	err error) {
 
@@ -644,7 +687,12 @@ func (nStrDtoUtil *numStrDtoUtility) subtractNumStrs(
 
 	defer nStrDtoUtil.lock.Unlock()
 
-	ePrefix += "numStrDtoUtility.multiplyInPlace() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrDtoUtility.multiplyInPlace()")
 
 	nStrDtoElectron := numStrDtoElectron{}
 
@@ -657,7 +705,7 @@ func (nStrDtoUtil *numStrDtoUtility) subtractNumStrs(
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
 			minuend,
-			ePrefix+"Initial validity test for 'minuend' ")
+			ePrefix.XCtx("Initial validity test for 'minuend'"))
 
 	if err != nil {
 		return difference, err
@@ -667,7 +715,7 @@ func (nStrDtoUtil *numStrDtoUtility) subtractNumStrs(
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
 			subtrahend,
-			ePrefix+"Initial validity test for 'subtrahend' ")
+			ePrefix.XCtx("Initial validity test for 'subtrahend'"))
 
 	if err != nil {
 		return difference, err
@@ -689,7 +737,8 @@ func (nStrDtoUtil *numStrDtoUtility) subtractNumStrs(
 		nStrDtoMolecule.formatForMathOps(
 			minuend,
 			subtrahend,
-			ePrefix)
+			ePrefix.XCtx(
+				"minuend, subtrahend"))
 
 	if err != nil {
 		return difference, err
@@ -703,7 +752,8 @@ func (nStrDtoUtil *numStrDtoUtility) subtractNumStrs(
 		err = nStrDtoElectron.setNumericSeparatorsDto(
 			&difference,
 			numSepsDto,
-			ePrefix)
+			ePrefix.XCtx(
+				"&difference, numSepsDto,"))
 
 		return difference, err
 	}
@@ -718,7 +768,7 @@ func (nStrDtoUtil *numStrDtoUtility) subtractNumStrs(
 		err = nStrDtoElectron.setSignValue(
 			&n1NumDto,
 			1,
-			ePrefix+"n1NumDto Sign=1 ")
+			ePrefix.XCtx("n1NumDto Sign=1"))
 
 		if err != nil {
 			return difference, err
@@ -727,7 +777,7 @@ func (nStrDtoUtil *numStrDtoUtility) subtractNumStrs(
 		err = nStrDtoElectron.setSignValue(
 			&n2NumDto,
 			1,
-			ePrefix+"n2NumDto Sign=1 ")
+			ePrefix.XCtx("n2NumDto Sign=1"))
 
 		if err != nil {
 			return difference, err
@@ -752,7 +802,7 @@ func (nStrDtoUtil *numStrDtoUtility) subtractNumStrs(
 		err = nStrDtoElectron.setSignValue(
 			&difference,
 			newSignVal,
-			ePrefix+"difference=newSignVal ")
+			ePrefix.XCtx("difference<-newSignVal"))
 
 		return difference, err
 	}
@@ -811,7 +861,7 @@ func (nStrDtoUtil *numStrDtoUtility) subtractNumStrs(
 			n3IntAry,
 			precision,
 			newSignVal,
-			ePrefix)
+			ePrefix.XCtx("n3IntAry"))
 
 	return difference, err
 }
