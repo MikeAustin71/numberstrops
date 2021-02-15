@@ -1765,6 +1765,10 @@ func (nStrDtoElectron *numStrDtoElectron) setCurrencySymbol(
 	currencySymbol rune,
 	ePrefix *ErrPrefixDto) (err error) {
 
+	if nStrDtoElectron.lock == nil {
+		nStrDtoElectron.lock = new(sync.Mutex)
+	}
+
 	nStrDtoElectron.lock.Lock()
 
 	defer nStrDtoElectron.lock.Unlock()
@@ -1855,6 +1859,10 @@ func (nStrDtoElectron *numStrDtoElectron) setDecimalSeparator(
 	decimalSeparator rune,
 	ePrefix *ErrPrefixDto) (err error) {
 
+	if nStrDtoElectron.lock == nil {
+		nStrDtoElectron.lock = new(sync.Mutex)
+	}
+
 	nStrDtoElectron.lock.Lock()
 
 	defer nStrDtoElectron.lock.Unlock()
@@ -1903,9 +1911,113 @@ func (nStrDtoElectron *numStrDtoElectron) setDecimalSeparator(
 // string data transfer object. (NumStrDto).
 //
 //
-func (nStrDtoElectron *numStrDtoElectron) setFormatSpec() error {
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numStrDto           *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method WILL
+//       CHANGE AND OVERWRITE the format specification values
+//       contained in this instance.
+//
+//       This NumStrDto will receive all the format specification
+//       data values contained in input parameter 'numStrFmtSpec'.
+//
+//
+//  numStrFmtSpec       *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
+//
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrDtoElectron *numStrDtoElectron) setFormatSpec(
+	numStrDto *NumStrDto,
+	numStrFmtSpec *NumStrFmtSpecDto,
+	ePrefix *ErrPrefixDto) (
+	err error) {
 
-	return nil
+	if nStrDtoElectron.lock == nil {
+		nStrDtoElectron.lock = new(sync.Mutex)
+	}
+
+	nStrDtoElectron.lock.Lock()
+
+	defer nStrDtoElectron.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoElectron.setFormatSpec()")
+
+	if numStrDto == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Input parameter 'numStrDto' is INVALID!\n"+
+			"numStrDto = nil pointer!\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	if numStrFmtSpec == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Input parameter 'numStrFmtSpec' is INVALID!\n"+
+			"numStrFmtSpec = nil pointer!\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	err = numStrFmtSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFmtSpec"))
+
+	if err != nil {
+		return err
+	}
+
+	err = numStrDto.fmtSpec.CopyIn(
+		numStrFmtSpec,
+		ePrefix.XCtx("numStrDto <- numStrFmtSpec"))
+
+	return err
 }
 
 // setThousandsSeparator - Sets the value of the character which
@@ -1962,6 +2074,10 @@ func (nStrDtoElectron *numStrDtoElectron) setThousandsSeparator(
 	numStrDto *NumStrDto,
 	integerDigitsSeparator rune,
 	ePrefix *ErrPrefixDto) (err error) {
+
+	if nStrDtoElectron.lock == nil {
+		nStrDtoElectron.lock = new(sync.Mutex)
+	}
 
 	nStrDtoElectron.lock.Lock()
 
@@ -2588,6 +2704,7 @@ func (nStrDtoElectron *numStrDtoElectron) setSignValue(
 	newSignVal int,
 	ePrefix *ErrPrefixDto) (
 	err error) {
+
 	if nStrDtoElectron.lock == nil {
 		nStrDtoElectron.lock = new(sync.Mutex)
 	}

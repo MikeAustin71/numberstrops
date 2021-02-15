@@ -20,34 +20,26 @@ type numStrDtoMechanics struct {
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorsDto
-//     - An instance of NumericSeparatorsDto which will be used to supply
-//       the numeric separators for the new NumStrDto instance returned
-//       by this method. Numeric separators include the Thousands
-//       Separator, Decimal Separator and the Currency Symbol.
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+//       The NumStrDto instance ('newNumStrDto') returned by this
+//       method will be configured with this Number String Format
+//       Specification.
 //
-//          type NumericSeparatorsDto struct {
-//
-//            DecimalSeparator   rune // Character used to separate
-//                                    //  integer and fractional digits ('.')
-//
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
-//
-//            CurrencySymbol     rune // Currency Symbol
-//          }
-//
-//       If any of the data fields in this passed structure
-//       'customSeparators' are set to zero ('0'), they will
-//       be reset to USA default values. USA default numeric
-//       separators are listed as follows:
-//
-//             Currency Symbol: '$'
-//         Thousands Separator: ','
-//           Decimal Separator: '.'
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
 //
 //
 //  intArray            []int
@@ -99,7 +91,7 @@ type numStrDtoMechanics struct {
 //       error message.
 //
 func (nStrDtoMech *numStrDtoMechanics) findIntArraySignificantDigitLimits(
-	numSepsDto NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	intArray []int,
 	precision uint,
 	signVal int,
@@ -121,7 +113,31 @@ func (nStrDtoMech *numStrDtoMechanics) findIntArraySignificantDigitLimits(
 
 	ePrefix.SetEPref("numStrDtoMechanics.findIntArraySignificantDigitLimits()")
 
+	if numStrFormatSpec == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.String())
+		return newNumStrDto, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return newNumStrDto, err
+	}
+
+	ePrefix.XCtxEmpty()
+
 	lenIntArray := len(intArray)
+	//
+	//if lenIntArray == 0 {
+	//	newNumStrDto = nStrDtoElectron.newBaseZeroNumStrDto(
+	//		precision)
+	//
+	//	return newNumStrDto, err
+	//}
 
 	absNumStr := make([]rune, 0, 20)
 
@@ -144,13 +160,11 @@ func (nStrDtoMech *numStrDtoMechanics) findIntArraySignificantDigitLimits(
 		absNumStr = append(absNumStr, rune(intArray[i]+48))
 	}
 
-	numSepsDto.SetToUSADefaults()
-
 	nStrDtoNanobot := numStrDtoNanobot{}
 
 	newNumStrDto,
 		err = nStrDtoNanobot.findNumStrSignificantDigitLimits(
-		numSepsDto,
+		numStrFormatSpec,
 		absNumStr,
 		precision,
 		signVal,

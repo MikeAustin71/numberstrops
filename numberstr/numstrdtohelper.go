@@ -22,34 +22,26 @@ type numStrDtoHelper struct {
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorsDto
-//     - An instance of NumericSeparatorsDto which will be used to supply
-//       the numeric separators for the new NumStrDto instance returned
-//       by this method. Numeric separators include the Thousands
-//       Separator, Decimal Separator and the Currency Symbol.
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+//       The NumStrDto instance ('product') returned by this method
+//       will be configured with this Number String Format
+//       Specification.
 //
-//          type NumericSeparatorsDto struct {
-//
-//            DecimalSeparator   rune // Character used to separate
-//                                    //  integer and fractional digits ('.')
-//
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
-//
-//            CurrencySymbol     rune // Currency Symbol
-//          }
-//
-//       If any of the data fields in this passed structure
-//       'customSeparators' are set to zero ('0'), they will
-//       be reset to USA default values. USA default numeric
-//       separators are listed as follows:
-//
-//             Currency Symbol: '$'
-//         Thousands Separator: ','
-//           Decimal Separator: '.'
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
 //
 //
 //  multiplicand        *NumStrDto
@@ -109,7 +101,7 @@ type numStrDtoHelper struct {
 //       error message.
 //
 func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
-	numSepsDto NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	multiplicand *NumStrDto,
 	multiplier *NumStrDto,
 	ePrefix *ErrPrefixDto) (
@@ -158,7 +150,20 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 		return product, err
 	}
 
-	numSepsDto.SetToUSADefaultsIfEmpty()
+	if numStrFormatSpec == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.XCtxEmpty())
+		return product, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return product, err
+	}
 
 	lenN1AbsAllRunes := len(multiplicand.absAllNumRunes)
 	lenN2AbsAllRunes := len(multiplier.absAllNumRunes)
@@ -287,6 +292,7 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 	n2 = 0
 	n3 = 0
 	n4 = 0
+
 	for i := 0; i < lenLevels; i++ {
 		for j := lenNumPlaces - 1; j >= 0; j-- {
 
@@ -317,7 +323,7 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 
 	product, err =
 		nStrDtoMech.findIntArraySignificantDigitLimits(
-			numSepsDto,
+			numStrFormatSpec,
 			intFinalAry,
 			newPrecision,
 			newSignVal,
@@ -342,34 +348,26 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorsDto
-//     - An instance of NumericSeparatorsDto which will be used to supply
-//       the numeric separators for the new NumStrDto instance returned
-//       by this method. Numeric separators include the Thousands
-//       Separator, Decimal Separator and the Currency Symbol.
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+//       The NumStrDto instance ('difference') returned by this
+//       method will be configured with this Number String Format
+//       Specification.
 //
-//          type NumericSeparatorsDto struct {
-//
-//            DecimalSeparator   rune // Character used to separate
-//                                    //  integer and fractional digits ('.')
-//
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
-//
-//            CurrencySymbol     rune // Currency Symbol
-//          }
-//
-//       If any of the data fields in this passed structure
-//       'customSeparators' are set to zero ('0'), they will
-//       be reset to USA default values. USA default numeric
-//       separators are listed as follows:
-//
-//             Currency Symbol: '$'
-//         Thousands Separator: ','
-//           Decimal Separator: '.'
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
 //
 //
 //  n1NumDto            *NumStrDto
@@ -403,10 +401,10 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 //
 // Return Values
 //
-//  difference          NumStrDto
-//     - If this method completes successfully, this parameter will represent
-//       the numerical difference between input parameters, 'n1NumDto' and
-//       'n2NumDto'.
+//  sum                 NumStrDto
+//     - If this method completes successfully, this parameter will
+//       represent the numerical sum of input parameters,
+//       'n1NumDto' and 'n2NumDto'.
 //
 //
 //  err                 error
@@ -421,7 +419,7 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 //       error message.
 //
 func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
-	numSepsDto NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	n1DtoSetup *NumStrDto,
 	n2DtoSetup *NumStrDto,
 	ePrefix *ErrPrefixDto) (
@@ -476,7 +474,20 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 		return sum, err
 	}
 
-	numSepsDto.SetToUSADefaultsIfEmpty()
+	if numStrFormatSpec == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.XCtxEmpty())
+		return sum, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return sum, err
+	}
 
 	// Sign Values ARE Equal!
 
@@ -517,7 +528,7 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 
 	sum,
 		err = nStrDtoMech.findIntArraySignificantDigitLimits(
-		numSepsDto,
+		numStrFormatSpec,
 		n3IntAry,
 		precision,
 		newSignVal,
@@ -543,34 +554,26 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorsDto
-//     - An instance of NumericSeparatorsDto which will be used to supply
-//       the numeric separators for the new NumStrDto instance returned
-//       by this method. Numeric separators include the Thousands
-//       Separator, Decimal Separator and the Currency Symbol.
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+//       The NumStrDto instance ('difference') returned by this
+//       method will be configured with this Number String Format
+//       Specification.
 //
-//          type NumericSeparatorsDto struct {
-//
-//            DecimalSeparator   rune // Character used to separate
-//                                    //  integer and fractional digits ('.')
-//
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
-//
-//            CurrencySymbol     rune // Currency Symbol
-//          }
-//
-//       If any of the data fields in this passed structure
-//       'customSeparators' are set to zero ('0'), they will
-//       be reset to USA default values. USA default numeric
-//       separators are listed as follows:
-//
-//             Currency Symbol: '$'
-//         Thousands Separator: ','
-//           Decimal Separator: '.'
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
 //
 //
 //  n1NumDto            *NumStrDto
@@ -622,7 +625,7 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 //       error message.
 //
 func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualSubtractNumStrs(
-	numSepsDto NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	n1NumDto *NumStrDto,
 	n2NumDto *NumStrDto,
 	isReversed bool,
@@ -643,6 +646,43 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualSubtractNumStrs(
 	}
 
 	ePrefix.SetEPref("numStrDtoHelper.signValuesAreEqualSubtractNumStrs()")
+
+	nStrDtoQuark := numStrDtoQuark{}
+
+	_,
+		err =
+		nStrDtoQuark.testNumStrDtoValidity(
+			n1NumDto,
+			ePrefix.XCtx("Initial validity test for 'n1NumDto'"))
+
+	if err != nil {
+		return difference, err
+	}
+
+	_,
+		err =
+		nStrDtoQuark.testNumStrDtoValidity(
+			n2NumDto,
+			ePrefix.XCtx("Initial validity test for 'n2NumDto'"))
+
+	if err != nil {
+		return difference, err
+	}
+
+	if numStrFormatSpec == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.XCtxEmpty())
+		return difference, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return difference, err
+	}
 
 	// Sign Values ARE Equal!
 	// Change sign for subtraction
@@ -695,7 +735,7 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualSubtractNumStrs(
 	difference,
 		err =
 		nStrDtoMech.findIntArraySignificantDigitLimits(
-			numSepsDto,
+			numStrFormatSpec,
 			n3IntAry,
 			precision,
 			newSignVal,

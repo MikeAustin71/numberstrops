@@ -33,34 +33,26 @@ type numStrDtoNanobot struct {
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorsDto
-//     - An instance of NumericSeparatorsDto which will be used to supply
-//       the numeric separators for the new NumStrDto instance returned
-//       by this method. Numeric separators include the Thousands
-//       Separator, Decimal Separator and the Currency Symbol.
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+//       The NumStrDto instance ('newNumStrDto') returned by this
+//       method will be configured with this Number String Format
+//       Specification.
 //
-//          type NumericSeparatorsDto struct {
-//
-//            DecimalSeparator   rune // Character used to separate
-//                                    //  integer and fractional digits ('.')
-//
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
-//
-//            CurrencySymbol     rune // Currency Symbol
-//          }
-//
-//       If any of the data fields in this passed structure
-//       'customSeparators' are set to zero ('0'), they will
-//       be reset to USA default values. USA default numeric
-//       separators are listed as follows:
-//
-//             Currency Symbol: '$'
-//         Thousands Separator: ','
-//           Decimal Separator: '.'
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
 //
 //
 //  absAllRunes         []rune
@@ -111,7 +103,7 @@ type numStrDtoNanobot struct {
 //       error message.
 //
 func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
-	numSepsDto NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	absAllRunes []rune,
 	precision uint,
 	signVal int,
@@ -135,12 +127,34 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 
 	err = nil
 
-	numSepsDto.SetToUSADefaultsIfEmpty()
-
 	nStrDtoElectron := numStrDtoElectron{}
 
 	newNumStrDto =
 		nStrDtoElectron.newBaseZeroNumStrDto(0)
+
+	if numStrFormatSpec == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.XCtxEmpty().String())
+		return newNumStrDto, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return newNumStrDto, err
+	}
+
+	if absAllRunes == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'absAllRunes' is invalid!\n"+
+			"The rune array of 'absAllRunes' == 'nil'\n",
+			ePrefix.String())
+
+		return newNumStrDto, err
+	}
 
 	lenAbsAllRunes := len(absAllRunes)
 
@@ -213,7 +227,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 
 	numStrOut += string(absAllRunes[firstIntIdx : lastIntIdx+1])
 	if isFractional {
-		numStrOut += string(numSepsDto.GetDecimalSeparator())
+		numStrOut += string(numStrFormatSpec.GetDecimalSeparator())
 		numStrOut += string(absAllRunes[lastIntIdx+1 : lastFracIdx+1])
 	}
 
@@ -221,7 +235,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 
 	newNumStrDto, err = nStrDtoAtom.parseNumStr(
 		numStrOut,
-		numSepsDto,
+		numStrFormatSpec,
 		ePrefix)
 
 	return newNumStrDto, err
@@ -242,34 +256,26 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorsDto
-//     - An instance of NumericSeparatorsDto which will be used to supply
-//       the numeric separators for the new NumStrDto instance returned
-//       by this method. Numeric separators include the Thousands
-//       Separator, Decimal Separator and the Currency Symbol.
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+//       The NumStrDto instance ('newNumStrDto') returned by this
+//       method will be configured with this Number String Format
+//       Specification.
 //
-//          type NumericSeparatorsDto struct {
-//
-//            DecimalSeparator   rune // Character used to separate
-//                                    //  integer and fractional digits ('.')
-//
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
-//
-//            CurrencySymbol     rune // Currency Symbol
-//          }
-//
-//       If any of the data fields in this passed structure
-//       'customSeparators' are set to zero ('0'), they will
-//       be reset to USA default values. USA default numeric
-//       separators are listed as follows:
-//
-//             Currency Symbol: '$'
-//         Thousands Separator: ','
-//           Decimal Separator: '.'
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
 //
 //
 //  bigFloatNum         *big.Float
@@ -348,7 +354,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 //   1234.56            1             1234.6
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
-	numSepsDto NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	bigFloatNum *big.Float,
 	precision uint,
 	ePrefix *ErrPrefixDto) (
@@ -376,7 +382,20 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 
 	err = nil
 
-	numSepsDto.SetToUSADefaultsIfEmpty()
+	if numStrFormatSpec == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.String())
+		return newNumStrDto, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return newNumStrDto, err
+	}
 
 	if bigFloatNum == nil {
 
@@ -394,7 +413,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 	newNumStrDto,
 		err = nStrDtoAtom.parseNumStr(
 		numStr,
-		numSepsDto,
+		numStrFormatSpec,
 		ePrefix.XCtx("numStr"))
 
 	return newNumStrDto, err
@@ -405,38 +424,31 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 // and return a new NumStrDto type encapsulating the numeric value
 // of the passed Big Integer number.
 //
+//
 // -----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorsDto
-//     - An instance of NumericSeparatorsDto which will be used to supply
-//       the numeric separators for the new NumStrDto instance returned
-//       by this method. Numeric separators include the Thousands
-//       Separator, Decimal Separator and the Currency Symbol.
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+//       The NumStrDto instance ('newNumStrDto') returned by this
+//       method will be configured with this Number String Format
+//       Specification.
 //
-//          type NumericSeparatorsDto struct {
-//
-//            DecimalSeparator   rune // Character used to separate
-//                                    //  integer and fractional digits ('.')
-//
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
-//
-//            CurrencySymbol     rune // Currency Symbol
-//          }
-//
-//       If any of the data fields in this passed structure
-//       'customSeparators' are set to zero ('0'), they will
-//       be reset to USA default values. USA default numeric
-//       separators are listed as follows:
-//
-//             Currency Symbol: '$'
-//         Thousands Separator: ','
-//           Decimal Separator: '.'
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
 //
 //
 //  bigIntNum           *big.Int
@@ -536,7 +548,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 //   123456          7                   0.0123456
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
-	numSepsDto NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	bigIntNum *big.Int,
 	precision uint,
 	ePrefix *ErrPrefixDto) (
@@ -563,7 +575,20 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 	newNumStrDto =
 		nStrDtoElectron.newBaseZeroNumStrDto(0)
 
-	numSepsDto.SetToUSADefaultsIfEmpty()
+	if numStrFormatSpec == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.String())
+		return newNumStrDto, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return newNumStrDto, err
+	}
 
 	if bigIntNum == nil {
 
@@ -574,10 +599,10 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 		return newNumStrDto, err
 	}
 
-	err = nStrDtoElectron.setNumericSeparatorsDto(
+	err = nStrDtoElectron.setFormatSpec(
 		&newNumStrDto,
-		numSepsDto,
-		ePrefix.XCtx("newNumStrDto"))
+		numStrFormatSpec,
+		ePrefix.XCtx("numStrFormatSpec -> newNumStrDto"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -652,20 +677,18 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 		}
 	}
 
-	err = nStrDtoElectron.setNumericSeparatorsDto(
+	err = nStrDtoElectron.setFormatSpec(
 		&newNumStrDto,
-		numSepsDto,
+		numStrFormatSpec,
 		ePrefix.XCtx("newNumStrDto #2"))
 
 	if err != nil {
 		return newNumStrDto, err
 	}
 
-	nStrDtoQuark := numStrDtoQuark{}
-
 	_,
 		err =
-		nStrDtoQuark.testNumStrDtoValidity(
+		numStrDtoQuark{}.ptr().testNumStrDtoValidity(
 			&newNumStrDto,
 			ePrefix.XCtx("Final Validity Check-newNumStrDto"))
 
@@ -677,39 +700,35 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 //
 // See the 'Example Usage' section below.
 //
-//
-// -----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  numSepsDto          NumericSeparatorsDto
 //     - An instance of NumericSeparatorsDto which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+// -----------------------------------------------------------------
 //
-//          type NumericSeparatorsDto struct {
+// Input Parameters
 //
-//            DecimalSeparator   rune // Character used to separate
-//                                    //  integer and fractional digits ('.')
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
+//       The NumStrDto instance ('newNumStrDto') returned by this
+//       method will be configured with this Number String Format
+//       Specification.
 //
-//            CurrencySymbol     rune // Currency Symbol
-//          }
-//
-//       If any of the data fields in this passed structure
-//       'customSeparators' are set to zero ('0'), they will
-//       be reset to USA default values. USA default numeric
-//       separators are listed as follows:
-//
-//             Currency Symbol: '$'
-//         Thousands Separator: ','
-//           Decimal Separator: '.'
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
 //
 //
 //  f64                 float64
@@ -782,7 +801,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 //   1234.56         1                1234.6
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
-	numSepsDto NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	f64 float64,
 	precision uint,
 	ePrefix *ErrPrefixDto) (
@@ -810,7 +829,20 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 
 	err = nil
 
-	numSepsDto.SetToUSADefaultsIfEmpty()
+	if numStrFormatSpec == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.String())
+		return newNumStrDto, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return newNumStrDto, err
+	}
 
 	// Number string rounded to 'precision' decimal
 	// places.
@@ -824,7 +856,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 	newNumStrDto,
 		err = nStrDtoAtom.parseNumStr(
 		numStr,
-		numSepsDto,
+		numStrFormatSpec,
 		ePrefix.XCtx(
 			"numStr, numSepsDto"))
 
@@ -839,34 +871,26 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorsDto
-//     - An instance of NumericSeparatorsDto which will be used to supply
-//       the numeric separators for the new NumStrDto instance returned
-//       by this method. Numeric separators include the Thousands
-//       Separator, Decimal Separator and the Currency Symbol.
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+//       The NumStrDto instance ('newNumStrDto') returned by this
+//       method will be configured with this Number String Format
+//       Specification.
 //
-//          type NumericSeparatorsDto struct {
-//
-//            DecimalSeparator   rune // Character used to separate
-//                                    //  integer and fractional digits ('.')
-//
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
-//
-//            CurrencySymbol     rune // Currency Symbol
-//          }
-//
-//       If any of the data fields in this passed structure
-//       'customSeparators' are set to zero ('0'), they will
-//       be reset to USA default values. USA default numeric
-//       separators are listed as follows:
-//
-//             Currency Symbol: '$'
-//         Thousands Separator: ','
-//           Decimal Separator: '.'
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
 //
 //
 //  int64Num            int64
@@ -942,7 +966,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 //   123456          7                   0.0123456
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
-	numSepsDto NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	int64Num int64,
 	precision uint,
 	ePrefix *ErrPrefixDto) (
@@ -969,7 +993,20 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 	newNumStrDto =
 		nStrDtoElectron.newBaseZeroNumStrDto(0)
 
-	numSepsDto.SetToUSADefaultsIfEmpty()
+	if numStrFormatSpec == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.XCtxEmpty().String())
+		return newNumStrDto, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return newNumStrDto, err
+	}
 
 	numStr := strconv.FormatInt(int64Num, 10)
 
@@ -977,7 +1014,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 
 	newNumStrDto,
 		err = nStrDtoMolecule.setPrecision(
-		numSepsDto,
+		numStrFormatSpec,
 		numStr,
 		precision,
 		true,
@@ -1187,34 +1224,25 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 //
 // Input Parameters
 //
-//  numSepsDto          NumericSeparatorsDto
-//     - An instance of NumericSeparatorsDto which will be used to supply
-//       the numeric separators for the new NumStrDto instance returned
-//       by this method. Numeric separators include the Thousands
-//       Separator, Decimal Separator and the Currency Symbol.
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+//       The NumStrDto instance returned by this method will be
+//       configured with this Number String Format Specification.
 //
-//          type NumericSeparatorsDto struct {
-//
-//            DecimalSeparator   rune // Character used to separate
-//                                    //  integer and fractional digits ('.')
-//
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
-//
-//            CurrencySymbol     rune // Currency Symbol
-//          }
-//
-//       If any of the data fields in this passed structure
-//       'customSeparators' are set to zero ('0'), they will
-//       be reset to USA default values. USA default numeric
-//       separators are listed as follows:
-//
-//             Currency Symbol: '$'
-//         Thousands Separator: ','
-//           Decimal Separator: '.'
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
 //
 //
 //  numStr              string
@@ -1261,7 +1289,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 //       error message.
 //
 func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
-	numSepsDto NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	numStr string,
 	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
@@ -1296,14 +1324,27 @@ func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
 		return newNumStrDto, err
 	}
 
-	numSepsDto.SetToUSADefaultsIfEmpty()
+	if numStrFormatSpec == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.XCtxEmpty())
+		return newNumStrDto, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return newNumStrDto, err
+	}
 
 	nStrDtoAtom := numStrDtoAtom{}
 
 	newNumStrDto,
 		err = nStrDtoAtom.parseNumStr(
 		numStr,
-		numSepsDto,
+		numStrFormatSpec,
 		ePrefix.XCtx(
 			"numStr, numSepsDto"))
 

@@ -5,6 +5,9 @@ import (
 	"sync"
 )
 
+// NumStrFmtSpecDto - Encapsulates all of the format specifications
+// required to format the numeric values contained in type NumStrDto.
+//
 type NumStrFmtSpecDto struct {
 	idNo           uint64
 	idString       string
@@ -42,6 +45,9 @@ type NumStrFmtSpecDto struct {
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------

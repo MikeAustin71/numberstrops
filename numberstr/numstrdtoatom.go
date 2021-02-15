@@ -1881,31 +1881,27 @@ func (nStrDtoAtom *numStrDtoAtom) formatThousandsStr(
 //       numeric value which will be used to create the returned
 //       number string.
 //
-//  numSepsDto          NumericSeparatorsDto
-//     - An instance of NumericSeparatorsDto which will be used to supply
-//       the numeric separators for the new NumStrDto instance returned
-//       by this method. Numeric separators include the Thousands
-//       Separator, Decimal Separator and the Currency Symbol.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//       type NumericSeparatorsDto struct {
-//         decimalSeparator              rune
-//         integerDigitsSeparator        rune
-//         integerDigitsGroupingSequence []uint
+//      Number String Format Specifications contained in this
+//      object will be used by internal calculations in configuring
+//      the final number string returned by this method.
+//
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
-//
-//
-//       If any of the data fields in this passed structure
-//       'customSeparators' are set to zero ('0'), they will
-//       be reset to USA default values. USA default numeric
-//       separators are listed as follows:
-//
-//         Thousands Separator
-//          (a.k.a.) integerDigitsSeparator: ','
-//         integerDigitsGroupingSequence   : []uint{3}
-//         Decimal Separator               : '.'
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -1943,7 +1939,7 @@ func (nStrDtoAtom *numStrDtoAtom) formatThousandsStr(
 //
 func (nStrDtoAtom *numStrDtoAtom) parseNumStr(
 	numStr string,
-	numSepsDto NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
@@ -1979,17 +1975,29 @@ func (nStrDtoAtom *numStrDtoAtom) parseNumStr(
 		return newNumStrDto, err
 	}
 
-	numSepsDto.SetToUSADefaultsIfEmpty()
+	if numStrFormatSpec == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.XCtxEmpty())
+		return newNumStrDto, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return newNumStrDto, err
+	}
 
 	n2Dto := nStrDtoElectron.newBaseZeroNumStrDto(0)
 
 	n2Dto.signVal = 1
 
-	err =
-		nStrDtoElectron.setNumericSeparatorsDto(
-			&n2Dto,
-			numSepsDto,
-			ePrefix.XCtx("n2Dto "))
+	err = nStrDtoElectron.setFormatSpec(
+		&n2Dto,
+		numStrFormatSpec,
+		ePrefix.XCtx("numStrFormatSpec -> n2Dt"))
 
 	if err != nil {
 		return newNumStrDto, err
