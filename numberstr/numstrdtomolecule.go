@@ -1,7 +1,6 @@
 package numberstr
 
 import (
-	"errors"
 	"fmt"
 	"math/big"
 	"sync"
@@ -288,23 +287,25 @@ func (nStrDtoMolecule *numStrDtoMolecule) compareNumStrDtoSignedValues(
 //
 // Input Parameters
 //
-//  n1Dto           *NumStrDto
+//  n1Dto               *NumStrDto
 //     - A pointer to an instance of NumStrDto. This method WILL
 //       NOT change the values of internal member variables to achieve
 //       the method's objectives.
 //
 //
-//  n2Dto           *NumStrDto
+//  n2Dto               *NumStrDto
 //     - A pointer to a second instance of NumStrDto. This method WILL
 //       NOT change the values of internal member variables to achieve
 //       the method's objectives.
 //
 //
-//  ePrefix             string
-//     - A string consisting of the method chain used to call
-//       this method. In case of error, this text string is included
-//       in the error message. Note: Be sure to leave a space at the
-//       end of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -342,17 +343,20 @@ func (nStrDtoMolecule *numStrDtoMolecule) compareNumStrDtoSignedValues(
 //
 //
 //  err                 error
-//     - If this method completes successfully, the returned error Type is set
-//       equal to 'nil'. If errors are encountered during processing, the
-//       returned error Type will encapsulate an error message. Note this
-//       error message will incorporate the method chain and text passed by
-//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
-//       the beginning of the error message.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 	n1Dto *NumStrDto,
 	n2Dto *NumStrDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	n1DtoOut NumStrDto,
 	n2DtoOut NumStrDto,
 	compare int,
@@ -367,7 +371,11 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 
 	defer nStrDtoMolecule.lock.Unlock()
 
-	ePrefix += "numStrDtoMolecule.formatForMathOps() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoMolecule.formatForMathOps()")
 
 	nStrDtoElectron := numStrDtoElectron{}
 	compare = -99
@@ -381,16 +389,22 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		0)
 
 	if n1Dto == nil {
-		err = errors.New(ePrefix +
-			"\nInput parameter 'n1Dto' is INVALID!\n" +
-			"n1Dto = nil pointer!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"\nInput parameter 'n1Dto' is INVALID!\n"+
+			"n1Dto = nil pointer!\n",
+			ePrefix.String())
+
 		return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
 	}
 
 	if n2Dto == nil {
-		err = errors.New(ePrefix +
-			"\nInput parameter 'n2Dto' is INVALID!\n" +
-			"n2Dto = nil pointer!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"\nInput parameter 'n2Dto' is INVALID!\n"+
+			"n2Dto = nil pointer!\n",
+			ePrefix.String())
+
 		return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
 	}
 
@@ -407,7 +421,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
 			n1Dto,
-			ePrefix+"n1Dto ")
+			ePrefix.XCtx("n1Dto"))
 
 	if err != nil {
 		return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
@@ -417,20 +431,19 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
 			n2Dto,
-			ePrefix+"n2Dto ")
+			ePrefix.XCtx("n2Dto"))
 
 	if err != nil {
 		return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
 	}
 
-	nStrDtoAtom := numStrDtoAtom{}
-
 	compare,
 		err =
-		nStrDtoAtom.compareNumStrDtoAbsoluteValues(
-			n1Dto,
-			n2Dto,
-			ePrefix)
+		numStrDtoAtom{}.ptr().
+			compareNumStrDtoAbsoluteValues(
+				n1Dto,
+				n2Dto,
+				ePrefix)
 
 	if err != nil {
 		return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
@@ -513,7 +526,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		err =
 		nStrDtoElectron.getAbsIntRunes(
 			&n1DtoOut,
-			ePrefix+"n1DtoOut ")
+			ePrefix.XCtx("n1DtoOut"))
 
 	if err != nil {
 		return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
@@ -523,7 +536,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		err =
 		nStrDtoElectron.getAbsFracRunes(
 			&n1DtoOut,
-			ePrefix+"n1DtoOut ")
+			ePrefix.XCtx("n1DtoOut"))
 
 	if err != nil {
 		return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
@@ -533,7 +546,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		err =
 		nStrDtoElectron.getAbsIntRunes(
 			&n2DtoOut,
-			ePrefix+"n2DtoOut ")
+			ePrefix.XCtx("n2DtoOut"))
 
 	if err != nil {
 		return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
@@ -543,7 +556,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		err =
 		nStrDtoElectron.getAbsFracRunes(
 			&n2DtoOut,
-			ePrefix+"n2DtoOut ")
+			ePrefix.XCtx("n2DtoOut"))
 
 	if err != nil {
 		return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
@@ -564,13 +577,11 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 
 		n2DtoOut.precision = n1DtoOut.precision
 
-		nStrDtoQuark := numStrDtoQuark{}
-
 		_,
 			err =
 			nStrDtoQuark.testNumStrDtoValidity(
 				&n2DtoOut,
-				ePrefix+"n2DtoOut ")
+				ePrefix.XCtx("n2DtoOut"))
 
 		if err != nil {
 			return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
@@ -595,13 +606,11 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 
 		n1DtoOut.precision = n2DtoOut.precision
 
-		nStrDtoQuark := numStrDtoQuark{}
-
 		_,
 			err =
 			nStrDtoQuark.testNumStrDtoValidity(
 				&n1DtoOut,
-				ePrefix+"n1DtoOut ")
+				ePrefix.XCtx("n1DtoOut"))
 
 		if err != nil {
 			n1DtoOut = NumStrDto{}
@@ -652,13 +661,11 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		lenN1AllRunes = len(n1DtoOut.absAllNumRunes)
 		lenN1IntRunes = len(n1DtoOutAbsIntRunes)
 
-		nStrDtoQuark := numStrDtoQuark{}
-
 		_,
 			err =
 			nStrDtoQuark.testNumStrDtoValidity(
 				&n1DtoOut,
-				ePrefix+"n1DtoOut #2 ")
+				ePrefix.XCtx("n1DtoOut #2"))
 
 		if err != nil {
 			n1DtoOut = NumStrDto{}
@@ -692,13 +699,11 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		lenN2AllRunes = len(n2DtoOut.absAllNumRunes)
 		lenN2IntRunes = len(n2DtoOutAbsIntRunes)
 
-		nStrDtoQuark := numStrDtoQuark{}
-
 		_,
 			err =
 			nStrDtoQuark.testNumStrDtoValidity(
 				&n2DtoOut,
-				ePrefix+"n2DtoOut #2 ")
+				ePrefix.XCtx("n2DtoOut #2"))
 
 		if err != nil {
 			return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
@@ -707,22 +712,45 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 	}
 
 	if lenN1AllRunes != lenN2AllRunes {
-		err = fmt.Errorf("FormatForMathOps() - n1 and n2 AllNumRune arrays are NOT equal in length. "+
-			"n1 length= '%v' n2 length= '%v'", lenN1AllRunes, lenN2AllRunes)
+
+		ePrefix.SetCtx("lenN1AllRunes != lenN2AllRunes")
+
+		err = fmt.Errorf("%v\n"+
+			"n1 and n2 AllNumRune arrays are NOT equal in length.\n"+
+			"n1 length= '%v'\n"+
+			"2 length= '%v'\n",
+			ePrefix.String(),
+			lenN1AllRunes,
+			lenN2AllRunes)
 
 		return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
 	}
 
 	if lenN1IntRunes != lenN2IntRunes {
-		err = fmt.Errorf("FormatForMathOps() - n1 and n2 IntRunes arrays are NOT equal in length. "+
-			"n1 length= '%v' n2 length= '%v'", lenN1IntRunes, lenN2IntRunes)
+
+		ePrefix.SetCtx("lenN1IntRunes != lenN2IntRunes")
+
+		err = fmt.Errorf("%v\n"+
+			"n1 and n2 IntRunes arrays are NOT equal in length.\n"+
+			"n1 length= '%v' n2 length= '%v'\n",
+			ePrefix.String(),
+			lenN1IntRunes,
+			lenN2IntRunes)
 
 		return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
 	}
 
 	if lenN1FracRunes != lenN2FracRunes {
-		err = fmt.Errorf("FormatForMathOps() - n1 and n2 FracRunes arrays are NOT equal in length. "+
-			"n1 length= '%v' n2 length= '%v'", lenN1FracRunes, lenN2FracRunes)
+
+		ePrefix.SetCtx("lenN1FracRunes != lenN2FracRunes")
+
+		err = fmt.Errorf("%v\n"+
+			"n1 and n2 FracRunes arrays are NOT equal in length.\n"+
+			"n1 length= '%v'\n"+
+			"n2 length= '%v'\n",
+			ePrefix.String(),
+			lenN1FracRunes,
+			lenN2FracRunes)
 
 		return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
 	}
@@ -738,7 +766,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
 			&n1DtoOut,
-			ePrefix+"n1DtoOut #3 ")
+			ePrefix.XCtx("n1DtoOut #3"))
 
 	if err != nil {
 		return n1DtoOut, n2DtoOut, compare, isOrderReversed, err
@@ -747,7 +775,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 		err =
 		nStrDtoQuark.testNumStrDtoValidity(
 			&n2DtoOut,
-			ePrefix+"n2DtoOut #3 ")
+			ePrefix.XCtx("n2DtoOut #3 "))
 
 	if err != nil {
 		n1DtoOut = NumStrDto{}
@@ -785,11 +813,13 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 //       number string.
 //
 //
-//  ePrefix             string
-//     - A string consisting of the method chain used to call
-//       this method. In case of error, this text string is included
-//       in the error message. Note: Be sure to leave a space at the
-//       end of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -809,15 +839,19 @@ func (nStrDtoMolecule *numStrDtoMolecule) formatForMathOps(
 //
 //
 //  err                 error
-//     - If this method completes successfully, the returned error Type is set
-//       equal to 'nil'. If errors are encountered during processing, the
-//       returned error Type will encapsulate an error message. Note this
-//       error message will incorporate the method chain and text passed by
-//       input parameter, 'ePrefix'.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoMolecule *numStrDtoMolecule) getNumStr(
 	numStrDto *NumStrDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	numStr string,
 	err error) {
 
@@ -829,15 +863,22 @@ func (nStrDtoMolecule *numStrDtoMolecule) getNumStr(
 
 	defer nStrDtoMolecule.lock.Unlock()
 
-	ePrefix += "numStrDtoMolecule.getNumStr() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoMolecule.getNumStr()")
 
 	numStr = ""
 	err = nil
 
 	if numStrDto == nil {
-		err = errors.New(ePrefix +
-			"\nInput parameter 'numStrDto' is INVALID!\n" +
-			"numStrDto = nil pointer!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"Input parameter 'numStrDto' is INVALID!\n"+
+			"numStrDto = nil pointer!\n",
+			ePrefix.String())
+
 		return numStr, err
 	}
 
@@ -846,7 +887,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) getNumStr(
 	_,
 		err = nStrDtoQuark.testNumStrDtoValidity(
 		numStrDto,
-		ePrefix+"Testing Validity of 'numStrDto' ")
+		ePrefix.XCtx("Testing Validity of 'numStrDto'"))
 
 	if err != nil {
 		return numStr, err
@@ -858,11 +899,14 @@ func (nStrDtoMolecule *numStrDtoMolecule) getNumStr(
 		err = nStrDtoAtom.formatNumStr(
 		numStrDto,
 		LEADMINUSNEGVALFMTMODE,
-		ePrefix)
+		ePrefix.XCtx(
+			"numStrDto, LEADMINUSNEGVALFMTMODE"))
 
 	return numStr, err
 }
 
+// getSignedBigIntNum - Receives a NumStrDto and returns a type
+// *big.Int integer value.
 //
 // ------------------------------------------------------------------------
 //
@@ -873,19 +917,43 @@ func (nStrDtoMolecule *numStrDtoMolecule) getNumStr(
 //       NOT change the values of internal member variables to achieve
 //       the method's objectives. This NumStrDto will supply the
 //       numeric value which will be used to create the returned
-//       number string.
+//       *big.Int value.
 //
 //
-//  ePrefix             string
-//     - A string consisting of the method chain used to call
-//       this method. In case of error, this text string is included
-//       in the error message. Note: Be sure to leave a space at the
-//       end of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//
+//  bigIntNum           *big.Int
+//     - If this method completes successfully, the numeric value
+//       of input parameter 'numStrDto' will be returned as type a
+//       type *big.Int integer value.
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrDtoMolecule *numStrDtoMolecule) getSignedBigIntNum(
 	numStrDto *NumStrDto,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	bigIntNum *big.Int,
 	err error) {
 
@@ -897,24 +965,31 @@ func (nStrDtoMolecule *numStrDtoMolecule) getSignedBigIntNum(
 
 	defer nStrDtoMolecule.lock.Unlock()
 
-	ePrefix += "numStrDtoMolecule.getSignedBigIntNum() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrDtoMolecule.getSignedBigIntNum()")
 
 	err = nil
 	bigIntNum = big.NewInt(0)
 
 	if numStrDto == nil {
-		err = errors.New(ePrefix +
-			"\nInput parameter 'numStrDto' is INVALID!\n" +
-			"numStrDto = nil pointer!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"\nInput parameter 'numStrDto' is INVALID!\n"+
+			"numStrDto = nil pointer!\n",
+			ePrefix.String())
+
 		return bigIntNum, err
 	}
 
-	nStrDtoQuark := numStrDtoQuark{}
-
 	_,
-		err = nStrDtoQuark.testNumStrDtoValidity(
+		err = numStrDtoQuark{}.ptr().testNumStrDtoValidity(
 		numStrDto,
-		ePrefix+"Testing Validity of 'numStrDto' ")
+		ePrefix.XCtx(
+			"Testing Validity of 'numStrDto'"))
 
 	if err != nil {
 		return bigIntNum, err
@@ -922,12 +997,10 @@ func (nStrDtoMolecule *numStrDtoMolecule) getSignedBigIntNum(
 
 	bigIntAbsVal := big.NewInt(0)
 
-	nStrDtoAtom := numStrDtoAtom{}
-
 	bigIntAbsVal,
-		err = nStrDtoAtom.getAbsoluteBigInt(
+		err = numStrDtoAtom{}.ptr().getAbsoluteBigInt(
 		numStrDto,
-		ePrefix+"numStrDto ")
+		ePrefix.XCtx("numStrDto"))
 
 	if err != nil {
 		return bigIntNum, err
@@ -940,6 +1013,25 @@ func (nStrDtoMolecule *numStrDtoMolecule) getSignedBigIntNum(
 	}
 
 	return bigIntNum, err
+}
+
+// ptr - Returns a pointer to a new instance of numStrDtoQuark.
+//
+func (nStrDtoMolecule *numStrDtoMolecule) ptr() *numStrDtoQuark {
+
+	if nStrDtoMolecule.lock == nil {
+		nStrDtoMolecule.lock = new(sync.Mutex)
+	}
+
+	nStrDtoMolecule.lock.Lock()
+
+	defer nStrDtoMolecule.lock.Unlock()
+
+	newNumStrDtoMolecule := new(numStrDtoQuark)
+
+	newNumStrDtoMolecule.lock = new(sync.Mutex)
+
+	return newNumStrDtoMolecule
 }
 
 // SetPrecision - parses the incoming number string and applies the designated 'precision'.
@@ -997,12 +1089,13 @@ func (nStrDtoMolecule *numStrDtoMolecule) getSignedBigIntNum(
 //       include rounding the last digit.
 //
 //
-//  ePrefix             string
-//     - Error Prefix. A string consisting of the method chain used
-//       to call this method. In case of error, this text string is
-//       included in the error message. Note: Be sure to leave a space
-//       at the end of 'ePrefix'. If no Error Prefix is desired, simply
-//       provide an empty string for this parameter.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -1014,12 +1107,16 @@ func (nStrDtoMolecule *numStrDtoMolecule) getSignedBigIntNum(
 //       calculated from the input parameters.
 //
 //
-//  err                error
-//     - If successful the returned error Type is set equal to 'nil'.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
 //       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. Note this error
-//       message will incorporate the method chain and text passed
-//       by input parameter, 'ePrefix'.
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //
 // ------------------------------------------------------------------------
@@ -1055,7 +1152,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 	signedNumStr string,
 	precision uint,
 	roundResult bool,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -1067,7 +1164,11 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 
 	defer nStrDtoMolecule.lock.Unlock()
 
-	ePrefix += "numStrDtoMolecule.setPrecision() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrDtoMolecule.setPrecision()")
 
 	err = nil
 
@@ -1077,9 +1178,11 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 		nStrDtoElectron.newBaseZeroNumStrDto(0)
 
 	if len(signedNumStr) == 0 {
-		err = errors.New(ePrefix + "\n" +
-			"Error: Input parameter 'signedNumStr' is INVALID!\n" +
-			"'signedNumStr' is a zero length number string!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'signedNumStr' is INVALID!\n"+
+			"'signedNumStr' is a zero length number string!\n",
+			ePrefix.String())
 
 		return newNumStrDto, err
 	}
@@ -1091,7 +1194,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&newNumStrDto,
 		numSeparators,
-		ePrefix+"Setting 'newNumStrDto' numeric separators ")
+		ePrefix.XCtx("Setting 'newNumStrDto' numeric separators"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1100,7 +1203,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 	var n0 NumStrDto
 
 	n0, err = nStrDtoElectron.newEmptyNumStrDto(
-		ePrefix + "Creating 'n0' ")
+		ePrefix.XCtx("Creating 'n0'"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1109,7 +1212,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&n0,
 		numSeparators,
-		ePrefix+"Setting 'n0' Separators ")
+		ePrefix.XCtx("Setting 'n0' Separators<-numSeparators"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1123,7 +1226,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 		err = nStrDtoAtom.parseNumStr(
 		signedNumStr,
 		numSeparators,
-		ePrefix+"n1 ")
+		ePrefix.XCtx("n1=parse(signedNumStr)"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1132,7 +1235,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 	var n2 NumStrDto
 
 	n2, err = nStrDtoElectron.newEmptyNumStrDto(
-		ePrefix + "Creating 'n2' ")
+		ePrefix.XCtx("Creating 'n2'"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1141,7 +1244,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&n0,
 		numSeparators,
-		ePrefix+"Creating 'n0' ")
+		ePrefix.XCtx("Creating 'n0'"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1153,7 +1256,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&n2,
 		numSeparators,
-		ePrefix+"Setting 'n2' numeric separators ")
+		ePrefix.XCtx("Setting 'n2' numeric separators"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1165,7 +1268,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 	n2AbsIntRunes,
 		err = nStrDtoElectron.getAbsIntRunes(
 		&n2,
-		ePrefix+"n2 ")
+		ePrefix.XCtx("n2AbsIntRunes <- n2 "))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1194,9 +1297,12 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 		absAllNumsToRound, isOk := big.NewInt(0).SetString(string(n1.absAllNumRunes), 10)
 
 		if !isOk {
-			err = fmt.Errorf(ePrefix+"\n"+
-				"Error: Failed to convert string to big.Int(). "+
-				"big.Int.SetString(n1.absAllNumRunes). n1.absAllNumRunes='%v' ",
+
+			err = fmt.Errorf("%v\n"+
+				"Error: Failed to convert string to big.Int().\n"+
+				"big.Int.SetString(n1.absAllNumRunes).\n"+
+				"n1.absAllNumRunes='%v'\n",
+				ePrefix.String(),
 				string(n1.absAllNumRunes))
 
 			return newNumStrDto, err
@@ -1232,13 +1338,19 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 
 		if lenN1AbsAllNumRunes != (lenN1AbsIntRunes + lenN1AbsFracRunes) {
 
-			err = fmt.Errorf(ePrefix+"Error on Rounding. lenN1AbsAllNumRunes != "+
-				"(lenN1AbsIntRunes + lenN1AbsFracRunes). lenN1AbsAllNumRunes= '%v' "+
-				"lenN1AbsIntRunes= '%v' lenN1AbsFracRunes= '%v'",
-				lenN1AbsAllNumRunes, lenN1AbsIntRunes, lenN1AbsFracRunes)
+			err = fmt.Errorf("%v\n"+
+				"Error on Rounding. lenN1AbsAllNumRunes != "+
+				"(lenN1AbsIntRunes + lenN1AbsFracRunes).\n"+
+				"lenN1AbsAllNumRunes= '%v'\n"+
+				"lenN1AbsIntRunes= '%v'\n"+
+				"lenN1AbsFracRunes= '%v'\n",
+				ePrefix.String(),
+				lenN1AbsAllNumRunes,
+				lenN1AbsIntRunes,
+				lenN1AbsFracRunes)
+
 			return newNumStrDto, err
 		}
-
 	}
 
 	if lenN1AbsIntRunes == 0 {
@@ -1273,7 +1385,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 	newNumStrDto,
 		err = nStrDtoElectron.copyOut(
 		&n2,
-		ePrefix+"n2->newNumStrDto ")
+		ePrefix.XCtx("n2->newNumStrDto "))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1348,11 +1460,13 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 //       be shifted to the left.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -1364,12 +1478,16 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 //       precision operation in the form of a new 'NumStrDto' instance.
 //
 //
-//  err                error
-//     - If this method completes successfully, the returned error Type is
-//       set equal to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message. Note
-//       that this error message will incorporate the method chain and text
-//       passed by input parameter, 'ePrefix'.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //
 // ------------------------------------------------------------------------
@@ -1377,26 +1495,26 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 // Example Usage
 //
 //
-//                               Shift-Left
-//  signedNumStr    precision     Result
-//  "123456.789"       3        "123.456789"
-//  "123456.789"       2       "1234.56789"
-//  "123456.789"       6          "0.123456789"
-//  "123456789"        6        "123.456789"
-//  "123"              5          "0.00123"
-//   "0"               3          "0.000"
-//   "0.000"           2          "0.00000"
-//  "123456.789"       0     "123456.789"      - zero 'shiftPrecision' has no effect on
-//                                               original number string
-// "-123456.789"       0       "-123.456789"
-// "-123456.789"       3       "-123.456789"
-// "-123456789"        6       "-123.456789"
+//                                Shift-Left
+//   signedNumStr    precision     Result
+//   "123456.789"       3        "123.456789"
+//   "123456.789"       2       "1234.56789"
+//   "123456.789"       6          "0.123456789"
+//   "123456789"        6        "123.456789"
+//   "123"              5          "0.00123"
+//    "0"               3          "0.000"
+//    "0.000"           2          "0.00000"
+//   "123456.789"       0     "123456.789"      - zero 'shiftPrecision' has no effect on
+//                                                original number string
+//  "-123456.789"       0       "-123.456789"
+//  "-123456.789"       3       "-123.456789"
+//  "-123456789"        6       "-123.456789"
 //
 func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 	numSeparators NumericSeparatorsDto,
 	signedNumStr string,
 	shiftLeftPrecision uint,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -1408,7 +1526,12 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 
 	defer nStrDtoMolecule.lock.Unlock()
 
-	ePrefix += "numStrDtoMolecule.shiftPrecisionLeft() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrDtoMolecule.shiftPrecisionLeft()")
 
 	err = nil
 
@@ -1418,9 +1541,11 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 		nStrDtoElectron.newBaseZeroNumStrDto(0)
 
 	if len(signedNumStr) == 0 {
-		err = errors.New(ePrefix + "\n" +
-			"Error: Input parameter 'signedNumStr' is INVALID!\n" +
-			"'signedNumStr' is a zero length number string!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'signedNumStr' is INVALID!\n"+
+			"'signedNumStr' is a zero length number string!\n",
+			ePrefix.String())
 
 		return newNumStrDto, err
 	}
@@ -1432,7 +1557,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&newNumStrDto,
 		numSeparators,
-		ePrefix+"Setting 'newNumStrDto' numeric separators ")
+		ePrefix.XCtx("Setting 'newNumStrDto' numeric separators"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1446,7 +1571,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 		err = nStrDtoAtom.parseNumStr(
 		signedNumStr,
 		numSeparators,
-		ePrefix+"signedNumStr -> n1 ")
+		ePrefix.XCtx("signedNumStr -> n1 "))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1455,7 +1580,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 	var n2 NumStrDto
 
 	n2, err = nStrDtoElectron.newEmptyNumStrDto(
-		ePrefix + "Creating 'n2' ")
+		ePrefix.XCtx("Creating 'n2'"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1464,7 +1589,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&n2,
 		numSeparators,
-		ePrefix+"Setting 'n2' numeric separators ")
+		ePrefix.XCtx("Setting 'n2' numeric separators"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1490,7 +1615,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 	isZeroValue,
 		err = nStrDtoElectron.isNumStrZeroValue(
 		&n1,
-		ePrefix+"n1 ")
+		ePrefix.XCtx("n1"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1527,20 +1652,20 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 	lenAbsIntRunes = lenAbsAllNumRunes - lenAbsFracRunes
 
 	if lenAbsIntRunes <= 0 {
-		err = fmt.Errorf(ePrefix+
-			"Calculated number of integer digits is less than or equal to ZERO. "+
-			"lenAbsIntRunes= '%v' ",
+
+		err = fmt.Errorf("%v\n"+
+			"Calculated number of integer digits is less than or equal to ZERO.\n"+
+			"lenAbsIntRunes= '%v'\n",
+			ePrefix.String(),
 			lenAbsIntRunes)
+
 		return newNumStrDto, err
 	}
-
-	//lenAbsFracRunes =
-	//	numStrDtoElectron.getAbsFracRunesLength(&n2)
 
 	newNumStrDto,
 		err = nStrDtoElectron.copyOut(
 		&n2,
-		ePrefix+"n2 -> newNumStrDto ")
+		ePrefix.XCtx("n2 -> newNumStrDto"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1551,7 +1676,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 	_,
 		err = nStrDtoQuark.testNumStrDtoValidity(
 		&newNumStrDto,
-		ePrefix+"Final validation 'newNumStrDto' ")
+		ePrefix.XCtx("Final validation 'newNumStrDto'"))
 
 	return newNumStrDto, err
 }
@@ -1615,11 +1740,13 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 //       be shifted to the right.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -1631,12 +1758,16 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 //       precision operation in the form of a new 'NumStrDto' instance.
 //
 //
-//  err                error
-//     - If successful the returned error Type is set equal to 'nil'.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
 //       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. Note this error
-//       message will incorporate the method chain and text passed
-//       by input parameter, 'ePrefix'.
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //
 // ------------------------------------------------------------------------
@@ -1664,7 +1795,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 	numSeparators NumericSeparatorsDto,
 	signedNumStr string,
 	shiftRightPrecision uint,
-	ePrefix string) (
+	ePrefix *ErrPrefixDto) (
 	newNumStrDto NumStrDto,
 	err error) {
 
@@ -1676,7 +1807,12 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 
 	defer nStrDtoMolecule.lock.Unlock()
 
-	ePrefix += "numStrDtoMolecule.shiftPrecisionRight() "
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrDtoMolecule.shiftPrecisionRight()")
 
 	err = nil
 
@@ -1686,9 +1822,11 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 		nStrDtoElectron.newBaseZeroNumStrDto(0)
 
 	if len(signedNumStr) == 0 {
-		err = errors.New(ePrefix + "\n" +
-			"Error: Input parameter 'signedNumStr' is INVALID!\n" +
-			"'signedNumStr' is a zero length number string!\n")
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'signedNumStr' is INVALID!\n"+
+			"'signedNumStr' is a zero length number string!\n",
+			ePrefix.String())
 
 		return newNumStrDto, err
 	}
@@ -1700,7 +1838,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&newNumStrDto,
 		numSeparators,
-		ePrefix+"Setting 'newNumStrDto' numeric separators ")
+		ePrefix.XCtx("Setting 'newNumStrDto' numeric separators"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1714,7 +1852,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 		err = nStrDtoAtom.parseNumStr(
 		signedNumStr,
 		numSeparators,
-		ePrefix+"signedNumStr -> n1 ")
+		ePrefix.XCtx("signedNumStr -> n1 "))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1723,7 +1861,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 	var n2 NumStrDto
 
 	n2, err = nStrDtoElectron.newEmptyNumStrDto(
-		ePrefix + "Creating n2 ")
+		ePrefix.XCtx("Creating n2"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1732,7 +1870,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 	err = nStrDtoElectron.setNumericSeparatorsDto(
 		&n2,
 		numSeparators,
-		ePrefix+"Setting 'n2' numeric separators ")
+		ePrefix.XCtx("Setting 'n2' numeric separators"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1759,7 +1897,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 	isZeroValue,
 		err = nStrDtoElectron.isNumStrZeroValue(
 		&n1,
-		ePrefix+"n1 ")
+		ePrefix.XCtx("n1"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1798,20 +1936,19 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 	lenAbsIntRunes := lenAbsAllNumRunes - lenAbsFracRunes
 
 	if lenAbsIntRunes <= 0 {
-		err = fmt.Errorf(ePrefix+"\n"+
+		err = fmt.Errorf("%v\n"+
 			"Calculated number of integer digits is less than or equal to ZERO.\n"+
-			"lenAbsIntRunes= '%v'\n", lenAbsIntRunes)
+			"lenAbsIntRunes= '%v'\n",
+			ePrefix.String(),
+			lenAbsIntRunes)
 
 		return newNumStrDto, err
 	}
 
-	//lenAbsFracRunes =
-	//	numStrDtoElectron.getAbsFracRunesLength(&n2)
-
 	newNumStrDto,
 		err = nStrDtoElectron.copyOut(
 		&n2,
-		ePrefix+"n2 -> newNumStrDto ")
+		ePrefix.XCtx("n2 -> newNumStrDto"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1822,7 +1959,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 	_,
 		err = nStrDtoQuark.testNumStrDtoValidity(
 		&newNumStrDto,
-		ePrefix+"Final validation 'newNumStrDto' ")
+		ePrefix.XCtx("Final validation 'newNumStrDto'"))
 
 	return newNumStrDto, err
 }

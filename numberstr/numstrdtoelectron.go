@@ -696,14 +696,6 @@ func (nStrDtoElectron *numStrDtoElectron) getDecimalSeparator(
 		numStrDto.fmtSpec.currencyValue.numberSeparatorsDto.GetDecimalSeparator()
 
 	return decimalSeparator, err
-
-	//if numStrDto.decimalSeparator == 0 {
-	//	numStrDto.decimalSeparator = '.'
-	//}
-	//
-	//decimalSeparator = numStrDto.decimalSeparator
-	//
-	//return decimalSeparator, err
 }
 
 // getCurrencySymbol - Returns the character currently designated
@@ -716,6 +708,7 @@ func (nStrDtoElectron *numStrDtoElectron) getDecimalSeparator(
 //   datetime/numstrdtoconstants.go
 //
 // Example: $123.45
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -786,22 +779,126 @@ func (nStrDtoElectron *numStrDtoElectron) getCurrencySymbol(
 
 		return currencySymbol, err
 	}
+
 	err = numStrDto.fmtSpec.currencyValue.IsValidInstanceError(
 		ePrefix.XCtx(
 			"Testing validity of currency value."))
+
+	if err != nil {
+		return currencySymbol, err
+	}
 
 	currencySymbol =
 		numStrDto.fmtSpec.currencyValue.GetCurrencySymbol()
 
 	return currencySymbol, err
+}
 
-	//if numStrDto.currencySymbol == 0 {
-	//	numStrDto.currencySymbol = '$'
-	//}
-	//
-	//currencySymbol = numStrDto.currencySymbol
-	//
-	//return currencySymbol, err
+// getFormatSpec - Returns the Number String Format
+// Specification configured for the NumStrDto object passed as an
+// input parameter.
+//
+// If the NumStrDto input parameter 'numStrDto' is judged invalid,
+// this method will return an error.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numStrDto           *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method will
+//       NOT change the values of internal member variables to
+//       achieve the method's objectives.
+//
+//       A deep copy of the Number String Format Specification
+//       configured for this NumStrDto instance will be returned.
+//
+//       If 'numStrDto' is judged invalid, this method will return
+//       an error.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrFmtSpecDto
+//     - If this method completes successfully, the Number String
+//       Format Specification configured for input parameter, ''
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrDtoElectron *numStrDtoElectron) getFormatSpec(
+	numStrDto *NumStrDto,
+	ePrefix *ErrPrefixDto) (
+	NumStrFmtSpecDto,
+	error) {
+
+	if nStrDtoElectron.lock == nil {
+		nStrDtoElectron.lock = new(sync.Mutex)
+	}
+
+	nStrDtoElectron.lock.Lock()
+
+	defer nStrDtoElectron.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrDtoElectron.getFormatSpec()")
+
+	var err error
+
+	if numStrDto == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"\nInput parameter 'numStrDto' is INVALID!\n"+
+			"numStrDto = nil pointer!\n",
+			ePrefix.String())
+
+		return NumStrFmtSpecDto{}, err
+	}
+
+	_,
+		err = numStrDtoQuark{}.ptr().
+		testNumStrDtoValidity(
+			numStrDto,
+			ePrefix.XCtx(
+				"Testing validity of numStrDto"))
+
+	if err != nil {
+		return NumStrFmtSpecDto{}, err
+	}
+
+	var newFmtSpec NumStrFmtSpecDto
+
+	newFmtSpec,
+		err = numStrDto.fmtSpec.CopyOut(
+		ePrefix.XCtx(
+			"numStrDto.fmtSpec->"))
+
+	return newFmtSpec, err
 }
 
 // getNumericSignValue - Returns an integer value specifying the
@@ -1101,20 +1198,35 @@ func (nStrDtoElectron *numStrDtoElectron) getThousandsSeparator(
 		return thousandsSeparator, err
 	}
 
+	err = numStrDto.fmtSpec.
+		currencyValue.
+		IsValidInstanceError(
+			ePrefix.XCtx(
+				"numStrDto.fmtSpec.currencyValue"))
+
+	if err != nil {
+		return thousandsSeparator, err
+	}
+
+	err = numStrDto.
+		fmtSpec.
+		currencyValue.
+		numberSeparatorsDto.
+		IsValidInstanceError(
+			ePrefix.XCtx(
+				"numStrDto.fmtSpec.currencyValue." +
+					"numberSeparatorsDto"))
+
+	if err != nil {
+		return thousandsSeparator, err
+	}
+
 	thousandsSeparator =
 		numStrDto.fmtSpec.currencyValue.
 			numberSeparatorsDto.
 			GetIntegerDigitsSeparator()
 
 	return thousandsSeparator, err
-
-	//if numStrDto.thousandsSeparator == 0 {
-	//	numStrDto.thousandsSeparator = ','
-	//}
-	//
-	//thousandsSeparator = numStrDto.thousandsSeparator
-	//
-	//return thousandsSeparator, err
 }
 
 // isNumStrZeroValue - Returns 'true' if all the digits in

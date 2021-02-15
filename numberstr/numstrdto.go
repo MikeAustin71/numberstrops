@@ -82,7 +82,7 @@ type NumStrDto struct {
 //
 func (nDto *NumStrDto) Add(
 	n2Dto NumStrDto,
-	ePrefix ErrPrefixDto) (
+	ePrefix *ErrPrefixDto) (
 	err error) {
 
 	ePrefix.SetEPref("NumStrDto.Add()")
@@ -1627,7 +1627,7 @@ func (nDto *NumStrDto) GetNumericSeparatorsDto() NumericSeparatorsDto {
 	numSeps,
 		_ := nStrDtoAtom.getCurrencyNumSepsDto(
 		nDto,
-		"")
+		nil)
 
 	return numSeps
 }
@@ -2222,14 +2222,19 @@ func (nDto *NumStrDto) GetThouParen(
 	thousandsParenStr string,
 	err error) {
 
-	ePrefix += "NumStrDto.GetThouParen() "
+	ePrefixDto := ErrPrefixDto{}
+
+	ePrefixDto.SetEPrefOld(ePrefix)
+
+	ePrefixDto.SetEPref("NumStrDto.GetThouParen()")
 
 	nStrDtoAtom := numStrDtoAtom{}
 
 	return nStrDtoAtom.formatThousandsStr(
 		nDto,
 		PARENTHESESNEGVALFMTMODE,
-		ePrefix)
+		ePrefixDto.XCtx(
+			"nDto"))
 }
 
 // GetThouStr - Returns the number string delimited with the
@@ -2289,14 +2294,19 @@ func (nDto *NumStrDto) GetThouStr(
 	thousandsStr string,
 	err error) {
 
-	ePrefix += "NumStrDto.GetThouStr() "
+	ePrefixDto := ErrPrefixDto{}
+
+	ePrefixDto.SetEPrefOld(ePrefix)
+
+	ePrefixDto.SetEPref("NumStrDto.GetThouStr()")
 
 	nStrDtoAtom := numStrDtoAtom{}
 
 	return nStrDtoAtom.formatThousandsStr(
 		nDto,
 		LEADMINUSNEGVALFMTMODE,
-		ePrefix)
+		ePrefixDto.XCtx(
+			"nDto"))
 }
 
 // GetThousandsSeparator - returns a rune which represents
@@ -2314,7 +2324,7 @@ func (nDto *NumStrDto) GetThousandsSeparator() rune {
 	thousandsSeparator,
 		_ := nStrDtoElectron.getThousandsSeparator(
 		nDto,
-		"")
+		nil)
 
 	return thousandsSeparator
 }

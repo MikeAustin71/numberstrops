@@ -2126,3 +2126,22 @@ func (nStrDtoAtom *numStrDtoAtom) parseNumStr(
 
 	return newNumStrDto, err
 }
+
+// ptr - Returns a pointer to a new instance of numStrDtoAtom.
+//
+func (nStrDtoAtom numStrDtoAtom) ptr() *numStrDtoAtom {
+
+	if nStrDtoAtom.lock == nil {
+		nStrDtoAtom.lock = new(sync.Mutex)
+	}
+
+	nStrDtoAtom.lock.Lock()
+
+	defer nStrDtoAtom.lock.Unlock()
+
+	newNumStrDtoAtom := new(numStrDtoAtom)
+
+	newNumStrDtoAtom.lock = new(sync.Mutex)
+
+	return newNumStrDtoAtom
+}
