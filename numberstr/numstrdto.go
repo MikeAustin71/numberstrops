@@ -58,7 +58,7 @@ type NumStrDto struct {
 //      will be returned.
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix             ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -84,7 +84,7 @@ type NumStrDto struct {
 //
 func (nDto *NumStrDto) Add(
 	n2Dto NumStrDto,
-	ePrefix *ErrPrefixDto) (
+	ePrefix ErrPrefixDto) (
 	err error) {
 
 	if nDto.lock == nil {
@@ -95,21 +95,19 @@ func (nDto *NumStrDto) Add(
 
 	defer nDto.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref("NumStrDto.Add()")
+	ePrefLocal := ePrefix.ZEPref("NumStrDto.Add()")
 
 	err = nil
 
 	var numStrFormatSpec NumStrFmtSpecDto
 
+	nStrDtoElectron := numStrDtoElectron{}
+
 	numStrFormatSpec,
 		err =
-		numStrDtoElectron{}.ptr().getFormatSpec(
+		nStrDtoElectron.getFormatSpec(
 			nDto,
-			ePrefix.XCtx("nDto"))
+			ePrefLocal.XCtx("nDto"))
 
 	if err != nil {
 		return err
@@ -119,19 +117,19 @@ func (nDto *NumStrDto) Add(
 
 	sum,
 		err = numStrDtoUtility{}.ptr().addNumStrs(
-		numStrFormatSpec,
+		&numStrFormatSpec,
 		nDto,
 		&n2Dto,
-		ePrefix)
+		ePrefLocal.XCtx("nDto+n2Dto"))
 
 	if err != nil {
 		return err
 	}
 
-	err = numStrDtoElectron{}.ptr().copyIn(
+	err = nStrDtoElectron.copyIn(
 		nDto,
 		&sum,
-		ePrefix.XCtx("sum->nDto"))
+		ePrefLocal.XCtx("sum->nDto"))
 
 	return err
 }
@@ -140,6 +138,9 @@ func (nDto *NumStrDto) Add(
 // NumStrDto objects and returns the sum of these two numeric
 // values as another NumStrDto instance.
 //
+// The returned NumStrDto instance will be configured with the
+// Number String Format Specification taken from the current
+// NumStrDto instance.
 //
 // -----------------------------------------------------------------
 //
@@ -169,65 +170,76 @@ func (nDto *NumStrDto) Add(
 //      will be returned.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  sum                NumStrDto
+//  sum                 NumStrDto
 //     - If this method completes successfully, this parameter will
 //       encapsulate the numeric sum obtained by adding the numeric
 //       values of input parameters, 'addend1' and 'addend2'.
 //
 //
 //  err                 error
-//     - If this method completes successfully, the returned error Type is set
-//       equal to 'nil'. If errors are encountered during processing, the
-//       returned error Type will encapsulate an error message. Note this
-//       error message will incorporate the method chain and text passed by
-//       input parameter, 'ePrefix'. The 'ePrefix' text will be prefixed to
-//       the beginning of the error message.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nDto *NumStrDto) AddNumStrs(
 	addend1 NumStrDto,
 	addend2 NumStrDto,
-	ePrefix string) (
+	ePrefix ErrPrefixDto) (
 	sum NumStrDto,
 	err error) {
 
-	ePrefix += "NumStrDto.AddNumStrs() "
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
+
+	nDto.lock.Lock()
+
+	defer nDto.lock.Unlock()
+
+	ePrefLocal := ePrefix.ZEPref(
+		"NumStrDto.AddNumStrs()")
 
 	sum = NumStrDto{}
 	err = nil
 
-	var numSepsDto NumericSeparatorsDto
+	var numStrFormatSpec NumStrFmtSpecDto
 
-	nStrDtoAtom := numStrDtoAtom{}
-
-	numSepsDto,
+	numStrFormatSpec,
 		err =
-		nStrDtoAtom.getCurrencyNumSepsDto(
+		numStrDtoElectron{}.ptr().getFormatSpec(
 			nDto,
-			ePrefix+"nDto ")
+			ePrefLocal.XCtx("nDto"))
 
 	if err != nil {
 		return sum, err
 	}
 
-	nStrDtoUtil := numStrDtoUtility{}
-
 	sum,
-		err = nStrDtoUtil.addNumStrs(
-		numSepsDto,
+		err = numStrDtoUtility{}.ptr().addNumStrs(
+		&numStrFormatSpec,
 		&addend1,
 		&addend2,
-		ePrefix)
+		ePrefLocal.XCtx(
+			"addend1, addend2"))
 
 	return sum, err
 }
@@ -267,11 +279,13 @@ func (nDto *NumStrDto) AddNumStrs(
 //       of the current NumStrDto instance, 'nDto'.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -291,29 +305,40 @@ func (nDto *NumStrDto) AddNumStrs(
 //         +1 = n1Dto is greater than n2Dto
 //
 //
-//  err                error
-//     - If this method completes successfully, the returned error Type
-//       is set equal to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message. Note
-//       that this error message will incorporate the method chain and text
-//       passed by input parameter, 'ePrefix'. Said text will be prefixed
-//       to the beginning of the error message.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nDto *NumStrDto) Compare(
 	n2Dto *NumStrDto,
-	ePrefix string) (
+	ePrefix ErrPrefixDto) (
 	compareResult int,
 	err error) {
 
-	ePrefix += "NumStrDto.Compare() "
-	nStrDtoMolecule := numStrDtoMolecule{}
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
+
+	nDto.lock.Lock()
+
+	defer nDto.lock.Unlock()
+
+	ePrefLocal := ePrefix.ZEPref("NumStrDto.Compare()")
 
 	compareResult,
 		err =
-		nStrDtoMolecule.compareNumStrDtoSignedValues(
+		numStrDtoMolecule{}.ptr().compareNumStrDtoSignedValues(
 			nDto,
 			n2Dto,
-			"")
+			ePrefLocal.XCtx(
+				"nDto, n2Dto"))
 
 	return compareResult, err
 }
@@ -369,11 +394,13 @@ func (nDto *NumStrDto) Compare(
 //       error will be returned.
 //
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -393,22 +420,33 @@ func (nDto *NumStrDto) Compare(
 //         +1 = n1Dto is greater than n2Dto
 //
 //
-//  err                error
-//     - If this method completes successfully, the returned error Type
-//       is set equal to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message. Note
-//       that this error message will incorporate the method chain and text
-//       passed by input parameter, 'ePrefix'. Said text will be prefixed
-//       to the beginning of the error message.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nDto *NumStrDto) CompareSignedValues(
 	n1Dto *NumStrDto,
 	n2Dto *NumStrDto,
-	ePrefix string) (
+	ePrefix ErrPrefixDto) (
 	compareResult int,
 	err error) {
 
-	ePrefix += "NumStrDto.CompareSignedValues() "
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
+
+	nDto.lock.Lock()
+
+	defer nDto.lock.Unlock()
+
+	ePrefLocal := ePrefix.ZEPref("NumStrDto.CompareSignedValues()")
 
 	nStrDtoMolecule := numStrDtoMolecule{}
 
@@ -417,7 +455,7 @@ func (nDto *NumStrDto) CompareSignedValues(
 		nStrDtoMolecule.compareNumStrDtoSignedValues(
 			n1Dto,
 			n2Dto,
-			"")
+			ePrefLocal.XCtx("n1Dto, n2Dto"))
 
 	return compareResult, err
 }

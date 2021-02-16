@@ -1015,9 +1015,9 @@ func (nStrDtoMolecule *numStrDtoMolecule) getSignedBigIntNum(
 	return bigIntNum, err
 }
 
-// ptr - Returns a pointer to a new instance of numStrDtoQuark.
+// ptr - Returns a pointer to a new instance of numStrDtoMolecule.
 //
-func (nStrDtoMolecule *numStrDtoMolecule) ptr() *numStrDtoQuark {
+func (nStrDtoMolecule numStrDtoMolecule) ptr() *numStrDtoMolecule {
 
 	if nStrDtoMolecule.lock == nil {
 		nStrDtoMolecule.lock = new(sync.Mutex)
@@ -1027,7 +1027,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) ptr() *numStrDtoQuark {
 
 	defer nStrDtoMolecule.lock.Unlock()
 
-	newNumStrDtoMolecule := new(numStrDtoQuark)
+	newNumStrDtoMolecule := new(numStrDtoMolecule)
 
 	newNumStrDtoMolecule.lock = new(sync.Mutex)
 

@@ -15,7 +15,9 @@ func (tMain *TestMain) Test000010AddNumStrs(
 	ePrefix string) (
 	err error) {
 
-	ePrefix += "TestMain.TestAddNumStrs000010() "
+	errPrefixDto := numstr.ErrPrefixDto{}.NewEPrefOld(ePrefix)
+
+	errPrefixDto.SetEPref("TestMain.TestAddNumStrs000010()")
 
 	nStr1 := "-9589.21"
 	nStr2 := "9211.40"
@@ -23,25 +25,31 @@ func (tMain *TestMain) Test000010AddNumStrs(
 	var n1, n2, nExpected, nResult numstr.NumStrDto
 
 	nDto := numstr.NumStrDto{}.New()
-	n1, err = nDto.ParseNumStr(nStr1, ePrefix+"nStr1 ")
+
+	n1, err = nDto.ParseNumStr(
+		nStr1,
+		errPrefixDto.XCtx("nStr1"))
 
 	if err != nil {
 		return err
 	}
 
-	n2, err = nDto.ParseNumStr(nStr2, ePrefix+"nStr2 ")
+	n2, err = nDto.ParseNumStr(nStr2,
+		errPrefixDto.XCtx("nStr2"))
 
 	if err != nil {
 		return err
 	}
 
-	nExpected, err = nDto.ParseNumStr(nStr3, ePrefix+"nStr3 ")
+	nExpected, err = nDto.ParseNumStr(nStr3,
+		errPrefixDto.XCtx("nStr3"))
 
 	if err != nil {
 		return err
 	}
 
-	nResult, err = nDto.AddNumStrs(n1, n2, ePrefix+"n1+n2 ")
+	nResult, err = nDto.AddNumStrs(n1, n2,
+		errPrefixDto.XCtx("n1+n2"))
 
 	if err != nil {
 		return err
