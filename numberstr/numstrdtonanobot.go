@@ -2216,7 +2216,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) setNumStrDtoPrecision(
 
 	n2,
 		err = nStrDtoMolecule.setPrecision(
-		numStrFormatSpec,
+		&numStrFormatSpec,
 		numStr,
 		precision,
 		roundResult,
