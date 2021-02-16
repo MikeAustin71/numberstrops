@@ -1034,47 +1034,47 @@ func (nStrDtoMolecule *numStrDtoMolecule) ptr() *numStrDtoQuark {
 	return newNumStrDtoMolecule
 }
 
-// SetPrecision - parses the incoming number string and applies the designated 'precision'.
-// 'precision' determines the number of digits to the right of the decimal place. The boolean
-// parameter 'roundResult' is used to apply rounding in those cases where 'precision' dictates
-// a reduction in the number of digits to the right of the decimal place. See 'Examples' below.
+// SetPrecision - parses the incoming number string and applies the
+// designated 'precision'.
+//
+// 'precision' determines the number of digits to the right of the
+// decimal place. The boolean parameter 'roundResult' is used to
+// apply rounding in those cases where 'precision' dictates a
+// reduction in the number of digits to the right of the decimal
+// place. See 'Examples' below.
 //
 //
 // --------------------------------------------------------------------------------------------------
 //
 // Input Parameters
 //
-//  numSeparators       NumericSeparatorsDto
-//     - The numeric separator values contained in this input
-//       parameter will be copied to the returned input parameter
-//       'newNumStrDto', a newly created instance of NumStrDto.
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+//       The NumStrDto instance ('newNumStrDto') returned by this
+//       method will be configured with this Number String Format
+//       Specification.
 //
-//          type NumericSeparatorsDto struct {
-//
-//            DecimalSeparator   rune // Character used to separate
-//                                    //  integer and fractional digits ('.')
-//
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
-//
-//            CurrencySymbol     rune // Currency Symbol
-//          }
-//
-//       If any of the data fields in this passed structure
-//       'customSeparators' are set to zero ('0'), they will
-//       be reset to USA default values. USA default numeric
-//       separators are listed as follows:
-//
-//             Currency Symbol: '$'
-//         Thousands Separator: ','
-//           Decimal Separator: '.'
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
 //
 //
 //  signedNumStr        string
-//     - A valid number string
+//     - A valid number string. This string will be parsed and
+//       configured with 'precision' digits to the right of the
+//       decimal point before being converted to the NumStrDto
+//       object returned to the calling function.
 //
 //
 //  precision           uint
@@ -1148,7 +1148,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) ptr() *numStrDtoQuark {
 // 19    "-123457"            1           true            "-123457.0"
 //
 func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
-	numSeparators NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	signedNumStr string,
 	precision uint,
 	roundResult bool,
@@ -1187,13 +1187,26 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 		return newNumStrDto, err
 	}
 
-	// Set defaults for thousands separators,
-	// decimal separators and currency Symbols
-	numSeparators.SetToUSADefaultsIfEmpty()
+	if numStrFormatSpec == nil {
 
-	err = nStrDtoElectron.setNumericSeparatorsDto(
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return newNumStrDto, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return newNumStrDto, err
+	}
+
+	err = nStrDtoElectron.setFormatSpec(
 		&newNumStrDto,
-		numSeparators,
+		numStrFormatSpec,
 		ePrefix.XCtx("Setting 'newNumStrDto' numeric separators"))
 
 	if err != nil {
@@ -1209,9 +1222,9 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 		return newNumStrDto, err
 	}
 
-	err = nStrDtoElectron.setNumericSeparatorsDto(
+	err = nStrDtoElectron.setFormatSpec(
 		&n0,
-		numSeparators,
+		numStrFormatSpec,
 		ePrefix.XCtx("Setting 'n0' Separators<-numSeparators"))
 
 	if err != nil {
@@ -1225,7 +1238,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 	n1,
 		err = nStrDtoAtom.parseNumStr(
 		signedNumStr,
-		numSeparators,
+		numStrFormatSpec,
 		ePrefix.XCtx("n1=parse(signedNumStr)"))
 
 	if err != nil {
@@ -1241,9 +1254,9 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 		return newNumStrDto, err
 	}
 
-	err = nStrDtoElectron.setNumericSeparatorsDto(
+	err = nStrDtoElectron.setFormatSpec(
 		&n0,
-		numSeparators,
+		numStrFormatSpec,
 		ePrefix.XCtx("Creating 'n0'"))
 
 	if err != nil {
@@ -1253,9 +1266,9 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 	n2.signVal = n1.signVal
 	n2.precision = precision
 
-	err = nStrDtoElectron.setNumericSeparatorsDto(
+	err = nStrDtoElectron.setFormatSpec(
 		&n2,
-		numSeparators,
+		numStrFormatSpec,
 		ePrefix.XCtx("Setting 'n2' numeric separators"))
 
 	if err != nil {
@@ -1302,7 +1315,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 				"Error: Failed to convert string to big.Int().\n"+
 				"big.Int.SetString(n1.absAllNumRunes).\n"+
 				"n1.absAllNumRunes='%v'\n",
-				ePrefix.String(),
+				ePrefix.XCtxEmpty().String(),
 				string(n1.absAllNumRunes))
 
 			return newNumStrDto, err
@@ -1391,10 +1404,8 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 		return newNumStrDto, err
 	}
 
-	nStrDtoQuark := numStrDtoQuark{}
-
 	_,
-		err = nStrDtoQuark.testNumStrDtoValidity(
+		err = numStrDtoQuark{}.ptr().testNumStrDtoValidity(
 		&newNumStrDto,
 		ePrefix)
 
@@ -1416,31 +1427,26 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 //
 // Input Parameters
 //
-//  numSeparators       NumericSeparatorsDto
-//     - The numeric separator values contained in this input
-//       parameter will be copied to the returned input parameter
-//       'newNumStrDto', a newly created instance of NumStrDto.
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+//       The NumStrDto instance ('newNumStrDto') returned by this
+//       method will be configured with this Number String Format
+//       Specification.
 //
-//          type NumericSeparatorsDto struct {
-//
-//            DecimalSeparator   rune // Character used to separate
-//                                    //  integer and fractional digits ('.')
-//
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
-//
-//            CurrencySymbol     rune // Currency Symbol
-//          }
-//
-//       If any of the data fields in this passed structure 'customSeparators'
-//       are set to zero ('0'), they will be reset to USA default values.
-//       USA default numeric separators are listed as follows:
-//             Currency Symbol: '$'
-//         Thousands Separator: ','
-//           Decimal Separator: '.'
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
 //
 //
 //  signedNumStr        string
@@ -1511,7 +1517,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 //  "-123456789"        6       "-123.456789"
 //
 func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
-	numSeparators NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	signedNumStr string,
 	shiftLeftPrecision uint,
 	ePrefix *ErrPrefixDto) (
@@ -1550,14 +1556,27 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 		return newNumStrDto, err
 	}
 
-	// Set defaults for thousands separators,
-	// decimal separators and currency Symbols
-	numSeparators.SetToUSADefaultsIfEmpty()
+	if numStrFormatSpec == nil {
 
-	err = nStrDtoElectron.setNumericSeparatorsDto(
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return newNumStrDto, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return newNumStrDto, err
+	}
+
+	err = nStrDtoElectron.setFormatSpec(
 		&newNumStrDto,
-		numSeparators,
-		ePrefix.XCtx("Setting 'newNumStrDto' numeric separators"))
+		numStrFormatSpec,
+		ePrefix.XCtx("Setting 'newNumStrDto' Format Spec"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1570,8 +1589,8 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 	n1,
 		err = nStrDtoAtom.parseNumStr(
 		signedNumStr,
-		numSeparators,
-		ePrefix.XCtx("signedNumStr -> n1 "))
+		numStrFormatSpec,
+		ePrefix.XCtx("signedNumStr -> n1"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1586,10 +1605,10 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 		return newNumStrDto, err
 	}
 
-	err = nStrDtoElectron.setNumericSeparatorsDto(
+	err = nStrDtoElectron.setFormatSpec(
 		&n2,
-		numSeparators,
-		ePrefix.XCtx("Setting 'n2' numeric separators"))
+		numStrFormatSpec,
+		ePrefix.XCtx("Setting 'n2' Format Spec"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1671,10 +1690,8 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 		return newNumStrDto, err
 	}
 
-	nStrDtoQuark := numStrDtoQuark{}
-
 	_,
-		err = nStrDtoQuark.testNumStrDtoValidity(
+		err = numStrDtoQuark{}.ptr().testNumStrDtoValidity(
 		&newNumStrDto,
 		ePrefix.XCtx("Final validation 'newNumStrDto'"))
 
@@ -1696,31 +1713,26 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 //
 // Input Parameters
 //
-//  numSeparators       NumericSeparatorsDto
-//     - The numeric separator values contained in this input
-//       parameter will be copied to the returned input parameter
-//       'newNumStrDto', a newly created instance of NumStrDto.
+//  numStrFormatSpec    *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
 //
-//       The data fields included in the NumericSeparatorsDto are
-//       listed as follows:
+//       The NumStrDto instance ('newNumStrDto') returned by this
+//       method will be configured with this Number String Format
+//       Specification.
 //
-//          type NumericSeparatorsDto struct {
-//
-//            DecimalSeparator   rune // Character used to separate
-//                                    //  integer and fractional digits ('.')
-//
-//            ThousandsSeparator rune // Character used to separate thousands
-//                                    //  (1,000,000,000
-//
-//            CurrencySymbol     rune // Currency Symbol
-//          }
-//
-//       If any of the data fields in this passed structure 'customSeparators'
-//       are set to zero ('0'), they will be reset to USA default values.
-//       USA default numeric separators are listed as follows:
-//             Currency Symbol: '$'
-//         Thousands Separator: ','
-//           Decimal Separator: '.'
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
 //
 //
 //  signedNumStr        string
@@ -1792,7 +1804,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 //  "-123456789"             6             "-123456789000000"
 //
 func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
-	numSeparators NumericSeparatorsDto,
+	numStrFormatSpec *NumStrFmtSpecDto,
 	signedNumStr string,
 	shiftRightPrecision uint,
 	ePrefix *ErrPrefixDto) (
@@ -1831,14 +1843,27 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 		return newNumStrDto, err
 	}
 
-	// Set defaults for thousands separators,
-	// decimal separators and currency Symbols
-	numSeparators.SetToUSADefaultsIfEmpty()
+	if numStrFormatSpec == nil {
 
-	err = nStrDtoElectron.setNumericSeparatorsDto(
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
+			"numStrFormatSpec is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return newNumStrDto, err
+	}
+
+	err = numStrFormatSpec.IsValidInstanceError(
+		ePrefix.XCtx("numStrFormatSpec"))
+
+	if err != nil {
+		return newNumStrDto, err
+	}
+
+	err = nStrDtoElectron.setFormatSpec(
 		&newNumStrDto,
-		numSeparators,
-		ePrefix.XCtx("Setting 'newNumStrDto' numeric separators"))
+		numStrFormatSpec,
+		ePrefix.XCtx("Setting 'newNumStrDto' Format Spec"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1851,7 +1876,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 	n1,
 		err = nStrDtoAtom.parseNumStr(
 		signedNumStr,
-		numSeparators,
+		numStrFormatSpec,
 		ePrefix.XCtx("signedNumStr -> n1 "))
 
 	if err != nil {
@@ -1867,10 +1892,10 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 		return newNumStrDto, err
 	}
 
-	err = nStrDtoElectron.setNumericSeparatorsDto(
+	err = nStrDtoElectron.setFormatSpec(
 		&n2,
-		numSeparators,
-		ePrefix.XCtx("Setting 'n2' numeric separators"))
+		numStrFormatSpec,
+		ePrefix.XCtx("Setting 'n2' Format Spec"))
 
 	if err != nil {
 		return newNumStrDto, err
@@ -1954,10 +1979,8 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionRight(
 		return newNumStrDto, err
 	}
 
-	nStrDtoQuark := numStrDtoQuark{}
-
 	_,
-		err = nStrDtoQuark.testNumStrDtoValidity(
+		err = numStrDtoQuark{}.ptr().testNumStrDtoValidity(
 		&newNumStrDto,
 		ePrefix.XCtx("Final validation 'newNumStrDto'"))
 

@@ -780,10 +780,12 @@ func (nStrDtoUtil *numStrDtoUtility) subtractNumStrs(
 	}
 
 	if numStrFormatSpec == nil {
+
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'numStrFormatSpec' is invalid!\n"+
 			"numStrFormatSpec is a 'nil' pointer.\n",
 			ePrefix.XCtxEmpty().String())
+
 		return difference, err
 	}
 
