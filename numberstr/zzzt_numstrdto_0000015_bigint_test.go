@@ -8,7 +8,9 @@ import (
 
 func TestNumStrDto_GetBigIntNum_10(t *testing.T) {
 
-	ePrefix := "TestNumStrDto_GetBigIntNum_10() "
+	ePrefix := ErrPrefixDto{}.NewEPrefOld(
+		"TestNumStrDto_GetBigIntNum_10()")
+
 	bigI := big.NewInt(123456123456)
 	expectedPrecision := uint(0)
 
@@ -24,7 +26,7 @@ func TestNumStrDto_GetBigIntNum_10(t *testing.T) {
 		err = NumStrDto{}.NewBigInt(
 		bigI,
 		0,
-		ePrefix+"bigI ")
+		ePrefix.ZCtx("bigI"))
 
 	if err != nil {
 		t.Errorf("%v", err.Error())
@@ -34,7 +36,8 @@ func TestNumStrDto_GetBigIntNum_10(t *testing.T) {
 	var actualNumStr string
 
 	actualNumStr, err =
-		actualBigIntNDto.GetNumStr(ePrefix + "actualBigIntNDto ")
+		actualBigIntNDto.GetNumStr(
+			ePrefix.ZCtx("actualBigIntNDto"))
 
 	if err != nil {
 		t.Errorf("%v", err.Error())
@@ -51,7 +54,8 @@ func TestNumStrDto_GetBigIntNum_10(t *testing.T) {
 	var actualBigIntNum *big.Int
 
 	actualBigIntNum,
-		err = actualBigIntNDto.GetBigInt(ePrefix + "actualBigIntNDto ")
+		err = actualBigIntNDto.GetBigInt(
+		ePrefix.ZCtx("actualBigIntNDto"))
 
 	if err != nil {
 		t.Errorf("%v", err.Error())
@@ -91,7 +95,7 @@ func TestNumStrDto_GetSignedBigInt_10(t *testing.T) {
 		return
 	}
 
-	ePrefix := "TestNumStrDto_GetSignedBigInt_10"
+	ePrefix := ErrPrefixDto{}.NewEPrefOld("TestNumStrDto_GetSignedBigInt_10")
 
 	var n1, nXDto NumStrDto
 	var err error
@@ -101,7 +105,7 @@ func TestNumStrDto_GetSignedBigInt_10(t *testing.T) {
 	n1, err =
 		nXDto.ParseNumStr(
 			nStr,
-			ePrefix+"nStr ")
+			ePrefix.ZCtx("nStr"))
 
 	if err != nil {
 		t.Errorf("%v", err)
@@ -111,7 +115,7 @@ func TestNumStrDto_GetSignedBigInt_10(t *testing.T) {
 	var signedBigInt *big.Int
 
 	signedBigInt, err = n1.GetBigInt(
-		ePrefix + "n1 ")
+		ePrefix.ZCtx("n1"))
 
 	if err != nil {
 		t.Errorf("%v", err)
@@ -128,7 +132,7 @@ func TestNumStrDto_GetSignedBigInt_10(t *testing.T) {
 
 func TestNumStrDto_NewBigInt_10(t *testing.T) {
 
-	ePrefix := "TestNumStrDto_NewBigInt_10() "
+	ePrefix := ErrPrefixDto{}.NewEPrefOld("TestNumStrDto_NewBigInt_10()")
 
 	signedAbsNumStr := "-123456789"
 	absAllNumStr := "123456789"
@@ -152,21 +156,30 @@ func TestNumStrDto_NewBigInt_10(t *testing.T) {
 	n1, err = NumStrDto{}.NewBigInt(
 		sBigInt,
 		precision,
-		ePrefix+
+		ePrefix.ZCtx(
 			fmt.Sprintf("sBigInt='%v' ",
-				sBigInt.Text(10)))
+				sBigInt.Text(10))))
 
 	if err != nil {
 		t.Errorf("%v", err)
 		return
 	}
 
-	nDto := n1.CopyOut()
+	var nDto NumStrDto
+
+	nDto,
+		err = n1.CopyOut(
+		ePrefix.ZCtxEmpty())
+
+	if err != nil {
+		t.Errorf("%v", err)
+		return
+	}
 
 	var actualNumStr string
 
 	actualNumStr, err =
-		nDto.GetNumStr(ePrefix + "nDto ")
+		nDto.GetNumStr(ePrefix.ZCtx("nDto"))
 
 	if err != nil {
 		t.Errorf("%v", err)
@@ -232,7 +245,7 @@ func TestNumStrDto_NewBigInt_10(t *testing.T) {
 	}
 
 	err = nDto.IsValidInstanceError(
-		ePrefix + "Testing 'nDto' validity ")
+		ePrefix.ZCtx("Testing 'nDto' validity"))
 
 	if err != nil {
 		t.Errorf("Error returned by nDto.IsValidInstanceError()\n"+
@@ -244,7 +257,8 @@ func TestNumStrDto_NewBigInt_10(t *testing.T) {
 
 func TestNumStrDto_NewBigInt_20(t *testing.T) {
 
-	ePrefix := "TestNumStrDto_NewBigInt_20() "
+	ePrefix := ErrPrefixDto{}.NewEPrefOld(
+		"TestNumStrDto_NewBigInt_20()")
 
 	signedAbsNumStr := "123456789"
 	absAllNumStr := "123456789"
@@ -261,27 +275,35 @@ func TestNumStrDto_NewBigInt_20(t *testing.T) {
 		return
 	}
 
-	var n1 NumStrDto
+	var n1, nDto NumStrDto
 	var err error
 
 	n1, err = NumStrDto{}.NewBigInt(
 		sBigInt,
 		precision,
-		ePrefix+
+		ePrefix.ZCtx(
 			fmt.Sprintf("sBigInt='%v' ",
-				sBigInt.Text(10)))
+				sBigInt.Text(10))))
 
 	if err != nil {
 		t.Errorf("%v", err)
 		return
 	}
 
-	nDto := n1.CopyOut()
+	nDto,
+		err = n1.CopyOut(
+		ePrefix.ZCtx(
+			"n1->nDto"))
+
+	if err != nil {
+		t.Errorf("%v", err)
+		return
+	}
 
 	var actualNumStr string
 
 	actualNumStr, err =
-		nDto.GetNumStr(ePrefix + "nDto ")
+		nDto.GetNumStr(ePrefix.ZCtx("nDto"))
 
 	if err != nil {
 		t.Errorf("%v", err)
@@ -347,12 +369,10 @@ func TestNumStrDto_NewBigInt_20(t *testing.T) {
 	}
 
 	err = nDto.IsValidInstanceError(
-		ePrefix + "Testing 'nDto' validity ")
+		ePrefix.ZCtx("Testing 'nDto' validity"))
 
 	if err != nil {
-		t.Errorf("Error returned by nDto.IsValidInstanceError()\n"+
-			"Error='%v'\n", err.Error())
-		return
+		t.Errorf("%v", err)
 	}
 
 }

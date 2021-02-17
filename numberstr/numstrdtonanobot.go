@@ -1867,6 +1867,25 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64Exponent(
 	return newNumStrDto, err
 }
 
+// ptr - Returns a pointer to a new instance of numStrDtoAtom.
+//
+func (nStrDtoNanobot numStrDtoNanobot) ptr() *numStrDtoNanobot {
+
+	if nStrDtoNanobot.lock == nil {
+		nStrDtoNanobot.lock = new(sync.Mutex)
+	}
+
+	nStrDtoNanobot.lock.Lock()
+
+	defer nStrDtoNanobot.lock.Unlock()
+
+	newNumStrDtoNanobot := new(numStrDtoNanobot)
+
+	newNumStrDtoNanobot.lock = new(sync.Mutex)
+
+	return newNumStrDtoNanobot
+}
+
 // scaleNumStr - Receives a signed number string and proceeds
 // to shifts the position of the decimal point left or right
 // depending on the value of input parameter 'scaleMode'.

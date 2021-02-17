@@ -3,7 +3,9 @@ package numberstr
 import "testing"
 
 func TestNumStrDto_CopyIn_10(t *testing.T) {
-	ePrefix := "TestNumStrDto_CopyIn_10() "
+
+	ePrefix := ErrPrefixDto{}.NewEPrefOld(
+		"TestNumStrDto_CopyIn_10()")
 
 	nStr := "123.456"
 	iStr := "123"
@@ -27,7 +29,14 @@ func TestNumStrDto_CopyIn_10(t *testing.T) {
 
 	nDto := NumStrDto{}.New()
 
-	nDto.CopyIn(n1)
+	err = nDto.CopyIn(
+		n1,
+		ePrefix)
+
+	if err != nil {
+		t.Errorf("%v", err.Error())
+		return
+	}
 
 	var s string
 

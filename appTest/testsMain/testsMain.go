@@ -28,28 +28,28 @@ func (tMain *TestMain) Test000010AddNumStrs(
 
 	n1, err = nDto.ParseNumStr(
 		nStr1,
-		errPrefixDto.XCtx("nStr1"))
+		errPrefixDto.ZCtx("nStr1"))
 
 	if err != nil {
 		return err
 	}
 
 	n2, err = nDto.ParseNumStr(nStr2,
-		errPrefixDto.XCtx("nStr2"))
+		errPrefixDto.ZCtx("nStr2"))
 
 	if err != nil {
 		return err
 	}
 
 	nExpected, err = nDto.ParseNumStr(nStr3,
-		errPrefixDto.XCtx("nStr3"))
+		errPrefixDto.ZCtx("nStr3"))
 
 	if err != nil {
 		return err
 	}
 
 	nResult, err = nDto.AddNumStrs(n1, n2,
-		errPrefixDto.XCtx("n1+n2"))
+		errPrefixDto.ZCtx("n1+n2"))
 
 	if err != nil {
 		return err
@@ -57,20 +57,25 @@ func (tMain *TestMain) Test000010AddNumStrs(
 
 	var s, expected string
 
-	s, err = nResult.GetNumStr(ePrefix + "nResult ")
+	s, err = nResult.GetNumStr(
+		errPrefixDto.ZCtx("nResult"))
 
 	if err != nil {
 		return err
 	}
 
-	expected, err = nExpected.GetNumStr(ePrefix + "nExpected ")
+	expected, err = nExpected.GetNumStr(
+		errPrefixDto.ZCtx("nExpected"))
 
 	if err != nil {
 		return err
 	}
 
 	if s != expected {
-		err = fmt.Errorf("Expected NumStrOut = '%v'. Instead, got %v", expected, s)
+		err = fmt.Errorf("Expected NumStrOut = '%v'.\n"+
+			"Instead, got %v\n",
+			expected, s)
+
 		return err
 	}
 
@@ -78,7 +83,8 @@ func (tMain *TestMain) Test000010AddNumStrs(
 	expected = string(nExpected.GetAbsIntRunes())
 
 	if expected != s {
-		err = fmt.Errorf("Expected AbsIntRunes = '%v'. Instead, got %v", expected, s)
+		err = fmt.Errorf("Expected AbsIntRunes = '%v'.\n"+
+			"Instead, got %v\n", expected, s)
 		return err
 	}
 
@@ -86,34 +92,43 @@ func (tMain *TestMain) Test000010AddNumStrs(
 	expected = string(nExpected.GetAbsFracRunes())
 
 	if expected != s {
-		err = fmt.Errorf("Expected AbsFracRunes = '%v'. Instead, got %v", expected, s)
+		err = fmt.Errorf("Expected AbsFracRunes = '%v'.\n"+
+			"Instead, got %v\n", expected, s)
 		return err
 	}
 
 	if nExpected.GetSign() != nResult.GetSign() {
-		err = fmt.Errorf("Expected SignVal= '%v'. Instead, got %v", nExpected.GetSign(), nResult.GetSign())
+		err = fmt.Errorf("Expected SignVal= '%v'.\n"+
+			"Instead, got %v\n", nExpected.GetSign(), nResult.GetSign())
 		return err
 	}
 
 	if nExpected.HasNumericDigits() != nResult.HasNumericDigits() {
-		err = fmt.Errorf("Expected HasNumericDigist= '%v'. Instead, got '%v'", nExpected.HasNumericDigits(), nResult.HasNumericDigits())
+		err = fmt.Errorf("Expected HasNumericDigist= '%v'.\n"+
+			"Instead, got '%v'\n", nExpected.HasNumericDigits(), nResult.HasNumericDigits())
 		return err
 	}
 
 	if nExpected.IsFractionalValue() != nResult.IsFractionalValue() {
-		err = fmt.Errorf("Expected IsFractionalValue= '%v'. Instead, got %v", nExpected.IsFractionalValue(), nResult.IsFractionalValue())
+		err = fmt.Errorf("Expected IsFractionalValue= '%v'.\n"+
+			"Instead, got %v\n",
+			nExpected.IsFractionalValue(), nResult.IsFractionalValue())
 		return err
 	}
 
 	if nExpected.GetPrecisionInt() != nResult.GetPrecisionInt() {
-		err = fmt.Errorf("Expected precision= '%v'. Instead, got %v", nExpected.GetPrecisionInt(), nResult.GetPrecisionInt())
+		err = fmt.Errorf("Expected precision= '%v'.\n"+
+			"Instead, got %v\n", nExpected.GetPrecisionInt(), nResult.GetPrecisionInt())
 		return err
 	}
 
-	err = nResult.IsValidInstanceError(ePrefix)
+	err = nResult.IsValidInstanceError(errPrefixDto.ZCtxEmpty())
 
 	if err != nil {
-		err = fmt.Errorf("Error returned from nDto.IsValidInstanceError(&nResult). Error= %v", err)
+		err = fmt.Errorf(
+			"Error returned from "+
+				"nDto.IsValidInstanceError(&nResult).\n"+
+				"Error= %v\n", err)
 		return err
 	}
 
@@ -128,7 +143,11 @@ func (tMain *TestMain) Test001000NewInt(
 
 	// From Test TestNumStrDto_NewInt_0020()
 
-	ePrefix += "TestNumStrDto_NewInt_0010() "
+	ePrefixDto :=
+		numstr.ErrPrefixDto{}.NewEPrefOld(
+			ePrefix)
+
+	ePrefixDto.SetEPref("Test001000NewInt()")
 
 	intNum := 7
 	precision := uint(0)
@@ -143,9 +162,9 @@ func (tMain *TestMain) Test001000NewInt(
 		nXDto.NewInt(
 			intNum,
 			precision,
-			ePrefix+
+			ePrefixDto.ZCtx(
 				fmt.Sprintf("intNum= '%v' ",
-					strconv.Itoa(intNum)))
+					strconv.Itoa(intNum))))
 
 	if err != nil {
 		return err
@@ -155,7 +174,7 @@ func (tMain *TestMain) Test001000NewInt(
 
 	actualNumStr, err =
 		nDto.GetNumStr(
-			ePrefix + "nDto ")
+			ePrefixDto.ZCtx("nDto"))
 
 	if err != nil {
 		return err

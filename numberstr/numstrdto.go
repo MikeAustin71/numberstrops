@@ -1,6 +1,7 @@
 package numberstr
 
 import (
+	"fmt"
 	"math/big"
 	"sync"
 )
@@ -266,6 +267,11 @@ func (nDto *NumStrDto) AddNumStrs(
 //     -5      82             -1
 //      5       5              0
 //
+//
+// This method is functionally identical to
+// NumStrDto.CompareSignedValues().
+//
+//
 // -----------------------------------------------------------------
 //
 // Input Parameters
@@ -366,6 +372,10 @@ func (nDto *NumStrDto) Compare(
 //
 // If either 'n1Dto' or 'n2Dto' are judged to be invalid, this
 // method will return an error.
+//
+//
+// This method is functionally identical to
+// NumStrDto.Compare().
 //
 // -----------------------------------------------------------------
 //
@@ -511,6 +521,15 @@ func (nDto *NumStrDto) CompareSignedValues(
 //       will return an error.
 //
 //
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
 // ------------------------------------------------------------------------
 //
 // Return Values
@@ -528,22 +547,42 @@ func (nDto *NumStrDto) CompareSignedValues(
 //                0    = n1Dto is equal to n2Dto
 //               +1    = n1Dto is greater than n2Dto
 //
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
 func (nDto *NumStrDto) CompareAbsoluteValues(
 	n1Dto *NumStrDto,
 	n2Dto *NumStrDto,
-	ePrefix string) (
+	ePrefix ErrPrefixDto) (
 	compareResult int,
 	err error) {
 
-	ePrefix += "NumStrDto.CompareAbsoluteValues() "
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
 
-	nStrDtoAtom := numStrDtoAtom{}
+	nDto.lock.Lock()
+
+	defer nDto.lock.Unlock()
+
+	ePrefLocal := ePrefix.ZEPref(
+		"NumStrDto.CompareAbsoluteValues()")
 
 	compareResult,
-		err = nStrDtoAtom.compareNumStrDtoAbsoluteValues(
+		err = numStrDtoAtom{}.ptr().compareNumStrDtoAbsoluteValues(
 		n1Dto,
 		n2Dto,
-		"")
+		ePrefLocal.XCtx(
+			"n1Dto, n2Dto,"))
 
 	if err != nil {
 		compareResult = -99
@@ -555,34 +594,130 @@ func (nDto *NumStrDto) CompareAbsoluteValues(
 // CopyIn - Receives an incoming NumStrDto object
 // and copies the information to the current NumStrDto
 // data fields.
-func (nDto *NumStrDto) CopyIn(nInDto NumStrDto) {
+//
+//
+// -----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  nInDto              NumStrDto
+//     - An instance of NumStrDto. This method WILL NOT CHANGE the
+//       data values of internal member variables to achieve the
+//       method's objectives.
+//
+//       The data values extracted from 'nInDto' will be copied to
+//       the internal member variables of the current NumStrDto
+//       instance ('nDto'). Upon successful completion, both the
+//       current NumStrDto and this 'nInDto' object will have
+//       identical data values.
+//
+//
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nDto *NumStrDto) CopyIn(
+	nInDto NumStrDto,
+	ePrefix ErrPrefixDto) error {
 
-	nStrDtoElectron := numStrDtoElectron{}
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
 
-	_ = nStrDtoElectron.copyIn(
+	nDto.lock.Lock()
+
+	defer nDto.lock.Unlock()
+
+	ePrefLocal := ePrefix.ZEPref("NumStrDto.CopyIn()")
+
+	return numStrDtoElectron{}.ptr().copyIn(
 		nDto,
 		&nInDto,
-		nil)
-
+		ePrefLocal.XCtx(
+			"nDto <- nInDto"))
 }
 
 // CopyOut - Creates a copy of the current
 // NumStrDto fields and returns a completely
 // new instance of NumStrDto
-func (nDto *NumStrDto) CopyOut() NumStrDto {
+//
+//
+// -----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrDto
+//     - If this method completes successfully, this returned
+//       NumStrDto object will be a deep copy of, and identical to,
+//       the current NumStrDto instance
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nDto *NumStrDto) CopyOut(
+	ePrefix ErrPrefixDto) (
+	NumStrDto,
+	error) {
 
-	nStrDtoElectron := numStrDtoElectron{}
-
-	newNumStrDto,
-		err := nStrDtoElectron.copyOut(
-		nDto,
-		nil)
-
-	if err != nil {
-		return NumStrDto{}
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
 	}
 
-	return newNumStrDto
+	nDto.lock.Lock()
+
+	defer nDto.lock.Unlock()
+
+	ePrefLocal := ePrefix.ZEPref(
+		"NumStrDto.CopyOut()")
+
+	newNumStrDto,
+		err := numStrDtoElectron{}.ptr().copyOut(
+		nDto,
+		&ePrefLocal)
+
+	return newNumStrDto, err
 }
 
 // DivideFractionNumStrs - Divides two fractional numbers and
@@ -1439,11 +1574,13 @@ func (nDto *NumStrDto) GetAbsNumStr() (
 //
 // Input Parameters
 //
-//  ePrefix             string
-//     - A string consisting of the method chain used to call
-//       this method. In case of error, this text string is included
-//       in the error message. Note: Be sure to leave a space at the
-//       end of 'ePrefix'.
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -1457,25 +1594,36 @@ func (nDto *NumStrDto) GetAbsNumStr() (
 //
 //
 //  err                 error
-//     - If this method completes successfully the returned error Type is set
-//       equal to 'nil'. If errors are encountered during processing, the
-//       returned error Type will encapsulate an error message. Note this
-//       error message will incorporate the method chain and text passed by
-//       input parameter, 'ePrefix'.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nDto *NumStrDto) GetBigInt(
-	ePrefix string) (
+	ePrefix ErrPrefixDto) (
 	bigIntNum *big.Int,
 	err error) {
 
-	ePrefix += "NumStrDto.GetBigInt()"
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
 
-	nStrDtoMolecule := numStrDtoMolecule{}
+	nDto.lock.Lock()
+
+	defer nDto.lock.Unlock()
+
+	ePrefLocal := ePrefix.ZEPref(
+		"NumStrDto.GetBigInt()")
 
 	bigIntNum,
-		err = nStrDtoMolecule.getSignedBigIntNum(
+		err = numStrDtoMolecule{}.ptr().getSignedBigIntNum(
 		nDto,
-		ePrefix)
+		&ePrefLocal)
 
 	return bigIntNum, err
 }
@@ -1764,11 +1912,13 @@ func (nDto *NumStrDto) GetNumParen(
 //
 // Input Parameters
 //
-//  ePrefix             string
-//     - A string consisting of the method chain used to call
-//       this method. In case of error, this text string is included
-//       in the error message. Note: Be sure to leave a space at the
-//       end of 'ePrefix'.
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -1787,25 +1937,37 @@ func (nDto *NumStrDto) GetNumParen(
 //
 //
 //  err                 error
-//     - If this method completes successfully, the returned error Type is set
-//       equal to 'nil'. If errors are encountered during processing, the
-//       returned error Type will encapsulate an error message. Note this
-//       error message will incorporate the method chain and text passed by
-//       input parameter, 'ePrefix'.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nDto *NumStrDto) GetNumStr(
-	ePrefix string) (
+	ePrefix ErrPrefixDto) (
 	numStr string,
 	err error) {
 
-	ePrefix += "NumStrDto.GetNumStr() "
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
 
-	nStrDtoMolecule := numStrDtoMolecule{}
+	nDto.lock.Lock()
+
+	defer nDto.lock.Unlock()
+
+	ePrefLocal := ePrefix.ZEPref(
+		"NumStrDto.GetNumStr()")
 
 	numStr,
-		err = nStrDtoMolecule.getNumStr(
+		err = numStrDtoMolecule{}.ptr().getNumStr(
 		nDto,
-		ePrefix)
+		ePrefLocal.XCtx(
+			"nDto"))
 
 	return numStr, err
 }
@@ -2464,11 +2626,13 @@ func (nDto *NumStrDto) IsFractionalValue() (isFractionalValue bool) {
 //
 // Input Parameters
 //
-//  ePrefix             string
-//     - This is an error prefix which is included in all returned
-//       error messages. Usually, it contains the names of the calling
-//       method or methods. Note: Be sure to leave a space at the end
-//       of 'ePrefix'.
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -2476,31 +2640,41 @@ func (nDto *NumStrDto) IsFractionalValue() (isFractionalValue bool) {
 // Return Values
 //
 //  err                 error
-//     - If this method completes successfully, the returned error Type
-//       is set equal to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message. Note
-//       that this error message will incorporate the method chain and text
-//       passed by input parameter, 'ePrefix'. Said text will be prefixed
-//       to the beginning of the error message.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //       If this instance of NumStrDto contains invalid data, a
 //       detailed error message will be returned identifying the invalid
 //       data item.
 //
 func (nDto *NumStrDto) IsValidInstanceError(
-	ePrefix string) (
+	ePrefix ErrPrefixDto) (
 	err error) {
 
-	ePrefix += "NumStrDto.IsValidInstanceError() "
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
+
+	nDto.lock.Lock()
+
+	defer nDto.lock.Unlock()
+
+	ePrefLocal := ePrefix.ZEPref(
+		"NumStrDto.IsValidInstanceError()")
 
 	err = nil
 
-	nStrDtoQuark := numStrDtoQuark{}
-
 	_,
-		err = nStrDtoQuark.testNumStrDtoValidity(
+		err = numStrDtoQuark{}.ptr().testNumStrDtoValidity(
 		nDto,
-		ePrefix)
+		ePrefLocal.XCtx("nDto"))
 
 	return err
 }
@@ -3035,7 +3209,7 @@ func (nDto NumStrDto) NewBigFloatWithNumSeps(
 }
 
 // NewBigInt - Creates and returns a new NumStrDto instance
-// extracted from a signed Big Integer number (type *big.Int) and
+// created from a signed Big Integer number (type *big.Int) and
 // a precision specification.
 //
 // Input parameter 'precision' indicates the number of digits to be
@@ -3045,20 +3219,22 @@ func (nDto NumStrDto) NewBigFloatWithNumSeps(
 // Delimiter and the Thousands Separator. These separator character
 // values vary according to nationality and culture.
 //
-// Numeric separators used by this method to configure the returned
-// NumStrDto instance will be taken from the current NumStrDto instance.
-// Unless this current NumStrDto instance was specifically configured
-// for numeric separators, default USA numeric separators will be
-// be applied to the returned NumStrDto instance. Default USA numeric
-// separators are defined as:
+// The Numeric Format Specification used by this method to configure
+// the returned NumStrDto instance will be taken from the current
+// NumStrDto instance. Unless the current NumStrDto instance was
+// manually configured with an alternate Format Specification, the
+// default Untied States Numeric String Format Specification will
+// be be applied to the returned NumStrDto instance. Default USA
+// numeric separators are defined as:
 //
 //        decimal separator = '.'
 //        thousands separator = ','
 //        currency symbol = '$'
 //
 // To accommodate other nationalities and cultures, one can change
-// the numeric separators by calling one of the following methods
-// on the returned NumStrDto instance :
+// the numeric separators by providing an alternate Number String
+// Format Specification to the following method:
+//
 //
 //         NumStrDto.SetNumericSeparatorsDto()
 //         NumStrDto.SetCurrencySymbol()
@@ -3085,12 +3261,14 @@ func (nDto NumStrDto) NewBigFloatWithNumSeps(
 //       as a floating point value.
 //
 //
-//  ePrefix             string
-//     - Error Prefix. A string consisting of the method chain used
-//       to call this method. In case of error, this text string is
-//       included in the error message. Note: Be sure to leave a space
-//       at the end of 'ePrefix'. If no Error Prefix is desired, simply
-//       provide an empty string for this parameter.
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -3112,12 +3290,15 @@ func (nDto NumStrDto) NewBigFloatWithNumSeps(
 //
 //
 //  error
-//     - If the method completes successfully, the returned error Type
-//       is set equal to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message. Note
-//       that this error message will incorporate the method chain and text
-//       passed by input parameter, 'ePrefix'.
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
 //
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 // ------------------------------------------------------------------------
 //
@@ -3167,35 +3348,42 @@ func (nDto NumStrDto) NewBigFloatWithNumSeps(
 func (nDto NumStrDto) NewBigInt(
 	bigIntNum *big.Int,
 	precision uint,
-	ePrefix string) (
+	ePrefix ErrPrefixDto) (
 	NumStrDto,
 	error) {
 
-	ePrefix += "NumStrDto.NewBigInt() "
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
 
-	nStrDtoAtom := numStrDtoAtom{}
+	nDto.lock.Lock()
 
-	var numSepsDto NumericSeparatorsDto
+	defer nDto.lock.Unlock()
+
+	ePrefLocal := ePrefix.ZEPref("NumStrDto.NewBigInt()")
+
+	var numStrFmtSpec NumStrFmtSpecDto
 	var err error
 
-	numSepsDto,
-		err = nStrDtoAtom.getCurrencyNumSepsDto(
+	numStrFmtSpec,
+		err = numStrDtoElectron{}.ptr().getFormatSpec(
 		&nDto,
-		ePrefix)
+		&ePrefLocal)
 
 	if err != nil {
 		return NumStrDto{}, err
 	}
 
-	numSepsDto.SetToUSADefaultsIfEmpty()
+	var newNumStrDto NumStrDto
 
-	nStrDtoNanobot := numStrDtoNanobot{}
-
-	return nStrDtoNanobot.newBigInt(
-		numSepsDto,
+	newNumStrDto,
+		err = numStrDtoNanobot{}.ptr().newBigInt(
+		&numStrFmtSpec,
 		bigIntNum,
 		precision,
-		ePrefix)
+		ePrefLocal.XCtx("bigIntNum"))
+
+	return newNumStrDto, err
 }
 
 // NewFloat32 - Creates a new NumStrDto instance from a float32
@@ -3466,7 +3654,8 @@ func (nDto NumStrDto) NewFloat64(
 		ePrefix)
 }
 
-// NewInt - Creates a new NumStrDto from an int and a precision specification.
+// NewInt - Creates a new NumStrDto from an int and a precision
+// specification.
 //
 // Input parameter 'precision' indicates the number of digits to be
 // formatted to the right of the decimal place.
@@ -3474,25 +3663,20 @@ func (nDto NumStrDto) NewFloat64(
 // Example: NumStrDto{}.NewInt(123456, 3) yields a new NumStrDto
 // instance with a numeric value of 123.456.
 //
-// Numeric separators used by this method to configure the returned
-// NumStrDto instance will be taken from the current NumStrDto instance.
-// Unless this current NumStrDto instance was specifically configured
-// for numeric separators, default USA numeric separators will be
-// be applied to the returned NumStrDto instance. Default USA numeric
-// separators are defined as:
+// The new NumStrDto instance returned by this method will receive
+// its Number String Format Specification from the current
+// NumStrDto instance. This means the Format Specification will
+// likely be configured with the default USA Number String Format
+// Specification. The default USA Number String Format Specification
+// defines numeric separators as:
 //
-//        decimal separator = '.'
-//        thousands separator = ','
-//        currency symbol = '$'
+//           decimal separator = '.'
+//           thousands separator = ','
+//           currency symbol = '$'
 //
-// To accommodate other nationalities and cultures, one can change
-// the numeric separators by calling one of the following methods
-// on the returned NumStrDto instance :
-//
-//         NumStrDto.SetNumericSeparatorsDto()
-//         NumStrDto.SetCurrencySymbol()
-//         NumStrDto.SetDecimalSeparator()
-//         NumStrDto.SetThousandsSeparator()
+// To accommodate other nationalities and cultures, change the
+// Number String Format Specification by calling method:
+//       NumStrDto.SetFormatSpec().
 //
 //
 // --------------------------------------------------------------------------------------------------
@@ -3509,12 +3693,14 @@ func (nDto NumStrDto) NewFloat64(
 //       to the right of the decimal place.
 //
 //
-//  ePrefix             string
-//     - Error Prefix. A string consisting of the method chain used
-//       to call this method. In case of error, this text string is
-//       included in the error message. Note: Be sure to leave a space
-//       at the end of 'ePrefix'. If no Error Prefix is desired, simply
-//       provide an empty string for this parameter.
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
@@ -3524,23 +3710,32 @@ func (nDto NumStrDto) NewFloat64(
 //     - A new instance of NumStrDto encapsulating the numeric value
 //       calculated from the input parameters.
 //
-//       The new NumStrDto instance will likely be configured with
-//       default USA numeric separators. To accommodate other
-//       nationalities and cultures, change the numeric separators
-//       by calling one of the following methods on 'newNumStrDto' :
+//       The new NumStrDto instance will receive its Number String
+//       Format Specification from the current NumStrDto instance.
+//       This means the Format Specification will likely be
+//       configured with the default USA Number String Format
+//       Specification. The default USA Number String Format
+//       Specification defines numeric separators as:
 //
-//         NumStrDto.SetNumericSeparatorsDto()
-//         NumStrDto.SetCurrencySymbol()
-//         NumStrDto.SetDecimalSeparator()
-//         NumStrDto.SetThousandsSeparator()
+//           decimal separator = '.'
+//           thousands separator = ','
+//           currency symbol = '$'
+//
+//       To accommodate other nationalities and cultures, change
+//       the Number String Format Specification by calling method,
+//       NumStrDto.SetFormatSpec().
 //
 //
-//  error
-//     - If the method completes successfully, the returned error Type
-//       is set equal to 'nil'. If errors are encountered during processing,
-//       the returned error Type will encapsulate an error message. Note
-//       that this error message will incorporate the method chain and text
-//       passed by input parameter, 'ePrefix'.
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 //
 // ------------------------------------------------------------------------
@@ -3574,35 +3769,43 @@ func (nDto NumStrDto) NewFloat64(
 func (nDto NumStrDto) NewInt(
 	intNum int,
 	precision uint,
-	ePrefix string) (
+	ePrefix ErrPrefixDto) (
 	NumStrDto,
 	error) {
 
-	ePrefix += "NumStrDto.NewInt() "
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
 
-	nStrDtoAtom := numStrDtoAtom{}
+	nDto.lock.Lock()
 
-	var numSepsDto NumericSeparatorsDto
+	defer nDto.lock.Unlock()
+
+	ePrefLocal := ePrefix.ZEPref("NumStrDto.Compare()")
+
+	var numStrFmtSpec NumStrFmtSpecDto
 	var err error
 
-	numSepsDto,
-		err = nStrDtoAtom.getCurrencyNumSepsDto(
+	numStrFmtSpec,
+		err = numStrDtoElectron{}.ptr().getFormatSpec(
 		&nDto,
-		ePrefix)
+		ePrefLocal.XCtx(
+			"nDto"))
 
 	if err != nil {
 		return NumStrDto{}, err
 	}
 
-	numSepsDto.SetToUSADefaultsIfEmpty()
-
 	nStrDtoNanobot := numStrDtoNanobot{}
 
 	return nStrDtoNanobot.newInt64(
-		numSepsDto,
+		&numStrFmtSpec,
 		int64(intNum),
 		precision,
-		ePrefix)
+		ePrefLocal.XCtx(
+			fmt.Sprintf(
+				"intNum='%v' precision='%v'",
+				intNum, precision)))
 }
 
 // NewIntExponent - Returns a new NumStrDto instance. The numeric
@@ -5624,38 +5827,98 @@ func (nDto NumStrDto) NewZero(
 // included in the error message. Note: Be sure to leave a space at the
 // end of 'ePrefix'.
 //
+//
+// -----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  n2Dto               *NumStrDto
+//     - A pointer to an instance of NumStrDto. This method WILL
+//       NOT CHANGE data values of internal member variables to
+//       achieve the method's objectives.
+//
+//       This numeric value of 'n2Dto' will be compared to that
+//       of the current NumStrDto instance, 'nDto'.
+//
+//
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  compareResult       int
+//     - This comparison result is generated by comparing the numeric
+//       values of input parameters 'n1Dto' and 'n2Dto'. If the method
+//       completes successfully, this return parameter will be set to
+//       one of three values thereby signaling the results of this
+//       comparison.
+//
+//             'compareResult' Values
+//         -1 = n1Dto is less than n2Dto
+//          0 = n1Dto is equal to n2Dto
+//         +1 = n1Dto is greater than n2Dto
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
 func (nDto *NumStrDto) ParseNumStr(
 	numStr string,
-	ePrefix string) (
+	ePrefix ErrPrefixDto) (
 	outputNDto NumStrDto,
 	err error) {
 
-	ePrefix += "NumStrDto.ParseNumStr() "
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
+
+	nDto.lock.Lock()
+
+	defer nDto.lock.Unlock()
+
+	ePrefLocal := ePrefix.ZEPref(
+		"NumStrDto.ParseNumStr()")
 
 	nStrDtoElectron := numStrDtoElectron{}
 
-	outputNDto = nStrDtoElectron.newBaseZeroNumStrDto(0)
+	outputNDto = nStrDtoElectron.newBaseZeroNumStrDto(
+		0)
 
 	err = nil
 
-	nStrDtoAtom := numStrDtoAtom{}
+	var numStrFmtSpec NumStrFmtSpecDto
 
-	var numSepsDto NumericSeparatorsDto
-
-	numSepsDto,
-		err = nStrDtoAtom.getCurrencyNumSepsDto(
+	numStrFmtSpec,
+		err = nStrDtoElectron.getFormatSpec(
 		nDto,
-		ePrefix+"nDto ")
+		ePrefLocal.XCtx("nDto"))
 
 	if err != nil {
 		return outputNDto, err
 	}
 
 	outputNDto,
-		err = nStrDtoAtom.parseNumStr(
+		err = numStrDtoAtom{}.ptr().parseNumStr(
 		numStr,
-		numSepsDto,
-		ePrefix)
+		&numStrFmtSpec,
+		ePrefLocal.XCtx(
+			"numStr, numStrFmtSpec"))
 
 	return outputNDto, err
 }
@@ -5851,6 +6114,77 @@ func (nDto *NumStrDto) SetDecimalSeparator(decimalSeparator rune) {
 		nDto,
 		decimalSeparator,
 		"")
+}
+
+// SetFormatSpec - Sets the Number String Format Specification for the current
+// number string data transfer object. (NumStrDto).
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numStrFmtSpec       NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto.
+//
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
+//
+//
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nDto *NumStrDto) SetFormatSpec(
+	numStrFmtSpec NumStrFmtSpecDto,
+	ePrefix ErrPrefixDto) error {
+
+	if nDto.lock == nil {
+		nDto.lock = new(sync.Mutex)
+	}
+
+	nDto.lock.Lock()
+
+	defer nDto.lock.Unlock()
+
+	ePrefLocal := ePrefix.ZEPref("NumStrDto.Compare()")
+
+	return numStrDtoElectron{}.ptr().setFormatSpec(
+		nDto,
+		&numStrFmtSpec,
+		ePrefLocal.XCtx(
+			"nDto, numStrFmtSpec"))
 }
 
 // SetThousandsSeparator - Sets the value of the character which will be
