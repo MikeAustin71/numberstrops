@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 /*
@@ -26,6 +27,7 @@ type NumStrBasicUtility struct {
 	FractionStr      string
 	Int64Val         int64
 	Float64Val       float64
+	lock             *sync.Mutex
 }
 
 // DLimInt - Receives an integer and returns a delimited number
@@ -33,7 +35,63 @@ type NumStrBasicUtility struct {
 // This number string must be pure number string with NO decimal
 // points.
 //
-func (ns NumStrBasicUtility) DLimInt(num int, delimiter byte) string {
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  num                 int
+//     - The integer value which will be converted to a number
+//       string and inserted with thousands separators.
+//
+//
+//  delimiter           rune
+//     - The delimiter character which will be used to delimit or
+//       separate thousands in the returned number string.
+//
+//
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  numStr              string
+//     - If this method completes successfully, this returned
+//       string will contain numeric digits separated into thousands
+//       by the delimiter character supplied in input parameter,
+//       'delimiter'.
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (ns NumStrBasicUtility) DLimInt(
+	num int,
+	delimiter rune,
+	ePrefix ErrPrefixDto) (
+	numStr string,
+	err error) {
+
+	if ns.lock == nil {
+		ns.lock = new(sync.Mutex)
+	}
+
+	ns.lock.Lock()
+
+	defer ns.lock.Unlock()
+
 	return ns.DelimitNumStr(strconv.Itoa(num), delimiter)
 
 }
@@ -44,6 +102,14 @@ func (ns NumStrBasicUtility) DLimInt(num int, delimiter byte) string {
 // points.
 //
 func (ns NumStrBasicUtility) DLimI64(num int64, delimiter byte) string {
+
+	if ns.lock == nil {
+		ns.lock = new(sync.Mutex)
+	}
+
+	ns.lock.Lock()
+
+	defer ns.lock.Unlock()
 
 	nStrBasicMech := numStrBasicMechanics{}
 
@@ -59,6 +125,14 @@ func (ns NumStrBasicUtility) DlimDecCurrStr(
 	thousandsSeparator rune,
 	decimal rune,
 	currency rune) string {
+
+	if ns.lock == nil {
+		ns.lock = new(sync.Mutex)
+	}
+
+	ns.lock.Lock()
+
+	defer ns.lock.Unlock()
 
 	nStrBasicMech := numStrBasicMechanics{}
 
@@ -76,6 +150,14 @@ func (ns NumStrBasicUtility) DlimDecCurrStr(
 // above.
 func (ns NumStrBasicUtility) DelimitNumStr(pureNumStr string, thousandsSeparator byte) string {
 
+	if ns.lock == nil {
+		ns.lock = new(sync.Mutex)
+	}
+
+	ns.lock.Lock()
+
+	defer ns.lock.Unlock()
+
 	nStrBasicMech := numStrBasicMechanics{}
 
 	return nStrBasicMech.delimitThousands(
@@ -89,18 +171,55 @@ func (ns NumStrBasicUtility) DelimitNumStr(pureNumStr string, thousandsSeparator
 // generated.
 //
 func (ns *NumStrBasicUtility) ConvertNumStrToInt64(
-	str string) (int64, error) {
+	numStr string,
+	ePrefix ErrPrefixDto) (
+	int64,
+	error) {
 
-	numRunes := ns.ConvertStrToIntNumRunes(strings.TrimLeft(strings.TrimRight(str, " "), " "))
-	signVal := 1
-
-	if str[0] == '-' {
-		signVal = -1
+	if ns.lock == nil {
+		ns.lock = new(sync.Mutex)
 	}
+
+	ns.lock.Lock()
+
+	defer ns.lock.Unlock()
+
+	ePrefix := ErrPrefixDto{}.Ptr()
+
+	ePrefix.SetEPref(
+		"NumStrBasicUtility.ConvertNumStrToInt64() ")
+
+	numStr = strings.TrimLeft(strings.TrimRight(numStr, " "), " ")
 
 	nStrBasicMech := numStrBasicMechanics{}
 
-	return nStrBasicMech.convertRunesToInt64(numRunes, signVal)
+	numRunes,
+		err := nStrBasicMech.convertStrToIntNumRunes(
+		numStr,
+		&ns.NumStrFormatSpec,
+		ePrefix)
+
+	if err != nil {
+		return int64(0), err
+	}
+
+	signVal := 1
+
+	if numStr[0] == '-' {
+		signVal = -1
+	}
+
+	var newInt64 int64
+
+	newInt64,
+		err =
+		nStrBasicMech.convertRunesToInt64(
+			numRunes,
+			signVal,
+			ePrefix.XCtx(
+				"numRunes, signVal"))
+
+	return newInt64, err
 }
 
 // ConvertStrToIntNumStr - Converts a string of characters to

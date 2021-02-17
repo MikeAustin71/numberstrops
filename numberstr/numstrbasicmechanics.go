@@ -38,10 +38,18 @@ func (nStrBasicMech *numStrBasicMechanics) convertInt64ToFractionalValue(i64 int
 
 }
 
-// convertRunesToInt64 - Converts a rune array to an int64 value.
+// convertRunesToInt64 - Converts a rune array to an
+// int64 value.
+//
+// Input parameter 'signVal' must be equal to +1 or -1.
+// Any other value will trigger an error.
 //
 func (nStrBasicMech *numStrBasicMechanics) convertRunesToInt64(
-	rAry []rune, signVal int) (int64, error) {
+	rAry []rune,
+	signVal int,
+	ePrefix *ErrPrefixDto) (
+	int64,
+	error) {
 
 	if nStrBasicMech.lock == nil {
 		nStrBasicMech.lock = new(sync.Mutex)
@@ -51,10 +59,25 @@ func (nStrBasicMech *numStrBasicMechanics) convertRunesToInt64(
 
 	defer nStrBasicMech.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrBasicMechanics.convertRunesToInt64()")
+
+	if rAry == nil {
+		rAry = make([]rune, 0, 10)
+	}
+
 	lNumRunes := len(rAry)
 
 	if lNumRunes == 0 {
-		return int64(0), errors.New("Incoming rune array is empty!\n")
+		return int64(0),
+			fmt.Errorf(
+				"%v\n"+
+					"Incoming rune array is empty!\n",
+				ePrefix.String())
 	}
 
 	if rAry[0] == '+' || rAry[0] == '-' {
@@ -66,7 +89,13 @@ func (nStrBasicMech *numStrBasicMechanics) convertRunesToInt64(
 	for i := 0; i < lNumRunes; i++ {
 
 		if rAry[i] < '0' || rAry[i] > '9' {
-			return int64(0), fmt.Errorf("Number string contained non-numeric characters: %v\n", string(rAry))
+			return int64(0),
+				fmt.Errorf(
+					"%v\n"+
+						"Number string contained non-numeric"+
+						" characters: %v\n",
+					ePrefix.String(),
+					string(rAry))
 		}
 
 		numVal *= 10
@@ -77,7 +106,6 @@ func (nStrBasicMech *numStrBasicMechanics) convertRunesToInt64(
 	numVal = numVal * int64(signVal)
 
 	return numVal, nil
-
 }
 
 // ConvertStrToIntNumRunes - Receives an integer string and returns
@@ -85,11 +113,60 @@ func (nStrBasicMech *numStrBasicMechanics) convertRunesToInt64(
 // will be ignored and excluded from the array of runes returned by this
 // method. In order to take advantage of this exclusion, the thousands
 // separator and the currency symbol must be previously initialized in
-// the NumStrBasicUtility data fields.
+// the NumStrBasicUtility.NumStrFormatSpec data field.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numStr              string
+//     - A string of numeric digits. This number string will be
+//       converted to an array of runes and returned to the calling
+//       function.
+//
+//
+//  incomingFmtSpecDto  *NumStrFmtSpecDto
+//     - A pointer to an instance of NumStrFmtSpecDto. This object
+//       contains the numeric separators such as the thousands
+//       separator (','), the decimal separator ('.') and the
+//       currency symbol. These separator characters will be used
+//       in processing input parameter 'numStr' and converting
+//       it to an array of runes.
+//
+//       If this parameter is judged to be empty or invalid, it
+//       will be set to default values.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
 func (nStrBasicMech *numStrBasicMechanics) convertStrToIntNumRunes(
-	str string,
-	thousandsSeparator rune,
-	currencySymbol rune) []rune {
+	numStr string,
+	nStrFmtSpecDto *NumStrFmtSpecDto,
+	ePrefix *ErrPrefixDto) (
+	runes []rune,
+	err error) {
 
 	if nStrBasicMech.lock == nil {
 		nStrBasicMech.lock = new(sync.Mutex)
@@ -99,16 +176,32 @@ func (nStrBasicMech *numStrBasicMechanics) convertStrToIntNumRunes(
 
 	defer nStrBasicMech.lock.Unlock()
 
-	if thousandsSeparator == 0 {
-		thousandsSeparator = ','
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	if currencySymbol == 0 {
-		currencySymbol = '$'
+	ePrefix.SetEPref(
+		"numStrBasicMechanics.convertStrToIntNumRunes()")
+
+	if nStrFmtSpecDto == nil {
+		nStrFmtSpecDto = &NumStrFmtSpecDto{}
 	}
 
-	baseRunes := []rune(str)
-	var numRunes []rune
+	err = nStrFmtSpecDto.SetToDefaultIfEmpty(
+		ePrefix.XCtx("nStrFmtSpecDto"))
+
+	if err != nil {
+		return runes, err
+	}
+
+	thousandsSeparator :=
+		nStrFmtSpecDto.GetThousandsSeparator()
+
+	currencySymbol :=
+		nStrFmtSpecDto.GetCurrencySymbol()
+
+	baseRunes := []rune(numStr)
+	runes = make([]rune, 0, 100)
 	lBaseRunes := len(baseRunes)
 	isStartRunes := false
 	isEndRunes := false
@@ -116,17 +209,17 @@ func (nStrBasicMech *numStrBasicMechanics) convertStrToIntNumRunes(
 	for i := 0; i < lBaseRunes; i++ {
 
 		if (baseRunes[i] == '-' || baseRunes[i] == '+') &&
-			len(numRunes) == 0 && isEndRunes == false &&
+			len(runes) == 0 && isEndRunes == false &&
 			i < lBaseRunes-2 &&
 			baseRunes[i+1] >= '0' && baseRunes[i+1] <= '9' {
 
-			numRunes = append(numRunes, baseRunes[i])
+			runes = append(runes, baseRunes[i])
 			isStartRunes = true
 
 		} else if isEndRunes == false &&
 			baseRunes[i] >= '0' && baseRunes[i] <= '9' {
 
-			numRunes = append(numRunes, baseRunes[i])
+			runes = append(runes, baseRunes[i])
 			isStartRunes = true
 
 		} else if baseRunes[i] == thousandsSeparator || baseRunes[i] == currencySymbol {
@@ -138,10 +231,9 @@ func (nStrBasicMech *numStrBasicMechanics) convertStrToIntNumRunes(
 			isEndRunes = true
 
 		}
-
 	}
 
-	return numRunes
+	return runes, err
 }
 
 // delimitDecimalCurrencyStr - Inserts a Currency Symbol and a Thousands
@@ -241,9 +333,15 @@ func (nStrBasicMech *numStrBasicMechanics) delimitDecimalCurrencyStr(
 // NOTE: This method will not handle number strings containing decimal fractions
 // and currency characters. For these options see method ns.DlimDecCurrStr(),
 // above.
+//
+// Example: 1,000,000,000
+//
 func (nStrBasicMech *numStrBasicMechanics) delimitThousands(
 	pureNumStr string,
-	thousandsSeparator byte) string {
+	thousandsSeparator rune,
+	ePrefix *ErrPrefixDto) (
+	numStr string,
+	err error) {
 
 	if nStrBasicMech.lock == nil {
 		nStrBasicMech.lock = new(sync.Mutex)
@@ -253,41 +351,105 @@ func (nStrBasicMech *numStrBasicMechanics) delimitThousands(
 
 	defer nStrBasicMech.lock.Unlock()
 
-	const maxStr = 256
-	outStr := [maxStr]byte{}
-	lInStr := len(pureNumStr)
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrBasicMechanics.delimitThousands()")
+
+	rawNumRunes := []rune(pureNumStr)
+
+	lInStr := len(rawNumRunes)
+
+	if lInStr == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'pureNumStr' is invalid!\n"+
+			"pureNumStr is an empty string.\n",
+			ePrefix.String())
+	}
+
+	pureNumRunes := make([]rune, 0, 256)
+
+	haveFirstNumericDigit := false
+	signVal := 0
+
+	for i := 0; i < lInStr; i++ {
+
+		if !haveFirstNumericDigit &&
+			signVal == 0 &&
+			(rawNumRunes[i] == '+' ||
+				rawNumRunes[i] == '-') {
+
+			if rawNumRunes[i] == '+' {
+				signVal = 1
+			} else {
+				signVal = -1
+			}
+
+		}
+
+		if rawNumRunes[i] >= '0' &&
+			rawNumRunes[i] <= '9' {
+			pureNumRunes = append(pureNumRunes,
+				rawNumRunes[i])
+			haveFirstNumericDigit = true
+		}
+	}
+
+	lInStr = len(pureNumRunes)
+
+	if lInStr == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'pureNumStr' is invalid!\n"+
+			"pureNumStr contains no integer digits.\n",
+			ePrefix.String())
+	}
+
+	outRunes := make([]rune, 0, 256)
 	iCnt := 0
-	outIdx := maxStr - 1
 
 	for i := lInStr - 1; i >= 0; i-- {
 
-		if pureNumStr[i] >= '0' && pureNumStr[i] <= '9' {
+		if pureNumRunes[i] >= '0' && pureNumRunes[i] <= '9' {
 
 			iCnt++
-			outStr[outIdx] = pureNumStr[i]
-			outIdx--
+			outRunes = append(
+				[]rune{pureNumRunes[i]},
+				outRunes...)
 
 			if iCnt == 3 && i != 0 {
+
 				iCnt = 0
-				outStr[outIdx] = thousandsSeparator
-				outIdx--
+
+				outRunes = append(
+					[]rune{thousandsSeparator},
+					outRunes...)
 			}
 
 			continue
 		}
 
+		if signVal != 0 {
+			if signVal == -1 {
+				outRunes = append(
+					[]rune{'-'},
+					outRunes...)
+
+			}
+		}
 		// Check and allow for sign designators
 		if pureNumStr[i] == '-' ||
 			pureNumStr[i] == '+' {
 
-			outStr[outIdx] = pureNumStr[i]
+			outRunes[outIdx] = pureNumStr[i]
 			outIdx--
 
 		}
 
 	}
 
-	return string(outStr[outIdx+1:])
+	return string(outRunes[outIdx+1:])
 }
 
 // getCountryAndCurrency - Returns the Country and Currency runes as
