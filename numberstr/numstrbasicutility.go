@@ -112,30 +112,41 @@ func (ns *NumStrBasicUtility) ConvertNumStrToInt64(
 //
 func (ns *NumStrBasicUtility) ConvertStrToIntNumStr(
 	numStr string,
-	ePrefix string) (
+	ePrefix ErrPrefixDto) (
 	intNumStr string,
 	err error) {
 
-	ePrefix += "NumStrBasicUtility.ConvertStrToIntNumStr() "
+	ePrefixLocal := ePrefix.Copy()
+
+	ePrefixLocal.SetEPref("NumStrBasicUtility.ConvertStrToIntNumStr()")
 
 	intNumStr = ""
 	err = nil
 
-	nStrDtoAtom := numStrDtoAtom{}
+	var numStrFormatSpec NumStrFmtSpecDto
 
-	numSepsDto := NumericSeparatorsDto{}
-
-	numSepsDto.DecimalSeparator = ns.DecimalSeparator
-	numSepsDto.CurrencySymbol = ns.CurrencySymbol
-	numSepsDto.ThousandsSeparator = ns.ThousandsSeparator
+	numStrFormatSpec,
+		err = NumStrFmtSpecDto{}.
+		NewCustomFmtSpec(
+			ns.DecimalSeparator,
+			ns.ThousandsSeparator,
+			true,
+			ns.CurrencySymbol,
+			"$127.54",
+			"($127.54)",
+			"127.54",
+			"-127.54",
+			-1,
+			TextJustify(0).Right(),
+			&ePrefixLocal)
 
 	var outputNDto NumStrDto
 
 	outputNDto,
-		err = nStrDtoAtom.parseNumStr(
+		err = numStrDtoAtom{}.ptr().parseNumStr(
 		numStr,
-		numSepsDto,
-		ePrefix)
+		&numStrFormatSpec,
+		&ePrefixLocal)
 
 	if err != nil {
 		return intNumStr, err
@@ -149,9 +160,11 @@ func (ns *NumStrBasicUtility) ConvertStrToIntNumStr(
 // ConvertInt64ToStr - Converts an int64 to a string of numeric
 // characters. If the original number is less than zero, the first
 // character of the numeric string is a minus sign ('-').
-func (ns NumStrBasicUtility) ConvertInt64ToStr(num int64) (string, error) {
+func (ns NumStrBasicUtility) ConvertInt64ToStr(
+	num int64) (string, error) {
 
-	ePrefix := "NumStrBasicUtility.ConvertInt64ToStr() "
+	ePrefixLocal :=
+		ErrPrefixDto{}.NewEPrefOld("NumStrBasicUtility.ConvertInt64ToStr()")
 
 	nStrDtoAtom := numStrDtoAtom{}
 
@@ -194,9 +207,9 @@ func (ns *NumStrBasicUtility) ConvertRunesToInt64(
 // the value as a Type 'NumStrDto'.
 func (ns *NumStrBasicUtility) ParseNumString(
 	numStr string,
-	ePrefix string) (NumStrDto, error) {
+	ePrefix ErrPrefixDto) (NumStrDto, error) {
 
-	ePrefix += "NumStrBasicUtility.ParseNumString() "
+	ePrefix.SetEPref("NumStrBasicUtility.ParseNumString()")
 	nDto := NumStrDto{}
 
 	return nDto.ParseNumStr(numStr, ePrefix)

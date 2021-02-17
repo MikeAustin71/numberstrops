@@ -261,15 +261,18 @@ func TestNumStrBasicUtility_ConvertInt64ToFractionalValue(t *testing.T) {
 
 func TestNumStrBasicUtility_ParseNumString_01(t *testing.T) {
 
-	ePrefix := "TestNumStrBasicUtility_ParseNumString_01() "
+	ePrefix :=
+		ErrPrefixDto{}.NewEPrefOld(
+			"TestNumStrBasicUtility_ParseNumString_01()")
+
 	rawStr := "123456.654321"
 	expected := "123456.654321"
 	ns := NumStrBasicUtility{}
 
 	nsDto, err := ns.ParseNumString(
 		rawStr,
-		ePrefix+
-			fmt.Sprintf("rawStr='%v' ", rawStr))
+		ePrefix.ZCtx(
+			fmt.Sprintf("rawStr='%v' ", rawStr)))
 
 	if err != nil {
 		t.Errorf("%v", err.Error())
