@@ -20,7 +20,7 @@ func TestNumStrDto_CopyIn_10(t *testing.T) {
 
 	n1, err = nDtoX.ParseNumStr(
 		nStr,
-		ePrefix+"nStr ")
+		ePrefix.ZCtx("nStr"))
 
 	if err != nil {
 		t.Errorf("%v", err.Error())
@@ -40,7 +40,8 @@ func TestNumStrDto_CopyIn_10(t *testing.T) {
 
 	var s string
 
-	s, err = nDto.GetNumStr(ePrefix + "nDto ")
+	s, err = nDto.GetNumStr(
+		ePrefix.ZCtx("nDto "))
 
 	if s != nStr {
 		t.Errorf("Expected NumStrOut = '%v'.\n"+
@@ -92,7 +93,8 @@ func TestNumStrDto_CopyIn_10(t *testing.T) {
 
 	}
 
-	err = nDto.IsValidInstanceError(ePrefix + "Testing validity of 'nDto' ")
+	err = nDto.IsValidInstanceError(
+		ePrefix.ZCtx("Testing validity of 'nDto'"))
 
 	if err != nil {
 		t.Errorf("%v", err.Error())
@@ -101,7 +103,9 @@ func TestNumStrDto_CopyIn_10(t *testing.T) {
 }
 
 func TestNumStrDto_CopyIn_20(t *testing.T) {
-	ePrefix := "TestNumStrDto_CopyIn_20() "
+
+	ePrefix :=
+		ErrPrefixDto{}.NewEPrefOld("TestNumStrDto_CopyIn_20()")
 
 	nStr := "-123.456"
 	iStr := "123"
@@ -116,7 +120,7 @@ func TestNumStrDto_CopyIn_20(t *testing.T) {
 
 	n1, err = nDtoX.ParseNumStr(
 		nStr,
-		ePrefix+"nStr ")
+		ePrefix.ZCtx("nStr"))
 
 	if err != nil {
 		t.Errorf("%v", err.Error())
@@ -125,11 +129,14 @@ func TestNumStrDto_CopyIn_20(t *testing.T) {
 
 	nDto := NumStrDto{}.New()
 
-	nDto.CopyIn(n1)
+	err = nDto.CopyIn(
+		n1,
+		ePrefix.ZCtx("nDto<-n1"))
 
 	var s string
 
-	s, err = nDto.GetNumStr(ePrefix + "nDto ")
+	s, err = nDto.GetNumStr(
+		ePrefix.ZCtx("nDto"))
 
 	if s != nStr {
 		t.Errorf("Expected NumStrOut = '%v'.\n"+
@@ -181,7 +188,8 @@ func TestNumStrDto_CopyIn_20(t *testing.T) {
 
 	}
 
-	err = nDto.IsValidInstanceError(ePrefix + "Testing validity of 'nDto' ")
+	err = nDto.IsValidInstanceError(
+		ePrefix.ZCtx("Testing validity of 'nDto'"))
 
 	if err != nil {
 		t.Errorf("%v", err.Error())
@@ -191,7 +199,8 @@ func TestNumStrDto_CopyIn_20(t *testing.T) {
 
 func TestNumStrDto_CopyOut_10(t *testing.T) {
 
-	ePrefix := "TestNumStrDto_CopyOut_10() "
+	ePrefix :=
+		ErrPrefixDto{}.NewEPrefOld("TestNumStrDto_CopyOut_10()")
 
 	nStr := "123.456"
 	iStr := "123"
@@ -201,23 +210,30 @@ func TestNumStrDto_CopyOut_10(t *testing.T) {
 
 	nDtoX := NumStrDto{}.New()
 
-	var n1 NumStrDto
+	var n1, nDto NumStrDto
 	var err error
 
 	n1, err = nDtoX.ParseNumStr(
 		nStr,
-		ePrefix+"nStr ")
+		ePrefix.ZCtx("nStr"))
 
 	if err != nil {
 		t.Errorf("%v", err.Error())
 		return
 	}
 
-	nDto := n1.CopyOut()
+	nDto,
+		err = n1.CopyOut(ePrefix.ZCtx("n1->nDto"))
+
+	if err != nil {
+		t.Errorf("%v", err.Error())
+		return
+	}
 
 	var s string
 
-	s, err = nDto.GetNumStr(ePrefix + "nDto ")
+	s, err = nDto.GetNumStr(
+		ePrefix.ZCtx("nDto"))
 
 	if s != nStr {
 		t.Errorf("Expected NumStrOut = '%v'.\n"+
@@ -269,7 +285,8 @@ func TestNumStrDto_CopyOut_10(t *testing.T) {
 
 	}
 
-	err = nDto.IsValidInstanceError(ePrefix + "Testing validity of 'nDto' ")
+	err = nDto.IsValidInstanceError(
+		ePrefix.ZCtx("Testing validity of 'nDto'"))
 
 	if err != nil {
 		t.Errorf("%v", err.Error())
@@ -279,7 +296,8 @@ func TestNumStrDto_CopyOut_10(t *testing.T) {
 
 func TestNumStrDto_CopyOut_20(t *testing.T) {
 
-	ePrefix := "TestNumStrDto_CopyOut_20() "
+	ePrefix :=
+		ErrPrefixDto{}.NewEPrefOld("TestNumStrDto_CopyOut_20()")
 
 	nStr := "-123.456"
 	iStr := "123"
@@ -289,23 +307,30 @@ func TestNumStrDto_CopyOut_20(t *testing.T) {
 
 	nDtoX := NumStrDto{}.New()
 
-	var n1 NumStrDto
+	var n1, nDto NumStrDto
 	var err error
 
 	n1, err = nDtoX.ParseNumStr(
 		nStr,
-		ePrefix+"nStr ")
+		ePrefix.ZCtx("nStr"))
 
 	if err != nil {
 		t.Errorf("%v", err.Error())
 		return
 	}
 
-	nDto := n1.CopyOut()
+	nDto,
+		err = n1.CopyOut(ePrefix.ZCtx("n1->nDto"))
+
+	if err != nil {
+		t.Errorf("%v", err.Error())
+		return
+	}
 
 	var s string
 
-	s, err = nDto.GetNumStr(ePrefix + "nDto ")
+	s, err = nDto.GetNumStr(
+		ePrefix.ZCtx("nDto"))
 
 	if s != nStr {
 		t.Errorf("Expected NumStrOut = '%v'.\n"+
@@ -357,7 +382,8 @@ func TestNumStrDto_CopyOut_20(t *testing.T) {
 
 	}
 
-	err = nDto.IsValidInstanceError(ePrefix + "Testing validity of 'nDto' ")
+	err = nDto.IsValidInstanceError(
+		ePrefix.ZCtx("Testing validity of 'nDto'"))
 
 	if err != nil {
 		t.Errorf("%v", err.Error())
