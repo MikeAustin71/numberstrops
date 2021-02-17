@@ -1441,3 +1441,142 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetNumStrFmtSpecDto(
 
 	return err
 }
+
+// SetToDefault - Sets the current instance of Number String Format
+// Specification Data Transfer Object (NumStrFmtSpecDto) to its
+// default value.
+//
+// The default Number String Format Specification is the United
+// States decimal separator ('.'), thousands separator (',') and
+// currency symbol ('$').
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtSpecDto *NumStrFmtSpecDto) SetToDefault(
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumStrFmtSpecDto.SetToDefault() ")
+
+	err = numStrFmtSpecDtoUtility{}.ptr().
+		setDefaultFormatSpec(
+			fmtSpecDto,
+			ePrefix)
+
+	return err
+}
+
+// SetToDefaultIfEmpty - If the current instance of Number String
+// Format Specification Data Transfer Object (NumStrFmtSpecDto) is
+// empty or invalid, this method will reset the Format
+// Specification to its default value.
+//
+// The default Number String Format Specification is the United
+// States decimal separator ('.'), thousands separator (',') and
+// currency symbol ('$').
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtSpecDto *NumStrFmtSpecDto) SetToDefaultIfEmpty(
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumStrFmtSpecDto.SetToDefaultIfEmpty() ")
+
+	var isValid bool
+
+	isValid,
+		_ = numStrFmtSpecDtoQuark{}.ptr().testValidityOfNumStrFmtSpecDto(
+		fmtSpecDto,
+		ePrefix.XCtx(
+			"Testing validity of fmtSpecDto"))
+
+	if !isValid {
+		err = numStrFmtSpecDtoUtility{}.ptr().
+			setDefaultFormatSpec(
+				fmtSpecDto,
+				ePrefix.XCtx("fmtSpecDto"))
+	}
+
+	return err
+}

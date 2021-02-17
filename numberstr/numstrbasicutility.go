@@ -18,17 +18,14 @@ import (
 */
 
 type NumStrBasicUtility struct {
-	Nation             string
-	CurrencySymbol     rune
-	DecimalSeparator   rune
-	ThousandsSeparator rune
-	StrIn              string
-	StrOut             string
-	IsFractionalVal    bool
-	IntegerStr         string
-	FractionStr        string
-	Int64Val           int64
-	Float64Val         float64
+	NumStrFormatSpec NumStrFmtSpecDto
+	StrIn            string
+	StrOut           string
+	IsFractionalVal  bool
+	IntegerStr       string
+	FractionStr      string
+	Int64Val         int64
+	Float64Val       float64
 }
 
 // DLimInt - Receives an integer and returns a delimited number
@@ -123,36 +120,27 @@ func (ns *NumStrBasicUtility) ConvertStrToIntNumStr(
 	intNumStr = ""
 	err = nil
 
-	var numStrFormatSpec NumStrFmtSpecDto
-
-	numStrFormatSpec,
-		err = NumStrFmtSpecDto{}.
-		NewCustomFmtSpec(
-			ns.DecimalSeparator,
-			ns.ThousandsSeparator,
-			true,
-			ns.CurrencySymbol,
-			"$127.54",
-			"($127.54)",
-			"127.54",
-			"-127.54",
-			-1,
-			TextJustify(0).Right(),
+	err =
+		ns.NumStrFormatSpec.SetToDefaultIfEmpty(
 			&ePrefixLocal)
+
+	if err != nil {
+		return intNumStr, err
+	}
 
 	var outputNDto NumStrDto
 
 	outputNDto,
 		err = numStrDtoAtom{}.ptr().parseNumStr(
 		numStr,
-		&numStrFormatSpec,
+		&ns.NumStrFormatSpec,
 		&ePrefixLocal)
 
 	if err != nil {
 		return intNumStr, err
 	}
 
-	intNumStr, err = outputNDto.GetNumStr(ePrefix)
+	intNumStr, err = outputNDto.GetNumStr(ePrefixLocal)
 
 	return intNumStr, err
 }

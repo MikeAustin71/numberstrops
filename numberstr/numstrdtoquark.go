@@ -284,9 +284,14 @@ func (nStrDtoQuark *numStrDtoQuark) setDefaultFormatSpec(
 		return err
 	}
 
-	err = NumStrFormatCountry{}.Ptr().UnitedStates(
-		&numStrDto.fmtSpec,
-		ePrefix)
+	numStrFmtSpecSetupDto :=
+		NumStrFormatCountry{}.Ptr().UnitedStates()
+
+	err =
+		numStrDto.fmtSpec.SetFromFmtSpecSetupDto(
+			&numStrFmtSpecSetupDto,
+			ePrefix.XCtx(
+				"numStrFmtSpecSetupDto"))
 
 	return err
 }

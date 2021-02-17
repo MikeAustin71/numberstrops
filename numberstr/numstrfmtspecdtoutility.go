@@ -9,6 +9,121 @@ type numStrFmtSpecDtoUtility struct {
 	lock *sync.Mutex
 }
 
+// ptr - Returns a pointer to a new instance of numStrFmtSpecDtoUtility.
+//
+func (nStrFmtSpecDtoUtil numStrFmtSpecDtoUtility) ptr() *numStrFmtSpecDtoUtility {
+
+	if nStrFmtSpecDtoUtil.lock == nil {
+		nStrFmtSpecDtoUtil.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDtoUtil.lock.Lock()
+
+	defer nStrFmtSpecDtoUtil.lock.Unlock()
+
+	newNumStrFmtSpecDtoUtility := new(numStrFmtSpecDtoUtility)
+
+	newNumStrFmtSpecDtoUtility.lock = new(sync.Mutex)
+
+	return newNumStrFmtSpecDtoUtility
+}
+
+// setDefaultFormatSpec - Sets the default Number String Format
+// Specification. The default Number String Format Specification is
+// the United States decimal separator ('.'), thousands separator
+// (',') and currency symbol ('$').
+//
+// The input parameter 'numStrFmtSpec' will be configured with the
+// United States Number String Format Specification.
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numStrFmtSpec       *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in type
+//       NumStrDto. This method will configure this object for
+//       the Unites States default Number String Format
+//       Specification.
+//
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setDefaultFormatSpec(
+	numStrFmtSpec *NumStrFmtSpecDto,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtSpecDtoUtil.lock == nil {
+		nStrFmtSpecDtoUtil.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecDtoUtil.lock.Lock()
+
+	defer nStrFmtSpecDtoUtil.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("numStrFmtSpecDtoUtility.setDefaultFormatSpec()")
+
+	if numStrFmtSpec == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numStrFmtSpec' is invalid!\n"+
+			"numStrFmtSpec is a 'nil' pointer.\n",
+			ePrefix.String())
+		return err
+	}
+
+	numStrFmtSpecSetupDto := NumStrFormatCountry{}.Ptr().UnitedStates()
+
+	err =
+		numStrFmtSpecDtoMechanics{}.ptr().setFromFmtSpecSetupDto(
+			numStrFmtSpec,
+			&numStrFmtSpecSetupDto,
+			ePrefix.XCtx(
+				"numStrFmtSpec, numStrFmtSpecSetupDto"))
+
+	return err
+}
+
 // setCustomFmtSpecDto - Sets the data values of a passed
 // NumStrFmtSpecDto instance based on the data values contained
 // in a NumStrFmtSpecSetupDto structure.

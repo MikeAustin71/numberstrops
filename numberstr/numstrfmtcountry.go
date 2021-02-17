@@ -1,7 +1,6 @@
 package numberstr
 
 import (
-	"fmt"
 	"sync"
 )
 
@@ -63,10 +62,7 @@ func (nStrFmtCountry NumStrFormatCountry) Ptr() *NumStrFormatCountry {
 //
 // https://freeformatter.com/argentina-standards-code-snippets.html
 //
-func (nStrFmtCountry *NumStrFormatCountry) Argentina(
-	nStrFmtSpecDto *NumStrFmtSpecDto,
-	ePrefix *ErrPrefixDto) (
-	err error) {
+func (nStrFmtCountry *NumStrFormatCountry) Argentina() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -76,22 +72,6 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref("NumStrFormatCountry.Argentina()")
-
-	if nStrFmtSpecDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDto' is invalid!\n"+
-			"'nStrFmtSpecDto' is a nil pointer.\n",
-			ePrefix.String())
-
-		return err
-	}
-
-	setupDto := NumStrFmtSpecSetupDto{}
 	setupDto.Lock = new(sync.Mutex)
 
 	setupDto.IdNo = 32
@@ -155,22 +135,13 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina(
 	setupDto.SignedNumValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	ePrefix.SetCtx("Argentina Setup")
-
-	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
-		&setupDto,
-		ePrefix)
-
-	return err
+	return setupDto
 }
 
 // Australia - Returns the number string format used in
 // Australia.
 //
-func (nStrFmtCountry *NumStrFormatCountry) Australia(
-	nStrFmtSpecDto *NumStrFmtSpecDto,
-	ePrefix *ErrPrefixDto) (
-	err error) {
+func (nStrFmtCountry *NumStrFormatCountry) Australia() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -180,22 +151,6 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref("NumStrFormatCountry.Australia()")
-
-	if nStrFmtSpecDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDto' is invalid!\n"+
-			"'nStrFmtSpecDto' is a nil pointer.\n",
-			ePrefix.String())
-
-		return err
-	}
-
-	setupDto := NumStrFmtSpecSetupDto{}
 	setupDto.Lock = new(sync.Mutex)
 
 	setupDto.IdNo = 36
@@ -259,22 +214,13 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia(
 	setupDto.SignedNumValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	ePrefix.SetCtx("Australia Setup")
-
-	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
-		&setupDto,
-		ePrefix)
-
-	return err
+	return setupDto
 }
 
 // Canada - Returns the number string format used in
 // Canada.
 //
-func (nStrFmtCountry *NumStrFormatCountry) Canada(
-	nStrFmtSpecDto *NumStrFmtSpecDto,
-	ePrefix *ErrPrefixDto) (
-	err error) {
+func (nStrFmtCountry *NumStrFormatCountry) Canada() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -284,22 +230,6 @@ func (nStrFmtCountry *NumStrFormatCountry) Canada(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref("NumStrFormatCountry.Canada()")
-
-	if nStrFmtSpecDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDto' is invalid!\n"+
-			"'nStrFmtSpecDto' is a nil pointer.\n",
-			ePrefix.String())
-
-		return err
-	}
-
-	setupDto := NumStrFmtSpecSetupDto{}
 	setupDto.Lock = new(sync.Mutex)
 
 	setupDto.IdNo = 124
@@ -362,22 +292,13 @@ func (nStrFmtCountry *NumStrFormatCountry) Canada(
 	setupDto.SignedNumValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	ePrefix.SetCtx("Canada Setup")
-
-	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
-		&setupDto,
-		ePrefix)
-
-	return err
+	return setupDto
 }
 
 // CanadaFrench - Returns the number string format used in
 // French Canada.
 //
-func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench(
-	nStrFmtSpecDto *NumStrFmtSpecDto,
-	ePrefix *ErrPrefixDto) (
-	err error) {
+func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -387,22 +308,6 @@ func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref("NumStrFormatCountry.CanadaFrench()")
-
-	if nStrFmtSpecDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDto' is invalid!\n"+
-			"'nStrFmtSpecDto' is a nil pointer.\n",
-			ePrefix.String())
-
-		return err
-	}
-
-	setupDto := NumStrFmtSpecSetupDto{}
 	setupDto.Lock = new(sync.Mutex)
 
 	setupDto.IdNo = 124
@@ -466,22 +371,13 @@ func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench(
 	setupDto.SignedNumValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	ePrefix.SetCtx("Canada French Setup")
-
-	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
-		&setupDto,
-		ePrefix)
-
-	return err
+	return setupDto
 }
 
 // China - Returns the number string format used in the
 // Peoples Republic of China.
 //
-func (nStrFmtCountry *NumStrFormatCountry) China(
-	nStrFmtSpecDto *NumStrFmtSpecDto,
-	ePrefix *ErrPrefixDto) (
-	err error) {
+func (nStrFmtCountry *NumStrFormatCountry) China() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -491,22 +387,6 @@ func (nStrFmtCountry *NumStrFormatCountry) China(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref("NumStrFormatCountry.China()")
-
-	if nStrFmtSpecDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDto' is invalid!\n"+
-			"'nStrFmtSpecDto' is a nil pointer.\n",
-			ePrefix.String())
-
-		return err
-	}
-
-	setupDto := NumStrFmtSpecSetupDto{}
 	setupDto.Lock = new(sync.Mutex)
 
 	setupDto.IdNo = 156
@@ -570,13 +450,7 @@ func (nStrFmtCountry *NumStrFormatCountry) China(
 	setupDto.SignedNumValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	ePrefix.SetCtx("China Setup")
-
-	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
-		&setupDto,
-		ePrefix)
-
-	return err
+	return setupDto
 }
 
 // France - Returns the number string format used in the
@@ -585,10 +459,7 @@ func (nStrFmtCountry *NumStrFormatCountry) China(
 // https://www.ibm.com/support/pages/english-and-french-currency-formats
 // https://freeformatter.com/france-standards-code-snippets.html
 //
-func (nStrFmtCountry *NumStrFormatCountry) France(
-	nStrFmtSpecDto *NumStrFmtSpecDto,
-	ePrefix *ErrPrefixDto) (
-	err error) {
+func (nStrFmtCountry *NumStrFormatCountry) France() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -598,22 +469,6 @@ func (nStrFmtCountry *NumStrFormatCountry) France(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref("NumStrFormatCountry.France()")
-
-	if nStrFmtSpecDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDto' is invalid!\n"+
-			"'nStrFmtSpecDto' is a nil pointer.\n",
-			ePrefix.String())
-
-		return err
-	}
-
-	setupDto := NumStrFmtSpecSetupDto{}
 	setupDto.Lock = new(sync.Mutex)
 
 	setupDto.IdNo = 250
@@ -677,13 +532,7 @@ func (nStrFmtCountry *NumStrFormatCountry) France(
 	setupDto.SignedNumValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	ePrefix.SetCtx("France Setup")
-
-	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
-		&setupDto,
-		ePrefix)
-
-	return err
+	return setupDto
 }
 
 // Germany - Returns the number string format used in the
@@ -692,10 +541,7 @@ func (nStrFmtCountry *NumStrFormatCountry) France(
 // https://freeformatter.com/germany-standards-code-snippets.html
 // https://www.evertype.com/standards/euro/formats.html
 //
-func (nStrFmtCountry *NumStrFormatCountry) Germany(
-	nStrFmtSpecDto *NumStrFmtSpecDto,
-	ePrefix *ErrPrefixDto) (
-	err error) {
+func (nStrFmtCountry *NumStrFormatCountry) Germany() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -705,22 +551,6 @@ func (nStrFmtCountry *NumStrFormatCountry) Germany(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref("NumStrFormatCountry.Germany()")
-
-	if nStrFmtSpecDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDto' is invalid!\n"+
-			"'nStrFmtSpecDto' is a nil pointer.\n",
-			ePrefix.String())
-
-		return err
-	}
-
-	setupDto := NumStrFmtSpecSetupDto{}
 	setupDto.Lock = new(sync.Mutex)
 
 	setupDto.IdNo = 276
@@ -784,13 +614,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Germany(
 	setupDto.SignedNumValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	ePrefix.SetCtx("Germany Setup")
-
-	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
-		&setupDto,
-		ePrefix)
-
-	return err
+	return setupDto
 }
 
 // Italy - Returns the number string format used in the
@@ -799,10 +623,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Germany(
 // https://freeformatter.com/italy-standards-code-snippets.html
 // https://italian.stackexchange.com/questions/5674/what-is-the-correct-way-to-format-currency-in-italian
 //
-func (nStrFmtCountry *NumStrFormatCountry) Italy(
-	nStrFmtSpecDto *NumStrFmtSpecDto,
-	ePrefix *ErrPrefixDto) (
-	err error) {
+func (nStrFmtCountry *NumStrFormatCountry) Italy() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -812,22 +633,6 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	if nStrFmtSpecDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDto' is invalid!\n"+
-			"'nStrFmtSpecDto' is a nil pointer.\n",
-			ePrefix.String())
-
-		return err
-	}
-
-	ePrefix.SetEPref("NumStrFormatCountry.Italy()")
-
-	setupDto := NumStrFmtSpecSetupDto{}
 	setupDto.Lock = new(sync.Mutex)
 
 	setupDto.IdNo = 380
@@ -891,13 +696,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy(
 	setupDto.SignedNumValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	ePrefix.SetCtx("Italy Setup")
-
-	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
-		&setupDto,
-		ePrefix)
-
-	return err
+	return setupDto
 }
 
 // Israel - Returns the number string format used in the
@@ -905,10 +704,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy(
 //
 //  https://freeformatter.com/israel-standards-code-snippets.html
 //
-func (nStrFmtCountry *NumStrFormatCountry) Israel(
-	nStrFmtSpecDto *NumStrFmtSpecDto,
-	ePrefix *ErrPrefixDto) (
-	err error) {
+func (nStrFmtCountry *NumStrFormatCountry) Israel() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -918,22 +714,6 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref("NumStrFormatCountry.Israel()")
-
-	if nStrFmtSpecDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDto' is invalid!\n"+
-			"'nStrFmtSpecDto' is a nil pointer.\n",
-			ePrefix.String())
-
-		return err
-	}
-
-	setupDto := NumStrFmtSpecSetupDto{}
 	setupDto.Lock = new(sync.Mutex)
 
 	setupDto.IdNo = 376
@@ -996,22 +776,13 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel(
 	setupDto.SignedNumValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	ePrefix.SetCtx("Israel Setup")
-
-	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
-		&setupDto,
-		ePrefix)
-
-	return err
+	return setupDto
 }
 
 // UnitedKingdom - Returns the number string format used in the
 // United Kingdom of Great Britain and Northern Ireland.
 //
-func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom(
-	nStrFmtSpecDto *NumStrFmtSpecDto,
-	ePrefix *ErrPrefixDto) (
-	err error) {
+func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -1021,22 +792,6 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref("NumStrFormatCountry.UnitedKingdom()")
-
-	if nStrFmtSpecDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDto' is invalid!\n"+
-			"'nStrFmtSpecDto' is a nil pointer.\n",
-			ePrefix.String())
-
-		return err
-	}
-
-	setupDto := NumStrFmtSpecSetupDto{}
 	setupDto.Lock = new(sync.Mutex)
 
 	setupDto.IdNo = 826
@@ -1100,22 +855,13 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom(
 	setupDto.SignedNumValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	ePrefix.SetCtx("United Kingdom Setup")
-
-	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
-		&setupDto,
-		ePrefix)
-
-	return err
+	return setupDto
 }
 
 // UnitedStates - Returns the number string format used in the
 // United States.
 //
-func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
-	nStrFmtSpecDto *NumStrFmtSpecDto,
-	ePrefix *ErrPrefixDto) (
-	err error) {
+func (nStrFmtCountry *NumStrFormatCountry) UnitedStates() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -1125,22 +871,6 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref("NumStrFormatCountry.UnitedStates()")
-
-	if nStrFmtSpecDto == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecDto' is invalid!\n"+
-			"'nStrFmtSpecDto' is a nil pointer.\n",
-			ePrefix.String())
-
-		return err
-	}
-
-	setupDto := NumStrFmtSpecSetupDto{}
 	setupDto.Lock = new(sync.Mutex)
 
 	setupDto.IdNo = 840
@@ -1204,11 +934,5 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates(
 	setupDto.SignedNumValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	ePrefix.SetCtx("United States Setup")
-
-	err = nStrFmtSpecDto.SetFromFmtSpecSetupDto(
-		&setupDto,
-		ePrefix)
-
-	return err
+	return setupDto
 }
