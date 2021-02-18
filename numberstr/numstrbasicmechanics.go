@@ -1,7 +1,6 @@
 package numberstr
 
 import (
-	"errors"
 	"fmt"
 	"math"
 	"strings"
@@ -14,7 +13,10 @@ type numStrBasicMechanics struct {
 
 // convertInt64ToFractionalValue - Converts an int64 value to a float64 with
 // all digits to the right of the decimal place.
-func (nStrBasicMech *numStrBasicMechanics) convertInt64ToFractionalValue(i64 int64) (float64, error) {
+func (nStrBasicMech *numStrBasicMechanics) convertInt64ToFractionalValue(
+	i64 int64) (
+	float64,
+	error) {
 
 	if nStrBasicMech.lock == nil {
 		nStrBasicMech.lock = new(sync.Mutex)
@@ -125,7 +127,7 @@ func (nStrBasicMech *numStrBasicMechanics) convertRunesToInt64(
 //       function.
 //
 //
-//  incomingFmtSpecDto  *NumStrFmtSpecDto
+//  nStrFmtSpecDto      *NumStrFmtSpecDto
 //     - A pointer to an instance of NumStrFmtSpecDto. This object
 //       contains the numeric separators such as the thousands
 //       separator (','), the decimal separator ('.') and the
@@ -430,26 +432,24 @@ func (nStrBasicMech *numStrBasicMechanics) delimitThousands(
 			continue
 		}
 
-		if signVal != 0 {
-			if signVal == -1 {
-				outRunes = append(
-					[]rune{'-'},
-					outRunes...)
-
-			}
-		}
-		// Check and allow for sign designators
-		if pureNumStr[i] == '-' ||
-			pureNumStr[i] == '+' {
-
-			outRunes[outIdx] = pureNumStr[i]
-			outIdx--
-
-		}
-
 	}
 
-	return string(outRunes[outIdx+1:])
+	// Check and allow for sign designators
+	if signVal != 0 {
+		if signVal == -1 {
+			outRunes = append(
+				[]rune{'-'},
+				outRunes...)
+		} else {
+			outRunes = append(
+				[]rune{'+'},
+				outRunes...)
+		}
+	}
+
+	numStr = string(outRunes)
+
+	return numStr, err
 }
 
 // getCountryAndCurrency - Returns the Country and Currency runes as
