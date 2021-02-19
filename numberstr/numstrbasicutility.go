@@ -84,7 +84,7 @@ type NumStrBasicUtility struct {
 //     - If this method completes successfully, this returned
 //       string will contain numeric digits separated into thousands
 //       by the delimiter character supplied in input parameter,
-//       'numStrFmtSpec'.
+//       'integerDigitsSeparator'.
 //
 //  err                            error
 //     - If this method completes successfully, the returned error
@@ -184,7 +184,7 @@ func (ns NumStrBasicUtility) DLimInt(
 //     - If this method completes successfully, this returned
 //       string will contain numeric digits separated into thousands
 //       by the delimiter character supplied in input parameter,
-//       'numStrFmtSpec'.
+//       'integerDigitsSeparator'.
 //
 //  err                            error
 //     - If this method completes successfully, the returned error
@@ -231,8 +231,92 @@ func (ns NumStrBasicUtility) DLimI64(
 
 // DlimDecCurrStr - Inserts a Currency Symbol and a Thousands
 // Separator in a number string containing a decimal point.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  rawNumStr                      string
+//     - A number string which will be injected with thousands
+//       separators, prefixed with a currency symbol and
+//       correctly formatted for any included fractional digits.
+//
+//
+//  integerDigitsSeparator         rune
+//     - This separator is also known as the 'thousands' separator.
+//       It is used to separate groups of integer digits to the left
+//       of the decimal separator (a.k.a. decimal point). In the
+//       United States, the standard integer digits separator is the
+//       comma (',').
+//
+//        Example:  1,000,000,000
+//
+//
+//  integerDigitsGroupingSequence  []uint
+//     - In most western countries integer digits to the left of the
+//       decimal separator (a.k.a. decimal point) are separated into
+//       groups of three digits representing a grouping of 'thousands'
+//       like this: '1,000,000,000,000'. In this case the parameter
+//       'integerDigitsGroupingSequence' would be configured as:
+//              integerDigitsGroupingSequence = []uint{3}
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted as
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerDigitsGroupingSequence' would be configured
+//       as:
+//              integerDigitsGroupingSequence = []uint{3,2}
+//
+//
+//  decimalSeparator               rune
+//     - A unicode character inserted into a number string to
+//       separate integer and fractional digits. In the United
+//       States, the decimal separator is the period character
+//       ('.') and it is known as the decimal point.
+//
+//
+//  currencySymbol                 rune
+//     - A unicode character used for the currency symbol. This
+//       currency symbol will be prefixed or attached to the
+//       beginning of the final, returned number string. In the
+//       United States, the currency symbol is the dollar sign,
+//       '$'.
+//
+//
+//  ePrefix                        ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  numStr                         string
+//     - If this method completes successfully, this returned
+//       string will contain numeric digits separated into
+//       thousands by the delimiter character supplied in input
+//       parameter, 'integerDigitsSeparator' and prefixed with the
+//       currency symbol supplied by input parameter,
+//       'currencySymbol'.
+//
+//
+//  err                            error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
 func (ns NumStrBasicUtility) DlimDecCurrStr(
-	rawStr string,
+	rawNumStr string,
 	integerDigitsSeparator rune,
 	integerDigitsGroupingSequence []uint,
 	decimalSeparator rune,
@@ -254,14 +338,14 @@ func (ns NumStrBasicUtility) DlimDecCurrStr(
 	nStrBasicMech := numStrBasicMechanics{}
 
 	return nStrBasicMech.delimitDecimalCurrencyStr(
-		rawStr,
+		rawNumStr,
 		integerDigitsSeparator,
 		integerDigitsGroupingSequence,
 		decimalSeparator,
 		currencySymbol,
 		ePrefix.XCtx(
 			fmt.Sprintf(
-				"rawStr='%v'\n", rawStr)))
+				"rawNumStr='%v'\n", rawNumStr)))
 }
 
 // DelimitNumStr - is designed to delimit or format a pure number string with a thousands
