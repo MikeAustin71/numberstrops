@@ -241,106 +241,11 @@ func (nStrBasicMech *numStrBasicMechanics) convertStrToIntNumRunes(
 // delimitDecimalCurrencyStr - Inserts a Currency Symbol and a Thousands
 // Separator in a number string containing a decimal point.
 func (nStrBasicMech *numStrBasicMechanics) delimitDecimalCurrencyStr(
-	rawStr string,
-	thousandsSeparator rune,
-	decimal rune,
-	currency rune) string {
-
-	if nStrBasicMech.lock == nil {
-		nStrBasicMech.lock = new(sync.Mutex)
-	}
-
-	nStrBasicMech.lock.Lock()
-
-	defer nStrBasicMech.lock.Unlock()
-
-	const maxStr = 256
-	outStr := [maxStr]rune{}
-	inStr := []rune(rawStr)
-	lInStr := len(inStr)
-	iCnt := 0
-	outIdx := maxStr - 1
-	outIdx1 := maxStr - 1
-	outIdx2 := maxStr - 1
-	r1 := [maxStr]rune{}
-	r2 := [maxStr]rune{}
-	decimalIsFound := false
-
-	for i := lInStr - 1; i >= 0; i-- {
-		if inStr[i] == decimal {
-			r1[outIdx1] = decimal
-			outIdx1--
-			decimalIsFound = true
-			continue
-		}
-
-		if !decimalIsFound {
-			r1[outIdx1] = inStr[i]
-			outIdx1--
-		} else {
-			r2[outIdx2] = inStr[i]
-			outIdx2--
-		}
-	}
-
-	var ptr *[maxStr]rune
-
-	if !decimalIsFound {
-		ptr = &r1
-	} else {
-		ptr = &r2
-	}
-
-	lInterPart := len(ptr)
-
-	for i := lInterPart - 1; i >= 0; i-- {
-
-		if ptr[i] >= '0' && ptr[i] <= '9' {
-
-			iCnt++
-			outStr[outIdx] = ptr[i]
-			outIdx--
-
-			if iCnt == 3 {
-				iCnt = 0
-				outStr[outIdx] = thousandsSeparator
-				outIdx--
-			}
-
-			continue
-		}
-
-		// Check and allow for decimal
-		// separators and sign designators
-		if ptr[i] == '-' ||
-			ptr[i] == '+' ||
-			(ptr[i] == currency && currency != 0) {
-
-			outStr[outIdx] = ptr[i]
-			outIdx--
-
-		}
-
-	}
-
-	if !decimalIsFound {
-		return string(outStr[outIdx+1:])
-	}
-
-	return string(outStr[outIdx+1:]) + string(r1[outIdx1+1:])
-}
-
-// delimitThousands - is designed to delimit or format a pure number string with a thousands
-// separator (i.e. ','). Example: Input == 1234567890 -> Output == "1,234,567,890".
-// NOTE: This method will not handle number strings containing decimal fractions
-// and currency characters. For these options see method ns.DlimDecCurrStr(),
-// above.
-//
-// Example: 1,000,000,000
-//
-func (nStrBasicMech *numStrBasicMechanics) delimitThousands(
-	pureNumStr string,
-	thousandsSeparator rune,
+	rawNumStr string,
+	integerDigitsSeparator rune,
+	integerDigitsGroupingSequence []uint,
+	decimalSeparator rune,
+	currencySymbol rune,
 	ePrefix *ErrPrefixDto) (
 	numStr string,
 	err error) {
@@ -353,101 +258,78 @@ func (nStrBasicMech *numStrBasicMechanics) delimitThousands(
 
 	defer nStrBasicMech.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
 	ePrefix.SetEPref(
-		"numStrBasicMechanics.delimitThousands()")
+		"numStrBasicMechanics.delimitDecimalCurrencyStr() ")
 
-	rawNumRunes := []rune(pureNumStr)
+	nStrBasicAtom := numStrBasicAtom{}
 
-	lInStr := len(rawNumRunes)
+	var signChar rune
+	var intNumRunes, fracNumRunes []rune
+	var lenIntNumRunes, lenFracNumRunes int
 
-	if lInStr == 0 {
+	signChar,
+		intNumRunes,
+		lenIntNumRunes,
+		fracNumRunes,
+		lenFracNumRunes,
+		err = nStrBasicAtom.parseIntFracRunesFromNumStr(
+		rawNumStr,
+		decimalSeparator,
+		ePrefix.XCtx("rawNumStr"))
+
+	if err != nil {
+		return numStr, err
+	}
+
+	if lenIntNumRunes == 0 &&
+		lenFracNumRunes == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'pureNumStr' is invalid!\n"+
-			"pureNumStr is an empty string.\n",
-			ePrefix.String())
+			"Error: There are no viable numeric digits\n"+
+			"int input parameter 'rawNumStr'.\n"+
+			"rawNumStr='%v'\n",
+			ePrefix.XCtxEmpty().String(),
+			rawNumStr)
+
+		return numStr, err
 	}
 
-	pureNumRunes := make([]rune, 0, 256)
+	outStr := make([]rune, 1, 30)
 
-	haveFirstNumericDigit := false
-	signVal := 0
+	outStr[0] = currencySymbol
 
-	for i := 0; i < lInStr; i++ {
+	if signChar != 0 {
+		outStr = append(outStr, signChar)
+	}
 
-		if !haveFirstNumericDigit &&
-			signVal == 0 &&
-			(rawNumRunes[i] == '+' ||
-				rawNumRunes[i] == '-') {
+	if lenIntNumRunes > 0 {
 
-			if rawNumRunes[i] == '+' {
-				signVal = 1
-			} else {
-				signVal = -1
-			}
+		var delimitedNumStr string
 
+		delimitedNumStr,
+			err = nStrBasicAtom.delimitIntSeparators(
+			string(intNumRunes),
+			integerDigitsSeparator,
+			integerDigitsGroupingSequence,
+			ePrefix.XCtx(
+				"string(intNumRunes)"))
+
+		if err != nil {
+			return numStr, err
 		}
 
-		if rawNumRunes[i] >= '0' &&
-			rawNumRunes[i] <= '9' {
-			pureNumRunes = append(pureNumRunes,
-				rawNumRunes[i])
-			haveFirstNumericDigit = true
-		}
+		numStr = string(outStr) + delimitedNumStr
+
+	} else {
+		// lenIntNumRunes == 0
+		outStr = append(outStr, '0')
+
+		numStr = string(outStr)
 	}
 
-	lInStr = len(pureNumRunes)
-
-	if lInStr == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'pureNumStr' is invalid!\n"+
-			"pureNumStr contains no integer digits.\n",
-			ePrefix.String())
+	if lenFracNumRunes > 0 {
+		numStr += string(decimalSeparator)
+		numStr += string(fracNumRunes)
 	}
-
-	outRunes := make([]rune, 0, 256)
-	iCnt := 0
-
-	for i := lInStr - 1; i >= 0; i-- {
-
-		if pureNumRunes[i] >= '0' && pureNumRunes[i] <= '9' {
-
-			iCnt++
-			outRunes = append(
-				[]rune{pureNumRunes[i]},
-				outRunes...)
-
-			if iCnt == 3 && i != 0 {
-
-				iCnt = 0
-
-				outRunes = append(
-					[]rune{thousandsSeparator},
-					outRunes...)
-			}
-
-			continue
-		}
-
-	}
-
-	// Check and allow for sign designators
-	if signVal != 0 {
-		if signVal == -1 {
-			outRunes = append(
-				[]rune{'-'},
-				outRunes...)
-		} else {
-			outRunes = append(
-				[]rune{'+'},
-				outRunes...)
-		}
-	}
-
-	numStr = string(outRunes)
 
 	return numStr, err
 }

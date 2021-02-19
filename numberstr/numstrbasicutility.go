@@ -32,15 +32,13 @@ type NumStrBasicUtility struct {
 
 // DLimInt - Receives an integer and returns a delimited number
 // string with thousands separator (i.e. 1000000 -> 1,000,000).
-// This number string must be pure number string with NO decimal
-// points.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Input Parameters
 //
-//  num                 int
+//  num                            int
 //     - The integer value which will be converted to a number
 //       string and inserted with thousands separators.
 //
@@ -72,7 +70,7 @@ type NumStrBasicUtility struct {
 //              integerDigitsGroupingSequence = []uint{3,2}
 //
 //
-//  ePrefix             ErrPrefixDto
+//  ePrefix                        ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -82,13 +80,13 @@ type NumStrBasicUtility struct {
 //
 // Return Values
 //
-//  numStr              string
+//  numStr                         string
 //     - If this method completes successfully, this returned
 //       string will contain numeric digits separated into thousands
 //       by the delimiter character supplied in input parameter,
 //       'numStrFmtSpec'.
 //
-//  err                 error
+//  err                            error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'.
 //
@@ -126,17 +124,86 @@ func (ns NumStrBasicUtility) DLimInt(
 			integerDigitsSeparator,
 			integerDigitsGroupingSequence,
 			ePrefix.XCtx(
-				fmt.Sprintf("numStr='%v'", numStr)))
+				fmt.Sprintf("pureNumStr='%v'", pureNumStr)))
 
 	return numStr, err
 }
 
 // DLimI64 - Receives an int64 and returns a delimited number
 // string with thousands separator (i.e. 1000000 -> 1,000,000).
-// This number string must be pure number string with NO decimal
-// points.
 //
-func (ns NumStrBasicUtility) DLimI64(num int64, delimiter byte) string {
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  num                            int64
+//     - The integer value which will be converted to a number
+//       string and inserted with thousands separators.
+//
+//
+//  integerDigitsSeparator         rune
+//     - This separator is also known as the 'thousands' separator.
+//       It is used to separate groups of integer digits to the left
+//       of the decimal separator (a.k.a. decimal point). In the
+//       United States, the standard integer digits separator is the
+//       comma (',').
+//
+//        Example:  1,000,000,000
+//
+//
+//  integerDigitsGroupingSequence  []uint
+//     - In most western countries integer digits to the left of the
+//       decimal separator (a.k.a. decimal point) are separated into
+//       groups of three digits representing a grouping of 'thousands'
+//       like this: '1,000,000,000,000'. In this case the parameter
+//       'integerDigitsGroupingSequence' would be configured as:
+//              integerDigitsGroupingSequence = []uint{3}
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted as
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerDigitsGroupingSequence' would be configured
+//       as:
+//              integerDigitsGroupingSequence = []uint{3,2}
+//
+//
+//  ePrefix                        ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  numStr                         string
+//     - If this method completes successfully, this returned
+//       string will contain numeric digits separated into thousands
+//       by the delimiter character supplied in input parameter,
+//       'numStrFmtSpec'.
+//
+//  err                            error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (ns NumStrBasicUtility) DLimI64(
+	num int64,
+	integerDigitsSeparator rune,
+	integerDigitsGroupingSequence []uint,
+	ePrefix ErrPrefixDto) (
+	numStr string,
+	err error) {
 
 	if ns.lock == nil {
 		ns.lock = new(sync.Mutex)
@@ -146,20 +213,33 @@ func (ns NumStrBasicUtility) DLimI64(num int64, delimiter byte) string {
 
 	defer ns.lock.Unlock()
 
-	nStrBasicMech := numStrBasicMechanics{}
+	ePrefix.SetEPref("NumStrBasicUtility.DLimI64() ")
 
-	return nStrBasicMech.delimitThousands(
-		fmt.Sprintf("%v", num),
-		delimiter)
+	pureNumStr := strconv.FormatInt(num, 10)
+
+	numStr,
+		err = numStrBasicAtom{}.ptr().
+		delimitIntSeparators(
+			pureNumStr,
+			integerDigitsSeparator,
+			integerDigitsGroupingSequence,
+			ePrefix.XCtx(
+				fmt.Sprintf("pureNumStr='%v'", pureNumStr)))
+
+	return numStr, err
 }
 
 // DlimDecCurrStr - Inserts a Currency Symbol and a Thousands
 // Separator in a number string containing a decimal point.
 func (ns NumStrBasicUtility) DlimDecCurrStr(
 	rawStr string,
-	thousandsSeparator rune,
-	decimal rune,
-	currency rune) string {
+	integerDigitsSeparator rune,
+	integerDigitsGroupingSequence []uint,
+	decimalSeparator rune,
+	currencySymbol rune,
+	ePrefix ErrPrefixDto) (
+	string,
+	error) {
 
 	if ns.lock == nil {
 		ns.lock = new(sync.Mutex)
@@ -169,13 +249,19 @@ func (ns NumStrBasicUtility) DlimDecCurrStr(
 
 	defer ns.lock.Unlock()
 
+	ePrefix.SetEPref("NumStrBasicUtility.DlimDecCurrStr() ")
+
 	nStrBasicMech := numStrBasicMechanics{}
 
 	return nStrBasicMech.delimitDecimalCurrencyStr(
 		rawStr,
-		thousandsSeparator,
-		decimal,
-		currency)
+		integerDigitsSeparator,
+		integerDigitsGroupingSequence,
+		decimalSeparator,
+		currencySymbol,
+		ePrefix.XCtx(
+			fmt.Sprintf(
+				"rawStr='%v'\n", rawStr)))
 }
 
 // DelimitNumStr - is designed to delimit or format a pure number string with a thousands
