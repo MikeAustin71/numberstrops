@@ -238,9 +238,9 @@ func (nStrBasicMech *numStrBasicMechanics) convertStrToIntNumRunes(
 	return runes, err
 }
 
-// delimitDecimalCurrencyStr - Inserts a Currency Symbol and a Thousands
+// delimitCurrencyStr - Inserts a Currency Symbol and a Thousands
 // Separator in a number string containing a decimal point.
-func (nStrBasicMech *numStrBasicMechanics) delimitDecimalCurrencyStr(
+func (nStrBasicMech *numStrBasicMechanics) delimitCurrencyStr(
 	rawNumStr string,
 	integerDigitsSeparator rune,
 	integerDigitsGroupingSequence []uint,
@@ -259,7 +259,7 @@ func (nStrBasicMech *numStrBasicMechanics) delimitDecimalCurrencyStr(
 	defer nStrBasicMech.lock.Unlock()
 
 	ePrefix.SetEPref(
-		"numStrBasicMechanics.delimitDecimalCurrencyStr() ")
+		"numStrBasicMechanics.delimitCurrencyStr() ")
 
 	nStrBasicAtom := numStrBasicAtom{}
 
@@ -297,8 +297,11 @@ func (nStrBasicMech *numStrBasicMechanics) delimitDecimalCurrencyStr(
 
 	outStr[0] = currencySymbol
 
-	if signChar != 0 {
+	// Exclude leading plus ('+') sign
+	if signChar == '-' {
 		outStr = append(outStr, signChar)
+	} else if signChar == '+' {
+		signChar = 0
 	}
 
 	if lenIntNumRunes > 0 {
@@ -321,7 +324,18 @@ func (nStrBasicMech *numStrBasicMechanics) delimitDecimalCurrencyStr(
 
 	} else {
 		// lenIntNumRunes == 0
-		outStr = append(outStr, '0')
+
+		if lenFracNumRunes == 0 {
+
+			outStr = make([]rune, 2, 5)
+			outStr[0] = currencySymbol
+			outStr[1] = '0'
+
+		} else {
+
+			outStr = append(outStr, '0')
+
+		}
 
 		numStr = string(outStr)
 	}
@@ -332,6 +346,193 @@ func (nStrBasicMech *numStrBasicMechanics) delimitDecimalCurrencyStr(
 	}
 
 	return numStr, err
+}
+
+// delimitNumberStr - Inserts a Currency Symbol and a Thousands
+// Separator in a number string containing a decimal point.
+//
+// Examples:
+//   rawNumStr == 1234567890 -> Output == "1,234,567,890".
+//   rawNumStr == 1234567.89 -> Output == "1,234,567.89".
+//   rawNumStr == -1234567890 -> Output == "-1,234,567,890".
+//   rawNumStr == -1234567.89 -> Output == "-1,234,567.89".
+//   rawNumStr == +1234567890 -> Output == "+1,234,567,890".
+//   rawNumStr == +1234567.89 -> Output == "+1,234,567.89".
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  rawNumStr                      string
+//     - A number string which will be formatted with thousands
+//       separators. Floating point numeric values will be
+//       correctly formatted with a decimal separator separating
+//       integer and fractional digits.
+//
+//
+//  integerDigitsSeparator         rune
+//     - This separator is also known as the 'thousands' separator.
+//       It is used to separate groups of integer digits to the left
+//       of the decimal separator (a.k.a. decimal point). In the
+//       United States, the standard integer digits separator is the
+//       comma (',').
+//
+//        Example:  1,000,000,000
+//
+//
+//  integerDigitsGroupingSequence  []uint
+//     - In most western countries integer digits to the left of the
+//       decimal separator (a.k.a. decimal point) are separated into
+//       groups of three digits representing a grouping of 'thousands'
+//       like this: '1,000,000,000,000'. In this case the parameter
+//       'integerDigitsGroupingSequence' would be configured as:
+//              integerDigitsGroupingSequence = []uint{3}
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted as
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerDigitsGroupingSequence' would be configured
+//       as:
+//              integerDigitsGroupingSequence = []uint{3,2}
+//
+//
+//  decimalSeparator               rune
+//     - A unicode character inserted into a number string to
+//       separate integer and fractional digits. In the United
+//       States, the decimal separator is the period character
+//       ('.') and it is known as the decimal point.
+//
+//
+//  ePrefix                        *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  fmtNumStr                      string
+//     - Formatted Number String. If this method completes
+//       successfully, this returned string will contain numeric
+//       digits separated into thousands by the delimiter character
+//       supplied in input parameter, 'integerDigitsSeparator'.
+//       Floating point numeric values will be properly formatted
+//       and delimited with the 'decimalSeparator' character.
+//
+//
+//  err                            error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrBasicMech *numStrBasicMechanics) delimitNumberStr(
+	rawNumStr string,
+	integerDigitsSeparator rune,
+	integerDigitsGroupingSequence []uint,
+	decimalSeparator rune,
+	ePrefix *ErrPrefixDto) (
+	fmtNumStr string,
+	err error) {
+
+	if nStrBasicMech.lock == nil {
+		nStrBasicMech.lock = new(sync.Mutex)
+	}
+
+	nStrBasicMech.lock.Lock()
+
+	defer nStrBasicMech.lock.Unlock()
+
+	ePrefix.SetEPref(
+		"numStrBasicMechanics.delimitNumberStr() ")
+
+	nStrBasicAtom := numStrBasicAtom{}
+
+	var signChar rune
+	var intNumRunes, fracNumRunes []rune
+	var lenIntNumRunes, lenFracNumRunes int
+
+	signChar,
+		intNumRunes,
+		lenIntNumRunes,
+		fracNumRunes,
+		lenFracNumRunes,
+		err = nStrBasicAtom.parseIntFracRunesFromNumStr(
+		rawNumStr,
+		decimalSeparator,
+		ePrefix.XCtx("rawNumStr"))
+
+	if err != nil {
+		return fmtNumStr, err
+	}
+
+	if lenIntNumRunes == 0 &&
+		lenFracNumRunes == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: There are no viable numeric digits\n"+
+			"int input parameter 'rawNumStr'.\n"+
+			"rawNumStr='%v'\n",
+			ePrefix.XCtxEmpty().String(),
+			rawNumStr)
+
+		return fmtNumStr, err
+	}
+
+	outStr := make([]rune, 0, 30)
+
+	if signChar != 0 {
+		outStr = append(outStr, signChar)
+	}
+
+	if lenIntNumRunes > 0 {
+
+		var delimitedNumStr string
+
+		delimitedNumStr,
+			err = nStrBasicAtom.delimitIntSeparators(
+			string(intNumRunes),
+			integerDigitsSeparator,
+			integerDigitsGroupingSequence,
+			ePrefix.XCtx(
+				"string(intNumRunes)"))
+
+		if err != nil {
+			return fmtNumStr, err
+		}
+
+		fmtNumStr = string(outStr) + delimitedNumStr
+
+	} else {
+		// lenIntNumRunes == 0
+
+		if lenFracNumRunes > 0 {
+
+			outStr = append(outStr, '0')
+
+		} else {
+
+			outStr = make([]rune, 1, 5)
+			outStr[0] = '0'
+		}
+
+		fmtNumStr = string(outStr)
+	}
+
+	if lenFracNumRunes > 0 {
+		fmtNumStr += string(decimalSeparator)
+		fmtNumStr += string(fracNumRunes)
+	}
+
+	return fmtNumStr, err
 }
 
 // getCountryAndCurrency - Returns the Country and Currency runes as
@@ -569,4 +770,24 @@ func (nStrBasicMech *numStrBasicMechanics) getCountryAndCurrency(
 		fmt.Errorf(ePrefix+"\n"+
 			"Failed to initialize country, %v.\n", country)
 
+}
+
+// ptr - Returns a pointer to a new instance of
+// numStrBasicMechanics.
+//
+func (nStrBasicMech numStrBasicMechanics) ptr() *numStrBasicMechanics {
+
+	if nStrBasicMech.lock == nil {
+		nStrBasicMech.lock = new(sync.Mutex)
+	}
+
+	nStrBasicMech.lock.Lock()
+
+	defer nStrBasicMech.lock.Unlock()
+
+	newNumStrBasicMechanics := new(numStrBasicMechanics)
+
+	newNumStrBasicMechanics.lock = new(sync.Mutex)
+
+	return newNumStrBasicMechanics
 }

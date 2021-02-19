@@ -17,7 +17,7 @@ func TestNumStrBasicUtility_DlimDecStr(t *testing.T) {
 	n := "1234567890"
 	expected := "1,234,567,890"
 
-	result := ns.DlimDecCurrStr(n, ',', '.', '$')
+	result := ns.DlimCurrencyStr(n, ',', '.', '$')
 
 	if result != expected {
 		t.Errorf("Expected result = %v; instead got: %v", expected, result)
@@ -29,7 +29,7 @@ func TestNumStrBasicUtility_DlimDecStr_With_DecimalCurrency(t *testing.T) {
 	ns := NumStrBasicUtility{}
 	n := "$1234567890.25"
 
-	result := ns.DlimDecCurrStr(n, ',', '.', '$')
+	result := ns.DlimCurrencyStr(n, ',', '.', '$')
 	expected := "$1,234,567,890.25"
 
 	if result != expected {

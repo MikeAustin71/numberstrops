@@ -3,7 +3,6 @@ package numberstr
 import (
 	"fmt"
 	"strconv"
-	"strings"
 	"sync"
 )
 
@@ -229,8 +228,16 @@ func (ns NumStrBasicUtility) DLimI64(
 	return numStr, err
 }
 
-// DlimDecCurrStr - Inserts a Currency Symbol and a Thousands
-// Separator in a number string containing a decimal point.
+// DlimCurrencyStr - Converts a number string to a formatted
+// currency string by inserting a Currency Symbol and a
+// Thousands Separator. This method processes both integer
+// and floating point numeric values.
+//
+// Examples:
+//   rawNumStr == 1234567890 -> Output == "$1,234,567,890".
+//   rawNumStr == 1234567.89 -> Output == "$1,234,567.89".
+//   rawNumStr == -1234567890 -> Output == "$-1,234,567,890".
+//   rawNumStr == -1234567.89 -> Output == "$-1,234,567.89".
 //
 //
 // ------------------------------------------------------------------------
@@ -295,16 +302,18 @@ func (ns NumStrBasicUtility) DLimI64(
 //
 // Return Values
 //
-//  numStr                         string
-//     - If this method completes successfully, this returned
-//       string will contain numeric digits separated into
-//       thousands by the delimiter character supplied in input
-//       parameter, 'integerDigitsSeparator' and prefixed with the
-//       currency symbol supplied by input parameter,
-//       'currencySymbol'.
+//  string
+//     - Formatted Number String. If this method completes
+//       successfully, this returned string will contain numeric
+//       digits separated into thousands by the delimiter character
+//       supplied in input parameter, 'integerDigitsSeparator'. It
+//       will also be prefixed with the currency symbol supplied by
+//       input parameter, 'currencySymbol'. Floating point numeric
+//       values will be properly formatted and delimited using the
+//       'decimalSeparator' character.
 //
 //
-//  err                            error
+//  error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'.
 //
@@ -315,7 +324,7 @@ func (ns NumStrBasicUtility) DLimI64(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (ns NumStrBasicUtility) DlimDecCurrStr(
+func (ns NumStrBasicUtility) DlimCurrencyStr(
 	rawNumStr string,
 	integerDigitsSeparator rune,
 	integerDigitsGroupingSequence []uint,
@@ -333,11 +342,11 @@ func (ns NumStrBasicUtility) DlimDecCurrStr(
 
 	defer ns.lock.Unlock()
 
-	ePrefix.SetEPref("NumStrBasicUtility.DlimDecCurrStr() ")
+	ePrefix.SetEPref("NumStrBasicUtility.DlimCurrencyStr() ")
 
 	nStrBasicMech := numStrBasicMechanics{}
 
-	return nStrBasicMech.delimitDecimalCurrencyStr(
+	return nStrBasicMech.delimitCurrencyStr(
 		rawNumStr,
 		integerDigitsSeparator,
 		integerDigitsGroupingSequence,
@@ -348,12 +357,103 @@ func (ns NumStrBasicUtility) DlimDecCurrStr(
 				"rawNumStr='%v'\n", rawNumStr)))
 }
 
-// DelimitNumStr - is designed to delimit or format a pure number string with a thousands
-// separator (i.e. ','). Example: Input == 1234567890 -> Output == "1,234,567,890".
-// NOTE: This method will not handle number strings containing decimal fractions
-// and currency characters. For these options see method ns.DlimDecCurrStr(),
-// above.
-func (ns NumStrBasicUtility) DelimitNumStr(pureNumStr string, thousandsSeparator byte) string {
+// DelimitNumStr - is designed to delimit or format a number string
+// with a thousands separator (i.e. ',') and, in the case of
+// floating point numeric values, a decimal separator (a.k.a.
+// decimal point).
+//
+// Examples:
+//   rawNumStr == 1234567890 -> Output == "1,234,567,890".
+//   rawNumStr == 1234567.89 -> Output == "1,234,567.89".
+//   rawNumStr == -1234567890 -> Output == "-1,234,567,890".
+//   rawNumStr == -1234567.89 -> Output == "-1,234,567.89".
+//   rawNumStr == +1234567890 -> Output == "+1,234,567,890".
+//   rawNumStr == +1234567.89 -> Output == "+1,234,567.89".
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  rawNumStr                      string
+//     - A number string which will be formatted with thousands
+//       separators. Floating point numeric values will be
+//       correctly formatted with a decimal separator separating
+//       integer and fractional digits.
+//
+//
+//  integerDigitsSeparator         rune
+//     - This separator is also known as the 'thousands' separator.
+//       It is used to separate groups of integer digits to the left
+//       of the decimal separator (a.k.a. decimal point). In the
+//       United States, the standard integer digits separator is the
+//       comma (',').
+//
+//        Example:  1,000,000,000
+//
+//
+//  integerDigitsGroupingSequence  []uint
+//     - In most western countries integer digits to the left of the
+//       decimal separator (a.k.a. decimal point) are separated into
+//       groups of three digits representing a grouping of 'thousands'
+//       like this: '1,000,000,000,000'. In this case the parameter
+//       'integerDigitsGroupingSequence' would be configured as:
+//              integerDigitsGroupingSequence = []uint{3}
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted as
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerDigitsGroupingSequence' would be configured
+//       as:
+//              integerDigitsGroupingSequence = []uint{3,2}
+//
+//
+//  decimalSeparator               rune
+//     - A unicode character inserted into a number string to
+//       separate integer and fractional digits. In the United
+//       States, the decimal separator is the period character
+//       ('.') and it is known as the decimal point.
+//
+//
+//  ePrefix                        ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  string
+//     - Formatted Number String. If this method completes
+//       successfully, this returned string will contain numeric
+//       digits separated into thousands by the delimiter character
+//       supplied in input parameter, 'integerDigitsSeparator'.
+//       Floating point numeric values will be properly formatted
+//       and delimited with the 'decimalSeparator' character.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (ns NumStrBasicUtility) DelimitNumStr(
+	rawNumStr string,
+	integerDigitsSeparator rune,
+	integerDigitsGroupingSequence []uint,
+	decimalSeparator rune,
+	ePrefix ErrPrefixDto) (
+	fmtNumStr string,
+	err error) {
 
 	if ns.lock == nil {
 		ns.lock = new(sync.Mutex)
@@ -363,20 +463,25 @@ func (ns NumStrBasicUtility) DelimitNumStr(pureNumStr string, thousandsSeparator
 
 	defer ns.lock.Unlock()
 
-	nStrBasicMech := numStrBasicMechanics{}
+	ePrefix.SetEPref("NumStrBasicUtility.DelimitNumStr() ")
 
-	return nStrBasicMech.delimitThousands(
-		pureNumStr,
-		thousandsSeparator)
+	return numStrBasicMechanics{}.ptr().delimitNumberStr(
+		rawNumStr,
+		integerDigitsSeparator,
+		integerDigitsGroupingSequence,
+		decimalSeparator,
+		&ePrefix)
 }
 
-// ConvertNumStrToInt64 - Converts string of numeric digits to an int64 value.
-// The str parameter may including a leading sign value ('-' or '+'). If any
-// digits following the number sign are non-numeric, an error will be
-// generated.
+// ConvertNumStrToInt64 - Converts string of numeric digits to an
+// int64 value. The 'rawNumStr' parameter may include a leading
+// number sign value of plus or minus ('+' or '-'). If any digits
+// following the number sign are non-numeric, they will be
+// excluded. All numeric digits in 'rawNumStr' will be consolidated
+// to form the return 'int64' value.
 //
 func (ns *NumStrBasicUtility) ConvertNumStrToInt64(
-	numStr string,
+	rawNumStr string,
 	ePrefix ErrPrefixDto) (
 	int64,
 	error) {
@@ -389,28 +494,35 @@ func (ns *NumStrBasicUtility) ConvertNumStrToInt64(
 
 	defer ns.lock.Unlock()
 
-	ePrefix := ErrPrefixDto{}.Ptr()
-
 	ePrefix.SetEPref(
-		"NumStrBasicUtility.ConvertNumStrToInt64() ")
+		"NumSt rBasicUtility.ConvertNumStrToInt64() ")
 
-	numStr = strings.TrimLeft(strings.TrimRight(numStr, " "), " ")
-
-	nStrBasicMech := numStrBasicMechanics{}
-
-	numRunes,
-		err := nStrBasicMech.convertStrToIntNumRunes(
-		numStr,
-		&ns.NumStrFormatSpec,
-		ePrefix)
+	signChar,
+		numRunes,
+		lenNumRunes,
+		err := numStrBasicAtom{}.ptr().
+		parseIntRunesFromNumStr(
+			rawNumStr,
+			ePrefix.XCtx(
+				fmt.Sprintf("rawNumStr='%v'",
+					rawNumStr)))
 
 	if err != nil {
 		return int64(0), err
 	}
 
+	if lenNumRunes == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'rawNumStr' contained\n"+
+			"zero numeric digits!\n",
+			ePrefix.XCtxEmpty().String())
+
+		return int64(0), err
+	}
+
 	signVal := 1
 
-	if numStr[0] == '-' {
+	if signChar == '-' {
 		signVal = -1
 	}
 
@@ -418,7 +530,7 @@ func (ns *NumStrBasicUtility) ConvertNumStrToInt64(
 
 	newInt64,
 		err =
-		nStrBasicMech.convertRunesToInt64(
+		numStrBasicMechanics{}.ptr().convertRunesToInt64(
 			numRunes,
 			signVal,
 			ePrefix.XCtx(
@@ -428,11 +540,12 @@ func (ns *NumStrBasicUtility) ConvertNumStrToInt64(
 }
 
 // ConvertStrToIntNumStr - Converts a string of characters to
-// a string consisting of a sign character ('-') followed by
-// a string of numeric characters.
+// a string consisting of a pure number string consisting of
+// an optional leading sign character ('+' or '-') and a
+// series of numeric digits.
 //
 func (ns *NumStrBasicUtility) ConvertStrToIntNumStr(
-	numStr string,
+	rawNumStr string,
 	ePrefix ErrPrefixDto) (
 	intNumStr string,
 	err error) {
@@ -443,28 +556,35 @@ func (ns *NumStrBasicUtility) ConvertStrToIntNumStr(
 
 	intNumStr = ""
 	err = nil
-
-	err =
-		ns.NumStrFormatSpec.SetToDefaultIfEmpty(
-			&ePrefixLocal)
-
-	if err != nil {
-		return intNumStr, err
-	}
-
-	var outputNDto NumStrDto
-
-	outputNDto,
-		err = numStrDtoAtom{}.ptr().parseNumStr(
-		numStr,
-		&ns.NumStrFormatSpec,
-		&ePrefixLocal)
+	signChar,
+		numRunes,
+		lenNumRunes,
+		err := numStrBasicAtom{}.ptr().
+		parseIntRunesFromNumStr(
+			rawNumStr,
+			ePrefix.XCtx(
+				fmt.Sprintf("rawNumStr='%v'",
+					rawNumStr)))
 
 	if err != nil {
-		return intNumStr, err
+		return "", err
 	}
 
-	intNumStr, err = outputNDto.GetNumStr(ePrefixLocal)
+	if lenNumRunes == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'rawNumStr' contained\n"+
+			"zero numeric digits!\n",
+			ePrefix.XCtxEmpty().String())
+
+		return "", err
+	}
+
+	if signChar != 0 {
+		intNumStr =
+			string(signChar) + string(numRunes)
+	} else {
+		intNumStr = string(numRunes)
+	}
 
 	return intNumStr, err
 }
@@ -528,20 +648,15 @@ func (ns *NumStrBasicUtility) ParseNumString(
 }
 
 // ConvertStrToIntNumRunes - Receives an integer string and returns
-// a slice of runes. Note, thousands separator (',') and currency signs ('$')
-// will be ignored and excluded from the array of runes returned by this
-// method. In order to take advantage of this exclusion, the thousands
-// separator and the currency symbol must be previously initialized in
-// the NumStrBasicUtility data fields.
+// a slice of runes.
+//
 func (ns *NumStrBasicUtility) ConvertStrToIntNumRunes(
 	str string) []rune {
 
-	nStrBasicMech := numStrBasicMechanics{}
-
-	return nStrBasicMech.convertStrToIntNumRunes(
-		str,
-		ns.ThousandsSeparator,
-		ns.CurrencySymbol)
+	return numStrBasicAtom{}.ptr().
+		parseIntRunesFromNumStr(
+			str,
+		)
 }
 
 // ConvertStrToFloat64 - Converts a string of numbers to a float64 value.

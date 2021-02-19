@@ -281,6 +281,163 @@ func (nStrBasicAtom *numStrBasicAtom) delimitIntSeparators(
 	return numStr, err
 }
 
+// parseIntRunesFromNumStr - Receives a string of numeric digits
+// ('numStr') and proceeds to convert those integer digits to an
+// array of runes which comprise a numeric value.
+//
+// If the number string is prefixed with a numeric sign value of
+// plus ('+') or minus ('-'), this sign value will be extracted
+// and returned to the caller.
+//
+// With the sole exception of the leading sign value character,
+// all other non-numeric (only 0-9) character values will be
+// excluded from the rune array returned to the caller.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  rawNumStr           string
+//     - A string of numeric digits. Any leading sign value ('+' or
+//       ('-') will be extracted and returned. All numeric digits
+//       will be collected and returned in an array of runes.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  signChar            rune
+//     - If a leading numeric sign character exists in input
+//       parameter 'numStr', it will be extracted and returned in
+//       the 'signChar' parameter. This returned rune will be set
+//       to one of three values.
+//
+//       '+' (ascii 43)   Signals a plus or positive sign value.
+//                        This means that a leading plus sign was
+//                        present in 'numStr'.
+//
+//       '-' (ascii 45)   Signals a minus or negative sign value.
+//                        This means that a leading minus sign was
+//                        present in 'numStr'.
+//
+//       0 integer value  Signals that neither a plus ('+') or
+//                        minus ('-') was present in 'numStr'.
+//                        This means that by default, the 'numStr'
+//                        value is positive.
+//
+//
+//  intNumRunes         []runes
+//     - An array of runes containing the numeric digits which
+//       comprise the integer component of input parameter
+//       'numStr'.
+//
+//
+//  lenIntNumRunes      int
+//     - This value is represents the length of rune array
+//       'intNumRunes'.
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrBasicAtom *numStrBasicAtom) parseIntRunesFromNumStr(
+	rawNumStr string,
+	ePrefix *ErrPrefixDto) (
+	signChar rune,
+	intNumRunes []rune,
+	lenIntNumRunes int,
+	err error) {
+
+	if nStrBasicAtom.lock == nil {
+		nStrBasicAtom.lock = new(sync.Mutex)
+	}
+
+	nStrBasicAtom.lock.Lock()
+
+	defer nStrBasicAtom.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrBasicAtom.parseIntFracRunesFromNumStr()")
+
+	signChar = 0
+	intNumRunes = make([]rune, 0, 50)
+
+	lenNumStr := len(rawNumStr)
+
+	if lenNumStr == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter rawNumStr is invalid!\n"+
+			"'rawNumStr' is an empty or zero length string.\n",
+			ePrefix.String())
+		return signChar, intNumRunes, lenIntNumRunes, err
+	}
+
+	rawNumRunes := []rune(rawNumStr)
+
+	lenNumStr = len(rawNumRunes)
+
+	haveFirstNumericDigit := false
+
+	for i := 0; i < lenNumStr; i++ {
+
+		if !haveFirstNumericDigit &&
+			signChar == 0 &&
+			(rawNumRunes[i] == '+' ||
+				rawNumRunes[i] == '-') {
+
+			signChar = rawNumRunes[i]
+
+			continue
+		}
+
+		if rawNumRunes[i] >= '0' &&
+			rawNumRunes[i] <= '9' {
+
+			haveFirstNumericDigit = true
+
+			intNumRunes = append(intNumRunes,
+				rawNumRunes[i])
+
+			lenIntNumRunes++
+		} // End of Numeric Digit If statement
+
+	} // End of 'i' loop
+
+	if lenIntNumRunes == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'rawNumStr' is invalid!\n"+
+			"'rawNumStr' contained ZERO Numeric Digits.\n",
+			ePrefix.String())
+
+		signChar = 0
+	}
+
+	return signChar, intNumRunes, lenIntNumRunes, fracNumRunes, lenFracNumRunes, err
+}
+
 // parseIntFracRunesFromNumStr - Receives a string of numeric digits
 // ('numStr') and proceeds to parse the integer and fractional
 // digits returning them in separate rune arrays.
