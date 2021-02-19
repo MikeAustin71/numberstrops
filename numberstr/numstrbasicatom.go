@@ -9,6 +9,278 @@ type numStrBasicAtom struct {
 	lock *sync.Mutex
 }
 
+// delimitIntSeparators - Inserts thousands separators into integer
+// number strings.
+//
+//           Example:
+//              pureNumStr = 1000000000
+//                  numStr = 1,000,000,000
+//
+// This method accepts NumStrFmtSpecDto input parameter which may
+// be configured to apply integer digit separators and integer
+// digits group sequences from any country or culture.
+//
+// IMPORTANT
+//
+// The input parameter 'pureNumStr' number string must represent
+// an integer value. If a float point value with fractional digits
+// is submitted, inaccurate results will be generated.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  pureNumStr          string
+//     - A string of numeric digits representing an integer value.
+//       Submitting a floating point value will generate inaccurate
+//       results. The numeric value MUST BE and integer value.
+//
+//
+//  numStrFmtSpec       *NumStrFmtSpecDto
+//     - This object contains all the formatting specifications
+//       required to format numeric values contained in number
+//       strings.
+//
+//       This method uses the decimal separator character extracted
+//       from 'currencyValue'.
+//
+//       If this instance is invalid, it will be reset to the
+//       default United States Number String Format specification.
+//
+//       type NumStrFmtSpecDto struct {
+//         idNo           uint64
+//         idString       string
+//         description    string
+//         tag            string
+//         countryCulture NumStrFmtSpecCountryDto
+//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         sciNotation    NumStrFmtSpecSciNotationDto
+//       }
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  numStr              string
+//     - If this method completes successfully, this returned
+//       number string will consist of the numeric digits submitted
+//       in input parameter 'pureNumStr' properly configured with
+//       thousands separators. In the United States, the thousands
+//       separator is the comma character (',').
+//           Example:
+//              pureNumStr = 1000000000
+//                  numStr = 1,000,000,000
+//
+func (nStrBasicAtom *numStrBasicAtom) delimitIntSeparators(
+	pureNumStr string,
+	integerDigitsSeparator rune,
+	integerGroupingSequence []uint,
+	ePrefix *ErrPrefixDto) (
+	numStr string,
+	err error) {
+
+	if nStrBasicAtom.lock == nil {
+		nStrBasicAtom.lock = new(sync.Mutex)
+	}
+
+	nStrBasicAtom.lock.Lock()
+
+	defer nStrBasicAtom.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrBasicAtom.delimitIntSeparators()")
+
+	if integerDigitsSeparator == 0 {
+
+		err = fmt.Errorf("%v\n"+
+			"Input parameter 'integerDigitsSeparator' is INVALID!\n"+
+			"integerDigitsSeparator == ZERO!\n",
+			ePrefix.String())
+
+		return numStr, err
+	}
+
+	rawNumRunes := []rune(pureNumStr)
+
+	lInStr := len(rawNumRunes)
+
+	if lInStr == 0 {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'pureNumStr' is invalid!\n"+
+			"pureNumStr is an empty string.\n",
+			ePrefix.String())
+
+		return numStr, err
+	}
+
+	if integerGroupingSequence == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'integerGroupingSequence' is invalid!\n"+
+			"'integerGroupingSequence' is a nil pointer.\n",
+			ePrefix.String())
+
+		return numStr, err
+	}
+
+	lenIGrpSeq := len(integerGroupingSequence)
+
+	if lenIGrpSeq == 0 {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'integerGroupingSequence' is invalid!\n"+
+			"'integerGroupingSequence' is a ZERO length array.\n",
+			ePrefix.String())
+
+		return numStr, err
+	}
+
+	pureNumRunes := make([]rune, 0, 256)
+
+	haveFirstNumericDigit := false
+	var signChar rune
+
+	for i := 0; i < lInStr; i++ {
+
+		if !haveFirstNumericDigit &&
+			signChar == 0 &&
+			(rawNumRunes[i] == '+' ||
+				rawNumRunes[i] == '-') {
+
+			signChar = rawNumRunes[i]
+
+			continue
+		}
+
+		if rawNumRunes[i] >= '0' &&
+			rawNumRunes[i] <= '9' {
+			pureNumRunes = append(pureNumRunes,
+				rawNumRunes[i])
+			haveFirstNumericDigit = true
+		}
+	}
+
+	lInStr = len(pureNumRunes)
+
+	if lInStr == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'pureNumStr' is invalid!\n"+
+			"pureNumStr contains no integer digits.\n",
+			ePrefix.String())
+	}
+
+	//integerDigitsSeparator :=
+	//	numStrFmtSpec.GetIntegerDigitsSeparator()
+
+	groupCnt := uint(0)
+	maxGroupCnt := integerGroupingSequence[0]
+	currGroupCntIdx := 0
+	lastGroupCntIdx := lenIGrpSeq - 1
+
+	numOfDelims := 0
+	remainder := 0
+	numOfPreDelims := 0
+	remainingDigits := lInStr
+
+	for j := 0; j < lenIGrpSeq; j++ {
+
+		if j < lastGroupCntIdx {
+			remainingDigits -= int(integerGroupingSequence[j])
+			if remainingDigits > 0 {
+				numOfPreDelims++
+			}
+
+		} else {
+			// Must be last index
+			if remainingDigits > 0 {
+				numOfDelims =
+					remainingDigits / int(integerGroupingSequence[j])
+				remainder =
+					remainingDigits % int(integerGroupingSequence[j])
+			}
+		}
+	}
+
+	if numOfDelims > 0 &&
+		remainder == 0 {
+		numOfDelims--
+	}
+
+	lenOutRunes :=
+		lInStr +
+			numOfPreDelims +
+			numOfDelims
+
+	if signChar != 0 {
+		lenOutRunes++
+	}
+
+	outRunes := make([]rune, lenOutRunes, 256)
+	outIdx := lenOutRunes - 1
+
+	for i := lInStr - 1; i >= 0; i-- {
+
+		if pureNumRunes[i] >= '0' && pureNumRunes[i] <= '9' {
+
+			groupCnt++
+			outRunes[outIdx] = pureNumRunes[i]
+			outIdx--
+
+			if groupCnt == maxGroupCnt && i != 0 {
+
+				groupCnt = 0
+
+				outRunes[outIdx] = integerDigitsSeparator
+				outIdx--
+
+				if currGroupCntIdx+1 > lastGroupCntIdx {
+
+					maxGroupCnt = integerGroupingSequence[currGroupCntIdx]
+
+				} else {
+
+					currGroupCntIdx++
+
+					maxGroupCnt = integerGroupingSequence[currGroupCntIdx]
+
+				}
+
+			} // End of if groupCnt == maxGroupCnt && i != 0
+
+		} // End Of if pureNumRunes[i] >= '0' && pureNumRunes[i] <= '9'
+
+	}
+
+	// Check and allow for sign designators
+	if signChar != 0 {
+
+		outRunes[0] = signChar
+
+	}
+
+	numStr = string(outRunes)
+
+	return numStr, err
+}
+
 // parseIntFracRunesFromNumStr - Receives a string of numeric digits
 // ('numStr') and proceeds to parse the integer and fractional
 // digits returning them in separate rune arrays.
@@ -116,7 +388,7 @@ type numStrBasicAtom struct {
 //
 func (nStrBasicAtom *numStrBasicAtom) parseIntFracRunesFromNumStr(
 	numStr string,
-	numStrFmtSpec *NumStrFmtSpecDto,
+	decimalSeparator rune,
 	ePrefix *ErrPrefixDto) (
 	signChar rune,
 	intNumRunes []rune,
@@ -140,20 +412,13 @@ func (nStrBasicAtom *numStrBasicAtom) parseIntFracRunesFromNumStr(
 	ePrefix.SetEPref(
 		"numStrBasicAtom.parseIntFracRunesFromNumStr()")
 
-	if numStrFmtSpec == nil {
+	if decimalSeparator == 0 {
 
 		err = fmt.Errorf("%v\n"+
-			"Input parameter 'numStrFmtSpec' is INVALID!\n"+
-			"numStrFmtSpec = nil pointer!\n",
+			"Input parameter 'decimalSeparator' is INVALID!\n"+
+			"decimalSeparator == ZERO!\n",
 			ePrefix.String())
 
-		return signChar, intNumRunes, lenIntNumRunes, fracNumRunes, lenFracNumRunes, err
-	}
-
-	err =
-		numStrFmtSpec.SetToDefaultIfEmpty(ePrefix)
-
-	if err != nil {
 		return signChar, intNumRunes, lenIntNumRunes, fracNumRunes, lenFracNumRunes, err
 	}
 
@@ -170,8 +435,6 @@ func (nStrBasicAtom *numStrBasicAtom) parseIntFracRunesFromNumStr(
 			ePrefix.String())
 		return signChar, intNumRunes, lenIntNumRunes, fracNumRunes, lenFracNumRunes, err
 	}
-
-	decimalSeparator := numStrFmtSpec.GetDecimalSeparator()
 
 	rawNumRunes := []rune(numStr)
 
@@ -449,4 +712,23 @@ func (nStrBasicAtom *numStrBasicAtom) parseIntFracRunesFromRuneArray(
 	}
 
 	return intNumRunes, lenIntNumRunes, fracNumRunes, lenFracNumRunes, err
+}
+
+// ptr - Returns a pointer to a new instance of numStrBasicAtom.
+//
+func (nStrBasicAtom numStrBasicAtom) ptr() *numStrBasicAtom {
+
+	if nStrBasicAtom.lock == nil {
+		nStrBasicAtom.lock = new(sync.Mutex)
+	}
+
+	nStrBasicAtom.lock.Lock()
+
+	defer nStrBasicAtom.lock.Unlock()
+
+	newNumStrBasicAtom := new(numStrBasicAtom)
+
+	newNumStrBasicAtom.lock = new(sync.Mutex)
+
+	return newNumStrBasicAtom
 }

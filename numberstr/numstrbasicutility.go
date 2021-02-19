@@ -45,9 +45,31 @@ type NumStrBasicUtility struct {
 //       string and inserted with thousands separators.
 //
 //
-//  delimiter           rune
-//     - The delimiter character which will be used to delimit or
-//       separate thousands in the returned number string.
+//  integerDigitsSeparator         rune
+//     - This separator is also known as the 'thousands' separator.
+//       It is used to separate groups of integer digits to the left
+//       of the decimal separator (a.k.a. decimal point). In the
+//       United States, the standard integer digits separator is the
+//       comma (',').
+//
+//        Example:  1,000,000,000
+//
+//
+//  integerDigitsGroupingSequence  []uint
+//     - In most western countries integer digits to the left of the
+//       decimal separator (a.k.a. decimal point) are separated into
+//       groups of three digits representing a grouping of 'thousands'
+//       like this: '1,000,000,000,000'. In this case the parameter
+//       'integerDigitsGroupingSequence' would be configured as:
+//              integerDigitsGroupingSequence = []uint{3}
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted as
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerDigitsGroupingSequence' would be configured
+//       as:
+//              integerDigitsGroupingSequence = []uint{3,2}
 //
 //
 //  ePrefix             ErrPrefixDto
@@ -64,7 +86,7 @@ type NumStrBasicUtility struct {
 //     - If this method completes successfully, this returned
 //       string will contain numeric digits separated into thousands
 //       by the delimiter character supplied in input parameter,
-//       'delimiter'.
+//       'numStrFmtSpec'.
 //
 //  err                 error
 //     - If this method completes successfully, the returned error
@@ -79,7 +101,8 @@ type NumStrBasicUtility struct {
 //
 func (ns NumStrBasicUtility) DLimInt(
 	num int,
-	delimiter rune,
+	integerDigitsSeparator rune,
+	integerDigitsGroupingSequence []uint,
 	ePrefix ErrPrefixDto) (
 	numStr string,
 	err error) {
@@ -92,8 +115,20 @@ func (ns NumStrBasicUtility) DLimInt(
 
 	defer ns.lock.Unlock()
 
-	return ns.DelimitNumStr(strconv.Itoa(num), delimiter)
+	ePrefix.SetEPref("NumStrBasicUtility.DLimInt() ")
 
+	pureNumStr := strconv.Itoa(num)
+
+	numStr,
+		err = numStrBasicAtom{}.ptr().
+		delimitIntSeparators(
+			pureNumStr,
+			integerDigitsSeparator,
+			integerDigitsGroupingSequence,
+			ePrefix.XCtx(
+				fmt.Sprintf("numStr='%v'", numStr)))
+
+	return numStr, err
 }
 
 // DLimI64 - Receives an int64 and returns a delimited number

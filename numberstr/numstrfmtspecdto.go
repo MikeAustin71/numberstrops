@@ -273,8 +273,56 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySymbol() rune {
 	return fmtSpecDto.currencyValue.GetCurrencySymbol()
 }
 
-// GetThousandsSeparator - Returns the decimal separator
-// from 'currency' value.
+// GetIntegerDigitsSeparator - Returns the integer digits or
+// thousands separator from 'currency' value.
+//
+// This method is functionally identical to
+// NumStrFmtSpecDto.GetThousandsSeparator().
+//
+// This is most commonly known as the 'thousands' separator.
+// In the United States, the 'thousands' separator character
+// is the comma (',').
+//
+func (fmtSpecDto *NumStrFmtSpecDto) GetIntegerDigitsSeparator() rune {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	return fmtSpecDto.
+		currencyValue.
+		numberSeparatorsDto.
+		GetIntegerDigitsSeparator()
+}
+
+// GetIntDigitsGroupSequence - Returns the Integer Digits Grouping
+// Sequence from the 'currency' value.
+//
+func (fmtSpecDto *NumStrFmtSpecDto) GetIntDigitsGroupSequence() []uint {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	return fmtSpecDto.
+		currencyValue.
+		numberSeparatorsDto.
+		GetIntegerDigitsGroupingSequence()
+}
+
+// GetThousandsSeparator - Returns the integer digits or thousands
+// separator from 'currency' value.
+//
+// This method is functionally identical to
+// NumStrFmtSpecDto.GetIntegerDigitsSeparator().
 //
 func (fmtSpecDto *NumStrFmtSpecDto) GetThousandsSeparator() rune {
 
