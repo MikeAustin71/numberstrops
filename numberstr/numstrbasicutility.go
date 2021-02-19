@@ -480,6 +480,45 @@ func (ns NumStrBasicUtility) DelimitNumStr(
 // excluded. All numeric digits in 'rawNumStr' will be consolidated
 // to form the return 'int64' value.
 //
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  rawNumStr                      string
+//     - A number string which will be formatted with thousands
+//       separators. Floating point numeric values will be
+//       correctly formatted with a decimal separator separating
+//       integer and fractional digits.
+//
+//
+//  ePrefix                        ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  int64
+//     - If this method completes successfully, it well return an
+//       int64 numeric value equivalent of the input parameter,
+//       'rawNumStr'.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
 func (ns *NumStrBasicUtility) ConvertNumStrToInt64(
 	rawNumStr string,
 	ePrefix ErrPrefixDto) (
@@ -593,36 +632,17 @@ func (ns *NumStrBasicUtility) ConvertStrToIntNumStr(
 // characters. If the original number is less than zero, the first
 // character of the numeric string is a minus sign ('-').
 func (ns NumStrBasicUtility) ConvertInt64ToStr(
-	num int64) (string, error) {
+	num int64) string {
 
-	ePrefixLocal :=
-		ErrPrefixDto{}.NewEPrefOld("NumStrBasicUtility.ConvertInt64ToStr()")
-
-	nStrDtoAtom := numStrDtoAtom{}
-
-	numSepsDto := NumericSeparatorsDto{}
-
-	numSepsDto.DecimalSeparator = ns.DecimalSeparator
-	numSepsDto.CurrencySymbol = ns.CurrencySymbol
-	numSepsDto.ThousandsSeparator = ns.ThousandsSeparator
-
-	var nDto NumStrDto
-	var err error
-	var numStr string
-
-	nDto,
-		err = nStrDtoAtom.parseNumStr(
-		strconv.FormatInt(num, 10),
-		numSepsDto,
-		ePrefix)
-
-	if err != nil {
-		return numStr, err
+	if ns.lock == nil {
+		ns.lock = new(sync.Mutex)
 	}
 
-	numStr, err = nDto.GetNumStr(ePrefix)
+	ns.lock.Lock()
 
-	return numStr, err
+	defer ns.lock.Unlock()
+
+	return strconv.FormatInt(num, 10)
 }
 
 // ConvertRunesToInt64 - Converts a rune array to an int64 value.

@@ -435,7 +435,7 @@ func (nStrBasicAtom *numStrBasicAtom) parseIntRunesFromNumStr(
 		signChar = 0
 	}
 
-	return signChar, intNumRunes, lenIntNumRunes, fracNumRunes, lenFracNumRunes, err
+	return signChar, intNumRunes, lenIntNumRunes, err
 }
 
 // parseIntFracRunesFromNumStr - Receives a string of numeric digits
