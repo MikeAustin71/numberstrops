@@ -384,19 +384,10 @@ func (nStrBasicMech *numStrBasicMechanics) delimitCurrencyStr(
 	} else {
 		// lenIntNumRunes == 0
 
-		if lenFracNumRunes == 0 {
-
-			outStr = make([]rune, 2, 5)
-			outStr[0] = currencySymbol
-			outStr[1] = '0'
-
-		} else {
-
-			outStr = append(outStr, '0')
-
-		}
+		outStr = append(outStr, '0')
 
 		numStr = string(outStr)
+
 	}
 
 	if lenFracNumRunes > 0 {
