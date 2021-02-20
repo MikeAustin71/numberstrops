@@ -611,9 +611,15 @@ func (ns *NumStrBasicUtility) ConvertStrToIntNumStr(
 	intNumStr string,
 	err error) {
 
-	ePrefixLocal := ePrefix.Copy()
+	if ns.lock == nil {
+		ns.lock = new(sync.Mutex)
+	}
 
-	ePrefixLocal.SetEPref("NumStrBasicUtility.ConvertStrToIntNumStr()")
+	ns.lock.Lock()
+
+	defer ns.lock.Unlock()
+
+	ePrefix.SetEPref("NumStrBasicUtility.ConvertStrToIntNumStr()")
 
 	intNumStr = ""
 	err = nil
@@ -900,63 +906,106 @@ func (ns *NumStrBasicUtility) ConvertStrToIntNumRunes(
 	return signChar, intNumRunes, err
 }
 
-// ConvertStrToFloat64 - Converts a string of numbers to a float64 value.
+// ConvertNumStrToFloat64 - Converts a string of numbers to a
+// float64 value.
 //
-func (ns *NumStrBasicUtility) ConvertStrToFloat64(
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  rawNumStr           string
+//     - A string of numeric digits which will be converted and
+//       returned as a float64 value.
+//
+//
+//  decimalSeparator               rune
+//     - A unicode character inserted into a number string to
+//       separate integer and fractional digits. In the United
+//       States, the decimal separator is the period character
+//       ('.') and it is known as the decimal point.
+//
+//
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  resultFloat64       float64
+//     - This returned float64 value represents the equivalent
+//       numeric value expressed by input parameter, 'rawNumStr'.
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (ns *NumStrBasicUtility) ConvertNumStrToFloat64(
 	rawNumStr string,
-	ePrefix string) (
+	decimalSeparator rune,
+	ePrefix ErrPrefixDto) (
 	resultFloat64 float64,
 	err error) {
 
-	resultFloat64 = 0.0
-	err = nil
-
-	var nDto NumStrDto
-
-	nStrDto := NumStrDto{}
-
-	nDto, err = nStrDto.ParseNumStr(
-		rawNumStr,
-		ePrefix)
-
-	if err != nil {
-		return resultFloat64, err
+	if ns.lock == nil {
+		ns.lock = new(sync.Mutex)
 	}
 
-	var nDtoNumStr string
+	ns.lock.Lock()
 
-	nDtoNumStr,
-		err = nDto.GetNumStr(ePrefix)
+	defer ns.lock.Unlock()
 
-	resultFloat64, err = strconv.ParseFloat(nDtoNumStr, 64)
+	ePrefix.SetEPref("NumStrBasicUtility.ConvertStrToIntNumStr()")
 
-	if err != nil {
-		resultFloat64 = 0.0
-		return resultFloat64,
-			fmt.Errorf(ePrefix+
-				"Error returned from strconv.ParseFloat(nDto.GetNumStr(), 64)\n"+
-				"nDto.GetNumStr()= '%v'\n"+
-				"Error = %v",
-				nDtoNumStr,
-				err.Error())
-	}
+	resultFloat64,
+		err = numStrBasicMechanics{}.ptr().
+		convertStrToFloat64(
+			rawNumStr,
+			decimalSeparator,
+			ePrefix.XCtx("rawNumStr"))
 
 	return resultFloat64, err
 }
 
-// ConvertInt64ToFractionalValue - Converts an int64 value to a float64 with
-// all digits to the right of the decimal place.
-func (ns *NumStrBasicUtility) ConvertInt64ToFractionalValue(i64 int64) (float64, error) {
+// ConvertInt64ToFractionalValue - Converts an int64 value to a
+// float64 value with all digits to the right of the decimal place.
+//
+//  Example: i64= 123456  ->  float64= 0.123456
+//
+func (ns *NumStrBasicUtility) ConvertInt64ToFractionalValue(
+	i64 int64) float64 {
 
-	nStrBasicMech := numStrBasicMechanics{}
+	if ns.lock == nil {
+		ns.lock = new(sync.Mutex)
+	}
 
-	return nStrBasicMech.convertInt64ToFractionalValue(i64)
+	ns.lock.Lock()
+
+	defer ns.lock.Unlock()
+
+	return numStrBasicMechanics{}.ptr().
+		convertInt64ToFractionalValue(i64)
 }
 
-// SetCountryAndCurrency - Sets the Country and Currency flags for the
-// current NumStrBasicUtility values.
+// SetCountryAndCurrency - Sets the Country and Currency formats
+// for the current NumStrBasicUtility instance.
 //
-func (ns *NumStrBasicUtility) SetCountryAndCurrency(country string) error {
+func (ns *NumStrBasicUtility) SetCountryAndCurrency(
+	country string) error {
 
 	nStrBasicMech := numStrBasicMechanics{}
 

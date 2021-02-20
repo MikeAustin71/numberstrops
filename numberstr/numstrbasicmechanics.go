@@ -15,9 +15,7 @@ type numStrBasicMechanics struct {
 // convertInt64ToFractionalValue - Converts an int64 value to a float64 with
 // all digits to the right of the decimal place.
 func (nStrBasicMech *numStrBasicMechanics) convertInt64ToFractionalValue(
-	i64 int64) (
-	float64,
-	error) {
+	i64 int64) float64 {
 
 	if nStrBasicMech.lock == nil {
 		nStrBasicMech.lock = new(sync.Mutex)
@@ -37,7 +35,7 @@ func (nStrBasicMech *numStrBasicMechanics) convertInt64ToFractionalValue(
 
 	r64 := f64 / math.Pow10(ex)
 
-	return r64, nil
+	return r64
 
 }
 
