@@ -3,6 +3,7 @@ package numberstr
 import (
 	"fmt"
 	"math"
+	"strconv"
 	"strings"
 	"sync"
 )
@@ -46,6 +47,56 @@ func (nStrBasicMech *numStrBasicMechanics) convertInt64ToFractionalValue(
 // Input parameter 'signVal' must be equal to +1 or -1.
 // Any other value will trigger an error.
 //
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  rAry                []rune
+//     - An array of runes containing numeric text characters
+//       each with a value between '0-9' (0 and 9 included).
+//       Combined, these characters represent an integer value
+//       which be returned as an int64.
+//
+//  signVal             int
+//     - This parameter must be set to one of two values: +1 or -1.
+//
+//       +1 signals that 'rAry' is a value Greater Than Or Equal To
+//       Zero.
+//
+//       -1 signals that 'rAry' is a value Less Than Zero.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  int64
+//     - If this method completes successfully, an int64 will be
+//       returned. This value is equivalent to the numeric digits
+//       passed through input parameter 'rAry'.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
 func (nStrBasicMech *numStrBasicMechanics) convertRunesToInt64(
 	rAry []rune,
 	signVal int,
@@ -68,46 +119,54 @@ func (nStrBasicMech *numStrBasicMechanics) convertRunesToInt64(
 	ePrefix.SetEPref(
 		"numStrBasicMechanics.convertRunesToInt64()")
 
-	if rAry == nil {
-		rAry = make([]rune, 0, 10)
+	var numRunes []rune
+	var lenNumRunes int
+	var err error
+
+	_,
+		numRunes,
+		lenNumRunes,
+		err = numStrBasicAtom{}.ptr().
+		parseIntRunesFromNumStr(
+			string(rAry),
+			ePrefix.XCtx(
+				"string(rAry)"))
+
+	if err != nil {
+		return 0, err
 	}
 
-	lNumRunes := len(rAry)
-
-	if lNumRunes == 0 {
-		return int64(0),
-			fmt.Errorf(
-				"%v\n"+
-					"Incoming rune array is empty!\n",
-				ePrefix.String())
+	if lenNumRunes == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Rune array 'rAry' is invalid!\n"+
+			"'rAry' contains ZERO numeric digits.\n",
+			ePrefix.XCtxEmpty().String())
 	}
 
-	if rAry[0] == '+' || rAry[0] == '-' {
-		rAry = rAry[1:]
-		lNumRunes = len(rAry)
+	var numStr string
+
+	if signVal == -1 {
+		numStr = "-" + string(numRunes)
+	} else {
+		numStr = string(numRunes)
 	}
 
-	numVal := int64(0)
-	for i := 0; i < lNumRunes; i++ {
+	var numVal int64
 
-		if rAry[i] < '0' || rAry[i] > '9' {
-			return int64(0),
-				fmt.Errorf(
-					"%v\n"+
-						"Number string contained non-numeric"+
-						" characters: %v\n",
-					ePrefix.String(),
-					string(rAry))
-		}
+	numVal,
+		err =
+		strconv.ParseInt(numStr, 10, 64)
 
-		numVal *= 10
-		numVal += int64(rAry[i] - 48)
-
+	if err != nil {
+		return numVal,
+			fmt.Errorf("%v\n"+
+				"Error returned by strconv.ParseInt(numStr, 10, 64).\n"+
+				"numStr='%v'\n"+
+				"Error= '%v'\n",
+				ePrefix.XCtxEmpty().String())
 	}
 
-	numVal = numVal * int64(signVal)
-
-	return numVal, nil
+	return numVal, err
 }
 
 // ConvertStrToIntNumRunes - Receives an integer string and returns

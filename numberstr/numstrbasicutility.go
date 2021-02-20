@@ -595,10 +595,15 @@ func (ns *NumStrBasicUtility) ConvertStrToIntNumStr(
 
 	intNumStr = ""
 	err = nil
+
+	var signChar rune
+	var numRunes []rune
+	var lenNumRunes int
+
 	signChar,
 		numRunes,
 		lenNumRunes,
-		err := numStrBasicAtom{}.ptr().
+		err = numStrBasicAtom{}.ptr().
 		parseIntRunesFromNumStr(
 			rawNumStr,
 			ePrefix.XCtx(
@@ -631,6 +636,7 @@ func (ns *NumStrBasicUtility) ConvertStrToIntNumStr(
 // ConvertInt64ToStr - Converts an int64 to a string of numeric
 // characters. If the original number is less than zero, the first
 // character of the numeric string is a minus sign ('-').
+//
 func (ns NumStrBasicUtility) ConvertInt64ToStr(
 	num int64) string {
 
@@ -645,14 +651,73 @@ func (ns NumStrBasicUtility) ConvertInt64ToStr(
 	return strconv.FormatInt(num, 10)
 }
 
-// ConvertRunesToInt64 - Converts a rune array to an int64 value.
+// ConvertRunesToInt64 - Converts a rune array of integer values to
+// an int64 value.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  rAry                []rune
+//     - An array of runes containing numeric text characters
+//       each with a value between '0-9' (0 and 9 included).
+//       Combined, these characters represent an integer value
+//       which be returned as an int64.
+//
+//  signVal             int
+//     - This parameter must be set to one of two values: +1 or -1.
+//
+//       +1 signals that 'rAry' is a value Greater Than Or Equal To
+//       Zero.
+//
+//       -1 signals that 'rAry' is a value Less Than Zero.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  int64
+//     - If this method completes successfully, an int64 will be
+//       returned. This value is equivalent to the numeric digits
+//       passed through input parameter 'rAry'.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (ns *NumStrBasicUtility) ConvertRunesToInt64(
-	rAry []rune, signVal int) (int64, error) {
+	rAry []rune,
+	signVal int,
+	ePrefix ErrPrefixDto) (int64, error) {
 
 	nStrBasicMech := numStrBasicMechanics{}
 
-	return nStrBasicMech.convertRunesToInt64(rAry, signVal)
+	ePrefix.SetEPref(
+		"numStrBasicMechanics.ConvertRunesToInt64()")
+
+	return nStrBasicMech.convertRunesToInt64(
+		rAry,
+		signVal,
+		&ePrefix)
 }
 
 // ParseNumString - Parses a number string and returns
