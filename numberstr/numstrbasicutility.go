@@ -709,12 +709,18 @@ func (ns *NumStrBasicUtility) ConvertRunesToInt64(
 	signVal int,
 	ePrefix ErrPrefixDto) (int64, error) {
 
-	nStrBasicMech := numStrBasicMechanics{}
+	if ns.lock == nil {
+		ns.lock = new(sync.Mutex)
+	}
+
+	ns.lock.Lock()
+
+	defer ns.lock.Unlock()
 
 	ePrefix.SetEPref(
 		"numStrBasicMechanics.ConvertRunesToInt64()")
 
-	return nStrBasicMech.convertRunesToInt64(
+	return numStrBasicMechanics{}.ptr().convertRunesToInt64(
 		rAry,
 		signVal,
 		&ePrefix)
@@ -722,14 +728,63 @@ func (ns *NumStrBasicUtility) ConvertRunesToInt64(
 
 // ParseNumString - Parses a number string and returns
 // the value as a Type 'NumStrDto'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  rawNumStr                      string
+//     - A string of numeric digits which will be converted and
+//       returned as a 'NumStrDto' object
+//
+//
+//  ePrefix                        *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrDto
+//     - If this method completes successfully, input parameter
+//       'rawNumStr' will be converted and returned as a NumStrDto
+//       object.
+//
+//
+//  err                            error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
 func (ns *NumStrBasicUtility) ParseNumString(
-	numStr string,
-	ePrefix ErrPrefixDto) (NumStrDto, error) {
+	rawNumStr string,
+	ePrefix ErrPrefixDto) (
+	NumStrDto,
+	error) {
+
+	if ns.lock == nil {
+		ns.lock = new(sync.Mutex)
+	}
+
+	ns.lock.Lock()
+
+	defer ns.lock.Unlock()
 
 	ePrefix.SetEPref("NumStrBasicUtility.ParseNumString()")
+
 	nDto := NumStrDto{}
 
-	return nDto.ParseNumStr(numStr, ePrefix)
+	return nDto.ParseNumStr(rawNumStr, ePrefix)
 }
 
 // ConvertStrToIntNumRunes - Receives an integer string and returns
