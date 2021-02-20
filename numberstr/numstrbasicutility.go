@@ -787,16 +787,95 @@ func (ns *NumStrBasicUtility) ParseNumString(
 	return nDto.ParseNumStr(rawNumStr, ePrefix)
 }
 
-// ConvertStrToIntNumRunes - Receives an integer string and returns
-// a slice of runes.
+// ConvertStrToIntNumRunes - Receives a string of integer character
+// digits and returns a slice of runes.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  rawNumStr           string
+//     - A string of numeric digits which will be converted and
+//       returned as a 'NumStrDto' object
+//
+//
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  signChar            rune
+//     - If a leading numeric sign character exists in input
+//       parameter 'numStr', it will be extracted and returned in
+//       the 'signChar' parameter. This returned rune will be set
+//       to one of three values.
+//
+//       '+' (ascii 43)   Signals a plus or positive sign value.
+//                        This means that a leading plus sign was
+//                        present in 'numStr'.
+//
+//       '-' (ascii 45)   Signals a minus or negative sign value.
+//                        This means that a leading minus sign was
+//                        present in 'numStr'.
+//
+//       0 integer value  Signals that neither a plus ('+') or
+//                        minus ('-') was present in 'numStr'.
+//                        This means that by default, the 'numStr'
+//                        value is positive.
+//
+//
+//  intNumRunes         []runes
+//        - The input parameter 'rawNumStr' will be parsed and
+//          returned as an array of runes.
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (ns *NumStrBasicUtility) ConvertStrToIntNumRunes(
-	str string) []rune {
+	rawNumStr string,
+	ePrefix ErrPrefixDto) (
+	signChar rune,
+	intNumRunes []rune,
+	err error) {
 
-	return numStrBasicAtom{}.ptr().
+	if ns.lock == nil {
+		ns.lock = new(sync.Mutex)
+	}
+
+	ns.lock.Lock()
+
+	defer ns.lock.Unlock()
+
+	ePrefix.SetEPref(
+		"NumStrBasicUtility.ConvertStrToIntNumRunes()")
+
+	signChar,
+		intNumRunes,
+		_,
+		err = numStrBasicAtom{}.ptr().
 		parseIntRunesFromNumStr(
-			str,
-		)
+			rawNumStr,
+			ePrefix.XCtx("rawNumStr"))
+
+	return signChar, intNumRunes, err
 }
 
 // ConvertStrToFloat64 - Converts a string of numbers to a float64 value.
