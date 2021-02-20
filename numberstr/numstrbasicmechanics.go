@@ -163,10 +163,125 @@ func (nStrBasicMech *numStrBasicMechanics) convertRunesToInt64(
 				"Error returned by strconv.ParseInt(numStr, 10, 64).\n"+
 				"numStr='%v'\n"+
 				"Error= '%v'\n",
-				ePrefix.XCtxEmpty().String())
+				ePrefix.XCtxEmpty().String(),
+				numStr,
+				err.Error())
 	}
 
 	return numVal, err
+}
+
+// convertStrToFloat64 - Receives a floating point value in the
+// form of a number string and converts it to a float64 value.
+//
+// If the input value exceeds the capacity of a float64, an error
+// will be returned.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  rawNumStr           string
+//     - A number string which will be converted to a float64
+//       value and returned to the calling function.
+//
+//
+//  decimalSeparator    rune
+//     - A unicode character inserted into a number string to
+//       separate integer and fractional digits. In the United
+//       States, the decimal separator is the period character
+//       ('.') and it is known as the decimal point.
+//
+//       This text character will be used to identify integer and
+//       fractional digits in input parameter, 'rawNumStr'.
+//
+//
+//  ePrefix             ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  resultFloat64       float64
+//     - The result generated from converting input parameter
+//       'rawNumStr' to a float64.
+//
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrBasicMech *numStrBasicMechanics) convertStrToFloat64(
+	rawNumStr string,
+	decimalSeparator rune,
+	ePrefix *ErrPrefixDto) (
+	resultFloat64 float64,
+	err error) {
+
+	if nStrBasicMech.lock == nil {
+		nStrBasicMech.lock = new(sync.Mutex)
+	}
+
+	nStrBasicMech.lock.Lock()
+
+	defer nStrBasicMech.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrBasicMechanics.convertStrToFloat64()")
+
+	var floatingPtNumStr string
+
+	floatingPtNumStr,
+		err = numStrBasicNanobot{}.
+		ptr().convertNumStrToFloatingPointNumStr(
+		rawNumStr,
+		decimalSeparator,
+		ePrefix.XCtx("rawNumStr"))
+
+	if err != nil {
+		return resultFloat64, err
+	}
+
+	floatingPtNumStr = strings.Replace(
+		floatingPtNumStr,
+		string(decimalSeparator),
+		".",
+		1)
+
+	var err2 error
+
+	resultFloat64,
+		err2 = strconv.ParseFloat(
+		floatingPtNumStr,
+		64)
+
+	if err2 != nil {
+		err = fmt.Errorf("%v\n"+
+			"Error returned from strconv.ParseFloat()\n"+
+			"Input floatingPtNumStr='%v'\n"+
+			"Error= '%v'\n",
+			ePrefix.XCtxEmpty().String(),
+			floatingPtNumStr,
+			err2.Error())
+	}
+
+	return resultFloat64, err
 }
 
 // ConvertStrToIntNumRunes - Receives an integer string and returns

@@ -148,3 +148,23 @@ func (nStrBasicNanobot *numStrBasicNanobot) convertNumStrToFloatingPointNumStr(
 
 	return floatingPointNumStr, err
 }
+
+// ptr - Returns a pointer to a new instance of
+// numStrBasicNanobot.
+//
+func (nStrBasicNanobot numStrBasicNanobot) ptr() *numStrBasicNanobot {
+
+	if nStrBasicNanobot.lock == nil {
+		nStrBasicNanobot.lock = new(sync.Mutex)
+	}
+
+	nStrBasicNanobot.lock.Lock()
+
+	defer nStrBasicNanobot.lock.Unlock()
+
+	newNumStrBasicNanobot := new(numStrBasicNanobot)
+
+	newNumStrBasicNanobot.lock = new(sync.Mutex)
+
+	return newNumStrBasicNanobot
+}

@@ -579,9 +579,31 @@ func (ns *NumStrBasicUtility) ConvertNumStrToInt64(
 }
 
 // ConvertStrToIntNumStr - Converts a string of characters to
-// a string consisting of a pure number string consisting of
+// a to a pure number string. This pure number  consisting of a pure number string consisting of
 // an optional leading sign character ('+' or '-') and a
 // series of numeric digits.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+//  rawNumStr                      string
+//     - A number string which will be formatted with thousands
+//       separators. Floating point numeric values will be
+//       correctly formatted with a decimal separator separating
+//       integer and fractional digits.
+//
+//
+//  ePrefix                        ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
 //
 func (ns *NumStrBasicUtility) ConvertStrToIntNumStr(
 	rawNumStr string,
@@ -881,7 +903,7 @@ func (ns *NumStrBasicUtility) ConvertStrToIntNumRunes(
 // ConvertStrToFloat64 - Converts a string of numbers to a float64 value.
 //
 func (ns *NumStrBasicUtility) ConvertStrToFloat64(
-	str string,
+	rawNumStr string,
 	ePrefix string) (
 	resultFloat64 float64,
 	err error) {
@@ -894,7 +916,7 @@ func (ns *NumStrBasicUtility) ConvertStrToFloat64(
 	nStrDto := NumStrDto{}
 
 	nDto, err = nStrDto.ParseNumStr(
-		str,
+		rawNumStr,
 		ePrefix)
 
 	if err != nil {
@@ -922,19 +944,6 @@ func (ns *NumStrBasicUtility) ConvertStrToFloat64(
 	return resultFloat64, err
 }
 
-// ConvertInt64ToIntegerFloat64Value - Receives an int64 value and converts to a
-// float64 value.  All of the digits are positioned to the right of the decimal
-// place.
-func (ns *NumStrBasicUtility) ConvertInt64ToIntegerFloat64Value(
-	i64 int64) (
-	resultFloat64 float64) {
-
-	resultFloat64 = float64(i64)
-
-	return resultFloat64
-
-}
-
 // ConvertInt64ToFractionalValue - Converts an int64 value to a float64 with
 // all digits to the right of the decimal place.
 func (ns *NumStrBasicUtility) ConvertInt64ToFractionalValue(i64 int64) (float64, error) {
@@ -942,31 +951,6 @@ func (ns *NumStrBasicUtility) ConvertInt64ToFractionalValue(i64 int64) (float64,
 	nStrBasicMech := numStrBasicMechanics{}
 
 	return nStrBasicMech.convertInt64ToFractionalValue(i64)
-}
-
-// SetPrecision - Receives a string consisting of numeric
-// digits. All numeric punctuation  (i.e. '.', ',', '$' is
-// automatically removed. The string is converted to a
-// floating point number string and the decimal placement
-// is made according to the 'precision' parameter.  For example,
-// a number string of '123456' with a precision parameter of '3'
-// is converted to the number string '123.456'.
-//
-// Note: A sign character may be placed in the first character
-// position before the first digit. Example: '-' minus or
-// '+' plus.
-//
-func (ns *NumStrBasicUtility) ScaleNumStr(
-	str string,
-	precision uint,
-	roundResult bool) (NumStrDto, error) {
-
-	ePrefix := "NumStrBasicUtility.ScaleNumStr() "
-
-	nStrDto := NumStrDto{}
-
-	return nStrDto.SetPrecision(str, precision, roundResult, ePrefix)
-
 }
 
 // SetCountryAndCurrency - Sets the Country and Currency flags for the
