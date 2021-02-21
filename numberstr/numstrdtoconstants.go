@@ -18,7 +18,7 @@ package numberstr
 // http://www.xe.com/symbols.php
 // https://www.countrycode.org/
 // https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
-//
+
 // NumStrCurrencySymbols - an array containing
 // most of the world's major currency symbols
 // stored as type 'rune'.

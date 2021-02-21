@@ -247,6 +247,17 @@ type numStrFmtSpecCurrencyValueDtoMechanics struct {
 //       currency specification.
 //
 //
+//  minorCurrencyName             string
+//     - The minor currency name. In the United States, the minor
+//       currency name is 'Cent'.
+//
+//
+//  minorCurrencySymbol            rune
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢).
+//
+//
 //  turnOnIntegerDigitsSeparation bool
 //     - Inter digits separation is also known as the 'Thousands
 //       Separator". Often a single character is used to separate
@@ -377,6 +388,8 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	currencyCode string,
 	currencyName string,
 	currencySymbol rune,
+	minorCurrencyName string,
+	minorCurrencySymbol rune,
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumericSeparatorsDto,
 	numFieldLenDto NumberFieldDto,

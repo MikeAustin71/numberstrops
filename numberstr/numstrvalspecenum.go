@@ -67,11 +67,14 @@ var mNumStrValSpecLwrCaseStringToCode = map[string]NumStrValSpec{
 // Since the Go Programming Language does not directly support
 // enumerations, the 'NumStrValSpec' type has been adapted to
 // function in a manner similar to classic enumerations.
-// NumStrValSpec is declared as a type 'int'. The method names
+// 'NumStrValSpec' is declared as a type 'int'. The method names
 // effectively represent an enumeration of for numeric
 // value display specifications. These methods are listed as
 // follows:
 //
+// Method           Integer
+// Name              Value
+// ------           -------
 //
 // None               (0)
 //  - Signals that the Number String Value Specification (NumStrValSpec)
@@ -134,7 +137,8 @@ var mNumStrValSpecLwrCaseStringToCode = map[string]NumStrValSpec{
 //
 //
 // For easy access to these enumeration values, use the global variable
-// 'NStrValSpec'. Example: NStrValSpec.SignedNumberValue()
+// 'NStrValSpec'.
+//     Example: NStrValSpec.SignedNumberValue()
 //
 // Otherwise you will need to use the formal syntax.
 //     Example: NumStrValSpec(0).SignedNumberValue()

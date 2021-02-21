@@ -27,6 +27,8 @@ type NumStrFmtSpecSetupDto struct {
 	CurrencyCode                              string
 	CurrencyName                              string
 	CurrencySymbol                            rune
+	MinorCurrencyName                         string
+	MinorCurrencySymbol                       rune
 	CurrencyTurnOnIntegerDigitsSeparation     bool
 	CurrencyNumFieldLen                       int
 	CurrencyNumFieldTextJustify               TextJustify

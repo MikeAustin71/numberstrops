@@ -12,6 +12,8 @@ type NumStrFmtSpecCurrencyValueDto struct {
 	currencyCode                  string
 	currencyName                  string
 	currencySymbol                rune
+	minorCurrencySymbol           rune
+	minorCurrencyName             string
 	turnOnIntegerDigitsSeparation bool
 	numberSeparatorsDto           NumericSeparatorsDto
 	numFieldLenDto                NumberFieldDto
@@ -877,6 +879,17 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //     - The official name for this currency.
 //
 //
+//  minorCurrencyName             string
+//     - The minor currency name. In the United States, the minor
+//       currency name is 'Cent'.
+//
+//
+//  minorCurrencySymbol            rune
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢).
+//
+//
 //  currencySymbol                rune
 //     - The authorized unicode character symbol associated with
 //       this currency specification. Example: '$'
@@ -989,6 +1002,8 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 	currencyCode string,
 	currencyName string,
 	currencySymbol rune,
+	minorCurrencyName string,
+	minorCurrencySymbol rune,
 	turnOnIntegerDigitsSeparation bool,
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
@@ -1027,6 +1042,8 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 			currencyCode,
 			currencyName,
 			currencySymbol,
+			minorCurrencyName,
+			minorCurrencySymbol,
 			turnOnIntegerDigitsSeparation,
 			decimalSeparatorChar,
 			thousandsSeparatorChar,
@@ -1271,6 +1288,17 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //       currency specification.
 //
 //
+//  minorCurrencyName             string
+//     - The minor currency name. In the United States, the minor
+//       currency name is 'Cent'.
+//
+//
+//  minorCurrencySymbol            rune
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢).
+//
+//
 //  turnOnIntegerDigitsSeparation bool
 //     - Inter digits separation is also known as the 'Thousands
 //       Separator". Often a single character is used to separate
@@ -1407,6 +1435,8 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 	currencyCode string,
 	currencyName string,
 	currencySymbol rune,
+	minorCurrencyName string,
+	minorCurrencySymbol rune,
 	turnOnIntegerDigitsSeparation bool,
 	numericSeparatorsDto NumericSeparatorsDto,
 	numFieldDto NumberFieldDto,
@@ -1441,6 +1471,8 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 		currencyCode,
 		currencyName,
 		currencySymbol,
+		minorCurrencyName,
+		minorCurrencySymbol,
 		turnOnIntegerDigitsSeparation,
 		numericSeparatorsDto,
 		numFieldDto,
@@ -1584,6 +1616,8 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDt
 		fmtSpecSetupDto.CurrencyCode,
 		fmtSpecSetupDto.CurrencyName,
 		fmtSpecSetupDto.CurrencySymbol,
+		fmtSpecSetupDto.MinorCurrencyName,
+		fmtSpecSetupDto.MinorCurrencySymbol,
 		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
 		fmtSpecSetupDto.DecimalSeparator,
 		fmtSpecSetupDto.IntegerDigitsSeparator,
@@ -1940,6 +1974,17 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 //       currency specification.
 //
 //
+//  minorCurrencyName             string
+//     - The minor currency name. In the United States, the minor
+//       currency name is 'Cent'.
+//
+//
+//  minorCurrencySymbol            rune
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢).
+//
+//
 //  turnOnIntegerDigitsSeparation bool
 //     - Inter digits separation is also known as the 'Thousands
 //       Separator". Often a single character is used to separate
@@ -2068,6 +2113,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 	currencyCode string,
 	currencyName string,
 	currencySymbol rune,
+	minorCurrencyName string,
+	minorCurrencySymbol rune,
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumericSeparatorsDto,
 	numFieldDto NumberFieldDto,
@@ -2098,6 +2145,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 		currencyCode,
 		currencyName,
 		currencySymbol,
+		minorCurrencyName,
+		minorCurrencySymbol,
 		turnOnIntegerDigitsSeparation,
 		numberSeparatorsDto,
 		numFieldDto,
@@ -2245,6 +2294,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupD
 		fmtSpecSetupDto.CurrencyCode,
 		fmtSpecSetupDto.CurrencyName,
 		fmtSpecSetupDto.CurrencySymbol,
+		fmtSpecSetupDto.MinorCurrencyName,
+		fmtSpecSetupDto.MinorCurrencySymbol,
 		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
 		fmtSpecSetupDto.DecimalSeparator,
 		fmtSpecSetupDto.IntegerDigitsSeparator,
@@ -3040,6 +3091,17 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //       currency specification.
 //
 //
+//  minorCurrencyName             string
+//     - The minor currency name. In the United States, the minor
+//       currency name is 'Cent'.
+//
+//
+//  minorCurrencySymbol            rune
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢).
+//
+//
 //  turnOnIntegerDigitsSeparation bool
 //     - Inter digits separation is also known as the 'Thousands
 //       Separator". Often a single character is used to separate
@@ -3139,6 +3201,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 	currencyCode string,
 	currencyName string,
 	currencySymbol rune,
+	minorCurrencyName string,
+	minorCurrencySymbol rune,
 	turnOnIntegerDigitsSeparation bool,
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
@@ -3171,6 +3235,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 		currencyCode,
 		currencyName,
 		currencySymbol,
+		minorCurrencyName,
+		minorCurrencySymbol,
 		turnOnIntegerDigitsSeparation,
 		decimalSeparatorChar,
 		thousandsSeparatorChar,

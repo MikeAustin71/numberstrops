@@ -87,6 +87,12 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 	targetNStrFmtSpecCurrencyValDto.currencySymbol =
 		inComingNStrFmtSpecCurrencyValDto.currencySymbol
 
+	targetNStrFmtSpecCurrencyValDto.minorCurrencySymbol =
+		inComingNStrFmtSpecCurrencyValDto.minorCurrencySymbol
+
+	targetNStrFmtSpecCurrencyValDto.minorCurrencyName =
+		inComingNStrFmtSpecCurrencyValDto.minorCurrencyName
+
 	targetNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation =
 		inComingNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation
 
@@ -174,6 +180,12 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 
 	newNStrFmtSpecCurrencyValDto.currencySymbol =
 		nStrFmtSpecCurrencyValDto.currencySymbol
+
+	newNStrFmtSpecCurrencyValDto.minorCurrencySymbol =
+		nStrFmtSpecCurrencyValDto.minorCurrencySymbol
+
+	newNStrFmtSpecCurrencyValDto.minorCurrencyName =
+		nStrFmtSpecCurrencyValDto.minorCurrencyName
 
 	newNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation =
 		nStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation

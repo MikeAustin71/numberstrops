@@ -18,10 +18,14 @@ import (
 //  https://docs.oracle.com/cd/E19455-01/806-0169/overview-9/index.html
 //  https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
 //  https://en.wikipedia.org/wiki/Decimal_separator
-//  https://en.wikipedia.org/wiki/ISO_4217
+//  https://en.wikipedia.org/wiki/ISO_4217   Currency Codes
 //  https://english.stackexchange.com/questions/124797/how-to-write-negative-currency-in-text
 //  https://freeformatter.com/i18n-standards-code-snippets.html
 //  https://www.evertype.com/standards/euro/formats.html
+//  https://www.unicode.org/charts/PDF/U20A0.pdf
+//  https://www.rapidtables.com/code/text/unicode-characters.html
+//  https://en.wikipedia.org/wiki/Currency_symbol
+//  https://www.ip2currency.com/currency-symbol
 //
 //
 // Countries:
@@ -29,7 +33,9 @@ import (
 //  Argentina
 //  Australia
 //  Canada
+//  Chile
 //  China
+//  Columbia
 //  France
 //  Germany
 //  Israel
@@ -374,6 +380,169 @@ func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench() (setupDto NumStrFmtSpe
 	return setupDto
 }
 
+//  Czechia - Returns the number string format used in the
+// the The Czech Republic.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Czechia() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 203
+	setupDto.IdString = "203"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 203
+	setupDto.CountryIdString = "203"
+	setupDto.CountryDescription = "Country Setup - Chile"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Czechia"
+	setupDto.CountryAbbreviatedName = "Czechia"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Czech Republic",
+			"Czech Republic"}
+
+	setupDto.CountryCodeTwoChar = "CZ"
+	setupDto.CountryCodeThreeChar = "CZE"
+	setupDto.CountryCodeNumber = "203"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "-$127.54"
+	setupDto.CurrencyDecimalDigits = 0
+	setupDto.CurrencyCode = "CZK"
+	setupDto.CurrencyName = "Koruna"
+	setupDto.CurrencySymbol = '\U0004b10d'
+	setupDto.MinorCurrencyName = "Haler"
+	setupDto.MinorCurrencySymbol = 0
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Chile - Returns the number string format used in the
+// the The Republic of Chile.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Chile() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 152
+	setupDto.IdString = "152"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 152
+	setupDto.CountryIdString = "152"
+	setupDto.CountryDescription = "Country Setup - Chile"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Chile"
+	setupDto.CountryAbbreviatedName = "Chile"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Chile"}
+
+	setupDto.CountryCodeTwoChar = "CL"
+	setupDto.CountryCodeThreeChar = "CHL"
+	setupDto.CountryCodeNumber = "152"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "-$127.54"
+	setupDto.CurrencyDecimalDigits = 0
+	setupDto.CurrencyCode = "CLP"
+	setupDto.CurrencyName = "Peso"
+	setupDto.CurrencySymbol = '\U00000024'
+	setupDto.MinorCurrencyName = "centavo"
+	setupDto.MinorCurrencySymbol = 0
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // China - Returns the number string format used in the
 // Peoples Republic of China.
 //
@@ -430,6 +599,87 @@ func (nStrFmtCountry *NumStrFormatCountry) China() (setupDto NumStrFmtSpecSetupD
 
 	setupDto.DecimalSeparator = '.'
 	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Columbia - Returns the number string format used in the
+// Columbia.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Columbia() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 170
+	setupDto.IdString = "170"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 170
+	setupDto.CountryIdString = "170"
+	setupDto.CountryDescription = "Country Setup - Columbia"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Columbia"
+	setupDto.CountryAbbreviatedName = "Columbia"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Colombia",
+			"Republic of Colombia"}
+
+	setupDto.CountryCodeTwoChar = "CO"
+	setupDto.CountryCodeThreeChar = "COL"
+	setupDto.CountryCodeNumber = "170"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "-$ 127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "COP"
+	setupDto.CurrencyName = "Peso"
+	setupDto.CurrencySymbol = '\U00000024'
+	setupDto.MinorCurrencyName = "centavo"
+	setupDto.MinorCurrencySymbol = 0
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -828,6 +1078,8 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() (setupDto NumStrFmtSp
 	setupDto.CurrencyCode = "GBP"
 	setupDto.CurrencyName = "Pound"
 	setupDto.CurrencySymbol = '\U000000a3'
+	setupDto.CurrencyName = "Pence"
+	setupDto.CurrencySymbol = 0
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 
@@ -859,7 +1111,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() (setupDto NumStrFmtSp
 }
 
 // UnitedStates - Returns the number string format used in the
-// United States.
+// the United States.
 //
 func (nStrFmtCountry *NumStrFormatCountry) UnitedStates() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -906,6 +1158,8 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates() (setupDto NumStrFmtSpe
 	setupDto.CurrencyCode = "USD"
 	setupDto.CurrencyName = "Dollar"
 	setupDto.CurrencySymbol = '\U00000024'
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbol = '\U000000a2'
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 
