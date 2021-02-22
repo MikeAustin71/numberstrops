@@ -36,6 +36,7 @@ import (
 //  Chile
 //  China
 //  Columbia
+//  Czechia
 //  France
 //  Germany
 //  Israel
@@ -231,6 +232,88 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia() (setupDto NumStrFmtSpecSe
 	return setupDto
 }
 
+// Brazil - Returns the number string format used in the
+// Brazil.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Brazil() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 76
+	setupDto.IdString = "076"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 76
+	setupDto.CountryIdString = "076"
+	setupDto.CountryDescription = "Country Setup - Brazil"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Brazil"
+	setupDto.CountryAbbreviatedName = "Brazil"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Federative Republic of Brazil"}
+
+	setupDto.CountryCodeTwoChar = "BR"
+	setupDto.CountryCodeThreeChar = "BRA"
+	setupDto.CountryCodeNumber = "076"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "BRL"
+	setupDto.CurrencyName = "Real"
+	setupDto.CurrencySymbols = []rune{'\U00000052', '\U00000024'}
+
+	setupDto.MinorCurrencyName = "Centavo"
+	setupDto.MinorCurrencySymbols = []rune{}
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Canada - Returns the number string format used in
 // Canada.
 //
@@ -378,91 +461,6 @@ func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench() (setupDto NumStrFmtSpe
 
 	setupDto.SignedNumValPositiveValueFmt = "127.54"
 	setupDto.SignedNumValNegativeValueFmt = "127.54 -"
-	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
-	setupDto.SignedNumValNumFieldLen = -1
-
-	setupDto.SignedNumValNumFieldTextJustify =
-		TextJustify(0).Right()
-
-	setupDto.SciNotSignificandUsesLeadingPlus = false
-	setupDto.SciNotMantissaLength = 6
-	setupDto.SciNotExponentChar = 'E'
-	setupDto.SciNotExponentUsesLeadingPlus = true
-	setupDto.SciNotNumFieldLen = -1
-
-	setupDto.SignedNumValNumFieldTextJustify =
-		TextJustify(0).Right()
-
-	return setupDto
-}
-
-// Czechia - Returns the number string format used in the
-// the The Czech Republic.
-//
-func (nStrFmtCountry *NumStrFormatCountry) Czechia() (setupDto NumStrFmtSpecSetupDto) {
-
-	if nStrFmtCountry.lock == nil {
-		nStrFmtCountry.lock = new(sync.Mutex)
-	}
-
-	nStrFmtCountry.lock.Lock()
-
-	defer nStrFmtCountry.lock.Unlock()
-
-	setupDto.Lock = new(sync.Mutex)
-
-	setupDto.IdNo = 203
-	setupDto.IdString = "203"
-	setupDto.Description = "Country Setup"
-	setupDto.Tag = ""
-	setupDto.CountryIdNo = 203
-	setupDto.CountryIdString = "203"
-	setupDto.CountryDescription = "Country Setup - Czechia"
-	setupDto.CountryTag = ""
-	setupDto.CountryCultureName = "Czechia"
-	setupDto.CountryAbbreviatedName = "Czechia"
-
-	setupDto.CountryAlternateNames =
-		[]string{
-			"The Czech Republic",
-			"Czech Republic"}
-
-	setupDto.CountryCodeTwoChar = "CZ"
-	setupDto.CountryCodeThreeChar = "CZE"
-	setupDto.CountryCodeNumber = "203"
-
-	setupDto.AbsoluteValFmt = "127.54"
-	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
-	setupDto.AbsoluteValNumFieldLen = -1
-
-	setupDto.AbsoluteValNumFieldTextJustify =
-		TextJustify(0).Right()
-
-	setupDto.CurrencyPositiveValueFmt = "$127.54"
-	setupDto.CurrencyNegativeValueFmt = "-$127.54"
-	setupDto.CurrencyDecimalDigits = 2
-	setupDto.CurrencyCode = "CZK"
-	setupDto.CurrencyName = "Koruna"
-	setupDto.CurrencySymbols = []rune{
-		'\U0000004b', '\U0000010d'}
-
-	setupDto.MinorCurrencyName = "Haler"
-	setupDto.MinorCurrencySymbols =
-		make([]rune, 0)
-
-	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
-	setupDto.CurrencyNumFieldLen = -1
-
-	setupDto.CurrencyNumFieldTextJustify =
-		TextJustify(0).Right()
-
-	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
-	setupDto.IntegerDigitsGroupingSequence =
-		[]uint{3}
-
-	setupDto.SignedNumValPositiveValueFmt = "127.54"
-	setupDto.SignedNumValNegativeValueFmt = "-127.54"
 	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
 	setupDto.SignedNumValNumFieldLen = -1
 
@@ -697,6 +695,91 @@ func (nStrFmtCountry *NumStrFormatCountry) Columbia() (setupDto NumStrFmtSpecSet
 
 	setupDto.MinorCurrencyName = "Centavo"
 	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Czechia - Returns the number string format used in the
+// the The Czech Republic.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Czechia() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 203
+	setupDto.IdString = "203"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 203
+	setupDto.CountryIdString = "203"
+	setupDto.CountryDescription = "Country Setup - Czechia"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Czechia"
+	setupDto.CountryAbbreviatedName = "Czechia"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Czech Republic",
+			"Czech Republic"}
+
+	setupDto.CountryCodeTwoChar = "CZ"
+	setupDto.CountryCodeThreeChar = "CZE"
+	setupDto.CountryCodeNumber = "203"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "-$127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "CZK"
+	setupDto.CurrencyName = "Koruna"
+	setupDto.CurrencySymbols = []rune{
+		'\U0000004b', '\U0000010d'}
+
+	setupDto.MinorCurrencyName = "Haler"
+	setupDto.MinorCurrencySymbols =
+		make([]rune, 0)
 
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
@@ -1155,7 +1238,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() (setupDto NumStrFmtSp
 }
 
 // UnitedStates - Returns the number string format used in the
-// the United States.
+// United States.
 //
 func (nStrFmtCountry *NumStrFormatCountry) UnitedStates() (setupDto NumStrFmtSpecSetupDto) {
 
