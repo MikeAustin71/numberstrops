@@ -670,6 +670,50 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //
 // Input Parameters
 //
+//  decimalSeparatorChar          rune
+//     - The character used to separate integer and fractional
+//       digits in a floating point number string. In the United
+//       States, the Decimal Separator character is the period
+//       ('.') or Decimal Point.
+//           Example: '123.45678'
+//
+//
+//  thousandsSeparatorChar        rune
+//     - The character which will be used to delimit 'thousands' in
+//       integer number strings. In the United States, the Thousands
+//       separator is the comma character (',').
+//           Example: '1,000,000,000'
+//
+//
+//  integerDigitsGroupingSequence  []uint
+//     - In most western countries integer digits to the left of the
+//       decimal separator (a.k.a. decimal point) are separated into
+//       groups of three digits representing a grouping of 'thousands'
+//       like this: '1,000,000,000,000'. In this case the parameter
+//       'integerDigitsGroupingSequence' would be configured as:
+//              integerDigitsGroupingSequence = []uint{3}
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted as
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerDigitsGroupingSequence' would be configured
+//       as:
+//              integerDigitsGroupingSequence = []uint{3,2}
+//
+//
+//  turnOnThousandsSeparator      bool
+//     - The parameter 'turnOnThousandsSeparator' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
 //  positiveValueFmt              string
 //     - This format string will be used to format positive currency
 //       value in text number strings. Valid positive currency value
@@ -925,21 +969,6 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //            Example: '1000000000'
 //
 //
-//  decimalSeparatorChar          rune
-//     - The character used to separate integer and fractional
-//       digits in a floating point number string. In the United
-//       States, the Decimal Separator character is the period
-//       ('.') or Decimal Point.
-//           Example: '123.45678'
-//
-//
-//  thousandsSeparatorChar        rune
-//     - The character which will be used to delimit 'thousands' in
-//       integer number strings. In the United States, the Thousands
-//       separator is the comma character (',').
-//           Example: '1,000,000,000'
-//
-//
 //  requestedNumberFieldLen       int
 //     - This is the requested length of the number field in which
 //       the number string will be displayed. If this field length
@@ -1007,6 +1036,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //       error message.
 //
 func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
+	decimalSeparatorChar rune,
+	thousandsSeparatorChar rune,
+	integerDigitsGroupingSequence []uint,
+	turnOnThousandsSeparator bool,
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -1015,9 +1048,6 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 	currencySymbols []rune,
 	minorCurrencyName string,
 	minorCurrencySymbols []rune,
-	turnOnIntegerDigitsSeparation bool,
-	decimalSeparatorChar rune,
-	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) (
@@ -1047,6 +1077,10 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 	err :=
 		nStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults(
 			&newNStrFmtSpecCurrencyValDto,
+			decimalSeparatorChar,
+			thousandsSeparatorChar,
+			integerDigitsGroupingSequence,
+			turnOnThousandsSeparator,
 			positiveValueFmt,
 			negativeValueFmt,
 			decimalDigits,
@@ -1055,10 +1089,6 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 			currencySymbols,
 			minorCurrencyName,
 			minorCurrencySymbols,
-			turnOnIntegerDigitsSeparation,
-			decimalSeparatorChar,
-			thousandsSeparatorChar,
-			[]uint{3},
 			requestedNumberFieldLen,
 			numberFieldTextJustify,
 			ePrefix.XCtx("Setting 'newNStrFmtSpecCurrencyValDto'"))
@@ -1625,6 +1655,10 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDt
 
 	err := nStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults(
 		&newNStrFmtSpecCurrencyValDto,
+		fmtSpecSetupDto.DecimalSeparator,
+		fmtSpecSetupDto.IntegerDigitsSeparator,
+		fmtSpecSetupDto.IntegerDigitsGroupingSequence,
+		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
 		fmtSpecSetupDto.CurrencyPositiveValueFmt,
 		fmtSpecSetupDto.CurrencyNegativeValueFmt,
 		fmtSpecSetupDto.CurrencyDecimalDigits,
@@ -1633,10 +1667,6 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDt
 		fmtSpecSetupDto.CurrencySymbols,
 		fmtSpecSetupDto.MinorCurrencyName,
 		fmtSpecSetupDto.MinorCurrencySymbols,
-		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
-		fmtSpecSetupDto.DecimalSeparator,
-		fmtSpecSetupDto.IntegerDigitsSeparator,
-		fmtSpecSetupDto.IntegerDigitsGroupingSequence,
 		fmtSpecSetupDto.CurrencyNumFieldLen,
 		fmtSpecSetupDto.CurrencyNumFieldTextJustify,
 		ePrefix)
@@ -2332,6 +2362,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupD
 
 	return nStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults(
 		nStrFmtSpecCurrValDto,
+		fmtSpecSetupDto.DecimalSeparator,
+		fmtSpecSetupDto.IntegerDigitsSeparator,
+		fmtSpecSetupDto.IntegerDigitsGroupingSequence,
+		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
 		fmtSpecSetupDto.CurrencyPositiveValueFmt,
 		fmtSpecSetupDto.CurrencyNegativeValueFmt,
 		fmtSpecSetupDto.CurrencyDecimalDigits,
@@ -2340,10 +2374,6 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupD
 		fmtSpecSetupDto.CurrencySymbols,
 		fmtSpecSetupDto.MinorCurrencyName,
 		fmtSpecSetupDto.MinorCurrencySymbols,
-		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
-		fmtSpecSetupDto.DecimalSeparator,
-		fmtSpecSetupDto.IntegerDigitsSeparator,
-		fmtSpecSetupDto.IntegerDigitsGroupingSequence,
 		fmtSpecSetupDto.CurrencyNumFieldLen,
 		fmtSpecSetupDto.CurrencyNumFieldTextJustify,
 		ePrefix)
@@ -3011,6 +3041,57 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //
 // Input Parameters
 //
+//  decimalSeparatorChar          rune
+//     - The character used to separate integer and fractional
+//       digits in a floating point number string. In the United
+//       States, the Decimal Separator character is the period
+//       ('.') or Decimal Point.
+//           Example: '123.45678'
+//
+//
+//  thousandsSeparatorChar        rune
+//     - The character which will be used to delimit 'thousands' in
+//       integer number strings. In the United States, the Thousands
+//       separator is the comma character (',').
+//           Example: '1,000,000,000'
+//
+//
+//  integerDigitsGroupingSequence  []uint
+//     - In most western countries integer digits to the left of the
+//       decimal separator (a.k.a. decimal point) are separated into
+//       groups of three digits representing a grouping of 'thousands'
+//       like this: '1,000,000,000,000'. In this case the parameter
+//       'integerDigitsGroupingSequence' would be configured as:
+//              integerDigitsGroupingSequence = []uint{3}
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted as
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerDigitsGroupingSequence' would be configured
+//       as:
+//              integerDigitsGroupingSequence = []uint{3,2}
+//
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
 //  positiveValueFmt              string
 //     - This format string will be used to format positive currency
 //       value in text number strings. Valid positive currency value
@@ -3247,40 +3328,6 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //       consisting of two or more characters.
 //
 //
-//  turnOnIntegerDigitsSeparation bool
-//     - Inter digits separation is also known as the 'Thousands
-//       Separator". Often a single character is used to separate
-//       thousands within the integer component of a numeric value
-//       in number strings. In the United States, the comma
-//       character (',') is used to separate thousands.
-//            Example: 1,000,000,000
-//
-//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
-//       flag used to control the 'Thousands Separator'. When set
-//       to 'true', integer number strings will be separated into
-//       thousands for text presentation.
-//            Example: '1,000,000,000'
-//
-//       When this parameter is set to 'false', the 'Thousands
-//       Separator' will NOT be inserted into text number strings.
-//            Example: '1000000000'
-//
-//
-//  decimalSeparatorChar          rune
-//     - The character used to separate integer and fractional
-//       digits in a floating point number string. In the United
-//       States, the Decimal Separator character is the period
-//       ('.') or Decimal Point.
-//           Example: '123.45678'
-//
-//
-//  thousandsSeparatorChar        rune
-//     - The character which will be used to delimit 'thousands' in
-//       integer number strings. In the United States, the Thousands
-//       separator is the comma character (',').
-//           Example: '1,000,000,000'
-//
-//
 //  requestedNumberFieldLen       int
 //     - This is the requested length of the number field in which
 //       the number string will be displayed. If this field length
@@ -3340,6 +3387,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //       error message.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
+	decimalSeparatorChar rune,
+	thousandsSeparatorChar rune,
+	integerDigitsGroupingSequence []uint,
+	turnOnIntegerDigitsSeparation bool,
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -3348,9 +3399,6 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 	currencySymbols []rune,
 	minorCurrencyName string,
 	minorCurrencySymbols []rune,
-	turnOnIntegerDigitsSeparation bool,
-	decimalSeparatorChar rune,
-	thousandsSeparatorChar rune,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) error {
@@ -3374,6 +3422,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 
 	return nStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults(
 		nStrFmtSpecCurrValDto,
+		decimalSeparatorChar,
+		thousandsSeparatorChar,
+		integerDigitsGroupingSequence,
+		turnOnIntegerDigitsSeparation,
 		positiveValueFmt,
 		negativeValueFmt,
 		decimalDigits,
@@ -3382,10 +3434,6 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 		currencySymbols,
 		minorCurrencyName,
 		minorCurrencySymbols,
-		turnOnIntegerDigitsSeparation,
-		decimalSeparatorChar,
-		thousandsSeparatorChar,
-		[]uint{3},
 		requestedNumberFieldLen,
 		numberFieldTextJustify,
 		ePrefix.XCtx("Setting 'nStrFmtSpecCurrValDto'"))

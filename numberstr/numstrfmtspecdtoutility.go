@@ -155,8 +155,32 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setDefaultFormatSpec(
 //           Example: '1,000,000,000'
 //
 //
-//  turnOnThousandsSeparator      bool
-//     - The parameter 'turnOnThousandsSeparator' is a boolean
+//  integerDigitsGroupingSequence  []uint
+//     - In most western countries integer digits to the left of the
+//       decimal separator (a.k.a. decimal point) are separated into
+//       groups of three digits representing a grouping of 'thousands'
+//       like this: '1,000,000,000,000'. In this case the parameter
+//       'integerDigitsGroupingSequence' would be configured as:
+//              integerDigitsGroupingSequence = []uint{3}
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted as
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerDigitsGroupingSequence' would be configured
+//       as:
+//              integerDigitsGroupingSequence = []uint{3,2}
+//
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
 //       flag used to control the 'Thousands Separator'. When set
 //       to 'true', integer number strings will be separated into
 //       thousands for text presentation.
@@ -167,12 +191,34 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setDefaultFormatSpec(
 //            Example: '1000000000'
 //
 //
+//  currencyCode                  string
+//     - The ISO 4217 Currency Code associated with this currency
+//       specification. Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
+//  currencyName                  string
+//     - The official name for this currency.
+//
+//
 //  currencySymbols               []rune
 //     - The authorized unicode character symbols associated with
 //       this currency specification. The currency symbol for the
 //       United States is the dollar sign ('$'). Some countries and
 //       cultures have currency symbols consisting of two or more
 //       characters.
+//
+//
+//  minorCurrencyName             string
+//     - The minor currency name. In the United States, the minor
+//       currency name is 'Cent'.
+//
+//
+//  minorCurrencySymbols          []rune
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢). Some countries and cultures have currency symbols
+//       consisting of two or more characters.
 //
 //
 //  currencyPositiveValueFmt      string
@@ -558,8 +604,13 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 	nStrFmtSpecDto *NumStrFmtSpecDto,
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
-	turnOnThousandsSeparator bool,
+	integerDigitsGroupingSequence []uint,
+	turnOnIntegerDigitsSeparation bool,
+	currencyCode string,
+	currencyName string,
 	currencySymbols []rune,
+	minorCurrencyName string,
+	minorCurrencySymbols []rune,
 	currencyPositiveValueFmt string,
 	currencyNegativeValueFmt string,
 	signedNumPositiveValueFmt string,
@@ -620,6 +671,10 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 			"'currencySymbols' is missing.\n"+
 			"'currencySymbols' is a zero length array.\n",
 			ePrefix.String())
+	}
+
+	if minorCurrencySymbols == nil {
+		minorCurrencySymbols = make([]rune, 0, 10)
 	}
 
 	nStrCurrencyElectron := numStrFmtSpecCurrencyValueDtoElectron{}
@@ -704,7 +759,7 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 	setupDto.CountryCodeNumber = "9999"
 
 	setupDto.AbsoluteValFmt = signedNumPositiveValueFmt
-	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = turnOnThousandsSeparator
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = turnOnIntegerDigitsSeparation
 	setupDto.AbsoluteValNumFieldLen = requestedNumberFieldLen
 
 	setupDto.AbsoluteValNumFieldTextJustify =
@@ -713,8 +768,8 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 	setupDto.CurrencyPositiveValueFmt = currencyPositiveValueFmt
 	setupDto.CurrencyNegativeValueFmt = currencyNegativeValueFmt
 	setupDto.CurrencyDecimalDigits = 2
-	setupDto.CurrencyCode = "Custom"
-	setupDto.CurrencyName = "CUSTOM"
+	setupDto.CurrencyCode = currencyCode
+	setupDto.CurrencyName = currencyName
 	setupDto.CurrencySymbols =
 		make([]rune, lenCurrencySymbols, 10)
 
@@ -722,12 +777,20 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 		setupDto.CurrencySymbols,
 		currencySymbols)
 
-	setupDto.MinorCurrencyName = ""
+	setupDto.MinorCurrencyName = minorCurrencyName
+
+	lenCurrencySymbols = len(minorCurrencySymbols)
 
 	setupDto.MinorCurrencySymbols =
-		make([]rune, 0, 10)
+		make([]rune, lenCurrencySymbols, 10)
 
-	setupDto.CurrencyTurnOnIntegerDigitsSeparation = turnOnThousandsSeparator
+	_ = copy(
+		setupDto.MinorCurrencySymbols,
+		minorCurrencySymbols)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation =
+		turnOnIntegerDigitsSeparation
+
 	setupDto.CurrencyNumFieldLen = requestedNumberFieldLen
 
 	setupDto.CurrencyNumFieldTextJustify =
@@ -736,11 +799,11 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 	setupDto.DecimalSeparator = decimalSeparatorChar
 	setupDto.IntegerDigitsSeparator = thousandsSeparatorChar
 	setupDto.IntegerDigitsGroupingSequence =
-		[]uint{3}
+		integerDigitsGroupingSequence
 
 	setupDto.SignedNumValPositiveValueFmt = signedNumPositiveValueFmt
 	setupDto.SignedNumValNegativeValueFmt = signedNumNegativeValueFmt
-	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = turnOnThousandsSeparator
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = turnOnIntegerDigitsSeparation
 	setupDto.SignedNumValNumFieldLen = requestedNumberFieldLen
 
 	setupDto.SignedNumValNumFieldTextJustify =

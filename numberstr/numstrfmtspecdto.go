@@ -529,8 +529,32 @@ func (fmtSpecDto *NumStrFmtSpecDto) IsValidInstanceError(
 //           Example: '1,000,000,000'
 //
 //
-//  turnOnThousandsSeparator      bool
-//     - The parameter 'turnOnThousandsSeparator' is a boolean
+//  integerDigitsGroupingSequence  []uint
+//     - In most western countries integer digits to the left of the
+//       decimal separator (a.k.a. decimal point) are separated into
+//       groups of three digits representing a grouping of 'thousands'
+//       like this: '1,000,000,000,000'. In this case the parameter
+//       'integerDigitsGroupingSequence' would be configured as:
+//              integerDigitsGroupingSequence = []uint{3}
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted as
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerDigitsGroupingSequence' would be configured
+//       as:
+//              integerDigitsGroupingSequence = []uint{3,2}
+//
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
 //       flag used to control the 'Thousands Separator'. When set
 //       to 'true', integer number strings will be separated into
 //       thousands for text presentation.
@@ -541,9 +565,34 @@ func (fmtSpecDto *NumStrFmtSpecDto) IsValidInstanceError(
 //            Example: '1000000000'
 //
 //
-//  currencySymbols                rune
+//  currencyCode                  string
+//     - The ISO 4217 Currency Code associated with this currency
+//       specification. Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
+//  currencyName                  string
+//     - The official name for this currency.
+//
+//
+//  currencySymbols               []rune
 //     - The authorized unicode character symbol associated with
-//       this currency. Example: '$'
+//       this currency specification. The currency symbol for the
+//       United States is the dollar sign ('$'). Some countries and
+//       cultures have currency symbols consisting of two or more
+//       characters.
+//
+//
+//  minorCurrencyName             string
+//     - The minor currency name. In the United States, the minor
+//       currency name is 'Cent'.
+//
+//
+//  minorCurrencySymbols          []rune
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢). Some countries and cultures have currency symbols
+//       consisting of two or more characters.
 //
 //
 //  currencyPositiveValueFmt      string
@@ -934,8 +983,13 @@ func (fmtSpecDto *NumStrFmtSpecDto) IsValidInstanceError(
 func (fmtSpecDto NumStrFmtSpecDto) NewCustomFmtSpec(
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
-	turnOnThousandsSeparator bool,
-	currencySymbol rune,
+	integerDigitsGroupingSequence []uint,
+	turnOnIntegerDigitsSeparation bool,
+	currencyCode string,
+	currencyName string,
+	currencySymbols []rune,
+	minorCurrencyName string,
+	minorCurrencySymbols []rune,
 	currencyPositiveValueFmt string,
 	currencyNegativeValueFmt string,
 	signedNumPositiveValueFmt string,
@@ -971,8 +1025,13 @@ func (fmtSpecDto NumStrFmtSpecDto) NewCustomFmtSpec(
 		&newNumStrFmtSpecDto,
 		decimalSeparatorChar,
 		thousandsSeparatorChar,
-		turnOnThousandsSeparator,
-		currencySymbol,
+		integerDigitsGroupingSequence,
+		turnOnIntegerDigitsSeparation,
+		currencyCode,
+		currencyName,
+		currencySymbols,
+		minorCurrencyName,
+		minorCurrencySymbols,
 		currencyPositiveValueFmt,
 		currencyNegativeValueFmt,
 		signedNumPositiveValueFmt,
