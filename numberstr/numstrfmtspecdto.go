@@ -257,10 +257,14 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetDecimalSeparator() rune {
 	return fmtSpecDto.currencyValue.numberSeparatorsDto.GetDecimalSeparator()
 }
 
-// GetCurrencySymbol - Returns the currency symbol.
-// Example: '$'
+// GetCurrencySymbols - Returns the currency symbols.
 //
-func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySymbol() rune {
+// The authorized unicode character symbols associated with this
+// currency specification. The currency symbol for the United
+// States is the dollar sign ('$'). Some countries and cultures
+// have currency symbols consisting of two or more characters.
+//
+func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySymbols() []rune {
 
 	if fmtSpecDto.lock == nil {
 		fmtSpecDto.lock = new(sync.Mutex)

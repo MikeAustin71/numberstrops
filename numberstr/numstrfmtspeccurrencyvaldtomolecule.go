@@ -43,14 +43,25 @@ func (nStrFmtSpecCurrDtoMolecule *numStrFmtSpecCurrencyValueDtoMolecule) testVal
 		return isValid, err
 	}
 
-	if nStrFmtSpecCurrencyValDto.currencySymbols == 0 {
+	if nStrFmtSpecCurrencyValDto.currencySymbols == nil {
+		nStrFmtSpecCurrencyValDto.currencySymbols =
+			make([]rune, 0, 10)
+	}
+
+	lenCurrencySymbols := len(nStrFmtSpecCurrencyValDto.currencySymbols)
+
+	if lenCurrencySymbols == 0 {
 		err = fmt.Errorf("%v\n"+
 			"Error: The Currency Symbol is missing!\n"+
-			"The currency symbol is set to zero and is therefore invalid.\n"+
-			"NumStrFmtSpecCurrencyValueDto.currencySymbols == 0\n",
+			"The currency symbols rune array is a zero length array.\n",
 			ePrefix.String())
 
 		return isValid, err
+	}
+
+	if nStrFmtSpecCurrencyValDto.minorCurrencySymbols == nil {
+		nStrFmtSpecCurrencyValDto.minorCurrencySymbols =
+			make([]rune, 0, 10)
 	}
 
 	err =

@@ -244,9 +244,12 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 //     - The official name for this currency.
 //
 //
-//  currencySymbols                rune
-//     - The authorized character symbol associated with this
-//       currency specification.
+//  currencySymbols               []rune
+//     - The authorized unicode character symbols associated with
+//       this currency specification. The currency symbol for the
+//       United States is the dollar sign ('$'). Some countries and
+//       cultures have currency symbols consisting of two or more
+//       characters.
 //
 //
 //  minorCurrencyName             string
@@ -254,10 +257,11 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 //       currency name is 'Cent'.
 //
 //
-//  minorCurrencySymbols            rune
+//  minorCurrencySymbols          []rune
 //     - The unicode character for minor currency symbol. In the
 //       United States, the minor currency symbol is the cent sign
-//       (¢).
+//       (¢). Some countries and cultures have currency symbols
+//       consisting of two or more characters.
 //
 //
 //  turnOnIntegerDigitsSeparation bool

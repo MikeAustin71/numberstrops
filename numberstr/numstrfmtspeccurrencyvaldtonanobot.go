@@ -69,6 +69,17 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 		return err
 	}
 
+	lenCurrencySymbols := len(inComingNStrFmtSpecCurrencyValDto.currencySymbols)
+
+	if lenCurrencySymbols == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: 'inComingNStrFmtSpecCurrencyValDto.currencySymbols' invalid!\n"+
+			"The currencySymbols array is a zero length array.\n",
+			ePrefix.XCtxEmpty().String())
+
+		return err
+	}
+
 	targetNStrFmtSpecCurrencyValDto.positiveValueFmt =
 		inComingNStrFmtSpecCurrencyValDto.positiveValueFmt
 
@@ -85,13 +96,23 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 		inComingNStrFmtSpecCurrencyValDto.currencyName
 
 	targetNStrFmtSpecCurrencyValDto.currencySymbols =
-		inComingNStrFmtSpecCurrencyValDto.currencySymbols
+		make([]rune, lenCurrencySymbols, 10)
 
-	targetNStrFmtSpecCurrencyValDto.minorCurrencySymbols =
-		inComingNStrFmtSpecCurrencyValDto.minorCurrencySymbols
+	_ = copy(
+		targetNStrFmtSpecCurrencyValDto.currencySymbols,
+		inComingNStrFmtSpecCurrencyValDto.currencySymbols)
 
 	targetNStrFmtSpecCurrencyValDto.minorCurrencyName =
 		inComingNStrFmtSpecCurrencyValDto.minorCurrencyName
+
+	lenCurrencySymbols = len(inComingNStrFmtSpecCurrencyValDto.minorCurrencySymbols)
+
+	targetNStrFmtSpecCurrencyValDto.minorCurrencySymbols =
+		make([]rune, lenCurrencySymbols, 10)
+
+	_ = copy(
+		targetNStrFmtSpecCurrencyValDto.minorCurrencySymbols,
+		inComingNStrFmtSpecCurrencyValDto.minorCurrencySymbols)
 
 	targetNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation =
 		inComingNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation
@@ -163,6 +184,18 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 		return newNStrFmtSpecCurrencyValDto, err
 	}
 
+	lenCurrencySymbols :=
+		len(nStrFmtSpecCurrencyValDto.currencySymbols)
+
+	if lenCurrencySymbols == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: 'nStrFmtSpecCurrencyValDto.currencySymbols' invalid!\n"+
+			"The currencySymbols array is a zero length array.\n",
+			ePrefix.XCtxEmpty().String())
+
+		return newNStrFmtSpecCurrencyValDto, err
+	}
+
 	newNStrFmtSpecCurrencyValDto.positiveValueFmt =
 		nStrFmtSpecCurrencyValDto.positiveValueFmt
 
@@ -179,13 +212,24 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 		nStrFmtSpecCurrencyValDto.currencyName
 
 	newNStrFmtSpecCurrencyValDto.currencySymbols =
-		nStrFmtSpecCurrencyValDto.currencySymbols
+		make([]rune, lenCurrencySymbols, 10)
 
-	newNStrFmtSpecCurrencyValDto.minorCurrencySymbols =
-		nStrFmtSpecCurrencyValDto.minorCurrencySymbols
+	_ = copy(
+		newNStrFmtSpecCurrencyValDto.currencySymbols,
+		nStrFmtSpecCurrencyValDto.currencySymbols)
 
 	newNStrFmtSpecCurrencyValDto.minorCurrencyName =
 		nStrFmtSpecCurrencyValDto.minorCurrencyName
+
+	lenCurrencySymbols =
+		len(nStrFmtSpecCurrencyValDto.minorCurrencySymbols)
+
+	newNStrFmtSpecCurrencyValDto.minorCurrencySymbols =
+		make([]rune, lenCurrencySymbols, 10)
+
+	_ = copy(
+		newNStrFmtSpecCurrencyValDto.minorCurrencySymbols,
+		nStrFmtSpecCurrencyValDto.minorCurrencySymbols)
 
 	newNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation =
 		nStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation

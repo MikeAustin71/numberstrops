@@ -372,7 +372,7 @@ func (nStrBasicMech *numStrBasicMechanics) convertStrToIntNumRunes(
 		nStrFmtSpecDto.GetThousandsSeparator()
 
 	currencySymbol :=
-		nStrFmtSpecDto.GetCurrencySymbol()
+		nStrFmtSpecDto.GetCurrencySymbols()
 
 	baseRunes := []rune(numStr)
 	runes = make([]rune, 0, 100)

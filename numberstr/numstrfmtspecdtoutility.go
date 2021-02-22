@@ -167,9 +167,12 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setDefaultFormatSpec(
 //            Example: '1000000000'
 //
 //
-//  currencySymbols                rune
-//     - The authorized unicode character symbol associated with
-//       this currency. Example: '$'
+//  currencySymbols               []rune
+//     - The authorized unicode character symbols associated with
+//       this currency specification. The currency symbol for the
+//       United States is the dollar sign ('$'). Some countries and
+//       cultures have currency symbols consisting of two or more
+//       characters.
 //
 //
 //  currencyPositiveValueFmt      string
@@ -556,7 +559,7 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
 	turnOnThousandsSeparator bool,
-	currencySymbol rune,
+	currencySymbols []rune,
 	currencyPositiveValueFmt string,
 	currencyNegativeValueFmt string,
 	signedNumPositiveValueFmt string,
@@ -605,10 +608,17 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 			ePrefix.String())
 	}
 
-	if currencySymbol == 0 {
+	if currencySymbols == nil {
+		currencySymbols = make([]rune, 0, 10)
+	}
+
+	lenCurrencySymbols := len(currencySymbols)
+
+	if lenCurrencySymbols == 0 {
 		return fmt.Errorf("%v\n"+
 			"Error: Input parameter 'currencySymbols' is invalid!\n"+
-			"currencySymbols== '0'\n",
+			"'currencySymbols' is missing.\n"+
+			"'currencySymbols' is a zero length array.\n",
 			ePrefix.String())
 	}
 
@@ -705,7 +715,18 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "Custom"
 	setupDto.CurrencyName = "CUSTOM"
-	setupDto.CurrencySymbols = currencySymbol
+	setupDto.CurrencySymbols =
+		make([]rune, lenCurrencySymbols, 10)
+
+	_ = copy(
+		setupDto.CurrencySymbols,
+		currencySymbols)
+
+	setupDto.MinorCurrencyName = ""
+
+	setupDto.MinorCurrencySymbols =
+		make([]rune, 0, 10)
+
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = turnOnThousandsSeparator
 	setupDto.CurrencyNumFieldLen = requestedNumberFieldLen
 

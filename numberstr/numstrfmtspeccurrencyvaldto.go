@@ -39,6 +39,9 @@ type NumStrFmtSpecCurrencyValueDto struct {
 //       The data values in this object will be copied to the
 //       current NumStrFmtSpecCurrencyValueDto instance.
 //
+//       If input parameter 'incomingCurrencyValDto' is judged to
+//       be invalid, this method will return an error.
+//
 //
 //  ePrefix             *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
@@ -1679,7 +1682,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyName(
 	nStrFmtSpecCurrValDto.currencyName = currencyName
 }
 
-// SetCurrencySymbol - Sets the currency name and currency symbols
+// SetCurrencySymbols - Sets the currency name and currency symbols
 // associated with this currency.
 //
 // Reference:
@@ -1726,7 +1729,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyName(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbols(
 	currencyName string,
 	currencySymbols []rune,
 	ePrefix *ErrPrefixDto) (
@@ -1744,7 +1747,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetCurrencySymbol()")
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetCurrencySymbols()")
 
 	err = nil
 
@@ -2411,7 +2414,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetMinorCurrencySymb
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetCurrencySymbol()")
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetCurrencySymbols()")
 
 	err = nil
 
