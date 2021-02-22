@@ -25,6 +25,7 @@ type NumStrFmtSpecSetupDto struct {
 	CurrencyNegativeValueFmt                  string
 	CurrencyDecimalDigits                     uint
 	CurrencyCode                              string
+	CurrencyCodeNo                            string
 	CurrencyName                              string
 	CurrencySymbols                           []rune
 	MinorCurrencyName                         string

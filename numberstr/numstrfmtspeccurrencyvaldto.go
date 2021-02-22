@@ -10,7 +10,7 @@ type NumStrFmtSpecCurrencyValueDto struct {
 	negativeValueFmt              string
 	decimalDigits                 uint
 	currencyCode                  string
-	currencyCodeNo                int
+	currencyCodeNo                string
 	currencyName                  string
 	currencySymbols               []rune
 	minorCurrencyName             string
@@ -199,11 +199,13 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencyCode() st
 }
 
 // GetCurrencyCodeNo - Returns the ISO 4217 Currency Code Number
-// associated with this currency specification.
+// associated with this currency specification. The Currency Code
+// Number is stored as a string per ISO 4217.
+//
 // Reference:
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencyCodeNo() int {
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencyCodeNo() string {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -945,6 +947,15 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
 //
+//  currencyCodeNo                string
+//     - The ISO 4217 Currency Code Number associated with this
+//       currency specification. The Currency Code Number is stored
+//       as a string per ISO 4217.
+//
+//       Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
 //  currencyName                  string
 //     - The official name for this currency.
 //
@@ -1063,6 +1074,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 	negativeValueFmt string,
 	decimalDigits uint,
 	currencyCode string,
+	currencyCodeNo string,
 	currencyName string,
 	currencySymbols []rune,
 	minorCurrencyName string,
@@ -1104,6 +1116,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 			negativeValueFmt,
 			decimalDigits,
 			currencyCode,
+			currencyCodeNo,
 			currencyName,
 			currencySymbols,
 			minorCurrencyName,
@@ -1339,6 +1352,15 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
 //
+//  currencyCodeNo                string
+//     - The ISO 4217 Currency Code Number associated with this
+//       currency specification. The Currency Code Number is stored
+//       as a string per ISO 4217.
+//
+//       Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
 //  currencyName                  string
 //     - The official name for this currency.
 //
@@ -1497,6 +1519,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 	negativeValueFmt string,
 	decimalDigits uint,
 	currencyCode string,
+	currencyCodeNo string,
 	currencyName string,
 	currencySymbols []rune,
 	minorCurrencyName string,
@@ -1533,6 +1556,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 		negativeValueFmt,
 		decimalDigits,
 		currencyCode,
+		currencyCodeNo,
 		currencyName,
 		currencySymbols,
 		minorCurrencyName,
@@ -1581,8 +1605,13 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 //         CurrencyNegativeValueFmt                  string
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
+//         CurrencyCodeNo                            string
 //         CurrencyName                              string
-//         CurrencySymbols                            rune
+//         CurrencySymbols                           []rune
+//         MinorCurrencyName                         string
+//         MinorCurrencySymbols                      []rune
+//         MinorCurrencyName                         string
+//         MinorCurrencySymbols                      []runes
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune
@@ -1682,6 +1711,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDt
 		fmtSpecSetupDto.CurrencyNegativeValueFmt,
 		fmtSpecSetupDto.CurrencyDecimalDigits,
 		fmtSpecSetupDto.CurrencyCode,
+		fmtSpecSetupDto.CurrencyCodeNo,
 		fmtSpecSetupDto.CurrencyName,
 		fmtSpecSetupDto.CurrencySymbols,
 		fmtSpecSetupDto.MinorCurrencyName,
@@ -1712,13 +1742,18 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyCode(
 	nStrFmtSpecCurrValDto.currencyCode = currencyCode
 }
 
-// SetCurrencyCodeNo - Sets the currency code number associated
-// with this currency. Currency code numbers are designated by the
-// ISO 4217 standard. Reference:
-//        https://en.wikipedia.org/wiki/ISO_4217
+// SetCurrencyCodeNo - Sets the Currency Code Number associated
+// with this currency. Currency Code Numbers are designated by the
+// ISO 4217 standard.
+//
+// Currency Code Numbers are stored as strings per the ISO 4217
+// standard.
+//
+// Reference:
+//       https://en.wikipedia.org/wiki/ISO_4217
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyCodeNo(
-	currencyCodeNo int) {
+	currencyCodeNo string) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -2072,6 +2107,15 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbols(
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
 //
+//  currencyCodeNo                string
+//     - The ISO 4217 Currency Code Number associated with this
+//       currency specification. The Currency Code Number is stored
+//       as a string per ISO 4217.
+//
+//       Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
 //  currencyName                  string
 //     - The official name for this currency.
 //
@@ -2223,6 +2267,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 	negativeValueFmt string,
 	decimalDigits uint,
 	currencyCode string,
+	currencyCodeNo string,
 	currencyName string,
 	currencySymbols []rune,
 	minorCurrencyName string,
@@ -2255,6 +2300,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 		negativeValueFmt,
 		decimalDigits,
 		currencyCode,
+		currencyCodeNo,
 		currencyName,
 		currencySymbols,
 		minorCurrencyName,
@@ -2323,8 +2369,11 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetDecimalDigits(
 //         CurrencyNegativeValueFmt                  string
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
+//         CurrencyCodeNo                            string
 //         CurrencyName                              string
-//         CurrencySymbols                            rune
+//         CurrencySymbols                           []rune
+//         MinorCurrencyName                         string
+//         MinorCurrencySymbols                      []rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune
@@ -2408,6 +2457,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupD
 		fmtSpecSetupDto.CurrencyNegativeValueFmt,
 		fmtSpecSetupDto.CurrencyDecimalDigits,
 		fmtSpecSetupDto.CurrencyCode,
+		fmtSpecSetupDto.CurrencyCodeNo,
 		fmtSpecSetupDto.CurrencyName,
 		fmtSpecSetupDto.CurrencySymbols,
 		fmtSpecSetupDto.MinorCurrencyName,
@@ -3342,6 +3392,15 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
 //
+//  currencyCodeNo                string
+//     - The ISO 4217 Currency Code Number associated with this
+//       currency specification. The Currency Code Number is stored
+//       as a string per ISO 4217.
+//
+//       Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
 //  currencyName                  string
 //     - The official name for this currency.
 //
@@ -3433,6 +3492,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 	negativeValueFmt string,
 	decimalDigits uint,
 	currencyCode string,
+	currencyCodeNo string,
 	currencyName string,
 	currencySymbols []rune,
 	minorCurrencyName string,
@@ -3468,6 +3528,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 		negativeValueFmt,
 		decimalDigits,
 		currencyCode,
+		currencyCodeNo,
 		currencyName,
 		currencySymbols,
 		minorCurrencyName,

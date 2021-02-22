@@ -733,8 +733,11 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewFromComponents(
 //         CurrencyNegativeValueFmt                  string
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
+//         CurrencyCodeNo                            string
 //         CurrencyName                              string
-//         CurrencySymbols                            rune
+//         CurrencySymbols                           []rune
+//         MinorCurrencyName                         string
+//         MinorCurrencySymbols                      []rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune
@@ -997,8 +1000,11 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetExponentUsesLeadingP
 //         CurrencyNegativeValueFmt                  string
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
+//         CurrencyCodeNo                            string
 //         CurrencyName                              string
-//         CurrencySymbols                            rune
+//         CurrencySymbols                           []rune
+//         MinorCurrencyName                         string
+//         MinorCurrencySymbols                      []rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune

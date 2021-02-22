@@ -238,6 +238,15 @@ type numStrFmtSpecCurrencyValueDtoMechanics struct {
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
 //
+//  currencyCodeNo                string
+//     - The ISO 4217 Currency Code Number associated with this
+//       currency specification. The Currency Code Number is stored
+//       as a string per ISO 4217.
+//
+//       Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
 //  currencyName                  string
 //     - The official name for this currency.
 //
@@ -391,6 +400,7 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	negativeValueFmt string,
 	decimalDigits uint,
 	currencyCode string,
+	currencyCodeNo string,
 	currencyName string,
 	currencySymbols []rune,
 	minorCurrencyName string,
@@ -458,6 +468,9 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 
 	newNStrFmtSpecCurrencyValDto.currencyCode =
 		currencyCode
+
+	newNStrFmtSpecCurrencyValDto.currencyCodeNo =
+		currencyCodeNo
 
 	newNStrFmtSpecCurrencyValDto.currencyName =
 		currencyName

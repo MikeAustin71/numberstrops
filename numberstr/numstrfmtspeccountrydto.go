@@ -528,8 +528,11 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) New(
 //         CurrencyNegativeValueFmt                  string
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
+//         CurrencyCodeNo                            string
 //         CurrencyName                              string
-//         CurrencySymbols                            rune
+//         CurrencySymbols                           []rune
+//         MinorCurrencyName                         string
+//         MinorCurrencySymbols                      []rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune
@@ -954,8 +957,11 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetDescription(
 //         CurrencyNegativeValueFmt                  string
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
+//         CurrencyCodeNo                            string
 //         CurrencyName                              string
-//         CurrencySymbols                            rune
+//         CurrencySymbols                           []rune
+//         MinorCurrencyName                         string
+//         MinorCurrencySymbols                      []rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune
