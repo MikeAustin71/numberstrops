@@ -242,9 +242,12 @@ type numStrFmtSpecCurrencyValueDtoMechanics struct {
 //     - The official name for this currency.
 //
 //
-//  currencySymbol                rune
+//  currencySymbols                []rune
 //     - The authorized character symbol associated with this
-//       currency specification.
+//       currency specification. In the United States, the currency
+//       symbol is the dollar sign ('$'). Some countries and
+//       cultures have currency symbols consisting of two or more
+//       characters.
 //
 //
 //  minorCurrencyName             string
@@ -252,10 +255,12 @@ type numStrFmtSpecCurrencyValueDtoMechanics struct {
 //       currency name is 'Cent'.
 //
 //
-//  minorCurrencySymbol            rune
-//     - The unicode character for minor currency symbol. In the
-//       United States, the minor currency symbol is the cent sign
-//       (¢).
+//  minorCurrencySymbols            []rune
+//     - These are the unicode characters for minor currency
+//       symbols. In the United States, the minor currency symbol
+//       is the cent sign (¢), represented by a single unicode
+//       character ('\U000000a2'). Some countries and cultures have
+//       currency symbols consisting of two or more characters.
 //
 //
 //  turnOnIntegerDigitsSeparation bool
@@ -387,9 +392,9 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	decimalDigits uint,
 	currencyCode string,
 	currencyName string,
-	currencySymbol rune,
+	currencySymbols []rune,
 	minorCurrencyName string,
-	minorCurrencySymbol rune,
+	minorCurrencySymbols []rune,
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumericSeparatorsDto,
 	numFieldLenDto NumberFieldDto,
@@ -419,6 +424,27 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 		return err
 	}
 
+	if currencySymbols == nil {
+		currencySymbols = make([]rune, 0, 5)
+	}
+
+	lenCurrencySymbols := len(currencySymbols)
+
+	if lenCurrencySymbols == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'currencySymbols' is invalid!\n"+
+			"currencySymbols is a zero length rune array!\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	if minorCurrencySymbols == nil {
+		minorCurrencySymbols = make([]rune, 0, 5)
+	}
+
+	lenMinorCurrSymbols := len(minorCurrencySymbols)
+
 	newNStrFmtSpecCurrencyValDto := NumStrFmtSpecCurrencyValueDto{}
 
 	newNStrFmtSpecCurrencyValDto.positiveValueFmt =
@@ -436,8 +462,20 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	newNStrFmtSpecCurrencyValDto.currencyName =
 		currencyName
 
-	newNStrFmtSpecCurrencyValDto.currencySymbol =
-		currencySymbol
+	newNStrFmtSpecCurrencyValDto.currencySymbols =
+		make([]rune, lenCurrencySymbols, 10)
+
+	_ = copy(newNStrFmtSpecCurrencyValDto.currencySymbols,
+		currencySymbols)
+
+	newNStrFmtSpecCurrencyValDto.minorCurrencyName =
+		minorCurrencyName
+
+	newNStrFmtSpecCurrencyValDto.minorCurrencySymbols =
+		make([]rune, lenMinorCurrSymbols, 10)
+
+	_ = copy(newNStrFmtSpecCurrencyValDto.minorCurrencySymbols,
+		minorCurrencySymbols)
 
 	newNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation =
 		turnOnIntegerDigitsSeparation

@@ -1446,8 +1446,8 @@ func (nStrDtoAtom *numStrDtoAtom) formatCurrencyStr(
 
 	}
 
-	// numStrDto.currencySymbol
-	outRunes[outIdx] = currencyFormat.GetCurrencySymbol()
+	// numStrDto.currencySymbols
+	outRunes[outIdx] = currencyFormat.GetCurrencySymbols()
 
 	// If required, add leading negative
 	// value sign

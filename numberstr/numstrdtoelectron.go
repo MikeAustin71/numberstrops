@@ -730,7 +730,7 @@ func (nStrDtoElectron *numStrDtoElectron) getDecimalSeparator(
 //
 // Return Values
 //
-//  currencySymbol      rune
+//  currencySymbols      rune
 //     - If this method completes successfully, this rune value will
 //       contain the currency symbol associated with input parameter
 //       'numStrDto'.
@@ -789,7 +789,7 @@ func (nStrDtoElectron *numStrDtoElectron) getCurrencySymbol(
 	}
 
 	currencySymbol =
-		numStrDto.fmtSpec.currencyValue.GetCurrencySymbol()
+		numStrDto.fmtSpec.currencyValue.GetCurrencySymbols()
 
 	return currencySymbol, err
 }
@@ -1728,13 +1728,13 @@ func (nStrDtoElectron numStrDtoElectron) ptr() *numStrDtoElectron {
 //  numStrDto           *NumStrDto
 //     - A pointer to an instance of NumStrDto. This method WILL
 //       CHANGE and overwrite the value of internal member variable
-//       numStrDto.currencySymbol.
+//       numStrDto.currencySymbols.
 //
 //
-//  currencySymbol      rune
+//  currencySymbols      rune
 //     - This rune or text character conveys the currency symbol
 //       which will populate the internal member variable
-//       'numStrDto.currencySymbol' for the input parameter,
+//       'numStrDto.currencySymbols' for the input parameter,
 //       'numStrDto'.
 //
 //
@@ -1797,7 +1797,7 @@ func (nStrDtoElectron *numStrDtoElectron) setCurrencySymbol(
 
 	numStrDto.fmtSpec.
 		currencyValue.
-		currencySymbol = currencySymbol
+		currencySymbols = currencySymbol
 
 	return err
 }
@@ -2272,7 +2272,7 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparatorsToDefaultIfEmpty(
 //     - A pointer to an instance of NumStrDto. This method WILL
 //       CHANGE and overwrite the value of internal member variables
 //       'numStrDto.decimalSeparator', 'numStrDto.integerDigitsSeparator'
-//       and 'numStrDto.currencySymbol'.
+//       and 'numStrDto.currencySymbols'.
 //
 //
 //  decimalSeparator    rune
@@ -2289,10 +2289,10 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparatorsToDefaultIfEmpty(
 //       'numStrDto'.
 //
 //
-//  currencySymbol    rune
+//  currencySymbols    rune
 //     - This rune or text character conveys the currency symbol
 //       character which will populate the internal member variable
-//       'numStrDto.currencySymbol' for the input parameter,
+//       'numStrDto.currencySymbols' for the input parameter,
 //       'numStrDto'.
 //
 //
@@ -2415,7 +2415,7 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 
 	numStrDto.fmtSpec.
 		currencyValue.
-		currencySymbol = currencySymbol
+		currencySymbols = currencySymbol
 
 	return err
 }

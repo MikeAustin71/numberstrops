@@ -11,9 +11,9 @@ type NumStrFmtSpecCurrencyValueDto struct {
 	decimalDigits                 uint
 	currencyCode                  string
 	currencyName                  string
-	currencySymbol                rune
-	minorCurrencySymbol           rune
+	currencySymbols               []rune
 	minorCurrencyName             string
+	minorCurrencySymbols          []rune
 	turnOnIntegerDigitsSeparation bool
 	numberSeparatorsDto           NumericSeparatorsDto
 	numFieldLenDto                NumberFieldDto
@@ -211,11 +211,15 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencyName() st
 	return nStrFmtSpecCurrValDto.currencyName
 }
 
-// GetCurrencySymbol - Returns the currency symbol associated
-// with this currency. Reference:
+// GetCurrencySymbols - Returns the currency symbols associated
+// with this currency. The currency symbol for the United States is
+// the dollar sign ('$'). Some countries and cultures have currency
+// symbols consisting of two or more characters.
+//
+// Reference:
 //        https://www.xe.com/symbols.php
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencySymbol() rune {
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencySymbols() []rune {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -225,7 +229,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencySymbol() 
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	return nStrFmtSpecCurrValDto.currencySymbol
+	return nStrFmtSpecCurrValDto.currencySymbols
 }
 
 // GetDecimalDigits - Returns the standard number of
@@ -879,20 +883,24 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //     - The official name for this currency.
 //
 //
+//  currencySymbols               []rune
+//     - The authorized unicode character symbol associated with
+//       this currency specification. The currency symbol for the
+//       United States is the dollar sign ('$'). Some countries and
+//       cultures have currency symbols consisting of two or more
+//       characters.
+//
+//
 //  minorCurrencyName             string
 //     - The minor currency name. In the United States, the minor
 //       currency name is 'Cent'.
 //
 //
-//  minorCurrencySymbol            rune
+//  minorCurrencySymbols          []rune
 //     - The unicode character for minor currency symbol. In the
 //       United States, the minor currency symbol is the cent sign
-//       (¢).
-//
-//
-//  currencySymbol                rune
-//     - The authorized unicode character symbol associated with
-//       this currency specification. Example: '$'
+//       (¢). Some countries and cultures have currency symbols
+//       consisting of two or more characters.
 //
 //
 //  turnOnIntegerDigitsSeparation bool
@@ -1001,9 +1009,9 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 	decimalDigits uint,
 	currencyCode string,
 	currencyName string,
-	currencySymbol rune,
+	currencySymbols []rune,
 	minorCurrencyName string,
-	minorCurrencySymbol rune,
+	minorCurrencySymbols []rune,
 	turnOnIntegerDigitsSeparation bool,
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
@@ -1041,9 +1049,9 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 			decimalDigits,
 			currencyCode,
 			currencyName,
-			currencySymbol,
+			currencySymbols,
 			minorCurrencyName,
-			minorCurrencySymbol,
+			minorCurrencySymbols,
 			turnOnIntegerDigitsSeparation,
 			decimalSeparatorChar,
 			thousandsSeparatorChar,
@@ -1283,9 +1291,12 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //     - The official name for this currency.
 //
 //
-//  currencySymbol                rune
-//     - The authorized character symbol associated with this
-//       currency specification.
+//  currencySymbols               []rune
+//     - The authorized unicode character symbols associated with
+//       this currency specification. The currency symbol for the
+//       United States is the dollar sign ('$'). Some countries and
+//       cultures have currency symbols consisting of two or more
+//       characters.
 //
 //
 //  minorCurrencyName             string
@@ -1293,10 +1304,11 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //       currency name is 'Cent'.
 //
 //
-//  minorCurrencySymbol            rune
+//  minorCurrencySymbols          []rune
 //     - The unicode character for minor currency symbol. In the
 //       United States, the minor currency symbol is the cent sign
-//       (¢).
+//       (¢). Some countries and cultures have currency symbols
+//       consisting of two or more characters.
 //
 //
 //  turnOnIntegerDigitsSeparation bool
@@ -1434,9 +1446,9 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 	decimalDigits uint,
 	currencyCode string,
 	currencyName string,
-	currencySymbol rune,
+	currencySymbols []rune,
 	minorCurrencyName string,
-	minorCurrencySymbol rune,
+	minorCurrencySymbols []rune,
 	turnOnIntegerDigitsSeparation bool,
 	numericSeparatorsDto NumericSeparatorsDto,
 	numFieldDto NumberFieldDto,
@@ -1470,9 +1482,9 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 		decimalDigits,
 		currencyCode,
 		currencyName,
-		currencySymbol,
+		currencySymbols,
 		minorCurrencyName,
-		minorCurrencySymbol,
+		minorCurrencySymbols,
 		turnOnIntegerDigitsSeparation,
 		numericSeparatorsDto,
 		numFieldDto,
@@ -1518,7 +1530,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromComponents(
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
 //         CurrencyName                              string
-//         CurrencySymbol                            rune
+//         CurrencySymbols                            rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune
@@ -1615,9 +1627,9 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewFromFmtSpecSetupDt
 		fmtSpecSetupDto.CurrencyDecimalDigits,
 		fmtSpecSetupDto.CurrencyCode,
 		fmtSpecSetupDto.CurrencyName,
-		fmtSpecSetupDto.CurrencySymbol,
+		fmtSpecSetupDto.CurrencySymbols,
 		fmtSpecSetupDto.MinorCurrencyName,
-		fmtSpecSetupDto.MinorCurrencySymbol,
+		fmtSpecSetupDto.MinorCurrencySymbols,
 		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
 		fmtSpecSetupDto.DecimalSeparator,
 		fmtSpecSetupDto.IntegerDigitsSeparator,
@@ -1667,8 +1679,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyName(
 	nStrFmtSpecCurrValDto.currencyName = currencyName
 }
 
-// SetCurrencySymbol - Sets the currency name associated with
-// this currency.
+// SetCurrencySymbol - Sets the currency name and currency symbols
+// associated with this currency.
+//
 // Reference:
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
@@ -1677,8 +1690,16 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyName(
 //
 // Input Parameters
 //
-//  currencySymbol      rune
-//     - Unicode character for the currency symbol.
+//  currencyName        string
+//     - The official name for this currency.
+//
+//
+//  currencySymbols     []rune
+//     - The authorized unicode character symbols associated with
+//       this currency specification. The currency symbol for the
+//       United States is the dollar sign ('$'). Some countries and
+//       cultures have currency symbols consisting of two or more
+//       characters.
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -1706,7 +1727,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyName(
 //       error message.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
-	currencySymbol rune,
+	currencyName string,
+	currencySymbols []rune,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
@@ -1726,16 +1748,30 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 
 	err = nil
 
-	if currencySymbol == 0 {
+	if currencySymbols == nil {
+		currencySymbols = make([]rune, 0, 5)
+	}
+
+	lenCurrencySymbols := len(currencySymbols)
+
+	if lenCurrencySymbols == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'currencySymbol' is invalid!\n"+
-			"The currency symbol is empty or missing.\n"+
-			"currencySymbol==0\n",
+			"Error: Input parameter 'currencySymbols' is invalid!\n"+
+			"The currency symbols rune array has a zero length.\n"+
+			"len(currencySymbols)==0\n",
 			ePrefix.String())
 		return err
 	}
 
-	nStrFmtSpecCurrValDto.currencySymbol = currencySymbol
+	nStrFmtSpecCurrValDto.currencySymbols =
+		make([]rune, lenCurrencySymbols, 10)
+
+	_ = copy(
+		nStrFmtSpecCurrValDto.currencySymbols,
+		currencySymbols)
+
+	nStrFmtSpecCurrValDto.currencyName =
+		currencyName
 
 	return err
 }
@@ -1969,17 +2005,22 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbol(
 //     - The official name for this currency.
 //
 //
-//  currencySymbol                rune
-//     - The authorized character symbol associated with this
-//       currency specification.
+//  currencySymbols               []rune
+//     - The authorized unicode character symbols associated with
+//       this currency specification. The currency symbol for the
+//       United States is the dollar sign ('$'). Some countries and
+//       cultures have currency symbols consisting of two or more
+//       characters.
 //
 //
 //  minorCurrencyName             string
-//     - The minor currency name. In the United States, the minor
-//       currency name is 'Cent'.
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢). Some countries and cultures have currency symbols
+//       consisting of two or more characters.
 //
 //
-//  minorCurrencySymbol            rune
+//  minorCurrencySymbols          []rune
 //     - The unicode character for minor currency symbol. In the
 //       United States, the minor currency symbol is the cent sign
 //       (¢).
@@ -2112,9 +2153,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 	decimalDigits uint,
 	currencyCode string,
 	currencyName string,
-	currencySymbol rune,
+	currencySymbols []rune,
 	minorCurrencyName string,
-	minorCurrencySymbol rune,
+	minorCurrencySymbols []rune,
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumericSeparatorsDto,
 	numFieldDto NumberFieldDto,
@@ -2144,9 +2185,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyValDto(
 		decimalDigits,
 		currencyCode,
 		currencyName,
-		currencySymbol,
+		currencySymbols,
 		minorCurrencyName,
-		minorCurrencySymbol,
+		minorCurrencySymbols,
 		turnOnIntegerDigitsSeparation,
 		numberSeparatorsDto,
 		numFieldDto,
@@ -2212,7 +2253,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetDecimalDigits(
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
 //         CurrencyName                              string
-//         CurrencySymbol                            rune
+//         CurrencySymbols                            rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune
@@ -2293,9 +2334,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupD
 		fmtSpecSetupDto.CurrencyDecimalDigits,
 		fmtSpecSetupDto.CurrencyCode,
 		fmtSpecSetupDto.CurrencyName,
-		fmtSpecSetupDto.CurrencySymbol,
+		fmtSpecSetupDto.CurrencySymbols,
 		fmtSpecSetupDto.MinorCurrencyName,
-		fmtSpecSetupDto.MinorCurrencySymbol,
+		fmtSpecSetupDto.MinorCurrencySymbols,
 		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
 		fmtSpecSetupDto.DecimalSeparator,
 		fmtSpecSetupDto.IntegerDigitsSeparator,
@@ -2303,6 +2344,103 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetFromFmtSpecSetupD
 		fmtSpecSetupDto.CurrencyNumFieldLen,
 		fmtSpecSetupDto.CurrencyNumFieldTextJustify,
 		ePrefix)
+}
+
+// SetMinorCurrencySymbol - Sets the minor currency name and
+// minor currency symbols associated with this currency.
+//
+// Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  minorCurrencyName             string
+//     - The minor currency name. In the United States, the minor
+//       currency name is 'Cent'.
+//
+//
+//  minorCurrencySymbols          []rune
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢). Some countries and cultures have currency symbols
+//       consisting of two or more characters.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetMinorCurrencySymbol(
+	minorCurrencyName string,
+	minorCurrencySymbols []rune,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtSpecCurrValDto.lock == nil {
+		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDto.lock.Lock()
+
+	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetCurrencySymbol()")
+
+	err = nil
+
+	if minorCurrencySymbols == nil {
+		minorCurrencySymbols = make([]rune, 0, 5)
+	}
+
+	lenMinorCurrencySymbols := len(minorCurrencySymbols)
+
+	if lenMinorCurrencySymbols == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'minorCurrencySymbols' is invalid!\n"+
+			"The currency symbols rune array has a zero length.\n"+
+			"len(minorCurrencySymbols)==0\n",
+			ePrefix.String())
+		return err
+	}
+
+	nStrFmtSpecCurrValDto.minorCurrencySymbols =
+		make([]rune, lenMinorCurrencySymbols, 10)
+
+	_ = copy(
+		nStrFmtSpecCurrValDto.minorCurrencySymbols,
+		minorCurrencySymbols)
+
+	nStrFmtSpecCurrValDto.minorCurrencyName =
+		minorCurrencyName
+
+	return err
 }
 
 // SetNegativeValueFormat - Sets the currency negative value format
@@ -3086,9 +3224,12 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //     - The official name for this currency.
 //
 //
-//  currencySymbol                rune
-//     - The authorized character symbol associated with this
-//       currency specification.
+//  currencySymbols               []rune
+//     - The authorized unicode character symbol associated with
+//       this currency specification. The currency symbol for the
+//       United States is the dollar sign ('$'). Some countries and
+//       cultures have currency symbols consisting of two or more
+//       characters.
 //
 //
 //  minorCurrencyName             string
@@ -3096,10 +3237,11 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //       currency name is 'Cent'.
 //
 //
-//  minorCurrencySymbol            rune
+//  minorCurrencySymbols          []rune
 //     - The unicode character for minor currency symbol. In the
 //       United States, the minor currency symbol is the cent sign
-//       (¢).
+//       (¢). Some countries and cultures have currency symbols
+//       consisting of two or more characters.
 //
 //
 //  turnOnIntegerDigitsSeparation bool
@@ -3200,9 +3342,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 	decimalDigits uint,
 	currencyCode string,
 	currencyName string,
-	currencySymbol rune,
+	currencySymbols []rune,
 	minorCurrencyName string,
-	minorCurrencySymbol rune,
+	minorCurrencySymbols []rune,
 	turnOnIntegerDigitsSeparation bool,
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
@@ -3234,9 +3376,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 		decimalDigits,
 		currencyCode,
 		currencyName,
-		currencySymbol,
+		currencySymbols,
 		minorCurrencyName,
-		minorCurrencySymbol,
+		minorCurrencySymbols,
 		turnOnIntegerDigitsSeparation,
 		decimalSeparatorChar,
 		thousandsSeparatorChar,

@@ -1195,7 +1195,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
 //         CurrencyName                              string
-//         CurrencySymbol                            rune
+//         CurrencySymbols                            rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune
@@ -1341,7 +1341,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromFmtSpe
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
 //         CurrencyName                              string
-//         CurrencySymbol                            rune
+//         CurrencySymbols                            rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune

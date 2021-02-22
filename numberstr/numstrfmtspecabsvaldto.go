@@ -1015,7 +1015,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
 //         CurrencyName                              string
-//         CurrencySymbol                            rune
+//         CurrencySymbols                            rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune
@@ -1484,7 +1484,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsValDto(
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
 //         CurrencyName                              string
-//         CurrencySymbol                            rune
+//         CurrencySymbols                            rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune

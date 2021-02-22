@@ -3104,7 +3104,7 @@ func (nDto NumStrDto) NewBigFloat(
 //            ThousandsSeparator rune // Character used to separate thousands
 //                                    //  (1,000,000,000
 //
-//            CurrencySymbol     rune // Currency Symbol
+//            CurrencySymbols     rune // Currency Symbol
 //          }
 //
 //       If any of the data fields in this passed structure
@@ -4708,7 +4708,7 @@ func (nDto NumStrDto) NewNumStr(
 //            ThousandsSeparator rune // Character used to separate thousands
 //                                    //  (1,000,000,000
 //
-//            CurrencySymbol     rune // Currency Symbol
+//            CurrencySymbols     rune // Currency Symbol
 //          }
 //
 //       If any of the data fields in this passed structure
@@ -6037,7 +6037,7 @@ func (nDto *NumStrDto) ScaleNumStr(
 // In the USA, the currency symbol is the dollar sign ('$').
 //
 // Note: If a zero value is submitted for input parameter
-// 'currencySymbol', the USA dollar sign ('$') will be assigned
+// 'currencySymbols', the USA dollar sign ('$') will be assigned
 // as the default currency symbol.
 //
 // For a list of Major Currency Unicode Symbols, see constants
@@ -6050,10 +6050,10 @@ func (nDto *NumStrDto) ScaleNumStr(
 //
 // Input Parameters
 //
-//  currencySymbol      rune
+//  currencySymbols      rune
 //     - This rune or text character conveys the currency symbol
 //       will populate the internal member variable
-//       'nDto.currencySymbol' for the current NumStrDto
+//       'nDto.currencySymbols' for the current NumStrDto
 //       instance.
 //
 //
@@ -6257,10 +6257,10 @@ func (nDto *NumStrDto) SetThousandsSeparator(thousandsSeparator rune) {
 //       'nDto.integerDigitsSeparator' for the current NumStrDto instance.
 //
 //
-//  currencySymbol      rune
+//  currencySymbols      rune
 //     - This rune or text character conveys the currency symbol
 //       will populate the internal member variable
-//       'nDto.currencySymbol' for the current NumStrDto
+//       'nDto.currencySymbols' for the current NumStrDto
 //       instance.
 //
 //
@@ -6314,7 +6314,7 @@ func (nDto *NumStrDto) SetNumericSeparators(
 //          type NumericSeparatorsDto struct {
 //            DecimalSeparator   rune // Character used to separate integer and fractional digits ('.')
 //            ThousandsSeparator rune // Character used to separate thousands (1,000,000,000
-//            CurrencySymbol     rune // Currency Symbol
+//            CurrencySymbols     rune // Currency Symbol
 //          }
 //
 //

@@ -43,11 +43,11 @@ func (nStrFmtSpecCurrDtoMolecule *numStrFmtSpecCurrencyValueDtoMolecule) testVal
 		return isValid, err
 	}
 
-	if nStrFmtSpecCurrencyValDto.currencySymbol == 0 {
+	if nStrFmtSpecCurrencyValDto.currencySymbols == 0 {
 		err = fmt.Errorf("%v\n"+
 			"Error: The Currency Symbol is missing!\n"+
 			"The currency symbol is set to zero and is therefore invalid.\n"+
-			"NumStrFmtSpecCurrencyValueDto.currencySymbol == 0\n",
+			"NumStrFmtSpecCurrencyValueDto.currencySymbols == 0\n",
 			ePrefix.String())
 
 		return isValid, err

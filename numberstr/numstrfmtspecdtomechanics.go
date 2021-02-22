@@ -71,7 +71,7 @@ func (nStrFmtSpecDtoMech numStrFmtSpecDtoMechanics) ptr() *numStrFmtSpecDtoMecha
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
 //         CurrencyName                              string
-//         CurrencySymbol                            rune
+//         CurrencySymbols                            rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune

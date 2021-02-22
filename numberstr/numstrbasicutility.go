@@ -284,7 +284,7 @@ func (ns NumStrBasicUtility) DLimI64(
 //       ('.') and it is known as the decimal point.
 //
 //
-//  currencySymbol                 rune
+//  currencySymbols                 rune
 //     - A unicode character used for the currency symbol. This
 //       currency symbol will be prefixed or attached to the
 //       beginning of the final, returned number string. In the
@@ -308,7 +308,7 @@ func (ns NumStrBasicUtility) DLimI64(
 //       digits separated into thousands by the delimiter character
 //       supplied in input parameter, 'integerDigitsSeparator'. It
 //       will also be prefixed with the currency symbol supplied by
-//       input parameter, 'currencySymbol'. Floating point numeric
+//       input parameter, 'currencySymbols'. Floating point numeric
 //       values will be properly formatted and delimited using the
 //       'decimalSeparator' character.
 //

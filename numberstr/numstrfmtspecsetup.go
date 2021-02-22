@@ -26,9 +26,9 @@ type NumStrFmtSpecSetupDto struct {
 	CurrencyDecimalDigits                     uint
 	CurrencyCode                              string
 	CurrencyName                              string
-	CurrencySymbol                            rune
+	CurrencySymbols                           []rune
 	MinorCurrencyName                         string
-	MinorCurrencySymbol                       rune
+	MinorCurrencySymbols                      []rune
 	CurrencyTurnOnIntegerDigitsSeparation     bool
 	CurrencyNumFieldLen                       int
 	CurrencyNumFieldTextJustify               TextJustify

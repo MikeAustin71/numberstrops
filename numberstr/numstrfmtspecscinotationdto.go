@@ -734,7 +734,7 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewFromComponents(
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
 //         CurrencyName                              string
-//         CurrencySymbol                            rune
+//         CurrencySymbols                            rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune
@@ -998,7 +998,7 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetExponentUsesLeadingP
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
 //         CurrencyName                              string
-//         CurrencySymbol                            rune
+//         CurrencySymbols                            rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune

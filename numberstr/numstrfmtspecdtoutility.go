@@ -167,7 +167,7 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setDefaultFormatSpec(
 //            Example: '1000000000'
 //
 //
-//  currencySymbol                rune
+//  currencySymbols                rune
 //     - The authorized unicode character symbol associated with
 //       this currency. Example: '$'
 //
@@ -607,8 +607,8 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 
 	if currencySymbol == 0 {
 		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'currencySymbol' is invalid!\n"+
-			"currencySymbol== '0'\n",
+			"Error: Input parameter 'currencySymbols' is invalid!\n"+
+			"currencySymbols== '0'\n",
 			ePrefix.String())
 	}
 
@@ -705,7 +705,7 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "Custom"
 	setupDto.CurrencyName = "CUSTOM"
-	setupDto.CurrencySymbol = currencySymbol
+	setupDto.CurrencySymbols = currencySymbol
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = turnOnThousandsSeparator
 	setupDto.CurrencyNumFieldLen = requestedNumberFieldLen
 

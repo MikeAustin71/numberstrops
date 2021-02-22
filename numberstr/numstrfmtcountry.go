@@ -112,7 +112,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina() (setupDto NumStrFmtSpecSe
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "ARS"
 	setupDto.CurrencyName = "Peso"
-	setupDto.CurrencySymbol = '\U00000024'
+	setupDto.CurrencySymbols = '\U00000024'
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 
@@ -191,7 +191,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia() (setupDto NumStrFmtSpecSe
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "AUD"
 	setupDto.CurrencyName = "Dollar"
-	setupDto.CurrencySymbol = '\U00000024'
+	setupDto.CurrencySymbols = '\U00000024'
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 
@@ -269,7 +269,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Canada() (setupDto NumStrFmtSpecSetup
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "CAD"
 	setupDto.CurrencyName = "Dollar"
-	setupDto.CurrencySymbol = '\U00000024'
+	setupDto.CurrencySymbols = '\U00000024'
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 
@@ -348,7 +348,7 @@ func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench() (setupDto NumStrFmtSpe
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "CAD"
 	setupDto.CurrencyName = "Dollar"
-	setupDto.CurrencySymbol = '\U00000024'
+	setupDto.CurrencySymbols = '\U00000024'
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 
@@ -427,9 +427,9 @@ func (nStrFmtCountry *NumStrFormatCountry) Czechia() (setupDto NumStrFmtSpecSetu
 	setupDto.CurrencyDecimalDigits = 0
 	setupDto.CurrencyCode = "CZK"
 	setupDto.CurrencyName = "Koruna"
-	setupDto.CurrencySymbol = '\U0004b10d'
+	setupDto.CurrencySymbols = '\U0004b10d'
 	setupDto.MinorCurrencyName = "Haler"
-	setupDto.MinorCurrencySymbol = 0
+	setupDto.MinorCurrencySymbols = 0
 
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
@@ -508,9 +508,9 @@ func (nStrFmtCountry *NumStrFormatCountry) Chile() (setupDto NumStrFmtSpecSetupD
 	setupDto.CurrencyDecimalDigits = 0
 	setupDto.CurrencyCode = "CLP"
 	setupDto.CurrencyName = "Peso"
-	setupDto.CurrencySymbol = '\U00000024'
+	setupDto.CurrencySymbols = '\U00000024'
 	setupDto.MinorCurrencyName = "centavo"
-	setupDto.MinorCurrencySymbol = 0
+	setupDto.MinorCurrencySymbols = 0
 
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
@@ -590,7 +590,7 @@ func (nStrFmtCountry *NumStrFormatCountry) China() (setupDto NumStrFmtSpecSetupD
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "CNY"
 	setupDto.CurrencyName = "Yuan"
-	setupDto.CurrencySymbol = '\U000000a5'
+	setupDto.CurrencySymbols = '\U000000a5'
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 
@@ -669,9 +669,9 @@ func (nStrFmtCountry *NumStrFormatCountry) Columbia() (setupDto NumStrFmtSpecSet
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "COP"
 	setupDto.CurrencyName = "Peso"
-	setupDto.CurrencySymbol = '\U00000024'
+	setupDto.CurrencySymbols = '\U00000024'
 	setupDto.MinorCurrencyName = "centavo"
-	setupDto.MinorCurrencySymbol = 0
+	setupDto.MinorCurrencySymbols = 0
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 
@@ -753,7 +753,7 @@ func (nStrFmtCountry *NumStrFormatCountry) France() (setupDto NumStrFmtSpecSetup
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "EUR"
 	setupDto.CurrencyName = "Euro"
-	setupDto.CurrencySymbol = '\U000020ac'
+	setupDto.CurrencySymbols = '\U000020ac'
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 
@@ -835,7 +835,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Germany() (setupDto NumStrFmtSpecSetu
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "EUR"
 	setupDto.CurrencyName = "Euro"
-	setupDto.CurrencySymbol = '\U000020ac'
+	setupDto.CurrencySymbols = '\U000020ac'
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 
@@ -917,7 +917,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy() (setupDto NumStrFmtSpecSetupD
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "EUR"
 	setupDto.CurrencyName = "Euro"
-	setupDto.CurrencySymbol = '\U000020ac'
+	setupDto.CurrencySymbols = '\U000020ac'
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 
@@ -998,7 +998,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel() (setupDto NumStrFmtSpecSetup
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "ILS"
 	setupDto.CurrencyName = "Shekel"
-	setupDto.CurrencySymbol = '\U000020aa'
+	setupDto.CurrencySymbols = '\U000020aa'
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 
@@ -1077,9 +1077,9 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() (setupDto NumStrFmtSp
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "GBP"
 	setupDto.CurrencyName = "Pound"
-	setupDto.CurrencySymbol = '\U000000a3'
+	setupDto.CurrencySymbols = '\U000000a3'
 	setupDto.CurrencyName = "Pence"
-	setupDto.CurrencySymbol = 0
+	setupDto.CurrencySymbols = 0
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 
@@ -1157,9 +1157,9 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates() (setupDto NumStrFmtSpe
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "USD"
 	setupDto.CurrencyName = "Dollar"
-	setupDto.CurrencySymbol = '\U00000024'
+	setupDto.CurrencySymbols = '\U00000024'
 	setupDto.MinorCurrencyName = "Cent"
-	setupDto.MinorCurrencySymbol = '\U000000a2'
+	setupDto.MinorCurrencySymbols = '\U000000a2'
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
 

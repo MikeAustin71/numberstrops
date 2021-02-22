@@ -84,11 +84,11 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 	targetNStrFmtSpecCurrencyValDto.currencyName =
 		inComingNStrFmtSpecCurrencyValDto.currencyName
 
-	targetNStrFmtSpecCurrencyValDto.currencySymbol =
-		inComingNStrFmtSpecCurrencyValDto.currencySymbol
+	targetNStrFmtSpecCurrencyValDto.currencySymbols =
+		inComingNStrFmtSpecCurrencyValDto.currencySymbols
 
-	targetNStrFmtSpecCurrencyValDto.minorCurrencySymbol =
-		inComingNStrFmtSpecCurrencyValDto.minorCurrencySymbol
+	targetNStrFmtSpecCurrencyValDto.minorCurrencySymbols =
+		inComingNStrFmtSpecCurrencyValDto.minorCurrencySymbols
 
 	targetNStrFmtSpecCurrencyValDto.minorCurrencyName =
 		inComingNStrFmtSpecCurrencyValDto.minorCurrencyName
@@ -178,11 +178,11 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 	newNStrFmtSpecCurrencyValDto.currencyName =
 		nStrFmtSpecCurrencyValDto.currencyName
 
-	newNStrFmtSpecCurrencyValDto.currencySymbol =
-		nStrFmtSpecCurrencyValDto.currencySymbol
+	newNStrFmtSpecCurrencyValDto.currencySymbols =
+		nStrFmtSpecCurrencyValDto.currencySymbols
 
-	newNStrFmtSpecCurrencyValDto.minorCurrencySymbol =
-		nStrFmtSpecCurrencyValDto.minorCurrencySymbol
+	newNStrFmtSpecCurrencyValDto.minorCurrencySymbols =
+		nStrFmtSpecCurrencyValDto.minorCurrencySymbols
 
 	newNStrFmtSpecCurrencyValDto.minorCurrencyName =
 		nStrFmtSpecCurrencyValDto.minorCurrencyName

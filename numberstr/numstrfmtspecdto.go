@@ -270,7 +270,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySymbol() rune {
 
 	defer fmtSpecDto.lock.Unlock()
 
-	return fmtSpecDto.currencyValue.GetCurrencySymbol()
+	return fmtSpecDto.currencyValue.GetCurrencySymbols()
 }
 
 // GetIntegerDigitsSeparator - Returns the integer digits or
@@ -537,7 +537,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) IsValidInstanceError(
 //            Example: '1000000000'
 //
 //
-//  currencySymbol                rune
+//  currencySymbols                rune
 //     - The authorized unicode character symbol associated with
 //       this currency. Example: '$'
 //
@@ -1168,7 +1168,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromComponents(
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
 //         CurrencyName                              string
-//         CurrencySymbol                            rune
+//         CurrencySymbols                            rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune
@@ -1299,7 +1299,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromFmtSpecSetupDto(
 //         CurrencyDecimalDigits                     int
 //         CurrencyCode                              string
 //         CurrencyName                              string
-//         CurrencySymbol                            rune
+//         CurrencySymbols                            rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
 //         CurrencyNumFieldLen                       int
 //         DecimalSeparator                          rune

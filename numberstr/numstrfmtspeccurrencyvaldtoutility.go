@@ -244,7 +244,7 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 //     - The official name for this currency.
 //
 //
-//  currencySymbol                rune
+//  currencySymbols                rune
 //     - The authorized character symbol associated with this
 //       currency specification.
 //
@@ -254,7 +254,7 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 //       currency name is 'Cent'.
 //
 //
-//  minorCurrencySymbol            rune
+//  minorCurrencySymbols            rune
 //     - The unicode character for minor currency symbol. In the
 //       United States, the minor currency symbol is the cent sign
 //       (¢).
@@ -384,9 +384,9 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 	decimalDigits uint,
 	currencyCode string,
 	currencyName string,
-	currencySymbol rune,
+	currencySymbols []rune,
 	minorCurrencyName string,
-	minorCurrencySymbol rune,
+	minorCurrencySymbols []rune,
 	turnOnIntegerDigitsSeparation bool,
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
@@ -458,9 +458,9 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 		decimalDigits,
 		currencyCode,
 		currencyName,
-		currencySymbol,
+		currencySymbols,
 		minorCurrencyName,
-		minorCurrencySymbol,
+		minorCurrencySymbols,
 		turnOnIntegerDigitsSeparation,
 		numberSeparatorsDto,
 		numFieldDto,
