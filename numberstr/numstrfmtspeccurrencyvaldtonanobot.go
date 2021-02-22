@@ -92,6 +92,9 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 	targetNStrFmtSpecCurrencyValDto.currencyCode =
 		inComingNStrFmtSpecCurrencyValDto.currencyCode
 
+	targetNStrFmtSpecCurrencyValDto.currencyCodeNo =
+		inComingNStrFmtSpecCurrencyValDto.currencyCodeNo
+
 	targetNStrFmtSpecCurrencyValDto.currencyName =
 		inComingNStrFmtSpecCurrencyValDto.currencyName
 
@@ -207,6 +210,9 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 
 	newNStrFmtSpecCurrencyValDto.currencyCode =
 		nStrFmtSpecCurrencyValDto.currencyCode
+
+	newNStrFmtSpecCurrencyValDto.currencyCodeNo =
+		nStrFmtSpecCurrencyValDto.currencyCodeNo
 
 	newNStrFmtSpecCurrencyValDto.currencyName =
 		nStrFmtSpecCurrencyValDto.currencyName

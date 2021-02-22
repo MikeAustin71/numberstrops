@@ -10,6 +10,7 @@ type NumStrFmtSpecCurrencyValueDto struct {
 	negativeValueFmt              string
 	decimalDigits                 uint
 	currencyCode                  string
+	currencyCodeNo                int
 	currencyName                  string
 	currencySymbols               []rune
 	minorCurrencyName             string
@@ -195,6 +196,24 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencyCode() st
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
 	return nStrFmtSpecCurrValDto.currencyCode
+}
+
+// GetCurrencyCodeNo - Returns the ISO 4217 Currency Code Number
+// associated with this currency specification.
+// Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencyCodeNo() int {
+
+	if nStrFmtSpecCurrValDto.lock == nil {
+		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDto.lock.Lock()
+
+	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	return nStrFmtSpecCurrValDto.currencyCodeNo
 }
 
 // GetCurrencyName - Returns the official name of this
@@ -1691,6 +1710,25 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyCode(
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
 	nStrFmtSpecCurrValDto.currencyCode = currencyCode
+}
+
+// SetCurrencyCodeNo - Sets the currency code number associated
+// with this currency. Currency code numbers are designated by the
+// ISO 4217 standard. Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyCodeNo(
+	currencyCodeNo int) {
+
+	if nStrFmtSpecCurrValDto.lock == nil {
+		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDto.lock.Lock()
+
+	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	nStrFmtSpecCurrValDto.currencyCodeNo = currencyCodeNo
 }
 
 // SetCurrencyName - Sets the currency name associated with
