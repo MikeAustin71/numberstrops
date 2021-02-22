@@ -15,6 +15,7 @@ import (
 //  https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
 //  https://www.codeproject.com/articles/78175/international-number-formats
 //  https://www.thefinancials.com/Default.aspx?SubSectionID=curformat
+//  https://en.wikipedia.org/wiki/List_of_circulating_currencies - Symbols with decoding
 //  https://docs.oracle.com/cd/E19455-01/806-0169/overview-9/index.html
 //  https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
 //  https://en.wikipedia.org/wiki/Decimal_separator
@@ -112,6 +113,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina() (setupDto NumStrFmtSpecSe
 	setupDto.CurrencyNegativeValueFmt = "-$ 127.54"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "ARS"
+	setupDto.CurrencyCodeNo = "032"
 	setupDto.CurrencyName = "Peso"
 	setupDto.CurrencySymbols = []rune{'\U00000024'}
 
@@ -195,6 +197,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia() (setupDto NumStrFmtSpecSe
 	setupDto.CurrencyNegativeValueFmt = "-$ 127.54"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "AUD"
+	setupDto.CurrencyCodeNo = "036"
 	setupDto.CurrencyName = "Dollar"
 	setupDto.CurrencySymbols = []rune{'\U00000024'}
 
@@ -277,6 +280,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Brazil() (setupDto NumStrFmtSpecSetup
 	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "BRL"
+	setupDto.CurrencyCodeNo = "986"
 	setupDto.CurrencyName = "Real"
 	setupDto.CurrencySymbols = []rune{'\U00000052', '\U00000024'}
 
@@ -359,6 +363,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Canada() (setupDto NumStrFmtSpecSetup
 	setupDto.CurrencyNegativeValueFmt = "-$ 127.54"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "CAD"
+	setupDto.CurrencyCodeNo = "124"
 	setupDto.CurrencyName = "Dollar"
 	setupDto.CurrencySymbols = []rune{'\U00000024'}
 
@@ -442,6 +447,7 @@ func (nStrFmtCountry *NumStrFormatCountry) CanadaFrench() (setupDto NumStrFmtSpe
 	setupDto.CurrencyNegativeValueFmt = "127.54 $-"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "CAD"
+	setupDto.CurrencyCodeNo = "124"
 	setupDto.CurrencyName = "Dollar"
 	setupDto.CurrencySymbols = []rune{'\U00000024'}
 
@@ -524,6 +530,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Chile() (setupDto NumStrFmtSpecSetupD
 	setupDto.CurrencyNegativeValueFmt = "-$127.54"
 	setupDto.CurrencyDecimalDigits = 0
 	setupDto.CurrencyCode = "CLP"
+	setupDto.CurrencyCodeNo = "152"
 	setupDto.CurrencyName = "Peso"
 	setupDto.CurrencySymbols = []rune{'\U00000024'}
 
@@ -607,6 +614,7 @@ func (nStrFmtCountry *NumStrFormatCountry) China() (setupDto NumStrFmtSpecSetupD
 	setupDto.CurrencyNegativeValueFmt = "-$ 127.54"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "CNY"
+	setupDto.CurrencyCodeNo = "156"
 	setupDto.CurrencyName = "Yuan"
 	setupDto.CurrencySymbols = []rune{'\U000000a5'}
 
@@ -690,6 +698,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Columbia() (setupDto NumStrFmtSpecSet
 	setupDto.CurrencyNegativeValueFmt = "-$ 127.54"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "COP"
+	setupDto.CurrencyCodeNo = "170"
 	setupDto.CurrencyName = "Peso"
 	setupDto.CurrencySymbols = []rune{'\U00000024'}
 
@@ -773,6 +782,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Czechia() (setupDto NumStrFmtSpecSetu
 	setupDto.CurrencyNegativeValueFmt = "-$127.54"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "CZK"
+	setupDto.CurrencyCodeNo = "203"
 	setupDto.CurrencyName = "Koruna"
 	setupDto.CurrencySymbols = []rune{
 		'\U0000004b', '\U0000010d'}
@@ -860,7 +870,8 @@ func (nStrFmtCountry *NumStrFormatCountry) France() (setupDto NumStrFmtSpecSetup
 	setupDto.CurrencyPositiveValueFmt = "127.54 $"
 	setupDto.CurrencyNegativeValueFmt = "127.54 $ -"
 	setupDto.CurrencyDecimalDigits = 2
-	setupDto.CurrencyCode = "EUR"
+	setupDto.CurrencyCode = "FRF"
+	setupDto.CurrencyCodeNo = "978"
 	setupDto.CurrencyName = "Euro"
 	setupDto.CurrencySymbols = []rune{'\U000020ac'}
 
@@ -946,7 +957,8 @@ func (nStrFmtCountry *NumStrFormatCountry) Germany() (setupDto NumStrFmtSpecSetu
 	setupDto.CurrencyPositiveValueFmt = "127.54 $"
 	setupDto.CurrencyNegativeValueFmt = "127.54 $-"
 	setupDto.CurrencyDecimalDigits = 2
-	setupDto.CurrencyCode = "EUR"
+	setupDto.CurrencyCode = "DEM"
+	setupDto.CurrencyCodeNo = "978"
 	setupDto.CurrencyName = "Euro"
 	setupDto.CurrencySymbols = []rune{'\U000020ac'}
 
@@ -1033,7 +1045,8 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy() (setupDto NumStrFmtSpecSetupD
 	setupDto.CurrencyNegativeValueFmt = "127.54 $-"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "EUR"
-	setupDto.CurrencyName = "Euro"
+	setupDto.CurrencyName = "ITL"
+	setupDto.CurrencyCodeNo = "978"
 	setupDto.CurrencySymbols = []rune{'\U000020ac'}
 
 	setupDto.MinorCurrencyName = "Cent"
@@ -1118,6 +1131,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel() (setupDto NumStrFmtSpecSetup
 	setupDto.CurrencyNegativeValueFmt = "-$ 127.54"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "ILS"
+	setupDto.CurrencyCodeNo = "376"
 	setupDto.CurrencyName = "Shekel"
 	setupDto.CurrencySymbols = []rune{'\U000020aa'}
 
@@ -1201,6 +1215,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() (setupDto NumStrFmtSp
 	setupDto.CurrencyNegativeValueFmt = "(-) $127.54"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "GBP"
+	setupDto.CurrencyCodeNo = "826"
 	setupDto.CurrencyName = "Pound"
 	setupDto.CurrencySymbols = []rune{'\U000000a3'}
 
@@ -1283,6 +1298,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates() (setupDto NumStrFmtSpe
 	setupDto.CurrencyNegativeValueFmt = "-$127.54"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "USD"
+	setupDto.CurrencyCodeNo = "840"
 	setupDto.CurrencyName = "Dollar"
 	setupDto.CurrencySymbols = []rune{'\U00000024'}
 
