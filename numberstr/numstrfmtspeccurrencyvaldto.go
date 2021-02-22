@@ -363,6 +363,27 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetIntegerDigitsGrou
 		GetIntegerDigitsGroupingSequence()
 }
 
+// GetMinorCurrencySymbols - Returns the minor currency symbols.
+//
+// The authorized unicode character symbols associated with the
+// minor currency specification. The minor currency symbol for
+// the United States is the cent sign ('¢'). Some countries and
+// cultures have minor currency symbols consisting of two or more
+// characters.
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetMinorCurrencySymbols() []rune {
+
+	if nStrFmtSpecCurrValDto.lock == nil {
+		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDto.lock.Lock()
+
+	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	return nStrFmtSpecCurrValDto.minorCurrencySymbols
+}
+
 // GetNumberFieldLengthDto - Returns a deep copy of the
 // NumberFieldDto object/ currently configured for this Number
 // String Format Specification Currency Value Dto.

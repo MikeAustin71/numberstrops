@@ -322,6 +322,27 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetIntDigitsGroupSequence() []uint {
 		GetIntegerDigitsGroupingSequence()
 }
 
+// GetMinorCurrencySymbols - Returns the currency symbols.
+//
+// The authorized unicode character symbols associated with the
+// minor currency specification. The minor currency symbol for
+// the United States is the cent sign ('¢'). Some countries and
+// cultures have minor currency symbols consisting of two or more
+// characters.
+//
+func (fmtSpecDto *NumStrFmtSpecDto) GetMinorCurrencySymbols() []rune {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	return fmtSpecDto.currencyValue.GetMinorCurrencySymbols()
+}
+
 // GetThousandsSeparator - Returns the integer digits or thousands
 // separator from 'currency' value.
 //
