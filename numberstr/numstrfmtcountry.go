@@ -33,7 +33,9 @@ import (
 //
 //  Argentina
 //  Australia
+//  Austria
 //  Canada
+//  CanadaFrench
 //  Chile
 //  China
 //  Columbia
@@ -906,6 +908,93 @@ func (nStrFmtCountry *NumStrFormatCountry) Czechia() (setupDto NumStrFmtSpecSetu
 	return setupDto
 }
 
+// Denmark - Returns the number string format used in the
+// Kingdom of Denmark.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Denmark() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 208
+	setupDto.IdString = "208"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 208
+	setupDto.CountryIdString = "208"
+	setupDto.CountryDescription = "Country Setup - Denmark"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Denmark"
+	setupDto.CountryAbbreviatedName = "Denmark"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Kingdom of Denmark",
+			"Kingdom of Denmark"}
+
+	setupDto.CountryCodeTwoChar = "DK"
+	setupDto.CountryCodeThreeChar = "DNK"
+	setupDto.CountryCodeNumber = "208"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54 $-"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "DKK"
+	setupDto.CurrencyCodeNo = "208"
+	setupDto.CurrencyName = "Krone"
+	setupDto.CurrencySymbols = []rune{'\U0000006b', '\U00000072'}
+
+	setupDto.MinorCurrencyName = "øre"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // France - Returns the number string format used in the
 // French Republic.
 //
@@ -1080,6 +1169,91 @@ func (nStrFmtCountry *NumStrFormatCountry) Germany() (setupDto NumStrFmtSpecSetu
 	return setupDto
 }
 
+// Israel - Returns the number string format used in the
+// State of Israel.
+//
+//  https://freeformatter.com/israel-standards-code-snippets.html
+//
+func (nStrFmtCountry *NumStrFormatCountry) Israel() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 376
+	setupDto.IdString = "376"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 376
+	setupDto.CountryIdString = "376"
+	setupDto.CountryDescription = "Country Setup - Israel"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Israel"
+	setupDto.CountryAbbreviatedName = "Israel"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"State of Israel",
+			"The State of Israel"}
+
+	setupDto.CountryCodeTwoChar = "IL"
+	setupDto.CountryCodeThreeChar = "ISR"
+	setupDto.CountryCodeNumber = "376"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "-$ 127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "ILS"
+	setupDto.CurrencyCodeNo = "376"
+	setupDto.CurrencyName = "Shekel"
+	setupDto.CurrencySymbols = []rune{'\U000020aa'}
+
+	setupDto.MinorCurrencyName = "Agorot"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = ""
+	setupDto.SignedNumValNegativeValueFmt = ""
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Italy - Returns the number string format used in the
 // Italian Republic.
 //
@@ -1167,12 +1341,13 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy() (setupDto NumStrFmtSpecSetupD
 	return setupDto
 }
 
-// Israel - Returns the number string format used in the
-// State of Israel.
+// Sweden - Returns the number string format used in the
+// Kingdom of Sweden.
 //
-//  https://freeformatter.com/israel-standards-code-snippets.html
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
 //
-func (nStrFmtCountry *NumStrFormatCountry) Israel() (setupDto NumStrFmtSpecSetupDto) {
+func (nStrFmtCountry *NumStrFormatCountry) Sweden() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -1184,25 +1359,25 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel() (setupDto NumStrFmtSpecSetup
 
 	setupDto.Lock = new(sync.Mutex)
 
-	setupDto.IdNo = 376
-	setupDto.IdString = "376"
+	setupDto.IdNo = 752
+	setupDto.IdString = "752"
 	setupDto.Description = "Country Setup"
 	setupDto.Tag = ""
-	setupDto.CountryIdNo = 376
-	setupDto.CountryIdString = "376"
-	setupDto.CountryDescription = "Country Setup - Israel"
+	setupDto.CountryIdNo = 752
+	setupDto.CountryIdString = "752"
+	setupDto.CountryDescription = "Country Setup - Sweden"
 	setupDto.CountryTag = ""
-	setupDto.CountryCultureName = "Israel"
-	setupDto.CountryAbbreviatedName = "Israel"
+	setupDto.CountryCultureName = "Sweden"
+	setupDto.CountryAbbreviatedName = "Sweden"
 
 	setupDto.CountryAlternateNames =
 		[]string{
-			"State of Israel",
-			"The State of Israel"}
+			"The Kingdom of Sweden",
+			"Kingdom of Sweden"}
 
-	setupDto.CountryCodeTwoChar = "IL"
-	setupDto.CountryCodeThreeChar = "ISR"
-	setupDto.CountryCodeNumber = "376"
+	setupDto.CountryCodeTwoChar = "SE"
+	setupDto.CountryCodeThreeChar = "SWE"
+	setupDto.CountryCodeNumber = "752"
 
 	setupDto.AbsoluteValFmt = "127.54"
 	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
@@ -1211,15 +1386,15 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel() (setupDto NumStrFmtSpecSetup
 	setupDto.AbsoluteValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
-	setupDto.CurrencyNegativeValueFmt = "-$ 127.54"
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54 $-"
 	setupDto.CurrencyDecimalDigits = 2
-	setupDto.CurrencyCode = "ILS"
-	setupDto.CurrencyCodeNo = "376"
-	setupDto.CurrencyName = "Shekel"
-	setupDto.CurrencySymbols = []rune{'\U000020aa'}
+	setupDto.CurrencyCode = "SEK"
+	setupDto.CurrencyCodeNo = "752"
+	setupDto.CurrencyName = "Krona"
+	setupDto.CurrencySymbols = []rune{'\U0000006b', '\U00000072'}
 
-	setupDto.MinorCurrencyName = "Agorot"
+	setupDto.MinorCurrencyName = "øre"
 	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
 
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
@@ -1228,13 +1403,13 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel() (setupDto NumStrFmtSpecSetup
 	setupDto.CurrencyNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	setupDto.DecimalSeparator = '.'
-	setupDto.IntegerDigitsSeparator = ','
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
-	setupDto.SignedNumValPositiveValueFmt = ""
-	setupDto.SignedNumValNegativeValueFmt = ""
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
 	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
 	setupDto.SignedNumValNumFieldLen = -1
 
@@ -1246,6 +1421,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Israel() (setupDto NumStrFmtSpecSetup
 	setupDto.SciNotExponentChar = 'E'
 	setupDto.SciNotExponentUsesLeadingPlus = true
 	setupDto.SciNotNumFieldLen = -1
+
 	setupDto.SignedNumValNumFieldTextJustify =
 		TextJustify(0).Right()
 

@@ -6,6 +6,7 @@ var mCountryCultureCodeToString = map[int]string{
 	-1:   "None",
 	32:   "Argentina",
 	36:   "Australia",
+	40:   "Austria",
 	76:   "Brazil",
 	124:  "Canada",
 	9124: "CanadaFrench",
@@ -13,10 +14,12 @@ var mCountryCultureCodeToString = map[int]string{
 	156:  "China",
 	170:  "Columbia",
 	203:  "Czechia",
+	208:  "Denmark",
 	250:  "France",
 	276:  "Germany",
-	380:  "Italy",
 	376:  "Israel",
+	380:  "Italy",
+	752:  "Sweden",
 	826:  "UnitedKingdom",
 	840:  "UnitedStates",
 }
@@ -110,6 +113,19 @@ func (cntryCulId CountryCultureId) Australia() CountryCultureId {
 	return CountryCultureId(36)
 }
 
+// Austria - Specifies the country of Austria
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Austria() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(40)
+}
+
 // Canada - Specifies the country of Canada
 //
 // This method is part of the standard enumeration.
@@ -201,6 +217,19 @@ func (cntryCulId CountryCultureId) Czechia() CountryCultureId {
 	return CountryCultureId(203)
 }
 
+// Denmark - Specifies the The Kingdom of Denmark
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Denmark() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(208)
+}
+
 // France - Specifies the The French Republic.
 //
 // This method is part of the standard enumeration.
@@ -251,6 +280,19 @@ func (cntryCulId CountryCultureId) Italy() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(380)
+}
+
+// Sweden - Specifies the Kingdom of Sweden.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Sweden() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(752)
 }
 
 // UnitedKingdom - Specifies the United Kingdom.
