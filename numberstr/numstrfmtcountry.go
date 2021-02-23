@@ -1169,6 +1169,93 @@ func (nStrFmtCountry *NumStrFormatCountry) Germany() (setupDto NumStrFmtSpecSetu
 	return setupDto
 }
 
+// Greece - Returns the number string format used in The Hellenic
+// Republic.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Greece() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 300
+	setupDto.IdString = "300"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 300
+	setupDto.CountryIdString = "300"
+	setupDto.CountryDescription = "Country Setup - Greece"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Greece"
+	setupDto.CountryAbbreviatedName = "Greece"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Hellenic Republic",
+			"Hellenic Republic"}
+
+	setupDto.CountryCodeTwoChar = "GR"
+	setupDto.CountryCodeThreeChar = "GRC"
+	setupDto.CountryCodeNumber = "300"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54 $-"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "GRD"
+	setupDto.CurrencyCodeNo = "978"
+	setupDto.CurrencyName = "Euro"
+	setupDto.CurrencySymbols = []rune{'\U000020ac'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Israel - Returns the number string format used in the
 // State of Israel.
 //
@@ -1535,7 +1622,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Portugal() (setupDto NumStrFmtSpecSet
 
 	setupDto.IdNo = 620
 	setupDto.IdString = "620"
-	setupDto.Description = "Country Setup"
+	setupDto.Description = "Country Setup - Portugal"
 	setupDto.Tag = ""
 	setupDto.CountryIdNo = 620
 	setupDto.CountryIdString = "620"
@@ -1564,6 +1651,93 @@ func (nStrFmtCountry *NumStrFormatCountry) Portugal() (setupDto NumStrFmtSpecSet
 	setupDto.CurrencyNegativeValueFmt = "127.54 $-"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "PTE"
+	setupDto.CurrencyCodeNo = "978"
+	setupDto.CurrencyName = "Euro"
+	setupDto.CurrencySymbols = []rune{'\U000020ac'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Spain - Returns the number string format used in The Kingdom
+// of Spain.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Spain() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 724
+	setupDto.IdString = "724"
+	setupDto.Description = "Country Setup - Spain"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 724
+	setupDto.CountryIdString = "724"
+	setupDto.CountryDescription = "Country Setup - Spain"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Spain"
+	setupDto.CountryAbbreviatedName = "Spain"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Kingdom of Spain",
+			"Kingdom of Spain"}
+
+	setupDto.CountryCodeTwoChar = "ES"
+	setupDto.CountryCodeThreeChar = "ESP"
+	setupDto.CountryCodeNumber = "724"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54 $-"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "ESP"
 	setupDto.CurrencyCodeNo = "978"
 	setupDto.CurrencyName = "Euro"
 	setupDto.CurrencySymbols = []rune{'\U000020ac'}
