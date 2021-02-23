@@ -15,6 +15,7 @@ var mCountryCultureCodeToString = map[int]string{
 	170:  "Columbia",
 	203:  "Czechia",
 	208:  "Denmark",
+	246:  "Finland",
 	250:  "France",
 	276:  "Germany",
 	300:  "Greece",
