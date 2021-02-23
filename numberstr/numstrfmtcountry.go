@@ -1341,6 +1341,180 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy() (setupDto NumStrFmtSpecSetupD
 	return setupDto
 }
 
+// Netherlands - Returns the number string format used in the
+// Kingdom of Netherlands.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Netherlands() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 528
+	setupDto.IdString = "528"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 528
+	setupDto.CountryIdString = "528"
+	setupDto.CountryDescription = "Country Setup - Netherlands"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Netherlands"
+	setupDto.CountryAbbreviatedName = "Netherlands"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Kingdom of the Netherlands",
+			"Kingdom of the Netherlands"}
+
+	setupDto.CountryCodeTwoChar = "NL"
+	setupDto.CountryCodeThreeChar = "NLD"
+	setupDto.CountryCodeNumber = "528"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = " $ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "NLG"
+	setupDto.CurrencyCodeNo = "978"
+	setupDto.CurrencyName = "Euro"
+	setupDto.CurrencySymbols = []rune{'\U000020ac'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Norway - Returns the number string format used in the
+// Kingdom of Norway.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Norway() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 578
+	setupDto.IdString = "578"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 578
+	setupDto.CountryIdString = "578"
+	setupDto.CountryDescription = "Country Setup - Norway"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Norway"
+	setupDto.CountryAbbreviatedName = "Norway"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Kingdom of Norway",
+			"Kingdom of Norway"}
+
+	setupDto.CountryCodeTwoChar = "NO"
+	setupDto.CountryCodeThreeChar = "NOR"
+	setupDto.CountryCodeNumber = "578"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54 $-"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "NOK"
+	setupDto.CurrencyCodeNo = "578"
+	setupDto.CurrencyName = "Krone"
+	setupDto.CurrencySymbols = []rune{'\U0000006b', '\U00000072'}
+
+	setupDto.MinorCurrencyName = "øre"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Sweden - Returns the number string format used in the
 // Kingdom of Sweden.
 //
