@@ -42,6 +42,7 @@ var mCountryCultureCodeToString = map[int]string{
 	804:  "Ukraine",
 	826:  "UnitedKingdom",
 	840:  "UnitedStates",
+	704:  "VietNam",
 }
 
 // CountryCultureId - Country Culture Identifier is a means of
@@ -586,4 +587,17 @@ func (cntryCulId CountryCultureId) UnitedStates() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(840)
+}
+
+// VietNam - Specifies The Socialist Republic of Viet Nam
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) VietNam() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(704)
 }
