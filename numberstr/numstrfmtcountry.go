@@ -2209,6 +2209,95 @@ func (nStrFmtCountry *NumStrFormatCountry) Portugal() (setupDto NumStrFmtSpecSet
 	return setupDto
 }
 
+// Romania - Returns the number string format used in the
+// country of Romania.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Romania() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 642
+	setupDto.IdString = "642"
+	setupDto.Description = "Country Setup - Romania"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 642
+	setupDto.CountryIdString = "642"
+	setupDto.CountryDescription = "Country Setup - Romania"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Romania"
+	setupDto.CountryAbbreviatedName = "Romania"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"Romania"}
+
+	setupDto.CountryCodeTwoChar = "RO"
+	setupDto.CountryCodeThreeChar = "ROU"
+	setupDto.CountryCodeNumber = "642"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "RON"
+	setupDto.CurrencyCodeNo = "946"
+	setupDto.CurrencyName = "Lei"
+	setupDto.CurrencySymbols = []rune{
+		'\U0000006c',
+		'\U00000065',
+		'\U00000069'}
+
+	setupDto.MinorCurrencyName = "Bani"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Spain - Returns the number string format used in The Kingdom
 // of Spain.
 //
