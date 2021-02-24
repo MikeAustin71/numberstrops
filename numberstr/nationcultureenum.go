@@ -27,9 +27,11 @@ var mCountryCultureCodeToString = map[int]string{
 	442:  "Luxembourg",
 	528:  "Netherlands",
 	578:  "Norway",
+	616:  "Poland",
 	620:  "Portugal",
 	724:  "Spain",
 	752:  "Sweden",
+	792:  "Turkey",
 	826:  "UnitedKingdom",
 	840:  "UnitedStates",
 }
@@ -396,6 +398,19 @@ func (cntryCulId CountryCultureId) Norway() CountryCultureId {
 	return CountryCultureId(578)
 }
 
+// Poland - Specifies The Republic of Poland.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Poland() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(616)
+}
+
 // Portugal - Specifies The Portuguese Republic.
 //
 // This method is part of the standard enumeration.
@@ -433,6 +448,19 @@ func (cntryCulId CountryCultureId) Sweden() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(752)
+}
+
+// Turkey - Specifies The Republic of Turkey.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Turkey() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(792)
 }
 
 // UnitedKingdom - Specifies the United Kingdom.

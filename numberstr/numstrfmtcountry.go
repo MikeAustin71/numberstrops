@@ -2035,6 +2035,93 @@ func (nStrFmtCountry *NumStrFormatCountry) Norway() (setupDto NumStrFmtSpecSetup
 	return setupDto
 }
 
+// Poland - Returns the number string format used in
+// The Republic of Poland.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Poland() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 616
+	setupDto.IdString = "616"
+	setupDto.Description = "Country Setup - Poland"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 616
+	setupDto.CountryIdString = "616"
+	setupDto.CountryDescription = "Country Setup - Poland"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Poland"
+	setupDto.CountryAbbreviatedName = "Poland"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Poland",
+			"Republic of Poland"}
+
+	setupDto.CountryCodeTwoChar = "PL"
+	setupDto.CountryCodeThreeChar = "POL"
+	setupDto.CountryCodeNumber = "616"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "PLN"
+	setupDto.CurrencyCodeNo = "985"
+	setupDto.CurrencyName = "Zloty"
+	setupDto.CurrencySymbols = []rune{'\U0000007a', '\U00000142'}
+
+	setupDto.MinorCurrencyName = "Grosz"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = ' '
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Portugal - Returns the number string format used in The
 // Portuguese Republic.
 //
@@ -2263,6 +2350,93 @@ func (nStrFmtCountry *NumStrFormatCountry) Sweden() (setupDto NumStrFmtSpecSetup
 	setupDto.CurrencySymbols = []rune{'\U0000006b', '\U00000072'}
 
 	setupDto.MinorCurrencyName = "øre"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Turkey - Returns the number string format used in
+// The Republic of Turkey.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Turkey() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 792
+	setupDto.IdString = "792"
+	setupDto.Description = "Country Setup - Turkey"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 792
+	setupDto.CountryIdString = "792"
+	setupDto.CountryDescription = "Country Setup - Turkey"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Turkey"
+	setupDto.CountryAbbreviatedName = "Turkey"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Turkey",
+			"Republic of Turkey"}
+
+	setupDto.CountryCodeTwoChar = "TR"
+	setupDto.CountryCodeThreeChar = "TUR"
+	setupDto.CountryCodeNumber = "792"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54 $-"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "TRY"
+	setupDto.CurrencyCodeNo = "949"
+	setupDto.CurrencyName = "Lira"
+	setupDto.CurrencySymbols = []rune{'\U000020ba'}
+
+	setupDto.MinorCurrencyName = "Kurus"
 	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
 
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
