@@ -2386,6 +2386,93 @@ func (nStrFmtCountry *NumStrFormatCountry) Romania() (setupDto NumStrFmtSpecSetu
 	return setupDto
 }
 
+// Russia - Returns the number string format used in
+// The Russian Federation.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Russia() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 643
+	setupDto.IdString = "643"
+	setupDto.Description = "Country Setup - Russia"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 643
+	setupDto.CountryIdString = "643"
+	setupDto.CountryDescription = "Country Setup - Russia"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Russia"
+	setupDto.CountryAbbreviatedName = "Russia"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Russian Federation",
+			"Russian Federation"}
+
+	setupDto.CountryCodeTwoChar = "RU"
+	setupDto.CountryCodeThreeChar = "RUS"
+	setupDto.CountryCodeNumber = "643"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "RUB"
+	setupDto.CurrencyCodeNo = "643"
+	setupDto.CurrencyName = "Ruble"
+	setupDto.CurrencySymbols = []rune{'\U000020bd'}
+
+	setupDto.MinorCurrencyName = "Kopeck"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = ' ' // space
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Spain - Returns the number string format used in The Kingdom
 // of Spain.
 //
@@ -2624,6 +2711,92 @@ func (nStrFmtCountry *NumStrFormatCountry) Turkey() (setupDto NumStrFmtSpecSetup
 
 	setupDto.DecimalSeparator = ','
 	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Ukraine - Returns the number string format used in
+// the country of Ukraine.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Ukraine() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 804
+	setupDto.IdString = "804"
+	setupDto.Description = "Country Setup - Ukraine"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 804
+	setupDto.CountryIdString = "804"
+	setupDto.CountryDescription = "Country Setup - Ukraine"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Ukraine"
+	setupDto.CountryAbbreviatedName = "Ukraine"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"Ukraine"}
+
+	setupDto.CountryCodeTwoChar = "UA"
+	setupDto.CountryCodeThreeChar = "UKR"
+	setupDto.CountryCodeNumber = "804"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "UAH"
+	setupDto.CurrencyCodeNo = "980"
+	setupDto.CurrencyName = "Hryvnia"
+	setupDto.CurrencySymbols = []rune{'\U000020b4'}
+
+	setupDto.MinorCurrencyName = "Kopiyka"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = ' ' // space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 

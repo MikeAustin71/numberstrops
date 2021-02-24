@@ -31,9 +31,11 @@ var mCountryCultureCodeToString = map[int]string{
 	616:  "Poland",
 	620:  "Portugal",
 	642:  "Romania",
+	643:  "Russia",
 	724:  "Spain",
 	752:  "Sweden",
 	792:  "Turkey",
+	804:  "Ukraine",
 	826:  "UnitedKingdom",
 	840:  "UnitedStates",
 }
@@ -322,6 +324,19 @@ func (cntryCulId CountryCultureId) Greece() CountryCultureId {
 	return CountryCultureId(276)
 }
 
+// Hungary - Specifies the country of Hungary.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Hungary() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(348)
+}
+
 // Ireland - Specifies the country of Ireland.
 //
 // This method is part of the standard enumeration.
@@ -436,7 +451,20 @@ func (cntryCulId CountryCultureId) Romania() CountryCultureId {
 
 	defer lockCountryCultureId.Unlock()
 
-	return CountryCultureId(620)
+	return CountryCultureId(642)
+}
+
+// Russia - Specifies The Russian Federation.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Russia() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(643)
 }
 
 // Spain - Specifies The Kingdom of Spain.
@@ -478,6 +506,19 @@ func (cntryCulId CountryCultureId) Turkey() CountryCultureId {
 	return CountryCultureId(792)
 }
 
+// Ukraine - Specifies the country of Ukraine.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Ukraine() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(804)
+}
+
 // UnitedKingdom - Specifies the United Kingdom.
 //
 // This method is part of the standard enumeration.
@@ -491,7 +532,7 @@ func (cntryCulId CountryCultureId) UnitedKingdom() CountryCultureId {
 	return CountryCultureId(826)
 }
 
-// UnitedStates - Specifies the United Kingdom.
+// UnitedStates - Specifies the United States.
 //
 // This method is part of the standard enumeration.
 //
