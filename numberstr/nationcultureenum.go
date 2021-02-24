@@ -21,6 +21,7 @@ var mCountryCultureCodeToString = map[int]string{
 	250:  "France",
 	276:  "Germany",
 	300:  "Greece",
+	348:  "Hungary",
 	372:  "Ireland",
 	376:  "Israel",
 	380:  "Italy",

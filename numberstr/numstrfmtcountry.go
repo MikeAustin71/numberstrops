@@ -1517,6 +1517,94 @@ func (nStrFmtCountry *NumStrFormatCountry) Greece() (setupDto NumStrFmtSpecSetup
 	return setupDto
 }
 
+// Hungary - Returns the number string format used in the
+// country of Hungary.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Hungary() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 348
+	setupDto.IdString = "348"
+	setupDto.Description = "Country Setup - Hungary"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 348
+	setupDto.CountryIdString = "348"
+	setupDto.CountryDescription = "Country Setup - Hungary"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Hungary"
+	setupDto.CountryAbbreviatedName = "Hungary"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"Hungary"}
+
+	setupDto.CountryCodeTwoChar = "HU"
+	setupDto.CountryCodeThreeChar = "HUN"
+	setupDto.CountryCodeNumber = "348"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 0
+	setupDto.CurrencyCode = "RON"
+	setupDto.CurrencyCodeNo = "946"
+	setupDto.CurrencyName = "Forint"
+	setupDto.CurrencySymbols = []rune{
+		'\U00000046',
+		'\U00000074'}
+
+	setupDto.MinorCurrencyName = "NONE"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Ireland - Returns the number string format used in Ireland.
 //
 // https://en.wikipedia.org/wiki/ISO_4217
