@@ -2384,6 +2384,91 @@ func (nStrFmtCountry *NumStrFormatCountry) Pakistan() (setupDto NumStrFmtSpecSet
 	return setupDto
 }
 
+// Philippines - Returns the number string format used in
+// The Republic of the Philippines.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Philippines() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 608
+	setupDto.IdString = "608"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 608
+	setupDto.CountryIdString = "608"
+	setupDto.CountryDescription = "Country Setup - Philippines"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Philippines"
+	setupDto.CountryAbbreviatedName = "Philippines"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of the Philippines",
+			"The Philippines",
+			"Republic of the Philippines"}
+
+	setupDto.CountryCodeTwoChar = "PH"
+	setupDto.CountryCodeThreeChar = "PHL"
+	setupDto.CountryCodeNumber = "608"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "$-127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "PHP"
+	setupDto.CurrencyCodeNo = "608"
+	setupDto.CurrencyName = "Peso"
+	setupDto.CurrencySymbols = []rune{'\U000020b1'}
+
+	setupDto.MinorCurrencyName = "Centavo"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 5)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Poland - Returns the number string format used in
 // The Republic of Poland.
 //

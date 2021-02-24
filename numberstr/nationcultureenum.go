@@ -31,6 +31,7 @@ var mCountryCultureCodeToString = map[int]string{
 	528:  "Netherlands",
 	578:  "Norway",
 	586:  "Pakistan",
+	608:  "Philippines",
 	616:  "Poland",
 	620:  "Portugal",
 	642:  "Romania",
@@ -444,6 +445,32 @@ func (cntryCulId CountryCultureId) Norway() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(578)
+}
+
+// Pakistan - Specifies The Islamic Republic of Pakistan.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Pakistan() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(586)
+}
+
+// Philippines - Specifies The Republic of the Philippines.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Philippines() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(608)
 }
 
 // Poland - Specifies The Republic of Poland.
