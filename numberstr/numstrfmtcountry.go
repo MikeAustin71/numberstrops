@@ -321,6 +321,93 @@ func (nStrFmtCountry *NumStrFormatCountry) Austria() (setupDto NumStrFmtSpecSetu
 	return setupDto
 }
 
+// Belgium - Returns the number string format used in The Kingdom
+// of Belgium.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Belgium() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 56
+	setupDto.IdString = "056"
+	setupDto.Description = "Country Setup - Belgium"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 56
+	setupDto.CountryIdString = "056"
+	setupDto.CountryDescription = "Country Setup - Belgium"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Belgium"
+	setupDto.CountryAbbreviatedName = "Belgium"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Kingdom of Belgium",
+			"Kingdom of Belgium"}
+
+	setupDto.CountryCodeTwoChar = "BE"
+	setupDto.CountryCodeThreeChar = "BEL"
+	setupDto.CountryCodeNumber = "056"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54 $-"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "BEF"
+	setupDto.CurrencyCodeNo = "978"
+	setupDto.CurrencyName = "Euro"
+	setupDto.CurrencySymbols = []rune{'\U000020ac'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Brazil - Returns the number string format used in the
 // Brazil.
 //
@@ -1412,6 +1499,91 @@ func (nStrFmtCountry *NumStrFormatCountry) Greece() (setupDto NumStrFmtSpecSetup
 
 	setupDto.SignedNumValPositiveValueFmt = "127.54"
 	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Ireland - Returns the number string format used in Ireland.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Ireland() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 372
+	setupDto.IdString = "372"
+	setupDto.Description = "Country Setup - Ireland"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 372
+	setupDto.CountryIdString = "372"
+	setupDto.CountryDescription = "Country Setup - Ireland"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Ireland"
+	setupDto.CountryAbbreviatedName = "Ireland"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"Ireland"}
+
+	setupDto.CountryCodeTwoChar = "IE"
+	setupDto.CountryCodeThreeChar = "IRL"
+	setupDto.CountryCodeNumber = "372"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "$-127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "IEP"
+	setupDto.CurrencyCodeNo = "978"
+	setupDto.CurrencyName = "Euro"
+	setupDto.CurrencySymbols = []rune{'\U000020ac'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
 	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
 	setupDto.SignedNumValNumFieldLen = -1
 
