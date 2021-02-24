@@ -2295,6 +2295,95 @@ func (nStrFmtCountry *NumStrFormatCountry) Norway() (setupDto NumStrFmtSpecSetup
 	return setupDto
 }
 
+// Pakistan - Returns the number string format used in
+// The Islamic Republic of Pakistan.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+// https://freeformatter.com/pakistan-standards-code-snippets.html
+//
+//
+func (nStrFmtCountry *NumStrFormatCountry) Pakistan() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 586
+	setupDto.IdString = "586"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 586
+	setupDto.CountryIdString = "586"
+	setupDto.CountryDescription = "Country Setup - Pakistan"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Pakistan"
+	setupDto.CountryAbbreviatedName = "Pakistan"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Islamic Republic of Pakistan",
+			"Islamic Republic of Pakistan"}
+
+	setupDto.CountryCodeTwoChar = "PK"
+	setupDto.CountryCodeThreeChar = "PAK"
+	setupDto.CountryCodeNumber = "586"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "$-127.54"
+	setupDto.CurrencyDecimalDigits = 0
+	setupDto.CurrencyCode = "PKR"
+	setupDto.CurrencyCodeNo = "586"
+	setupDto.CurrencyName = "Rupee"
+	setupDto.CurrencySymbols = []rune{'\U000020a8'}
+
+	setupDto.MinorCurrencyName = "Paisa"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Poland - Returns the number string format used in
 // The Republic of Poland.
 //

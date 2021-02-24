@@ -30,6 +30,7 @@ var mCountryCultureCodeToString = map[int]string{
 	484:  "Mexico",
 	528:  "Netherlands",
 	578:  "Norway",
+	586:  "Pakistan",
 	616:  "Poland",
 	620:  "Portugal",
 	642:  "Romania",
