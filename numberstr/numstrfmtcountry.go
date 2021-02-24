@@ -1000,6 +1000,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Czechia() (setupDto NumStrFmtSpecSetu
 //
 // https://en.wikipedia.org/wiki/ISO_4217
 // https://en.wikipedia.org/wiki/Currency_symbol
+// https://docs.microsoft.com/en-us/globalization/locale/currency-formatting
 //
 func (nStrFmtCountry *NumStrFormatCountry) Denmark() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -1040,8 +1041,8 @@ func (nStrFmtCountry *NumStrFormatCountry) Denmark() (setupDto NumStrFmtSpecSetu
 	setupDto.AbsoluteValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	setupDto.CurrencyPositiveValueFmt = "127.54 $"
-	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "$-127.54"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "DKK"
 	setupDto.CurrencyCodeNo = "208"
@@ -1261,6 +1262,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Finland() (setupDto NumStrFmtSpecSetu
 //
 // https://www.ibm.com/support/pages/english-and-french-currency-formats
 // https://freeformatter.com/france-standards-code-snippets.html
+// https://docs.microsoft.com/en-us/globalization/locale/currency-formatting
 //
 func (nStrFmtCountry *NumStrFormatCountry) France() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -1302,7 +1304,7 @@ func (nStrFmtCountry *NumStrFormatCountry) France() (setupDto NumStrFmtSpecSetup
 		TextJustify(0).Right()
 
 	setupDto.CurrencyPositiveValueFmt = "127.54 $"
-	setupDto.CurrencyNegativeValueFmt = "127.54 $ -"
+	setupDto.CurrencyNegativeValueFmt = "-127.54 $"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "FRF"
 	setupDto.CurrencyCodeNo = "978"
@@ -1949,11 +1951,96 @@ func (nStrFmtCountry *NumStrFormatCountry) Luxembourg() (setupDto NumStrFmtSpecS
 	return setupDto
 }
 
+// Mexico - Returns the number string format used in
+// The United Mexican States.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Mexico() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 484
+	setupDto.IdString = "484"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 484
+	setupDto.CountryIdString = "484"
+	setupDto.CountryDescription = "Country Setup - Mexico"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Mexico"
+	setupDto.CountryAbbreviatedName = "Mexico"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The United Mexican States",
+			"United Mexican States"}
+
+	setupDto.CountryCodeTwoChar = "MX"
+	setupDto.CountryCodeThreeChar = "MEX"
+	setupDto.CountryCodeNumber = "484"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "$-127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "MXN"
+	setupDto.CurrencyCodeNo = "484"
+	setupDto.CurrencyName = "Peso"
+	setupDto.CurrencySymbols = []rune{'\U00000024'}
+
+	setupDto.MinorCurrencyName = "Centavo"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 5)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Netherlands - Returns the number string format used in the
 // Kingdom of Netherlands.
 //
 // https://en.wikipedia.org/wiki/ISO_4217
 // https://en.wikipedia.org/wiki/Currency_symbol
+// https://docs.microsoft.com/en-us/globalization/locale/currency-formatting
 //
 func (nStrFmtCountry *NumStrFormatCountry) Netherlands() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -1995,7 +2082,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Netherlands() (setupDto NumStrFmtSpec
 		TextJustify(0).Right()
 
 	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
-	setupDto.CurrencyNegativeValueFmt = " $ -127.54"
+	setupDto.CurrencyNegativeValueFmt = " $ 127.54-"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "NLG"
 	setupDto.CurrencyCodeNo = "978"
@@ -2910,6 +2997,8 @@ func (nStrFmtCountry *NumStrFormatCountry) Ukraine() (setupDto NumStrFmtSpecSetu
 // UnitedKingdom - Returns the number string format used in the
 // United Kingdom of Great Britain and Northern Ireland.
 //
+// https://docs.microsoft.com/en-us/globalization/locale/currency-formatting
+//
 func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
@@ -2951,7 +3040,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedKingdom() (setupDto NumStrFmtSp
 		TextJustify(0).Right()
 
 	setupDto.CurrencyPositiveValueFmt = "$127.54"
-	setupDto.CurrencyNegativeValueFmt = "(-) $127.54"
+	setupDto.CurrencyNegativeValueFmt = "-$127.54"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "GBP"
 	setupDto.CurrencyCodeNo = "826"
@@ -3019,6 +3108,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates() (setupDto NumStrFmtSpe
 
 	setupDto.CountryAlternateNames =
 		[]string{
+			"The United States of America",
 			"United States of America",
 			"America"}
 
@@ -3034,7 +3124,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates() (setupDto NumStrFmtSpe
 		TextJustify(0).Right()
 
 	setupDto.CurrencyPositiveValueFmt = "$127.54"
-	setupDto.CurrencyNegativeValueFmt = "-$127.54"
+	setupDto.CurrencyNegativeValueFmt = "($127.54)"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "USD"
 	setupDto.CurrencyCodeNo = "840"
