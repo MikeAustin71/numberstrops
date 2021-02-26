@@ -196,7 +196,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia() (setupDto NumStrFmtSpecSe
 		TextJustify(0).Right()
 
 	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
-	setupDto.CurrencyNegativeValueFmt = "-$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "AUD"
 	setupDto.CurrencyCodeNo = "036"
@@ -2208,6 +2208,90 @@ func (nStrFmtCountry *NumStrFormatCountry) Netherlands() (setupDto NumStrFmtSpec
 	return setupDto
 }
 
+// NewZealand - Returns the number string format used in
+// New Zealand.
+//
+func (nStrFmtCountry *NumStrFormatCountry) NewZealand() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 554
+	setupDto.IdString = "554"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 554
+	setupDto.CountryIdString = "554"
+	setupDto.CountryDescription = "Country Setup - New Zealand"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "New Zealand"
+	setupDto.CountryAbbreviatedName = "New Zealand"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"New Zealand",
+		}
+
+	setupDto.CountryCodeTwoChar = "NZ"
+	setupDto.CountryCodeThreeChar = "NZL"
+	setupDto.CountryCodeNumber = "554"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "NZD"
+	setupDto.CurrencyCodeNo = "554"
+	setupDto.CurrencyName = "Dollar"
+	setupDto.CurrencySymbols = []rune{'\U00000024'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = []rune{'\U000000a2'}
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Norway - Returns the number string format used in the
 // Kingdom of Norway.
 //
@@ -3315,6 +3399,176 @@ func (nStrFmtCountry *NumStrFormatCountry) Switzerland() (setupDto NumStrFmtSpec
 
 	setupDto.DecimalSeparator = '.'
 	setupDto.IntegerDigitsSeparator = '\U00000027' // Apostrophe
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Taiwan - Returns the number string format used in
+// The Republic of China.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Taiwan() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 158
+	setupDto.IdString = "158"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 158
+	setupDto.CountryIdString = "158"
+	setupDto.CountryDescription = "Country Setup - Taiwan"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Taiwan"
+	setupDto.CountryAbbreviatedName = "Taiwan"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of China",
+			"Republic of China",
+		}
+
+	setupDto.CountryCodeTwoChar = "TW"
+	setupDto.CountryCodeThreeChar = "TWN"
+	setupDto.CountryCodeNumber = "158"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "($127.54)"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "TWD"
+	setupDto.CurrencyCodeNo = "901"
+	setupDto.CurrencyName = "New Dollar"
+	setupDto.CurrencySymbols = []rune{'\U00005143'}
+
+	setupDto.MinorCurrencyName = ""
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 5)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Thailand - Returns the number string format used in
+// The Kingdom of Thailand.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Thailand() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 764
+	setupDto.IdString = "764"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 764
+	setupDto.CountryIdString = "764"
+	setupDto.CountryDescription = "Country Setup - Thailand"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Thailand"
+	setupDto.CountryAbbreviatedName = "Thailand"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Kingdom of Thailand",
+			"Kingdom of Thailand",
+		}
+
+	setupDto.CountryCodeTwoChar = "TH"
+	setupDto.CountryCodeThreeChar = "THA"
+	setupDto.CountryCodeNumber = "764"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "THB"
+	setupDto.CurrencyCodeNo = "764"
+	setupDto.CurrencyName = "Baht"
+	setupDto.CurrencySymbols = []rune{'\U00000e3f'}
+
+	setupDto.MinorCurrencyName = "Satang"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 5)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
