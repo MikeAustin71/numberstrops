@@ -1519,6 +1519,91 @@ func (nStrFmtCountry *NumStrFormatCountry) Greece() (setupDto NumStrFmtSpecSetup
 	return setupDto
 }
 
+// HongKong - Returns the number string format used in
+// The Hong Kong Special Administrative Region of China.
+//
+func (nStrFmtCountry *NumStrFormatCountry) HongKong() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 344
+	setupDto.IdString = "344"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 344
+	setupDto.CountryIdString = "344"
+	setupDto.CountryDescription = "Country Setup - Hong Kong"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Hong Kong"
+	setupDto.CountryAbbreviatedName = "Hong Kong"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Hong Kong Special Administrative Region of China",
+			"Hong Kong Special Administrative Region of China",
+		}
+
+	setupDto.CountryCodeTwoChar = "HK"
+	setupDto.CountryCodeThreeChar = "HKG"
+	setupDto.CountryCodeNumber = "344"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "HKD"
+	setupDto.CurrencyCodeNo = "344"
+	setupDto.CurrencyName = "Dollar"
+	setupDto.CurrencySymbols = []rune{'\U00000024'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 5)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Hungary - Returns the number string format used in the
 // country of Hungary.
 //
