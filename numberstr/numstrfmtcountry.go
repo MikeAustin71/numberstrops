@@ -1949,8 +1949,99 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy() (setupDto NumStrFmtSpecSetupD
 	return setupDto
 }
 
+// Japan - Returns the number string format used in
+// the country of Japan.
+//
+// https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//
+func (nStrFmtCountry *NumStrFormatCountry) Japan() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 392
+	setupDto.IdString = "392"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 392
+	setupDto.CountryIdString = "392"
+	setupDto.CountryDescription = "Country Setup - Japan"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Japan"
+	setupDto.CountryAbbreviatedName = "Japan"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"Japan",
+		}
+
+	setupDto.CountryCodeTwoChar = "JP"
+	setupDto.CountryCodeThreeChar = "JPN"
+	setupDto.CountryCodeNumber = "392"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "JPY"
+	setupDto.CurrencyCodeNo = "392"
+	setupDto.CurrencyName = "Yen"
+
+	setupDto.CurrencySymbols = []rune{
+		'\U000000a5',
+	}
+
+	setupDto.MinorCurrencyName = "Sen"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 5)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // KoreaSouth - Returns the number string format used in
 // The Republic of Korea.
+//
+// https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
 //
 func (nStrFmtCountry *NumStrFormatCountry) KoreaSouth() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -2126,6 +2217,8 @@ func (nStrFmtCountry *NumStrFormatCountry) Luxembourg() (setupDto NumStrFmtSpecS
 
 // Malaysia - Returns the number string format used in
 // the country of Malaysia.
+//
+// https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
 //
 func (nStrFmtCountry *NumStrFormatCountry) Malaysia() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -3264,6 +3357,8 @@ func (nStrFmtCountry *NumStrFormatCountry) SaudiArabia() (setupDto NumStrFmtSpec
 // Singapore - Returns the number string format used in
 // The Republic of Singapore.
 //
+// https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//
 func (nStrFmtCountry *NumStrFormatCountry) Singapore() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
@@ -3694,6 +3789,8 @@ func (nStrFmtCountry *NumStrFormatCountry) Switzerland() (setupDto NumStrFmtSpec
 
 // Taiwan - Returns the number string format used in
 // The Republic of China.
+//
+// https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
 //
 func (nStrFmtCountry *NumStrFormatCountry) Taiwan() (setupDto NumStrFmtSpecSetupDto) {
 
