@@ -2907,6 +2907,91 @@ func (nStrFmtCountry *NumStrFormatCountry) SaudiArabia() (setupDto NumStrFmtSpec
 	return setupDto
 }
 
+// Singapore - Returns the number string format used in
+// The Republic of Singapore.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Singapore() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 702
+	setupDto.IdString = "702"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 702
+	setupDto.CountryIdString = "702"
+	setupDto.CountryDescription = "Country Setup - Singapore"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Singapore"
+	setupDto.CountryAbbreviatedName = "Singapore"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Singapore",
+			"Republic of Singapore",
+		}
+
+	setupDto.CountryCodeTwoChar = "SG"
+	setupDto.CountryCodeThreeChar = "SGP"
+	setupDto.CountryCodeNumber = "702"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "($127.54)"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "SGD"
+	setupDto.CurrencyCodeNo = "702"
+	setupDto.CurrencyName = "Dollar"
+	setupDto.CurrencySymbols = []rune{'\U00000024'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = []rune{'\U000000a2'}
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Spain - Returns the number string format used in The Kingdom
 // of Spain.
 //
