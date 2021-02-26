@@ -3,60 +3,65 @@ package numberstr
 import "sync"
 
 var mCountryCultureCodeToString = map[int]string{
-	-1:   "None",
-	32:   "Argentina",
-	36:   "Australia",
-	40:   "Austria",
-	56:   "Belgium",
-	76:   "Brazil",
-	124:  "Canada",
-	9124: "CanadaFrench",
-	152:  "Chile",
-	156:  "China",
-	170:  "Columbia",
-	203:  "Czechia",
-	208:  "Denmark",
-	233:  "Estonia",
-	246:  "Finland",
-	250:  "France",
-	276:  "Germany",
-	300:  "Greece",
-	344:  "HongKong",
-	348:  "Hungary",
-	356:  "India",
-	360:  "Indonesia",
-	372:  "Ireland",
-	376:  "Israel",
-	380:  "Italy",
-	392:  "Japan",
-	410:  "KoreaSouth",
-	442:  "Luxembourg",
-	458:  "Malaysia",
-	484:  "Mexico",
-	504:  "Morocco",
-	528:  "Netherlands",
-	554:  "NewZealand",
-	578:  "Norway",
-	586:  "Pakistan",
-	608:  "Philippines",
-	616:  "Poland",
-	620:  "Portugal",
-	642:  "Romania",
-	643:  "Russia",
-	682:  "SaudiArabia",
-	702:  "Singapore",
-	710:  "SouthAfrica",
-	724:  "Spain",
-	752:  "Sweden",
-	756:  "Switzerland",
-	158:  "Taiwan",
-	792:  "Turkey",
-	804:  "Ukraine",
-	784:  "UnitedArabEmirates",
-	826:  "UnitedKingdom",
-	840:  "UnitedStates",
-	862:  "Venezuela",
-	704:  "VietNam",
+	-1:     "None",
+	32:     "Argentina",
+	36:     "Australia",
+	40:     "Austria",
+	999999: "Bitcoin",
+	50:     "Bangladesh",
+	56:     "Belgium",
+	76:     "Brazil",
+	124:    "Canada",
+	9124:   "CanadaFrench",
+	152:    "Chile",
+	156:    "China",
+	170:    "Columbia",
+	188:    "CostaRica",
+	192:    "Cuba",
+	203:    "Czechia",
+	208:    "Denmark",
+	233:    "Estonia",
+	246:    "Finland",
+	250:    "France",
+	276:    "Germany",
+	300:    "Greece",
+	344:    "HongKong",
+	348:    "Hungary",
+	356:    "India",
+	360:    "Indonesia",
+	372:    "Ireland",
+	376:    "Israel",
+	380:    "Italy",
+	392:    "Japan",
+	410:    "KoreaSouth",
+	442:    "Luxembourg",
+	458:    "Malaysia",
+	484:    "Mexico",
+	504:    "Morocco",
+	528:    "Netherlands",
+	554:    "NewZealand",
+	578:    "Norway",
+	586:    "Pakistan",
+	604:    "Peru",
+	608:    "Philippines",
+	616:    "Poland",
+	620:    "Portugal",
+	642:    "Romania",
+	643:    "Russia",
+	682:    "SaudiArabia",
+	702:    "Singapore",
+	710:    "SouthAfrica",
+	724:    "Spain",
+	752:    "Sweden",
+	756:    "Switzerland",
+	158:    "Taiwan",
+	792:    "Turkey",
+	804:    "Ukraine",
+	784:    "UnitedArabEmirates",
+	826:    "UnitedKingdom",
+	840:    "UnitedStates",
+	862:    "Venezuela",
+	704:    "VietNam",
 }
 
 // CountryCultureId - Country Culture Identifier is a means of
@@ -161,6 +166,32 @@ func (cntryCulId CountryCultureId) Austria() CountryCultureId {
 	return CountryCultureId(40)
 }
 
+// Bitcoin - Specifies the country of Bitcoin
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Bitcoin() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(999999)
+}
+
+// Bangladesh - Specifies The People's Republic of Bangladesh.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Bangladesh() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(40)
+}
+
 // Belgium - Specifies the country of The Kingdom of Belgium.
 //
 // This method is part of the standard enumeration.
@@ -250,6 +281,32 @@ func (cntryCulId CountryCultureId) Columbia() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(170)
+}
+
+// CostaRica - Specifies The Republic of Costa Rica.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) CostaRica() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(188)
+}
+
+// Cuba - Specifies The Republic of Cuba.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Cuba() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(192)
 }
 
 // Czechia - Specifies the The Czech Republic
@@ -558,6 +615,19 @@ func (cntryCulId CountryCultureId) Norway() CountryCultureId {
 // This method is part of the standard enumeration.
 //
 func (cntryCulId CountryCultureId) Pakistan() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(586)
+}
+
+// Peru - Specifies The Republic of Perú.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Peru() CountryCultureId {
 
 	lockCountryCultureId.Lock()
 

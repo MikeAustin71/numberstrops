@@ -322,6 +322,91 @@ func (nStrFmtCountry *NumStrFormatCountry) Austria() (setupDto NumStrFmtSpecSetu
 	return setupDto
 }
 
+// Bangladesh - Returns the number string format used in
+// The People's Republic of Bangladesh.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Bangladesh() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 050
+	setupDto.IdString = "050"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 050
+	setupDto.CountryIdString = "050"
+	setupDto.CountryDescription = "Country Setup - Bangladesh"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Bangladesh"
+	setupDto.CountryAbbreviatedName = "Bangladesh"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The People's Republic of Bangladesh",
+			"People's Republic of Bangladesh"}
+
+	setupDto.CountryCodeTwoChar = "BD"
+	setupDto.CountryCodeThreeChar = "BGD"
+	setupDto.CountryCodeNumber = "050"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "BDT"
+	setupDto.CurrencyCodeNo = "050"
+	setupDto.CurrencyName = "Taka"
+	setupDto.CurrencySymbols = []rune{'\U000009f3'}
+
+	setupDto.MinorCurrencyName = "Paisa"
+	setupDto.MinorCurrencySymbols =
+		make([]rune, 0, 5)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Belgium - Returns the number string format used in The Kingdom
 // of Belgium.
 //
@@ -391,6 +476,92 @@ func (nStrFmtCountry *NumStrFormatCountry) Belgium() (setupDto NumStrFmtSpecSetu
 
 	setupDto.SignedNumValPositiveValueFmt = "127.54"
 	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Bitcoin - Returns the number string format used in
+// the crypto currency, Bitcoin.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Bitcoin() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 999999
+	setupDto.IdString = "999999"
+	setupDto.Description = "Crypto Currency Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 999999
+	setupDto.CountryIdString = "999999"
+	setupDto.CountryDescription = "Crypto Currency Setup - Bitcoin"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Bitcoin"
+	setupDto.CountryAbbreviatedName = "Bitcoin"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"Bitcoin",
+		}
+
+	setupDto.CountryCodeTwoChar = "BC"
+	setupDto.CountryCodeThreeChar = "BCH"
+	setupDto.CountryCodeNumber = "999999"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 8
+	setupDto.CurrencyCode = "BCH"
+	setupDto.CurrencyCodeNo = "999999"
+	setupDto.CurrencyName = "Bitcoin"
+	setupDto.CurrencySymbols =
+		[]rune{'\U000020bf'}
+
+	setupDto.MinorCurrencyName = ""
+	setupDto.MinorCurrencySymbols =
+		make([]rune, 0, 5)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
 	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
 	setupDto.SignedNumValNumFieldLen = -1
 
@@ -887,6 +1058,176 @@ func (nStrFmtCountry *NumStrFormatCountry) Columbia() (setupDto NumStrFmtSpecSet
 
 	setupDto.DecimalSeparator = ','
 	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// CostaRica - Returns the number string format used in
+// The Republic of Costa Rica.
+//
+func (nStrFmtCountry *NumStrFormatCountry) CostaRica() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 188
+	setupDto.IdString = "188"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 188
+	setupDto.CountryIdString = "188"
+	setupDto.CountryDescription = "Country Setup - Costa Rica"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Costa Rica"
+	setupDto.CountryAbbreviatedName = "Costa Rica"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Costa Rica",
+			"Republic of Costa Rica"}
+
+	setupDto.CountryCodeTwoChar = "CR"
+	setupDto.CountryCodeThreeChar = "CRI"
+	setupDto.CountryCodeNumber = "188"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "CRC"
+	setupDto.CurrencyCodeNo = "188"
+	setupDto.CurrencyName = "Colon"
+	setupDto.CurrencySymbols = []rune{'\U000020a1'}
+
+	setupDto.MinorCurrencyName = "Centimo"
+	setupDto.MinorCurrencySymbols =
+		make([]rune, 0, 5)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Cuba - Returns the number string format used in
+// The Republic of Cuba.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Cuba() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 192
+	setupDto.IdString = "192"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 192
+	setupDto.CountryIdString = "192"
+	setupDto.CountryDescription = "Country Setup - Cuba"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Cuba"
+	setupDto.CountryAbbreviatedName = "Cuba"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Cuba",
+			"Republic of Cuba"}
+
+	setupDto.CountryCodeTwoChar = "CU"
+	setupDto.CountryCodeThreeChar = "CUB"
+	setupDto.CountryCodeNumber = "192"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "CUP"
+	setupDto.CurrencyCodeNo = "192"
+	setupDto.CurrencyName = "Peso"
+	setupDto.CurrencySymbols = []rune{'\U000020b1'}
+
+	setupDto.MinorCurrencyName = "Centavo"
+	setupDto.MinorCurrencySymbols =
+		make([]rune, 0, 5)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -2983,6 +3324,98 @@ func (nStrFmtCountry *NumStrFormatCountry) Pakistan() (setupDto NumStrFmtSpecSet
 
 	setupDto.DecimalSeparator = '.'
 	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Peru - Returns the number string format used in
+// The Republic of Perú.
+//
+// https://en.wikipedia.org/wiki/Decimal_separator
+//
+func (nStrFmtCountry *NumStrFormatCountry) Peru() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 604
+	setupDto.IdString = "604"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 604
+	setupDto.CountryIdString = "604"
+	setupDto.CountryDescription = "Country Setup - Peru"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Peru"
+	setupDto.CountryAbbreviatedName = "Peru"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Perú",
+			"Republic of Perú"}
+
+	setupDto.CountryCodeTwoChar = "PE"
+	setupDto.CountryCodeThreeChar = "PER"
+	setupDto.CountryCodeNumber = "604"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "PEN"
+	setupDto.CurrencyCodeNo = "604"
+	setupDto.CurrencyName = "Sol"
+
+	setupDto.CurrencySymbols = []rune{
+		'\U00000053',
+		'\U0000002f',
+		'\U0000002e',
+	}
+
+	setupDto.MinorCurrencyName = "Centimo"
+	setupDto.MinorCurrencySymbols =
+		make([]rune, 0, 5)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = ' ' // space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
