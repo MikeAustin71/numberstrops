@@ -1949,6 +1949,94 @@ func (nStrFmtCountry *NumStrFormatCountry) Italy() (setupDto NumStrFmtSpecSetupD
 	return setupDto
 }
 
+// KoreaSouth - Returns the number string format used in
+// The Republic of Korea.
+//
+func (nStrFmtCountry *NumStrFormatCountry) KoreaSouth() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 410
+	setupDto.IdString = "410"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 410
+	setupDto.CountryIdString = "410"
+	setupDto.CountryDescription = "Country Setup - Korea"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Korea"
+	setupDto.CountryAbbreviatedName = "Korea"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Korea",
+			"South Korea",
+		}
+
+	setupDto.CountryCodeTwoChar = "KR"
+	setupDto.CountryCodeThreeChar = "KOR"
+	setupDto.CountryCodeNumber = "410"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "KRW"
+	setupDto.CurrencyCodeNo = "410"
+	setupDto.CurrencyName = "Won"
+
+	setupDto.CurrencySymbols = []rune{
+		'\U000020a9',
+	}
+
+	setupDto.MinorCurrencyName = "Sen"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 5)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Luxembourg - Returns the number string format used in The
 // Grand Duchy of Luxembourg.
 //
