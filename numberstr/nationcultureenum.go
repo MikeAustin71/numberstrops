@@ -52,8 +52,10 @@ var mCountryCultureCodeToString = map[int]string{
 	158:  "Taiwan",
 	792:  "Turkey",
 	804:  "Ukraine",
+	784:  "UnitedArabEmirates",
 	826:  "UnitedKingdom",
 	840:  "UnitedStates",
+	862:  "Venezuela",
 	704:  "VietNam",
 }
 
@@ -746,6 +748,20 @@ func (cntryCulId CountryCultureId) Ukraine() CountryCultureId {
 	return CountryCultureId(804)
 }
 
+// UnitedArabEmirates - Specifies the country of
+// The United Arab Emirates.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) UnitedArabEmirates() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(784)
+}
+
 // UnitedKingdom - Specifies the United Kingdom.
 //
 // This method is part of the standard enumeration.
@@ -770,6 +786,20 @@ func (cntryCulId CountryCultureId) UnitedStates() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(840)
+}
+
+// Venezuela - Specifies The Bolivarian Republic of
+// Venezuela.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Venezuela() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(862)
 }
 
 // VietNam - Specifies The Socialist Republic of Viet Nam
