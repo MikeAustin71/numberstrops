@@ -2120,6 +2120,100 @@ func (nStrFmtCountry *NumStrFormatCountry) Mexico() (setupDto NumStrFmtSpecSetup
 	return setupDto
 }
 
+// Morocco - Returns the number string format used in
+// The Kingdom of Morocco.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+// https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//
+func (nStrFmtCountry *NumStrFormatCountry) Morocco() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 504
+	setupDto.IdString = "504"
+	setupDto.Description = "Country Setup - Morocco"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 504
+	setupDto.CountryIdString = "504"
+	setupDto.CountryDescription = "Country Setup - Morocco"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Morocco"
+	setupDto.CountryAbbreviatedName = "Morocco"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Kingdom of Morocco",
+			"Kingdom of Morocco"}
+
+	setupDto.CountryCodeTwoChar = "MA"
+	setupDto.CountryCodeThreeChar = "MAR"
+	setupDto.CountryCodeNumber = "504"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "MAD"
+	setupDto.CurrencyCodeNo = "504"
+	setupDto.CurrencyName = "Dirham"
+
+	setupDto.CurrencySymbols = []rune{
+		'\U0000002e',
+		'\U0000062f',
+		'\U0000002e',
+		'\U00000645',
+	}
+
+	setupDto.MinorCurrencyName = "Centime"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Netherlands - Returns the number string format used in the
 // Kingdom of Netherlands.
 //
