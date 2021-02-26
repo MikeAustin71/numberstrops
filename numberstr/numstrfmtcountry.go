@@ -2036,6 +2036,94 @@ func (nStrFmtCountry *NumStrFormatCountry) Luxembourg() (setupDto NumStrFmtSpecS
 	return setupDto
 }
 
+// Malaysia - Returns the number string format used in
+// the country of Malaysia.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Malaysia() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 458
+	setupDto.IdString = "458"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 458
+	setupDto.CountryIdString = "458"
+	setupDto.CountryDescription = "Country Setup - Malaysia"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Malaysia"
+	setupDto.CountryAbbreviatedName = "Malaysia"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"Malaysia",
+		}
+
+	setupDto.CountryCodeTwoChar = "MY"
+	setupDto.CountryCodeThreeChar = "MYS"
+	setupDto.CountryCodeNumber = "458"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "MYR"
+	setupDto.CurrencyCodeNo = "458"
+	setupDto.CurrencyName = "Ringgit"
+
+	setupDto.CurrencySymbols = []rune{
+		'\U00000052',
+		'\U0000004d',
+	}
+
+	setupDto.MinorCurrencyName = "Sen"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 5)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Mexico - Returns the number string format used in
 // The United Mexican States.
 //
