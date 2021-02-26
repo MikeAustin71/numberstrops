@@ -2871,7 +2871,7 @@ func (nStrFmtCountry *NumStrFormatCountry) SaudiArabia() (setupDto NumStrFmtSpec
 	setupDto.CurrencyCode = "SAR"
 	setupDto.CurrencyCodeNo = "682"
 	setupDto.CurrencyName = "Riyal"
-	setupDto.CurrencySymbols = []rune{'\U00065020'}
+	setupDto.CurrencySymbols = []rune{'\U0000fdfc'}
 
 	setupDto.MinorCurrencyName = "Halalat"
 	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
@@ -2960,6 +2960,91 @@ func (nStrFmtCountry *NumStrFormatCountry) Singapore() (setupDto NumStrFmtSpecSe
 
 	setupDto.MinorCurrencyName = "Cent"
 	setupDto.MinorCurrencySymbols = []rune{'\U000000a2'}
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// SouthAfrica - Returns the number string format used in
+// The Republic of South Africa.
+//
+func (nStrFmtCountry *NumStrFormatCountry) SouthAfrica() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 710
+	setupDto.IdString = "710"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 710
+	setupDto.CountryIdString = "710"
+	setupDto.CountryDescription = "Country Setup - South Africa"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "South Africa"
+	setupDto.CountryAbbreviatedName = "South Africa"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of South Africa",
+			"Republic of South Africa",
+		}
+
+	setupDto.CountryCodeTwoChar = "ZA"
+	setupDto.CountryCodeThreeChar = "ZAF"
+	setupDto.CountryCodeNumber = "710"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "($127.54)"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "ZAR"
+	setupDto.CurrencyCodeNo = "710"
+	setupDto.CurrencyName = "Rand"
+	setupDto.CurrencySymbols = []rune{'\U00000052'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 5)
 
 	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
 	setupDto.CurrencyNumFieldLen = -1
