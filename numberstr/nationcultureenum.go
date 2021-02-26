@@ -24,6 +24,7 @@ var mCountryCultureCodeToString = map[int]string{
 	344:  "HongKong",
 	348:  "Hungary",
 	356:  "India",
+	360:  "Indonesia",
 	372:  "Ireland",
 	376:  "Israel",
 	380:  "Italy",
@@ -378,6 +379,19 @@ func (cntryCulId CountryCultureId) India() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(356)
+}
+
+// Indonesia - Specifies The Republic of Indonesia.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Indonesia() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(360)
 }
 
 // Ireland - Specifies the country of Ireland.
