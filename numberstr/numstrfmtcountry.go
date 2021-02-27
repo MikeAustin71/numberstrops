@@ -1343,6 +1343,92 @@ func (nStrFmtCountry *NumStrFormatCountry) Cuba() (setupDto NumStrFmtSpecSetupDt
 	return setupDto
 }
 
+// Cyprus - Returns the number string format used in
+// The Republic of Cyprus.
+//
+// https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//
+func (nStrFmtCountry *NumStrFormatCountry) Cyprus() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 196
+	setupDto.IdString = "196"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 196
+	setupDto.CountryIdString = "196"
+	setupDto.CountryDescription = "Country Setup - Cyprus"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Cyprus"
+	setupDto.CountryAbbreviatedName = "Cyprus"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"European Union",
+			"Euro"}
+
+	setupDto.CountryCodeTwoChar = "CY"
+	setupDto.CountryCodeThreeChar = "CYP"
+	setupDto.CountryCodeNumber = "196"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "CYP"
+	setupDto.CurrencyCodeNo = "978"
+	setupDto.CurrencyName = "Euro"
+	setupDto.CurrencySymbols = []rune{'\U000020ac'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Czechia - Returns the number string format used in the
 // the The Czech Republic.
 //
@@ -1653,6 +1739,92 @@ func (nStrFmtCountry *NumStrFormatCountry) Estonia() (setupDto NumStrFmtSpecSetu
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "EEK"
 	setupDto.CurrencyCodeNo = "978"
+	setupDto.CurrencyName = "Euro"
+	setupDto.CurrencySymbols = []rune{'\U000020ac'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Euro - Returns the number string format used in the
+// European Union.
+//
+// https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//
+func (nStrFmtCountry *NumStrFormatCountry) Euro() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 77777
+	setupDto.IdString = "77777"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 77777
+	setupDto.CountryIdString = "77777"
+	setupDto.CountryDescription = "Country Setup - European Union"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "European Union"
+	setupDto.CountryAbbreviatedName = "EU"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"European Union",
+			"Euro"}
+
+	setupDto.CountryCodeTwoChar = "EU"
+	setupDto.CountryCodeThreeChar = "EUR"
+	setupDto.CountryCodeNumber = "77777"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "EUR"
+	setupDto.CurrencyCodeNo = "77777"
 	setupDto.CurrencyName = "Euro"
 	setupDto.CurrencySymbols = []rune{'\U000020ac'}
 

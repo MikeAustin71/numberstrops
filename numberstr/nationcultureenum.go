@@ -19,10 +19,12 @@ var mCountryCultureCodeToString = map[int]string{
 	170:    "Columbia",
 	188:    "CostaRica",
 	192:    "Cuba",
+	196:    "Cyprus",
 	203:    "Czechia",
 	208:    "Denmark",
 	818:    "Egypt",
 	233:    "Estonia",
+	77777:  "Euro",
 	246:    "Finland",
 	250:    "France",
 	276:    "Germany",
@@ -327,6 +329,19 @@ func (cntryCulId CountryCultureId) Cuba() CountryCultureId {
 	return CountryCultureId(192)
 }
 
+// Cyprus - Specifies The Republic of Cyprus.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Cyprus() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(196)
+}
+
 // Czechia - Specifies the The Czech Republic
 //
 // This method is part of the standard enumeration.
@@ -392,6 +407,19 @@ func (cntryCulId CountryCultureId) Estonia() CountryCultureId {
 	return CountryCultureId(233)
 }
 
+// Euro - Specifies the The  European Union.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Euro() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(233)
+}
+
 // Finland - Specifies the The Republic of Finland.
 //
 // This method is part of the standard enumeration.
@@ -402,7 +430,7 @@ func (cntryCulId CountryCultureId) Finland() CountryCultureId {
 
 	defer lockCountryCultureId.Unlock()
 
-	return CountryCultureId(246)
+	return CountryCultureId(77777)
 }
 
 // Germany - Specifies the Federal Republic of Germany
