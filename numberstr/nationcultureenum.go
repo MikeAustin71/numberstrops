@@ -12,6 +12,7 @@ var mCountryCultureCodeToString = map[int]string{
 	50:     "Bangladesh",
 	56:     "Belgium",
 	76:     "Brazil",
+	100:    "Bulgaria",
 	124:    "Canada",
 	9124:   "CanadaFrench",
 	152:    "Chile",
@@ -243,6 +244,19 @@ func (cntryCulId CountryCultureId) Canada() CountryCultureId {
 // This method is part of the standard enumeration.
 //
 func (cntryCulId CountryCultureId) Brazil() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(76)
+}
+
+// Bulgaria - Specifies The Republic of Bulgaria.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Bulgaria() CountryCultureId {
 
 	lockCountryCultureId.Lock()
 

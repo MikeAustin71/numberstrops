@@ -755,6 +755,93 @@ func (nStrFmtCountry *NumStrFormatCountry) Brazil() (setupDto NumStrFmtSpecSetup
 	return setupDto
 }
 
+// Bulgaria - Returns the number string format used in
+// The Republic of Bulgaria.
+//
+//  https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//  https://en.wikipedia.org/wiki/Decimal_separator
+//
+func (nStrFmtCountry *NumStrFormatCountry) Bulgaria() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 100
+	setupDto.IdString = "100"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 100
+	setupDto.CountryIdString = "100"
+	setupDto.CountryDescription = "Country Setup - Bulgaria"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Bulgaria"
+	setupDto.CountryAbbreviatedName = "Bulgaria"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Bulgaria",
+			"Republic of Bulgaria"}
+
+	setupDto.CountryCodeTwoChar = "BG"
+	setupDto.CountryCodeThreeChar = "BGR"
+	setupDto.CountryCodeNumber = "100"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "BGN"
+	setupDto.CurrencyCodeNo = "978"
+	setupDto.CurrencyName = "Euro"
+	setupDto.CurrencySymbols = []rune{'\U000020ac'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Canada - Returns the number string format used in
 // Canada.
 //
@@ -1347,6 +1434,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Cuba() (setupDto NumStrFmtSpecSetupDt
 // The Republic of Cyprus.
 //
 // https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+// https://en.wikipedia.org/wiki/Decimal_separator
 //
 func (nStrFmtCountry *NumStrFormatCountry) Cyprus() (setupDto NumStrFmtSpecSetupDto) {
 
