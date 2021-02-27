@@ -28,6 +28,7 @@ import (
 //  https://en.wikipedia.org/wiki/Currency_symbol
 //  https://www.ip2currency.com/currency-symbol
 //  https://www.xe.com/iso4217.php#U
+//  https://unicode-table.com/en
 //
 //
 // Countries:
@@ -322,6 +323,97 @@ func (nStrFmtCountry *NumStrFormatCountry) Austria() (setupDto NumStrFmtSpecSetu
 	return setupDto
 }
 
+// Bahrain - Returns the number string format used in
+// The Kingdom of Bahrain.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+// https://www.xe.com/currency/bhd-bahraini-dinar
+//
+func (nStrFmtCountry *NumStrFormatCountry) Bahrain() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 48
+	setupDto.IdString = "048"
+	setupDto.Description = "Country Setup - Bahrain"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 48
+	setupDto.CountryIdString = "048"
+	setupDto.CountryDescription = "Country Setup - Bahrain"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Bahrain"
+	setupDto.CountryAbbreviatedName = "Bahrain"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Kingdom of Bahrain",
+			"Kingdom of Bahrain"}
+
+	setupDto.CountryCodeTwoChar = "BH"
+	setupDto.CountryCodeThreeChar = "BHR"
+	setupDto.CountryCodeNumber = "048"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 3
+	setupDto.CurrencyCode = "BHD"
+	setupDto.CurrencyCodeNo = "048"
+	setupDto.CurrencyName = "Dinar"
+	setupDto.CurrencySymbols = []rune{
+		'B',
+		'D',
+	}
+
+	setupDto.MinorCurrencyName = "Fils"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Bangladesh - Returns the number string format used in
 // The People's Republic of Bangladesh.
 //
@@ -385,7 +477,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Bangladesh() (setupDto NumStrFmtSpecS
 	setupDto.DecimalSeparator = '.'
 	setupDto.IntegerDigitsSeparator = ','
 	setupDto.IntegerDigitsGroupingSequence =
-		[]uint{3}
+		[]uint{3, 2}
 
 	setupDto.SignedNumValPositiveValueFmt = "127.54"
 	setupDto.SignedNumValNegativeValueFmt = "-127.54"
@@ -1419,6 +1511,92 @@ func (nStrFmtCountry *NumStrFormatCountry) Denmark() (setupDto NumStrFmtSpecSetu
 	setupDto.SciNotExponentUsesLeadingPlus = true
 	setupDto.SciNotNumFieldLen = -1
 
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Egypt - Returns the number string format used in
+// The Arab Republic of Egypt.
+//
+// https://www.thefinancials.com/Default.aspx?SubSectionID=curformat
+//
+func (nStrFmtCountry *NumStrFormatCountry) Egypt() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 818
+	setupDto.IdString = "818"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 818
+	setupDto.CountryIdString = "818"
+	setupDto.CountryDescription = "Country Setup - Egypt"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Egypt"
+	setupDto.CountryAbbreviatedName = "Egypt"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Arab Republic of Egypt",
+			"Arab Republic of Egypt",
+		}
+
+	setupDto.CountryCodeTwoChar = "EG"
+	setupDto.CountryCodeThreeChar = "EGY"
+	setupDto.CountryCodeNumber = "818"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$127.54"
+	setupDto.CurrencyNegativeValueFmt = "-$127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "EGP"
+	setupDto.CurrencyCodeNo = "818"
+	setupDto.CurrencyName = "Pound"
+	setupDto.CurrencySymbols = []rune{'\U000000a3'}
+
+	setupDto.MinorCurrencyName = "Pence"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
 	setupDto.SignedNumValNumFieldTextJustify =
 		TextJustify(0).Right()
 
@@ -2644,6 +2822,94 @@ func (nStrFmtCountry *NumStrFormatCountry) KoreaSouth() (setupDto NumStrFmtSpecS
 	return setupDto
 }
 
+// Kuwait - Returns the number string format used in
+// The State of Kuwait.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+// https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//
+func (nStrFmtCountry *NumStrFormatCountry) Kuwait() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 414
+	setupDto.IdString = "414"
+	setupDto.Description = "Country Setup - Kuwait"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 414
+	setupDto.CountryIdString = "414"
+	setupDto.CountryDescription = "Country Setup - Kuwait"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Kuwait"
+	setupDto.CountryAbbreviatedName = "Kuwait"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The State of Kuwait",
+			"State of Kuwait"}
+
+	setupDto.CountryCodeTwoChar = "KW"
+	setupDto.CountryCodeThreeChar = "KWT"
+	setupDto.CountryCodeNumber = "414"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 3
+	setupDto.CurrencyCode = "KWD"
+	setupDto.CurrencyCodeNo = "414"
+	setupDto.CurrencyName = "Dinar"
+	setupDto.CurrencySymbols = []rune{'\U00000643'}
+
+	setupDto.MinorCurrencyName = "Fil"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Luxembourg - Returns the number string format used in The
 // Grand Duchy of Luxembourg.
 //
@@ -3258,6 +3524,94 @@ func (nStrFmtCountry *NumStrFormatCountry) Norway() (setupDto NumStrFmtSpecSetup
 	return setupDto
 }
 
+// Oman - Returns the number string format used in
+// The Sultanate of Oman.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+// https://www.xe.com/currency/omr-omani-rial
+//
+func (nStrFmtCountry *NumStrFormatCountry) Oman() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 512
+	setupDto.IdString = "512"
+	setupDto.Description = "Country Setup - Oman"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 512
+	setupDto.CountryIdString = "512"
+	setupDto.CountryDescription = "Country Setup - Oman"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Oman"
+	setupDto.CountryAbbreviatedName = "Oman"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Sultanate of Oman",
+			"Sultanate of Oman"}
+
+	setupDto.CountryCodeTwoChar = "OM"
+	setupDto.CountryCodeThreeChar = "OMN"
+	setupDto.CountryCodeNumber = "512"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 3
+	setupDto.CurrencyCode = "OMR"
+	setupDto.CurrencyCodeNo = "512"
+	setupDto.CurrencyName = "Rial"
+	setupDto.CurrencySymbols = []rune{'\U0000fdfc'}
+
+	setupDto.MinorCurrencyName = "Baiza"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Pakistan - Returns the number string format used in
 // The Islamic Republic of Pakistan.
 //
@@ -3675,6 +4029,95 @@ func (nStrFmtCountry *NumStrFormatCountry) Portugal() (setupDto NumStrFmtSpecSet
 
 	setupDto.DecimalSeparator = ','
 	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Qatar - Returns the number string format used in
+// The State of Qatar.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+// https://en.wikipedia.org/wiki/Decimal_separator
+// https://www.xe.com/currency/qar-qatari-riyal
+//
+func (nStrFmtCountry *NumStrFormatCountry) Qatar() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 634
+	setupDto.IdString = "634"
+	setupDto.Description = "Country Setup - Qatar"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 634
+	setupDto.CountryIdString = "634"
+	setupDto.CountryDescription = "Country Setup - Qatar"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Qatar"
+	setupDto.CountryAbbreviatedName = "Qatar"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The State of Qatar",
+			"State of Qatar"}
+
+	setupDto.CountryCodeTwoChar = "QA"
+	setupDto.CountryCodeThreeChar = "QAT"
+	setupDto.CountryCodeNumber = "634"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "QAR"
+	setupDto.CurrencyCodeNo = "634"
+	setupDto.CurrencyName = "Riyal"
+	setupDto.CurrencySymbols = []rune{'\U0000fdfc'}
+
+	setupDto.MinorCurrencyName = "Dirham"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 

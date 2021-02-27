@@ -7,6 +7,7 @@ var mCountryCultureCodeToString = map[int]string{
 	32:     "Argentina",
 	36:     "Australia",
 	40:     "Austria",
+	48:     "Bahrain",
 	999999: "Bitcoin",
 	50:     "Bangladesh",
 	56:     "Belgium",
@@ -20,6 +21,7 @@ var mCountryCultureCodeToString = map[int]string{
 	192:    "Cuba",
 	203:    "Czechia",
 	208:    "Denmark",
+	818:    "Egypt",
 	233:    "Estonia",
 	246:    "Finland",
 	250:    "France",
@@ -34,6 +36,7 @@ var mCountryCultureCodeToString = map[int]string{
 	380:    "Italy",
 	392:    "Japan",
 	410:    "KoreaSouth",
+	414:    "Kuwait",
 	442:    "Luxembourg",
 	458:    "Malaysia",
 	484:    "Mexico",
@@ -41,11 +44,13 @@ var mCountryCultureCodeToString = map[int]string{
 	528:    "Netherlands",
 	554:    "NewZealand",
 	578:    "Norway",
+	512:    "Oman",
 	586:    "Pakistan",
 	604:    "Peru",
 	608:    "Philippines",
 	616:    "Poland",
 	620:    "Portugal",
+	634:    "Qatar",
 	642:    "Romania",
 	643:    "Russia",
 	682:    "SaudiArabia",
@@ -164,6 +169,19 @@ func (cntryCulId CountryCultureId) Austria() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(40)
+}
+
+// Bahrain - Specifies The Kingdom of Bahrain.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Bahrain() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(48)
 }
 
 // Bitcoin - Specifies the country of Bitcoin
@@ -327,6 +345,19 @@ func (cntryCulId CountryCultureId) Czechia() CountryCultureId {
 // This method is part of the standard enumeration.
 //
 func (cntryCulId CountryCultureId) Denmark() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(208)
+}
+
+// Egypt - Specifies the The Arab Republic of Egypt.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Egypt() CountryCultureId {
 
 	lockCountryCultureId.Lock()
 
@@ -519,6 +550,19 @@ func (cntryCulId CountryCultureId) KoreaSouth() CountryCultureId {
 	return CountryCultureId(410)
 }
 
+// Kuwait - Specifies The State of Kuwait.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Kuwait() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(414)
+}
+
 // Luxembourg - Specifies The Grand Duchy of Luxembourg.
 //
 // This method is part of the standard enumeration.
@@ -610,6 +654,19 @@ func (cntryCulId CountryCultureId) Norway() CountryCultureId {
 	return CountryCultureId(578)
 }
 
+// Oman - Specifies The Sultanate of Oman.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Oman() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(512)
+}
+
 // Pakistan - Specifies The Islamic Republic of Pakistan.
 //
 // This method is part of the standard enumeration.
@@ -667,6 +724,19 @@ func (cntryCulId CountryCultureId) Poland() CountryCultureId {
 // This method is part of the standard enumeration.
 //
 func (cntryCulId CountryCultureId) Portugal() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(620)
+}
+
+// Qatar - Specifies The State of Qatar.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Qatar() CountryCultureId {
 
 	lockCountryCultureId.Lock()
 
