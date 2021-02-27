@@ -19,6 +19,7 @@ var mCountryCultureCodeToString = map[int]string{
 	156:    "China",
 	170:    "Columbia",
 	188:    "CostaRica",
+	191:    "Croatia",
 	192:    "Cuba",
 	196:    "Cyprus",
 	203:    "Czechia",
@@ -328,6 +329,19 @@ func (cntryCulId CountryCultureId) CostaRica() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(188)
+}
+
+// Croatia - Specifies The Republic of Croatia.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Croatia() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(191)
 }
 
 // Cuba - Specifies The Republic of Cuba.
