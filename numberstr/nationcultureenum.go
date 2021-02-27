@@ -363,7 +363,7 @@ func (cntryCulId CountryCultureId) Egypt() CountryCultureId {
 
 	defer lockCountryCultureId.Unlock()
 
-	return CountryCultureId(208)
+	return CountryCultureId(818)
 }
 
 // France - Specifies the The French Republic.
