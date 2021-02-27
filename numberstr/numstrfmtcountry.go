@@ -1604,10 +1604,22 @@ func (nStrFmtCountry *NumStrFormatCountry) Cyprus() (setupDto NumStrFmtSpecSetup
 	return setupDto
 }
 
-// Czechia - Returns the number string format used in the
-// the The Czech Republic.
+// CzechiaEuro - Returns the number string format used in
+// The Czech Republic.
 //
-func (nStrFmtCountry *NumStrFormatCountry) Czechia() (setupDto NumStrFmtSpecSetupDto) {
+// Czechia, or The Czech Republic, is a member of the European
+// Union. As such, it is legally bound to adopt the 'Euro' as its
+// official currency. As of 2020, it has been hesitant to do so
+// and the Czech Koruna still remains in wide spread use.
+//
+// This format configures number strings with the Euro currency
+// symbol. For the Czech Koruna currency, reference:
+//   NumStrFormatCountry.CzechiaKoruna()
+//
+//  https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//  https://en.wikipedia.org/wiki/Decimal_separator
+//
+func (nStrFmtCountry *NumStrFormatCountry) CzechiaEuro() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
@@ -1621,6 +1633,102 @@ func (nStrFmtCountry *NumStrFormatCountry) Czechia() (setupDto NumStrFmtSpecSetu
 
 	setupDto.IdNo = 203
 	setupDto.IdString = "203"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 203
+	setupDto.CountryIdString = "203"
+	setupDto.CountryDescription = "Country Setup -  Czechia Euro"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Czechia"
+	setupDto.CountryAbbreviatedName = "Czechia"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Czech Republic",
+			"Czech Republic"}
+
+	setupDto.CountryCodeTwoChar = "CZ"
+	setupDto.CountryCodeThreeChar = "CZE"
+	setupDto.CountryCodeNumber = "203"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "CZK"
+	setupDto.CurrencyCodeNo = "978"
+	setupDto.CurrencyName = "Euro"
+	setupDto.CurrencySymbols = []rune{'\U000020ac'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// CzechiaKoruna - Returns the number string format used in the
+// The Czech Republic.
+//
+// Czechia, or The Czech Republic, is a member of the European
+// Union. As such, it is legally bound to adopt the 'Euro' as its
+// official currency. As of 2020, it has been hesitant to do so
+// and the Czech Koruna still remains in wide spread use.
+//
+// This format configures number strings with the Koruna currency
+// symbol. For the Czech Euro currency, reference:
+//   NumStrFormatCountry.CzechiaEuro()
+//
+//  https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//  https://en.wikipedia.org/wiki/Decimal_separator
+//
+func (nStrFmtCountry *NumStrFormatCountry) CzechiaKoruna() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 9203
+	setupDto.IdString = "9203"
 	setupDto.Description = "Country Setup"
 	setupDto.Tag = ""
 	setupDto.CountryIdNo = 203

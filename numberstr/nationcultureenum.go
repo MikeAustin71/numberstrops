@@ -22,7 +22,8 @@ var mCountryCultureCodeToString = map[int]string{
 	191:    "Croatia",
 	192:    "Cuba",
 	196:    "Cyprus",
-	203:    "Czechia",
+	203:    "CzechiaEuro",
+	9203:   "CzechiaKoruna",
 	208:    "Denmark",
 	818:    "Egypt",
 	233:    "Estonia",
@@ -370,17 +371,52 @@ func (cntryCulId CountryCultureId) Cyprus() CountryCultureId {
 	return CountryCultureId(196)
 }
 
-// Czechia - Specifies the The Czech Republic
+// CzechiaEuro - Specifies the The Czech Republic
+//
+// Czechia, or The Czech Republic, is a member of the European
+// Union. As such, it is legally bound to adopt the 'Euro' as its
+// official currency. As of 2020, it has been hesitant to do so
+// and the Czech Koruna still remains in wide spread use.
+//
+// This format configures number strings with the Euro currency
+// symbol. For the Czech Koruna currency, reference:
+//   CountryCultureId.CzechiaKoruna()
+//
+//  https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//  https://en.wikipedia.org/wiki/Decimal_separator
 //
 // This method is part of the standard enumeration.
 //
-func (cntryCulId CountryCultureId) Czechia() CountryCultureId {
+func (cntryCulId CountryCultureId) CzechiaEuro() CountryCultureId {
 
 	lockCountryCultureId.Lock()
 
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(203)
+}
+
+// CzechiaKoruna - Specifies the The Czech Republic
+// and the Koruna Currency.
+//
+// Czechia, or The Czech Republic, is a member of the European
+// Union. As such, it is legally bound to adopt the 'Euro' as its
+// official currency. As of 2020, it has been hesitant to do so
+// and the Czech Koruna still remains in wide spread use.
+//
+// This format configures number strings with the Koruna currency
+// symbol. For the Czech Euro currency, reference:
+//   CountryCultureId.CzechiaEuro()
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) CzechiaKoruna() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(9203)
 }
 
 // Denmark - Specifies the The Kingdom of Denmark
