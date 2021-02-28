@@ -43,6 +43,7 @@ var mCountryCultureCodeToString = map[int]string{
 	410:    "KoreaSouth",
 	414:    "Kuwait",
 	428:    "Latvia",
+	440:    "Lithuania",
 	442:    "Luxembourg",
 	458:    "Malaysia",
 	484:    "Mexico",
@@ -667,6 +668,19 @@ func (cntryCulId CountryCultureId) Latvia() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(428)
+}
+
+// Lithuania - Specifies The Republic of Lithuania.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Lithuania() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(440)
 }
 
 // Luxembourg - Specifies The Grand Duchy of Luxembourg.
