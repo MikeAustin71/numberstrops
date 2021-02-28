@@ -46,6 +46,7 @@ var mCountryCultureCodeToString = map[int]string{
 	410:    "KoreaSouth",
 	414:    "Kuwait",
 	428:    "Latvia",
+	438:    "Liechtenstein",
 	440:    "Lithuania",
 	442:    "Luxembourg",
 	458:    "Malaysia",
@@ -72,6 +73,7 @@ var mCountryCultureCodeToString = map[int]string{
 	703:    "Slovakia",
 	710:    "SouthAfrica",
 	724:    "Spain",
+	144:    "SriLanka",
 	752:    "Sweden",
 	756:    "Switzerland",
 	158:    "Taiwan",
@@ -718,6 +720,19 @@ func (cntryCulId CountryCultureId) Latvia() CountryCultureId {
 	return CountryCultureId(428)
 }
 
+// Liechtenstein - Specifies The Principality of Liechtenstein.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Liechtenstein() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(438)
+}
+
 // Lithuania - Specifies The Republic of Lithuania.
 //
 // This method is part of the standard enumeration.
@@ -1054,6 +1069,20 @@ func (cntryCulId CountryCultureId) Spain() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(724)
+}
+
+// SriLanka - Sri Lanka. Specifies The Democratic Socialist
+// Republic of Sri Lanka.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) SriLanka() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(144)
 }
 
 // Sweden - Specifies the Kingdom of Sweden.

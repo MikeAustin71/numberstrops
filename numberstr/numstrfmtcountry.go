@@ -3733,6 +3733,96 @@ func (nStrFmtCountry *NumStrFormatCountry) Latvia() (setupDto NumStrFmtSpecSetup
 	return setupDto
 }
 
+// Liechtenstein - Returns the number string format used in
+// The Principality of Liechtenstein.
+//
+// https://en.wikipedia.org/wiki/Decimal_separator
+// https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Liechtenstein() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 438
+	setupDto.IdString = "438"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 438
+	setupDto.CountryIdString = "438"
+	setupDto.CountryDescription = "Country Setup - Liechtenstein"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Liechtenstein"
+	setupDto.CountryAbbreviatedName = "Liechtenstein"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Principality of Liechtenstein",
+			"Principality of Liechtenstein"}
+
+	setupDto.CountryCodeTwoChar = "LI"
+	setupDto.CountryCodeThreeChar = "LIE"
+	setupDto.CountryCodeNumber = "438"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "CHF"
+	setupDto.CurrencyCodeNo = "756"
+	setupDto.CurrencyName = "Franc"
+	setupDto.CurrencySymbols = []rune{
+		'\U00000043',
+		'\U00000048',
+		'\U00000046'}
+
+	setupDto.MinorCurrencyName = "Rappen"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = '\U00000027' // Apostrophe
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Lithuania - Returns the number string format used in
 // The Republic of Lithuania.
 //
@@ -6089,6 +6179,93 @@ func (nStrFmtCountry *NumStrFormatCountry) Spain() (setupDto NumStrFmtSpecSetupD
 
 	setupDto.SignedNumValPositiveValueFmt = "127.54"
 	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// SriLanka - Sri Lanka. Returns the number string format used in
+// The Democratic Socialist Republic of Sri Lanka.
+//
+//  https://www.srilankalocaltours.com/sri-lanka-currency/
+//  https://www.xe.com/currency/lkr-sri-lankan-rupee
+//
+func (nStrFmtCountry *NumStrFormatCountry) SriLanka() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 144
+	setupDto.IdString = "144"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 144
+	setupDto.CountryIdString = "144"
+	setupDto.CountryDescription = "Country Setup - Sri Lanka"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Sri Lanka"
+	setupDto.CountryAbbreviatedName = "Sri Lanka"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Democratic Socialist Republic of Sri Lanka",
+			"Democratic Socialist Republic of Sri Lanka"}
+
+	setupDto.CountryCodeTwoChar = "LK"
+	setupDto.CountryCodeThreeChar = "LKA"
+	setupDto.CountryCodeNumber = "144"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "LKR"
+	setupDto.CurrencyCodeNo = "144"
+	setupDto.CurrencyName = "Rupee"
+	setupDto.CurrencySymbols = []rune{'\U000020a8'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
 	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
 	setupDto.SignedNumValNumFieldLen = -1
 
