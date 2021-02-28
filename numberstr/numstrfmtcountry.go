@@ -3076,8 +3076,8 @@ func (nStrFmtCountry *NumStrFormatCountry) Iran() (setupDto NumStrFmtSpecSetupDt
 	setupDto.AbsoluteValNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	setupDto.CurrencyPositiveValueFmt = "$127.54"
-	setupDto.CurrencyNegativeValueFmt = "$-127.54"
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
 	setupDto.CurrencyDecimalDigits = 2
 	setupDto.CurrencyCode = "IRR"
 	setupDto.CurrencyCodeNo = "364"
@@ -3103,7 +3103,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Iran() (setupDto NumStrFmtSpecSetupDt
 		[]uint{3}
 
 	setupDto.SignedNumValPositiveValueFmt = "127.54"
-	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
 	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
 	setupDto.SignedNumValNumFieldLen = -1
 
@@ -4244,6 +4244,93 @@ func (nStrFmtCountry *NumStrFormatCountry) Morocco() (setupDto NumStrFmtSpecSetu
 
 	setupDto.SignedNumValPositiveValueFmt = "127.54"
 	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// Namibia - Returns the number string format used in
+// The Republic of Namibia.
+//
+//  https://www.xe.com/currency/nad-namibian-dollar
+//  https://en.wikipedia.org/wiki/Decimal_separator
+//
+func (nStrFmtCountry *NumStrFormatCountry) Namibia() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 516
+	setupDto.IdString = "516"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 516
+	setupDto.CountryIdString = "516"
+	setupDto.CountryDescription = "Country Setup - Namibia"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Namibia"
+	setupDto.CountryAbbreviatedName = "Namibia"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Namibia",
+			"Republic of Namibia"}
+
+	setupDto.CountryCodeTwoChar = "NA"
+	setupDto.CountryCodeThreeChar = "NAM"
+	setupDto.CountryCodeNumber = "516"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "NAD"
+	setupDto.CurrencyCodeNo = "516"
+	setupDto.CurrencyName = "Dollar"
+	setupDto.CurrencySymbols = []rune{'\U00000024'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = []rune{'c'}
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
 	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
 	setupDto.SignedNumValNumFieldLen = -1
 
