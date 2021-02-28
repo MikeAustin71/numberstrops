@@ -4,6 +4,7 @@ import "sync"
 
 var mCountryCultureCodeToString = map[int]string{
 	-1:     "None",
+	8:      "Albania",
 	32:     "Argentina",
 	36:     "Australia",
 	40:     "Austria",
@@ -141,6 +142,19 @@ func (cntryCulId CountryCultureId) None() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(-1)
+}
+
+// Albania - Specifies The Republic of Albania.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Albania() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(8)
 }
 
 // Argentina - Specifies the country of Argentina
