@@ -594,6 +594,97 @@ func (nStrFmtCountry *NumStrFormatCountry) Bangladesh() (setupDto NumStrFmtSpecS
 	return setupDto
 }
 
+// Belarus - Returns the number string format used in
+// The Republic of Belarus.
+//
+//  https://en.wikipedia.org/wiki/ISO_4217
+//  https://en.wikipedia.org/wiki/Currency_symbol
+//
+func (nStrFmtCountry *NumStrFormatCountry) Belarus() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 112
+	setupDto.IdString = "112"
+	setupDto.Description = "Country Setup - Belarus"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 112
+	setupDto.CountryIdString = "112"
+	setupDto.CountryDescription = "Country Setup - Belarus"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Belarus"
+	setupDto.CountryAbbreviatedName = "Belarus"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Belarus",
+			"Republic of Belarus"}
+
+	setupDto.CountryCodeTwoChar = "BY"
+	setupDto.CountryCodeThreeChar = "BLR"
+	setupDto.CountryCodeNumber = "112"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "BYN"
+	setupDto.CurrencyCodeNo = "974"
+	setupDto.CurrencyName = "Ruble"
+	// 42, 72
+	setupDto.CurrencySymbols = []rune{
+		'\U00000042',
+		'\U00000072',
+	}
+
+	setupDto.MinorCurrencyName = "Kapeyka"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = ' ' // space
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Belgium - Returns the number string format used in The Kingdom
 // of Belgium.
 //
