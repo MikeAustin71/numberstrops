@@ -242,6 +242,9 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia() (setupDto NumStrFmtSpecSe
 // Austria - Returns the number string format used in
 // Austria.
 //
+//  https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//  https://en.wikipedia.org/wiki/Decimal_separator
+//
 func (nStrFmtCountry *NumStrFormatCountry) Austria() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
@@ -298,8 +301,8 @@ func (nStrFmtCountry *NumStrFormatCountry) Austria() (setupDto NumStrFmtSpecSetu
 	setupDto.CurrencyNumFieldTextJustify =
 		TextJustify(0).Right()
 
-	setupDto.DecimalSeparator = '.'
-	setupDto.IntegerDigitsSeparator = ','
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -654,6 +657,96 @@ func (nStrFmtCountry *NumStrFormatCountry) Bitcoin() (setupDto NumStrFmtSpecSetu
 
 	setupDto.SignedNumValPositiveValueFmt = "127.54"
 	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
+// BosniaHerzegovina - Bosnia and Herzegovina. Returns the number
+// string format used in the country of Bosnia and Herzegovina.
+//
+//  https://en.wikipedia.org/wiki/Decimal_separator
+//  https://www.xe.com/currency/bam-bosnian-convertible-mark
+//
+func (nStrFmtCountry *NumStrFormatCountry) BosniaHerzegovina() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 70
+	setupDto.IdString = "070"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 70
+	setupDto.CountryIdString = "070"
+	setupDto.CountryDescription = "Country Setup - Bosnia and Herzegovina"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Bosnia and Herzegovina"
+	setupDto.CountryAbbreviatedName = "BosniaHerzegovina"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"BosniaHerzegovina",
+		}
+
+	setupDto.CountryCodeTwoChar = "BA"
+	setupDto.CountryCodeThreeChar = "BIH"
+	setupDto.CountryCodeNumber = "070"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "BAM"
+	setupDto.CurrencyCodeNo = "977"
+	setupDto.CurrencyName = "Marka"
+	setupDto.CurrencySymbols = []rune{
+		'\U0000004b',
+		'\U0000004d',
+	}
+
+	setupDto.MinorCurrencyName = "Fenning"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
 	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
 	setupDto.SignedNumValNumFieldLen = -1
 
@@ -5301,6 +5394,93 @@ func (nStrFmtCountry *NumStrFormatCountry) Slovakia() (setupDto NumStrFmtSpecSet
 	return setupDto
 }
 
+// Slovenia - Returns the number string format used in
+// The Republic of Slovenia.
+//
+//  https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//  https://en.wikipedia.org/wiki/Decimal_separator
+//
+func (nStrFmtCountry *NumStrFormatCountry) Slovenia() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 705
+	setupDto.IdString = "705"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 705
+	setupDto.CountryIdString = "705"
+	setupDto.CountryDescription = "Country Setup - Slovenia"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Slovenia"
+	setupDto.CountryAbbreviatedName = "Slovenia"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Slovenia",
+			"Republic of Slovenia"}
+
+	setupDto.CountryCodeTwoChar = "SI"
+	setupDto.CountryCodeThreeChar = "SVN"
+	setupDto.CountryCodeNumber = "705"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "127.54- $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "SIT"
+	setupDto.CurrencyCodeNo = "978"
+	setupDto.CurrencyName = "Euro"
+	setupDto.CurrencySymbols = []rune{'\U000020ac'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54-"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // SouthAfrica - Returns the number string format used in
 // The Republic of South Africa.
 //
@@ -6414,7 +6594,7 @@ func (nStrFmtCountry *NumStrFormatCountry) VietNam() (setupDto NumStrFmtSpecSetu
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = ' ' // Space
+	setupDto.IntegerDigitsSeparator = '.'
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
