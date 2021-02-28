@@ -53,6 +53,7 @@ var mCountryCultureCodeToString = map[int]string{
 	484:    "Mexico",
 	504:    "Morocco",
 	516:    "Namibia",
+	524:    "Nepal",
 	528:    "Netherlands",
 	554:    "NewZealand",
 	578:    "Norway",
@@ -806,6 +807,19 @@ func (cntryCulId CountryCultureId) Namibia() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(516)
+}
+
+// Nepal - Specifies The Federal Democratic Republic of Nepal.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Nepal() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(524)
 }
 
 // Netherlands - Specifies the Kingdom of the Netherlands.

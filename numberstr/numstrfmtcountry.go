@@ -4349,6 +4349,92 @@ func (nStrFmtCountry *NumStrFormatCountry) Namibia() (setupDto NumStrFmtSpecSetu
 	return setupDto
 }
 
+// Nepal - Returns the number string format used in
+// The Federal Democratic Republic of Nepal.
+//
+//  https://en.wikipedia.org/wiki/Decimal_separator
+//  https://www.xe.com/currency/npr-nepalese-rupee
+//
+func (nStrFmtCountry *NumStrFormatCountry) Nepal() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 524
+	setupDto.IdString = "524"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 524
+	setupDto.CountryIdString = "524"
+	setupDto.CountryDescription = "Country Setup - Nepal"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Nepal"
+	setupDto.CountryAbbreviatedName = "Nepal"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Federal Democratic Republic of Nepal",
+			"Federal Democratic Republic of Nepal"}
+
+	setupDto.CountryCodeTwoChar = "NP"
+	setupDto.CountryCodeThreeChar = "NPL"
+	setupDto.CountryCodeNumber = "524"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "NPR"
+	setupDto.CurrencyCodeNo = "524"
+	setupDto.CurrencyName = "Rupee"
+	setupDto.CurrencySymbols = []rune{'\U000020a8'}
+
+	setupDto.MinorCurrencyName = "Paisa"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3, 2}
+
+	setupDto.SignedNumValPositiveValueFmt = ""
+	setupDto.SignedNumValNegativeValueFmt = ""
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // Netherlands - Returns the number string format used in the
 // Kingdom of Netherlands.
 //
