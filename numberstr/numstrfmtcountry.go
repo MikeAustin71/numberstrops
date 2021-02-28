@@ -3468,6 +3468,98 @@ func (nStrFmtCountry *NumStrFormatCountry) Japan() (setupDto NumStrFmtSpecSetupD
 	return setupDto
 }
 
+// Kenya - Returns the number string format used in
+// The Republic of Kenya.
+//
+//  https://www.xe.com/currency/kes-kenyan-shilling
+//  https://www.tuko.co.ke/307213-new-kenyan-currency-everything-know.html
+//  https://www.thefinancials.com/Default.aspx?SubSectionID=curformat
+//
+func (nStrFmtCountry *NumStrFormatCountry) Kenya() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 404
+	setupDto.IdString = "404"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 404
+	setupDto.CountryIdString = "404"
+	setupDto.CountryDescription = "Country Setup - Kenya"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Kenya"
+	setupDto.CountryAbbreviatedName = "Kenya"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Republic of Kenya",
+			"Republic of Kenya"}
+
+	setupDto.CountryCodeTwoChar = "KE"
+	setupDto.CountryCodeThreeChar = "KEN"
+	setupDto.CountryCodeNumber = "404"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "KES"
+	setupDto.CurrencyCodeNo = "404"
+	setupDto.CurrencyName = "Shilling"
+	setupDto.CurrencySymbols = []rune{
+		'K',
+		'S',
+		'h',
+	}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = []rune{'c'}
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // KoreaSouth - Returns the number string format used in
 // The Republic of Korea.
 //
