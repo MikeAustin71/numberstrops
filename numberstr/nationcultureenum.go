@@ -63,6 +63,7 @@ var mCountryCultureCodeToString = map[int]string{
 	643:    "Russia",
 	682:    "SaudiArabia",
 	702:    "Singapore",
+	703:    "Slovakia",
 	710:    "SouthAfrica",
 	724:    "Spain",
 	752:    "Sweden",
@@ -929,6 +930,19 @@ func (cntryCulId CountryCultureId) Singapore() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(682)
+}
+
+// Slovakia - Specifies The Republic of Singapore.
+//
+// This method is part of the standard enumeration.
+//
+func (cntryCulId CountryCultureId) Slovakia() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return CountryCultureId(703)
 }
 
 // SouthAfrica - Specifies The Republic of South Africa.

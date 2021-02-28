@@ -818,7 +818,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Bulgaria() (setupDto NumStrFmtSpecSet
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -1263,6 +1263,8 @@ func (nStrFmtCountry *NumStrFormatCountry) Columbia() (setupDto NumStrFmtSpecSet
 // CostaRica - Returns the number string format used in
 // The Republic of Costa Rica.
 //
+//  https://en.wikipedia.org/wiki/Decimal_separator
+//
 func (nStrFmtCountry *NumStrFormatCountry) CostaRica() (setupDto NumStrFmtSpecSetupDto) {
 
 	if nStrFmtCountry.lock == nil {
@@ -1321,7 +1323,7 @@ func (nStrFmtCountry *NumStrFormatCountry) CostaRica() (setupDto NumStrFmtSpecSe
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -1408,7 +1410,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Croatia() (setupDto NumStrFmtSpecSetu
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -1676,7 +1678,7 @@ func (nStrFmtCountry *NumStrFormatCountry) CzechiaEuro() (setupDto NumStrFmtSpec
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -1774,7 +1776,7 @@ func (nStrFmtCountry *NumStrFormatCountry) CzechiaKoruna() (setupDto NumStrFmtSp
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -2035,7 +2037,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Estonia() (setupDto NumStrFmtSpecSetu
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -2148,8 +2150,9 @@ func (nStrFmtCountry *NumStrFormatCountry) Euro() (setupDto NumStrFmtSpecSetupDt
 // Finland - Returns the number string format used in The Republic
 // of Finland.
 //
-// https://en.wikipedia.org/wiki/ISO_4217
-// https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/ISO_4217
+//  https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/Decimal_separator
 //
 func (nStrFmtCountry *NumStrFormatCountry) Finland() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -2208,7 +2211,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Finland() (setupDto NumStrFmtSpecSetu
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -2296,7 +2299,7 @@ func (nStrFmtCountry *NumStrFormatCountry) France() (setupDto NumStrFmtSpecSetup
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = ' '
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -2582,8 +2585,9 @@ func (nStrFmtCountry *NumStrFormatCountry) HongKong() (setupDto NumStrFmtSpecSet
 // Hungary - Returns the number string format used in the
 // country of Hungary.
 //
-// https://en.wikipedia.org/wiki/ISO_4217
-// https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/ISO_4217
+//  https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/Decimal_separator
 //
 func (nStrFmtCountry *NumStrFormatCountry) Hungary() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -2643,7 +2647,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Hungary() (setupDto NumStrFmtSpecSetu
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -3428,7 +3432,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Latvia() (setupDto NumStrFmtSpecSetup
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -3515,7 +3519,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Lithuania() (setupDto NumStrFmtSpecSe
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -3719,8 +3723,8 @@ func (nStrFmtCountry *NumStrFormatCountry) Malaysia() (setupDto NumStrFmtSpecSet
 // Malta - Returns the number string format used in
 // The Republic of Malta.
 //
-// https://freeformatter.com/germany-standards-code-snippets.html
-// https://www.evertype.com/standards/euro/formats.html
+//  https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//  https://en.wikipedia.org/wiki/Decimal_separator
 //
 func (nStrFmtCountry *NumStrFormatCountry) Malta() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -4156,8 +4160,9 @@ func (nStrFmtCountry *NumStrFormatCountry) NewZealand() (setupDto NumStrFmtSpecS
 // Norway - Returns the number string format used in the
 // Kingdom of Norway.
 //
-// https://en.wikipedia.org/wiki/ISO_4217
-// https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/ISO_4217
+//  https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/Decimal_separator
 //
 func (nStrFmtCountry *NumStrFormatCountry) Norway() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -4216,7 +4221,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Norway() (setupDto NumStrFmtSpecSetup
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -4657,7 +4662,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Poland() (setupDto NumStrFmtSpecSetup
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = ' '
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -4684,8 +4689,9 @@ func (nStrFmtCountry *NumStrFormatCountry) Poland() (setupDto NumStrFmtSpecSetup
 // Portugal - Returns the number string format used in The
 // Portuguese Republic.
 //
-// https://en.wikipedia.org/wiki/ISO_4217
-// https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/ISO_4217
+//  https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/Decimal_separator
 //
 func (nStrFmtCountry *NumStrFormatCountry) Portugal() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -4744,7 +4750,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Portugal() (setupDto NumStrFmtSpecSet
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -4949,8 +4955,8 @@ func (nStrFmtCountry *NumStrFormatCountry) Romania() (setupDto NumStrFmtSpecSetu
 // Russia - Returns the number string format used in
 // The Russian Federation.
 //
-// https://en.wikipedia.org/wiki/ISO_4217
-// https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/ISO_4217
+//  https://en.wikipedia.org/wiki/Currency_symbol
 //
 func (nStrFmtCountry *NumStrFormatCountry) Russia() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -5208,8 +5214,97 @@ func (nStrFmtCountry *NumStrFormatCountry) Singapore() (setupDto NumStrFmtSpecSe
 	return setupDto
 }
 
+// Slovakia - Returns the number string format used in
+// The Slovak Republic.
+//
+//  https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//  https://en.wikipedia.org/wiki/Decimal_separator
+//
+func (nStrFmtCountry *NumStrFormatCountry) Slovakia() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 703
+	setupDto.IdString = "703"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 703
+	setupDto.CountryIdString = "703"
+	setupDto.CountryDescription = "Country Setup - Slovakia"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Slovakia"
+	setupDto.CountryAbbreviatedName = "Slovakia"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"The Slovak Republic",
+			"Slovak Republic"}
+
+	setupDto.CountryCodeTwoChar = "SK"
+	setupDto.CountryCodeThreeChar = "SVK"
+	setupDto.CountryCodeNumber = "703"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "127.54 $"
+	setupDto.CurrencyNegativeValueFmt = "-127.54 $"
+	setupDto.CurrencyDecimalDigits = 2
+	setupDto.CurrencyCode = "SKK"
+	setupDto.CurrencyCodeNo = "978"
+	setupDto.CurrencyName = "Euro"
+	setupDto.CurrencySymbols = []rune{'\U000020ac'}
+
+	setupDto.MinorCurrencyName = "Cent"
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = ','
+	setupDto.IntegerDigitsSeparator = ' ' // Space
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "127.54 -"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // SouthAfrica - Returns the number string format used in
 // The Republic of South Africa.
+//
+//  https://en.wikipedia.org/wiki/Decimal_separator
 //
 func (nStrFmtCountry *NumStrFormatCountry) SouthAfrica() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -5269,7 +5364,7 @@ func (nStrFmtCountry *NumStrFormatCountry) SouthAfrica() (setupDto NumStrFmtSpec
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = '.'
-	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -5296,8 +5391,9 @@ func (nStrFmtCountry *NumStrFormatCountry) SouthAfrica() (setupDto NumStrFmtSpec
 // Spain - Returns the number string format used in The Kingdom
 // of Spain.
 //
-// https://en.wikipedia.org/wiki/ISO_4217
-// https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/ISO_4217
+//  https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/Decimal_separator
 //
 func (nStrFmtCountry *NumStrFormatCountry) Spain() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -5356,7 +5452,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Spain() (setupDto NumStrFmtSpecSetupD
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -5383,8 +5479,9 @@ func (nStrFmtCountry *NumStrFormatCountry) Spain() (setupDto NumStrFmtSpecSetupD
 // Sweden - Returns the number string format used in the
 // Kingdom of Sweden.
 //
-// https://en.wikipedia.org/wiki/ISO_4217
-// https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/ISO_4217
+//  https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/Decimal_separator
 //
 func (nStrFmtCountry *NumStrFormatCountry) Sweden() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -5443,7 +5540,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Sweden() (setupDto NumStrFmtSpecSetup
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -6256,10 +6353,9 @@ func (nStrFmtCountry *NumStrFormatCountry) Venezuela() (setupDto NumStrFmtSpecSe
 // VietNam - Returns the number string format used in
 // The Socialist Republic of Viet Nam.
 //
-// https://en.wikipedia.org/wiki/ISO_4217
-// https://en.wikipedia.org/wiki/Currency_symbol
-// https://freeformatter.com/vietnam-standards-code-snippets.html
-//
+//  https://en.wikipedia.org/wiki/ISO_4217
+//  https://en.wikipedia.org/wiki/Currency_symbol
+//  https://en.wikipedia.org/wiki/Decimal_separator
 //
 func (nStrFmtCountry *NumStrFormatCountry) VietNam() (setupDto NumStrFmtSpecSetupDto) {
 
@@ -6318,7 +6414,7 @@ func (nStrFmtCountry *NumStrFormatCountry) VietNam() (setupDto NumStrFmtSpecSetu
 		TextJustify(0).Right()
 
 	setupDto.DecimalSeparator = ','
-	setupDto.IntegerDigitsSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ' ' // Space
 	setupDto.IntegerDigitsGroupingSequence =
 		[]uint{3}
 
