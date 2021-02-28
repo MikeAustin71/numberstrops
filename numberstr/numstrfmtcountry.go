@@ -2856,6 +2856,99 @@ func (nStrFmtCountry *NumStrFormatCountry) Hungary() (setupDto NumStrFmtSpecSetu
 	return setupDto
 }
 
+// Iceland - Returns the number string format used in the
+// country of Iceland.
+//
+//  https://www.lonelyplanet.com/iceland/a/nar-gr/money-and-costs
+//  https://www.xe.com/currency/isk-icelandic-krona
+//  https://www.xe.com/symbols.php
+//  https://www.thefinancials.com/Default.aspx?SubSectionID=curformat
+//  https://www.swedishnomad.com/currency-iceland/
+//
+func (nStrFmtCountry *NumStrFormatCountry) Iceland() (setupDto NumStrFmtSpecSetupDto) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	setupDto.Lock = new(sync.Mutex)
+
+	setupDto.IdNo = 352
+	setupDto.IdString = "352"
+	setupDto.Description = "Country Setup"
+	setupDto.Tag = ""
+	setupDto.CountryIdNo = 352
+	setupDto.CountryIdString = "352"
+	setupDto.CountryDescription = "Country Setup - Iceland"
+	setupDto.CountryTag = ""
+	setupDto.CountryCultureName = "Iceland"
+	setupDto.CountryAbbreviatedName = "Iceland"
+
+	setupDto.CountryAlternateNames =
+		[]string{
+			"Iceland",
+		}
+
+	setupDto.CountryCodeTwoChar = "IS"
+	setupDto.CountryCodeThreeChar = "ISL"
+	setupDto.CountryCodeNumber = "352"
+
+	setupDto.AbsoluteValFmt = "127.54"
+	setupDto.AbsoluteValTurnOnIntegerDigitsSeparation = true
+	setupDto.AbsoluteValNumFieldLen = -1
+
+	setupDto.AbsoluteValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.CurrencyPositiveValueFmt = "$ 127.54"
+	setupDto.CurrencyNegativeValueFmt = "$ -127.54"
+	setupDto.CurrencyDecimalDigits = 0
+	setupDto.CurrencyCode = "ISK"
+	setupDto.CurrencyCodeNo = "352"
+	setupDto.CurrencyName = "Krona"
+	setupDto.CurrencySymbols = []rune{
+		'\U0000006b',
+		'\U00000072',
+	}
+
+	setupDto.MinorCurrencyName = ""
+	setupDto.MinorCurrencySymbols = make([]rune, 0, 10)
+
+	setupDto.CurrencyTurnOnIntegerDigitsSeparation = true
+	setupDto.CurrencyNumFieldLen = -1
+
+	setupDto.CurrencyNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.DecimalSeparator = '.'
+	setupDto.IntegerDigitsSeparator = ','
+	setupDto.IntegerDigitsGroupingSequence =
+		[]uint{3}
+
+	setupDto.SignedNumValPositiveValueFmt = "127.54"
+	setupDto.SignedNumValNegativeValueFmt = "-127.54"
+	setupDto.SignedNumValTurnOnIntegerDigitsSeparation = true
+	setupDto.SignedNumValNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	setupDto.SciNotSignificandUsesLeadingPlus = false
+	setupDto.SciNotMantissaLength = 6
+	setupDto.SciNotExponentChar = 'E'
+	setupDto.SciNotExponentUsesLeadingPlus = true
+	setupDto.SciNotNumFieldLen = -1
+
+	setupDto.SignedNumValNumFieldTextJustify =
+		TextJustify(0).Right()
+
+	return setupDto
+}
+
 // India - Returns the number string format used in
 // The Republic of India.
 //
