@@ -300,7 +300,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetIntegerDigitsSeparator() rune {
 	return fmtSpecDto.
 		currencyValue.
 		numberSeparatorsDto.
-		GetIntegerDigitsSeparator()
+		GetIntegerDigitsSeparators()
 }
 
 // GetIntDigitsGroupSequence - Returns the Integer Digits Grouping
@@ -359,7 +359,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetThousandsSeparator() rune {
 
 	defer fmtSpecDto.lock.Unlock()
 
-	return fmtSpecDto.currencyValue.numberSeparatorsDto.GetIntegerDigitsSeparator()
+	return fmtSpecDto.currencyValue.numberSeparatorsDto.GetIntegerDigitsSeparators()
 }
 
 // GetScientificNotationSpec - Returns a deep copy of the member

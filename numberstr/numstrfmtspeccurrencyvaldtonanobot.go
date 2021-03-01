@@ -10,8 +10,8 @@ type numStrFmtSpecCurrencyValueDtoNanobot struct {
 }
 
 // copyIn - Copies the data fields from input parameter
-// 'targetNStrFmtSpecCurrencyValDto' to input parameter
-// 'inComingNStrFmtSpecCurrencyValDto'.
+// 'inComingNStrFmtSpecCurrencyValDto' to input parameter
+// 'targetNStrFmtSpecCurrencyValDto'.
 //
 // Be advised - All data fields in 'targetNStrFmtSpecCurrencyValDto'
 // will be overwritten.

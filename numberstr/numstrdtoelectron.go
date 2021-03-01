@@ -1224,7 +1224,7 @@ func (nStrDtoElectron *numStrDtoElectron) getThousandsSeparator(
 	thousandsSeparator =
 		numStrDto.fmtSpec.currencyValue.
 			numberSeparatorsDto.
-			GetIntegerDigitsSeparator()
+			GetIntegerDigitsSeparators()
 
 	return thousandsSeparator, err
 }

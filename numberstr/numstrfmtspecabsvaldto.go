@@ -221,7 +221,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetIntegerDigitsSeparator
 
 	return nStrFmtAbsValDto.
 		numberSeparatorsDto.
-		GetIntegerDigitsSeparator()
+		GetIntegerDigitsSeparators()
 }
 
 // GetIntegerDigitsGroupingSequence - Returns the value of the

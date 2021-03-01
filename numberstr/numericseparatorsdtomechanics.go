@@ -16,8 +16,7 @@ type numericSeparatorDtoMechanics struct {
 func (numSepsDtoMech *numericSeparatorDtoMechanics) setDigitsSeps(
 	numSepsDto *NumericSeparatorsDto,
 	decimalSeparator rune,
-	integerDigitsSeparator rune,
-	integerDigitsGroupingSequence []uint,
+	integerSeparators []NumStrIntSeparator,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
@@ -44,6 +43,10 @@ func (numSepsDtoMech *numericSeparatorDtoMechanics) setDigitsSeps(
 		return err
 	}
 
+	if numSepsDto.lock == nil {
+		numSepsDto.lock = new(sync.Mutex)
+	}
+
 	if decimalSeparator == 0 {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'decimalSeparator' is invalid!\n"+
@@ -53,26 +56,13 @@ func (numSepsDtoMech *numericSeparatorDtoMechanics) setDigitsSeps(
 		return err
 	}
 
-	if integerDigitsSeparator == 0 {
+	lenIntDigitSeparators :=
+		len(integerSeparators)
+
+	if lenIntDigitSeparators == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'integerDigitsSeparator' is invalid!\n"+
-			"integerDigitsSeparator == 0\n",
-			ePrefix.String())
-
-		return err
-	}
-
-	if numSepsDto.lock == nil {
-		numSepsDto.lock = new(sync.Mutex)
-	}
-
-	lenIntDigitsGroupingSequence :=
-		len(integerDigitsGroupingSequence)
-
-	if lenIntDigitsGroupingSequence == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'integerDigitsGroupingSequence' is invalid!\n"+
-			"'integerDigitsGroupingSequence' is a zero length array or empty array.\n",
+			"Error: Input parameter 'integerSeparators' is invalid!\n"+
+			"'integerSeparators' is a zero length or empty array.\n",
 			ePrefix.String())
 
 		return err
@@ -83,18 +73,26 @@ func (numSepsDtoMech *numericSeparatorDtoMechanics) setDigitsSeps(
 	newDigitsSepsDto.decimalSeparator =
 		decimalSeparator
 
-	newDigitsSepsDto.integerDigitsSeparator =
-		integerDigitsSeparator
+	newDigitsSepsDto.integerSeparators =
+		make([]NumStrIntSeparator,
+			lenIntDigitSeparators,
+			10)
 
-	newDigitsSepsDto.integerDigitsGroupingSequence =
-		make([]uint, 0, 10)
+	elementsCopied :=
+		copy(newDigitsSepsDto.integerSeparators,
+			integerSeparators)
 
-	newDigitsSepsDto.integerDigitsGroupingSequence =
-		make([]uint, lenIntDigitsGroupingSequence, 10)
+	if elementsCopied != lenIntDigitSeparators {
+		err = fmt.Errorf("%v\n"+
+			"Error: Copy of integerSeparators -> "+
+			"newDigitsSepsDto.integerSeparators failed!\n"+
+			"Expected to copy %v elements.\n"+
+			"Actually copied %v elements.\n",
+			ePrefix,
+			lenIntDigitSeparators,
+			elementsCopied)
 
-	for i := 0; i < lenIntDigitsGroupingSequence; i++ {
-		newDigitsSepsDto.integerDigitsGroupingSequence[i] =
-			integerDigitsGroupingSequence[i]
+		return err
 	}
 
 	newDigitsSepsDto.lock = new(sync.Mutex)

@@ -323,7 +323,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetIntegerDigitsSepa
 
 	return nStrFmtSpecCurrValDto.
 		numberSeparatorsDto.
-		GetIntegerDigitsSeparator()
+		GetIntegerDigitsSeparators()
 }
 
 // GetIntegerDigitsGroupingSequence - Returns the value of the

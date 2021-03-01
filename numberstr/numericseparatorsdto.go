@@ -45,10 +45,9 @@ import (
 //              integerDigitsGroupingSequence = []uint{3,2}
 //
 type NumericSeparatorsDto struct {
-	decimalSeparator              rune
-	integerDigitsSeparator        rune
-	integerDigitsGroupingSequence []uint
-	lock                          *sync.Mutex
+	decimalSeparator  rune
+	integerSeparators []NumStrIntSeparator
+	lock              *sync.Mutex
 }
 
 // CopyIn - Copies the data fields from an incoming
@@ -204,7 +203,7 @@ func (numSepDto *NumericSeparatorsDto) GetDecimalSeparator() rune {
 	return numSepDto.decimalSeparator
 }
 
-// GetIntegerDigitsSeparator - Returns the integer digits separator
+// GetIntegerDigitsSeparators - Returns the integer digits separator
 // character.
 //
 // The integer digits separator is also known as the 'thousands'
@@ -213,7 +212,7 @@ func (numSepDto *NumericSeparatorsDto) GetDecimalSeparator() rune {
 //
 //  Example: 1,000,000,000,000
 //
-func (numSepDto *NumericSeparatorsDto) GetIntegerDigitsSeparator() rune {
+func (numSepDto *NumericSeparatorsDto) GetIntegerDigitsSeparators() []NumStrIntSeparator {
 
 	if numSepDto.lock == nil {
 		numSepDto.lock = new(sync.Mutex)
@@ -223,53 +222,7 @@ func (numSepDto *NumericSeparatorsDto) GetIntegerDigitsSeparator() rune {
 
 	defer numSepDto.lock.Unlock()
 
-	return numSepDto.integerDigitsSeparator
-}
-
-// GetIntegerDigitsGroupingSequence - Returns a deep copy of the
-// integer digits grouping sequence as an array of unsigned
-// integers. This refers to grouping of integer digits within a
-// string of numeric digits.
-//
-// In most western countries integer digits to the left of the
-// decimal separator (a.k.a. decimal point) are separated into
-// groups of three digits representing a grouping of 'thousands'
-// like this: '1,000,000,000,000'. In this case the integer digits
-// grouping sequence would be configured as:
-//        integerDigitsGroupingSequence = []uint{3}
-//
-// In some countries and cultures other integer groupings are
-// used. In India, for example, a number might be formatted as
-// like this: '6,78,90,00,00,00,00,000'. The right most group
-// has three digits and all the others are grouped by two digits.
-// In this case integer digits grouping sequence would be
-// configured as:
-//        integerDigitsGroupingSequence = []uint{3,2}
-//
-func (numSepDto *NumericSeparatorsDto) GetIntegerDigitsGroupingSequence() []uint {
-
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
-	}
-
-	numSepDto.lock.Lock()
-
-	defer numSepDto.lock.Unlock()
-
-	lenGrpSeq := len(numSepDto.integerDigitsGroupingSequence)
-
-	groupingSeq := make([]uint, lenGrpSeq, 10)
-
-	if lenGrpSeq == 0 {
-		return groupingSeq
-	}
-
-	for i := 0; i < lenGrpSeq; i++ {
-		groupingSeq[i] =
-			numSepDto.integerDigitsGroupingSequence[i]
-	}
-
-	return groupingSeq
+	return numSepDto.integerSeparators
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
@@ -400,9 +353,11 @@ func (numSepDto NumericSeparatorsDto) New() NumericSeparatorsDto {
 
 	newNumSep.decimalSeparator = '.'
 
-	newNumSep.integerDigitsSeparator = ','
+	newNumSep.integerSeparators =
+		make([]NumStrIntSeparator, 1, 2)
 
-	newNumSep.integerDigitsGroupingSequence = []uint{3}
+	newNumSep.integerSeparators[0].intSeparatorChar = ','
+	newNumSep.integerSeparators[0].intSeparatorGrouping = 3
 
 	newNumSep.lock = new(sync.Mutex)
 
@@ -418,38 +373,59 @@ func (numSepDto NumericSeparatorsDto) New() NumericSeparatorsDto {
 //
 // Input Parameters
 //
-//  decimalSeparator               rune
+//  decimalSeparator              rune
 //     - A text character used to separate integer and fractional
 //       digits in a floating point number string. In the United
 //       States, the standard decimal separator is the period
 //       ('.') or decimal point.
 //
+//  integerSeparators             []NumStrIntSeparator
+//     - An array of NumStrIntSeparator elements used to specify
+//       the integer separation operation.
 //
-//  integerDigitsSeparator         rune
-//     - This separator is also known as the 'thousands' separator.
-//       It is used to separate groups of integer digits to the left
-//       of the decimal separator (a.k.a. decimal point). In the
-//       United States, the standard integer digits separator is the
-//       comma (',').
+//        type NumStrIntSeparator struct {
+//          intSeparatorChar     rune
+//          intSeparatorGrouping uint
+//        }
 //
-//        Example:  1,000,000,000
+//         intSeparatorChar     rune
+//         - This separator is commonly known as the 'thousands'
+//           separator. It is used to separate groups of integer
+//           digits to the left of the decimal separator (a.k.a.
+//           decimal point). In the United States, the standard
+//           integer digits separator is the comma (','). Other
+//           countries use periods, spaces or apostrophes to
+//           separate integers.
+//             United States Example:  1,000,000,000
 //
 //
-//  integerDigitsGroupingSequence  []uint
-//     - In most western countries integer digits to the left of the
-//       decimal separator (a.k.a. decimal point) are separated into
-//       groups of three digits representing a grouping of 'thousands'
-//       like this: '1,000,000,000,000'. In this case the parameter
-//       'integerDigitsGroupingSequence' would be configured as:
-//              integerDigitsGroupingSequence = []uint{3}
+//         intSeparatorGrouping []uint
+//         - In most western countries integer digits to the left
+//           of the decimal separator (a.k.a. decimal point) are
+//           separated into groups of three digits representing
+//           a grouping of 'thousands' like this: '1,000,000,000'.
+//           In this case the intSeparatorGrouping value would be
+//           set to three ('3').
 //
 //       In some countries and cultures other integer groupings are
-//       used. In India, for example, a number might be formatted as
+//       used. In India, for example, a number might be formatted
 //       like this: '6,78,90,00,00,00,00,000'. The right most group
 //       has three digits and all the others are grouped by two. In
-//       this case 'integerDigitsGroupingSequence' would be configured
+//       this case 'integerSeparators' would be configured as
+//       follows:
 //       as:
-//              integerDigitsGroupingSequence = []uint{3,2}
+//
+//       numSeps.intSeparators =
+//         []NumStrIntSeparator{
+//              {
+//              intSeparatorChar:   ',',
+//              intSeparatorGrouping: 3,
+//              },
+//              {
+//              intSeparatorChar:     ',',
+//              intSeparatorGrouping: 2,
+//              },
+//           }
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -481,8 +457,7 @@ func (numSepDto NumericSeparatorsDto) New() NumericSeparatorsDto {
 //
 func (numSepDto NumericSeparatorsDto) NewFromComponents(
 	decimalSeparator rune,
-	integerDigitsSeparator rune,
-	integerDigitsGroupingSequence []uint,
+	integerSeparators []NumStrIntSeparator,
 	ePrefix *ErrPrefixDto) (
 	NumericSeparatorsDto,
 	error) {
@@ -505,8 +480,7 @@ func (numSepDto NumericSeparatorsDto) NewFromComponents(
 	err := numericSeparatorDtoMech.setDigitsSeps(
 		&newDigitsSepsDto,
 		decimalSeparator,
-		integerDigitsSeparator,
-		integerDigitsGroupingSequence,
+		integerSeparators,
 		ePrefix)
 
 	return newDigitsSepsDto, err
