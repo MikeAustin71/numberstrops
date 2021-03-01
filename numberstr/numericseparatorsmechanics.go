@@ -5,16 +5,16 @@ import (
 	"sync"
 )
 
-type numericSeparatorDtoMechanics struct {
+type numericSeparatorsMechanics struct {
 	lock *sync.Mutex
 }
 
-// setDigitsSeps - Transfers new data to an instance of NumericSeparatorsDto.
+// setDigitsSeps - Transfers new data to an instance of NumericSeparators.
 // After completion, all the data fields within input parameter 'nStrFmtSpecDigitsSepDto'
 // will be overwritten.
 //
-func (numSepsDtoMech *numericSeparatorDtoMechanics) setDigitsSeps(
-	numSepsDto *NumericSeparatorsDto,
+func (numSepsDtoMech *numericSeparatorsMechanics) setDigitsSeps(
+	numSepsDto *NumericSeparators,
 	decimalSeparator rune,
 	integerSeparators []NumStrIntSeparator,
 	ePrefix *ErrPrefixDto) (
@@ -32,7 +32,7 @@ func (numSepsDtoMech *numericSeparatorDtoMechanics) setDigitsSeps(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numericSeparatorDtoMechanics.setDigitsSeps()")
+	ePrefix.SetEPref("numericSeparatorsMechanics.setDigitsSeps()")
 
 	if numSepsDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -68,7 +68,7 @@ func (numSepsDtoMech *numericSeparatorDtoMechanics) setDigitsSeps(
 		return err
 	}
 
-	newDigitsSepsDto := NumericSeparatorsDto{}
+	newDigitsSepsDto := NumericSeparators{}
 
 	newDigitsSepsDto.decimalSeparator =
 		decimalSeparator
@@ -97,7 +97,7 @@ func (numSepsDtoMech *numericSeparatorDtoMechanics) setDigitsSeps(
 
 	newDigitsSepsDto.lock = new(sync.Mutex)
 
-	nStrFmtSpecDigitsSepsQuark := numericSeparatorDtoQuark{}
+	nStrFmtSpecDigitsSepsQuark := numericSeparatorsQuark{}
 	_,
 		err =
 		nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
@@ -109,7 +109,7 @@ func (numSepsDtoMech *numericSeparatorDtoMechanics) setDigitsSeps(
 	}
 
 	nStrFmtSpecDigitsSepsElectron :=
-		numericSeparatorDtoElectron{}
+		numericSeparatorsElectron{}
 
 	err =
 		nStrFmtSpecDigitsSepsElectron.copyIn(

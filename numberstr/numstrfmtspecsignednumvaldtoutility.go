@@ -308,10 +308,10 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 		numberFieldTextJustify,
 		ePrefix)
 
-	var numberSeparatorsDto NumericSeparatorsDto
+	var numberSeparatorsDto NumericSeparators
 
 	numberSeparatorsDto,
-		err = NumericSeparatorsDto{}.NewFromComponents(
+		err = NumericSeparators{}.NewFromComponents(
 		decimalSeparatorChar,
 		thousandsSeparatorChar,
 		integerDigitsGroupingSequence,

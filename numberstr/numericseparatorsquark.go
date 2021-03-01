@@ -5,16 +5,16 @@ import (
 	"sync"
 )
 
-type numericSeparatorDtoQuark struct {
+type numericSeparatorsQuark struct {
 	lock *sync.Mutex
 }
 
-// numStrSepDtosAreEqual - Returns 'true' if the two NumericSeparatorsDto
+// numStrSepDtosAreEqual - Returns 'true' if the two NumericSeparators
 // objects submitted as input parameters have equal values.
 //
-func (numSepsDtoQuark *numericSeparatorDtoQuark) numStrSepDtosAreEqual(
-	numSep1 *NumericSeparatorsDto,
-	numSep2 *NumericSeparatorsDto) bool {
+func (numSepsDtoQuark *numericSeparatorsQuark) numStrSepDtosAreEqual(
+	numSep1 *NumericSeparators,
+	numSep2 *NumericSeparators) bool {
 
 	if numSepsDtoQuark.lock == nil {
 		numSepsDtoQuark.lock = new(sync.Mutex)
@@ -66,9 +66,9 @@ func (numSepsDtoQuark *numericSeparatorDtoQuark) numStrSepDtosAreEqual(
 }
 
 // ptr - Returns a pointer to a new instance of
-// numericSeparatorDtoQuark.
+// numericSeparatorsQuark.
 //
-func (numSepsDtoQuark numericSeparatorDtoQuark) ptr() *numericSeparatorDtoQuark {
+func (numSepsDtoQuark numericSeparatorsQuark) ptr() *numericSeparatorsQuark {
 
 	if numSepsDtoQuark.lock == nil {
 		numSepsDtoQuark.lock = new(sync.Mutex)
@@ -78,7 +78,7 @@ func (numSepsDtoQuark numericSeparatorDtoQuark) ptr() *numericSeparatorDtoQuark 
 
 	defer numSepsDtoQuark.lock.Unlock()
 
-	newQuark := new(numericSeparatorDtoQuark)
+	newQuark := new(numericSeparatorsQuark)
 
 	newQuark.lock = new(sync.Mutex)
 
@@ -86,15 +86,15 @@ func (numSepsDtoQuark numericSeparatorDtoQuark) ptr() *numericSeparatorDtoQuark 
 }
 
 // testValidityOfNumSepsDto - Receives an instance of
-// NumericSeparatorsDto and proceeds to test the
+// NumericSeparators and proceeds to test the
 // validity of the member data fields.
 //
 // If one or more data elements are found to be invalid, an
 // error is returned and the return boolean parameter, 'isValid',
 // is set to 'false'.
 //
-func (numSepsDtoQuark *numericSeparatorDtoQuark) testValidityOfNumSepsDto(
-	numSepsDto *NumericSeparatorsDto,
+func (numSepsDtoQuark *numericSeparatorsQuark) testValidityOfNumSepsDto(
+	numSepsDto *NumericSeparators,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
@@ -112,7 +112,7 @@ func (numSepsDtoQuark *numericSeparatorDtoQuark) testValidityOfNumSepsDto(
 	}
 
 	ePrefix.SetEPref(
-		"numericSeparatorDtoQuark." +
+		"numericSeparatorsQuark." +
 			"testValidityOfNumSepsDto()")
 
 	isValid = false

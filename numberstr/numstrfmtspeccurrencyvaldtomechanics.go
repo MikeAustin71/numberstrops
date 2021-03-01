@@ -291,12 +291,12 @@ type numStrFmtSpecCurrencyValueDtoMechanics struct {
 //            Example: '1000000000'
 //
 //
-//  numberSeparatorsDto           NumericSeparatorsDto
-//     - This instance of 'NumericSeparatorsDto' is
+//  numberSeparatorsDto           NumericSeparators
+//     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
 //
-//        type NumericSeparatorsDto struct {
+//        type NumericSeparators struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -406,7 +406,7 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	minorCurrencyName string,
 	minorCurrencySymbols []rune,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumericSeparatorsDto,
+	numberSeparatorsDto NumericSeparators,
 	numFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
 	err error) {

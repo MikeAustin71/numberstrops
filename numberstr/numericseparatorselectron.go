@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-type numericSeparatorDtoElectron struct {
+type numericSeparatorsElectron struct {
 	lock *sync.Mutex
 }
 
@@ -18,9 +18,9 @@ type numericSeparatorDtoElectron struct {
 // This method will OVERWRITE the data fields of the
 // 'targetNumSepsDto' instance.
 //
-func (numSepsDtoElectron *numericSeparatorDtoElectron) copyIn(
-	targetNumSepsDto *NumericSeparatorsDto,
-	inComingNumSepsDto *NumericSeparatorsDto,
+func (numSepsDtoElectron *numericSeparatorsElectron) copyIn(
+	targetNumSepsDto *NumericSeparators,
+	inComingNumSepsDto *NumericSeparators,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
@@ -36,7 +36,7 @@ func (numSepsDtoElectron *numericSeparatorDtoElectron) copyIn(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numericSeparatorDtoElectron.copyIn()")
+	ePrefix.SetEPref("numericSeparatorsElectron.copyIn()")
 
 	if targetNumSepsDto == nil {
 		err = fmt.Errorf("%v"+
@@ -59,7 +59,7 @@ func (numSepsDtoElectron *numericSeparatorDtoElectron) copyIn(
 	}
 
 	nStrFmtSpecDigitsSepsQuark :=
-		numericSeparatorDtoQuark{}
+		numericSeparatorsQuark{}
 
 	_,
 		err =
@@ -102,15 +102,15 @@ func (numSepsDtoElectron *numericSeparatorDtoElectron) copyIn(
 
 // copyOut - Returns a deep copy of input parameter
 // 'nStrFmtSpecDigitsSepsDto' styled as a new instance
-// of NumericSeparatorsDto.
+// of NumericSeparators.
 //
 // If 'nStrFmtSpecDigitsSepsDto' is judged to be invalid, this
 // method will return an error.
 //
-func (numSepsDtoElectron *numericSeparatorDtoElectron) copyOut(
-	numSepsDto *NumericSeparatorsDto,
+func (numSepsDtoElectron *numericSeparatorsElectron) copyOut(
+	numSepsDto *NumericSeparators,
 	ePrefix *ErrPrefixDto) (
-	newNumSepsDto NumericSeparatorsDto,
+	newNumSepsDto NumericSeparators,
 	err error) {
 
 	if numSepsDtoElectron.lock == nil {
@@ -125,7 +125,7 @@ func (numSepsDtoElectron *numericSeparatorDtoElectron) copyOut(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numericSeparatorDtoElectron.copyOut()")
+	ePrefix.SetEPref("numericSeparatorsElectron.copyOut()")
 
 	if numSepsDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -137,7 +137,7 @@ func (numSepsDtoElectron *numericSeparatorDtoElectron) copyOut(
 	}
 
 	numSepsDtoQuark :=
-		numericSeparatorDtoQuark{}
+		numericSeparatorsQuark{}
 
 	_,
 		err =
@@ -179,9 +179,9 @@ func (numSepsDtoElectron *numericSeparatorDtoElectron) copyOut(
 }
 
 // ptr - Returns a pointer to a new instance of
-// numericSeparatorDtoElectron.
+// numericSeparatorsElectron.
 //
-func (numSepsDtoElectron numericSeparatorDtoElectron) ptr() *numericSeparatorDtoElectron {
+func (numSepsDtoElectron numericSeparatorsElectron) ptr() *numericSeparatorsElectron {
 
 	if numSepsDtoElectron.lock == nil {
 		numSepsDtoElectron.lock = new(sync.Mutex)
@@ -191,7 +191,7 @@ func (numSepsDtoElectron numericSeparatorDtoElectron) ptr() *numericSeparatorDto
 
 	defer numSepsDtoElectron.lock.Unlock()
 
-	newNumSepsElectron := new(numericSeparatorDtoElectron)
+	newNumSepsElectron := new(numericSeparatorsElectron)
 
 	newNumSepsElectron.lock = new(sync.Mutex)
 

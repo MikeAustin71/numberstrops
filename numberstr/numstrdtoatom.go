@@ -631,7 +631,7 @@ func (nStrDtoAtom *numStrDtoAtom) getAbsoluteBigFloat(
 //
 //       Numeric separators extracted from the absolute value
 //       format residing within this NumStrDto instance are used to
-//       populate the returned instance of NumericSeparatorsDto.
+//       populate the returned instance of NumericSeparators.
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -644,14 +644,14 @@ func (nStrDtoAtom *numStrDtoAtom) getAbsoluteBigFloat(
 //
 // Return Values
 //
-//  numSepsDto          NumericSeparatorsDto
+//  numSepsDto          NumericSeparators
 //     - If this method completes successfully, an instance of
-//       NumericSeparatorsDto will be returned populated with the
+//       NumericSeparators will be returned populated with the
 //       numeric separators associated with input parameter,
-//       'numStrDto'. The NumericSeparatorsDto data structure is
+//       'numStrDto'. The NumericSeparators data structure is
 //       shown below:
 //
-//       type NumericSeparatorsDto struct {
+//       type NumericSeparators struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -672,7 +672,7 @@ func (nStrDtoAtom *numStrDtoAtom) getAbsoluteBigFloat(
 func (nStrDtoAtom *numStrDtoAtom) getAbsoluteNumSepsDto(
 	numStrDto *NumStrDto,
 	ePrefix *ErrPrefixDto) (
-	numSepsDto NumericSeparatorsDto,
+	numSepsDto NumericSeparators,
 	err error) {
 
 	if nStrDtoAtom.lock == nil {
@@ -690,7 +690,7 @@ func (nStrDtoAtom *numStrDtoAtom) getAbsoluteNumSepsDto(
 	ePrefix.SetEPref(
 		"numStrDtoAtom.getCurrencyNumSepsDto()")
 
-	numSepsDto = NumericSeparatorsDto{}
+	numSepsDto = NumericSeparators{}
 
 	err = nil
 
@@ -888,7 +888,7 @@ func (nStrDtoAtom *numStrDtoAtom) getBigRationalNum(
 //
 //       Numeric separators extracted from the currency value
 //       format residing within this NumStrDto instance are used to
-//       populate the returned instance of NumericSeparatorsDto.
+//       populate the returned instance of NumericSeparators.
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -901,14 +901,14 @@ func (nStrDtoAtom *numStrDtoAtom) getBigRationalNum(
 //
 // Return Values
 //
-//  numSepsDto          NumericSeparatorsDto
+//  numSepsDto          NumericSeparators
 //     - If this method completes successfully, an instance of
-//       NumericSeparatorsDto will be returned populated with the
+//       NumericSeparators will be returned populated with the
 //       numeric separators associated with input parameter,
-//       'numStrDto'. The NumericSeparatorsDto data structure is
+//       'numStrDto'. The NumericSeparators data structure is
 //       shown below:
 //
-//       type NumericSeparatorsDto struct {
+//       type NumericSeparators struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -929,7 +929,7 @@ func (nStrDtoAtom *numStrDtoAtom) getBigRationalNum(
 func (nStrDtoAtom *numStrDtoAtom) getCurrencyNumSepsDto(
 	numStrDto *NumStrDto,
 	ePrefix *ErrPrefixDto) (
-	numSepsDto NumericSeparatorsDto,
+	numSepsDto NumericSeparators,
 	err error) {
 
 	if nStrDtoAtom.lock == nil {
@@ -947,7 +947,7 @@ func (nStrDtoAtom *numStrDtoAtom) getCurrencyNumSepsDto(
 	ePrefix.SetEPref(
 		"numStrDtoAtom.getCurrencyNumSepsDto()")
 
-	numSepsDto = NumericSeparatorsDto{}
+	numSepsDto = NumericSeparators{}
 
 	err = nil
 
@@ -1003,7 +1003,7 @@ func (nStrDtoAtom *numStrDtoAtom) getCurrencyNumSepsDto(
 //
 //       Numeric separators extracted from the signed number
 //       format residing within this NumStrDto instance are used to
-//       populate the returned instance of NumericSeparatorsDto.
+//       populate the returned instance of NumericSeparators.
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -1016,14 +1016,14 @@ func (nStrDtoAtom *numStrDtoAtom) getCurrencyNumSepsDto(
 //
 // Return Values
 //
-//  numSepsDto          NumericSeparatorsDto
+//  numSepsDto          NumericSeparators
 //     - If this method completes successfully, an instance of
-//       NumericSeparatorsDto will be returned populated with the
+//       NumericSeparators will be returned populated with the
 //       numeric separators associated with input parameter,
-//       'numStrDto'. The NumericSeparatorsDto data structure is
+//       'numStrDto'. The NumericSeparators data structure is
 //       shown below:
 //
-//       type NumericSeparatorsDto struct {
+//       type NumericSeparators struct {
 //         decimalSeparator              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
@@ -1044,7 +1044,7 @@ func (nStrDtoAtom *numStrDtoAtom) getCurrencyNumSepsDto(
 func (nStrDtoAtom *numStrDtoAtom) getSignedNumSepsDto(
 	numStrDto *NumStrDto,
 	ePrefix *ErrPrefixDto) (
-	numSepsDto NumericSeparatorsDto,
+	numSepsDto NumericSeparators,
 	err error) {
 
 	if nStrDtoAtom.lock == nil {
@@ -1062,7 +1062,7 @@ func (nStrDtoAtom *numStrDtoAtom) getSignedNumSepsDto(
 	ePrefix.SetEPref(
 		"numStrDtoAtom.getSignedNumSepsDto()")
 
-	numSepsDto = NumericSeparatorsDto{}
+	numSepsDto = NumericSeparators{}
 
 	err = nil
 

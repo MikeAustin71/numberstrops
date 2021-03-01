@@ -2041,7 +2041,7 @@ func TestNumStrDto_NewNumStrWithNumSeps_0010(t *testing.T) {
 
 	nStr := "123,456"
 
-	expectedNumSeps := NumericSeparatorsDto{}
+	expectedNumSeps := NumericSeparators{}
 	frenchDecSeparator := ','
 	frenchThousandsSeparator := ' '
 	frenchCurrencySymbol := '€'
@@ -2098,7 +2098,7 @@ func TestNumStrDto_NewNumStrWithNumSeps_0020(t *testing.T) {
 
 	nStr := "123.456"
 
-	expectedNumSeps := NumericSeparatorsDto{}
+	expectedNumSeps := NumericSeparators{}
 	expectedNumSeps.SetToUSADefaultsIfEmpty()
 
 	var nDto NumStrDto
@@ -2149,7 +2149,7 @@ func TestNumStrDto_NewNumStrWithNumSeps_0030(t *testing.T) {
 
 	nStr := "123.456"
 
-	expectedNumSeps := NumericSeparatorsDto{}
+	expectedNumSeps := NumericSeparators{}
 
 	expectedNumSeps.SetToUSADefaultsIfEmpty()
 

@@ -326,7 +326,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 //
 // Example Usage
 //
-//     numSepsDto := NumericSeparatorsDto{}
+//     numSepsDto := NumericSeparators{}
 //     numSepsDto.SetToUSADefaults()
 //
 //     f64Num := float64(123.456)
@@ -503,7 +503,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 //  Example #1
 //     int64Num := int64(123456)
 //     bigIntNum := big.NewInt(int64Num)
-//     numSeps := NumericSeparatorsDto{}
+//     numSeps := NumericSeparators{}
 //     numSeps.SetToUSADefaults()
 //     precision := uint(3)
 //     nStrDtoNanobot := numStrDtoNanobot{}
@@ -520,7 +520,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 //  Example #2
 //     int64Num := int64(123456)
 //     bigIntNum := big.NewInt(int64Num)
-//     numSeps := NumericSeparatorsDto{}
+//     numSeps := NumericSeparators{}
 //     numSeps.SetToUSADefaults()
 //     precision := uint(0)
 //     nStrDtoNanobot := numStrDtoNanobot{}
@@ -700,7 +700,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 //
 // See the 'Example Usage' section below.
 //
-//     - An instance of NumericSeparatorsDto which will be used to supply
+//     - An instance of NumericSeparators which will be used to supply
 //       the numeric separators for the new NumStrDto instance returned
 //       by this method. Numeric separators include the Thousands
 //       Separator, Decimal Separator and the Currency Symbol.
@@ -775,7 +775,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 //
 // Example Usage
 //
-//  numSepsDto := NumericSeparatorsDto{}
+//  numSepsDto := NumericSeparators{}
 //  numSepsDto.SetToUSADefaults()
 //
 //           f64 := float64(123.456)
@@ -938,7 +938,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 // Example Usage
 //
 //     int64Num := int64(123456)
-//     numSeps := NumericSeparatorsDto{}
+//     numSeps := NumericSeparators{}
 //     numSeps.SetToUSADefaults()
 //     precision := uint(3)
 //     nStrDtoNanobot := numStrDtoNanobot{}
@@ -1098,7 +1098,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 //
 // Example Usage
 //
-//     numSeps := NumericSeparatorsDto{}
+//     numSeps := NumericSeparators{}
 //     numSeps.SetToUSADefaults()
 //     int64Num := int64(123456)
 //     exponent := -3
@@ -1110,7 +1110,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 //
 //  -- nDto is now equal to "123.456", precision = 3
 //
-//     numSeps := NumericSeparatorsDto{}
+//     numSeps := NumericSeparators{}
 //     numSeps.SetToUSADefaults()
 //     int64Num := int64(123456)
 //     exponent := 3
@@ -1583,7 +1583,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newRational(
 // Example Usage
 //
 //     uint64Num := uint64(123456)
-//     numSepsDto := NumericSeparatorsDto{}
+//     numSepsDto := NumericSeparators{}
 //     numSeps.SetToUSADefaults()
 //     precision := uint(3)
 //
@@ -1747,7 +1747,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 //
 // Example Usage:
 //
-//     numSeps := NumericSeparatorsDto{}
+//     numSeps := NumericSeparators{}
 //     numSeps.SetToUSADefaults()
 //     uint64Num := uint64(123456)
 //     exponent := -3
@@ -1761,7 +1761,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 //   -- nDto is now equal to "123.456", precision = 3
 //
 //
-//     numSeps := NumericSeparatorsDto{}
+//     numSeps := NumericSeparators{}
 //     numSeps.SetToUSADefaults()
 //     uint64Num := uint64(123456)
 //     exponent := 3
