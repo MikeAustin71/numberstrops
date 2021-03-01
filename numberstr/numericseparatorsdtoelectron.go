@@ -74,22 +74,28 @@ func (numSepsDtoElectron *numericSeparatorDtoElectron) copyIn(
 	targetNumSepsDto.decimalSeparator =
 		inComingNumSepsDto.decimalSeparator
 
-	targetNumSepsDto.integerDigitsSeparator =
-		inComingNumSepsDto.integerDigitsSeparator
+	lenIntSeparators :=
+		len(inComingNumSepsDto.integerSeparators)
 
-	lenIntDigitsGroupSeq :=
-		len(inComingNumSepsDto.integerDigitsGroupingSequence)
+	targetNumSepsDto.integerSeparators =
+		make([]NumStrIntSeparator,
+			lenIntSeparators,
+			10)
 
-	targetNumSepsDto.integerDigitsGroupingSequence =
-		make([]uint, lenIntDigitsGroupSeq, lenIntDigitsGroupSeq+5)
+	for i := 0; i < lenIntSeparators; i++ {
 
-	if lenIntDigitsGroupSeq == 0 {
-		return
+		err =
+			targetNumSepsDto.integerSeparators[i].CopyIn(
+				&inComingNumSepsDto.integerSeparators[i],
+				ePrefix.XCtx(
+					fmt.Sprintf("Copying inComingNumSepsDto.integerSeparators[%v]",
+						i)))
+
+		if err != nil {
+			return err
+		}
+
 	}
-
-	_ =
-		copy(targetNumSepsDto.integerDigitsGroupingSequence,
-			inComingNumSepsDto.integerDigitsGroupingSequence)
 
 	return err
 }
@@ -146,22 +152,26 @@ func (numSepsDtoElectron *numericSeparatorDtoElectron) copyOut(
 	newNumSepsDto.decimalSeparator =
 		numSepsDto.decimalSeparator
 
-	newNumSepsDto.integerDigitsSeparator =
-		numSepsDto.integerDigitsSeparator
+	lenIntSeparators :=
+		len(numSepsDto.integerSeparators)
 
-	lenIntDigitsGroupingSequence :=
-		len(numSepsDto.integerDigitsGroupingSequence)
+	newNumSepsDto.integerSeparators =
+		make([]NumStrIntSeparator, lenIntSeparators)
 
-	newNumSepsDto.integerDigitsGroupingSequence =
-		make([]uint, lenIntDigitsGroupingSequence)
+	for i := 0; i < lenIntSeparators; i++ {
+		err =
+			newNumSepsDto.integerSeparators[i].CopyIn(
+				&numSepsDto.integerSeparators[i],
+				ePrefix.XCtx(
+					fmt.Sprintf(
+						"Copying numSepsDto.integerSeparators[%v]",
+						i)))
 
-	if lenIntDigitsGroupingSequence == 0 {
-		return newNumSepsDto, err
+		if err != nil {
+			return newNumSepsDto, err
+		}
+
 	}
-
-	_ = copy(
-		newNumSepsDto.integerDigitsGroupingSequence,
-		numSepsDto.integerDigitsGroupingSequence)
 
 	newNumSepsDto.lock = new(sync.Mutex)
 

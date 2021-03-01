@@ -35,33 +35,30 @@ func (numSepsDtoQuark *numericSeparatorDtoQuark) numStrSepDtosAreEqual(
 		return false
 	}
 
-	if numSep1.integerDigitsSeparator !=
-		numSep2.integerDigitsSeparator {
+	if numSep1.integerSeparators == nil {
+		numSep1.integerSeparators =
+			make([]NumStrIntSeparator, 0, 5)
+	}
 
+	if numSep2.integerSeparators == nil {
+		numSep2.integerSeparators =
+			make([]NumStrIntSeparator, 0, 5)
+	}
+
+	lenNumSep1IntSeps := len(numSep1.integerSeparators)
+
+	if len(numSep2.integerSeparators) !=
+		lenNumSep1IntSeps {
 		return false
 	}
 
-	if numSep1.integerDigitsGroupingSequence == nil {
-		numSep1.integerDigitsGroupingSequence =
-			make([]uint, 0, 10)
-	}
+	for i := 0; i < lenNumSep1IntSeps; i++ {
 
-	if numSep2.integerDigitsGroupingSequence == nil {
-		numSep2.integerDigitsGroupingSequence =
-			make([]uint, 0, 10)
-	}
+		if !numSep1.integerSeparators[i].Equal(
+			numSep2.integerSeparators[i]) {
 
-	lenGrpSeq := len(numSep1.integerDigitsGroupingSequence)
-
-	if lenGrpSeq !=
-		len(numSep1.integerDigitsGroupingSequence) {
-		return false
-	}
-
-	for i := 0; i < lenGrpSeq; i++ {
-		if numSep1.integerDigitsGroupingSequence[i] !=
-			numSep2.integerDigitsGroupingSequence[i] {
 			return false
+
 		}
 	}
 
@@ -138,27 +135,33 @@ func (numSepsDtoQuark *numericSeparatorDtoQuark) testValidityOfNumSepsDto(
 		return isValid, err
 	}
 
-	if numSepsDto.integerDigitsSeparator == 0 {
+	if numSepsDto.integerSeparators == nil {
+		numSepsDto.integerSeparators =
+			make([]NumStrIntSeparator, 0, 5)
+	}
+
+	lenIntDigitsSeps := len(numSepsDto.integerSeparators)
+
+	if lenIntDigitsSeps == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: Internal member varialbe 'integerDigitsSeparator' is invalid!\n"+
-			"'integerDigitsSeparator' is empty and has a zero value.\n",
+			"Error: Internal member variable 'integerSeparators' is invalid!\n"+
+			"'integerSeparators' is a ZERO length array.\n",
 			ePrefix.String())
 
 		return isValid, err
 	}
 
-	if numSepsDto.integerDigitsGroupingSequence == nil {
-		numSepsDto.integerDigitsGroupingSequence =
-			make([]uint, 0, 10)
-	}
+	for i := 0; i < lenIntDigitsSeps; i++ {
 
-	if len(numSepsDto.integerDigitsGroupingSequence) == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Internal member varialbe 'integerDigitsGroupingSequence' is invalid!\n"+
-			"'integerDigitsGroupingSequence' is empty and has no member elements.\n",
-			ePrefix.String())
+		err = numSepsDto.integerSeparators[i].IsValidInstanceError(
+			ePrefix.XCtx(fmt.Sprintf(
+				"Checking numSepsDto.integerSeparators[%v]",
+				i)))
 
-		return isValid, err
+		if err != nil {
+			return isValid, err
+		}
+
 	}
 
 	isValid = true

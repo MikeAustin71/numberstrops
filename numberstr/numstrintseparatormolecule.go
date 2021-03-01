@@ -136,6 +136,42 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyOut(
 	return newNumSrIntSeparator, err
 }
 
+// equal - Receives two instances of NumStrIntSeparator and
+// proceeds to compare the internal data values. If all the
+// data values in 'nStrIntSep1' and 'nStrIntSep2' are equal, this
+// method returns 'true'.
+//
+// If any of the data values in 'nStrIntSep1' and 'nStrIntSep2' are
+// NOT equal, this method returns 'false'.
+//
+func (nStrIntSepMolecule *numStrIntSeparatorMolecule) equal(
+	nStrIntSep1 *NumStrIntSeparator,
+	nStrIntSep2 *NumStrIntSeparator) (
+	areEqual bool) {
+
+	if nStrIntSepMolecule.lock == nil {
+		nStrIntSepMolecule.lock = new(sync.Mutex)
+	}
+
+	nStrIntSepMolecule.lock.Lock()
+
+	defer nStrIntSepMolecule.lock.Unlock()
+
+	areEqual = true
+
+	if nStrIntSep1.intSeparatorChar !=
+		nStrIntSep2.intSeparatorChar {
+		areEqual = false
+	}
+
+	if nStrIntSep1.intSeparatorGrouping !=
+		nStrIntSep2.intSeparatorGrouping {
+		areEqual = false
+	}
+
+	return areEqual
+}
+
 // Ptr - Returns a pointer to a new instance of
 // numStrIntSeparatorMolecule.
 func (nStrIntSepMolecule numStrIntSeparatorMolecule) Ptr() *numStrIntSeparatorMolecule {

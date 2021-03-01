@@ -12,6 +12,8 @@ import (
 // characters and grouping sequences for a single number
 // string. One notable example of this found in the 'Indian
 // Number System'.
+//  Reference:
+//  https://en.wikipedia.org/wiki/Indian_numbering_system
 //
 // An array of NumStrIntSeparator elements provides the flexibility
 // necessary to process these complex number formats.
@@ -158,6 +160,26 @@ func (nStrIntSep *NumStrIntSeparator) CopyOut(
 		copyOut(
 			nStrIntSep,
 			ePrefix)
+}
+
+// Equal - Receives an incoming NumStrIntSeparator
+// instance and compares it the current NumStrIntSeparator
+// instance. If the two objects have equal data values, this method
+// returns 'true'
+//
+func (nStrIntSep *NumStrIntSeparator) Equal(
+	nStrIntSep2 NumStrIntSeparator) bool {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	return numStrIntSeparatorMolecule{}.Ptr().
+		equal(nStrIntSep, &nStrIntSep2)
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
