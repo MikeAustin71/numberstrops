@@ -539,7 +539,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 // NumStrFmtSpecCurrencyValueDto.
 //
 // If the NumStrFmtSpecCurrencyValueDto or NumericSeparators object
-// are judged to be invalid, this method will return an error.
+// is judged to be invalid, this method will return an error.
 //
 //
 // ----------------------------------------------------------------

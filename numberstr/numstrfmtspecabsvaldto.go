@@ -415,7 +415,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto(
 // NumStrFmtSpecAbsoluteValueDto.
 //
 // If the NumStrFmtSpecAbsoluteValueDto or NumericSeparators object
-// are judged to be invalid, this method will return an error.
+// is judged to be invalid, this method will return an error.
 //
 //
 // ----------------------------------------------------------------
