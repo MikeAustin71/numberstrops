@@ -411,7 +411,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumericSe
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.GetNumericSeparatorsDto()")
+	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.GetNumericSeparators()")
 
 	return nStrFmtSpecSignedNumValueDto.numberSeparatorsDto.CopyOut(
 		ePrefix.XCtx(

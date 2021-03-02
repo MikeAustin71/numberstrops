@@ -326,10 +326,77 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencyIntDigitSeparators(
 	return fmtSpecDto.
 		currencyValue.
 		numericSeparators.
-		GetIntegerDigitSeparators()
+		GetIntegerDigitSeparators(
+			ePrefix.XCtx(
+				"currencyValue.numericSeparators"))
 }
 
-func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencyNumericSeparators() NumericSeparators {
+// GetCurrencyNumericSeparators - Returns a deep copy of the
+// NumericSeparators instance currently configured for the
+// Currency Format Specification.
+//
+// The Numeric Separators object contains the decimal separator
+// and the integer digit separators.
+//
+// The integer digit separators is also known as the 'thousands'
+// separator. In the United States the standard integer digit
+// separator character is the comma (',') and integers are shown
+// in groups of three ('3').
+//
+//    United States Example: 1,000,000,000,000
+//
+// The returned NumericSeparators object represents the Numeric
+// Separator values used to configure the current instance of
+// NumStrFmtSpecCurrencyValueDto.
+//
+// If the NumStrFmtSpecCurrencyValueDto or Numeric Separator
+// objects are judged to be invalid, this method will return an
+// error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumericSeparators
+//     - If this method completes successfully, a new instance of
+//       NumericSeparators will be returned through this
+//       parameter. This object is a deep copy of the Numeric
+//       Separator information used to configure the current
+//       instance of NumStrFmtSpecCurrencyValueDto.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+//       Be advised that if the 'NumericSeparators' is judged
+//       invalid, this method will return an error.
+//
+func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencyNumericSeparators(
+	ePrefix *ErrPrefixDto) (
+	NumericSeparators,
+	error) {
 
 	if fmtSpecDto.lock == nil {
 		fmtSpecDto.lock = new(sync.Mutex)
@@ -339,11 +406,17 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencyNumericSeparators() NumericSepara
 
 	defer fmtSpecDto.lock.Unlock()
 
-	return fmtSpecDto.
-		currencyValue.
-		numericSeparators.
-		GetIntegerDigitSeparators()
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
+	ePrefix.SetEPref(
+		"NumStrFmtSpecDto.GetCurrencyNumericSeparators()")
+
+	return fmtSpecDto.
+		currencyValue.GetNumericSeparators(
+		ePrefix.XCtx(
+			"fmtSpecDto.currencyValue"))
 }
 
 // GetCurrencySpec - Returns a deep copy of the member variable

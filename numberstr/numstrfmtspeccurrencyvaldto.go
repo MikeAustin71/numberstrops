@@ -516,7 +516,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 		ePrefix.XCtx("nStrFmtSpecCurrValDto.numFieldLenDto->"))
 }
 
-// GetNumericSeparatorsDto - Returns a deep copy of the
+// GetNumericSeparators - Returns a deep copy of the
 // NumericSeparators instance currently configured for this
 // Currency Format Specification.
 //
@@ -577,7 +577,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 //       Be advised that if the 'NumericSeparators' is judged
 //       invalid, this method will return an error.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumericSeparatorsDto(
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumericSeparators(
 	ePrefix *ErrPrefixDto) (
 	NumericSeparators,
 	error) {
@@ -594,7 +594,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumericSeparators
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.GetNumericSeparatorsDto() ")
+	ePrefix.SetEPref(
+		"NumStrFmtSpecCurrencyValueDto.GetNumericSeparators()")
 
 	nStrFmtSpecCurrDtoMolecule :=
 		numStrFmtSpecCurrencyValueDtoMolecule{}

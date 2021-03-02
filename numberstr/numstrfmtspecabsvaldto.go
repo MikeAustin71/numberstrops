@@ -405,7 +405,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumericSeparatorsDto(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecAbsoluteValueDto.GetNumericSeparatorsDto()")
+	ePrefix.SetEPref("NumStrFmtSpecAbsoluteValueDto.GetNumericSeparators()")
 
 	return nStrFmtAbsValDto.numberSeparatorsDto.CopyOut(
 		ePrefix.XCtx("nStrFmtAbsValDto.numericSeparators->"))
