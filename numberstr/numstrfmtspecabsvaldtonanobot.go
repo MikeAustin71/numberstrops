@@ -78,8 +78,8 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
 		inComingNStrFmtSpecAbsoluteValDto.turnOnIntegerDigitsSeparation
 
 	err =
-		targetNStrFmtSpecAbsoluteValDto.numberSeparatorsDto.CopyIn(
-			&inComingNStrFmtSpecAbsoluteValDto.numberSeparatorsDto,
+		targetNStrFmtSpecAbsoluteValDto.numericSeparators.CopyIn(
+			&inComingNStrFmtSpecAbsoluteValDto.numericSeparators,
 			ePrefix.XCtx(
 				"Copying inComingNStrFmtSpecAbsoluteValDto->"+
 					"targetNStrFmtSpecAbsoluteValDto"))
@@ -153,8 +153,8 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyOut
 	newNStrFmtSpecAbsoluteValDto.turnOnIntegerDigitsSeparation =
 		nStrFmtSpecAbsoluteValDto.turnOnIntegerDigitsSeparation
 
-	err = newNStrFmtSpecAbsoluteValDto.numberSeparatorsDto.CopyIn(
-		&nStrFmtSpecAbsoluteValDto.numberSeparatorsDto,
+	err = newNStrFmtSpecAbsoluteValDto.numericSeparators.CopyIn(
+		&nStrFmtSpecAbsoluteValDto.numericSeparators,
 		ePrefix.XCtx(
 			"nStrFmtSpecAbsoluteValDto->"+
 				"newNStrFmtSpecAbsoluteValDto"))

@@ -8,7 +8,7 @@ import (
 type NumStrFmtSpecAbsoluteValueDto struct {
 	absoluteValFmt                string
 	turnOnIntegerDigitsSeparation bool
-	numberSeparatorsDto           NumericSeparators
+	numericSeparators             NumericSeparators
 	numFieldLenDto                NumberFieldDto
 	lock                          *sync.Mutex
 }
@@ -194,22 +194,111 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetDecimalSeparator() run
 	defer nStrFmtAbsValDto.lock.Unlock()
 
 	return nStrFmtAbsValDto.
-		numberSeparatorsDto.
+		numericSeparators.
 		GetDecimalSeparator()
 }
 
-// GetIntegerDigitsSeparator - Returns the unicode character (rune)
-// used to separate integer digits. This is typically known as the
-// 'thousands' separator which is used to separate thousands in
-// three digit groups. In the United States, the inter digits
-// separator is the comma (',').
+// GetIntegerDigitSeparators - Returns an array of type
+// NumStrIntSeparator. The data contained in type
+// NumStrIntSeparator is used to separate integer digits.
 //
-//  Example 1,000,000,000
+// The returned integer digit separators are those configured
+// for the current instance of NumStrFmtSpecAbsoluteValueDto.
 //
-// Integer Digits Separator is extracted from the underlying member
-// variable, 'nStrFmtSpecCurrValDto.numericSeparators'.
+// The integer digit separators is also known as the 'thousands'
+// separator. In the United States the standard integer digit
+// separator character is the comma (',') and integers are shown
+// in groups of three ('3').
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetIntegerDigitsSeparator() rune {
+//    United States Example: 1,000,000,000,000
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  []NumStrIntSeparator
+//     - An array of NumStrIntSeparator elements used to specify
+//       the integer separation operation.
+//
+//        type NumStrIntSeparator struct {
+//          intSeparatorChar     rune
+//          intSeparatorGrouping uint
+//        }
+//
+//         intSeparatorChar     rune
+//         - This separator is commonly known as the 'thousands'
+//           separator. It is used to separate groups of integer
+//           digits to the left of the decimal separator (a.k.a.
+//           decimal point). In the United States, the standard
+//           integer digits separator is the comma (','). Other
+//           countries use periods, spaces or apostrophes to
+//           separate integers.
+//             United States Example:  1,000,000,000
+//              numSeps.intSeparators =
+//                []NumStrIntSeparator{
+//                     {
+//                     intSeparatorChar:   ',',
+//                     intSeparatorGrouping: 3,
+//                     },
+//                  }
+//
+//         intSeparatorGrouping []uint
+//         - In most western countries integer digits to the left
+//           of the decimal separator (a.k.a. decimal point) are
+//           separated into groups of three digits representing
+//           a grouping of 'thousands' like this: '1,000,000,000'.
+//           In this case the intSeparatorGrouping value would be
+//           set to three ('3').
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerSeparators' would be configured as
+//       follows:
+//       as:
+//
+//       numSeps.intSeparators =
+//         []NumStrIntSeparator{
+//              {
+//              intSeparatorChar:   ',',
+//              intSeparatorGrouping: 3,
+//              },
+//              {
+//              intSeparatorChar:     ',',
+//              intSeparatorGrouping: 2,
+//              },
+//           }
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetIntegerDigitSeparators(
+	ePrefix *ErrPrefixDto) (
+	[]NumStrIntSeparator,
+	error) {
 
 	if nStrFmtAbsValDto.lock == nil {
 		nStrFmtAbsValDto.lock = new(sync.Mutex)
@@ -219,46 +308,19 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetIntegerDigitsSeparator
 
 	defer nStrFmtAbsValDto.lock.Unlock()
 
-	return nStrFmtAbsValDto.
-		numberSeparatorsDto.
-		GetIntegerDigitSeparators()
-}
-
-// GetIntegerDigitsGroupingSequence - Returns the value of the
-// integer digits grouping sequence. This refers to grouping of
-// integer digits within a string of numeric digits.
-//
-// In most western countries integer digits to the left of the
-// decimal separator (a.k.a. decimal point) are separated into
-// groups of three digits representing a grouping of 'thousands'
-// like this: '1,000,000,000,000'. In this case, the integer digits
-// grouping sequence would be configured as:
-//        integerDigitsGroupingSequence = []uint{3}
-//
-// In some countries and cultures, other integer groupings are
-// used. In India, for example, a number might be formatted as
-// like this: '6,78,90,00,00,00,00,000'. The right most group
-// has three digits and all the others are grouped by two digits.
-// In this case integer digits grouping sequence would be
-// configured as:
-//        integerDigitsGroupingSequence = []uint{3,2}
-//
-// The integer digits grouping sequence is extracted from member
-// variable 'nStrFmtSpecCurrValDto.numericSeparators'.
-//
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetIntegerDigitsGroupingSequence() []uint {
-
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
-
-	defer nStrFmtAbsValDto.lock.Unlock()
+	ePrefix.SetEPref(
+		"NumStrFmtSpecAbsoluteValueDto." +
+			"GetIntegerDigitSeparators() ")
 
 	return nStrFmtAbsValDto.
-		numberSeparatorsDto.
-		GetIntegerDigitsGroupingSequence()
+		numericSeparators.
+		GetIntegerDigitSeparators(
+			ePrefix.XCtx(
+				"nStrFmtAbsValDto.numericSeparators"))
 }
 
 // GetNumberFieldLengthDto - Returns the NumberFieldDto object
@@ -334,21 +396,26 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto(
 			"nStrFmtAbsValDto.numFieldLenDto->"))
 }
 
-// GetNumericSeparatorsDto - Returns the NumericSeparators
-// instance currently configured for this Number String Format
-// Specification Signed Number Value Dto.
+// GetNumericSeparators - Returns a deep copy of the
+// NumericSeparators instance currently configured for this
+// Absolute Value Format Specification.
 //
-// The Numeric Separators Dto object contains the decimal
-// separator, the 'thousands' separator and the integer grouping
-// sequence for separating thousands digits within the integer
-// component of a number string.
+// The Numeric Separators object contains the decimal separator
+// and the integer digit separators.
+//
+// The integer digit separators is also known as the 'thousands'
+// separator. In the United States the standard integer digit
+// separator character is the comma (',') and integers are shown
+// in groups of three ('3').
+//
+//    United States Example: 1,000,000,000,000
 //
 // The returned NumericSeparators object represents the Numeric
 // Separator values used to configure the current instance of
 // NumStrFmtSpecAbsoluteValueDto.
 //
-// If the Numeric Separator Dto object is judged to be invalid,
-// this method will return an error.
+// If the NumStrFmtSpecAbsoluteValueDto or NumericSeparators object
+// are judged to be invalid, this method will return an error.
 //
 //
 // ----------------------------------------------------------------
@@ -370,9 +437,11 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto(
 //
 //  NumericSeparators
 //     - If this method completes successfully, a new instance of
-//       NumericSeparators will be created and returned
-//       containing all of the data values used to configure the
-//       current instance of NumStrFmtSpecAbsoluteValueDto.
+//       NumericSeparators will be returned through this
+//       parameter. This object is a deep copy of the Numeric
+//       Separator information used to configure the current
+//       instance of NumStrFmtSpecAbsoluteValueDto.
+//
 //
 //  error
 //     - If this method completes successfully, the returned error
@@ -385,10 +454,11 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-//       Be advised - If the NumericSeparators object is judged
-//       to be invalid, this method will return an error.
+//       If the NumStrFmtSpecAbsoluteValueDto or NumericSeparators
+//       object is judged to be invalid, this method will return
+//       an error.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumericSeparatorsDto(
+func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumericSeparators(
 	ePrefix *ErrPrefixDto) (
 	NumericSeparators,
 	error) {
@@ -405,9 +475,10 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumericSeparatorsDto(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecAbsoluteValueDto.GetNumericSeparators()")
+	ePrefix.SetEPref(
+		"NumStrFmtSpecAbsoluteValueDto.GetNumericSeparators()")
 
-	return nStrFmtAbsValDto.numberSeparatorsDto.CopyOut(
+	return nStrFmtAbsValDto.numericSeparators.CopyOut(
 		ePrefix.XCtx("nStrFmtAbsValDto.numericSeparators->"))
 }
 
@@ -1734,7 +1805,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberSeparatorsDto(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	return nStrFmtAbsValDto.numberSeparatorsDto.CopyIn(
+	return nStrFmtAbsValDto.numericSeparators.CopyIn(
 		&numberSeparatorsDto,
 		ePrefix)
 }

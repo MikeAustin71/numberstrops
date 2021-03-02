@@ -304,6 +304,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetDecimalSeparator(
 // NumStrIntSeparator. The data contained in type
 // NumStrIntSeparator is used to separate integer digits.
 //
+// The returned integer digit separators are those configured
+// for the current instance of NumStrFmtSpecCurrencyValueDto.
+//
 // The integer digit separators is also known as the 'thousands'
 // separator. In the United States the standard integer digit
 // separator character is the comma (',') and integers are shown
@@ -412,7 +415,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetIntegerDigitSepar
 	}
 
 	ePrefix.SetEPref(
-		"NumericSeparators.GetIntegerDigitSeparators() ")
+		"NumStrFmtSpecCurrencyValueDto." +
+			"GetIntegerDigitSeparators()")
 
 	return nStrFmtSpecCurrValDto.
 		numericSeparators.
@@ -534,8 +538,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 // Separator values used to configure the current instance of
 // NumStrFmtSpecCurrencyValueDto.
 //
-// If the Numeric Separator Dto object is judged to be invalid,
-// this method will return an error.
+// If the NumStrFmtSpecCurrencyValueDto or NumericSeparators object
+// are judged to be invalid, this method will return an error.
 //
 //
 // ----------------------------------------------------------------
@@ -574,8 +578,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-//       Be advised that if the 'NumericSeparators' is judged
-//       invalid, this method will return an error.
+//       If the NumStrFmtSpecCurrencyValueDto or NumericSeparators
+//       object is judged to be invalid, this method will return
+//       an error.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumericSeparators(
 	ePrefix *ErrPrefixDto) (

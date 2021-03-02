@@ -61,7 +61,7 @@ func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) testV
 	}
 
 	err =
-		nStrFmtSpecAbsoluteValDto.numberSeparatorsDto.IsValidInstanceError(
+		nStrFmtSpecAbsoluteValDto.numericSeparators.IsValidInstanceError(
 			ePrefix.XCtx(
 				"Validating nStrFmtSpecAbsoluteValDto Number Separators"))
 

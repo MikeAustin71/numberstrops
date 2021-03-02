@@ -823,7 +823,7 @@ func (numSeps *NumericSeparators) SetDecimalSeparator(
 
 }
 
-// SetDigitsSeps - This method will set all of the member variable
+// SetNumSeps - This method will set all of the member variable
 // data values for the current instance of NumericSeparators.
 //
 // The NumericSeparators type encapsulates the digit separators
@@ -918,7 +918,7 @@ func (numSeps *NumericSeparators) SetDecimalSeparator(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (numSeps *NumericSeparators) SetDigitsSeps(
+func (numSeps *NumericSeparators) SetNumSeps(
 	decimalSeparator rune,
 	integerSeparators []NumStrIntSeparator,
 	ePrefix *ErrPrefixDto) error {
@@ -931,7 +931,7 @@ func (numSeps *NumericSeparators) SetDigitsSeps(
 
 	defer numSeps.lock.Unlock()
 
-	ePrefix.SetEPref("NumericSeparators.SetDigitsSeps()")
+	ePrefix.SetEPref("NumericSeparators.SetNumSeps()")
 
 	nStrFmtSpecDigitsSepsDtoMech :=
 		numericSeparatorsMechanics{}

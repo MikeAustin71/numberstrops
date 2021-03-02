@@ -230,7 +230,7 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 		turnOnIntegerDigitsSeparation
 
 	err =
-		newNStrFmtSpecAbsValDto.numberSeparatorsDto.CopyIn(
+		newNStrFmtSpecAbsValDto.numericSeparators.CopyIn(
 			&numberSeparatorsDto,
 			ePrefix.XCtx("'numericSeparators'->'newNStrFmtSpecAbsValDto'\n "))
 

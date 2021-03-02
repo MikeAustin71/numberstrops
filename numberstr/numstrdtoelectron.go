@@ -1891,7 +1891,7 @@ func (nStrDtoElectron *numStrDtoElectron) setDecimalSeparator(
 
 	numStrDto.fmtSpec.
 		absoluteValue.
-		numberSeparatorsDto.
+		numericSeparators.
 		decimalSeparator = decimalSeparator
 
 	numStrDto.fmtSpec.
@@ -2107,12 +2107,12 @@ func (nStrDtoElectron *numStrDtoElectron) setThousandsSeparator(
 
 	numStrDto.fmtSpec.
 		absoluteValue.
-		numberSeparatorsDto.
+		numericSeparators.
 		integerDigitsSeparator = integerDigitsSeparator
 
 	numStrDto.fmtSpec.
 		absoluteValue.
-		numberSeparatorsDto.
+		numericSeparators.
 		integerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -2367,7 +2367,7 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 
 	numStrDto.fmtSpec.
 		absoluteValue.
-		numberSeparatorsDto.
+		numericSeparators.
 		decimalSeparator = decimalSeparator
 
 	numStrDto.fmtSpec.
@@ -2382,12 +2382,12 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 
 	numStrDto.fmtSpec.
 		absoluteValue.
-		numberSeparatorsDto.
+		numericSeparators.
 		integerDigitsSeparator = integerDigitsSeparator
 
 	numStrDto.fmtSpec.
 		absoluteValue.
-		numberSeparatorsDto.
+		numericSeparators.
 		integerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -2523,7 +2523,7 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparatorsDto(
 	err =
 		numStrDto.fmtSpec.
 			absoluteValue.
-			numberSeparatorsDto.
+			numericSeparators.
 			CopyIn(
 				&customSeparators,
 				ePrefix)

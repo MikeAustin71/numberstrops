@@ -721,7 +721,7 @@ func (nStrDtoAtom *numStrDtoAtom) getAbsoluteNumSepsDto(
 			&numStrDto.
 				fmtSpec.
 				absoluteValue.
-				numberSeparatorsDto,
+				numericSeparators,
 			ePrefix.XCtx(
 				"numStrDto.fmtSpec.absoluteValue->numSepsDto"))
 
