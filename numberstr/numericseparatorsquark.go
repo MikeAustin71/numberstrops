@@ -12,17 +12,17 @@ type numericSeparatorsQuark struct {
 // numStrSepDtosAreEqual - Returns 'true' if the two NumericSeparators
 // objects submitted as input parameters have equal values.
 //
-func (numSepsDtoQuark *numericSeparatorsQuark) numStrSepDtosAreEqual(
+func (numSepsQuark *numericSeparatorsQuark) numStrSepDtosAreEqual(
 	numSep1 *NumericSeparators,
 	numSep2 *NumericSeparators) bool {
 
-	if numSepsDtoQuark.lock == nil {
-		numSepsDtoQuark.lock = new(sync.Mutex)
+	if numSepsQuark.lock == nil {
+		numSepsQuark.lock = new(sync.Mutex)
 	}
 
-	numSepsDtoQuark.lock.Lock()
+	numSepsQuark.lock.Lock()
 
-	defer numSepsDtoQuark.lock.Unlock()
+	defer numSepsQuark.lock.Unlock()
 
 	if numSep1 == nil ||
 		numSep2 == nil {
@@ -68,15 +68,15 @@ func (numSepsDtoQuark *numericSeparatorsQuark) numStrSepDtosAreEqual(
 // ptr - Returns a pointer to a new instance of
 // numericSeparatorsQuark.
 //
-func (numSepsDtoQuark numericSeparatorsQuark) ptr() *numericSeparatorsQuark {
+func (numSepsQuark numericSeparatorsQuark) ptr() *numericSeparatorsQuark {
 
-	if numSepsDtoQuark.lock == nil {
-		numSepsDtoQuark.lock = new(sync.Mutex)
+	if numSepsQuark.lock == nil {
+		numSepsQuark.lock = new(sync.Mutex)
 	}
 
-	numSepsDtoQuark.lock.Lock()
+	numSepsQuark.lock.Lock()
 
-	defer numSepsDtoQuark.lock.Unlock()
+	defer numSepsQuark.lock.Unlock()
 
 	newQuark := new(numericSeparatorsQuark)
 
@@ -85,27 +85,27 @@ func (numSepsDtoQuark numericSeparatorsQuark) ptr() *numericSeparatorsQuark {
 	return newQuark
 }
 
-// testValidityOfNumSepsDto - Receives an instance of
-// NumericSeparators and proceeds to test the
-// validity of the member data fields.
+// testValidityOfNumericSeparators - Receives an instance of
+// NumericSeparators and proceeds to test the validity of the
+// member data fields.
 //
 // If one or more data elements are found to be invalid, an
 // error is returned and the return boolean parameter, 'isValid',
 // is set to 'false'.
 //
-func (numSepsDtoQuark *numericSeparatorsQuark) testValidityOfNumSepsDto(
-	numSepsDto *NumericSeparators,
+func (numSepsQuark *numericSeparatorsQuark) testValidityOfNumericSeparators(
+	numericSeparators *NumericSeparators,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
-	if numSepsDtoQuark.lock == nil {
-		numSepsDtoQuark.lock = new(sync.Mutex)
+	if numSepsQuark.lock == nil {
+		numSepsQuark.lock = new(sync.Mutex)
 	}
 
-	numSepsDtoQuark.lock.Lock()
+	numSepsQuark.lock.Lock()
 
-	defer numSepsDtoQuark.lock.Unlock()
+	defer numSepsQuark.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -113,20 +113,20 @@ func (numSepsDtoQuark *numericSeparatorsQuark) testValidityOfNumSepsDto(
 
 	ePrefix.SetEPref(
 		"numericSeparatorsQuark." +
-			"testValidityOfNumSepsDto()")
+			"testValidityOfNumericSeparators()")
 
 	isValid = false
 
-	if numSepsDto == nil {
+	if numericSeparators == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'numSepsDto' is invalid!\n"+
-			"'numSepsDto' is a 'nil' pointer\n",
+			"Error: Input parameter 'numericSeparators' is invalid!\n"+
+			"'numericSeparators' is a 'nil' pointer\n",
 			ePrefix.String())
 
 		return isValid, err
 	}
 
-	if numSepsDto.decimalSeparator == 0 {
+	if numericSeparators.decimalSeparator == 0 {
 		err = fmt.Errorf("%v\n"+
 			"Error: Internal member varialbe 'decimalSeparator' is invalid!\n"+
 			"'decimalSeparator' is empty and has a zero value.\n",
@@ -135,12 +135,12 @@ func (numSepsDtoQuark *numericSeparatorsQuark) testValidityOfNumSepsDto(
 		return isValid, err
 	}
 
-	if numSepsDto.integerSeparators == nil {
-		numSepsDto.integerSeparators =
+	if numericSeparators.integerSeparators == nil {
+		numericSeparators.integerSeparators =
 			make([]NumStrIntSeparator, 0, 5)
 	}
 
-	lenIntDigitsSeps := len(numSepsDto.integerSeparators)
+	lenIntDigitsSeps := len(numericSeparators.integerSeparators)
 
 	if lenIntDigitsSeps == 0 {
 		err = fmt.Errorf("%v\n"+
@@ -153,9 +153,9 @@ func (numSepsDtoQuark *numericSeparatorsQuark) testValidityOfNumSepsDto(
 
 	for i := 0; i < lenIntDigitsSeps; i++ {
 
-		err = numSepsDto.integerSeparators[i].IsValidInstanceError(
+		err = numericSeparators.integerSeparators[i].IsValidInstanceError(
 			ePrefix.XCtx(fmt.Sprintf(
-				"Checking numSepsDto.integerSeparators[%v]",
+				"Checking numericSeparators.integerSeparators[%v]",
 				i)))
 
 		if err != nil {

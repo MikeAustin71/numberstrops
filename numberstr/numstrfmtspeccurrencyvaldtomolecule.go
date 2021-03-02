@@ -65,7 +65,7 @@ func (nStrFmtSpecCurrDtoMolecule *numStrFmtSpecCurrencyValueDtoMolecule) testVal
 	}
 
 	err =
-		nStrFmtSpecCurrencyValDto.numberSeparators.IsValidInstanceError(
+		nStrFmtSpecCurrencyValDto.numericSeparators.IsValidInstanceError(
 			ePrefix.XCtx("Validating 'nStrFmtSpecCurrencyValDto' Number Separators"))
 
 	if err != nil {

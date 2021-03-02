@@ -9,42 +9,42 @@ type numericSeparatorsMechanics struct {
 	lock *sync.Mutex
 }
 
-// setDigitsSeps - Transfers new data to an instance of NumericSeparators.
+// setIntDigitsSeps - Transfers new data to an instance of NumericSeparators.
 // After completion, all the data fields within input parameter 'nStrFmtSpecDigitsSepDto'
 // will be overwritten.
 //
-func (numSepsDtoMech *numericSeparatorsMechanics) setDigitsSeps(
-	numSepsDto *NumericSeparators,
+func (numSepsMech *numericSeparatorsMechanics) setIntDigitsSeps(
+	numSeps *NumericSeparators,
 	decimalSeparator rune,
 	integerSeparators []NumStrIntSeparator,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if numSepsDtoMech.lock == nil {
-		numSepsDtoMech.lock = new(sync.Mutex)
+	if numSepsMech.lock == nil {
+		numSepsMech.lock = new(sync.Mutex)
 	}
 
-	numSepsDtoMech.lock.Lock()
+	numSepsMech.lock.Lock()
 
-	defer numSepsDtoMech.lock.Unlock()
+	defer numSepsMech.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numericSeparatorsMechanics.setDigitsSeps()")
+	ePrefix.SetEPref("numericSeparatorsMechanics.setIntDigitsSeps()")
 
-	if numSepsDto == nil {
+	if numSeps == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'numSepsDto' is invalid!\n"+
-			"'numSepsDto' is a 'nil' pointer\n",
+			"Error: Input parameter 'numSeps' is invalid!\n"+
+			"'numSeps' is a 'nil' pointer\n",
 			ePrefix.String())
 
 		return err
 	}
 
-	if numSepsDto.lock == nil {
-		numSepsDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
 	if decimalSeparator == 0 {
@@ -54,6 +54,11 @@ func (numSepsDtoMech *numericSeparatorsMechanics) setDigitsSeps(
 			ePrefix.String())
 
 		return err
+	}
+
+	if integerSeparators == nil {
+		integerSeparators =
+			make([]NumStrIntSeparator, 0, 5)
 	}
 
 	lenIntDigitSeparators :=
@@ -68,41 +73,40 @@ func (numSepsDtoMech *numericSeparatorsMechanics) setDigitsSeps(
 		return err
 	}
 
-	newDigitsSepsDto := NumericSeparators{}
+	newNumericSeps := NumericSeparators{}
 
-	newDigitsSepsDto.decimalSeparator =
+	newNumericSeps.decimalSeparator =
 		decimalSeparator
 
-	newDigitsSepsDto.integerSeparators =
+	newNumericSeps.integerSeparators =
 		make([]NumStrIntSeparator,
 			lenIntDigitSeparators,
 			10)
 
-	elementsCopied :=
-		copy(newDigitsSepsDto.integerSeparators,
-			integerSeparators)
+	for i := 0; i < lenIntDigitSeparators; i++ {
+		err =
+			newNumericSeps.integerSeparators[i].
+				CopyIn(
+					&integerSeparators[i],
+					ePrefix.XCtx(
+						fmt.Sprintf(
+							"integerSeparators[%v]",
+							i)))
 
-	if elementsCopied != lenIntDigitSeparators {
-		err = fmt.Errorf("%v\n"+
-			"Error: Copy of integerSeparators -> "+
-			"newDigitsSepsDto.integerSeparators failed!\n"+
-			"Expected to copy %v elements.\n"+
-			"Actually copied %v elements.\n",
-			ePrefix,
-			lenIntDigitSeparators,
-			elementsCopied)
+		if err != nil {
+			return err
+		}
 
-		return err
 	}
 
-	newDigitsSepsDto.lock = new(sync.Mutex)
+	newNumericSeps.lock = new(sync.Mutex)
 
 	nStrFmtSpecDigitsSepsQuark := numericSeparatorsQuark{}
 	_,
 		err =
-		nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
-			&newDigitsSepsDto,
-			ePrefix.XCtx("Testing validity of preliminary 'newDigitsSepsDto'"))
+		nStrFmtSpecDigitsSepsQuark.testValidityOfNumericSeparators(
+			&newNumericSeps,
+			ePrefix.XCtx("Testing validity of preliminary 'newNumericSeps'"))
 
 	if err != nil {
 		return err
@@ -113,9 +117,9 @@ func (numSepsDtoMech *numericSeparatorsMechanics) setDigitsSeps(
 
 	err =
 		nStrFmtSpecDigitsSepsElectron.copyIn(
-			numSepsDto,
-			&newDigitsSepsDto,
-			ePrefix.XCtx("newDigitsSepsDto->numSepsDto"))
+			numSeps,
+			&newNumericSeps,
+			ePrefix.XCtx("newNumericSeps->numSeps"))
 
 	return err
 }

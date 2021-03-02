@@ -214,85 +214,34 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCountryCulture() NumStrFmtSpecCountryDto 
 	return countryCulture
 }
 
-// GetCurrencySpec - Returns a deep copy of the member variable
-// 'currencyValue', of type NumStrFmtSpecCurrencyValueDto.
+// GetCurrencyIntDigitSeparators - Returns the integer digit or
+// thousands separators from the 'currency' format specification.
 //
-// IMPORTANT
+// Integer digit separators are most commonly known as the
+// 'thousands' separator. In the United States, the 'thousands'
+// separator character is the comma (',') and integers are shown
+// in groups of three ('3').
 //
-// No validity tests are performed on the current NumStrFmtSpecDto
-// instance before returning the NumStrFmtSpecCountryDto object. To
-// validate the current NumStrFmtSpecDto instance reference methods
-// NumStrFmtSpecDto.IsValidInstance() and
-// NumStrFmtSpecDto.IsValidInstanceError().
-//
-func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySpec() NumStrFmtSpecCurrencyValueDto {
-
-	if fmtSpecDto.lock == nil {
-		fmtSpecDto.lock = new(sync.Mutex)
-	}
-
-	fmtSpecDto.lock.Lock()
-
-	defer fmtSpecDto.lock.Unlock()
-
-	currencySpec,
-		_ := fmtSpecDto.currencyValue.CopyOut(ErrPrefixDto{}.Ptr())
-
-	return currencySpec
-}
-
-// GetDecimalSeparator - Returns the decimal separator
-// from 'currency' value.
-//
-func (fmtSpecDto *NumStrFmtSpecDto) GetDecimalSeparator() rune {
-
-	if fmtSpecDto.lock == nil {
-		fmtSpecDto.lock = new(sync.Mutex)
-	}
-
-	fmtSpecDto.lock.Lock()
-
-	defer fmtSpecDto.lock.Unlock()
-
-	return fmtSpecDto.currencyValue.numberSeparators.GetDecimalSeparator()
-}
-
-// GetCurrencySymbols - Returns the currency symbols.
-//
-// The authorized unicode character symbols associated with this
-// currency specification. The currency symbol for the United
-// States is the dollar sign ('$'). Some countries and cultures
-// have currency symbols consisting of two or more characters.
-//
-func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySymbols() []rune {
-
-	if fmtSpecDto.lock == nil {
-		fmtSpecDto.lock = new(sync.Mutex)
-	}
-
-	fmtSpecDto.lock.Lock()
-
-	defer fmtSpecDto.lock.Unlock()
-
-	return fmtSpecDto.currencyValue.GetCurrencySymbols()
-}
-
-// GetIntegerDigitsSeparator - Returns the integer digits or
-// thousands separator from 'currency' value.
-//
-// This method is functionally identical to
-// NumStrFmtSpecDto.GetThousandsSeparators().
-//
-// This is most commonly known as the 'thousands' separator.
-// In the United States, the 'thousands' separator character
-// is the comma (',').
 //    United States Example:  1,000,000,000
 //
 // The actual value returned is an array of type NumStrIntSeparator
 // which contains integer separator characters and grouping
 // sequences. This complexity is required in order to support
-// countries and cultures which support integer groupings other
-// than thousands.
+// countries and cultures with integer groupings other than
+// thousands.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -354,7 +303,33 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySymbols() []rune {
 //              },
 //           }
 //
-func (fmtSpecDto *NumStrFmtSpecDto) GetIntegerDigitsSeparator() []NumStrIntSeparator {
+func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencyIntDigitSeparators(
+	ePrefix *ErrPrefixDto) (
+	[]NumStrIntSeparator,
+	error) {
+
+	if fmtSpecDto.lock == nil {
+		fmtSpecDto.lock = new(sync.Mutex)
+	}
+
+	fmtSpecDto.lock.Lock()
+
+	defer fmtSpecDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFmtSpecDto.GetCurrencyIntDigitSeparators() ")
+
+	return fmtSpecDto.
+		currencyValue.
+		numericSeparators.
+		GetIntegerDigitSeparators()
+}
+
+func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencyNumericSeparators() NumericSeparators {
 
 	if fmtSpecDto.lock == nil {
 		fmtSpecDto.lock = new(sync.Mutex)
@@ -366,19 +341,25 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetIntegerDigitsSeparator() []NumStrIntSepar
 
 	return fmtSpecDto.
 		currencyValue.
-		numberSeparators.
-		GetIntegerDigitsSeparators()
+		numericSeparators.
+		GetIntegerDigitSeparators()
+
 }
 
-// GetMinorCurrencySymbols - Returns the currency symbols.
+// GetCurrencySpec - Returns a deep copy of the member variable
+// 'currencyValue', of type NumStrFmtSpecCurrencyValueDto. This
+// is the format specification used in formatting currency values
+// within number strings.
 //
-// The authorized unicode character symbols associated with the
-// minor currency specification. The minor currency symbol for
-// the United States is the cent sign ('¢'). Some countries and
-// cultures have minor currency symbols consisting of two or more
-// characters.
+// IMPORTANT
 //
-func (fmtSpecDto *NumStrFmtSpecDto) GetMinorCurrencySymbols() []rune {
+// No validity tests are performed on the current NumStrFmtSpecDto
+// instance before returning the NumStrFmtSpecCountryDto object. To
+// validate the current NumStrFmtSpecDto instance reference methods
+// NumStrFmtSpecDto.IsValidInstance() and
+// NumStrFmtSpecDto.IsValidInstanceError().
+//
+func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySpec() NumStrFmtSpecCurrencyValueDto {
 
 	if fmtSpecDto.lock == nil {
 		fmtSpecDto.lock = new(sync.Mutex)
@@ -388,7 +369,10 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetMinorCurrencySymbols() []rune {
 
 	defer fmtSpecDto.lock.Unlock()
 
-	return fmtSpecDto.currencyValue.GetMinorCurrencySymbols()
+	currencySpec,
+		_ := fmtSpecDto.currencyValue.CopyOut(nil)
+
+	return currencySpec
 }
 
 // GetScientificNotationSpec - Returns a deep copy of the member

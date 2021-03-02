@@ -164,7 +164,7 @@ type nStrFmtSpecSignedNumValMechanics struct {
 //            Example: 1000000000
 //
 //
-//  numberSeparators           NumericSeparators
+//  numericSeparators           NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
@@ -316,7 +316,7 @@ func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNu
 	err =
 		newNStrFmtSpecSignedNumValDto.numberSeparatorsDto.CopyIn(
 			&numberSeparatorsDto,
-			ePrefix.XCtx("numberSeparators->newNStrFmtSpecSignedNumValDto"))
+			ePrefix.XCtx("numericSeparators->newNStrFmtSpecSignedNumValDto"))
 
 	if err != nil {
 		return err

@@ -167,7 +167,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut(
 //  Example:   123.45
 //
 // Decimal Separator is extracted from the underlying member
-// variable, 'nStrFmtSpecSignedNumValueDto.numberSeparators'.
+// variable, 'nStrFmtSpecSignedNumValueDto.numericSeparators'.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetDecimalSeparator() rune {
 
@@ -193,7 +193,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetDecimalSe
 //  Example 1,000,000,000
 //
 // Integer Digits Separator is extracted from the underlying member
-// variable, 'nStrFmtSpecSignedNumValueDto.numberSeparators'.
+// variable, 'nStrFmtSpecSignedNumValueDto.numericSeparators'.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetIntegerDigitsSeparator() rune {
 
@@ -230,7 +230,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetIntegerDi
 //        integerDigitsGroupingSequence = []uint{3,2}
 //
 // The integer digits grouping sequence is extracted from member
-// variable 'nStrFmtSpecCurrValDto.numberSeparators'.
+// variable 'nStrFmtSpecCurrValDto.numericSeparators'.
 //
 func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetIntegerDigitsGroupingSequence() []uint {
 
@@ -415,7 +415,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumericSe
 
 	return nStrFmtSpecSignedNumValueDto.numberSeparatorsDto.CopyOut(
 		ePrefix.XCtx(
-			"nStrFmtSpecSignedNumValueDto.numberSeparators ->"))
+			"nStrFmtSpecSignedNumValueDto.numericSeparators ->"))
 }
 
 // GetPositiveValueFormat - Returns the formatting string used to
@@ -1006,7 +1006,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 //            Example: 1000000000
 //
 //
-//  numberSeparators        NumericSeparators
+//  numericSeparators        NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
@@ -1687,7 +1687,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFie
 //
 // Input Parameters
 //
-//  numberSeparators        NumericSeparators
+//  numericSeparators        NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
@@ -1777,7 +1777,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberSep
 
 	return nStrFmtSpecSignedNumValueDto.numberSeparatorsDto.CopyIn(
 		&numberSeparatorsDto,
-		ePrefix.XCtx("numberSeparators->nStrFmtSpecSignedNumValueDto.numberSeparators"))
+		ePrefix.XCtx("numericSeparators->nStrFmtSpecSignedNumValueDto.numericSeparators"))
 }
 
 // SetPositiveValueFormat - Sets the positive value format string
@@ -2048,7 +2048,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 //            Example: 1000000000
 //
 //
-//  numberSeparators        NumericSeparators
+//  numericSeparators        NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.

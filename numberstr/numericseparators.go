@@ -99,17 +99,17 @@ type NumericSeparators struct {
 // This method will OVERWRITE the data fields of the current
 // NumericSeparators instance.
 //
-func (numSepDto *NumericSeparators) CopyIn(
+func (numSeps *NumericSeparators) CopyIn(
 	incomingSpecDigitsSepDto *NumericSeparators,
 	ePrefix *ErrPrefixDto) error {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -121,7 +121,7 @@ func (numSepDto *NumericSeparators) CopyIn(
 		numericSeparatorsElectron{}
 
 	return nStrFmtSpecDigitsSepsElectron.copyIn(
-		numSepDto,
+		numSeps,
 		incomingSpecDigitsSepDto,
 		ePrefix)
 }
@@ -168,18 +168,18 @@ func (numSepDto *NumericSeparators) CopyIn(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (numSepDto *NumericSeparators) CopyOut(
+func (numSeps *NumericSeparators) CopyOut(
 	ePrefix *ErrPrefixDto) (
 	NumericSeparators,
 	error) {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -190,12 +190,9 @@ func (numSepDto *NumericSeparators) CopyOut(
 	nStrFmtSpecDigitsSepsElectron :=
 		numericSeparatorsElectron{}
 
-	newDigitsSepDto,
-		err := nStrFmtSpecDigitsSepsElectron.copyOut(
-		numSepDto,
-		ePrefix.XCtx("numSepDto->"))
-
-	return newDigitsSepDto, err
+	return nStrFmtSpecDigitsSepsElectron.copyOut(
+		numSeps,
+		ePrefix.XCtx("numSeps->"))
 }
 
 // Equal - Receives an incoming NumericSeparators
@@ -203,20 +200,20 @@ func (numSepDto *NumericSeparators) CopyOut(
 // instance. If the two objects have equal data values, this method
 // returns 'true'
 //
-func (numSepDto *NumericSeparators) Equal(
+func (numSeps *NumericSeparators) Equal(
 	numSep2 NumericSeparators) bool {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
 	return numericSeparatorsQuark{}.
 		ptr().numStrSepDtosAreEqual(
-		numSepDto,
+		numSeps,
 		&numSep2)
 }
 
@@ -228,39 +225,180 @@ func (numSepDto *NumericSeparators) Equal(
 //
 //             Example: 1234.456
 //
-func (numSepDto *NumericSeparators) GetDecimalSeparator() rune {
+func (numSeps *NumericSeparators) GetDecimalSeparator() rune {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
-	return numSepDto.decimalSeparator
+	return numSeps.decimalSeparator
 }
 
-// GetIntegerDigitsSeparators - Returns the integer digits separator
-// character.
+// GetIntegerDigitSeparators - Returns the integer digit separators
+// array.
 //
-// The integer digits separator is also known as the 'thousands'
-// separator. In the United States the standard integer digits
-// separator is the comma character (',').
+// The actual value returned is an array of type NumStrIntSeparator
+// which contains integer separator characters and grouping
+// sequences. This complexity is required in order to support
+// countries and cultures with integer groupings other than
+// thousands.
 //
-//  Example: 1,000,000,000,000
+// The integer digit separators is also known as the 'thousands'
+// separator. In the United States the standard integer digit
+// separator character is the comma (',') and integers are shown
+// in groups of three ('3').
 //
-func (numSepDto *NumericSeparators) GetIntegerDigitsSeparators() []NumStrIntSeparator {
+//    United States Example: 1,000,000,000,000
+//
+// If the current NumericSeparators instance is judged to be
+// invalid, this method will return an error.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  intSeps             []NumStrIntSeparator
+//     - An array of NumStrIntSeparator elements used to specify
+//       the integer separation operation.
+//
+//        type NumStrIntSeparator struct {
+//          intSeparatorChar     rune
+//          intSeparatorGrouping uint
+//        }
+//
+//         intSeparatorChar     rune
+//         - This separator is commonly known as the 'thousands'
+//           separator. It is used to separate groups of integer
+//           digits to the left of the decimal separator (a.k.a.
+//           decimal point). In the United States, the standard
+//           integer digits separator is the comma (','). Other
+//           countries use periods, spaces or apostrophes to
+//           separate integers.
+//             United States Example:  1,000,000,000
+//              numSeps.intSeparators =
+//                []NumStrIntSeparator{
+//                     {
+//                     intSeparatorChar:   ',',
+//                     intSeparatorGrouping: 3,
+//                     },
+//                  }
+//
+//         intSeparatorGrouping []uint
+//         - In most western countries integer digits to the left
+//           of the decimal separator (a.k.a. decimal point) are
+//           separated into groups of three digits representing
+//           a grouping of 'thousands' like this: '1,000,000,000'.
+//           In this case the intSeparatorGrouping value would be
+//           set to three ('3').
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerSeparators' would be configured as
+//       follows:
+//       as:
+//
+//       numSeps.intSeparators =
+//         []NumStrIntSeparator{
+//              {
+//              intSeparatorChar:   ',',
+//              intSeparatorGrouping: 3,
+//              },
+//              {
+//              intSeparatorChar:     ',',
+//              intSeparatorGrouping: 2,
+//              },
+//           }
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (numSeps *NumericSeparators) GetIntegerDigitSeparators(
+	ePrefix *ErrPrefixDto) (
+	intSeps []NumStrIntSeparator,
+	err error) {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
-	return numSepDto.integerSeparators
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumericSeparators.GetIntegerDigitSeparators() ")
+
+	intSeps = make([]NumStrIntSeparator, 0, 5)
+
+	nStrFmtSpecDigitsSepsQuark := numericSeparatorsQuark{}
+
+	_,
+		err = nStrFmtSpecDigitsSepsQuark.testValidityOfNumericSeparators(
+		numSeps,
+		ePrefix.XCtx("numSeps"))
+
+	if err != nil {
+		return intSeps, err
+	}
+
+	lenIntSeps := len(numSeps.integerSeparators)
+
+	if lenIntSeps == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Internal Integer Separators array is invalid!\n"+
+			"'numSeps.integerSeparators' is a ZERO length array.\n",
+			ePrefix.String())
+		return intSeps, err
+	}
+
+	intSeps =
+		make([]NumStrIntSeparator, lenIntSeps, 5)
+
+	for i := 0; i < lenIntSeps; i++ {
+		err =
+			intSeps[i].CopyIn(
+				&numSeps.integerSeparators[i],
+				ePrefix.XCtx(
+					fmt.Sprintf("numSeps.integerSeparators[%v]",
+						i)))
+
+		if err != nil {
+			return intSeps, err
+		}
+	}
+
+	return intSeps, err
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
@@ -286,23 +424,23 @@ func (numSepDto *NumericSeparators) GetIntegerDigitsSeparators() []NumStrIntSepa
 //       contains valid data, this method returns 'true'. If the data is
 //       invalid, this method returns 'false'.
 //
-func (numSepDto *NumericSeparators) IsValidInstance() (
+func (numSeps *NumericSeparators) IsValidInstance() (
 	isValid bool) {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
 	nStrFmtSpecDigitsSepsQuark :=
 		numericSeparatorsQuark{}
 
 	isValid,
-		_ = nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
-		numSepDto,
+		_ = nStrFmtSpecDigitsSepsQuark.testValidityOfNumericSeparators(
+		numSeps,
 		new(ErrPrefixDto))
 
 	return isValid
@@ -343,26 +481,26 @@ func (numSepDto *NumericSeparators) IsValidInstance() (
 //       invalid data, a detailed error message will be returned
 //       identifying the invalid data item.
 //
-func (numSepDto *NumericSeparators) IsValidInstanceError(
+func (numSeps *NumericSeparators) IsValidInstanceError(
 	ePrefix *ErrPrefixDto) error {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
 	ePrefix.SetEPrefCtx(
 		"NumericSeparators.IsValidInstanceError()",
-		"Testing Validity of 'numSepDto'")
+		"Testing Validity of 'numSeps'")
 
 	nStrFmtSpecDigitsSepsQuark := numericSeparatorsQuark{}
 
 	_,
-		err := nStrFmtSpecDigitsSepsQuark.testValidityOfNumSepsDto(
-		numSepDto,
+		err := nStrFmtSpecDigitsSepsQuark.testValidityOfNumericSeparators(
+		numSeps,
 		ePrefix)
 
 	return err
@@ -377,15 +515,15 @@ func (numSepDto *NumericSeparators) IsValidInstanceError(
 //  Integer Digits Grouping Sequence = []uint{3}
 //
 //
-func (numSepDto NumericSeparators) New() NumericSeparators {
+func (numSeps NumericSeparators) New() NumericSeparators {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
 	newNumSep := NumericSeparators{}
 
@@ -500,20 +638,20 @@ func (numSepDto NumericSeparators) New() NumericSeparators {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (numSepDto NumericSeparators) NewFromComponents(
+func (numSeps NumericSeparators) NewFromComponents(
 	decimalSeparator rune,
 	integerSeparators []NumStrIntSeparator,
 	ePrefix *ErrPrefixDto) (
 	NumericSeparators,
 	error) {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
 	ePrefix.SetEPref("NumericSeparators.NewFromComponents()")
 
@@ -522,7 +660,7 @@ func (numSepDto NumericSeparators) NewFromComponents(
 	numericSeparatorDtoMech :=
 		numericSeparatorsMechanics{}
 
-	err := numericSeparatorDtoMech.setDigitsSeps(
+	err := numericSeparatorDtoMech.setIntDigitsSeps(
 		&newDigitsSepsDto,
 		decimalSeparator,
 		integerSeparators,
@@ -619,20 +757,20 @@ func (numSepDto NumericSeparators) NewFromComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (numSepDto NumericSeparators) NewWithDefaults(
+func (numSeps NumericSeparators) NewWithDefaults(
 	ePrefix *ErrPrefixDto,
 	decimalSeparator rune,
 	integerDigitsSeparator rune) (
 	NumericSeparators,
 	error) {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -646,7 +784,7 @@ func (numSepDto NumericSeparators) NewWithDefaults(
 	nStrFmtSpecDigitsSepsDtoMech :=
 		numericSeparatorsMechanics{}
 
-	err := nStrFmtSpecDigitsSepsDtoMech.setDigitsSeps(
+	err := nStrFmtSpecDigitsSepsDtoMech.setIntDigitsSeps(
 		&newDigitsSepsDto,
 		decimalSeparator,
 		[]NumStrIntSeparator{
@@ -670,18 +808,18 @@ func (numSepDto NumericSeparators) NewWithDefaults(
 //             Example: 1234.456
 //
 //
-func (numSepDto *NumericSeparators) SetDecimalSeparator(
+func (numSeps *NumericSeparators) SetDecimalSeparator(
 	decimalSeparator rune) {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
-	numSepDto.decimalSeparator = decimalSeparator
+	numSeps.decimalSeparator = decimalSeparator
 
 }
 
@@ -780,29 +918,29 @@ func (numSepDto *NumericSeparators) SetDecimalSeparator(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (numSepDto *NumericSeparators) SetDigitsSeps(
+func (numSeps *NumericSeparators) SetDigitsSeps(
 	decimalSeparator rune,
 	integerSeparators []NumStrIntSeparator,
 	ePrefix *ErrPrefixDto) error {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
 	ePrefix.SetEPref("NumericSeparators.SetDigitsSeps()")
 
 	nStrFmtSpecDigitsSepsDtoMech :=
 		numericSeparatorsMechanics{}
 
-	return nStrFmtSpecDigitsSepsDtoMech.setDigitsSeps(
-		numSepDto,
+	return nStrFmtSpecDigitsSepsDtoMech.setIntDigitsSeps(
+		numSeps,
 		decimalSeparator,
 		integerSeparators,
-		ePrefix.XCtx("Setting Data Values for current instance 'numSepDto'"))
+		ePrefix.XCtx("Setting Data Values for current instance 'numSeps'"))
 }
 
 // SetIntegerSeparators - Sets the value of the integer digit
@@ -878,16 +1016,16 @@ func (numSepDto *NumericSeparators) SetDigitsSeps(
 //              },
 //           }
 //
-func (numSepDto *NumericSeparators) SetIntegerSeparators(
+func (numSeps *NumericSeparators) SetIntegerSeparators(
 	integerSeparators []NumStrIntSeparator) {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
 	if integerSeparators == nil {
 		return
@@ -905,7 +1043,7 @@ func (numSepDto *NumericSeparators) SetIntegerSeparators(
 		}
 	}
 
-	numSepDto.integerSeparators =
+	numSeps.integerSeparators =
 		make([]NumStrIntSeparator, lenIntSeparators, 10)
 
 	var err error
@@ -913,7 +1051,7 @@ func (numSepDto *NumericSeparators) SetIntegerSeparators(
 	for i := 0; i < lenIntSeparators; i++ {
 
 		err =
-			numSepDto.integerSeparators[i].CopyIn(
+			numSeps.integerSeparators[i].CopyIn(
 				&integerSeparators[i],
 				nil)
 
@@ -930,33 +1068,33 @@ func (numSepDto *NumericSeparators) SetIntegerSeparators(
 // data values are zero, this method will set ALL data elements to USA
 // default values.
 //
-func (numSepDto *NumericSeparators) SetToUSADefaultsIfEmpty() {
+func (numSeps *NumericSeparators) SetToUSADefaultsIfEmpty() {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
 	isValid,
 		_ := numericSeparatorsQuark{}.
-		ptr().testValidityOfNumSepsDto(
-		numSepDto,
+		ptr().testValidityOfNumericSeparators(
+		numSeps,
 		new(ErrPrefixDto))
 
 	if !isValid {
 
-		numSepDto.decimalSeparator = '.'
+		numSeps.decimalSeparator = '.'
 
-		numSepDto.integerSeparators =
+		numSeps.integerSeparators =
 			make([]NumStrIntSeparator, 1, 5)
 
-		numSepDto.integerSeparators[0].
+		numSeps.integerSeparators[0].
 			intSeparatorChar = ','
 
-		numSepDto.integerSeparators[0].
+		numSeps.integerSeparators[0].
 			intSeparatorGrouping = 3
 
 	}
@@ -973,25 +1111,25 @@ func (numSepDto *NumericSeparators) SetToUSADefaultsIfEmpty() {
 //
 //   Decimal Separator: '.'
 //
-func (numSepDto *NumericSeparators) SetToUSADefaults() {
+func (numSeps *NumericSeparators) SetToUSADefaults() {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
-	numSepDto.decimalSeparator = '.'
+	numSeps.decimalSeparator = '.'
 
-	numSepDto.integerSeparators =
+	numSeps.integerSeparators =
 		make([]NumStrIntSeparator, 1, 5)
 
-	numSepDto.integerSeparators[0].
+	numSeps.integerSeparators[0].
 		intSeparatorChar = ','
 
-	numSepDto.integerSeparators[0].
+	numSeps.integerSeparators[0].
 		intSeparatorGrouping = 3
 
 }
@@ -999,31 +1137,31 @@ func (numSepDto *NumericSeparators) SetToUSADefaults() {
 // String - Returns a string detailing numeric separator
 //information.
 //
-func (numSepDto *NumericSeparators) String() string {
+func (numSeps *NumericSeparators) String() string {
 
-	if numSepDto.lock == nil {
-		numSepDto.lock = new(sync.Mutex)
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
 	}
 
-	numSepDto.lock.Lock()
+	numSeps.lock.Lock()
 
-	defer numSepDto.lock.Unlock()
+	defer numSeps.lock.Unlock()
 
 	str := fmt.Sprintf("Decimal Separator: %v\n",
-		string(numSepDto.decimalSeparator))
+		string(numSeps.decimalSeparator))
 
-	if numSepDto.integerSeparators == nil {
-		numSepDto.integerSeparators =
+	if numSeps.integerSeparators == nil {
+		numSeps.integerSeparators =
 			make([]NumStrIntSeparator, 0, 5)
 	}
 
-	lenIntSeps := len(numSepDto.integerSeparators)
+	lenIntSeps := len(numSeps.integerSeparators)
 
 	for i := 0; i < lenIntSeps; i++ {
 		str += fmt.Sprintf("Integer Separator Char= '%v' "+
 			"Integer Grouping= '%v'\n",
-			string(numSepDto.integerSeparators[i].intSeparatorChar),
-			numSepDto.integerSeparators[i].intSeparatorGrouping)
+			string(numSeps.integerSeparators[i].intSeparatorChar),
+			numSeps.integerSeparators[i].intSeparatorGrouping)
 
 	}
 

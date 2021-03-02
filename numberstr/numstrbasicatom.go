@@ -188,7 +188,7 @@ func (nStrBasicAtom *numStrBasicAtom) delimitIntSeparators(
 	}
 
 	//integerDigitsSeparator :=
-	//	numStrFmtSpec.GetIntegerDigitsSeparators()
+	//	numStrFmtSpec.GetIntegerDigitSeparators()
 
 	groupCnt := uint(0)
 	maxGroupCnt := integerGroupingSequence[0]

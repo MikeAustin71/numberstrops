@@ -693,7 +693,7 @@ func (nStrDtoElectron *numStrDtoElectron) getDecimalSeparator(
 	}
 
 	decimalSeparator =
-		numStrDto.fmtSpec.currencyValue.numberSeparators.GetDecimalSeparator()
+		numStrDto.fmtSpec.currencyValue.numericSeparators.GetDecimalSeparator()
 
 	return decimalSeparator, err
 }
@@ -1211,11 +1211,11 @@ func (nStrDtoElectron *numStrDtoElectron) getThousandsSeparator(
 	err = numStrDto.
 		fmtSpec.
 		currencyValue.
-		numberSeparators.
+		numericSeparators.
 		IsValidInstanceError(
 			ePrefix.XCtx(
 				"numStrDto.fmtSpec.currencyValue." +
-					"numberSeparators"))
+					"numericSeparators"))
 
 	if err != nil {
 		return thousandsSeparator, err
@@ -1223,8 +1223,8 @@ func (nStrDtoElectron *numStrDtoElectron) getThousandsSeparator(
 
 	thousandsSeparator =
 		numStrDto.fmtSpec.currencyValue.
-			numberSeparators.
-			GetIntegerDigitsSeparators()
+			numericSeparators.
+			GetIntegerDigitSeparators()
 
 	return thousandsSeparator, err
 }
@@ -1896,7 +1896,7 @@ func (nStrDtoElectron *numStrDtoElectron) setDecimalSeparator(
 
 	numStrDto.fmtSpec.
 		currencyValue.
-		numberSeparators.
+		numericSeparators.
 		decimalSeparator = decimalSeparator
 
 	numStrDto.fmtSpec.
@@ -2118,12 +2118,12 @@ func (nStrDtoElectron *numStrDtoElectron) setThousandsSeparator(
 
 	numStrDto.fmtSpec.
 		currencyValue.
-		numberSeparators.
+		numericSeparators.
 		decimalSeparator = integerDigitsSeparator
 
 	numStrDto.fmtSpec.
 		currencyValue.
-		numberSeparators.
+		numericSeparators.
 		integerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -2372,7 +2372,7 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 
 	numStrDto.fmtSpec.
 		currencyValue.
-		numberSeparators.
+		numericSeparators.
 		decimalSeparator = decimalSeparator
 
 	numStrDto.fmtSpec.
@@ -2393,12 +2393,12 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 
 	numStrDto.fmtSpec.
 		currencyValue.
-		numberSeparators.
+		numericSeparators.
 		decimalSeparator = integerDigitsSeparator
 
 	numStrDto.fmtSpec.
 		currencyValue.
-		numberSeparators.
+		numericSeparators.
 		integerDigitsGroupingSequence =
 		[]uint{3}
 
@@ -2535,7 +2535,7 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparatorsDto(
 	err =
 		numStrDto.fmtSpec.
 			currencyValue.
-			numberSeparators.
+			numericSeparators.
 			CopyIn(
 				&customSeparators,
 				ePrefix)

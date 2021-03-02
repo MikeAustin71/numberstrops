@@ -291,50 +291,74 @@ type numStrFmtSpecCurrencyValueDtoMechanics struct {
 //            Example: '1000000000'
 //
 //
-//  numberSeparators           NumericSeparators
+//  numericSeparators             NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
-//       including in the number string text display.
+//       included in the number string text display.
 //
 //        type NumericSeparators struct {
 //         decimalSeparator              rune
-//         integerDigitsSeparator        rune
-//         integerDigitsGroupingSequence []uint
+//         integerSeparators []NumStrIntSeparator
 //        }
 //
-//        decimalSeparator rune
+//        decimalSeparator              rune
 //
 //        The 'Decimal Separator' is used to separate integer and
 //        fractional digits within a floating point number display.
 //
-//        integerDigitsSeparator rune
+//        integerSeparators             []NumStrIntSeparator
+//           - An array of NumStrIntSeparator elements used to specify
+//             the integer separation operation.
 //
-//        This type also encapsulates the integer digits separator, often
-//        referred to as the 'Thousands Separator'. This is used to
-//        separate thousands digits within the integer component of a
-//        number string.
+//              type NumStrIntSeparator struct {
+//                intSeparatorChar     rune
+//                intSeparatorGrouping uint
+//              }
 //
-//        integerDigitsGroupingSequence []uint
+//               intSeparatorChar     rune
+//               - This separator is commonly known as the 'thousands'
+//                 separator. It is used to separate groups of integer
+//                 digits to the left of the decimal separator (a.k.a.
+//                 decimal point). In the United States, the standard
+//                 integer digits separator is the comma (','). Other
+//                 countries use periods, spaces or apostrophes to
+//                 separate integers.
+//                   United States Example:  1,000,000,000
+//                    numSeps.intSeparators =
+//                      []NumStrIntSeparator{
+//                           {
+//                           intSeparatorChar:   ',',
+//                           intSeparatorGrouping: 3,
+//                           },
+//                        }
 //
-//        Related to the integer digits separator, the integer digits
-//        grouping sequence is also encapsulated in this type. The integer
-//        digits grouping sequence is used to identify the digits which
-//        will be grouped and separated by the integer digits separator.
+//               intSeparatorGrouping []uint
+//               - In most western countries integer digits to the left
+//                 of the decimal separator (a.k.a. decimal point) are
+//                 separated into groups of three digits representing
+//                 a grouping of 'thousands' like this: '1,000,000,000'.
+//                 In this case the intSeparatorGrouping value would be
+//                 set to three ('3').
 //
-//        In most western countries integer digits to the left of the
-//        decimal separator (a.k.a. decimal point) are separated into
-//        groups of three digits representing a grouping of 'thousands'
-//        like this: '1,000,000,000,000'. In this case the parameter
-//        integer digits grouping sequence would be configured as:
-//                     integerDigitsGroupingSequence = []uint{3}
+//             In some countries and cultures other integer groupings are
+//             used. In India, for example, a number might be formatted
+//             like this: '6,78,90,00,00,00,00,000'. The right most group
+//             has three digits and all the others are grouped by two. In
+//             this case 'integerSeparators' would be configured as
+//             follows:
+//             as:
 //
-//        In some countries and cultures other integer groupings are used.
-//        In India, for example, a number might be formatted as like this:
-//                      '6,78,90,00,00,00,00,000'
-//        The right most group has three digits and all the others are
-//        grouped by two. In this case integer digits grouping sequence
-//        would be configured as:
-//                     integerDigitsGroupingSequence = []uint{3,2}
+//             numSeps.intSeparators =
+//               []NumStrIntSeparator{
+//                    {
+//                    intSeparatorChar:   ',',
+//                    intSeparatorGrouping: 3,
+//                    },
+//                    {
+//                    intSeparatorChar:     ',',
+//                    intSeparatorGrouping: 2,
+//                    },
+//                 }
 //
 //
 //  numFieldDto                NumberFieldDto
@@ -406,7 +430,7 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	minorCurrencyName string,
 	minorCurrencySymbols []rune,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumericSeparators,
+	numericSeparators NumericSeparators,
 	numFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
 	err error) {
@@ -494,9 +518,9 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 		turnOnIntegerDigitsSeparation
 
 	err =
-		newNStrFmtSpecCurrencyValDto.numberSeparators.CopyIn(
-			&numberSeparatorsDto,
-			ePrefix.XCtx("numberSeparators->newNStrFmtSpecCurrencyValDto"))
+		newNStrFmtSpecCurrencyValDto.numericSeparators.CopyIn(
+			&numericSeparators,
+			ePrefix.XCtx("numericSeparators->newNStrFmtSpecCurrencyValDto"))
 
 	if err != nil {
 		return err

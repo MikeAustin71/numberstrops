@@ -978,7 +978,7 @@ func (nStrDtoAtom *numStrDtoAtom) getCurrencyNumSepsDto(
 			&numStrDto.
 				fmtSpec.
 				currencyValue.
-				numberSeparators,
+				numericSeparators,
 			ePrefix.XCtx(
 				"numStrDto.fmtSpec->numSepsDto"))
 

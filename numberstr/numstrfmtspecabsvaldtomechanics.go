@@ -87,7 +87,7 @@ type numStrFmtSpecAbsoluteValueDtoMechanics struct {
 //            Example: 1000000000
 //
 //
-//  numberSeparators        NumericSeparators
+//  numericSeparators        NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
@@ -232,7 +232,7 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 	err =
 		newNStrFmtSpecAbsValDto.numberSeparatorsDto.CopyIn(
 			&numberSeparatorsDto,
-			ePrefix.XCtx("'numberSeparators'->'newNStrFmtSpecAbsValDto'\n "))
+			ePrefix.XCtx("'numericSeparators'->'newNStrFmtSpecAbsValDto'\n "))
 
 	if err != nil {
 		return err
