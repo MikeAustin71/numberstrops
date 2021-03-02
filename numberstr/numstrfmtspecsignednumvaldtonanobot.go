@@ -82,8 +82,8 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyIn(
 		inComingNStrFmtSpecSignedNumValDto.turnOnIntegerDigitsSeparation
 
 	err =
-		targetNStrFmtSpecSignedNumValDto.numberSeparatorsDto.CopyIn(
-			&inComingNStrFmtSpecSignedNumValDto.numberSeparatorsDto,
+		targetNStrFmtSpecSignedNumValDto.numericSeparators.CopyIn(
+			&inComingNStrFmtSpecSignedNumValDto.numericSeparators,
 			ePrefix.XCtx("'inComingNStrFmtSpecSignedNumValDto' -> "+
 				"'targetNStrFmtSpecSignedNumValDto'"))
 
@@ -157,8 +157,8 @@ func (nStrFmtSpecSignedNumValNanobot *numStrFmtSpecSignedNumValNanobot) copyOut(
 	newNStrFmtSpecSignedNumValDto.turnOnIntegerDigitsSeparation =
 		nStrFmtSpecSignedNumValDto.turnOnIntegerDigitsSeparation
 
-	err = newNStrFmtSpecSignedNumValDto.numberSeparatorsDto.CopyIn(
-		&nStrFmtSpecSignedNumValDto.numberSeparatorsDto,
+	err = newNStrFmtSpecSignedNumValDto.numericSeparators.CopyIn(
+		&nStrFmtSpecSignedNumValDto.numericSeparators,
 		ePrefix.XCtx("nStrFmtSpecSignedNumValDto->newNStrFmtSpecSignedNumValDto"))
 
 	if err != nil {

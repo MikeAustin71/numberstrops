@@ -314,7 +314,7 @@ func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNu
 		turnOnIntegerDigitsSeparation
 
 	err =
-		newNStrFmtSpecSignedNumValDto.numberSeparatorsDto.CopyIn(
+		newNStrFmtSpecSignedNumValDto.numericSeparators.CopyIn(
 			&numberSeparatorsDto,
 			ePrefix.XCtx("numericSeparators->newNStrFmtSpecSignedNumValDto"))
 

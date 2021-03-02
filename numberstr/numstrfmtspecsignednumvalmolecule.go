@@ -74,7 +74,7 @@ func (nStrFmtSpecSignedNumValMolecule *numStrFmtSpecSignedNumValMolecule) testVa
 	}
 
 	err =
-		nStrFmtSpecSignedNumValDto.numberSeparatorsDto.IsValidInstanceError(
+		nStrFmtSpecSignedNumValDto.numericSeparators.IsValidInstanceError(
 			ePrefix.XCtx("Validating 'nStrFmtSpecSignedNumValDto' Number Separators"))
 
 	if err != nil {

@@ -1093,7 +1093,7 @@ func (nStrDtoAtom *numStrDtoAtom) getSignedNumSepsDto(
 			&numStrDto.
 				fmtSpec.
 				signedNumValue.
-				numberSeparatorsDto,
+				numericSeparators,
 			ePrefix.XCtx(
 				"numStrDto.fmtSpec->numSepsDto"))
 
@@ -1612,7 +1612,7 @@ func (nStrDtoAtom *numStrDtoAtom) formatNumStr(
 		}
 
 		outRunes[outIdx] = signedNumFormat.
-			numberSeparatorsDto.
+			numericSeparators.
 			GetDecimalSeparator()
 
 		outIdx--
@@ -1830,7 +1830,7 @@ func (nStrDtoAtom *numStrDtoAtom) formatThousandsStr(
 			sepCnt = 1
 			seps--
 			outRunes[outIdx] =
-				signedNumFormat.GetIntegerDigitsSeparator()
+				signedNumFormat.GetIntegerDigitSeparators()
 			outIdx--
 		}
 

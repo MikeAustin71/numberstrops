@@ -600,7 +600,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumericSeparators
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto.GetNumericSeparators()")
+		"NumStrFmtSpecCurrencyValueDto." +
+			"GetNumericSeparators()")
 
 	nStrFmtSpecCurrDtoMolecule :=
 		numStrFmtSpecCurrencyValueDtoMolecule{}
@@ -803,26 +804,17 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //
 //  thousandsSeparatorChar        rune
 //     - The character which will be used to delimit 'thousands' in
-//       integer number strings. In the United States, the Thousands
-//       separator is the comma character (',').
-//           Example: '1,000,000,000'
+//       integer number strings. In the United States, the
+//       Thousands separator is the comma character (',').
+//           United States Example: '1,000,000,000'
 //
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
 //
-//  integerDigitsGroupingSequence  []uint
-//     - In most western countries integer digits to the left of the
-//       decimal separator (a.k.a. decimal point) are separated into
-//       groups of three digits representing a grouping of 'thousands'
-//       like this: '1,000,000,000,000'. In this case the parameter
-//       'integerDigitsGroupingSequence' would be configured as:
-//              integerDigitsGroupingSequence = []uint{3}
-//
-//       In some countries and cultures other integer groupings are
-//       used. In India, for example, a number might be formatted as
-//       like this: '6,78,90,00,00,00,00,000'. The right most group
-//       has three digits and all the others are grouped by two. In
-//       this case 'integerDigitsGroupingSequence' would be configured
-//       as:
-//              integerDigitsGroupingSequence = []uint{3,2}
+//       For custom integer digit grouping, use method
+//       NumStrFmtSpecCurrencyValueDto.NewFromComponents().
 //
 //
 //  turnOnThousandsSeparator      bool
@@ -1170,7 +1162,6 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
-	integerDigitsGroupingSequence []uint,
 	turnOnThousandsSeparator bool,
 	positiveValueFmt string,
 	negativeValueFmt string,
@@ -1199,7 +1190,8 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.NewWithDefaults()")
+	ePrefix.SetEPref(
+		"NumStrFmtSpecCurrencyValueDto.NewWithDefaults()")
 
 	newNStrFmtSpecCurrencyValDto :=
 		NumStrFmtSpecCurrencyValueDto{}
@@ -1212,7 +1204,6 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 			&newNStrFmtSpecCurrencyValDto,
 			decimalSeparatorChar,
 			thousandsSeparatorChar,
-			integerDigitsGroupingSequence,
 			turnOnThousandsSeparator,
 			positiveValueFmt,
 			negativeValueFmt,
