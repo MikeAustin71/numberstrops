@@ -121,8 +121,8 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 		inComingNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation
 
 	err =
-		targetNStrFmtSpecCurrencyValDto.numberSeparatorsDto.CopyIn(
-			&inComingNStrFmtSpecCurrencyValDto.numberSeparatorsDto,
+		targetNStrFmtSpecCurrencyValDto.numberSeparators.CopyIn(
+			&inComingNStrFmtSpecCurrencyValDto.numberSeparators,
 			ePrefix.XCtx("'inComingNStrFmtSpecCurrencyValDto' -> "+
 				"'targetNStrFmtSpecCurrencyValDto'"))
 
@@ -240,8 +240,8 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 	newNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation =
 		nStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation
 
-	err = newNStrFmtSpecCurrencyValDto.numberSeparatorsDto.CopyIn(
-		&nStrFmtSpecCurrencyValDto.numberSeparatorsDto,
+	err = newNStrFmtSpecCurrencyValDto.numberSeparators.CopyIn(
+		&nStrFmtSpecCurrencyValDto.numberSeparators,
 		ePrefix.XCtx("nStrFmtSpecCurrencyValDto->newNStrFmtSpecCurrencyValDto"))
 
 	if err != nil {

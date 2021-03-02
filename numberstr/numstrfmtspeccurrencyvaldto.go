@@ -16,7 +16,7 @@ type NumStrFmtSpecCurrencyValueDto struct {
 	minorCurrencyName             string
 	minorCurrencySymbols          []rune
 	turnOnIntegerDigitsSeparation bool
-	numberSeparatorsDto           NumericSeparators
+	numberSeparators              NumericSeparators
 	numFieldLenDto                NumberFieldDto
 	lock                          *sync.Mutex
 }
@@ -283,7 +283,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetDecimalDigits() u
 //  Example:   123.45
 //
 // Decimal Separator is extracted from the underlying member
-// variable, 'nStrFmtSpecCurrValDto.numberSeparatorsDto'.
+// variable, 'nStrFmtSpecCurrValDto.numberSeparators'.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetDecimalSeparator() rune {
 
@@ -296,22 +296,25 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetDecimalSeparator(
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
 	return nStrFmtSpecCurrValDto.
-		numberSeparatorsDto.
+		numberSeparators.
 		GetDecimalSeparator()
 }
 
-// GetIntegerDigitsSeparator - Returns the unicode character (rune)
-// used to separate integer digits. This is typically known as the
-// 'thousands' separator which is used to separate thousands in
-// three digit groups. In the United States, the inter digits
+// GetIntegerDigitSeparators - Returns an array of type
+// NumStrIntSeparator.
+//
+// The data contained in type NumStrIntSeparator is used to
+// separate integer digits. This is typically known as the
+// 'thousands' separator which is used to separate thousands
+// in three digit groups. In the United States, the integer digits
 // separator is the comma (',').
 //
-//  Example 1,000,000,000
+//  United States Example 1,000,000,000
 //
 // Integer Digits Separator is extracted from the underlying member
-// variable, 'nStrFmtSpecCurrValDto.numberSeparatorsDto'.
+// variable, 'nStrFmtSpecCurrValDto.numberSeparators'.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetIntegerDigitsSeparator() rune {
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetIntegerDigitSeparators() []NumStrIntSeparator {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -322,45 +325,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetIntegerDigitsSepa
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
 	return nStrFmtSpecCurrValDto.
-		numberSeparatorsDto.
+		numberSeparators.
 		GetIntegerDigitsSeparators()
-}
-
-// GetIntegerDigitsGroupingSequence - Returns the value of the
-// integer digits grouping sequence. This refers to grouping of
-// integer digits within a string of numeric digits.
-//
-// In most western countries integer digits to the left of the
-// decimal separator (a.k.a. decimal point) are separated into
-// groups of three digits representing a grouping of 'thousands'
-// like this: '1,000,000,000,000'. In this case, the integer digits
-// grouping sequence would be configured as:
-//        integerDigitsGroupingSequence = []uint{3}
-//
-// In some countries and cultures, other integer groupings are
-// used. In India, for example, a number might be formatted as
-// like this: '6,78,90,00,00,00,00,000'. The right most group
-// has three digits and all the others are grouped by two digits.
-// In this case integer digits grouping sequence would be
-// configured as:
-//        integerDigitsGroupingSequence = []uint{3,2}
-//
-// The integer digits grouping sequence is extracted from member
-// variable 'nStrFmtSpecCurrValDto.numberSeparatorsDto'.
-//
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetIntegerDigitsGroupingSequence() []uint {
-
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCurrValDto.lock.Lock()
-
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
-
-	return nStrFmtSpecCurrValDto.
-		numberSeparatorsDto.
-		GetIntegerDigitsGroupingSequence()
 }
 
 // GetMinorCurrencySymbols - Returns the minor currency symbols.
@@ -533,8 +499,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumericSeparators
 
 	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.GetNumericSeparatorsDto() ")
 
-	return nStrFmtSpecCurrValDto.numberSeparatorsDto.CopyOut(
-		ePrefix.XCtx("nStrFmtSpecCurrValDto.numberSeparatorsDto"))
+	return nStrFmtSpecCurrValDto.numberSeparators.CopyOut(
+		ePrefix.XCtx("nStrFmtSpecCurrValDto.numberSeparators"))
 }
 
 // GetPositiveValueFormat - Returns the formatting string used to
@@ -2181,7 +2147,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbols(
 //            Example: 1000000000
 //
 //
-//  numberSeparatorsDto        NumericSeparators
+//  numberSeparators        NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
@@ -2861,7 +2827,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLength
 //
 // Input Parameters
 //
-//  numberSeparatorsDto        NumericSeparators
+//  numberSeparators        NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
@@ -2925,7 +2891,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberSeparatorsD
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
-	_ = nStrFmtSpecCurrValDto.numberSeparatorsDto.CopyIn(
+	_ = nStrFmtSpecCurrValDto.numberSeparators.CopyIn(
 		&numberSeparatorsDto,
 		new(ErrPrefixDto))
 }

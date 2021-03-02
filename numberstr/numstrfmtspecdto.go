@@ -254,7 +254,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetDecimalSeparator() rune {
 
 	defer fmtSpecDto.lock.Unlock()
 
-	return fmtSpecDto.currencyValue.numberSeparatorsDto.GetDecimalSeparator()
+	return fmtSpecDto.currencyValue.numberSeparators.GetDecimalSeparator()
 }
 
 // GetCurrencySymbols - Returns the currency symbols.
@@ -281,13 +281,80 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySymbols() []rune {
 // thousands separator from 'currency' value.
 //
 // This method is functionally identical to
-// NumStrFmtSpecDto.GetThousandsSeparator().
+// NumStrFmtSpecDto.GetThousandsSeparators().
 //
 // This is most commonly known as the 'thousands' separator.
 // In the United States, the 'thousands' separator character
 // is the comma (',').
+//    United States Example:  1,000,000,000
 //
-func (fmtSpecDto *NumStrFmtSpecDto) GetIntegerDigitsSeparator() rune {
+// The actual value returned is an array of type NumStrIntSeparator
+// which contains integer separator characters and grouping
+// sequences. This complexity is required in order to support
+// countries and cultures which support integer groupings other
+// than thousands.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//
+//  []NumStrIntSeparator
+//     - An array of NumStrIntSeparator elements used to specify
+//       the integer separation operation.
+//
+//        type NumStrIntSeparator struct {
+//          intSeparatorChar     rune
+//          intSeparatorGrouping uint
+//        }
+//
+//         intSeparatorChar     rune
+//         - This separator is commonly known as the 'thousands'
+//           separator. It is used to separate groups of integer
+//           digits to the left of the decimal separator (a.k.a.
+//           decimal point). In the United States, the standard
+//           integer digits separator is the comma (','). Other
+//           countries use periods, spaces or apostrophes to
+//           separate integers.
+//             United States Example:  1,000,000,000
+//              numSeps.intSeparators =
+//                []NumStrIntSeparator{
+//                     {
+//                     intSeparatorChar:   ',',
+//                     intSeparatorGrouping: 3,
+//                     },
+//                  }
+//
+//         intSeparatorGrouping []uint
+//         - In most western countries integer digits to the left
+//           of the decimal separator (a.k.a. decimal point) are
+//           separated into groups of three digits representing
+//           a grouping of 'thousands' like this: '1,000,000,000'.
+//           In this case the intSeparatorGrouping value would be
+//           set to three ('3').
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerSeparators' would be configured as
+//       follows:
+//       as:
+//
+//       numSeps.intSeparators =
+//         []NumStrIntSeparator{
+//              {
+//              intSeparatorChar:   ',',
+//              intSeparatorGrouping: 3,
+//              },
+//              {
+//              intSeparatorChar:     ',',
+//              intSeparatorGrouping: 2,
+//              },
+//           }
+//
+func (fmtSpecDto *NumStrFmtSpecDto) GetIntegerDigitsSeparator() []NumStrIntSeparator {
 
 	if fmtSpecDto.lock == nil {
 		fmtSpecDto.lock = new(sync.Mutex)
@@ -299,27 +366,8 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetIntegerDigitsSeparator() rune {
 
 	return fmtSpecDto.
 		currencyValue.
-		numberSeparatorsDto.
+		numberSeparators.
 		GetIntegerDigitsSeparators()
-}
-
-// GetIntDigitsGroupSequence - Returns the Integer Digits Grouping
-// Sequence from the 'currency' value.
-//
-func (fmtSpecDto *NumStrFmtSpecDto) GetIntDigitsGroupSequence() []uint {
-
-	if fmtSpecDto.lock == nil {
-		fmtSpecDto.lock = new(sync.Mutex)
-	}
-
-	fmtSpecDto.lock.Lock()
-
-	defer fmtSpecDto.lock.Unlock()
-
-	return fmtSpecDto.
-		currencyValue.
-		numberSeparatorsDto.
-		GetIntegerDigitsGroupingSequence()
 }
 
 // GetMinorCurrencySymbols - Returns the currency symbols.
@@ -341,25 +389,6 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetMinorCurrencySymbols() []rune {
 	defer fmtSpecDto.lock.Unlock()
 
 	return fmtSpecDto.currencyValue.GetMinorCurrencySymbols()
-}
-
-// GetThousandsSeparator - Returns the integer digits or thousands
-// separator from 'currency' value.
-//
-// This method is functionally identical to
-// NumStrFmtSpecDto.GetIntegerDigitsSeparator().
-//
-func (fmtSpecDto *NumStrFmtSpecDto) GetThousandsSeparator() rune {
-
-	if fmtSpecDto.lock == nil {
-		fmtSpecDto.lock = new(sync.Mutex)
-	}
-
-	fmtSpecDto.lock.Lock()
-
-	defer fmtSpecDto.lock.Unlock()
-
-	return fmtSpecDto.currencyValue.numberSeparatorsDto.GetIntegerDigitsSeparators()
 }
 
 // GetScientificNotationSpec - Returns a deep copy of the member

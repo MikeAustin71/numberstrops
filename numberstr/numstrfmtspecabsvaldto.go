@@ -181,7 +181,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetAbsoluteValueFormat() 
 //  Example:   123.45
 //
 // Decimal Separator is extracted from the underlying member
-// variable, 'nStrFmtAbsValDto.numberSeparatorsDto'.
+// variable, 'nStrFmtAbsValDto.numberSeparators'.
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetDecimalSeparator() rune {
 
@@ -207,7 +207,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetDecimalSeparator() run
 //  Example 1,000,000,000
 //
 // Integer Digits Separator is extracted from the underlying member
-// variable, 'nStrFmtSpecCurrValDto.numberSeparatorsDto'.
+// variable, 'nStrFmtSpecCurrValDto.numberSeparators'.
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetIntegerDigitsSeparator() rune {
 
@@ -244,7 +244,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetIntegerDigitsSeparator
 //        integerDigitsGroupingSequence = []uint{3,2}
 //
 // The integer digits grouping sequence is extracted from member
-// variable 'nStrFmtSpecCurrValDto.numberSeparatorsDto'.
+// variable 'nStrFmtSpecCurrValDto.numberSeparators'.
 //
 func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetIntegerDigitsGroupingSequence() []uint {
 
@@ -408,7 +408,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumericSeparatorsDto(
 	ePrefix.SetEPref("NumStrFmtSpecAbsoluteValueDto.GetNumericSeparatorsDto()")
 
 	return nStrFmtAbsValDto.numberSeparatorsDto.CopyOut(
-		ePrefix.XCtx("nStrFmtAbsValDto.numberSeparatorsDto->"))
+		ePrefix.XCtx("nStrFmtAbsValDto.numberSeparators->"))
 }
 
 // GetTurnOnIntegerDigitsSeparationFlag - Returns the boolean flag
@@ -829,7 +829,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 //            Example: 1000000000
 //
 //
-//  numberSeparatorsDto        NumericSeparators
+//  numberSeparators        NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
@@ -1313,7 +1313,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 //       Separator' will NOT be inserted into text number strings.
 //            Example: 1000000000
 //
-//  numberSeparatorsDto        NumericSeparators
+//  numberSeparators        NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
@@ -1657,7 +1657,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberFieldLengthDto(
 //
 // Input Parameters
 //
-//  numberSeparatorsDto        NumericSeparators
+//  numberSeparators        NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.

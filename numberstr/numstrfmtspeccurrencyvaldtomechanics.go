@@ -291,7 +291,7 @@ type numStrFmtSpecCurrencyValueDtoMechanics struct {
 //            Example: '1000000000'
 //
 //
-//  numberSeparatorsDto           NumericSeparators
+//  numberSeparators           NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
@@ -494,9 +494,9 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 		turnOnIntegerDigitsSeparation
 
 	err =
-		newNStrFmtSpecCurrencyValDto.numberSeparatorsDto.CopyIn(
+		newNStrFmtSpecCurrencyValDto.numberSeparators.CopyIn(
 			&numberSeparatorsDto,
-			ePrefix.XCtx("numberSeparatorsDto->newNStrFmtSpecCurrencyValDto"))
+			ePrefix.XCtx("numberSeparators->newNStrFmtSpecCurrencyValDto"))
 
 	if err != nil {
 		return err
