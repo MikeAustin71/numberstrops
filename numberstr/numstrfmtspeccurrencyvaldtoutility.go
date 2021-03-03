@@ -42,7 +42,7 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 //           United States Example: '1,000,000,000'
 //
 //       For custom integer digit grouping, use method
-//       NumStrFmtSpecCurrencyValueDto.NewFromComponents().
+//       NumStrFmtSpecCurrencyValueDto.NewWithComponents().
 //
 //
 //  turnOnIntegerDigitsSeparation bool
@@ -431,7 +431,7 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 	intSeps[0].intSeparatorGrouping = 3
 
 	numberSeparatorsDto,
-		err = NumericSeparators{}.NewFromComponents(
+		err = NumericSeparators{}.NewWithComponents(
 		decimalSeparatorChar,
 		intSeps,
 		ePrefix.XCtx(

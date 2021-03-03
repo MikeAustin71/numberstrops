@@ -677,7 +677,7 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewFromComponents(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.NewFromComponents()")
+		"NumStrFmtSpecSciNotationDto.NewWithComponents()")
 
 	newNStrFmtSpecSciNotationDto := NumStrFmtSpecSciNotationDto{}
 
@@ -802,7 +802,7 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewFromFmtSpecSetupDto(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.NewFromFmtSpecSetupDto()")
+		"NumStrFmtSpecSciNotationDto.NewWithFmtSpecSetupDto()")
 
 	newNStrFmtSpecSciNotDto := NumStrFmtSpecSciNotationDto{}
 
@@ -1062,7 +1062,7 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetFromFmtSpecSetupDto(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.SetFromFmtSpecSetupDto()")
+		"NumStrFmtSpecSciNotationDto.SetWithFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
 		return fmt.Errorf("%v\n"+

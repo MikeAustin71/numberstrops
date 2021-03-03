@@ -1232,7 +1232,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromCompon
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.NewFromComponents()")
+	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.NewWithComponents()")
 
 	newNStrFmtSpecSignedNumValueDto := NumStrFmtSpecSignedNumValueDto{}
 
@@ -1359,7 +1359,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewFromFmtSpe
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSignedNumValueDto.NewFromFmtSpecSetupDto()")
+		"NumStrFmtSpecSignedNumValueDto.NewWithFmtSpecSetupDto()")
 
 	newNStrFmtSpecSignedNumValueDto :=
 		NumStrFmtSpecSignedNumValueDto{}
@@ -1498,7 +1498,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetFromFmtSp
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.SetFromFmtSpecSetupDto()")
+	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.SetWithFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
 		return fmt.Errorf("%v\n"+

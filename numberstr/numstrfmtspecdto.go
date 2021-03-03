@@ -1278,7 +1278,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromComponents(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecDto.NewFromComponents()")
+		"NumStrFmtSpecDto.NewWithComponents()")
 
 	newFmtSpecDto := NumStrFmtSpecDto{}
 
@@ -1406,7 +1406,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromFmtSpecSetupDto(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecDto.NewFromFmtSpecSetupDto()")
+	ePrefix.SetEPref("NumStrFmtSpecDto.NewWithFmtSpecSetupDto()")
 
 	newNumStrFmtSpecDto :=
 		NumStrFmtSpecDto{}
@@ -1532,7 +1532,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecDto.NewFromFmtSpecSetupDto()")
+	ePrefix.SetEPref("NumStrFmtSpecDto.NewWithFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
 		return fmt.Errorf("%v\n"+

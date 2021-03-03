@@ -477,6 +477,33 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 		minorCurrencySymbols = make([]rune, 0, 5)
 	}
 
+	nStrCurrencyElectron :=
+		numStrFmtSpecCurrencyValueDtoElectron{}
+
+	_,
+		err = nStrCurrencyElectron.testCurrencyPositiveValueFormatStr(
+		positiveValueFmt,
+		ePrefix.XCtx(
+			fmt.Sprintf("Input parameter"+
+				" 'positiveValueFmt' = '%v'",
+				positiveValueFmt)))
+
+	if err != nil {
+		return err
+	}
+
+	_,
+		err = nStrCurrencyElectron.testCurrencyNegativeValueFormatStr(
+		positiveValueFmt,
+		ePrefix.XCtx(
+			fmt.Sprintf("Input parameter"+
+				" 'negativeValueFmt' = '%v'",
+				positiveValueFmt)))
+
+	if err != nil {
+		return err
+	}
+
 	lenMinorCurrSymbols := len(minorCurrencySymbols)
 
 	newNStrFmtSpecCurrencyValDto := NumStrFmtSpecCurrencyValueDto{}
@@ -502,8 +529,24 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	newNStrFmtSpecCurrencyValDto.currencySymbols =
 		make([]rune, lenCurrencySymbols, 10)
 
-	_ = copy(newNStrFmtSpecCurrencyValDto.currencySymbols,
+	runesCopied := copy(newNStrFmtSpecCurrencyValDto.currencySymbols,
 		currencySymbols)
+
+	if runesCopied != lenCurrencySymbols {
+		err = fmt.Errorf("%v\n"+
+			"Error copying currency symbols!\n"+
+			"Expected to copy %v currency symbol runes.\n"+
+			"However, only %v currency symbol runes were copied.\n"+
+			"Source currencySymbols = '%v'\n"+
+			"Destination newNStrFmtSpecCurrencyValDto.currencySymbols = '%v'\n",
+			ePrefix.String(),
+			lenCurrencySymbols,
+			runesCopied,
+			string(currencySymbols),
+			string(newNStrFmtSpecCurrencyValDto.currencySymbols))
+
+		return err
+	}
 
 	newNStrFmtSpecCurrencyValDto.minorCurrencyName =
 		minorCurrencyName
@@ -511,8 +554,24 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	newNStrFmtSpecCurrencyValDto.minorCurrencySymbols =
 		make([]rune, lenMinorCurrSymbols, 10)
 
-	_ = copy(newNStrFmtSpecCurrencyValDto.minorCurrencySymbols,
+	runesCopied = copy(newNStrFmtSpecCurrencyValDto.minorCurrencySymbols,
 		minorCurrencySymbols)
+
+	if runesCopied != lenMinorCurrSymbols {
+		err = fmt.Errorf("%v\n"+
+			"Error copying minor currency symbols!\n"+
+			"Expected to copy %v minor currency symbol runes.\n"+
+			"However, only %v minor currency symbol runes were copied.\n"+
+			"Source minorCurrencySymbols = '%v'\n"+
+			"Destination newNStrFmtSpecCurrencyValDto.minorCurrencySymbols = '%v'\n",
+			ePrefix.String(),
+			lenMinorCurrSymbols,
+			runesCopied,
+			string(minorCurrencySymbols),
+			string(newNStrFmtSpecCurrencyValDto.minorCurrencySymbols))
+
+		return err
+	}
 
 	newNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation =
 		turnOnIntegerDigitsSeparation

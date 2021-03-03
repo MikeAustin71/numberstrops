@@ -19,8 +19,8 @@ type NumStrFmtSpecSetupDto struct {
 	CountryCodeNumber                         string
 	AbsoluteValFmt                            string
 	AbsoluteValTurnOnIntegerDigitsSeparation  bool
-	AbsoluteValNumFieldLen                    int
-	AbsoluteValNumFieldTextJustify            TextJustify
+	AbsoluteValNumSeps                        NumericSeparators
+	AbsoluteValNumField                       NumberFieldDto
 	CurrencyPositiveValueFmt                  string
 	CurrencyNegativeValueFmt                  string
 	CurrencyDecimalDigits                     uint
@@ -31,16 +31,13 @@ type NumStrFmtSpecSetupDto struct {
 	MinorCurrencyName                         string
 	MinorCurrencySymbols                      []rune
 	CurrencyTurnOnIntegerDigitsSeparation     bool
-	CurrencyNumFieldLen                       int
-	CurrencyNumFieldTextJustify               TextJustify
-	DecimalSeparator                          rune
-	IntegerDigitsSeparator                    rune
-	IntegerDigitsGroupingSequence             []uint
+	CurrencyNumSeps                           NumericSeparators
+	CurrencyNumField                          NumberFieldDto
 	SignedNumValPositiveValueFmt              string
 	SignedNumValNegativeValueFmt              string
 	SignedNumValTurnOnIntegerDigitsSeparation bool
-	SignedNumValNumFieldLen                   int
-	SignedNumValNumFieldTextJustify           TextJustify
+	SignedNumValNumSeps                       NumericSeparators
+	SignedNumValNumField                      NumberFieldDto
 	SciNotSignificandUsesLeadingPlus          bool
 	SciNotMantissaLength                      uint
 	SciNotExponentChar                        rune

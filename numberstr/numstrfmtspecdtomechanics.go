@@ -187,7 +187,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 		return err
 	}
 
-	err = nStrFmtSpecDto.currencyValue.SetFromFmtSpecSetupDto(
+	err = nStrFmtSpecDto.currencyValue.SetWithFmtSpecSetupDto(
 		fmtSpecSetupDto,
 		ePrefix.XCtx("fmtSpecSetupDto"))
 

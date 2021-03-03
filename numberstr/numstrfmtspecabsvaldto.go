@@ -1030,7 +1030,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromComponents(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecAbsoluteValueDto.NewFromComponents()")
+	ePrefix.SetEPref("NumStrFmtSpecAbsoluteValueDto.NewWithComponents()")
 
 	newNStrFmtSpecAbsoluteValueDto := NumStrFmtSpecAbsoluteValueDto{}
 
@@ -1155,7 +1155,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewFromFmtSpecSetupDto(
 	}
 
 	ePrefix.SetEPref(
-		"nNumStrFmtSpecAbsoluteValueDto.NewFromFmtSpecSetupDto()")
+		"nNumStrFmtSpecAbsoluteValueDto.NewWithFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
 		return NumStrFmtSpecAbsoluteValueDto{},
@@ -1616,7 +1616,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetFromFmtSpecSetupDto(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCountryDto.SetFromFmtSpecSetupDto()")
+	ePrefix.SetEPref("NumStrFmtSpecCountryDto.SetWithFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
 		return fmt.Errorf("%v\n"+

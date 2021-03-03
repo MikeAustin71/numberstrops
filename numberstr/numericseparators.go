@@ -540,7 +540,7 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 	return newNumSep
 }
 
-// NewFromComponents - Creates and returns a new instance of NumericSeparators.
+// NewWithComponents - Creates and returns a new instance of NumericSeparators.
 // This type encapsulates the digit separators used in formatting a
 // number string for text display.
 //
@@ -638,7 +638,7 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (numSeps NumericSeparators) NewFromComponents(
+func (numSeps NumericSeparators) NewWithComponents(
 	decimalSeparator rune,
 	integerSeparators []NumStrIntSeparator,
 	ePrefix *ErrPrefixDto) (
@@ -653,7 +653,7 @@ func (numSeps NumericSeparators) NewFromComponents(
 
 	defer numSeps.lock.Unlock()
 
-	ePrefix.SetEPref("NumericSeparators.NewFromComponents()")
+	ePrefix.SetEPref("NumericSeparators.NewWithComponents()")
 
 	newDigitsSepsDto := NumericSeparators{}
 
@@ -700,7 +700,7 @@ func (numSeps NumericSeparators) NewFromComponents(
 //
 // If you wish to configure the 'integer digits grouping sequence'
 // to some value other than the default, see method:
-//     NumericSeparators.NewFromComponents()
+//     NumericSeparators.NewWithComponents()
 //
 //
 // ----------------------------------------------------------------

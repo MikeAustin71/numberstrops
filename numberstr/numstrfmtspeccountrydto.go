@@ -598,7 +598,7 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewFromFmtSpecSetupDto(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto.NewFromFmtSpecSetupDto()")
+		"NumStrFmtSpecCountryDto.NewWithFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
 		return NumStrFmtSpecCountryDto{},
@@ -1019,7 +1019,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetFromFmtSpecSetupDto(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto.SetFromFmtSpecSetupDto()")
+		"NumStrFmtSpecCountryDto.SetWithFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
 		return fmt.Errorf("%v\n"+

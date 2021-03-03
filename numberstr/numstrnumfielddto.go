@@ -677,7 +677,7 @@ func (nFieldDto NumberFieldDto) NewFromComponents(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumberFieldDto.NewFromComponents()")
+	ePrefix.SetEPref("NumberFieldDto.NewWithComponents()")
 
 	newNumFieldDto := NumberFieldDto{}
 

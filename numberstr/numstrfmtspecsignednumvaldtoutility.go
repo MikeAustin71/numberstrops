@@ -311,7 +311,7 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 	var numberSeparatorsDto NumericSeparators
 
 	numberSeparatorsDto,
-		err = NumericSeparators{}.NewFromComponents(
+		err = NumericSeparators{}.NewWithComponents(
 		decimalSeparatorChar,
 		thousandsSeparatorChar,
 		integerDigitsGroupingSequence,
