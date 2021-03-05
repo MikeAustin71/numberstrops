@@ -1249,7 +1249,15 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithComponents(
 }
 
 // NewWithDefaults - Creates and returns a new instance of
-// NumStrFmtSpecCurrencyValueDto.
+// NumStrFmtSpecCurrencyValueDto. This method specifies the minimum
+// number of input parameters required to construct a new instance
+// of NumStrFmtSpecCurrencyValueDto. Default values are used to
+// supplement these input parameters.
+//
+// To exercise granular control over all parameters needed to
+// construct an instance of NumStrFmtSpecCurrencyValueDto,
+// reference method:
+//   'NumStrFmtSpecCurrencyValueDto.NewWithComponents()'
 //
 // This variant of the 'NumStrFmtSpecCurrencyValueDto.New()'
 // method automatically sets a default integer digits grouping
@@ -1728,31 +1736,31 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //         CountryCodeNumber                         string
 //         AbsoluteValFmt                            string
 //         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumFieldLen                    int
+//         AbsoluteValNumSeps                        NumericSeparators
+//         AbsoluteValNumField                       NumberFieldDto
 //         CurrencyPositiveValueFmt                  string
 //         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     int
+//         CurrencyDecimalDigits                     uint
 //         CurrencyCode                              string
 //         CurrencyCodeNo                            string
 //         CurrencyName                              string
 //         CurrencySymbols                           []rune
 //         MinorCurrencyName                         string
 //         MinorCurrencySymbols                      []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []runes
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumFieldLen                       int
-//         DecimalSeparator                          rune
-//         IntegerDigitsSeparator                    rune
-//         IntegerDigitsGroupingSequence             []uint
+//         CurrencyNumSeps                           NumericSeparators
+//         CurrencyNumField                          NumberFieldDto
 //         SignedNumValPositiveValueFmt              string
 //         SignedNumValNegativeValueFmt              string
 //         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumFieldLen                   int
+//         SignedNumValNumSeps                       NumericSeparators
+//         SignedNumValNumField                      NumberFieldDto
+//         SciNotSignificandUsesLeadingPlus          bool
 //         SciNotMantissaLength                      uint
 //         SciNotExponentChar                        rune
 //         SciNotExponentUsesLeadingPlus             bool
 //         SciNotNumFieldLen                         int
+//         SciNotNumFieldTextJustify                 TextJustify
 //         Lock                                      *sync.Mutex
 //       }
 //
@@ -2029,139 +2037,6 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetDecimalDigits(
 
 	nStrFmtSpecCurrValDto.decimalDigits = decimalDigits
 
-}
-
-// SetWithFmtSpecSetupDto - Sets the data values for current
-// NumStrFmtSpecCurrencyValueDto instance based on input received
-// from an instance of NumStrFmtSpecSetupDto.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
-//     - A data structure conveying setup information for a
-//       NumStrFmtSpecCurrencyValueDto object. Only the following
-//       data fields with a prefix of "Currency" are used.
-//
-//       type NumStrFmtSpecSetupDto struct {
-//         IdNo                                      uint64
-//         IdString                                  string
-//         Description                               string
-//         Tag                                       string
-//         CountryIdNo                               uint64
-//         CountryIdString                           string
-//         CountryDescription                        string
-//         CountryTag                                string
-//         CountryCultureName                        string
-//         CountryAbbreviatedName                    string
-//         CountryAlternateNames                     []string
-//         CountryCodeTwoChar                        string
-//         CountryCodeThreeChar                      string
-//         CountryCodeNumber                         string
-//         AbsoluteValFmt                            string
-//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumFieldLen                    int
-//         CurrencyPositiveValueFmt                  string
-//         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     int
-//         CurrencyCode                              string
-//         CurrencyCodeNo                            string
-//         CurrencyName                              string
-//         CurrencySymbols                           []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []rune
-//         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumFieldLen                       int
-//         DecimalSeparator                          rune
-//         IntegerDigitsSeparator                    rune
-//         IntegerDigitsGroupingSequence             []uint
-//         SignedNumValPositiveValueFmt              string
-//         SignedNumValNegativeValueFmt              string
-//         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumFieldLen                   int
-//         SciNotMantissaLength                      uint
-//         SciNotExponentChar                        rune
-//         SciNotExponentUsesLeadingPlus             bool
-//         SciNotNumFieldLen                         int
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithFmtSpecSetupDto(
-	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix *ErrPrefixDto) error {
-
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCurrValDto.lock.Lock()
-
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto." +
-			"SetWithFmtSpecSetupDto()")
-
-	if fmtSpecSetupDto == nil {
-		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
-			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-			ePrefix.String())
-	}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCurrValMech :=
-		numStrFmtSpecCurrencyValueDtoMechanics{}
-
-	fmtSpecSetupDto.Lock.Lock()
-
-	defer fmtSpecSetupDto.Lock.Unlock()
-
-	return nStrFmtSpecCurrValMech.setCurrencyValDtoFromComponents(
-		nStrFmtSpecCurrValDto,
-		fmtSpecSetupDto.CurrencyPositiveValueFmt,
-		fmtSpecSetupDto.CurrencyNegativeValueFmt,
-		fmtSpecSetupDto.CurrencyDecimalDigits,
-		fmtSpecSetupDto.CurrencyCode,
-		fmtSpecSetupDto.CurrencyCodeNo,
-		fmtSpecSetupDto.CurrencyName,
-		fmtSpecSetupDto.CurrencySymbols,
-		fmtSpecSetupDto.MinorCurrencyName,
-		fmtSpecSetupDto.MinorCurrencySymbols,
-		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
-		fmtSpecSetupDto.CurrencyNumSeps,
-		fmtSpecSetupDto.CurrencyNumField,
-		ePrefix)
 }
 
 // SetMinorCurrencySymbol - Sets the minor currency name and
@@ -3684,4 +3559,140 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 		requestedNumberFieldLen,
 		numberFieldTextJustify,
 		ePrefix.XCtx("Setting 'nStrFmtSpecCurrValDto'"))
+}
+
+// SetWithFmtSpecSetupDto - Sets the data values for current
+// NumStrFmtSpecCurrencyValueDto instance based on input received
+// from an instance of NumStrFmtSpecSetupDto.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
+//     - A data structure conveying setup information for a
+//       NumStrFmtSpecCurrencyValueDto object. Only the following
+//       data fields with a prefix of "Currency" are used.
+//
+//       type NumStrFmtSpecSetupDto struct {
+//         IdNo                                      uint64
+//         IdString                                  string
+//         Description                               string
+//         Tag                                       string
+//         CountryIdNo                               uint64
+//         CountryIdString                           string
+//         CountryDescription                        string
+//         CountryTag                                string
+//         CountryCultureName                        string
+//         CountryAbbreviatedName                    string
+//         CountryAlternateNames                     []string
+//         CountryCodeTwoChar                        string
+//         CountryCodeThreeChar                      string
+//         CountryCodeNumber                         string
+//         AbsoluteValFmt                            string
+//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
+//         AbsoluteValNumSeps                        NumericSeparators
+//         AbsoluteValNumField                       NumberFieldDto
+//         CurrencyPositiveValueFmt                  string
+//         CurrencyNegativeValueFmt                  string
+//         CurrencyDecimalDigits                     uint
+//         CurrencyCode                              string
+//         CurrencyCodeNo                            string
+//         CurrencyName                              string
+//         CurrencySymbols                           []rune
+//         MinorCurrencyName                         string
+//         MinorCurrencySymbols                      []rune
+//         CurrencyTurnOnIntegerDigitsSeparation     bool
+//         CurrencyNumSeps                           NumericSeparators
+//         CurrencyNumField                          NumberFieldDto
+//         SignedNumValPositiveValueFmt              string
+//         SignedNumValNegativeValueFmt              string
+//         SignedNumValTurnOnIntegerDigitsSeparation bool
+//         SignedNumValNumSeps                       NumericSeparators
+//         SignedNumValNumField                      NumberFieldDto
+//         SciNotSignificandUsesLeadingPlus          bool
+//         SciNotMantissaLength                      uint
+//         SciNotExponentChar                        rune
+//         SciNotExponentUsesLeadingPlus             bool
+//         SciNotNumFieldLen                         int
+//         SciNotNumFieldTextJustify                 TextJustify
+//         Lock                                      *sync.Mutex
+//       }
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithFmtSpecSetupDto(
+	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrFmtSpecCurrValDto.lock == nil {
+		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDto.lock.Lock()
+
+	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFmtSpecCurrencyValueDto." +
+			"SetWithFmtSpecSetupDto()")
+
+	if fmtSpecSetupDto == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
+			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
+			ePrefix.String())
+	}
+
+	if fmtSpecSetupDto.Lock == nil {
+		fmtSpecSetupDto.Lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValMech :=
+		numStrFmtSpecCurrencyValueDtoMechanics{}
+
+	fmtSpecSetupDto.Lock.Lock()
+
+	defer fmtSpecSetupDto.Lock.Unlock()
+
+	return nStrFmtSpecCurrValMech.setCurrencyValDtoFromComponents(
+		nStrFmtSpecCurrValDto,
+		fmtSpecSetupDto.CurrencyPositiveValueFmt,
+		fmtSpecSetupDto.CurrencyNegativeValueFmt,
+		fmtSpecSetupDto.CurrencyDecimalDigits,
+		fmtSpecSetupDto.CurrencyCode,
+		fmtSpecSetupDto.CurrencyCodeNo,
+		fmtSpecSetupDto.CurrencyName,
+		fmtSpecSetupDto.CurrencySymbols,
+		fmtSpecSetupDto.MinorCurrencyName,
+		fmtSpecSetupDto.MinorCurrencySymbols,
+		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
+		fmtSpecSetupDto.CurrencyNumSeps,
+		fmtSpecSetupDto.CurrencyNumField,
+		ePrefix)
 }

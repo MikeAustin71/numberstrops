@@ -195,7 +195,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 		return err
 	}
 
-	err = nStrFmtSpecDto.signedNumValue.SetFromFmtSpecSetupDto(
+	err = nStrFmtSpecDto.signedNumValue.SetWithFmtSpecSetupDto(
 		fmtSpecSetupDto,
 		ePrefix.XCtx("fmtSpecSetupDto"))
 

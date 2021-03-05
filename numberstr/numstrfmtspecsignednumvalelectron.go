@@ -150,7 +150,9 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValPositiv
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numStrSignedNumValElectron.testSignedNumValPositiveValueFormatStr()")
+	ePrefix.SetEPref(
+		"numStrSignedNumValElectron." +
+			"testSignedNumValPositiveValueFormatStr()")
 
 	isValid = false
 

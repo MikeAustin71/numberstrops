@@ -9,7 +9,7 @@ type nStrFmtSpecSignedNumValMechanics struct {
 	lock *sync.Mutex
 }
 
-// setSignedNumValDto - Transfers new data to an instance of
+// setSignedNumValDtoWithComponents - Transfers new data to an instance of
 // NumStrFmtSpecSignedNumValueDto. After completion, all the data
 // fields within input parameter 'nStrFmtSpecSignedNumValDto' will
 // be overwritten.
@@ -269,12 +269,12 @@ type nStrFmtSpecSignedNumValMechanics struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNumValDto(
+func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNumValDtoWithComponents(
 	nStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
 	positiveValueFmt string,
 	negativeValueFmt string,
 	turnOnIntegerDigitsSeparation bool,
-	numberSeparatorsDto NumericSeparators,
+	numericSeparators NumericSeparators,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
 	err error) {
@@ -291,7 +291,9 @@ func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNu
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("nStrFmtSpecSignedNumValMechanics.setSignedNumValDto()")
+	ePrefix.SetEPref(
+		"nStrFmtSpecSignedNumValMechanics." +
+			"setSignedNumValDtoWithComponents()")
 
 	if nStrFmtSpecSignedNumValDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -299,6 +301,36 @@ func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNu
 			"'nStrFmtSpecSignedNumValDto' is a 'nil' pointer\n",
 			ePrefix.String())
 
+		return err
+	}
+
+	nStrSignedNumElectron := numStrSignedNumValElectron{}
+
+	_,
+		err =
+		nStrSignedNumElectron.
+			testSignedNumValPositiveValueFormatStr(
+				positiveValueFmt,
+				ePrefix.XCtx(
+					fmt.Sprintf(
+						"positiveValueFmt='%v'",
+						positiveValueFmt)))
+
+	if err != nil {
+		return err
+	}
+
+	_,
+		err =
+		nStrSignedNumElectron.
+			testSignedNumValNegativeValueFormatStr(
+				negativeValueFmt,
+				ePrefix.XCtx(
+					fmt.Sprintf(
+						"negativeValueFmt='%v'",
+						negativeValueFmt)))
+
+	if err != nil {
 		return err
 	}
 
@@ -315,7 +347,7 @@ func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNu
 
 	err =
 		newNStrFmtSpecSignedNumValDto.numericSeparators.CopyIn(
-			&numberSeparatorsDto,
+			&numericSeparators,
 			ePrefix.XCtx("numericSeparators->newNStrFmtSpecSignedNumValDto"))
 
 	if err != nil {

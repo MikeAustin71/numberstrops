@@ -28,6 +28,45 @@ type nStrFmtSpecSignedNumValUtility struct {
 //       set to new values based on the following input parameters.
 //
 //
+//  decimalSeparatorChar          rune
+//     - The character used to separate integer and fractional
+//       digits in a floating point number string. In the United
+//       States, the Decimal Separator character is the period
+//       ('.') or Decimal Point.
+//           Example: '123.45678'
+//
+//
+//  thousandsSeparatorChar        rune
+//     - The character which will be used to delimit 'thousands' in
+//       integer number strings. In the United States, the
+//       Thousands separator is the comma character (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
 //  positiveValueFmt              string
 //     - A string specifying the number string format to be used in
 //       formatting positive numeric values for signed numbers in
@@ -148,62 +187,6 @@ type nStrFmtSpecSignedNumValUtility struct {
 //               ( NUMFIELD )
 //
 //
-//  turnOnIntegerDigitsSeparation bool
-//     - Inter digits separation is also known as the 'Thousands
-//       Separator". Often a single character is used to separate
-//       thousands within the integer component of a numeric value
-//       in number strings. In the United States, the comma
-//       character (',') is used to separate thousands.
-//            Example: 1,000,000,000
-//
-//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
-//       flag used to control the 'Thousands Separator'. When set
-//       to 'true', integer number strings will be separated into
-//       thousands for text presentation.
-//            Example: '1,000,000,000'
-//
-//       When this parameter is set to 'false', the 'Thousands
-//       Separator' will NOT be inserted into text number strings.
-//            Example: '1000000000'
-//
-//
-//  decimalSeparatorChar          rune
-//     - The character used to separate integer and fractional
-//       digits in a floating point number string. In the United
-//       States, the Decimal Separator character is the period
-//       ('.') or Decimal Point.
-//           Example: '123.45678'
-//
-//
-//  thousandsSeparatorChar        rune
-//     - The character which will be used to delimit 'thousands' in
-//       integer number strings. In the United States, the Thousands
-//       separator is the comma character (',').
-//           Example: '1,000,000,000'
-//
-//
-//  integerDigitsGroupingSequence []uint
-//     - Sets the integer digit grouping sequence for this instance
-//       of NumStrFmtSpecAbsoluteValueDto. This grouping is
-//       referred to as 'thousands' grouping when the integer
-//       grouping is set to three digits (1,000,000,000).
-//
-//       In most western countries integer digits to the left of the
-//       decimal separator (a.k.a. decimal point) are separated into
-//       groups of three digits representing a grouping of 'thousands'
-//       like this: '1,000,000,000,000'. In this case the parameter
-//       'integerDigitsGroupingSequence' would be configured as:
-//              integerDigitsGroupingSequence = []uint{3}
-//
-//       In some countries and cultures other integer groupings are
-//       used. In India, for example, a number might be formatted as
-//       like this: '6,78,90,00,00,00,00,000'. The right most group
-//       has three digits and all the others are grouped by two. In
-//       this case 'integerDigitsGroupingSequence' would be configured
-//       as:
-//              integerDigitsGroupingSequence = []uint{3,2}
-//
-//
 //  requestedNumberFieldLen       int
 //     - This is the requested length of the number field in which
 //       the number string will be displayed. If this field length
@@ -267,12 +250,11 @@ type nStrFmtSpecSignedNumValUtility struct {
 //
 func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedNumValDtoWithDefaults(
 	nStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
-	positiveValueFmt string,
-	negativeValueFmt string,
-	turnOnIntegerDigitsSeparation bool,
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
-	integerDigitsGroupingSequence []uint,
+	turnOnThousandsSeparator bool,
+	positiveValueFmt string,
+	negativeValueFmt string,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) (
@@ -310,14 +292,19 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 
 	var numberSeparatorsDto NumericSeparators
 
+	intSeps := make([]NumStrIntSeparator, 1, 5)
+
+	intSeps[0].intSeparatorChar = thousandsSeparatorChar
+	intSeps[0].intSeparatorGrouping = 3
+
 	numberSeparatorsDto,
 		err = NumericSeparators{}.NewWithComponents(
 		decimalSeparatorChar,
-		thousandsSeparatorChar,
-		integerDigitsGroupingSequence,
+		intSeps,
 		ePrefix.XCtx(
-			fmt.Sprintf("decimalSeparatorChar='%v'\n"+
-				"thousandsSeparatorChar='%v'",
+			fmt.Sprintf(
+				"decimalSeparatorChar='%v'\n"+
+					"thousandsSeparatorChar='%v'",
 				decimalSeparatorChar,
 				thousandsSeparatorChar)))
 
@@ -328,11 +315,11 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 	nStrFmtSpecSignedNumValMech :=
 		nStrFmtSpecSignedNumValMechanics{}
 
-	err = nStrFmtSpecSignedNumValMech.setSignedNumValDto(
+	err = nStrFmtSpecSignedNumValMech.setSignedNumValDtoWithComponents(
 		nStrFmtSpecSignedNumValDto,
 		positiveValueFmt,
 		negativeValueFmt,
-		turnOnIntegerDigitsSeparation,
+		turnOnThousandsSeparator,
 		numberSeparatorsDto,
 		numFieldDto,
 		ePrefix.XCtx("Setting 'nStrFmtSpecSignedNumValDto'\n"))
