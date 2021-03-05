@@ -336,6 +336,9 @@ func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNu
 
 	newNStrFmtSpecSignedNumValDto := NumStrFmtSpecSignedNumValueDto{}
 
+	newNStrFmtSpecSignedNumValDto.lock =
+		new(sync.Mutex)
+
 	newNStrFmtSpecSignedNumValDto.positiveValueFmt =
 		positiveValueFmt
 

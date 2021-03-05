@@ -179,7 +179,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 		return err
 	}
 
-	err = nStrFmtSpecDto.absoluteValue.SetFromFmtSpecSetupDto(
+	err = nStrFmtSpecDto.absoluteValue.SetWithFmtSpecSetupDto(
 		fmtSpecSetupDto,
 		ePrefix.XCtx("fmtSpecSetupDto->AbsoluteValue"))
 

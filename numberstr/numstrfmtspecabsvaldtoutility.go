@@ -28,6 +28,48 @@ type numStrFmtSpecAbsoluteValueDtoUtility struct {
 //       set to new values based on the following input parameters.
 //
 //
+//  decimalSeparatorChar          rune
+//     - The character used to separate integer and fractional
+//       digits in a floating point number string. In the United
+//       States, the Decimal Separator character is the period
+//       ('.') or Decimal Point.
+//           Example: '123.45678'
+//
+//
+//  thousandsSeparatorChar        rune
+//     - The character which will be used to delimit 'thousands' in
+//       integer number strings. In the United States, the
+//       Thousands separator is the comma character (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//       For custom integer digit grouping, use method
+//       NumStrFmtSpecAbsoluteValueDto.NewWithComponents().
+//
+//
+//  turnOnThousandsSeparator      bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
 //  absoluteValFmt                string
 //     - A string specifying the number string format to be used in
 //       formatting absolute numeric values in text number strings.
@@ -70,62 +112,6 @@ type numStrFmtSpecAbsoluteValueDtoUtility struct {
 //               "127.54+"
 //               "127.54 +"
 //               "127.54" THE DEFAULT Absolute Value Format
-//
-//
-//  turnOnIntegerDigitsSeparation bool
-//     - Inter digits separation is also known as the 'Thousands
-//       Separator". Often a single character is used to separate
-//       thousands within the integer component of a numeric value
-//       in number strings. In the United States, the comma
-//       character (',') is used to separate thousands.
-//            Example: 1,000,000,000
-//
-//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
-//       flag used to control the 'Thousands Separator'. When set
-//       to 'true', integer number strings will be separated into
-//       thousands for text presentation.
-//            Example: '1,000,000,000'
-//
-//       When this parameter is set to 'false', the 'Thousands
-//       Separator' will NOT be inserted into text number strings.
-//            Example: '1000000000'
-//
-//
-//  decimalSeparatorChar          rune
-//     - The character used to separate integer and fractional
-//       digits in a floating point number string. In the United
-//       States, the Decimal Separator character is the period
-//       ('.') or Decimal Point.
-//           Example: '123.45678'
-//
-//
-//  thousandsSeparatorChar        rune
-//     - The character which will be used to delimit 'thousands' in
-//       integer number strings. In the United States, the Thousands
-//       separator is the comma character (',').
-//           Example: '1,000,000,000'
-//
-//
-//  integerDigitsGroupingSequence []uint
-//     - Sets the integer digit grouping sequence for this instance
-//       of NumStrFmtSpecAbsoluteValueDto. This grouping is
-//       referred to as 'thousands' grouping when the integer
-//       grouping is set to three digits (1,000,000,000).
-//
-//       In most western countries integer digits to the left of the
-//       decimal separator (a.k.a. decimal point) are separated into
-//       groups of three digits representing a grouping of 'thousands'
-//       like this: '1,000,000,000,000'. In this case the parameter
-//       'integerDigitsGroupingSequence' would be configured as:
-//              integerDigitsGroupingSequence = []uint{3}
-//
-//       In some countries and cultures other integer groupings are
-//       used. In India, for example, a number might be formatted as
-//       like this: '6,78,90,00,00,00,00,000'. The right most group
-//       has three digits and all the others are grouped by two. In
-//       this case 'integerDigitsGroupingSequence' would be configured
-//       as:
-//              integerDigitsGroupingSequence = []uint{3,2}
 //
 //
 //  requestedNumberFieldLen       int
@@ -188,11 +174,10 @@ type numStrFmtSpecAbsoluteValueDtoUtility struct {
 //
 func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValDtoWithDefaults(
 	nStrFmtSpecAbsValDto *NumStrFmtSpecAbsoluteValueDto,
-	absoluteValFmt string,
-	turnOnIntegerDigitsSeparation bool,
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
-	integerDigitsGroupingSequence []uint,
+	turnOnIntegerDigitsSeparation bool,
+	absoluteValFmt string,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) (
@@ -234,11 +219,15 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 
 	var numberSeparatorsDto NumericSeparators
 
+	intSeps := make([]NumStrIntSeparator, 1, 5)
+
+	intSeps[0].intSeparatorChar = thousandsSeparatorChar
+	intSeps[0].intSeparatorGrouping = 3
+
 	numberSeparatorsDto,
 		err = NumericSeparators{}.NewWithComponents(
 		decimalSeparatorChar,
-		thousandsSeparatorChar,
-		integerDigitsGroupingSequence,
+		intSeps,
 		ePrefix.XCtx(
 			fmt.Sprintf("\n"+
 				"decimalSeparatorChar='%v'\n"+
@@ -253,7 +242,7 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 	nStrFmtSpecAbsValDtoMech :=
 		numStrFmtSpecAbsoluteValueDtoMechanics{}
 
-	err = nStrFmtSpecAbsValDtoMech.setAbsValDto(
+	err = nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
 		nStrFmtSpecAbsValDto,
 		absoluteValFmt,
 		turnOnIntegerDigitsSeparation,

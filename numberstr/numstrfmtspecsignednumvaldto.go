@@ -639,7 +639,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 // NumStrFmtSpecSignedNumValueDto.
 //
 // The NumStrFmtSpecSignedNumValueDto type encapsulates the
-// formatting parameters necessary to format signed numeric
+// configuration parameters necessary to format signed numeric
 // values for display in text number strings.
 //
 // This method requires detailed input parameters to control
@@ -1032,9 +1032,9 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithCompon
 //       character (',') is used to separate thousands.
 //            Example: 1,000,000,000
 //
-//       The parameter 'turnOnThousandsSeparator' is a boolean
-//       flag used to control the 'Thousands Separator'. When set
-//       to 'true', integer number strings will be separated into
+//       The parameter 'turnOnThousandsSeparator' is a boolean flag
+//       used to control the 'Thousands Separator'. When set to
+//       'true', integer number strings will be separated into
 //       thousands for text presentation.
 //            Example: '1,000,000,000'
 //
@@ -1291,7 +1291,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 //  fmtSpecSetupDto     *NumStrFmtSpecSetupDto
 //     - A data structure conveying setup information for a
 //       NumStrFmtSpecSignedNumValueDto object. Only the following
-//       data fields with a prefix of "AbsoluteVal" are used.
+//       data fields with a prefix of "SignedNumVal" are used.
 //
 //       type NumStrFmtSpecSetupDto struct {
 //         IdNo                                      uint64

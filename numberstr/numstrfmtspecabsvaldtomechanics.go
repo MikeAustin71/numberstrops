@@ -9,7 +9,7 @@ type numStrFmtSpecAbsoluteValueDtoMechanics struct {
 	lock *sync.Mutex
 }
 
-// setAbsValDto - Sets the data value for incoming parameter
+// setAbsValDtoWithComponents - Sets the data value for incoming parameter
 // 'nStrFmtSpecAbValDto', an instance of
 // NumStrFmtSpecAbsoluteValueDto.
 //
@@ -189,7 +189,7 @@ type numStrFmtSpecAbsoluteValueDtoMechanics struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsValDto(
+func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsValDtoWithComponents(
 	nStrFmtSpecAbValDto *NumStrFmtSpecAbsoluteValueDto,
 	absoluteValueFormat string,
 	turnOnIntegerDigitsSeparation bool,
@@ -210,7 +210,9 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numStrFmtSpecAbsoluteValueDtoMechanics.setAbsValDto()\n")
+	ePrefix.SetEPref(
+		"numStrFmtSpecAbsoluteValueDtoMechanics." +
+			"setAbsValDtoWithComponents()\n")
 
 	if nStrFmtSpecAbValDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -220,8 +222,27 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 		return err
 	}
 
+	nStrAbsValDtoElectron :=
+		numStrFmtSpecAbsoluteValueDtoElectron{}
+
+	_,
+		err =
+		nStrAbsValDtoElectron.testAbsoluteValueFormatStr(
+			absoluteValueFormat,
+			ePrefix.XCtx(
+				fmt.Sprintf(
+					"absoluteValueFormat='%v'",
+					absoluteValueFormat)))
+
+	if err != nil {
+		return err
+	}
+
 	newNStrFmtSpecAbsValDto :=
 		NumStrFmtSpecAbsoluteValueDto{}
+
+	newNStrFmtSpecAbsValDto.lock =
+		new(sync.Mutex)
 
 	newNStrFmtSpecAbsValDto.absoluteValFmt =
 		absoluteValueFormat

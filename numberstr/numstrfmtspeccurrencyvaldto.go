@@ -776,12 +776,12 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 // NumStrFmtSpecCurrencyValueDto.
 //
 // The NumStrFmtSpecCurrencyValueDto type encapsulates the
-// formatting parameters necessary to format numeric currency
+// configuration parameters necessary to format numeric currency
 // values for display in text number strings.
 //
-// This method requires detailed input parameters to control
-// all configuration parameters for the returned new instance
-// of NumStrFmtSpecCurrencyValueDto.
+// This method requires detailed input parameters which provide
+// granular control over all data fields contained in the returned
+// new instance of NumStrFmtSpecCurrencyValueDto.
 //
 // For a 'New' method using minimum input parameters coupled
 // with default values, see:
@@ -1259,10 +1259,9 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithComponents(
 // reference method:
 //   'NumStrFmtSpecCurrencyValueDto.NewWithComponents()'
 //
-// This variant of the 'NumStrFmtSpecCurrencyValueDto.New()'
-// method automatically sets a default integer digits grouping
-// sequence of '3'. This means that integers will be grouped by
-// thousands.
+// This method automatically sets a default integer digits
+// grouping sequence of '3'. This means that integers will
+// be grouped by thousands.
 //
 //     Example: '1,000,000,000'
 //
@@ -1302,9 +1301,16 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithComponents(
 //
 //
 //  turnOnThousandsSeparator      bool
-//     - The parameter 'turnOnThousandsSeparator' is a boolean
-//       flag used to control the 'Thousands Separator'. When set
-//       to 'true', integer number strings will be separated into
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnThousandsSeparator' is a boolean flag
+//       used to control the 'Thousands Separator'. When set to
+//       'true', integer number strings will be separated into
 //       thousands for text presentation.
 //            Example: '1,000,000,000'
 //
@@ -1556,25 +1562,6 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithComponents(
 //       United States, the minor currency symbol is the cent sign
 //       (¢). Some countries and cultures have currency symbols
 //       consisting of two or more characters.
-//
-//
-//  turnOnIntegerDigitsSeparation bool
-//     - Inter digits separation is also known as the 'Thousands
-//       Separator". Often a single character is used to separate
-//       thousands within the integer component of a numeric value
-//       in number strings. In the United States, the comma
-//       character (',') is used to separate thousands.
-//            Example: 1,000,000,000
-//
-//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
-//       flag used to control the 'Thousands Separator'. When set
-//       to 'true', integer number strings will be separated into
-//       thousands for text presentation.
-//            Example: '1,000,000,000'
-//
-//       When this parameter is set to 'false', the 'Thousands
-//       Separator' will NOT be inserted into text number strings.
-//            Example: '1000000000'
 //
 //
 //  requestedNumberFieldLen       int

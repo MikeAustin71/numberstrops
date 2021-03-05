@@ -508,6 +508,9 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 
 	newNStrFmtSpecCurrencyValDto := NumStrFmtSpecCurrencyValueDto{}
 
+	newNStrFmtSpecCurrencyValDto.lock =
+		new(sync.Mutex)
+
 	newNStrFmtSpecCurrencyValDto.positiveValueFmt =
 		positiveValueFmt
 
