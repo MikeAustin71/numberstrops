@@ -22,7 +22,8 @@ type NumStrIntSeparator struct {
 	intSeparatorChar        rune // Integer separator character
 	intSeparatorGrouping    uint // Number of integers in a group
 	intSeparatorRepetitions uint // Number of times this character/group is repeated
-	lock                    *sync.Mutex
+	//                             // A zero value signals unlimited repetitions.
+	lock *sync.Mutex
 }
 
 // CopyIn - Copies the data fields from an incoming

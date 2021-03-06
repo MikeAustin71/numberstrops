@@ -36,6 +36,8 @@ import (
 //      intSeparatorChar     rune // Integer separator character
 //      intSeparatorGrouping uint // Number of integers in a group
 //      intSeparatorRepetitions uint // Number of times this character/group is repeated
+//                                   // A zero value signals unlimited repetitions.
+//                                   // A zero value signals unlimited repetitions.
 //    }
 //
 //    intSeparatorChar     rune
@@ -280,12 +282,13 @@ func (numSeps *NumericSeparators) GetDecimalSeparator() rune {
 //
 //  intSeps             []NumStrIntSeparator
 //     - An array of NumStrIntSeparator elements used to specify
-//       the integer separation operation.
+//       the integer separation operation in number strings.
 //
 //        type NumStrIntSeparator struct {
 //          intSeparatorChar     rune   // Integer separator character
 //          intSeparatorGrouping uint   // Number of integers in a group
 //          intSeparatorRepetitions uint   // Number of times this character/group is repeated
+//                                         // A zero value signals unlimited repetitions.
 //        }
 //
 //         intSeparatorChar     rune
@@ -571,7 +574,8 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 //        type NumStrIntSeparator struct {
 //          intSeparatorChar     rune   // Integer separator character
 //          intSeparatorGrouping uint   // Number of integers in a group
-//          intSeparatorRepetitions uint   // Number of times this character/group is repeated
+//          intSeparatorRepetitions uint // Number of times this character/group is repeated
+//                                       // A zero value signals unlimited repetitions.
 //        }
 //
 //         intSeparatorChar     rune
@@ -860,7 +864,8 @@ func (numSeps *NumericSeparators) SetDecimalSeparator(
 //        type NumStrIntSeparator struct {
 //          intSeparatorChar     rune   // Integer separator character
 //          intSeparatorGrouping uint   // Number of integers in a group
-//          intSeparatorRepetitions uint   // Number of times this character/group is repeated
+//          intSeparatorRepetitions uint // Number of times this character/group is repeated
+//                                       // A zero value signals unlimited repetitions.
 //        }
 //
 //         intSeparatorChar     rune
@@ -984,7 +989,8 @@ func (numSeps *NumericSeparators) SetNumSeps(
 //        type NumStrIntSeparator struct {
 //          intSeparatorChar     rune   // Integer separator character
 //          intSeparatorGrouping uint   // Number of integers in a group
-//          intSeparatorRepetitions uint   // Number of times this character/group is repeated
+//          intSeparatorRepetitions uint // Number of times this character/group is repeated
+//                                       // A zero value signals unlimited repetitions.
 //        }
 //
 //         intSeparatorChar     rune

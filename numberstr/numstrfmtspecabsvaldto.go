@@ -238,6 +238,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetDecimalSeparator() run
 //           intSeparatorChar     rune // Integer separator character
 //           intSeparatorGrouping uint // Number of integers in a group
 //           intSeparatorRepetitions uint // Number of times this character/group is repeated
+//                                        // A zero value signals unlimited repetitions.
 //         }
 //
 //         intSeparatorChar     rune
@@ -724,7 +725,8 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 //               type NumStrIntSeparator struct {
 //                 intSeparatorChar     rune   // Integer separator character
 //                 intSeparatorGrouping uint   // Number of integers in a group
-//                 intSeparatorRepetitions uint   // Number of times this character/group is repeated
+//                 intSeparatorRepetitions uint  // Number of times this character/group is repeated
+//                                               // A zero value signals unlimited repetitions.
 //               }
 //
 //               intSeparatorChar     rune
@@ -1700,7 +1702,8 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetTurnOnIntegerDigitsSep
 //               type NumStrIntSeparator struct {
 //                 intSeparatorChar     rune   // Integer separator character
 //                 intSeparatorGrouping uint   // Number of integers in a group
-//                 intSeparatorRepetitions uint   // Number of times this character/group is repeated
+//                 intSeparatorRepetitions uint // Number of times this character/group is repeated
+//                                              // A zero value signals unlimited repetitions.
 //               }
 //
 //               intSeparatorChar     rune
