@@ -22,6 +22,8 @@ type NumStrFmtSpecSignedNumValueDto struct {
 // If input parameter 'incomingSignedNumValDto' is judged to be
 // invalid, this method will return an error.
 //
+// IMPORTANT
+//
 // Be advised, all of the data fields in the current
 // NumStrFmtSpecSignedNumValueDto instance will be overwritten.
 //
@@ -75,7 +77,9 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.CopyIn()")
+	ePrefix.SetEPref(
+		"NumStrFmtSpecSignedNumValueDto." +
+			"CopyIn()")
 
 	nStrFmtSpecSignedNumValNanobot :=
 		numStrFmtSpecSignedNumValNanobot{}
