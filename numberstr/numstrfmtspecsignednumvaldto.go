@@ -1955,6 +1955,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnInt
 // formatting parameters necessary for formatting signed number
 // values in text number strings.
 //
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecSignedNumValueDto instance.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -2278,6 +2282,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithCompo
 //
 //        Example: '1,000,000,000'
 //
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecSignedNumValueDto instance.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -2542,6 +2550,10 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefau
 // SetWithFmtSpecSetupDto - Sets the data values for current
 // NumStrFmtSpecSignedNumValueDto instance based on input received
 // from an instance of NumStrFmtSpecSetupDto.
+//
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecSignedNumValueDto instance.
 //
 //
 // ----------------------------------------------------------------

@@ -19,9 +19,10 @@ import (
 // necessary to process these complex number formats.
 //
 type NumStrIntSeparator struct {
-	intSeparatorChar     rune
-	intSeparatorGrouping uint
-	lock                 *sync.Mutex
+	intSeparatorChar        rune
+	intSeparatorGrouping    uint
+	intSeparatorRepetitions uint
+	lock                    *sync.Mutex
 }
 
 // CopyIn - Copies the data fields from an incoming

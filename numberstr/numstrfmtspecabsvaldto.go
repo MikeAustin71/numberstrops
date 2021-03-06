@@ -1368,135 +1368,6 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 	return err
 }
 
-// SetWithFmtSpecSetupDto - Sets the data values for current
-// NumStrFmtSpecAbsoluteValueDto instance based on input received
-// from an instance of NumStrFmtSpecSetupDto.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
-//     - A data structure conveying setup information for a
-//       NumStrFmtSpecAbsoluteValueDto object. Only the following
-//       data fields with a prefix of "AbsoluteVal" are used.
-//
-//       type NumStrFmtSpecSetupDto struct {
-//         IdNo                                      uint64
-//         IdString                                  string
-//         Description                               string
-//         Tag                                       string
-//         CountryIdNo                               uint64
-//         CountryIdString                           string
-//         CountryDescription                        string
-//         CountryTag                                string
-//         CountryCultureName                        string
-//         CountryAbbreviatedName                    string
-//         CountryAlternateNames                     []string
-//         CountryCodeTwoChar                        string
-//         CountryCodeThreeChar                      string
-//         CountryCodeNumber                         string
-//         AbsoluteValFmt                            string
-//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumSeps                        NumericSeparators
-//         AbsoluteValNumField                       NumberFieldDto
-//         CurrencyPositiveValueFmt                  string
-//         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     uint
-//         CurrencyCode                              string
-//         CurrencyCodeNo                            string
-//         CurrencyName                              string
-//         CurrencySymbols                           []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []rune
-//         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumSeps                           NumericSeparators
-//         CurrencyNumField                          NumberFieldDto
-//         SignedNumValPositiveValueFmt              string
-//         SignedNumValNegativeValueFmt              string
-//         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumSeps                       NumericSeparators
-//         SignedNumValNumField                      NumberFieldDto
-//         SciNotSignificandUsesLeadingPlus          bool
-//         SciNotMantissaLength                      uint
-//         SciNotExponentChar                        rune
-//         SciNotExponentUsesLeadingPlus             bool
-//         SciNotNumFieldLen                         int
-//         SciNotNumFieldTextJustify                 TextJustify
-//         Lock                                      *sync.Mutex
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
-//       error message.
-//
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithFmtSpecSetupDto(
-	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix *ErrPrefixDto) error {
-
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtAbsValDto.lock.Lock()
-
-	defer nStrFmtAbsValDto.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto." +
-			"SetWithFmtSpecSetupDto()")
-
-	if fmtSpecSetupDto == nil {
-		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
-			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-			ePrefix.String())
-	}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecAbsValDtoMech :=
-		numStrFmtSpecAbsoluteValueDtoMechanics{}
-
-	fmtSpecSetupDto.Lock.Lock()
-
-	defer fmtSpecSetupDto.Lock.Unlock()
-
-	return nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
-		nStrFmtAbsValDto,
-		fmtSpecSetupDto.AbsoluteValFmt,
-		fmtSpecSetupDto.AbsoluteValTurnOnIntegerDigitsSeparation,
-		fmtSpecSetupDto.AbsoluteValNumSeps,
-		fmtSpecSetupDto.AbsoluteValNumField,
-		ePrefix)
-}
-
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object
 // for the current NumStrFmtSpecAbsoluteValueDto instance.
 //
@@ -1729,8 +1600,8 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetTurnOnIntegerDigitsSep
 // values for display in text number strings.
 //
 // IMPORTANT
-//
-// This method overwrite all pre-existing data values.
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecAbsoluteValueDto instance.
 //
 //
 // ----------------------------------------------------------------
@@ -1980,6 +1851,10 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithComponents(
 //
 //        Example: '1,000,000,000'
 //
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecAbsoluteValueDto instance.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -2180,5 +2055,138 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
 		absoluteValFmt,
 		requestedNumberFieldLen,
 		numberFieldTextJustify,
+		ePrefix)
+}
+
+// SetWithFmtSpecSetupDto - Sets the data values for current
+// NumStrFmtSpecAbsoluteValueDto instance based on input received
+// from an instance of NumStrFmtSpecSetupDto.
+//
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecAbsoluteValueDto instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
+//     - A data structure conveying setup information for a
+//       NumStrFmtSpecAbsoluteValueDto object. Only the following
+//       data fields with a prefix of "AbsoluteVal" are used.
+//
+//       type NumStrFmtSpecSetupDto struct {
+//         IdNo                                      uint64
+//         IdString                                  string
+//         Description                               string
+//         Tag                                       string
+//         CountryIdNo                               uint64
+//         CountryIdString                           string
+//         CountryDescription                        string
+//         CountryTag                                string
+//         CountryCultureName                        string
+//         CountryAbbreviatedName                    string
+//         CountryAlternateNames                     []string
+//         CountryCodeTwoChar                        string
+//         CountryCodeThreeChar                      string
+//         CountryCodeNumber                         string
+//         AbsoluteValFmt                            string
+//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
+//         AbsoluteValNumSeps                        NumericSeparators
+//         AbsoluteValNumField                       NumberFieldDto
+//         CurrencyPositiveValueFmt                  string
+//         CurrencyNegativeValueFmt                  string
+//         CurrencyDecimalDigits                     uint
+//         CurrencyCode                              string
+//         CurrencyCodeNo                            string
+//         CurrencyName                              string
+//         CurrencySymbols                           []rune
+//         MinorCurrencyName                         string
+//         MinorCurrencySymbols                      []rune
+//         CurrencyTurnOnIntegerDigitsSeparation     bool
+//         CurrencyNumSeps                           NumericSeparators
+//         CurrencyNumField                          NumberFieldDto
+//         SignedNumValPositiveValueFmt              string
+//         SignedNumValNegativeValueFmt              string
+//         SignedNumValTurnOnIntegerDigitsSeparation bool
+//         SignedNumValNumSeps                       NumericSeparators
+//         SignedNumValNumField                      NumberFieldDto
+//         SciNotSignificandUsesLeadingPlus          bool
+//         SciNotMantissaLength                      uint
+//         SciNotExponentChar                        rune
+//         SciNotExponentUsesLeadingPlus             bool
+//         SciNotNumFieldLen                         int
+//         SciNotNumFieldTextJustify                 TextJustify
+//         Lock                                      *sync.Mutex
+//       }
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If errors are encountered during
+//       processing, the returned error Type will encapsulate an error
+//       message. Note that this error message will incorporate the
+//       method chain and text passed by input parameter, 'ePrefix'.
+//       The 'ePrefix' text will be prefixed to the beginning of the
+//       error message.
+//
+func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithFmtSpecSetupDto(
+	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrFmtAbsValDto.lock == nil {
+		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtAbsValDto.lock.Lock()
+
+	defer nStrFmtAbsValDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFmtSpecCountryDto." +
+			"SetWithFmtSpecSetupDto()")
+
+	if fmtSpecSetupDto == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
+			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
+			ePrefix.String())
+	}
+
+	if fmtSpecSetupDto.Lock == nil {
+		fmtSpecSetupDto.Lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecAbsValDtoMech :=
+		numStrFmtSpecAbsoluteValueDtoMechanics{}
+
+	fmtSpecSetupDto.Lock.Lock()
+
+	defer fmtSpecSetupDto.Lock.Unlock()
+
+	return nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
+		nStrFmtAbsValDto,
+		fmtSpecSetupDto.AbsoluteValFmt,
+		fmtSpecSetupDto.AbsoluteValTurnOnIntegerDigitsSeparation,
+		fmtSpecSetupDto.AbsoluteValNumSeps,
+		fmtSpecSetupDto.AbsoluteValNumField,
 		ePrefix)
 }

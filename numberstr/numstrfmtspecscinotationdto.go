@@ -304,7 +304,9 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstanceError(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.IsValidInstanceError()")
+		"" +
+			"NumStrFmtSpecSciNotationDto." +
+			"IsValidInstanceError()")
 
 	nStrFmtSpecSciNotQuark :=
 		numStrFmtSpecSciNotationDtoQuark{}
@@ -316,6 +318,194 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstanceError(
 			ePrefix.XCtx("Testing validity of nStrFmtSpecSciNotDto"))
 
 	return err
+}
+
+// NewWithComponents - Creates and returns a new instance of
+// NumStrFmtSpecSciNotationDto.
+//
+// Scientific Notation Format Specification objects encapsulate the
+// format specifications used in formatting scientific notation
+// numeric values for text display.
+//
+// This method requires a properly configured NumberFieldDto object
+// as an input parameter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  significandUsesLeadingPlus    bool
+//     - "Significand uses leading plus sign". This refers to the
+//       integer digit in a significand.
+//
+//       Positive significand integer digits may have a leading
+//       plus sign, '+2.652E+8'. The default is no leading plus
+//       sign, '2.652E+8'.
+//
+//       If this value is set to true, positive significand integer
+//       digit values will be prefixed with a leading plus sign
+//       ('+').
+//               Example: '+2.652E+8'
+//
+//       If this value is set to true, positive significand integer
+//       digit values will NOT be prefixed with a leading plus sign
+//       ('+').
+//               Example: '2.652E+8'
+//
+//
+//  mantissaLength                uint
+//     - This parameter sets the length of the mantissa used in the
+//       scientific notation format instructions.
+//
+//       In scientific notation, the term 'mantissa' refers to the
+//       fractional digits contained in the significand. In the
+//       scientific notation example, '2.652E+8', the 'mantissa'
+//       identifies the fractional digits, '.652'.
+//
+//       The input parameter, 'mantissaLength' controls the number
+//       of fractional digits displayed in the mantissa.
+//
+//
+//  exponentChar                  rune
+//     - This parameter specifies the exponent character to be used
+//       int the scientific notation format instructions.
+//
+//       In scientific notation example, '2.652E+8', the exponent
+//       character is 'E'.  The character 'E' is used as the
+//       default to avoid confusion with Euler's number 'e'.
+//       However the character 'e' is often used in scientific
+//       notation and may therefore be specified by the user.
+//
+//
+//  exponentUsesLeadingPlus       bool
+//     - This parameter signals whether a leading plus will be
+//       included for positive exponent value in scientific
+//       notation displays.
+//
+//       In scientific notation example, '2.652E8', the exponent
+//       value is '8'.
+//
+//       If input parameter 'exponentUsesLeadingPlus' is set to
+//       'true', the scientific notation text display will prefix
+//       a leading plus sign ('+') for positive exponent values.
+//             Example: '2.652E+8'
+//
+//       If input parameter 'exponentUsesLeadingPlus' is set to
+//       'false', the scientific notation text display will NOT
+//       include a leading plus sign ('+') for positive exponent
+//       values.
+//             Example: '2.652E8'
+//
+//
+//  numFieldDto                   NumberFieldDto
+//     - The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string, or scientific
+//       notation string, which will be inserted and displayed within
+//       the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrFmtSpecSciNotationDto
+//     - If this method completes successfully, this parameter will
+//       return a new, populated instance of NumStrFmtSpecSciNotationDto.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithComponents(
+	significandUsesLeadingPlus bool,
+	mantissaLength uint,
+	exponentChar rune,
+	exponentUsesLeadingPlus bool,
+	numFieldDto NumberFieldDto,
+	ePrefix *ErrPrefixDto) (
+	NumStrFmtSpecSciNotationDto,
+	error) {
+
+	if nStrFmtSpecSciNotDto.lock == nil {
+		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSciNotDto.lock.Lock()
+
+	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+
+		"NumStrFmtSpecSciNotationDto." +
+			"NewWithComponents()")
+
+	newNStrFmtSpecSciNotationDto := NumStrFmtSpecSciNotationDto{}
+
+	nStrFmtSpecSciNotDtoMech :=
+		numStrFmtSpecSciNotationDtoMechanics{}
+
+	err := nStrFmtSpecSciNotDtoMech.setSciNotationDto(
+		&newNStrFmtSpecSciNotationDto,
+		significandUsesLeadingPlus,
+		mantissaLength,
+		exponentChar,
+		exponentUsesLeadingPlus,
+		numFieldDto,
+		ePrefix.XCtx(
+			"newNStrFmtSpecSciNotationDto"))
+
+	return newNStrFmtSpecSciNotationDto, err
 }
 
 // NewWithDefaults - Creates and returns a new instance of
@@ -397,7 +587,7 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstanceError(
 //             Example: '2.652E8'
 //
 //
-//  requestedNumberFieldLen    int
+//  requestedNumberFieldLen       int
 //     - This is the requested length of the number field in which
 //       the number string will be displayed. If this field length
 //       is greater than the actual length of the number string,
@@ -438,7 +628,7 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstanceError(
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -511,193 +701,7 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithDefaults(
 	return newNStrFmtSpecSciNotationDto, err
 }
 
-// NewFromComponents - Creates and returns a new instance of
-// NumStrFmtSpecSciNotationDto.
-//
-// Scientific Notation Format Specification objects encapsulate the
-// format specifications used in formatting scientific notation
-// numeric values for text display.
-//
-// This method requires a properly configured NumberFieldDto object
-// as an input parameter.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  significandUsesLeadingPlus    bool
-//     - "Significand uses leading plus sign". This refers to the
-//       integer digit in a significand.
-//
-//       Positive significand integer digits may have a leading
-//       plus sign, '+2.652E+8'. The default is no leading plus
-//       sign, '2.652E+8'.
-//
-//       If this value is set to true, positive significand integer
-//       digit values will be prefixed with a leading plus sign
-//       ('+').
-//               Example: '+2.652E+8'
-//
-//       If this value is set to true, positive significand integer
-//       digit values will NOT be prefixed with a leading plus sign
-//       ('+').
-//               Example: '2.652E+8'
-//
-//
-//  mantissaLength                uint
-//     - This parameter sets the length of the mantissa used in the
-//       scientific notation format instructions.
-//
-//       In scientific notation, the term 'mantissa' refers to the
-//       fractional digits contained in the significand. In the
-//       scientific notation example, '2.652E+8', the 'mantissa'
-//       identifies the fractional digits, '.652'.
-//
-//       The input parameter, 'mantissaLength' controls the number
-//       of fractional digits displayed in the mantissa.
-//
-//
-//  exponentChar                  rune
-//     - This parameter specifies the exponent character to be used
-//       int the scientific notation format instructions.
-//
-//       In scientific notation example, '2.652E+8', the exponent
-//       character is 'E'.  The character 'E' is used as the
-//       default to avoid confusion with Euler's number 'e'.
-//       However the character 'e' is often used in scientific
-//       notation and may therefore be specified by the user.
-//
-//
-//  exponentUsesLeadingPlus       bool
-//     - This parameter signals whether a leading plus will be
-//       included for positive exponent value in scientific
-//       notation displays.
-//
-//       In scientific notation example, '2.652E8', the exponent
-//       value is '8'.
-//
-//       If input parameter 'exponentUsesLeadingPlus' is set to
-//       'true', the scientific notation text display will prefix
-//       a leading plus sign ('+') for positive exponent values.
-//             Example: '2.652E+8'
-//
-//       If input parameter 'exponentUsesLeadingPlus' is set to
-//       'false', the scientific notation text display will NOT
-//       include a leading plus sign ('+') for positive exponent
-//       values.
-//             Example: '2.652E8'
-//
-//
-//  numFieldDto                NumberFieldDto
-//     - The NumberFieldDto object contains formatting instructions
-//       for the creation and implementation of a number field.
-//       Number fields are text strings which contain number strings
-//       for use in text displays.
-//
-//       The NumberFieldDto object contains specifications for number
-//       field length. Typically, the length of a number field is
-//       greater than the length of the number string, or scientific
-//       notation string, which will be inserted and displayed within
-//       the number field.
-//
-//       The NumberFieldDto object also contains specifications
-//       for positioning or alignment of the number string within
-//       the number field. This alignment dynamic is described as
-//       text justification. The member variable '
-//       NumberFieldDto.textJustifyFormat' is used to specify one
-//       of three possible alignment formats. One of these formats
-//       will be selected to control the alignment of the number
-//       string within the number field. These optional alignment
-//       formats are shown below with examples:
-//
-//       (1) 'Right-Justification' - "       NumberString"
-//       (2) 'Left-Justification' - "NumberString        "
-//       (3) 'Centered'           - "    NumberString    "
-//
-//       The NumberFieldDto type is detailed as follows:
-//
-//       type NumberFieldDto struct {
-//         requestedNumFieldLength int // User requested number field length
-//         actualNumFieldLength    int // Machine generated actual number field Length
-//         minimumNumFieldLength   int // Machine generated minimum number field length
-//         textJustifyFormat       TextJustify // User specified text justification
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  NumStrFmtSpecSciNotationDto
-//     - If this method completes successfully, this parameter will
-//       return a new, populated instance of NumStrFmtSpecSciNotationDto.
-//
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewFromComponents(
-	significandUsesLeadingPlus bool,
-	mantissaLength uint,
-	exponentChar rune,
-	exponentUsesLeadingPlus bool,
-	numFieldDto NumberFieldDto,
-	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecSciNotationDto,
-	error) {
-
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecSciNotDto.lock.Lock()
-
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.NewWithComponents()")
-
-	newNStrFmtSpecSciNotationDto := NumStrFmtSpecSciNotationDto{}
-
-	nStrFmtSpecSciNotDtoMech :=
-		numStrFmtSpecSciNotationDtoMechanics{}
-
-	err := nStrFmtSpecSciNotDtoMech.setSciNotationDto(
-		&newNStrFmtSpecSciNotationDto,
-		significandUsesLeadingPlus,
-		mantissaLength,
-		exponentChar,
-		exponentUsesLeadingPlus,
-		numFieldDto,
-		ePrefix.XCtx(
-			"newNStrFmtSpecSciNotationDto"))
-
-	return newNStrFmtSpecSciNotationDto, err
-}
-
-// NewFromFmtSpecSetupDto - Creates and returns a new
+// NewWithFmtSpecSetupDto - Creates and returns a new
 // NumStrFmtSpecSciNotationDto instance based on input received
 // from an instance of NumStrFmtSpecSetupDto.
 //
@@ -728,10 +732,11 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewFromComponents(
 //         CountryCodeNumber                         string
 //         AbsoluteValFmt                            string
 //         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumFieldLen                    int
+//         AbsoluteValNumSeps                        NumericSeparators
+//         AbsoluteValNumField                       NumberFieldDto
 //         CurrencyPositiveValueFmt                  string
 //         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     int
+//         CurrencyDecimalDigits                     uint
 //         CurrencyCode                              string
 //         CurrencyCodeNo                            string
 //         CurrencyName                              string
@@ -739,18 +744,20 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewFromComponents(
 //         MinorCurrencyName                         string
 //         MinorCurrencySymbols                      []rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumFieldLen                       int
-//         DecimalSeparator                          rune
-//         IntegerDigitsSeparator                    rune
-//         IntegerDigitsGroupingSequence             []uint
+//         CurrencyNumSeps                           NumericSeparators
+//         CurrencyNumField                          NumberFieldDto
 //         SignedNumValPositiveValueFmt              string
 //         SignedNumValNegativeValueFmt              string
 //         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumFieldLen                   int
+//         SignedNumValNumSeps                       NumericSeparators
+//         SignedNumValNumField                      NumberFieldDto
+//         SciNotSignificandUsesLeadingPlus          bool
 //         SciNotMantissaLength                      uint
 //         SciNotExponentChar                        rune
 //         SciNotExponentUsesLeadingPlus             bool
 //         SciNotNumFieldLen                         int
+//         SciNotNumFieldTextJustify                 TextJustify
+//         Lock                                      *sync.Mutex
 //       }
 //
 //
@@ -783,7 +790,7 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewFromComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewFromFmtSpecSetupDto(
+func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecSciNotationDto,
@@ -802,7 +809,9 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewFromFmtSpecSetupDto(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.NewWithFmtSpecSetupDto()")
+
+		"NumStrFmtSpecSciNotationDto." +
+			"NewWithFmtSpecSetupDto()")
 
 	newNStrFmtSpecSciNotDto := NumStrFmtSpecSciNotationDto{}
 
@@ -964,136 +973,6 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetExponentUsesLeadingP
 	nStrFmtSpecSciNotDto.exponentUsesLeadingPlus = exponentUsesLeadingPlusSign
 }
 
-// SetFromFmtSpecSetupDto - Sets the data values for current
-// NumStrFmtSpecSciNotationDto instance based on input received
-// from an instance of NumStrFmtSpecSetupDto.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
-//     - A data structure conveying setup information for a
-//       NumStrFmtSpecSciNotationDto object. Only the following
-//       data fields with a prefix of "SciNot" are used.
-//
-//       type NumStrFmtSpecSetupDto struct {
-//         IdNo                                      uint64
-//         IdString                                  string
-//         Description                               string
-//         Tag                                       string
-//         CountryIdNo                               uint64
-//         CountryIdString                           string
-//         CountryDescription                        string
-//         CountryTag                                string
-//         CountryCultureName                        string
-//         CountryAbbreviatedName                    string
-//         CountryAlternateNames                     []string
-//         CountryCodeTwoChar                        string
-//         CountryCodeThreeChar                      string
-//         CountryCodeNumber                         string
-//         AbsoluteValFmt                            string
-//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumFieldLen                    int
-//         CurrencyPositiveValueFmt                  string
-//         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     int
-//         CurrencyCode                              string
-//         CurrencyCodeNo                            string
-//         CurrencyName                              string
-//         CurrencySymbols                           []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []rune
-//         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumFieldLen                       int
-//         DecimalSeparator                          rune
-//         IntegerDigitsSeparator                    rune
-//         IntegerDigitsGroupingSequence             []uint
-//         SignedNumValPositiveValueFmt              string
-//         SignedNumValNegativeValueFmt              string
-//         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumFieldLen                   int
-//         SciNotMantissaLength                      uint
-//         SciNotExponentChar                        rune
-//         SciNotExponentUsesLeadingPlus             bool
-//         SciNotNumFieldLen                         int
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetFromFmtSpecSetupDto(
-	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix *ErrPrefixDto) error {
-
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecSciNotDto.lock.Lock()
-
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.SetWithFmtSpecSetupDto()")
-
-	if fmtSpecSetupDto == nil {
-		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
-			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-			ePrefix.String())
-	}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	fmtSpecSetupDto.Lock.Lock()
-
-	defer fmtSpecSetupDto.Lock.Unlock()
-
-	nStrFmtSpecSciNotDtoUtil :=
-		numStrFmtSpecSciNotationDtoUtility{}
-
-	return nStrFmtSpecSciNotDtoUtil.
-		setSciNotationDtoWithDefaults(
-			nStrFmtSpecSciNotDto,
-			fmtSpecSetupDto.SciNotSignificandUsesLeadingPlus,
-			fmtSpecSetupDto.SciNotMantissaLength,
-			fmtSpecSetupDto.SciNotExponentChar,
-			fmtSpecSetupDto.SciNotExponentUsesLeadingPlus,
-			fmtSpecSetupDto.SciNotNumFieldLen,
-			fmtSpecSetupDto.SciNotNumFieldTextJustify,
-			ePrefix)
-}
-
 // SetMantissaLength - Sets the mantissa length used in
 // formatting number strings using Scientific Notation.
 //
@@ -1206,9 +1085,81 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetNumberFieldLengthDto
 		ePrefix.XCtx("nStrFmtSpecSciNotDto\n"))
 }
 
-// SetSciNotDto - This method will set all of the member
+// SetSignificandUsesLeadingPlus - Sets the boolean flag which
+// determines whether positive significand integer digit values
+// will be prefixed with a leading plus sign.
+//
+// Terminology
+//
+// Scientific Notation Example: 2.652E+8
+//
+// The 'significand' in the example above is '2.652'. The
+// significand integer digit is '2'.
+//
+// Setting input parameter 'significandUsesLeadingPlus' to 'true'
+// will result in the following format output: '+2.652E+8'
+//
+// Setting input parameter 'significandUsesLeadingPlus' to 'false'
+// will result in the following format output: '2.652E+8'
+//
+// This setting only applies to significand positive integer digit
+// values. If the significand integer digit value is negative,
+// this setting has no impact because negative values are always
+// prefixed with a leading minus sign like this: '-2.652E+8'
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  significandUsesLeadingPlus    bool
+//     - Sets the boolean flag which determines whether positive
+//       significand integer digit values will be prefixed with a
+//       leading plus sign.
+//
+//       If this value is set to 'true', the resulting formatted
+//       scientific notation will include the leading plus sign:
+//             '+2.652E+8'
+//
+//       If this value is set to 'false', the resulting formatted
+//       scientific notation will NOT include the leading plus sign:
+//             '2.652E+8'
+//
+//       This setting only applies to positive significand integer
+//       digit values. If the significand integer digit value is
+//       negative, this setting has no impact because negative
+//       values are always prefixed with a leading minus sign as
+//       shown in this example:
+//             '-2.652E+8'
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  --- NONE ---
+//
+func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetSignificandUsesLeadingPlus(
+	significandUsesLeadingPlus bool) {
+
+	if nStrFmtSpecSciNotDto.lock == nil {
+		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSciNotDto.lock.Lock()
+
+	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	nStrFmtSpecSciNotDto.significandUsesLeadingPlus = significandUsesLeadingPlus
+}
+
+// SetWithComponents - This method will set all of the member
 // variable data values for the current instance of
 // NumStrFmtSpecSciNotationDto.
+//
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecSciNotationDto instance.
 //
 //
 // ----------------------------------------------------------------
@@ -1338,7 +1289,7 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetNumberFieldLengthDto
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetSciNotDto(
+func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithComponents(
 	significandUsesLeadingPlus bool,
 	mantissaLength uint,
 	exponentChar rune,
@@ -1359,7 +1310,9 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetSciNotDto(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.SetSciNotDto()")
+
+		"NumStrFmtSpecSciNotationDto." +
+			"SetWithComponents()")
 
 	nStrFmtSpecSciNotDtoMech :=
 		numStrFmtSpecSciNotationDtoMechanics{}
@@ -1372,74 +1325,6 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetSciNotDto(
 		exponentUsesLeadingPlus,
 		numFieldDto,
 		ePrefix.XCtx("nStrFmtSpecSciNotDto"))
-}
-
-// SetSignificandUsesLeadingPlus - Sets the boolean flag which
-// determines whether positive significand integer digit values
-// will be prefixed with a leading plus sign.
-//
-// Terminology
-//
-// Scientific Notation Example: 2.652E+8
-//
-// The 'significand' in the example above is '2.652'. The
-// significand integer digit is '2'.
-//
-// Setting input parameter 'significandUsesLeadingPlus' to 'true'
-// will result in the following format output: '+2.652E+8'
-//
-// Setting input parameter 'significandUsesLeadingPlus' to 'false'
-// will result in the following format output: '2.652E+8'
-//
-// This setting only applies to significand positive integer digit
-// values. If the significand integer digit value is negative,
-// this setting has no impact because negative values are always
-// prefixed with a leading minus sign like this: '-2.652E+8'
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  significandUsesLeadingPlus    bool
-//     - Sets the boolean flag which determines whether positive
-//       significand integer digit values will be prefixed with a
-//       leading plus sign.
-//
-//       If this value is set to 'true', the resulting formatted
-//       scientific notation will include the leading plus sign:
-//             '+2.652E+8'
-//
-//       If this value is set to 'false', the resulting formatted
-//       scientific notation will NOT include the leading plus sign:
-//             '2.652E+8'
-//
-//       This setting only applies to positive significand integer
-//       digit values. If the significand integer digit value is
-//       negative, this setting has no impact because negative
-//       values are always prefixed with a leading minus sign as
-//       shown in this example:
-//             '-2.652E+8'
-//
-//
-// ------------------------------------------------------------------------
-//
-// Return Values
-//
-//  --- NONE ---
-//
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetSignificandUsesLeadingPlus(
-	significandUsesLeadingPlus bool) {
-
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecSciNotDto.lock.Lock()
-
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
-
-	nStrFmtSpecSciNotDto.significandUsesLeadingPlus = significandUsesLeadingPlus
 }
 
 // SetWithDefaults - This method will set all of the member
@@ -1623,4 +1508,139 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithDefaults(
 		requestedNumberFieldLen,
 		numberFieldTextJustify,
 		ePrefix.XCtx("nStrFmtSpecSciNotDto"))
+}
+
+// SetWithFmtSpecSetupDto - Sets the data values for current
+// NumStrFmtSpecSciNotationDto instance based on input received
+// from an instance of NumStrFmtSpecSetupDto.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
+//     - A data structure conveying setup information for a
+//       NumStrFmtSpecSciNotationDto object. Only the following
+//       data fields with a prefix of "SciNot" are used.
+//
+//       type NumStrFmtSpecSetupDto struct {
+//         IdNo                                      uint64
+//         IdString                                  string
+//         Description                               string
+//         Tag                                       string
+//         CountryIdNo                               uint64
+//         CountryIdString                           string
+//         CountryDescription                        string
+//         CountryTag                                string
+//         CountryCultureName                        string
+//         CountryAbbreviatedName                    string
+//         CountryAlternateNames                     []string
+//         CountryCodeTwoChar                        string
+//         CountryCodeThreeChar                      string
+//         CountryCodeNumber                         string
+//         AbsoluteValFmt                            string
+//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
+//         AbsoluteValNumSeps                        NumericSeparators
+//         AbsoluteValNumField                       NumberFieldDto
+//         CurrencyPositiveValueFmt                  string
+//         CurrencyNegativeValueFmt                  string
+//         CurrencyDecimalDigits                     uint
+//         CurrencyCode                              string
+//         CurrencyCodeNo                            string
+//         CurrencyName                              string
+//         CurrencySymbols                           []rune
+//         MinorCurrencyName                         string
+//         MinorCurrencySymbols                      []rune
+//         CurrencyTurnOnIntegerDigitsSeparation     bool
+//         CurrencyNumSeps                           NumericSeparators
+//         CurrencyNumField                          NumberFieldDto
+//         SignedNumValPositiveValueFmt              string
+//         SignedNumValNegativeValueFmt              string
+//         SignedNumValTurnOnIntegerDigitsSeparation bool
+//         SignedNumValNumSeps                       NumericSeparators
+//         SignedNumValNumField                      NumberFieldDto
+//         SciNotSignificandUsesLeadingPlus          bool
+//         SciNotMantissaLength                      uint
+//         SciNotExponentChar                        rune
+//         SciNotExponentUsesLeadingPlus             bool
+//         SciNotNumFieldLen                         int
+//         SciNotNumFieldTextJustify                 TextJustify
+//         Lock                                      *sync.Mutex
+//       }
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithFmtSpecSetupDto(
+	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrFmtSpecSciNotDto.lock == nil {
+		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSciNotDto.lock.Lock()
+
+	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+
+		"NumStrFmtSpecSciNotationDto." +
+			"SetWithFmtSpecSetupDto()")
+
+	if fmtSpecSetupDto == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
+			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
+			ePrefix.String())
+	}
+
+	if fmtSpecSetupDto.Lock == nil {
+		fmtSpecSetupDto.Lock = new(sync.Mutex)
+	}
+
+	fmtSpecSetupDto.Lock.Lock()
+
+	defer fmtSpecSetupDto.Lock.Unlock()
+
+	nStrFmtSpecSciNotDtoUtil :=
+		numStrFmtSpecSciNotationDtoUtility{}
+
+	return nStrFmtSpecSciNotDtoUtil.
+		setSciNotationDtoWithDefaults(
+			nStrFmtSpecSciNotDto,
+			fmtSpecSetupDto.SciNotSignificandUsesLeadingPlus,
+			fmtSpecSetupDto.SciNotMantissaLength,
+			fmtSpecSetupDto.SciNotExponentChar,
+			fmtSpecSetupDto.SciNotExponentUsesLeadingPlus,
+			fmtSpecSetupDto.SciNotNumFieldLen,
+			fmtSpecSetupDto.SciNotNumFieldTextJustify,
+			ePrefix)
 }

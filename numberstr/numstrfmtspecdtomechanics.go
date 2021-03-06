@@ -203,7 +203,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 		return err
 	}
 
-	err = nStrFmtSpecDto.sciNotation.SetFromFmtSpecSetupDto(
+	err = nStrFmtSpecDto.sciNotation.SetWithFmtSpecSetupDto(
 		fmtSpecSetupDto,
 		ePrefix.XCtx("fmtSpecSetupDto"))
 

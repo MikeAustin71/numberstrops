@@ -2685,6 +2685,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 // minimum input parameters coupled with default values, see:
 //      NumStrFmtSpecCurrencyValueDto.SetWithDefaults()
 //
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecCurrencyValueDto instance.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -3145,6 +3149,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithComponents(
 //
 //        Example: '1,000,000,000'
 //
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecCurrencyValueDto instance.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -3551,6 +3559,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 // SetWithFmtSpecSetupDto - Sets the data values for current
 // NumStrFmtSpecCurrencyValueDto instance based on input received
 // from an instance of NumStrFmtSpecSetupDto.
+//
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecCurrencyValueDto instance.
 //
 //
 // ----------------------------------------------------------------
