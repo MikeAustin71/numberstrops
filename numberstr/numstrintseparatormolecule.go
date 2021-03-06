@@ -74,6 +74,9 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyIn(
 	targetNStrIntSeparator.intSeparatorGrouping =
 		incomingNStrIntSeparator.intSeparatorGrouping
 
+	targetNStrIntSeparator.intSeparatorRepetitions =
+		incomingNStrIntSeparator.intSeparatorRepetitions
+
 	return err
 }
 
@@ -131,6 +134,9 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyOut(
 	newNumSrIntSeparator.intSeparatorGrouping =
 		numStrIntSeparator.intSeparatorGrouping
 
+	newNumSrIntSeparator.intSeparatorRepetitions =
+		numStrIntSeparator.intSeparatorRepetitions
+
 	newNumSrIntSeparator.lock = new(sync.Mutex)
 
 	return newNumSrIntSeparator, err
@@ -166,6 +172,11 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) equal(
 
 	if nStrIntSep1.intSeparatorGrouping !=
 		nStrIntSep2.intSeparatorGrouping {
+		areEqual = false
+	}
+
+	if nStrIntSep1.intSeparatorRepetitions !=
+		nStrIntSep2.intSeparatorRepetitions {
 		areEqual = false
 	}
 
