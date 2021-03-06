@@ -44,23 +44,33 @@ func (nStrIntSepQuark *numStrIntSeparatorQuark) testValidityOfNumStrIntSeparator
 		return isValid, err
 	}
 
-	if nStrIntSep.intSeparatorChar == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: 'intSeparatorChar' is invlid!\n"+
-			"'intSeparatorChar' has a ZERO Value.\n",
-			ePrefix)
+	//if nStrIntSep.intSeparatorChar == 0 {
+	//	err = fmt.Errorf("%v\n"+
+	//		"Error: 'intSeparatorChar' is invalid!\n"+
+	//		"'intSeparatorChar' has a ZERO Value.\n",
+	//		ePrefix)
+	//
+	//	return isValid, err
+	//}
 
-		return isValid, err
-	}
-
-	if nStrIntSep.intSeparatorGrouping == 0 ||
-		nStrIntSep.intSeparatorGrouping > 1000 {
+	if nStrIntSep.intSeparatorGrouping > 10000000 {
 
 		err = fmt.Errorf("%v\n"+
 			"Error: 'nStrIntSep.intSeparatorGrouping' is invalid!\n"+
 			"nStrIntSep.intSeparatorGrouping='%v'\n",
 			ePrefix,
 			nStrIntSep.intSeparatorGrouping)
+
+		return isValid, err
+	}
+
+	if nStrIntSep.intSeparatorRepetitions > 10000000 {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: 'nStrIntSep.intSeparatorRepetitions' is invalid!\n"+
+			"nStrIntSep.intSeparatorRepetitions='%v'\n",
+			ePrefix,
+			nStrIntSep.intSeparatorRepetitions)
 
 		return isValid, err
 	}
