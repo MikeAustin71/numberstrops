@@ -220,10 +220,11 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetDecimalSe
 //     - An array of NumStrIntSeparator elements used to specify
 //       the integer separation operation.
 //
-//        type NumStrIntSeparator struct {
-//          intSeparatorChar     rune
-//          intSeparatorGrouping uint
-//        }
+//         type NumStrIntSeparator struct {
+//           intSeparatorChar     rune // Integer separator character
+//           intSeparatorGrouping uint // Number of integers in a group
+//           intSeparatorRepetitions uint // Number of times this character/group is repeated
+//         }
 //
 //         intSeparatorChar     rune
 //         - This separator is commonly known as the 'thousands'
@@ -813,10 +814,11 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //           - An array of NumStrIntSeparator elements used to specify
 //             the integer separation operation.
 //
-//              type NumStrIntSeparator struct {
-//                intSeparatorChar     rune
-//                intSeparatorGrouping uint
-//              }
+//               type NumStrIntSeparator struct {
+//                 intSeparatorChar     rune // Integer separator character
+//                 intSeparatorGrouping uint // Number of integers in a group
+//                 intSeparatorRepetitions uint // Number of times this character/group is repeated
+//               }
 //
 //               intSeparatorChar     rune
 //               - This separator is commonly known as the 'thousands'
@@ -832,6 +834,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //                           {
 //                           intSeparatorChar:   ',',
 //                           intSeparatorGrouping: 3,
+//                           intSeparatorRepetitions: 0,
 //                           },
 //                        }
 //
@@ -856,10 +859,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //                    {
 //                    intSeparatorChar:   ',',
 //                    intSeparatorGrouping: 3,
+//                    intSeparatorRepetitions: 1,
 //                    },
 //                    {
 //                    intSeparatorChar:     ',',
 //                    intSeparatorGrouping: 2,
+//                    intSeparatorRepetitions: 0,
 //                    },
 //                 }
 //
@@ -2122,10 +2127,11 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnInt
 //           - An array of NumStrIntSeparator elements used to specify
 //             the integer separation operation.
 //
-//              type NumStrIntSeparator struct {
-//                intSeparatorChar     rune
-//                intSeparatorGrouping uint
-//              }
+//               type NumStrIntSeparator struct {
+//                 intSeparatorChar     rune   // Integer separator character
+//                 intSeparatorGrouping uint   // Number of integers in a group
+//                 intSeparatorRepetitions uint   // Number of times this character/group is repeated
+//               }
 //
 //               intSeparatorChar     rune
 //               - This separator is commonly known as the 'thousands'
@@ -2141,6 +2147,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnInt
 //                           {
 //                           intSeparatorChar:   ',',
 //                           intSeparatorGrouping: 3,
+//                           intSeparatorRepetitions: 0,
 //                           },
 //                        }
 //
@@ -2165,10 +2172,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnInt
 //                    {
 //                    intSeparatorChar:   ',',
 //                    intSeparatorGrouping: 3,
+//                    intSeparatorRepetitions: 1,
 //                    },
 //                    {
 //                    intSeparatorChar:     ',',
 //                    intSeparatorGrouping: 2,
+//                    intSeparatorRepetitions: 0,
 //                    },
 //                 }
 //

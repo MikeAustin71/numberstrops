@@ -32,10 +32,11 @@ import (
 // An array of NumStrIntSeparator elements used to specify the
 // integer separation operation.
 //
-//   type NumStrIntSeparator struct {
-//     intSeparatorChar     rune
-//     intSeparatorGrouping uint
-//   }
+//    type NumStrIntSeparator struct {
+//      intSeparatorChar     rune // Integer separator character
+//      intSeparatorGrouping uint // Number of integers in a group
+//      intSeparatorRepetitions uint // Number of times this character/group is repeated
+//    }
 //
 //    intSeparatorChar     rune
 //    - This separator is commonly known as the 'thousands'
@@ -51,6 +52,7 @@ import (
 //                {
 //                intSeparatorChar:   ',',
 //                intSeparatorGrouping: 3,
+//                intSeparatorRepetitions: 0,
 //                },
 //             }
 //
@@ -75,10 +77,12 @@ import (
 //         {
 //         intSeparatorChar:   ',',
 //         intSeparatorGrouping: 3,
+//         intSeparatorRepetitions: 1,
 //         },
 //         {
 //         intSeparatorChar:     ',',
 //         intSeparatorGrouping: 2,
+//         intSeparatorRepetitions: 0,
 //         },
 //      }
 //
@@ -279,8 +283,9 @@ func (numSeps *NumericSeparators) GetDecimalSeparator() rune {
 //       the integer separation operation.
 //
 //        type NumStrIntSeparator struct {
-//          intSeparatorChar     rune
-//          intSeparatorGrouping uint
+//          intSeparatorChar     rune   // Integer separator character
+//          intSeparatorGrouping uint   // Number of integers in a group
+//          intSeparatorRepetitions uint   // Number of times this character/group is repeated
 //        }
 //
 //         intSeparatorChar     rune
@@ -297,6 +302,7 @@ func (numSeps *NumericSeparators) GetDecimalSeparator() rune {
 //                     {
 //                     intSeparatorChar:   ',',
 //                     intSeparatorGrouping: 3,
+//                     intSeparatorRepetitions: 0,
 //                     },
 //                  }
 //
@@ -321,10 +327,12 @@ func (numSeps *NumericSeparators) GetDecimalSeparator() rune {
 //              {
 //              intSeparatorChar:   ',',
 //              intSeparatorGrouping: 3,
+//              intSeparatorRepetitions: 1,
 //              },
 //              {
 //              intSeparatorChar:     ',',
 //              intSeparatorGrouping: 2,
+//              intSeparatorRepetitions: 0,
 //              },
 //           }
 //
@@ -561,8 +569,9 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 //       the integer separation operation.
 //
 //        type NumStrIntSeparator struct {
-//          intSeparatorChar     rune
-//          intSeparatorGrouping uint
+//          intSeparatorChar     rune   // Integer separator character
+//          intSeparatorGrouping uint   // Number of integers in a group
+//          intSeparatorRepetitions uint   // Number of times this character/group is repeated
 //        }
 //
 //         intSeparatorChar     rune
@@ -579,6 +588,7 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 //                     {
 //                     intSeparatorChar:   ',',
 //                     intSeparatorGrouping: 3,
+//                     intSeparatorRepetitions: 0,
 //                     },
 //                  }
 //
@@ -603,10 +613,12 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 //              {
 //              intSeparatorChar:   ',',
 //              intSeparatorGrouping: 3,
+//              intSeparatorRepetitions: 1,
 //              },
 //              {
 //              intSeparatorChar:     ',',
 //              intSeparatorGrouping: 2,
+//              intSeparatorRepetitions: 0,
 //              },
 //           }
 //
@@ -846,8 +858,9 @@ func (numSeps *NumericSeparators) SetDecimalSeparator(
 //       the integer separation operation.
 //
 //        type NumStrIntSeparator struct {
-//          intSeparatorChar     rune
-//          intSeparatorGrouping uint
+//          intSeparatorChar     rune   // Integer separator character
+//          intSeparatorGrouping uint   // Number of integers in a group
+//          intSeparatorRepetitions uint   // Number of times this character/group is repeated
 //        }
 //
 //         intSeparatorChar     rune
@@ -864,6 +877,7 @@ func (numSeps *NumericSeparators) SetDecimalSeparator(
 //                     {
 //                     intSeparatorChar:   ',',
 //                     intSeparatorGrouping: 3,
+//                     intSeparatorRepetitions: 0,
 //                     },
 //                  }
 //
@@ -889,10 +903,12 @@ func (numSeps *NumericSeparators) SetDecimalSeparator(
 //              {
 //              intSeparatorChar:   ',',
 //              intSeparatorGrouping: 3,
+//              intSeparatorRepetitions: 1,
 //              },
 //              {
 //              intSeparatorChar:     ',',
 //              intSeparatorGrouping: 2,
+//              intSeparatorRepetitions: 0,
 //              },
 //           }
 //
@@ -966,8 +982,9 @@ func (numSeps *NumericSeparators) SetNumSeps(
 //       the integer separation operation.
 //
 //        type NumStrIntSeparator struct {
-//          intSeparatorChar     rune
-//          intSeparatorGrouping uint
+//          intSeparatorChar     rune   // Integer separator character
+//          intSeparatorGrouping uint   // Number of integers in a group
+//          intSeparatorRepetitions uint   // Number of times this character/group is repeated
 //        }
 //
 //         intSeparatorChar     rune
@@ -984,6 +1001,7 @@ func (numSeps *NumericSeparators) SetNumSeps(
 //                     {
 //                     intSeparatorChar:   ',',
 //                     intSeparatorGrouping: 3,
+//                     intSeparatorRepetitions: 0,
 //                     },
 //                  }
 //
@@ -1009,10 +1027,12 @@ func (numSeps *NumericSeparators) SetNumSeps(
 //              {
 //              intSeparatorChar:   ',',
 //              intSeparatorGrouping: 3,
+//              intSeparatorRepetitions: 1,
 //              },
 //              {
 //              intSeparatorChar:     ',',
 //              intSeparatorGrouping: 2,
+//              intSeparatorRepetitions: 0,
 //              },
 //           }
 //

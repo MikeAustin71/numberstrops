@@ -19,9 +19,9 @@ import (
 // necessary to process these complex number formats.
 //
 type NumStrIntSeparator struct {
-	intSeparatorChar        rune
-	intSeparatorGrouping    uint
-	intSeparatorRepetitions uint
+	intSeparatorChar        rune // Integer separator character
+	intSeparatorGrouping    uint // Number of integers in a group
+	intSeparatorRepetitions uint // Number of times this character/group is repeated
 	lock                    *sync.Mutex
 }
 

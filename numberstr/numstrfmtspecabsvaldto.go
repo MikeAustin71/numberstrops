@@ -234,10 +234,11 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetDecimalSeparator() run
 //     - An array of NumStrIntSeparator elements used to specify
 //       the integer separation operation.
 //
-//        type NumStrIntSeparator struct {
-//          intSeparatorChar     rune
-//          intSeparatorGrouping uint
-//        }
+//         type NumStrIntSeparator struct {
+//           intSeparatorChar     rune // Integer separator character
+//           intSeparatorGrouping uint // Number of integers in a group
+//           intSeparatorRepetitions uint // Number of times this character/group is repeated
+//         }
 //
 //         intSeparatorChar     rune
 //         - This separator is commonly known as the 'thousands'
@@ -253,6 +254,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetDecimalSeparator() run
 //                     {
 //                     intSeparatorChar:   ',',
 //                     intSeparatorGrouping: 3,
+//                     intSeparatorRepetitions: 0,
 //                     },
 //                  }
 //
@@ -277,10 +279,12 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetDecimalSeparator() run
 //              {
 //              intSeparatorChar:   ',',
 //              intSeparatorGrouping: 3,
+//              intSeparatorRepetitions: 1,
 //              },
 //              {
 //              intSeparatorChar:     ',',
 //              intSeparatorGrouping: 2,
+//              intSeparatorRepetitions: 0,
 //              },
 //           }
 //
@@ -717,10 +721,11 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 //           - An array of NumStrIntSeparator elements used to specify
 //             the integer separation operation.
 //
-//              type NumStrIntSeparator struct {
-//                intSeparatorChar     rune
-//                intSeparatorGrouping uint
-//              }
+//               type NumStrIntSeparator struct {
+//                 intSeparatorChar     rune   // Integer separator character
+//                 intSeparatorGrouping uint   // Number of integers in a group
+//                 intSeparatorRepetitions uint   // Number of times this character/group is repeated
+//               }
 //
 //               intSeparatorChar     rune
 //               - This separator is commonly known as the 'thousands'
@@ -736,6 +741,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 //                           {
 //                           intSeparatorChar:   ',',
 //                           intSeparatorGrouping: 3,
+//                           intSeparatorRepetitions: 0,
 //                           },
 //                        }
 //
@@ -760,10 +766,12 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 //                    {
 //                    intSeparatorChar:   ',',
 //                    intSeparatorGrouping: 3,
+//                    intSeparatorRepetitions: 1,
 //                    },
 //                    {
 //                    intSeparatorChar:     ',',
 //                    intSeparatorGrouping: 2,
+//                    intSeparatorRepetitions: 0,
 //                    },
 //                 }
 //
@@ -1689,10 +1697,11 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetTurnOnIntegerDigitsSep
 //           - An array of NumStrIntSeparator elements used to specify
 //             the integer separation operation.
 //
-//              type NumStrIntSeparator struct {
-//                intSeparatorChar     rune
-//                intSeparatorGrouping uint
-//              }
+//               type NumStrIntSeparator struct {
+//                 intSeparatorChar     rune   // Integer separator character
+//                 intSeparatorGrouping uint   // Number of integers in a group
+//                 intSeparatorRepetitions uint   // Number of times this character/group is repeated
+//               }
 //
 //               intSeparatorChar     rune
 //               - This separator is commonly known as the 'thousands'
@@ -1708,6 +1717,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetTurnOnIntegerDigitsSep
 //                           {
 //                           intSeparatorChar:   ',',
 //                           intSeparatorGrouping: 3,
+//                           intSeparatorRepetitions: 0,
 //                           },
 //                        }
 //
@@ -1732,10 +1742,12 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetTurnOnIntegerDigitsSep
 //                    {
 //                    intSeparatorChar:   ',',
 //                    intSeparatorGrouping: 3,
+//                    intSeparatorRepetitions: 1,
 //                    },
 //                    {
 //                    intSeparatorChar:     ',',
 //                    intSeparatorGrouping: 2,
+//                    intSeparatorRepetitions: 0,
 //                    },
 //                 }
 //
