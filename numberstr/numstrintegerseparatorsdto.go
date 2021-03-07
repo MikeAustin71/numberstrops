@@ -418,3 +418,131 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) NewWithDefaults() NumStrIntSepara
 
 	return newIntSepsDto
 }
+
+// SetWithComponents - This method will set all of the member
+// variable data values for the current instance of
+// NumStrIntSeparatorsDto.
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumStrIntSeparatorsDto instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  integerSeparators   []NumStrIntSeparator
+//     - An array of NumStrIntSeparator elements used to specify
+//       the integer separation operation in number strings.
+//
+//        type NumStrIntSeparator struct {
+//          intSeparatorChar     rune   // Integer separator character
+//          intSeparatorGrouping uint   // Number of integers in a group
+//          intSeparatorRepetitions uint // Number of times this character/group is repeated
+//                                       // A zero value signals unlimited repetitions.
+//        }
+//
+//         intSeparatorChar     rune
+//         - This separator is commonly known as the 'thousands'
+//           separator. It is used to separate groups of integer
+//           digits to the left of the decimal separator (a.k.a.
+//           decimal point). In the United States, the standard
+//           integer digits separator is the comma (','). Other
+//           countries use periods, spaces or apostrophes to
+//           separate integers.
+//             United States Example:  1,000,000,000
+//              numSeps.intSeparators =
+//                []NumStrIntSeparator{
+//                     {
+//                     intSeparatorChar:   ',',
+//                     intSeparatorGrouping: 3,
+//                     intSeparatorRepetitions: 0,
+//                     },
+//                  }
+//
+//         intSeparatorGrouping []uint
+//         - In most western countries integer digits to the left
+//           of the decimal separator (a.k.a. decimal point) are
+//           separated into groups of three digits representing
+//           a grouping of 'thousands' like this: '1,000,000,000'.
+//           In this case the intSeparatorGrouping value would be
+//           set to three ('3').
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted
+//       like this: '6,78,90,00,00,00,00,000'. The right most group
+//       has three digits and all the others are grouped by two. In
+//       this case 'integerSeparators' would be configured as
+//       follows:
+//       as:
+//
+//       numSeps.intSeparators =
+//         []NumStrIntSeparator{
+//              {
+//              intSeparatorChar:   ',',
+//              intSeparatorGrouping: 3,
+//              intSeparatorRepetitions: 1,
+//              },
+//              {
+//              intSeparatorChar:     ',',
+//              intSeparatorGrouping: 2,
+//              intSeparatorRepetitions: 0,
+//              },
+//           }
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSeparatorsDto *NumStrIntSeparatorsDto) SetWithComponents(
+	integerSeparators []NumStrIntSeparator,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if intSeparatorsDto.lock == nil {
+		intSeparatorsDto.lock = new(sync.Mutex)
+	}
+
+	intSeparatorsDto.lock.Lock()
+
+	defer intSeparatorsDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparatorsDto." +
+			"SetWithComponents()")
+
+	err =
+		numStrIntSeparatorsDtoMechanics{}.ptr().
+			setWithComponents(
+				intSeparatorsDto,
+				integerSeparators,
+				ePrefix.XCtx("intSeparatorsDto"))
+
+	return err
+}

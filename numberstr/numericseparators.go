@@ -37,7 +37,6 @@ import (
 //      intSeparatorGrouping uint // Number of integers in a group
 //      intSeparatorRepetitions uint // Number of times this character/group is repeated
 //                                   // A zero value signals unlimited repetitions.
-//                                   // A zero value signals unlimited repetitions.
 //    }
 //
 //    intSeparatorChar     rune
@@ -90,7 +89,7 @@ import (
 //
 type NumericSeparators struct {
 	decimalSeparator  rune
-	integerSeparators []NumStrIntSeparator
+	integerSeparators NumStrIntSeparatorsDto
 	lock              *sync.Mutex
 }
 
@@ -1042,8 +1041,35 @@ func (numSeps *NumericSeparators) SetNumSeps(
 //              },
 //           }
 //
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
 func (numSeps *NumericSeparators) SetIntegerSeparators(
-	integerSeparators []NumStrIntSeparator) {
+	integerSeparators []NumStrIntSeparator,
+	ePrefix *ErrPrefixDto) (
+	err error) {
 
 	if numSeps.lock == nil {
 		numSeps.lock = new(sync.Mutex)
@@ -1053,39 +1079,38 @@ func (numSeps *NumericSeparators) SetIntegerSeparators(
 
 	defer numSeps.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"" +
+			"NumericSeparators." +
+			"SetIntegerSeparators()")
+
 	if integerSeparators == nil {
-		return
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'integerSeparators' is invalid!\n"+
+			"'integerSeparators' is 'nil'.",
+			ePrefix.String())
+
+		return err
 	}
 
 	lenIntSeparators := len(integerSeparators)
 
 	if lenIntSeparators == 0 {
-		return
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'integerSeparators' is invalid!\n"+
+			"'integerSeparators' is a zero length array.",
+			ePrefix.String())
+
+		return err
 	}
 
-	for i := 0; i < lenIntSeparators; i++ {
-		if !integerSeparators[i].IsValidInstance() {
-			return
-		}
-	}
-
-	numSeps.integerSeparators =
-		make([]NumStrIntSeparator, lenIntSeparators, 10)
-
-	var err error
-
-	for i := 0; i < lenIntSeparators; i++ {
-
-		err =
-			numSeps.integerSeparators[i].CopyIn(
-				&integerSeparators[i],
-				nil)
-
-		if err != nil {
-			return
-		}
-
-	}
+	err = numSeps.integerSeparators.SetWithComponents(
+		integerSeparators,
+		ePrefix)
 
 	return
 }

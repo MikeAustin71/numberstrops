@@ -7427,7 +7427,7 @@ func (nStrFmtCountry *NumStrFormatCountry) UnitedStates() (setupDto NumStrFmtSpe
 	setupDto.SciNotExponentUsesLeadingPlus = true
 	setupDto.SciNotNumFieldLen = -1
 
-	setupDto.SignedNumValNumFieldTextJustify =
+	setupDto.SciNotNumFieldTextJustify =
 		TextJustify(0).Right()
 
 	return setupDto
