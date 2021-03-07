@@ -1535,9 +1535,86 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberSeparatorsDto(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
+	ePrefix.SetEPref(
+		"NumStrFmtSpecAbsoluteValueDto." +
+			"SetNumberSeparatorsDto()")
+
 	return nStrFmtAbsValDto.numericSeparators.CopyIn(
 		&numberSeparatorsDto,
 		ePrefix)
+}
+
+// SetToUnitedStatesDefaults - Sets the member variable data
+// values for the current NumStrFmtSpecAbsoluteValueDto instance
+// to United States Default values.
+//
+// In the United States, Absolute Value default formatting
+// parameters are defined as follows:
+//
+//    Absolute Value Number format: "127.54"
+//     Decimal Separator Character: '.'
+//   Thousands Separator Character: ','
+//     Turn On Thousands Separator: true
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecAbsoluteValueDto instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetToUnitedStatesDefaults(
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtAbsValDto.lock == nil {
+		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtAbsValDto.lock.Lock()
+
+	defer nStrFmtAbsValDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFmtSpecAbsoluteValueDto." +
+			"SetToUnitedStatesDefaults()")
+
+	absValUtil := numStrFmtSpecAbsoluteValueDtoUtility{}
+
+	return absValUtil.setToUnitedStatesDefaults(
+		nStrFmtAbsValDto,
+		ePrefix.XCtx("nStrFmtAbsValDto"))
 }
 
 // SetTurnOnIntegerDigitsSeparationFlag - Sets the

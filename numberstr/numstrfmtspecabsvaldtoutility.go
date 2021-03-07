@@ -195,7 +195,9 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numStrFmtSpecAbsoluteValueDtoUtility.setAbsValDtoWithDefaults()")
+	ePrefix.SetEPref(
+		"numStrFmtSpecAbsoluteValueDtoUtility." +
+			"setAbsValDtoWithDefaults()")
 
 	if nStrFmtSpecAbsValDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -223,6 +225,7 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 
 	intSeps[0].intSeparatorChar = thousandsSeparatorChar
 	intSeps[0].intSeparatorGrouping = 3
+	intSeps[0].intSeparatorRepetitions = 0
 
 	numberSeparatorsDto,
 		err = NumericSeparators{}.NewWithComponents(
@@ -246,6 +249,128 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 		nStrFmtSpecAbsValDto,
 		absoluteValFmt,
 		turnOnIntegerDigitsSeparation,
+		numberSeparatorsDto,
+		numFieldDto,
+		ePrefix)
+
+	return err
+}
+
+// setToUnitedStatesDefaults - Sets the member variable data
+// values for the incoming NumStrFmtSpecAbsoluteValueDto instance
+// to United States Default values.
+//
+// In the United States, Absolute Value default formatting
+// parameters are defined as follows:
+//
+//    Absolute Value Number format: "127.54"
+//     Decimal Separator Character: '.'
+//   Thousands Separator Character: ','
+//     Turn On Thousands Separator: true
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  nStrFmtSpecAbsValDto          *NumStrFmtSpecAbsoluteValueDto
+//     - A pointer to an instance of NumStrFmtSpecAbsoluteValueDto.
+//       All data values in this object will be overwritten and
+//       set to United States default values for absolute numeric
+//       values displayed in number strings.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setToUnitedStatesDefaults(
+	nStrFmtSpecAbsValDto *NumStrFmtSpecAbsoluteValueDto,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtSpecAbsValDtoUtil.lock == nil {
+		nStrFmtSpecAbsValDtoUtil.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecAbsValDtoUtil.lock.Lock()
+
+	defer nStrFmtSpecAbsValDtoUtil.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrFmtSpecAbsoluteValueDtoUtility." +
+			"setToUnitedStatesDefaults()")
+
+	if nStrFmtSpecAbsValDto == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'nStrFmtSpecAbsValDto' is invalid!\n"+
+			"'nStrFmtSpecAbsValDto' is a 'nil' pointer.\n",
+			ePrefix.String())
+		return err
+	}
+
+	var numFieldDto NumberFieldDto
+
+	numFieldDto,
+		err = NumberFieldDto{}.NewWithDefaults(
+		-1,
+		TextJustify(0).Right(),
+		ePrefix)
+
+	if err != nil {
+		return err
+	}
+
+	var numberSeparatorsDto NumericSeparators
+
+	intSeps := make([]NumStrIntSeparator, 1, 5)
+
+	intSeps[0].intSeparatorChar = ','
+	intSeps[0].intSeparatorGrouping = 3
+	intSeps[0].intSeparatorRepetitions = 0
+
+	numberSeparatorsDto,
+		err = NumericSeparators{}.NewWithComponents(
+		'.',
+		intSeps,
+		ePrefix.XCtx(
+			"decimalSeparatorChar='%v' "+
+				"thousandsSeparatorChar='%v'"))
+
+	if err != nil {
+		return err
+	}
+	nStrFmtSpecAbsValDtoMech :=
+		numStrFmtSpecAbsoluteValueDtoMechanics{}
+
+	err = nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
+		nStrFmtSpecAbsValDto,
+		"127.54",
+		true,
 		numberSeparatorsDto,
 		numFieldDto,
 		ePrefix)
