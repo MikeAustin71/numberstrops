@@ -2620,6 +2620,186 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetPositiveValueForm
 	return err
 }
 
+// SetToUnitedStatesDefaults - Sets the member variable data values
+// for the current NumStrFmtSpecSignedNumValueDto instance to
+// United States Default values.
+//
+// In the United States, Currency Number default formatting
+// parameters are defined as follows:
+//
+//   Currency Positive Number Format: "$127.54"
+//   Currency Negative Number Format: "($127.54)"
+//           Currency Decimal Digits: 2
+//                     Currency Code: "USD"
+//                    CurrencyCodeNo: "840"
+//                     Currency Name: "Dollar"
+//                  Currency Symbols: []rune{'\U00000024'}
+//               Minor Currency Name: "Cent"
+//            Minor Currency Symbols: []rune{'\U000000a2'}
+//       Decimal Separator Character: '.'
+//     Thousands Separator Character: ','
+//       Turn On Thousands Separator: true
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecCurrencyValueDto instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetToUnitedStatesDefaults(
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtSpecCurrValDto.lock == nil {
+		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDto.lock.Lock()
+
+	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFmtSpecCurrencyValueDto." +
+			"SetToUnitedStatesDefaults()")
+
+	currValDtoUtil :=
+		numStrFmtSpecCurrencyValueDtoUtility{}
+
+	return currValDtoUtil.setToUnitedStatesDefaults(
+		nStrFmtSpecCurrValDto,
+		ePrefix)
+}
+
+// SetToUnitedStatesDefaultsIfEmpty -If the current
+// NumStrFmtSpecCurrencyValueDto instance is empty or invalid,
+// this method will set the member variable data values to United
+// States default values.
+//
+// If the current NumStrFmtSpecSignedNumValueDto instance is valid
+// and NOT empty, this method will take no action and exit.
+//
+// In the United States, Currency Number default formatting
+// parameters are defined as follows:
+//
+//   Currency Positive Number Format: "$127.54"
+//   Currency Negative Number Format: "($127.54)"
+//           Currency Decimal Digits: 2
+//                     Currency Code: "USD"
+//                    CurrencyCodeNo: "840"
+//                     Currency Name: "Dollar"
+//                  Currency Symbols: []rune{'\U00000024'}
+//               Minor Currency Name: "Cent"
+//            Minor Currency Symbols: []rune{'\U000000a2'}
+//       Decimal Separator Character: '.'
+//     Thousands Separator Character: ','
+//       Turn On Thousands Separator: true
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecCurrencyValueDto instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetToUnitedStatesDefaultsIfEmpty(
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtSpecCurrValDto.lock == nil {
+		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDto.lock.Lock()
+
+	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFmtSpecCurrencyValueDto." +
+			"SetToUnitedStatesDefaultsIfEmpty()")
+
+	nStrFmtSpecCurrDtoMolecule :=
+		numStrFmtSpecCurrencyValueDtoMolecule{}
+
+	isValid,
+		_ := nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(
+		nStrFmtSpecCurrValDto,
+		new(ErrPrefixDto))
+
+	if isValid {
+		return
+	}
+
+	currValDtoUtil :=
+		numStrFmtSpecCurrencyValueDtoUtility{}
+
+	return currValDtoUtil.setToUnitedStatesDefaults(
+		nStrFmtSpecCurrValDto,
+		ePrefix)
+}
+
 // SetTurnOnIntegerDigitsSeparationFlag - Sets the
 // 'turnOnIntegerDigitsSeparation' flag for the current instance of
 // NumStrFmtSpecCurrencyValueDto.

@@ -429,6 +429,7 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 
 	intSeps[0].intSeparatorChar = thousandsSeparatorChar
 	intSeps[0].intSeparatorGrouping = 3
+	intSeps[0].intSeparatorRepetitions = 0
 
 	numberSeparatorsDto,
 		err = NumericSeparators{}.NewWithComponents(
@@ -465,4 +466,142 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 		ePrefix)
 
 	return err
+}
+
+// setToUnitedStatesDefaults - Sets the member variable data
+// values for the incoming NumStrFmtSpecSignedNumValueDto instance
+// to United States Default values.
+//
+// In the United States, Currency Number default formatting
+// parameters are defined as follows:
+//
+//   Currency Positive Number Format: "$127.54"
+//   Currency Negative Number Format: "($127.54)"
+//           Currency Decimal Digits: 2
+//                     Currency Code: "USD"
+//                    CurrencyCodeNo: "840"
+//                     Currency Name: "Dollar"
+//                  Currency Symbols: []rune{'\U00000024'}
+//               Minor Currency Name: "Cent"
+//            Minor Currency Symbols: []rune{'\U000000a2'}
+//       Decimal Separator Character: '.'
+//     Thousands Separator Character: ','
+//       Turn On Thousands Separator: true
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  nStrFmtSpecCurrencyValDto     *NumStrFmtSpecCurrencyValueDto,
+//     - A pointer to an instance of NumStrFmtSpecCurrencyValueDto.
+//       All data values in this object will be overwritten and
+//       set to United States default values for currency number
+//       values displayed in number strings.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setToUnitedStatesDefaults(
+	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtSpecCurrValDtoUtil.lock == nil {
+		nStrFmtSpecCurrValDtoUtil.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDtoUtil.lock.Lock()
+
+	defer nStrFmtSpecCurrValDtoUtil.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("nStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults()")
+
+	if nStrFmtSpecCurrencyValDto == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'nStrFmtSpecCurrencyValDto' is invalid!\n"+
+			"'nStrFmtSpecCurrencyValDto' is a 'nil' pointer.\n",
+			ePrefix.String())
+		return err
+	}
+
+	var numFieldDto NumberFieldDto
+
+	numFieldDto,
+		err = NumberFieldDto{}.NewWithDefaults(
+		-1,
+		TextJustify(0).Right(),
+		ePrefix)
+
+	if err != nil {
+		return err
+	}
+
+	var numberSeparatorsDto NumericSeparators
+
+	intSeps := make([]NumStrIntSeparator, 1, 5)
+
+	intSeps[0].intSeparatorChar = ','
+	intSeps[0].intSeparatorGrouping = 3
+	intSeps[0].intSeparatorRepetitions = 0
+
+	numberSeparatorsDto,
+		err = NumericSeparators{}.NewWithComponents(
+		'.',
+		intSeps,
+		ePrefix.XCtx(
+			"decimalSeparatorChar='%v' "+
+				"thousandsSeparatorChar='%v' "))
+
+	if err != nil {
+		return err
+	}
+
+	nStrFmtSpecCurrValMech :=
+		numStrFmtSpecCurrencyValueDtoMechanics{}
+
+	err = nStrFmtSpecCurrValMech.setCurrencyValDtoFromComponents(
+		nStrFmtSpecCurrencyValDto,
+		"$127.54",
+		"($127.54)",
+		2,
+		"USD",
+		"840",
+		"Dollar",
+		[]rune{'\U00000024'},
+		"Cent",
+		[]rune{'\U000000a2'},
+		true,
+		numberSeparatorsDto,
+		numFieldDto,
+		ePrefix)
+
+	return err
+
 }

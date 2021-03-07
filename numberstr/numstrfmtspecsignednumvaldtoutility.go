@@ -332,8 +332,8 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 // values for the incoming NumStrFmtSpecSignedNumValueDto instance
 // to United States Default values.
 //
-// In the United States, Signed Number default formatting values
-// are defined as follows:
+// In the United States, Signed Number default formatting
+// parameters are defined as follows:
 //
 //   Positive Signed Number format: "127.54"
 //   Negative Signed Number format: "-127.54"
