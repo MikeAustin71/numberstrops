@@ -1153,6 +1153,95 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetSignificandUsesLeadi
 	nStrFmtSpecSciNotDto.significandUsesLeadingPlus = significandUsesLeadingPlus
 }
 
+// SetToUnitedStatesDefaults - Sets the member variable data values
+// for this NumStrFmtSpecSciNotationDto instance to United
+// States default values.
+//
+// In the United States, Signed Number default formatting
+// parameters are defined as follows:
+//
+//   SignificandUsesLeadingPlus = false
+//   MantissaLength             = 6
+//   ExponentChar               = 'E'
+//   ExponentUsesLeadingPlus    = true
+//   NumFieldLen                = -1
+//   NumFieldTextJustify        = TextJustify(0).Right()
+//
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecSciNotationDto instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetToUnitedStatesDefaults(
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtSpecSciNotDto.lock == nil {
+		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSciNotDto.lock.Lock()
+
+	defer nStrFmtSpecSciNotDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFmtSpecSciNotationDto." +
+			"SetToUnitedStatesDefaults()")
+
+	if nStrFmtSpecSciNotDto == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'targetSciNotDto' is invalid!\n"+
+			"'targetSciNotDto' is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	nStrFmtSpecSciNotDtoUtil :=
+		numStrFmtSpecSciNotationDtoUtility{}
+
+	err =
+		nStrFmtSpecSciNotDtoUtil.setToUnitedStatesDefaults(
+			nStrFmtSpecSciNotDto,
+			ePrefix)
+
+	return err
+}
+
 // SetWithComponents - This method will set all of the member
 // variable data values for the current instance of
 // NumStrFmtSpecSciNotationDto.

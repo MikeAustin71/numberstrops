@@ -213,3 +213,109 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 
 	return err
 }
+
+// setToUnitedStatesDefaults - Sets the member variable data
+// values for the incoming NumStrFmtSpecSciNotationDto instance
+// to United States Default values.
+//
+// In the United States, Scientific Notation default formatting
+// parameters are defined as follows:
+//
+//   SignificandUsesLeadingPlus = false
+//   MantissaLength             = 6
+//   ExponentChar               = 'E'
+//   ExponentUsesLeadingPlus    = true
+//   NumFieldLen                = -1
+//   NumFieldTextJustify        = TextJustify(0).Right()
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  nStrFmtSpecSciNotDto          *NumStrFmtSpecSciNotationDto
+//     - A pointer to an instance of NumStrFmtSpecSciNotationDto.
+//       All data values in this object will be overwritten and
+//       set to United States default values for scientific
+//       notation values displayed in number strings.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setToUnitedStatesDefaults(
+	nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtSpecSciNotDtoUtil.lock == nil {
+		nStrFmtSpecSciNotDtoUtil.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSciNotDtoUtil.lock.Lock()
+
+	defer nStrFmtSpecSciNotDtoUtil.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrFmtSpecSciNotationDtoUtility.setSciNotationDtoWithDefaults()")
+
+	if nStrFmtSpecSciNotDto == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'targetSciNotDto' is invalid!\n"+
+			"'targetSciNotDto' is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	var numFieldDto NumberFieldDto
+
+	numFieldDto,
+		err = NumberFieldDto{}.NewWithDefaults(
+		-1,
+		TextJustify(0).Right(),
+		ePrefix)
+
+	if err != nil {
+		return err
+	}
+
+	nStrFmtSpecSciNotDtoMech :=
+		numStrFmtSpecSciNotationDtoMechanics{}
+
+	err = nStrFmtSpecSciNotDtoMech.setSciNotationDto(
+		nStrFmtSpecSciNotDto,
+		false,
+		6,
+		'E',
+		true,
+		numFieldDto,
+		ePrefix.XCtx("nStrFmtSpecSciNotDto"))
+
+	return err
+}
