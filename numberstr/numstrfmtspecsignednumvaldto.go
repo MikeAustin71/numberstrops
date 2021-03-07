@@ -1966,10 +1966,12 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetToUnitedS
 
 	signedNumUtil := nStrFmtSpecSignedNumValUtility{}
 
-	return signedNumUtil.setToUnitedStatesDefaults(
+	err = signedNumUtil.setToUnitedStatesDefaults(
 		nStrFmtSpecSignedNumValueDto,
 		ePrefix.XCtx(
 			"nStrFmtSpecSignedNumValueDto"))
+
+	return err
 }
 
 // SetToUnitedStatesDefaultsIfEmpty - If the current
@@ -2058,9 +2060,11 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetToUnitedS
 
 	signedNumUtil := nStrFmtSpecSignedNumValUtility{}
 
-	return signedNumUtil.setToUnitedStatesDefaults(
+	err = signedNumUtil.setToUnitedStatesDefaults(
 		nStrFmtSpecSignedNumValueDto,
 		ePrefix)
+
+	return err
 }
 
 // SetTurnOnIntegerDigitsSeparationFlag - Sets the

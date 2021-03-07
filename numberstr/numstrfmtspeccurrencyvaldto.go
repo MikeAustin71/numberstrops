@@ -2697,9 +2697,11 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetToUnitedStatesDef
 	currValDtoUtil :=
 		numStrFmtSpecCurrencyValueDtoUtility{}
 
-	return currValDtoUtil.setToUnitedStatesDefaults(
+	err = currValDtoUtil.setToUnitedStatesDefaults(
 		nStrFmtSpecCurrValDto,
 		ePrefix)
+
+	return err
 }
 
 // SetToUnitedStatesDefaultsIfEmpty -If the current
@@ -2795,9 +2797,11 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetToUnitedStatesDef
 	currValDtoUtil :=
 		numStrFmtSpecCurrencyValueDtoUtility{}
 
-	return currValDtoUtil.setToUnitedStatesDefaults(
+	err = currValDtoUtil.setToUnitedStatesDefaults(
 		nStrFmtSpecCurrValDto,
 		ePrefix)
+
+	return err
 }
 
 // SetTurnOnIntegerDigitsSeparationFlag - Sets the
