@@ -296,6 +296,7 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 
 	intSeps[0].intSeparatorChar = thousandsSeparatorChar
 	intSeps[0].intSeparatorGrouping = 3
+	intSeps[0].intSeparatorRepetitions = 0
 
 	numberSeparatorsDto,
 		err = NumericSeparators{}.NewWithComponents(
@@ -303,7 +304,7 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 		intSeps,
 		ePrefix.XCtx(
 			fmt.Sprintf(
-				"decimalSeparatorChar='%v'\n"+
+				"decimalSeparatorChar='%v' "+
 					"thousandsSeparatorChar='%v'",
 				decimalSeparatorChar,
 				thousandsSeparatorChar)))
@@ -322,7 +323,129 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 		turnOnThousandsSeparator,
 		numberSeparatorsDto,
 		numFieldDto,
-		ePrefix.XCtx("Setting 'nStrFmtSpecSignedNumValDto'\n"))
+		ePrefix.XCtx("Setting 'nStrFmtSpecSignedNumValDto'"))
+
+	return err
+}
+
+// setToUnitedStatesDefaults - Sets the member variable data
+// values for the incoming NumStrFmtSpecSignedNumValueDto instance
+// to United States Default values.
+//
+// In the United States, Signed Number default formatting values
+// are defined as follows:
+//
+//   Positive Signed Number format: "127.54"
+//   Negative Signed Number format: "-127.54"
+//     Decimal Separator Character: '.'
+//   Thousands Separator Character: ','
+//     Turn On Thousands Separator: true
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  nStrFmtSpecSignedNumValDto    *NumStrFmtSpecSignedNumValueDto,
+//     - A pointer to an instance of NumStrFmtSpecSignedNumValueDto.
+//       All data values in this object will be overwritten and
+//       set to United States default values for signed number
+//       numeric values displayed in number strings.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setToUnitedStatesDefaults(
+	nStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtSpecSignedNumValDtoUtil.lock == nil {
+		nStrFmtSpecSignedNumValDtoUtil.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSignedNumValDtoUtil.lock.Lock()
+
+	defer nStrFmtSpecSignedNumValDtoUtil.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"nStrFmtSpecSignedNumValUtility." +
+			"setToUnitedStatesDefaults()")
+
+	if nStrFmtSpecSignedNumValDto == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'nStrFmtSpecSignedNumValDto' is invalid!\n"+
+			"'nStrFmtSpecSignedNumValDto' is a 'nil' pointer.\n",
+			ePrefix.String())
+		return err
+	}
+
+	var numFieldDto NumberFieldDto
+
+	numFieldDto,
+		err = NumberFieldDto{}.NewWithDefaults(
+		-1,
+		TxtJustify.Right(),
+		ePrefix)
+
+	intSeps := make([]NumStrIntSeparator, 1, 5)
+
+	intSeps[0].intSeparatorChar = ','
+	intSeps[0].intSeparatorGrouping = 3
+	intSeps[0].intSeparatorRepetitions = 0
+
+	var numberSeparatorsDto NumericSeparators
+
+	numberSeparatorsDto,
+		err = NumericSeparators{}.NewWithComponents(
+		'.',
+		intSeps,
+		ePrefix.XCtx(
+			"decimalSeparatorChar='.' "+
+				"thousandsSeparatorChar=','"))
+
+	if err != nil {
+		return err
+	}
+
+	nStrFmtSpecSignedNumValMech :=
+		nStrFmtSpecSignedNumValMechanics{}
+
+	err = nStrFmtSpecSignedNumValMech.setSignedNumValDtoWithComponents(
+		nStrFmtSpecSignedNumValDto,
+		"127.54",
+		"-127.54",
+		true,
+		numberSeparatorsDto,
+		numFieldDto,
+		ePrefix.XCtx(
+			"Setting 'nStrFmtSpecSignedNumValDto' "))
 
 	return err
 }

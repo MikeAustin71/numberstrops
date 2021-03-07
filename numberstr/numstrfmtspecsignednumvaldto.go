@@ -1897,6 +1897,171 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 	return err
 }
 
+// SetToUnitedStatesDefaults - Sets the member variable data values
+// for this NumStrFmtSpecSignedNumValueDto instance to United
+// States default values.
+//
+// In the United States, Signed Number default formatting values
+// are defined as follows:
+//
+//   Positive Signed Number format: "127.54"
+//   Negative Signed Number format: "-127.54"
+//     Decimal Separator Character: '.'
+//   Thousands Separator Character: ','
+//     Turn On Thousands Separator: true
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecSignedNumValueDto instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetToUnitedStatesDefaults(
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtSpecSignedNumValueDto.lock == nil {
+		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSignedNumValueDto.lock.Lock()
+
+	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFmtSpecSignedNumValueDto." +
+			"SetToUnitedStatesDefaults()")
+
+	signedNumUtil := nStrFmtSpecSignedNumValUtility{}
+
+	return signedNumUtil.setToUnitedStatesDefaults(
+		nStrFmtSpecSignedNumValueDto,
+		ePrefix)
+}
+
+// SetToUnitedStatesDefaultsIfEmpty - If the current
+// NumStrFmtSpecSignedNumValueDto instance is empty or invalid,
+// this method will set the member variable data values to United
+// States default values.
+//
+// If the current NumStrFmtSpecSignedNumValueDto instance is valid
+// and NOT empty, this method will take no action and exit.
+//
+// In the United States, Signed Number default formatting values
+// are defined as follows:
+//
+//   Positive Signed Number format: "127.54"
+//   Negative Signed Number format: "-127.54"
+//     Decimal Separator Character: '.'
+//   Thousands Separator Character: ','
+//     Turn On Thousands Separator: true
+//
+// IMPORTANT
+//
+// If the current NumStrFmtSpecSignedNumValueDto instance is empty
+// or invalid, this method will overwrite all pre-existing data
+// values.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetToUnitedStatesDefaultsIfEmpty(
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtSpecSignedNumValueDto.lock == nil {
+		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecSignedNumValueDto.lock.Lock()
+
+	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFmtSpecSignedNumValueDto." +
+			"SetToUnitedStatesDefaults()")
+
+	nStrFmtSpecSignedNumValMolecule :=
+		numStrFmtSpecSignedNumValMolecule{}
+
+	isValid,
+		_ := nStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto(
+		nStrFmtSpecSignedNumValueDto,
+		new(ErrPrefixDto))
+
+	if isValid {
+		return err
+	}
+
+	signedNumUtil := nStrFmtSpecSignedNumValUtility{}
+
+	return signedNumUtil.setToUnitedStatesDefaults(
+		nStrFmtSpecSignedNumValueDto,
+		ePrefix)
+}
+
 // SetTurnOnIntegerDigitsSeparationFlag - Sets the
 // 'turnOnIntegerDigitsSeparation' flag for the current instance of
 // NumStrFmtSpecSignedNumValueDto.
@@ -1967,6 +2132,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnInt
 // values in text number strings.
 //
 // IMPORTANT
+//
 // This method will overwrite all pre-existing data values in the
 // current NumStrFmtSpecSignedNumValueDto instance.
 //
@@ -2299,6 +2465,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithCompo
 //        Example: '1,000,000,000'
 //
 // IMPORTANT
+//
 // This method will overwrite all pre-existing data values in the
 // current NumStrFmtSpecSignedNumValueDto instance.
 //
