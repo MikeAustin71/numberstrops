@@ -356,7 +356,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) IsValidInstanceError(
 	return err
 }
 
-// New - Creates and returns a new instance of NumericSeparators.
+// NewWithComponents - Creates and returns a new instance of NumericSeparators.
 // This type encapsulates the digit separators used in formatting a
 // number string for text display.
 //
@@ -439,7 +439,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) IsValidInstanceError(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) New(
+func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewWithComponents(
 	idNo uint64,
 	idString string,
 	description string,
@@ -467,7 +467,7 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) New(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto.New()")
+		"NumStrFmtSpecCountryDto.NewWithComponents()")
 
 	nStrFmtSpecCntryMech :=
 		numStrFmtSpecCountryDtoMechanics{}
@@ -492,7 +492,7 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) New(
 	return newCntryDto, err
 }
 
-// NewFromFmtSpecSetupDto - Creates and returns a new
+// NewWithFmtSpecSetupDto - Creates and returns a new
 // NumStrFmtSpecCountryDto instance based on input received from
 // an instance of NumStrFmtSpecSetupDto.
 //
@@ -523,10 +523,11 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) New(
 //         CountryCodeNumber                         string
 //         AbsoluteValFmt                            string
 //         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumFieldLen                    int
+//         AbsoluteValNumSeps                        NumericSeparators
+//         AbsoluteValNumField                       NumberFieldDto
 //         CurrencyPositiveValueFmt                  string
 //         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     int
+//         CurrencyDecimalDigits                     uint
 //         CurrencyCode                              string
 //         CurrencyCodeNo                            string
 //         CurrencyName                              string
@@ -534,18 +535,19 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) New(
 //         MinorCurrencyName                         string
 //         MinorCurrencySymbols                      []rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumFieldLen                       int
-//         DecimalSeparator                          rune
-//         IntegerDigitsSeparator                    rune
-//         IntegerDigitsGroupingSequence             []uint
+//         CurrencyNumSeps                           NumericSeparators
+//         CurrencyNumField                          NumberFieldDto
 //         SignedNumValPositiveValueFmt              string
 //         SignedNumValNegativeValueFmt              string
 //         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumFieldLen                   int
+//         SignedNumValNumSeps                       NumericSeparators
+//         SignedNumValNumField                      NumberFieldDto
+//         SciNotSignificandUsesLeadingPlus          bool
 //         SciNotMantissaLength                      uint
 //         SciNotExponentChar                        rune
 //         SciNotExponentUsesLeadingPlus             bool
 //         SciNotNumFieldLen                         int
+//         SciNotNumFieldTextJustify                 TextJustify
 //         Lock                                      *sync.Mutex
 //       }
 //
@@ -579,7 +581,7 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) New(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewFromFmtSpecSetupDto(
+func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewWithFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecCountryDto,
@@ -921,7 +923,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetDescription(
 		description
 }
 
-// SetFromFmtSpecSetupDto - Sets the data values for current
+// SetWithSpecSetupDto - Sets the data values for current
 // NumStrFmtSpecCountryDto instance based on input received from
 // an instance of NumStrFmtSpecSetupDto.
 //
@@ -952,10 +954,11 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetDescription(
 //         CountryCodeNumber                         string
 //         AbsoluteValFmt                            string
 //         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumFieldLen                    int
+//         AbsoluteValNumSeps                        NumericSeparators
+//         AbsoluteValNumField                       NumberFieldDto
 //         CurrencyPositiveValueFmt                  string
 //         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     int
+//         CurrencyDecimalDigits                     uint
 //         CurrencyCode                              string
 //         CurrencyCodeNo                            string
 //         CurrencyName                              string
@@ -963,18 +966,20 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetDescription(
 //         MinorCurrencyName                         string
 //         MinorCurrencySymbols                      []rune
 //         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumFieldLen                       int
-//         DecimalSeparator                          rune
-//         IntegerDigitsSeparator                    rune
-//         IntegerDigitsGroupingSequence             []uint
+//         CurrencyNumSeps                           NumericSeparators
+//         CurrencyNumField                          NumberFieldDto
 //         SignedNumValPositiveValueFmt              string
 //         SignedNumValNegativeValueFmt              string
 //         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumFieldLen                   int
+//         SignedNumValNumSeps                       NumericSeparators
+//         SignedNumValNumField                      NumberFieldDto
+//         SciNotSignificandUsesLeadingPlus          bool
 //         SciNotMantissaLength                      uint
 //         SciNotExponentChar                        rune
 //         SciNotExponentUsesLeadingPlus             bool
 //         SciNotNumFieldLen                         int
+//         SciNotNumFieldTextJustify                 TextJustify
+//         Lock                                      *sync.Mutex
 //       }
 //
 //
@@ -1002,7 +1007,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetDescription(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetFromFmtSpecSetupDto(
+func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetWithSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix *ErrPrefixDto) error {
 

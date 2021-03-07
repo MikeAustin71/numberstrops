@@ -171,7 +171,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 
 	fmtSpecSetupDto.Lock.Unlock()
 
-	err = nStrFmtSpecDto.countryCulture.SetFromFmtSpecSetupDto(
+	err = nStrFmtSpecDto.countryCulture.SetWithSpecSetupDto(
 		fmtSpecSetupDto,
 		ePrefix.XCtx("fmtSpecSetupDto->CountryCulture"))
 
