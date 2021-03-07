@@ -9,11 +9,11 @@ type numStrFmtSpecCountryDtoMechanics struct {
 	lock *sync.Mutex
 }
 
-// setCountryDto - Transfers new data to an instance of NumStrFmtSpecCountryDto.
+// setWithComponents - Transfers new data to an instance of NumStrFmtSpecCountryDto.
 // After completion, all the data fields within input parameter 'nStrFmtSpecCntryDto'
 // will be overwritten.
 //
-func (nStrFmtSpecCntryMech *numStrFmtSpecCountryDtoMechanics) setCountryDto(
+func (nStrFmtSpecCntryMech *numStrFmtSpecCountryDtoMechanics) setWithComponents(
 	nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto,
 	idNo uint64,
 	idString string,
@@ -40,7 +40,7 @@ func (nStrFmtSpecCntryMech *numStrFmtSpecCountryDtoMechanics) setCountryDto(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numStrFmtSpecCountryDtoMechanics.setCountryDto()")
+	ePrefix.SetEPref("numStrFmtSpecCountryDtoMechanics.setWithComponents()")
 
 	if nStrFmtSpecCntryDto == nil {
 		err = fmt.Errorf("%v\n"+

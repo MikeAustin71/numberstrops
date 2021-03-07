@@ -346,7 +346,7 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 //
 // Input Parameters
 //
-//  nStrFmtSpecSignedNumValDto    *NumStrFmtSpecSignedNumValueDto,
+//  nStrFmtSpecSignedNumValDto    *NumStrFmtSpecSignedNumValueDto
 //     - A pointer to an instance of NumStrFmtSpecSignedNumValueDto.
 //       All data values in this object will be overwritten and
 //       set to United States default values for signed number

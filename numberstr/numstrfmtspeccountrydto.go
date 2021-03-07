@@ -475,7 +475,7 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewWithComponents(
 	newCntryDto := NumStrFmtSpecCountryDto{}
 
 	err :=
-		nStrFmtSpecCntryMech.setCountryDto(
+		nStrFmtSpecCntryMech.setWithComponents(
 			&newCntryDto,
 			idNo,
 			idString,
@@ -627,7 +627,7 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewWithFmtSpecSetupDto(
 
 	defer fmtSpecSetupDto.Lock.Unlock()
 
-	err := nStrFmtSpecCntryMech.setCountryDto(
+	err := nStrFmtSpecCntryMech.setWithComponents(
 		&newCountryDto,
 		fmtSpecSetupDto.CountryIdNo,
 		fmtSpecSetupDto.CountryIdString,
@@ -782,129 +782,6 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetCountryCultureName(
 		countryCultureName
 }
 
-// SetCountryDto - Sets the data values for current
-// NumStrFmtSpecCountryDto instance.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  idNo                   uint64
-//     - An arbitrary Id Number
-//
-//
-//  idString               string
-//     - An arbitrary Id String
-//
-//
-//  description            string
-//     - A user defined description
-//
-//
-//  tag                    string
-//     - A user defined tag
-//
-//  countryCultureName     string
-//     - Usually contains the official country name
-//
-//  abbreviatedCountryName string
-//     - The abbreviated country name
-//
-//
-//  alternateCountryNames  []string
-//     - A list of alternate country names
-//
-//
-//  countryCodeTwoChar     string
-//     - The ISO 3166-1 alpha-2 two character country code.
-//       Reference:
-//        https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
-//
-//
-//  countryCodeThreeChar   string
-//     - The ISO 3166-1 alpha-3 three character country code.
-//       Reference:
-//        https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
-//
-//
-//  countryCodeNumber      string
-//     - ISO 3166-1 numeric – three-digit country codes which are identical
-//       to those developed and maintained by the United Nations Statistics
-//       Division.  Reference:
-//        https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetCountryDto(
-	idNo uint64,
-	idString string,
-	description string,
-	tag string,
-	countryCultureName string,
-	abbreviatedCountryName string,
-	alternateCountryNames []string,
-	countryCodeTwoChar string,
-	countryCodeThreeChar string,
-	countryCodeNumber string,
-	ePrefix *ErrPrefixDto) error {
-
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCntryDto.lock.Lock()
-
-	defer nStrFmtSpecCntryDto.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto.SetCountryDto()")
-
-	nStrFmtSpecCntryMech :=
-		numStrFmtSpecCountryDtoMechanics{}
-
-	return nStrFmtSpecCntryMech.setCountryDto(
-		nStrFmtSpecCntryDto,
-		idNo,
-		idString,
-		description,
-		tag,
-		countryCultureName,
-		abbreviatedCountryName,
-		alternateCountryNames,
-		countryCodeTwoChar,
-		countryCodeThreeChar,
-		countryCodeNumber,
-		ePrefix)
-}
-
 // SetDescription - Sets the value of member variable 'description'.
 // This is a user defined description.
 //
@@ -1024,7 +901,8 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetWithSpecSetupDto(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto.SetWithFmtSpecSetupDto()")
+		"NumStrFmtSpecCountryDto." +
+			"SetWithFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
 		return fmt.Errorf("%v\n"+
@@ -1044,7 +922,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetWithSpecSetupDto(
 	nStrFmtSpecCntryMech :=
 		numStrFmtSpecCountryDtoMechanics{}
 
-	return nStrFmtSpecCntryMech.setCountryDto(
+	return nStrFmtSpecCntryMech.setWithComponents(
 		nStrFmtSpecCntryDto,
 		fmtSpecSetupDto.CountryIdNo,
 		fmtSpecSetupDto.CountryIdString,
@@ -1104,4 +982,210 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetTag(
 	defer nStrFmtSpecCntryDto.lock.Unlock()
 
 	nStrFmtSpecCntryDto.tag = tag
+}
+
+// SetToUnitedStatesDefaults - Sets the member variable data
+// values for the incoming NumStrFmtSpecCountryDto instance
+// to United States Default values.
+//
+// For the United States, the country specification parameters are
+// defined as follows:
+//
+//   CountryIdNo            = 840
+//   CountryIdString        = "840"
+//   CountryDescription     = "Country Setup - United States"
+//   CountryTag             = ""
+//   CountryCultureName     = "United States"
+//   CountryAbbreviatedName = "USA"
+//   CountryAlternateNames  = []string{
+//                            "The United States of America",
+//                            "United States of America",
+//                            "America"}
+//   CountryCodeTwoChar     = "US"
+//   CountryCodeThreeChar   = "USA"
+//   CountryCodeNumber      = "840"
+//
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecCountryDto instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetToUnitedStatesDefaults(
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrFmtSpecCntryDto.lock == nil {
+		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCntryDto.lock.Lock()
+
+	defer nStrFmtSpecCntryDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFmtSpecCountryDto." +
+			"SetToUnitedStatesDefaults()")
+
+	countryUtil :=
+		numStrFmtSpecCountryDtoUtility{}
+
+	return countryUtil.setToUnitedStatesDefaults(
+		nStrFmtSpecCntryDto,
+		ePrefix)
+}
+
+// SetWithComponents - Sets the data values for current
+// NumStrFmtSpecCountryDto instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  idNo                   uint64
+//     - An arbitrary Id Number
+//
+//
+//  idString               string
+//     - An arbitrary Id String
+//
+//
+//  description            string
+//     - A user defined description
+//
+//
+//  tag                    string
+//     - A user defined tag
+//
+//  countryCultureName     string
+//     - Usually contains the official country name
+//
+//  abbreviatedCountryName string
+//     - The abbreviated country name
+//
+//
+//  alternateCountryNames  []string
+//     - A list of alternate country names
+//
+//
+//  countryCodeTwoChar     string
+//     - The ISO 3166-1 alpha-2 two character country code.
+//       Reference:
+//        https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+//
+//
+//  countryCodeThreeChar   string
+//     - The ISO 3166-1 alpha-3 three character country code.
+//       Reference:
+//        https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+//
+//
+//  countryCodeNumber      string
+//     - ISO 3166-1 numeric – three-digit country codes which are identical
+//       to those developed and maintained by the United Nations Statistics
+//       Division.  Reference:
+//        https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetWithComponents(
+	idNo uint64,
+	idString string,
+	description string,
+	tag string,
+	countryCultureName string,
+	abbreviatedCountryName string,
+	alternateCountryNames []string,
+	countryCodeTwoChar string,
+	countryCodeThreeChar string,
+	countryCodeNumber string,
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrFmtSpecCntryDto.lock == nil {
+		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCntryDto.lock.Lock()
+
+	defer nStrFmtSpecCntryDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFmtSpecCountryDto.SetWithComponents()")
+
+	nStrFmtSpecCntryMech :=
+		numStrFmtSpecCountryDtoMechanics{}
+
+	return nStrFmtSpecCntryMech.setWithComponents(
+		nStrFmtSpecCntryDto,
+		idNo,
+		idString,
+		description,
+		tag,
+		countryCultureName,
+		abbreviatedCountryName,
+		alternateCountryNames,
+		countryCodeTwoChar,
+		countryCodeThreeChar,
+		countryCodeNumber,
+		ePrefix)
 }
