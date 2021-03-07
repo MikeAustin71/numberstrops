@@ -1067,6 +1067,105 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetToUnitedStatesDefaults(
 		ePrefix)
 }
 
+// SetToUnitedStatesDefaultsIfEmpty - If the current
+// NumStrFmtSpecCountryDto instance is empty or invalid,
+// this method will set the member variable data values to United
+// States default values.
+//
+// If the current NumStrFmtSpecCountryDto instance is valid
+// and NOT empty, this method will take no action and exit.
+//
+// For the United States, the country specification parameters are
+// defined as follows:
+//
+//   CountryIdNo            = 840
+//   CountryIdString        = "840"
+//   CountryDescription     = "Country Setup - United States"
+//   CountryTag             = ""
+//   CountryCultureName     = "United States"
+//   CountryAbbreviatedName = "USA"
+//   CountryAlternateNames  = []string{
+//                            "The United States of America",
+//                            "United States of America",
+//                            "America"}
+//   CountryCodeTwoChar     = "US"
+//   CountryCodeThreeChar   = "USA"
+//   CountryCodeNumber      = "840"
+//
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumStrFmtSpecCountryDto instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetToUnitedStatesDefaultsIfEmpty(
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrFmtSpecCntryDto.lock == nil {
+		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCntryDto.lock.Lock()
+
+	defer nStrFmtSpecCntryDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFmtSpecCountryDto." +
+			"SetToUnitedStatesDefaults()")
+
+	nStrFmtSpecCntryQuark :=
+		numStrFmtSpecCountryDtoQuark{}
+
+	isValid,
+		_ := nStrFmtSpecCntryQuark.testValidityOfCountryDto(
+		nStrFmtSpecCntryDto,
+		ePrefix)
+
+	if isValid {
+		return nil
+	}
+
+	countryUtil :=
+		numStrFmtSpecCountryDtoUtility{}
+
+	return countryUtil.setToUnitedStatesDefaults(
+		nStrFmtSpecCntryDto,
+		ePrefix)
+}
+
 // SetWithComponents - Sets the data values for current
 // NumStrFmtSpecCountryDto instance.
 //
