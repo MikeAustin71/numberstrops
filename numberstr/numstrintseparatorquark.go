@@ -44,14 +44,21 @@ func (nStrIntSepQuark *numStrIntSeparatorQuark) testValidityOfNumStrIntSeparator
 		return isValid, err
 	}
 
-	//if nStrIntSep.intSeparatorChar == 0 {
-	//	err = fmt.Errorf("%v\n"+
-	//		"Error: 'intSeparatorChar' is invalid!\n"+
-	//		"'intSeparatorChar' has a ZERO Value.\n",
-	//		ePrefix)
-	//
-	//	return isValid, err
-	//}
+	if nStrIntSep.intSeparatorChars == nil {
+		nStrIntSep.intSeparatorChars =
+			make([]rune, 0, 5)
+	}
+
+	lIntSepChars := len(nStrIntSep.intSeparatorChars)
+
+	if lIntSepChars == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: 'intSeparatorChars' is invalid!\n"+
+			"'intSeparatorChars' is a ZERO length rune array.\n",
+			ePrefix)
+
+		return isValid, err
+	}
 
 	if nStrIntSep.intSeparatorGrouping > 10000000 {
 

@@ -1,19 +1,165 @@
 package numberstr
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+)
 
-// NumStrIntSeparatorsDto is used to transport and manage an array
-// of NumStrIntSeparator. These integer separators are in turn
-// used to control the grouping and separation characters
-// employed in separating digits within an integer number.
+// NumStrIntSeparatorsDto - Manages a collection of
+// NumStrIntSeparator objects.  These integer separators are in
+// turn used to control the grouping and separation characters
+// employed in separating integer digits within a number string.
 //
 //  United States Example:        1,000,000,000
 //  European Example:             1 000 000 000
 //  Indian Number System Example: 6,78,90,00,00,00,00,000
+//  Chinese Numeral Example:      6789,0000,0000,0000
 //
 type NumStrIntSeparatorsDto struct {
 	intSeparators []NumStrIntSeparator
 	lock          *sync.Mutex
+}
+
+// Add - Adds one NumStrIntSeparator object to the existing
+// collection of NumStrIntSeparator objects encapsulated by the
+// current NumStrIntSeparatorsDto instance.
+//
+// The new NumStrIntSeparator object is created from the following
+// input parameters.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  intSeparatorChars          []rune
+//     - An array of characters used to delimit or separate integer
+//       digits within a number string. The most common example is
+//       the thousands separator. In the United States, this is a
+//       a single comma character ','. United States Example:
+//               1,000,000,000
+//
+//       In other countries and cultures, multiple characters are
+//       used to separate integer digits in a number string.
+//
+//
+//  intSeparatorGrouping       uint
+//     - The number of integer digits in group to be separated by
+//       separator characters. The most common grouping is the
+//       thousands grouping consisting of 3-digits. United States
+//       Example:
+//               1,000,000,000
+//
+//       Other countries and cultures use different grouping sequences.
+//       used to separate integer digits in a number string.
+//       Indian Number System Example: 6,78,90,00,00,00,00,000
+//       Chinese Numeral Example:      6789,0000,0000,0000
+//
+//
+//  intSeparatorRepetitions    uint
+//     - Number of times this character/group sequence is repeated.
+//       A zero value signals unlimited repetitions.
+//
+//
+//  restartIntGroupingSequence bool
+//     - Used in the last NumStrIntSeparatorsDto array element to
+//       signal whether the entire array sequence will be restarted
+//       from index array element zero.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. An error value of 'nil'
+//       signals that the new NumStrIntSeparator object was
+//       successfully added to the collection managed by the
+//       current NumStrIntSeparatorsDto instance.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSeparatorsDto *NumStrIntSeparatorsDto) Add(
+	intSeparatorChars []rune,
+	intSeparatorGrouping uint,
+	intSeparatorRepetitions uint,
+	restartIntGroupingSequence bool,
+	ePrefix *ErrPrefixDto) error {
+
+	if intSeparatorsDto.lock == nil {
+		intSeparatorsDto.lock = new(sync.Mutex)
+	}
+
+	intSeparatorsDto.lock.Lock()
+
+	defer intSeparatorsDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparatorsDto.Add()")
+
+	if intSeparatorChars == nil {
+		intSeparatorChars =
+			make([]rune, 0, 5)
+	}
+
+	lIntSepChars := len(intSeparatorChars)
+
+	if lIntSepChars == 0 {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'intSeparatorChars' is invalid!\n"+
+			"'intSeparatorChars' is a zero length rune array.\n",
+			ePrefix)
+	}
+
+	newIntSep := NumStrIntSeparator{}
+
+	newIntSep.intSeparatorChars =
+		make([]rune, lIntSepChars, lIntSepChars+5)
+
+	for i := 0; i < lIntSepChars; i++ {
+		newIntSep.intSeparatorChars[i] =
+			intSeparatorChars[i]
+	}
+
+	newIntSep.intSeparatorGrouping =
+		intSeparatorGrouping
+
+	newIntSep.intSeparatorRepetitions =
+		intSeparatorRepetitions
+
+	newIntSep.restartIntGroupingSequence =
+		restartIntGroupingSequence
+
+	newIntSep.lock = new(sync.Mutex)
+
+	if intSeparatorsDto.intSeparators == nil {
+		intSeparatorsDto.intSeparators =
+			make([]NumStrIntSeparator, 0, 5)
+	}
+
+	intSeparatorsDto.intSeparators =
+		append(intSeparatorsDto.intSeparators, newIntSep)
+
+	return nil
 }
 
 // CopyIn - Copies the data fields from an incoming
@@ -199,6 +345,19 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) IsValidInstance() (
 			nil)
 
 	return isValid
+}
+
+func (intSeparatorsDto *NumStrIntSeparatorsDto) Equal(
+	intSepsDto2 NumStrIntSeparatorsDto) bool {
+
+	if intSeparatorsDto.lock == nil {
+		intSeparatorsDto.lock = new(sync.Mutex)
+	}
+
+	intSeparatorsDto.lock.Lock()
+
+	defer intSeparatorsDto.lock.Unlock()
+
 }
 
 // IsValidInstanceError - Performs a diagnostic review of the
@@ -395,7 +554,8 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) NewWithComponents(
 //
 // The integer separation values used in the United States are
 // listed as follows:
-//  NumStrIntSeparatorsDto.intSeparators[0].intSeparatorChar = ','
+//  NumStrIntSeparatorsDto.intSeparators[0].intSeparatorChars =
+//     []rune{','}
 //  NumStrIntSeparatorsDto.intSeparators[0].intSeparatorGrouping = 3
 //  NumStrIntSeparatorsDto.intSeparators[0].intSeparatorRepetitions = 0
 //

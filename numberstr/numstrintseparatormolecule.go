@@ -68,14 +68,25 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyIn(
 		return err
 	}
 
-	targetNStrIntSeparator.intSeparatorChar =
-		incomingNStrIntSeparator.intSeparatorChar
+	lIntSepChars :=
+		len(incomingNStrIntSeparator.intSeparatorChars)
+
+	targetNStrIntSeparator.intSeparatorChars =
+		make([]rune, lIntSepChars, lIntSepChars+5)
+
+	for i := 0; i < lIntSepChars; i++ {
+		targetNStrIntSeparator.intSeparatorChars[i] =
+			incomingNStrIntSeparator.intSeparatorChars[i]
+	}
 
 	targetNStrIntSeparator.intSeparatorGrouping =
 		incomingNStrIntSeparator.intSeparatorGrouping
 
 	targetNStrIntSeparator.intSeparatorRepetitions =
 		incomingNStrIntSeparator.intSeparatorRepetitions
+
+	targetNStrIntSeparator.restartIntGroupingSequence =
+		incomingNStrIntSeparator.restartIntGroupingSequence
 
 	return err
 }
@@ -105,7 +116,8 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyOut(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numStrIntSeparatorMolecule.copyOut()")
+	ePrefix.SetEPref(
+		"numStrIntSeparatorMolecule.copyOut()")
 
 	if numStrIntSeparator == nil {
 		err = fmt.Errorf("%v\n"+
@@ -128,14 +140,25 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyOut(
 		return newNumSrIntSeparator, err
 	}
 
-	newNumSrIntSeparator.intSeparatorChar =
-		numStrIntSeparator.intSeparatorChar
+	lIntSepChars :=
+		len(numStrIntSeparator.intSeparatorChars)
+
+	newNumSrIntSeparator.intSeparatorChars =
+		make([]rune, lIntSepChars, lIntSepChars+5)
+
+	for i := 0; i < lIntSepChars; i++ {
+		newNumSrIntSeparator.intSeparatorChars[i] =
+			numStrIntSeparator.intSeparatorChars[i]
+	}
 
 	newNumSrIntSeparator.intSeparatorGrouping =
 		numStrIntSeparator.intSeparatorGrouping
 
 	newNumSrIntSeparator.intSeparatorRepetitions =
 		numStrIntSeparator.intSeparatorRepetitions
+
+	newNumSrIntSeparator.restartIntGroupingSequence =
+		numStrIntSeparator.restartIntGroupingSequence
 
 	newNumSrIntSeparator.lock = new(sync.Mutex)
 
@@ -165,9 +188,27 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) equal(
 
 	areEqual = true
 
-	if nStrIntSep1.intSeparatorChar !=
-		nStrIntSep2.intSeparatorChar {
-		areEqual = false
+	if nStrIntSep1.intSeparatorChars == nil {
+		nStrIntSep1.intSeparatorChars =
+			make([]rune, 0, 5)
+	}
+
+	if nStrIntSep2.intSeparatorChars == nil {
+		nStrIntSep2.intSeparatorChars =
+			make([]rune, 0, 5)
+	}
+
+	lenIntSeps1 := len(nStrIntSep1.intSeparatorChars)
+
+	if lenIntSeps1 != len(nStrIntSep2.intSeparatorChars) {
+		return false
+	}
+
+	for i := 0; i < lenIntSeps1; i++ {
+		if nStrIntSep1.intSeparatorChars[i] !=
+			nStrIntSep2.intSeparatorChars[i] {
+			areEqual = false
+		}
 	}
 
 	if nStrIntSep1.intSeparatorGrouping !=
@@ -177,6 +218,11 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) equal(
 
 	if nStrIntSep1.intSeparatorRepetitions !=
 		nStrIntSep2.intSeparatorRepetitions {
+		areEqual = false
+	}
+
+	if nStrIntSep1.restartIntGroupingSequence !=
+		nStrIntSep2.restartIntGroupingSequence {
 		areEqual = false
 	}
 

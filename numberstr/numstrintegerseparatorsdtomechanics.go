@@ -65,7 +65,7 @@ func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setWithComponents(
 	}
 
 	intSepsDto.intSeparators =
-		make([]NumStrIntSeparator, lenIncomingSeps, 5)
+		make([]NumStrIntSeparator, lenIncomingSeps, lenIncomingSeps+5)
 
 	for i := 0; i < lenIncomingSeps; i++ {
 		err =
@@ -125,11 +125,17 @@ func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setWithUnitedStatesDefaul
 	intSepsDto.intSeparators =
 		make([]NumStrIntSeparator, 1, 5)
 
-	intSepsDto.intSeparators[0].intSeparatorChar = ','
+	intSepsDto.intSeparators[0].intSeparatorChars =
+		make([]rune, 1, 5)
+
+	intSepsDto.intSeparators[0].intSeparatorChars[0] = ','
 
 	intSepsDto.intSeparators[0].intSeparatorGrouping = 3
 
 	intSepsDto.intSeparators[0].intSeparatorRepetitions = 0
+
+	intSepsDto.intSeparators[0].restartIntGroupingSequence =
+		false
 
 	return err
 }

@@ -10,20 +10,23 @@ import (
 // strings. Some countries/cultures do not use thousands
 // separation and instead rely on multiple integer separation
 // characters and grouping sequences for a single number
-// string. One notable example of this found in the 'Indian
-// Number System'.
+// string. Notable examples of this found in the 'Indian
+// Number System' and 'Chinese Numerals'.
 //  Reference:
 //  https://en.wikipedia.org/wiki/Indian_numbering_system
+//  https://en.wikipedia.org/wiki/Chinese_numerals
+//  https://en.wikipedia.org/wiki/Decimal_separator
 //
 // An array of NumStrIntSeparator elements provides the flexibility
-// necessary to process these complex number formats.
+// necessary to process these complex number separation formats.
 //
 type NumStrIntSeparator struct {
-	intSeparatorChar        rune // Integer separator character
-	intSeparatorGrouping    uint // Number of integers in a group
-	intSeparatorRepetitions uint // Number of times this character/group is repeated
-	//                             // A zero value signals unlimited repetitions.
-	lock *sync.Mutex
+	intSeparatorChars       []rune // A series of runes used to separate integer digits.
+	intSeparatorGrouping    uint   // Number of integer digits in a group
+	intSeparatorRepetitions uint   // Number of times this character/group sequence is repeated
+	//                               // A zero value signals unlimited repetitions.
+	restartIntGroupingSequence bool // If true, the array starts over at index zero.
+	lock                       *sync.Mutex
 }
 
 // CopyIn - Copies the data fields from an incoming
@@ -35,6 +38,7 @@ type NumStrIntSeparator struct {
 //
 // Be advised, all of the data fields in the current
 // NumStrIntSeparator instance will be overwritten.
+//
 //
 // ----------------------------------------------------------------
 //

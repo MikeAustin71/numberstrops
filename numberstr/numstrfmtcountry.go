@@ -30,6 +30,9 @@ import (
 //  https://www.xe.com/iso4217.php#U
 //  https://unicode-table.com/en
 //
+//  https://en.wikipedia.org/wiki/Indian_numbering_system
+//  https://en.wikipedia.org/wiki/Chinese_numerals
+//
 //
 // Countries:
 //

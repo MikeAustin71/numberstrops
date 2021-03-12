@@ -86,7 +86,23 @@ func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) testValidityOfNumStrIntSepsD
 		return isValid, err
 	}
 
+	lastIdx := lenIntSeps - 1
+
 	for i := 0; i < lenIntSeps; i++ {
+
+		if i < lastIdx &&
+			intSepsDto.intSeparators[i].restartIntGroupingSequence == true {
+
+			err = fmt.Errorf("%v\n"+
+				"Error: NumStrIntSeparator is not the last array element.\n"+
+				"However, NumStrIntSeparator.restartIntGroupingSequence=='true'\n"+
+				"i='%v'\n",
+				ePrefix.XCtxEmpty(),
+				i)
+
+			return isValid, err
+		}
+
 		err =
 			intSepsDto.intSeparators[i].
 				IsValidInstanceError(ePrefix.XCtx(
