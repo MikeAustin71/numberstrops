@@ -24,9 +24,10 @@ type NumStrIntSeparator struct {
 	intSeparatorChars       []rune // A series of runes used to separate integer digits.
 	intSeparatorGrouping    uint   // Number of integer digits in a group
 	intSeparatorRepetitions uint   // Number of times this character/group sequence is repeated
-	//                               // A zero value signals unlimited repetitions.
-	restartIntGroupingSequence bool // If true, the array starts over at index zero.
-	lock                       *sync.Mutex
+	//                              // A zero value signals unlimited repetitions.
+	restartIntGroupingSequence bool // If true, the entire grouping sequence is repeated
+	//                              //  beginning at array index zero.
+	lock *sync.Mutex
 }
 
 // CopyIn - Copies the data fields from an incoming
