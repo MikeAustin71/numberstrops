@@ -33,13 +33,15 @@ func (nStrIntSepQuark *numStrIntSeparatorQuark) testValidityOfNumStrIntSeparator
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrIntSeparator.IsValidInstanceError()")
+	ePrefix.SetEPref(
+		"numStrIntSeparatorQuark." +
+			"testValidityOfNumStrIntSeparator()")
 
 	if nStrIntSep == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrIntSep' is invalid!\n"+
 			"'nStrIntSep' is a nil pointer.",
-			ePrefix)
+			ePrefix.String())
 
 		return isValid, err
 	}
@@ -55,7 +57,7 @@ func (nStrIntSepQuark *numStrIntSeparatorQuark) testValidityOfNumStrIntSeparator
 		err = fmt.Errorf("%v\n"+
 			"Error: 'intSeparatorChars' is invalid!\n"+
 			"'intSeparatorChars' is a ZERO length rune array.\n",
-			ePrefix)
+			ePrefix.String())
 
 		return isValid, err
 	}

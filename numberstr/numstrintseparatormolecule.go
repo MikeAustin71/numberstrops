@@ -211,7 +211,8 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) equal(
 	lenIntSeps1 := len(nStrIntSep1.intSeparatorChars)
 
 	if lenIntSeps1 != len(nStrIntSep2.intSeparatorChars) {
-		return false
+		areEqual = false
+		return areEqual
 	}
 
 	for i := 0; i < lenIntSeps1; i++ {

@@ -297,3 +297,26 @@ func (nStrIntSep *NumStrIntSeparator) IsValidInstanceError(
 
 	return err
 }
+
+func (nStrIntSep NumStrIntSeparator) NewWithComponents(
+	intSeparatorChars []rune,
+	intSeparatorGrouping uint,
+	restartIntGroupingSequence bool,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumStrIntSeparator.NewWithComponents()")
+
+}
