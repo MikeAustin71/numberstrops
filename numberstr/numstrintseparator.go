@@ -414,3 +414,47 @@ func (nStrIntSep NumStrIntSeparator) NewWithComponents(
 
 	return newIntSep, err
 }
+
+// NewWithUSADefaults - Creates and returns a new instance of
+// NumStrIntSeparator set to United States default integer
+// separators. Integer separator values used in the United States
+// consist of the comma character (','), an integer grouping of
+// three ('3') and unlimited repetitions of this sequence.
+//
+//   United States Integer Separation Example:
+//         '1,000,000,000,000'
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  - NONE -
+//
+//
+// -----------------------------------------------------------------
+//
+//  NumStrIntSeparator
+//     - This will return a new and fully populated instance of
+//       NumStrIntSeparator configured with United States default
+//       integer separator values.
+//
+func (nStrIntSep NumStrIntSeparator) NewWithUSADefaults() NumStrIntSeparator {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	newIntSep := NumStrIntSeparator{}
+
+	_ = numStrIntSeparatorMechanics{}.ptr().
+		setToUSADefaults(
+			&newIntSep,
+			nil)
+
+	return newIntSep
+}
