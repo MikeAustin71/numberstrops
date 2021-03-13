@@ -47,6 +47,10 @@ func (numSepsElectron *numericSeparatorsElectron) copyIn(
 		return err
 	}
 
+	if targetNumSeps.lock == nil {
+		targetNumSeps.lock = new(sync.Mutex)
+	}
+
 	if inComingNumSeps == nil {
 		err = fmt.Errorf("%v"+
 			"Error: Input parameter 'inComingNumSeps' is"+
@@ -72,46 +76,41 @@ func (numSepsElectron *numericSeparatorsElectron) copyIn(
 		return err
 	}
 
-	targetNumSeps.decimalSeparators =
-		inComingNumSeps.decimalSeparators
-
-	lenIntSeparators :=
-		len(inComingNumSeps.integerSeparators)
-
-	targetNumSeps.integerSeparators =
-		make([]NumStrIntSeparator,
-			lenIntSeparators,
-			10)
-
-	for i := 0; i < lenIntSeparators; i++ {
-
-		err =
-			targetNumSeps.integerSeparators[i].CopyIn(
-				&inComingNumSeps.integerSeparators[i],
-				ePrefix.XCtx(
-					fmt.Sprintf("Copying inComingNumSeps.integerSeparators[%v]",
-						i)))
-
-		if err != nil {
-			return err
-		}
-
+	if inComingNumSeps.decimalSeparators == nil {
+		inComingNumSeps.decimalSeparators =
+			make([]rune, 0, 2)
 	}
+
+	lenDecSep := len(inComingNumSeps.decimalSeparators)
+
+	targetNumSeps.decimalSeparators =
+		make([]rune, lenDecSep, lenDecSep+5)
+
+	for i := 0; i < lenDecSep; i++ {
+
+		targetNumSeps.decimalSeparators[i] =
+			inComingNumSeps.decimalSeparators[i]
+	}
+
+	err = targetNumSeps.integerSeparators.CopyIn(
+		&inComingNumSeps.integerSeparators,
+		ePrefix.XCtx(
+			"inComingNumSeps.integerSeparators->"+
+				"targetNumSeps.integerSeparators"))
 
 	return err
 }
 
 // copyOut - Returns a deep copy of input parameter
-// 'nStrFmtSpecDigitsSepsDto' styled as a new instance
-// of NumericSeparators.
+// 'numSeps' styled as a new instance of NumericSeparators.
 //
-// If 'nStrFmtSpecDigitsSepsDto' is judged to be invalid, this
-// method will return an error.
+// If 'numSeps' is judged to be invalid, this method will return an
+// error.
 //
 func (numSepsElectron *numericSeparatorsElectron) copyOut(
 	numSeps *NumericSeparators,
 	ePrefix *ErrPrefixDto) (
-	newNumSepsDto NumericSeparators,
+	newNumSeps NumericSeparators,
 	err error) {
 
 	if numSepsElectron.lock == nil {
@@ -134,7 +133,7 @@ func (numSepsElectron *numericSeparatorsElectron) copyOut(
 			" a 'nil' pointer!\n",
 			ePrefix.String())
 
-		return newNumSepsDto, err
+		return newNumSeps, err
 	}
 
 	numSepsDtoQuark :=
@@ -148,36 +147,35 @@ func (numSepsElectron *numericSeparatorsElectron) copyOut(
 				"Testing validity of 'numSeps'"))
 
 	if err != nil {
-		return newNumSepsDto, err
+		return newNumSeps, err
 	}
 
-	newNumSepsDto.decimalSeparators =
-		numSeps.decimalSeparators
+	newNumSeps.lock = new(sync.Mutex)
 
-	lenIntSeparators :=
-		len(numSeps.integerSeparators)
+	if numSeps.decimalSeparators == nil {
+		numSeps.decimalSeparators =
+			make([]rune, 0, 2)
+	}
 
-	newNumSepsDto.integerSeparators =
-		make([]NumStrIntSeparator, lenIntSeparators)
+	lenDecSeps := len(numSeps.decimalSeparators)
 
-	for i := 0; i < lenIntSeparators; i++ {
-		err =
-			newNumSepsDto.integerSeparators[i].CopyIn(
-				&numSeps.integerSeparators[i],
+	newNumSeps.decimalSeparators =
+		make([]rune, lenDecSeps, lenDecSeps+5)
+
+	for i := 0; i < lenDecSeps; i++ {
+		newNumSeps.decimalSeparators[i] =
+			numSeps.decimalSeparators[i]
+	}
+
+	err =
+		newNumSeps.integerSeparators.
+			CopyIn(
+				&numSeps.integerSeparators,
 				ePrefix.XCtx(
-					fmt.Sprintf(
-						"Copying numSeps.integerSeparators[%v]",
-						i)))
+					"numSeps.integerSeparators->"+
+						"newNumSeps.integerSeparators"))
 
-		if err != nil {
-			return newNumSepsDto, err
-		}
-
-	}
-
-	newNumSepsDto.lock = new(sync.Mutex)
-
-	return newNumSepsDto, err
+	return newNumSeps, err
 }
 
 // ptr - Returns a pointer to a new instance of

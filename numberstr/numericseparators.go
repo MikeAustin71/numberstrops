@@ -131,7 +131,8 @@ func (numSeps *NumericSeparators) CopyIn(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumericSeparators.CopyIn()")
+	ePrefix.SetEPref(
+		"NumericSeparators.CopyIn()")
 
 	nStrFmtSpecDigitsSepsElectron :=
 		numericSeparatorsElectron{}
