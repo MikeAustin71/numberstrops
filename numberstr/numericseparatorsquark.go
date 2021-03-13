@@ -54,8 +54,8 @@ func (numSepsQuark *numericSeparatorsQuark) numericSeparatorsAreEqual(
 		}
 	}
 
-	if !numSep1.integerSeparators.Equal(
-		numSep2.integerSeparators) {
+	if !numSep1.integerSeparatorsDto.Equal(
+		numSep2.integerSeparatorsDto) {
 		return false
 	}
 
@@ -140,9 +140,9 @@ func (numSepsQuark *numericSeparatorsQuark) testValidityOfNumericSeparators(
 	}
 
 	err =
-		numericSeparators.integerSeparators.IsValidInstanceError(
+		numericSeparators.integerSeparatorsDto.IsValidInstanceError(
 			ePrefix.XCtx(
-				"numericSeparators.integerSeparators"))
+				"numericSeparators.integerSeparatorsDto"))
 
 	if err != nil {
 		return isValid, err

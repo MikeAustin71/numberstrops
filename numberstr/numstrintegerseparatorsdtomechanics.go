@@ -11,7 +11,7 @@ type numStrIntSeparatorsDtoMechanics struct {
 
 // setWithComponents - Sets the member variable data values of the
 // incoming NumStrIntSeparatorsDto instance with the array values
-// passed by input parameter 'integerSeparators'.
+// passed by input parameter 'integerSeparatorsDto'.
 //
 func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setWithComponents(
 	intSepsDto *NumStrIntSeparatorsDto,
@@ -57,8 +57,8 @@ func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setWithComponents(
 
 	if lenIncomingSeps == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'integerSeparators' is invalid!\n"+
-			"'integerSeparators' is a ZERO length array.\n",
+			"Error: Input parameter 'integerSeparatorsDto' is invalid!\n"+
+			"'integerSeparatorsDto' is a ZERO length array.\n",
 			ePrefix.String())
 
 		return err
@@ -73,7 +73,7 @@ func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setWithComponents(
 				&integerSeparators[i],
 				ePrefix.XCtx(
 					fmt.Sprintf(
-						"integerSeparators[%v]",
+						"integerSeparatorsDto[%v]",
 						i)))
 
 		if err != nil {

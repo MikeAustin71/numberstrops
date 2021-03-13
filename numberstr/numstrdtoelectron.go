@@ -693,7 +693,7 @@ func (nStrDtoElectron *numStrDtoElectron) getDecimalSeparator(
 	}
 
 	decimalSeparator =
-		numStrDto.fmtSpec.currencyValue.numericSeparators.GetDecimalSeparator()
+		numStrDto.fmtSpec.currencyValue.numericSeparators.GetDecimalSeparators()
 
 	return decimalSeparator, err
 }

@@ -304,6 +304,27 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) CopyOut(
 			ePrefix)
 }
 
+// GetNumberOfArrayElements - Returns the number of array elements
+// in the internal member variable array, 'intSeparators'.
+//
+func (intSeparatorsDto *NumStrIntSeparatorsDto) GetNumberOfArrayElements() int {
+
+	if intSeparatorsDto.lock == nil {
+		intSeparatorsDto.lock = new(sync.Mutex)
+	}
+
+	intSeparatorsDto.lock.Lock()
+
+	defer intSeparatorsDto.lock.Unlock()
+
+	if intSeparatorsDto.intSeparators == nil {
+		intSeparatorsDto.intSeparators =
+			make([]NumStrIntSeparator, 0, 5)
+	}
+
+	return len(intSeparatorsDto.intSeparators)
+}
+
 // IsValidInstance - Performs a diagnostic review of the current
 // NumStrIntSeparatorsDto instance to determine whether the current
 // instance is valid in all respects.
@@ -457,22 +478,24 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) IsValidInstanceError(
 // NewWithComponents - Creates and returns a new instance of
 // NumStrIntSeparatorsDto. The new is generated from the array of
 // NumStrIntSeparator objects passed through input parameter,
-// 'integerSeparators'.
+// 'integerSeparatorsDto'.
 //
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  integerSeparators   []NumStrIntSeparator
+//  integerSeparatorsDto   []NumStrIntSeparator
 //     - An array of NumStrIntSeparator elements used to specify
-//       the integer separation operation in number strings.
+//       the integer separation formatting in number strings.
 //
 //        type NumStrIntSeparator struct {
-//          intSeparatorChar     rune   // Integer separator character
-//          intSeparatorGrouping uint   // Number of integers in a group
-//          intSeparatorRepetitions uint // Number of times this character/group is repeated
-//                                       // A zero value signals unlimited repetitions.
+//            intSeparatorChars       []rune  // A series of runes used to separate integer digits.
+//            intSeparatorGrouping    uint    // Number of integer digits in a group
+//            intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
+//                                            // A zero value signals unlimited repetitions.
+//            restartIntGroupingSequence bool // If true, the entire grouping sequence is repeated
+//                                            //  beginning at array index zero.
 //        }
 //
 //         intSeparatorChar     rune
@@ -505,7 +528,7 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) IsValidInstanceError(
 //       used. In India, for example, a number might be formatted
 //       like this: '6,78,90,00,00,00,00,000'. The right most group
 //       has three digits and all the others are grouped by two. In
-//       this case 'integerSeparators' would be configured as
+//       this case 'integerSeparatorsDto' would be configured as
 //       follows:
 //       as:
 //
@@ -629,7 +652,7 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) NewWithDefaults() NumStrIntSepara
 //
 // Input Parameters
 //
-//  integerSeparators   []NumStrIntSeparator
+//  integerSeparatorsDto   []NumStrIntSeparator
 //     - An array of NumStrIntSeparator elements used to specify
 //       the integer separation operation in number strings.
 //
@@ -670,7 +693,7 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) NewWithDefaults() NumStrIntSepara
 //       used. In India, for example, a number might be formatted
 //       like this: '6,78,90,00,00,00,00,000'. The right most group
 //       has three digits and all the others are grouped by two. In
-//       this case 'integerSeparators' would be configured as
+//       this case 'integerSeparatorsDto' would be configured as
 //       follows:
 //       as:
 //

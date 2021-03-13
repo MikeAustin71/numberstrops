@@ -92,11 +92,11 @@ func (numSepsElectron *numericSeparatorsElectron) copyIn(
 			inComingNumSeps.decimalSeparators[i]
 	}
 
-	err = targetNumSeps.integerSeparators.CopyIn(
-		&inComingNumSeps.integerSeparators,
+	err = targetNumSeps.integerSeparatorsDto.CopyIn(
+		&inComingNumSeps.integerSeparatorsDto,
 		ePrefix.XCtx(
-			"inComingNumSeps.integerSeparators->"+
-				"targetNumSeps.integerSeparators"))
+			"inComingNumSeps.integerSeparatorsDto->"+
+				"targetNumSeps.integerSeparatorsDto"))
 
 	return err
 }
@@ -168,12 +168,12 @@ func (numSepsElectron *numericSeparatorsElectron) copyOut(
 	}
 
 	err =
-		newNumSeps.integerSeparators.
+		newNumSeps.integerSeparatorsDto.
 			CopyIn(
-				&numSeps.integerSeparators,
+				&numSeps.integerSeparatorsDto,
 				ePrefix.XCtx(
-					"numSeps.integerSeparators->"+
-						"newNumSeps.integerSeparators"))
+					"numSeps.integerSeparatorsDto->"+
+						"newNumSeps.integerSeparatorsDto"))
 
 	return newNumSeps, err
 }

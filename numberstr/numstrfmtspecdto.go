@@ -290,7 +290,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCountryCulture() NumStrFmtSpecCountryDto 
 //       used. In India, for example, a number might be formatted
 //       like this: '6,78,90,00,00,00,00,000'. The right most group
 //       has three digits and all the others are grouped by two. In
-//       this case 'integerSeparators' would be configured as
+//       this case 'integerSeparatorsDto' would be configured as
 //       follows:
 //       as:
 //

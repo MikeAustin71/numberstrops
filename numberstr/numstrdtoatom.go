@@ -1613,7 +1613,7 @@ func (nStrDtoAtom *numStrDtoAtom) formatNumStr(
 
 		outRunes[outIdx] = signedNumFormat.
 			numericSeparators.
-			GetDecimalSeparator()
+			GetDecimalSeparators()
 
 		outIdx--
 	}

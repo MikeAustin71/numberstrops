@@ -297,7 +297,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetDecimalSeparator(
 
 	return nStrFmtSpecCurrValDto.
 		numericSeparators.
-		GetDecimalSeparator()
+		GetDecimalSeparators()
 }
 
 // GetIntegerDigitSeparators - Returns an array of type
@@ -373,7 +373,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetDecimalSeparator(
 //       used. In India, for example, a number might be formatted
 //       like this: '6,78,90,00,00,00,00,000'. The right most group
 //       has three digits and all the others are grouped by two. In
-//       this case 'integerSeparators' would be configured as
+//       this case 'integerSeparatorsDto' would be configured as
 //       follows:
 //       as:
 //
@@ -1068,7 +1068,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //
 //        type NumericSeparators struct {
 //         decimalSeparators              rune
-//         integerSeparators []NumStrIntSeparator
+//         integerSeparatorsDto []NumStrIntSeparator
 //        }
 //
 //        decimalSeparators              rune
@@ -1076,7 +1076,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //        The 'Decimal Separator' is used to separate integer and
 //        fractional digits within a floating point number display.
 //
-//        integerSeparators             []NumStrIntSeparator
+//        integerSeparatorsDto             []NumStrIntSeparator
 //           - An array of NumStrIntSeparator elements used to specify
 //             the integer separation operation.
 //
@@ -1117,7 +1117,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //             used. In India, for example, a number might be formatted
 //             like this: '6,78,90,00,00,00,00,000'. The right most group
 //             has three digits and all the others are grouped by two. In
-//             this case 'integerSeparators' would be configured as
+//             this case 'integerSeparatorsDto' would be configured as
 //             follows:
 //             as:
 //
@@ -3160,7 +3160,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //
 //        type NumericSeparators struct {
 //         decimalSeparators              rune
-//         integerSeparators []NumStrIntSeparator
+//         integerSeparatorsDto []NumStrIntSeparator
 //        }
 //
 //        decimalSeparators              rune
@@ -3168,7 +3168,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //        The 'Decimal Separator' is used to separate integer and
 //        fractional digits within a floating point number display.
 //
-//        integerSeparators             []NumStrIntSeparator
+//        integerSeparatorsDto             []NumStrIntSeparator
 //           - An array of NumStrIntSeparator elements used to specify
 //             the integer separation operation.
 //
@@ -3209,7 +3209,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //             used. In India, for example, a number might be formatted
 //             like this: '6,78,90,00,00,00,00,000'. The right most group
 //             has three digits and all the others are grouped by two. In
-//             this case 'integerSeparators' would be configured as
+//             this case 'integerSeparatorsDto' would be configured as
 //             follows:
 //             as:
 //
