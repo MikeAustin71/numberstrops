@@ -452,7 +452,7 @@ func (nStrIntSep NumStrIntSeparator) NewWithUSADefaults() NumStrIntSeparator {
 	newIntSep := NumStrIntSeparator{}
 
 	_ = numStrIntSeparatorMechanics{}.ptr().
-		setToUSADefaults(
+		setWithUSADefaults(
 			&newIntSep,
 			nil)
 
@@ -540,8 +540,7 @@ func (nStrIntSep *NumStrIntSeparator) SetWithComponents(
 	intSeparatorGrouping uint,
 	intSeparatorRepetitions uint,
 	restartIntGroupingSequence bool,
-	ePrefix *ErrPrefixDto) (
-	err error) {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrIntSep.lock == nil {
 		nStrIntSep.lock = new(sync.Mutex)
@@ -559,15 +558,76 @@ func (nStrIntSep *NumStrIntSeparator) SetWithComponents(
 		"NumStrIntSeparator." +
 			"SetWithComponents()")
 
-	err =
-		numStrIntSeparatorMechanics{}.ptr().
-			setWithComponents(
-				nStrIntSep,
-				intSeparatorChars,
-				intSeparatorGrouping,
-				intSeparatorRepetitions,
-				restartIntGroupingSequence,
-				ePrefix)
+	return numStrIntSeparatorMechanics{}.ptr().
+		setWithComponents(
+			nStrIntSep,
+			intSeparatorChars,
+			intSeparatorGrouping,
+			intSeparatorRepetitions,
+			restartIntGroupingSequence,
+			ePrefix)
+}
 
-	return err
+// SetWithUSADefaults - This method will overwrite and set the all
+// the internal member variable data values to default values used
+// in the United States. Integer separator values used in the
+// United States consist of the comma character (','), an integer
+// grouping of three ('3') and unlimited repetitions of this
+// sequence.
+//
+//   United States Integer Separation Example:
+//         '1,000,000,000,000'
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrIntSep *NumStrIntSeparator) SetWithUSADefaults(
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparator." +
+			"SetWithUSADefaults()")
+
+	return numStrIntSeparatorMechanics{}.ptr().
+		setWithUSADefaults(
+			nStrIntSep,
+			ePrefix)
 }
