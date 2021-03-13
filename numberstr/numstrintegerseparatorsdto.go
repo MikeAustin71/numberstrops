@@ -347,6 +347,33 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) IsValidInstance() (
 	return isValid
 }
 
+// Equal - Receives an incoming NumStrIntSeparatorsDto
+// instance and compares it the current NumStrIntSeparatorsDto
+// instance. If the two objects have equal data values, this method
+// returns 'true'
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  intSepsDto2         NumStrIntSeparatorsDto
+//     - An instance of NumStrIntSeparatorsDto. The data values in
+//       this object will be compared to those contained in the
+//       current NumStrIntSeparatorsDto. If the data values are
+//       equivalent this method will return 'true'
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  bool
+//     - If the data values contained in input parameters
+//       'intSepsDto2' and the current NumStrIntSeparatorsDto
+//       instance are equivalent, this boolean return value will be
+//       set to 'true'.
+//
 func (intSeparatorsDto *NumStrIntSeparatorsDto) Equal(
 	intSepsDto2 NumStrIntSeparatorsDto) bool {
 
@@ -358,6 +385,15 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) Equal(
 
 	defer intSeparatorsDto.lock.Unlock()
 
+	var isEqual bool
+
+	isEqual,
+		_ = numStrIntSeparatorsDtoQuark{}.ptr().isEqual(
+		intSeparatorsDto,
+		&intSepsDto2,
+		nil)
+
+	return isEqual
 }
 
 // IsValidInstanceError - Performs a diagnostic review of the
