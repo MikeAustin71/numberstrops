@@ -9,10 +9,10 @@ type numericSeparatorsQuark struct {
 	lock *sync.Mutex
 }
 
-// numStrSepDtosAreEqual - Returns 'true' if the two NumericSeparators
-// objects submitted as input parameters have equal values.
+// numericSeparatorsAreEqual - Returns 'true' if the two NumericSeparators
+// objects submitted as input parameters have equal data values.
 //
-func (numSepsQuark *numericSeparatorsQuark) numStrSepDtosAreEqual(
+func (numSepsQuark *numericSeparatorsQuark) numericSeparatorsAreEqual(
 	numSep1 *NumericSeparators,
 	numSep2 *NumericSeparators) bool {
 
@@ -29,37 +29,34 @@ func (numSepsQuark *numericSeparatorsQuark) numStrSepDtosAreEqual(
 		return false
 	}
 
-	if numSep1.decimalSeparator !=
-		numSep2.decimalSeparator {
+	if numSep1.decimalSeparator == nil {
+		numSep1.decimalSeparator =
+			make([]rune, 0, 2)
+	}
+
+	if numSep2.decimalSeparator == nil {
+		numSep2.decimalSeparator =
+			make([]rune, 0, 2)
+	}
+
+	lenDecSep := len(numSep1.decimalSeparator)
+
+	if lenDecSep !=
+		len(numSep2.decimalSeparator) {
 
 		return false
 	}
 
-	if numSep1.integerSeparators == nil {
-		numSep1.integerSeparators =
-			make([]NumStrIntSeparator, 0, 5)
-	}
-
-	if numSep2.integerSeparators == nil {
-		numSep2.integerSeparators =
-			make([]NumStrIntSeparator, 0, 5)
-	}
-
-	lenNumSep1IntSeps := len(numSep1.integerSeparators)
-
-	if len(numSep2.integerSeparators) !=
-		lenNumSep1IntSeps {
-		return false
-	}
-
-	for i := 0; i < lenNumSep1IntSeps; i++ {
-
-		if !numSep1.integerSeparators[i].Equal(
-			numSep2.integerSeparators[i]) {
-
+	for i := 0; i < lenDecSep; i++ {
+		if numSep1.decimalSeparator[i] !=
+			numSep2.decimalSeparator[i] {
 			return false
-
 		}
+	}
+
+	if !numSep1.integerSeparators.Equal(
+		numSep2.integerSeparators) {
+		return false
 	}
 
 	return true
@@ -126,42 +123,29 @@ func (numSepsQuark *numericSeparatorsQuark) testValidityOfNumericSeparators(
 		return isValid, err
 	}
 
-	if numericSeparators.decimalSeparator == 0 {
+	if numericSeparators.decimalSeparator == nil {
+		numericSeparators.decimalSeparator =
+			make([]rune, 0, 2)
+	}
+
+	lenDecSeps := len(numericSeparators.decimalSeparator)
+
+	if lenDecSeps == 0 {
 		err = fmt.Errorf("%v\n"+
 			"Error: Internal member varialbe 'decimalSeparator' is invalid!\n"+
-			"'decimalSeparator' is empty and has a zero value.\n",
+			"'decimalSeparator' is a zero length rune array.\n",
 			ePrefix.String())
 
 		return isValid, err
 	}
 
-	if numericSeparators.integerSeparators == nil {
-		numericSeparators.integerSeparators =
-			make([]NumStrIntSeparator, 0, 5)
-	}
+	err =
+		numericSeparators.integerSeparators.IsValidInstanceError(
+			ePrefix.XCtx(
+				"numericSeparators.integerSeparators"))
 
-	lenIntDigitsSeps := len(numericSeparators.integerSeparators)
-
-	if lenIntDigitsSeps == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Internal member variable 'integerSeparators' is invalid!\n"+
-			"'integerSeparators' is a ZERO length array.\n",
-			ePrefix.String())
-
+	if err != nil {
 		return isValid, err
-	}
-
-	for i := 0; i < lenIntDigitsSeps; i++ {
-
-		err = numericSeparators.integerSeparators[i].IsValidInstanceError(
-			ePrefix.XCtx(fmt.Sprintf(
-				"Checking numericSeparators.integerSeparators[%v]",
-				i)))
-
-		if err != nil {
-			return isValid, err
-		}
-
 	}
 
 	isValid = true

@@ -228,7 +228,7 @@ func (numSeps *NumericSeparators) Equal(
 	defer numSeps.lock.Unlock()
 
 	return numericSeparatorsQuark{}.
-		ptr().numStrSepDtosAreEqual(
+		ptr().numericSeparatorsAreEqual(
 		numSeps,
 		&numSep2)
 }
