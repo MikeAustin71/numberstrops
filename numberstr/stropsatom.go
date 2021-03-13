@@ -519,7 +519,7 @@ func (sOpsAtom *strOpsAtom) copyOut(
 //
 //  datDto,
 //  err :=
-//    StrOps{}.Ptr().
+//    StrOps{}.ptr().
 //        ExtractDataField(
 //           targetStr,
 //           leadingKeyWordDelimiters,
@@ -1113,7 +1113,7 @@ exitMainTargetLoop:
 //
 //  nStrDto,
 //  err :=
-//    StrOps{}.Ptr().
+//    StrOps{}.ptr().
 //         ExtractNumericDigits(
 //             targetStr,
 //             startIndex,

@@ -95,7 +95,7 @@ func (nStrIntSep *NumStrIntSeparator) CopyIn(
 
 	ePrefix.SetEPref("NumStrIntSeparator.CopyIn()")
 
-	return numStrIntSeparatorMolecule{}.Ptr().
+	return numStrIntSeparatorMolecule{}.ptr().
 		copyIn(
 			nStrIntSep,
 			incomingNStrIntSeparator,
@@ -162,7 +162,7 @@ func (nStrIntSep *NumStrIntSeparator) CopyOut(
 	}
 
 	ePrefix.SetEPref("NumStrIntSeparator.CopyOut()")
-	return numStrIntSeparatorMolecule{}.Ptr().
+	return numStrIntSeparatorMolecule{}.ptr().
 		copyOut(
 			nStrIntSep,
 			ePrefix)
@@ -184,7 +184,7 @@ func (nStrIntSep *NumStrIntSeparator) Equal(
 
 	defer nStrIntSep.lock.Unlock()
 
-	return numStrIntSeparatorMolecule{}.Ptr().
+	return numStrIntSeparatorMolecule{}.ptr().
 		equal(nStrIntSep, &nStrIntSep2)
 }
 

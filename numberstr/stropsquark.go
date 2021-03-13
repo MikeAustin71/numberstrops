@@ -2033,7 +2033,7 @@ func (sOpsQuark *strOpsQuark) replaceSubString(
 //   testString := "@@Some@@@@@@@@@Stri@@ng@@"
 //
 //   actualString, actualStrLen :=
-//         StrOps{}.Ptr().StripBadChars(
+//         StrOps{}.ptr().StripBadChars(
 //                            testString,
 //                            badChars)
 //
@@ -2185,7 +2185,7 @@ Done:
 //   "..........      ./../.\\.\\..\\////   SomeString"
 //
 //  actualString, actualStrLen :=
-//      StrOps{}.Ptr().StripLeadingChars(
+//      StrOps{}.ptr().StripLeadingChars(
 //                       testString,
 //                       badChars)
 //
@@ -2329,7 +2329,7 @@ Done:
 //   "SomeString..........      ./../.\\.\\..\\////   "
 //
 //  actualString, actualStrLen :=
-//    StrOps{}.Ptr().StripTrailingChars(
+//    StrOps{}.ptr().StripTrailingChars(
 //                      testString,
 //                      badChars)
 //

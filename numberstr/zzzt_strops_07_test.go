@@ -547,7 +547,7 @@ func TestStrOps_ReplaceRunes_01(t *testing.T) {
 		ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes). "+
+		t.Errorf("Error returned by StrOps{}.ptr().ReplaceRunes(testRunes, replaceRunes). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -596,7 +596,7 @@ func TestStrOps_ReplaceRunes_02(t *testing.T) {
 		ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes). "+
+		t.Errorf("Error returned by StrOps{}.ptr().ReplaceRunes(testRunes, replaceRunes). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -645,7 +645,7 @@ func TestStrOps_ReplaceRunes_03(t *testing.T) {
 		ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes). "+
+		t.Errorf("Error returned by StrOps{}.ptr().ReplaceRunes(testRunes, replaceRunes). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -693,7 +693,7 @@ func TestStrOps_ReplaceRunes_04(t *testing.T) {
 		ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes). "+
+		t.Errorf("Error returned by StrOps{}.ptr().ReplaceRunes(testRunes, replaceRunes). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -741,7 +741,7 @@ func TestStrOps_ReplaceRunes_05(t *testing.T) {
 		ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes). "+
+		t.Errorf("Error returned by StrOps{}.ptr().ReplaceRunes(testRunes, replaceRunes). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -789,7 +789,7 @@ func TestStrOps_ReplaceRunes_06(t *testing.T) {
 		ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.Ptr().ReplaceRunes(testRunes, replaceRunes). "+
+		t.Errorf("Error returned by StrOps{}.ptr().ReplaceRunes(testRunes, replaceRunes). "+
 			"Error='%v' ", err.Error())
 	}
 

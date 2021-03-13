@@ -703,7 +703,7 @@ func TestStrOps_ExtractDataField_05(t *testing.T) {
 		ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.Ptr().ExtractDataField()\n"+
+		t.Errorf("Error returned by StrOps{}.ptr().ExtractDataField()\n"+
 			"targetStr='%v'\tstartIdx='%v'\n"+
 			"Error='%v'\n", targetStr, startIdx, err.Error())
 		return
@@ -859,7 +859,7 @@ func TestStrOps_ExtractDataField_06(t *testing.T) {
 		ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.Ptr().ExtractDataField()\n"+
+		t.Errorf("Error returned by StrOps{}.ptr().ExtractDataField()\n"+
 			"targetStr='%v'\tstartIdx='%v'\n"+
 			"Error='%v'\n", targetStr, startIdx, err.Error())
 		return
@@ -1025,7 +1025,7 @@ func TestStrOps_ExtractDataField_07(t *testing.T) {
 			ePrefix)
 
 		if err != nil {
-			t.Errorf("Error returned by StrOps{}.Ptr().ExtractDataField()\n"+
+			t.Errorf("Error returned by StrOps{}.ptr().ExtractDataField()\n"+
 				"Cycle No='%v'\n"+
 				"targetStr='%v'\tstartIdx='%v'\n"+
 				"Error='%v'\n", i, targetStr, startIdx, err.Error())
@@ -1189,7 +1189,7 @@ func TestStrOps_ExtractDataField_08(t *testing.T) {
 		ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.Ptr().ExtractDataField()\n"+
+		t.Errorf("Error returned by StrOps{}.ptr().ExtractDataField()\n"+
 			"targetStr='%v'\tstartIdx='%v'\n"+
 			"Error='%v'\n", targetStr, startIdx, err.Error())
 		return
@@ -1325,7 +1325,7 @@ func TestStrOps_ExtractDataField_09(t *testing.T) {
 		ePrefix)
 
 	if err == nil {
-		t.Error("Expected an error return for  StrOps{}.Ptr().ExtractDataField()\n" +
+		t.Error("Expected an error return for  StrOps{}.ptr().ExtractDataField()\n" +
 			"because input parameter 'leadingFieldDelimiters' is a zero length string array.\n" +
 			"However, NO ERROR WAS RETURNED!")
 	}
@@ -1363,7 +1363,7 @@ func TestStrOps_ExtractDataField_10(t *testing.T) {
 		ePrefix)
 
 	if err == nil {
-		t.Error("Expected an error return for StrOps{}.Ptr().ExtractDataField(...)\n" +
+		t.Error("Expected an error return for StrOps{}.ptr().ExtractDataField(...)\n" +
 			"because input parameter 'trailingFieldDelimiters' is a zero length string array.\n" +
 			"However, NO ERROR WAS RETURNED!")
 	}
@@ -1405,7 +1405,7 @@ func TestStrOps_ExtractDataField_11(t *testing.T) {
 		ePrefix)
 
 	if err == nil {
-		t.Error("Expected an error return for StrOps{}.Ptr().ExtractDataField(...)\n" +
+		t.Error("Expected an error return for StrOps{}.ptr().ExtractDataField(...)\n" +
 			"because input parameter 'targetStr' is an empty string.\n" +
 			"However, NO ERROR WAS RETURNED!")
 	}
@@ -1490,7 +1490,7 @@ func TestStrOps_ExtractDataField_13(t *testing.T) {
 		ePrefix)
 
 	if err == nil {
-		t.Error("Expected an error return for StrOps{}.Ptr().ExtractDataField()\n" +
+		t.Error("Expected an error return for StrOps{}.ptr().ExtractDataField()\n" +
 			"because input parameter 'startIdx' is exceeds the outer boundary of 'targetStr'.\n" +
 			"However, NO ERROR WAS RETURNED!")
 	}
@@ -1547,7 +1547,7 @@ func TestStrOps_ExtractDataField_14(t *testing.T) {
 		ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.Ptr().ExtractDataField()\n"+
+		t.Errorf("Error returned by StrOps{}.ptr().ExtractDataField()\n"+
 			"targetStr='%v'\tstartIdx='%v'\n"+
 			"Error='%v'\n", targetStr, startIdx, err.Error())
 		return
@@ -1689,7 +1689,7 @@ func TestStrOps_ExtractDataField_15(t *testing.T) {
 		ePrefix)
 
 	if err == nil {
-		t.Error("Expected an error return for StrOps{}.Ptr().ExtractDataField()\n" +
+		t.Error("Expected an error return for StrOps{}.ptr().ExtractDataField()\n" +
 			"because input parameter 'leadingFieldDelimiters' array consists entirely\n" +
 			"of empty strings. \n" +
 			"However, NO ERROR WAS RETURNED!\n")
@@ -1731,7 +1731,7 @@ func TestStrOps_ExtractDataField_16(t *testing.T) {
 		ePrefix)
 
 	if err == nil {
-		t.Error("Expected an error return for StrOps{}.Ptr().ExtractDataField()\n" +
+		t.Error("Expected an error return for StrOps{}.ptr().ExtractDataField()\n" +
 			"because input parameter 'trailingFieldDelimiters' array consists entirely\n" +
 			"of empty strings. \n" +
 			"However, NO ERROR WAS RETURNED!\n")
@@ -1774,7 +1774,7 @@ func TestStrOps_ExtractDataField_17(t *testing.T) {
 		ePrefix)
 
 	if err == nil {
-		t.Error("Expected an error return for StrOps{}.Ptr().ExtractDataField()\n" +
+		t.Error("Expected an error return for StrOps{}.ptr().ExtractDataField()\n" +
 			"because input parameter 'endOfLineDelimiters' array consists entirely\n" +
 			"of empty strings. \n" +
 			"However, NO ERROR WAS RETURNED!\n")
@@ -1817,7 +1817,7 @@ func TestStrOps_ExtractDataField_18(t *testing.T) {
 		ePrefix)
 
 	if err == nil {
-		t.Error("Expected an error return for StrOps{}.Ptr().ExtractDataField()\n" +
+		t.Error("Expected an error return for StrOps{}.ptr().ExtractDataField()\n" +
 			"because input parameter 'commentDelimiters' array consists entirely\n" +
 			"of empty strings. \n" +
 			"However, NO ERROR WAS RETURNED!\n")
@@ -1860,7 +1860,7 @@ func TestStrOps_ExtractDataField_19(t *testing.T) {
 		ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.Ptr().ExtractDataField()\n"+
+		t.Errorf("Error returned by StrOps{}.ptr().ExtractDataField()\n"+
 			"Error='%v'\n", err.Error())
 		return
 	}
@@ -1907,7 +1907,7 @@ func TestStrOps_ExtractDataField_20(t *testing.T) {
 		ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by StrOps{}.Ptr().ExtractDataField()\n"+
+		t.Errorf("Error returned by StrOps{}.ptr().ExtractDataField()\n"+
 			"Error='%v'\n", err.Error())
 		return
 	}
@@ -1957,7 +1957,7 @@ func TestStrOps_ExtractDataField_21(t *testing.T) {
 		ePrefix)
 
 	if err == nil {
-		t.Error("Expected an error return for StrOps{}.Ptr().ExtractDataField()\n" +
+		t.Error("Expected an error return for StrOps{}.ptr().ExtractDataField()\n" +
 			"because input parameter 'leadingKeyWordDelimiters' array consists entirely\n" +
 			"of empty strings. \n" +
 			"However, NO ERROR WAS RETURNED!\n")

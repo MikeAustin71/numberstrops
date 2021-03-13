@@ -68,6 +68,11 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyIn(
 		return err
 	}
 
+	if incomingNStrIntSeparator.intSeparatorChars == nil {
+		incomingNStrIntSeparator.intSeparatorChars =
+			make([]rune, 0, 5)
+	}
+
 	lIntSepChars :=
 		len(incomingNStrIntSeparator.intSeparatorChars)
 
@@ -138,6 +143,11 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyOut(
 
 	if err != nil {
 		return newNumSrIntSeparator, err
+	}
+
+	if numStrIntSeparator.intSeparatorChars == nil {
+		numStrIntSeparator.intSeparatorChars =
+			make([]rune, 0, 5)
 	}
 
 	lIntSepChars :=
@@ -229,9 +239,9 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) equal(
 	return areEqual
 }
 
-// Ptr - Returns a pointer to a new instance of
+// ptr - Returns a pointer to a new instance of
 // numStrIntSeparatorMolecule.
-func (nStrIntSepMolecule numStrIntSeparatorMolecule) Ptr() *numStrIntSeparatorMolecule {
+func (nStrIntSepMolecule numStrIntSeparatorMolecule) ptr() *numStrIntSeparatorMolecule {
 
 	if nStrIntSepMolecule.lock == nil {
 		nStrIntSepMolecule.lock = new(sync.Mutex)

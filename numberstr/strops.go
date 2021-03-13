@@ -412,7 +412,7 @@ func (sops StrOps) DoesLastCharExist(
 //
 //  datDto,
 //  err :=
-//    StrOps{}.Ptr().
+//    StrOps{}.ptr().
 //        ExtractDataField(
 //           targetStr,
 //           leadingKeyWordDelimiters,
@@ -660,7 +660,7 @@ func (sops *StrOps) ExtractDataField(
 //
 //  nStrDto,
 //  err :=
-//    StrOps{}.Ptr().
+//    StrOps{}.ptr().
 //         ExtractNumericDigits(
 //             targetStr,
 //             startIndex,
@@ -963,7 +963,7 @@ func (sops *StrOps) FindLastNonSpaceChar(
 //       testStr := "xx       Hxgltx"
 //
 //       lastSpaceIdx, err :=
-//       StrOps{}.Ptr().FindLastSpace(
+//       StrOps{}.ptr().FindLastSpace(
 //       testStr,
 //       0,
 //       14,
@@ -1285,7 +1285,7 @@ func (sops *StrOps) GetStringData() string {
 //    validBytes := []byte{'v', 'a', 'l', 'i', 'd'}
 //    testBytes := []byte{'x', 'j', 'v', 'm', 'R', 'a', 'J', 'l', 'Z', 'i', 'F', 'd', 'S'}
 //
-//    actualBytes, err := StrOps{}.Ptr().GetValidBytes(
+//    actualBytes, err := StrOps{}.ptr().GetValidBytes(
 //    testBytes,
 //    validBytes,
 //    ePrefix)
@@ -1380,7 +1380,7 @@ func (sops *StrOps) GetValidBytes(
 //
 //     expected := "valid"
 //
-//     actualRunes, err := StrOps{}.Ptr().GetValidRunes(
+//     actualRunes, err := StrOps{}.ptr().GetValidRunes(
 //     testRunes,
 //     validRunes,
 //     ePrefix)
@@ -1473,7 +1473,7 @@ func (sops *StrOps) GetValidRunes(
 //
 //    testStr := "xjvmRaJlZiFdS"
 //
-//    actualStr, err := StrOps{}.Ptr().GetValidString(
+//    actualStr, err := StrOps{}.ptr().GetValidString(
 //                        testStr,
 //                        validRunes,
 //                        ePrefix)
@@ -1794,7 +1794,7 @@ func (sops StrOps) NewPtr() *StrOps {
 //
 // Example Usage:
 //
-// StrOps{}.Ptr().GetReader()
+// StrOps{}.ptr().GetReader()
 //
 //
 func (sops StrOps) Ptr() *StrOps {
@@ -2075,7 +2075,7 @@ func (sops *StrOps) RemoveStringChar(
 //
 //  ePrefix := "TestStrOps_ReplaceBytes_01() "
 //
-//  actualRunes, err := StrOps{}.Ptr().ReplaceBytes(
+//  actualRunes, err := StrOps{}.ptr().ReplaceBytes(
 //  testBytes,
 //  replaceBytes,
 //  ePrefix)
@@ -2179,7 +2179,7 @@ func (sops *StrOps) ReplaceBytes(
 //  rStrs[2][1] = "l"
 //
 //
-//  actualStr, err := StrOps{}.Ptr().ReplaceMultipleStrs(
+//  actualStr, err := StrOps{}.ptr().ReplaceMultipleStrs(
 //                      testStr,
 //                      rStrs,
 //                      ePrefix)
@@ -2373,7 +2373,7 @@ func (sops *StrOps) ReplaceNewLines(
 //  replaceRunes[4][0] = 'e'
 //  replaceRunes[4][1] = 0
 //
-//  actualRunes, err := StrOps{}.Ptr().ReplaceRunes(
+//  actualRunes, err := StrOps{}.ptr().ReplaceRunes(
 //  testRunes,
 //  replaceRunes,
 //  ePrefix)
@@ -2584,7 +2584,7 @@ func (sops *StrOps) ReplaceStringChar(
 //  replaceRunes[4][0] = 'e'
 //  replaceRunes[4][1] = 0
 //
-//  actualStr, err := StrOps{}.Ptr().ReplaceStringChars(
+//  actualStr, err := StrOps{}.ptr().ReplaceStringChars(
 //  testStr,
 //  replaceRunes,
 //  ePrefix)
@@ -2920,7 +2920,7 @@ func (sops *StrOps) StrGetCharCnt(
 //   testString := "@@Some@@@@@@@@@Stri@@ng@@"
 //
 //   actualString, actualStrLen :=
-//         StrOps{}.Ptr().StripBadChars(
+//         StrOps{}.ptr().StripBadChars(
 //                            testString,
 //                            badChars)
 //
@@ -3016,7 +3016,7 @@ func (sops *StrOps) StripBadChars(
 //   "..........      ./../.\\.\\..\\////   SomeString"
 //
 //  actualString, actualStrLen :=
-//      StrOps{}.Ptr().StripLeadingChars(
+//      StrOps{}.ptr().StripLeadingChars(
 //                       testString,
 //                       badChars)
 //
@@ -3115,7 +3115,7 @@ func (sops *StrOps) StripLeadingChars(
 //   "SomeString..........      ./../.\\.\\..\\////   "
 //
 //  actualString, actualStrLen :=
-//    StrOps{}.Ptr().StripTrailingChars(
+//    StrOps{}.ptr().StripTrailingChars(
 //                      testString,
 //                      badChars)
 //

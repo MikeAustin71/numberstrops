@@ -78,7 +78,8 @@ func (intSepsDtoElectron *numStrIntSeparatorsDtoElectron) copyIn(
 		len(incomingIntSepsDto.intSeparators)
 
 	targetIntSepsDto.intSeparators =
-		make([]NumStrIntSeparator, lenIncomingIntSeps,
+		make([]NumStrIntSeparator,
+			lenIncomingIntSeps,
 			lenIncomingIntSeps+5)
 
 	for i := 0; i < lenIncomingIntSeps; i++ {

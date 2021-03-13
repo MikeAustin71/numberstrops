@@ -626,7 +626,7 @@ func TestStrOps_FindLastSpace_01(t *testing.T) {
 			ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 0, 14). "+
+		t.Errorf("Error returned by  StrOps{}.ptr().FindLastSpace(testStr, 0, 14). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -651,7 +651,7 @@ func TestStrOps_FindLastSpace_02(t *testing.T) {
 			ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 0, 14). "+
+		t.Errorf("Error returned by  StrOps{}.ptr().FindLastSpace(testStr, 0, 14). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -676,7 +676,7 @@ func TestStrOps_FindLastSpace_03(t *testing.T) {
 			ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 0, 14). "+
+		t.Errorf("Error returned by  StrOps{}.ptr().FindLastSpace(testStr, 0, 14). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -701,7 +701,7 @@ func TestStrOps_FindLastSpace_04(t *testing.T) {
 			ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 1, 13). "+
+		t.Errorf("Error returned by  StrOps{}.ptr().FindLastSpace(testStr, 1, 13). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -726,7 +726,7 @@ func TestStrOps_FindLastSpace_05(t *testing.T) {
 			ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 5, 12). "+
+		t.Errorf("Error returned by  StrOps{}.ptr().FindLastSpace(testStr, 5, 12). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -751,7 +751,7 @@ func TestStrOps_FindLastSpace_06(t *testing.T) {
 			ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 0, 14). "+
+		t.Errorf("Error returned by  StrOps{}.ptr().FindLastSpace(testStr, 0, 14). "+
 			"Error='%v' ", err.Error())
 	}
 
@@ -776,7 +776,7 @@ func TestStrOps_FindLastSpace_07(t *testing.T) {
 			ePrefix)
 
 	if err != nil {
-		t.Errorf("Error returned by  StrOps{}.Ptr().FindLastSpace(testStr, 0, 14). "+
+		t.Errorf("Error returned by  StrOps{}.ptr().FindLastSpace(testStr, 0, 14). "+
 			"Error='%v' ", err.Error())
 	}
 
