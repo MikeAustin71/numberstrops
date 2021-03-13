@@ -297,11 +297,11 @@ type numStrFmtSpecCurrencyValueDtoMechanics struct {
 //       included in the number string text display.
 //
 //        type NumericSeparators struct {
-//         decimalSeparator              rune
+//         decimalSeparators              rune
 //         integerSeparators []NumStrIntSeparator
 //        }
 //
-//        decimalSeparator              rune
+//        decimalSeparators              rune
 //
 //        The 'Decimal Separator' is used to separate integer and
 //        fractional digits within a floating point number display.

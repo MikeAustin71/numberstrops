@@ -652,7 +652,7 @@ func (nStrDtoAtom *numStrDtoAtom) getAbsoluteBigFloat(
 //       shown below:
 //
 //       type NumericSeparators struct {
-//         decimalSeparator              rune
+//         decimalSeparators              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
 //       }
@@ -909,7 +909,7 @@ func (nStrDtoAtom *numStrDtoAtom) getBigRationalNum(
 //       shown below:
 //
 //       type NumericSeparators struct {
-//         decimalSeparator              rune
+//         decimalSeparators              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
 //       }
@@ -1024,7 +1024,7 @@ func (nStrDtoAtom *numStrDtoAtom) getCurrencyNumSepsDto(
 //       shown below:
 //
 //       type NumericSeparators struct {
-//         decimalSeparator              rune
+//         decimalSeparators              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
 //       }
@@ -1812,7 +1812,7 @@ func (nStrDtoAtom *numStrDtoAtom) formatThousandsStr(
 			allNumsIdx--
 		}
 
-		// numStrDto.decimalSeparator
+		// numStrDto.decimalSeparators
 		outRunes[outIdx] =
 			signedNumFormat.
 				GetDecimalSeparator()

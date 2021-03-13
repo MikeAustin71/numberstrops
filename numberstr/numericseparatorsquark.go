@@ -29,27 +29,27 @@ func (numSepsQuark *numericSeparatorsQuark) numericSeparatorsAreEqual(
 		return false
 	}
 
-	if numSep1.decimalSeparator == nil {
-		numSep1.decimalSeparator =
+	if numSep1.decimalSeparators == nil {
+		numSep1.decimalSeparators =
 			make([]rune, 0, 2)
 	}
 
-	if numSep2.decimalSeparator == nil {
-		numSep2.decimalSeparator =
+	if numSep2.decimalSeparators == nil {
+		numSep2.decimalSeparators =
 			make([]rune, 0, 2)
 	}
 
-	lenDecSep := len(numSep1.decimalSeparator)
+	lenDecSep := len(numSep1.decimalSeparators)
 
 	if lenDecSep !=
-		len(numSep2.decimalSeparator) {
+		len(numSep2.decimalSeparators) {
 
 		return false
 	}
 
 	for i := 0; i < lenDecSep; i++ {
-		if numSep1.decimalSeparator[i] !=
-			numSep2.decimalSeparator[i] {
+		if numSep1.decimalSeparators[i] !=
+			numSep2.decimalSeparators[i] {
 			return false
 		}
 	}
@@ -123,17 +123,17 @@ func (numSepsQuark *numericSeparatorsQuark) testValidityOfNumericSeparators(
 		return isValid, err
 	}
 
-	if numericSeparators.decimalSeparator == nil {
-		numericSeparators.decimalSeparator =
+	if numericSeparators.decimalSeparators == nil {
+		numericSeparators.decimalSeparators =
 			make([]rune, 0, 2)
 	}
 
-	lenDecSeps := len(numericSeparators.decimalSeparator)
+	lenDecSeps := len(numericSeparators.decimalSeparators)
 
 	if lenDecSeps == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: Internal member varialbe 'decimalSeparator' is invalid!\n"+
-			"'decimalSeparator' is a zero length rune array.\n",
+			"Error: Internal member varialbe 'decimalSeparators' is invalid!\n"+
+			"'decimalSeparators' is a zero length rune array.\n",
 			ePrefix.String())
 
 		return isValid, err

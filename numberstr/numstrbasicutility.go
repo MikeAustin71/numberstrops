@@ -277,7 +277,7 @@ func (ns NumStrBasicUtility) DLimI64(
 //              integerDigitsGroupingSequence = []uint{3,2}
 //
 //
-//  decimalSeparator               rune
+//  decimalSeparators               rune
 //     - A unicode character inserted into a number string to
 //       separate integer and fractional digits. In the United
 //       States, the decimal separator is the period character
@@ -310,7 +310,7 @@ func (ns NumStrBasicUtility) DLimI64(
 //       will also be prefixed with the currency symbol supplied by
 //       input parameter, 'currencySymbols'. Floating point numeric
 //       values will be properly formatted and delimited using the
-//       'decimalSeparator' character.
+//       'decimalSeparators' character.
 //
 //
 //  error
@@ -409,7 +409,7 @@ func (ns NumStrBasicUtility) DlimCurrencyStr(
 //              integerDigitsGroupingSequence = []uint{3,2}
 //
 //
-//  decimalSeparator               rune
+//  decimalSeparators               rune
 //     - A unicode character inserted into a number string to
 //       separate integer and fractional digits. In the United
 //       States, the decimal separator is the period character
@@ -432,7 +432,7 @@ func (ns NumStrBasicUtility) DlimCurrencyStr(
 //       digits separated into thousands by the delimiter character
 //       supplied in input parameter, 'integerDigitsSeparator'.
 //       Floating point numeric values will be properly formatted
-//       and delimited with the 'decimalSeparator' character.
+//       and delimited with the 'decimalSeparators' character.
 //
 //
 //  error
@@ -918,7 +918,7 @@ func (ns *NumStrBasicUtility) ConvertStrToIntNumRunes(
 //       returned as a float64 value.
 //
 //
-//  decimalSeparator               rune
+//  decimalSeparators               rune
 //     - A unicode character inserted into a number string to
 //       separate integer and fractional digits. In the United
 //       States, the decimal separator is the period character

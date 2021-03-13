@@ -6078,7 +6078,7 @@ func (nDto *NumStrDto) SetCurrencySymbol(currencySymbol rune) {
 }
 
 // SetDecimalSeparator - Assigns a rune or character to the internal
-// data field, 'decimalSeparator'. The Decimal Separator is used to
+// data field, 'decimalSeparators'. The Decimal Separator is used to
 // separate the integer and fractional elements of a number string.
 //
 // In the USA, the decimal separator is the decimal point or 'period'
@@ -6094,10 +6094,10 @@ func (nDto *NumStrDto) SetCurrencySymbol(currencySymbol rune) {
 //
 // Input Parameters
 //
-//  decimalSeparator    rune
+//  decimalSeparators    rune
 //     - This rune or text character conveys the decimal separator
 //       character which will populate the internal member variable
-//       'nDto.decimalSeparator' for the current NumStrDto instance.
+//       'nDto.decimalSeparators' for the current NumStrDto instance.
 //
 //
 // ------------------------------------------------------------------------
@@ -6245,10 +6245,10 @@ func (nDto *NumStrDto) SetThousandsSeparator(thousandsSeparator rune) {
 //
 // Input Parameters
 //
-//  decimalSeparator    rune
+//  decimalSeparators    rune
 //     - This rune or text character conveys the decimal separator
 //       character which will populate the internal member variable
-//       'nDto.decimalSeparator' for the current NumStrDto instance.
+//       'nDto.decimalSeparators' for the current NumStrDto instance.
 //
 //
 //  integerDigitsSeparator    rune

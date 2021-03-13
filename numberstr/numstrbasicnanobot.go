@@ -35,7 +35,7 @@ type numStrBasicNanobot struct {
 //       numeric sign character (plus '+' or minus '-').
 //
 //
-//  decimalSeparator    rune
+//  decimalSeparators    rune
 //     - A unicode character inserted into a number string to
 //       separate integer and fractional digits. In the United
 //       States, the decimal separator is the period character

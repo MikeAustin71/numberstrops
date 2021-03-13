@@ -72,8 +72,8 @@ func (numSepsElectron *numericSeparatorsElectron) copyIn(
 		return err
 	}
 
-	targetNumSeps.decimalSeparator =
-		inComingNumSeps.decimalSeparator
+	targetNumSeps.decimalSeparators =
+		inComingNumSeps.decimalSeparators
 
 	lenIntSeparators :=
 		len(inComingNumSeps.integerSeparators)
@@ -151,8 +151,8 @@ func (numSepsElectron *numericSeparatorsElectron) copyOut(
 		return newNumSepsDto, err
 	}
 
-	newNumSepsDto.decimalSeparator =
-		numSeps.decimalSeparator
+	newNumSepsDto.decimalSeparators =
+		numSeps.decimalSeparators
 
 	lenIntSeparators :=
 		len(numSeps.integerSeparators)

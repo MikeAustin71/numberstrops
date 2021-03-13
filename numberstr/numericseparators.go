@@ -17,7 +17,7 @@ import (
 //      United States Example: 1,000,0000,000
 //
 //
-// decimalSeparator     []rune
+// decimalSeparators    []rune
 //
 // The 'Decimal Separator' is used to separate integer and
 // fractional digits within a floating point number display.
@@ -99,7 +99,7 @@ import (
 //         restarted from array element zero.
 //
 type NumericSeparators struct {
-	decimalSeparator  []rune
+	decimalSeparators []rune
 	integerSeparators NumStrIntSeparatorsDto
 	lock              *sync.Mutex
 }
@@ -251,7 +251,7 @@ func (numSeps *NumericSeparators) GetDecimalSeparator() rune {
 
 	defer numSeps.lock.Unlock()
 
-	return numSeps.decimalSeparator
+	return numSeps.decimalSeparators
 }
 
 // GetIntegerDigitSeparators - Returns the integer digit separators
@@ -548,7 +548,7 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 
 	newNumSep := NumericSeparators{}
 
-	newNumSep.decimalSeparator = '.'
+	newNumSep.decimalSeparators = '.'
 
 	newNumSep.integerSeparators =
 		make([]NumStrIntSeparator, 1, 2)
@@ -570,7 +570,7 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 //
 // Input Parameters
 //
-//  decimalSeparator              rune
+//  decimalSeparators              rune
 //     - A text character used to separate integer and fractional
 //       digits in a floating point number string. In the United
 //       States, the standard decimal separator is the period
@@ -733,7 +733,7 @@ func (numSeps NumericSeparators) NewWithComponents(
 //
 // Input Parameters
 //
-//  decimalSeparator           rune
+//  decimalSeparators           rune
 //     - A text character used to separate integer and fractional
 //       digits in a floating point number string. In the United
 //       States, the standard decimal separator is the period
@@ -845,7 +845,7 @@ func (numSeps *NumericSeparators) SetDecimalSeparator(
 
 	defer numSeps.lock.Unlock()
 
-	numSeps.decimalSeparator = decimalSeparator
+	numSeps.decimalSeparators = decimalSeparator
 
 }
 
@@ -860,7 +860,7 @@ func (numSeps *NumericSeparators) SetDecimalSeparator(
 //
 // Input Parameters
 //
-//  decimalSeparator               rune
+//  decimalSeparators               rune
 //     - A text character used to separate integer and fractional
 //       digits in a floating point number string. In the United
 //       States, the standard decimal separator is the period
@@ -1148,7 +1148,7 @@ func (numSeps *NumericSeparators) SetToUSADefaultsIfEmpty() {
 
 	if !isValid {
 
-		numSeps.decimalSeparator = '.'
+		numSeps.decimalSeparators = '.'
 
 		numSeps.integerSeparators =
 			make([]NumStrIntSeparator, 1, 5)
@@ -1183,7 +1183,7 @@ func (numSeps *NumericSeparators) SetToUSADefaults() {
 
 	defer numSeps.lock.Unlock()
 
-	numSeps.decimalSeparator = '.'
+	numSeps.decimalSeparators = '.'
 
 	numSeps.integerSeparators =
 		make([]NumStrIntSeparator, 1, 5)
@@ -1210,7 +1210,7 @@ func (numSeps *NumericSeparators) String() string {
 	defer numSeps.lock.Unlock()
 
 	str := fmt.Sprintf("Decimal Separator: %v\n",
-		string(numSeps.decimalSeparator))
+		string(numSeps.decimalSeparators))
 
 	if numSeps.integerSeparators == nil {
 		numSeps.integerSeparators =

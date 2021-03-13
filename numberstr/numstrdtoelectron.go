@@ -633,7 +633,7 @@ func (nStrDtoElectron *numStrDtoElectron) getAbsoluteValueNumStr(
 //
 // Return Values
 //
-//  decimalSeparator    rune
+//  decimalSeparators    rune
 //     - If this method completes successfully, this rune value will
 //       contain the decimal separator associated with input parameter
 //       'numStrDto'.
@@ -1822,13 +1822,13 @@ func (nStrDtoElectron *numStrDtoElectron) setCurrencySymbol(
 //  numStrDto           *NumStrDto
 //     - A pointer to an instance of NumStrDto. This method WILL
 //       CHANGE and overwrite the value of internal member variable
-//       'numStrDto.decimalSeparator'.
+//       'numStrDto.decimalSeparators'.
 //
 //
-//  decimalSeparator    rune
+//  decimalSeparators    rune
 //     - This rune or text character conveys the decimal separator
 //       character which will populate the internal member variable
-//       'numStrDto.decimalSeparator' for the input parameter,
+//       'numStrDto.decimalSeparators' for the input parameter,
 //       'numStrDto'.
 //
 //
@@ -1892,17 +1892,17 @@ func (nStrDtoElectron *numStrDtoElectron) setDecimalSeparator(
 	numStrDto.fmtSpec.
 		absoluteValue.
 		numericSeparators.
-		decimalSeparator = decimalSeparator
+		decimalSeparators = decimalSeparator
 
 	numStrDto.fmtSpec.
 		currencyValue.
 		numericSeparators.
-		decimalSeparator = decimalSeparator
+		decimalSeparators = decimalSeparator
 
 	numStrDto.fmtSpec.
 		signedNumValue.
 		numericSeparators.
-		decimalSeparator = decimalSeparator
+		decimalSeparators = decimalSeparator
 
 	return err
 }
@@ -2038,7 +2038,7 @@ func (nStrDtoElectron *numStrDtoElectron) setFormatSpec(
 //  numStrDto           *NumStrDto
 //     - A pointer to an instance of NumStrDto. This method WILL
 //       CHANGE and overwrite the value of internal member variable
-//       'numStrDto.decimalSeparator'.
+//       'numStrDto.decimalSeparators'.
 //
 //
 //  integerDigitsSeparator  rune
@@ -2119,7 +2119,7 @@ func (nStrDtoElectron *numStrDtoElectron) setThousandsSeparator(
 	numStrDto.fmtSpec.
 		currencyValue.
 		numericSeparators.
-		decimalSeparator = integerDigitsSeparator
+		decimalSeparators = integerDigitsSeparator
 
 	numStrDto.fmtSpec.
 		currencyValue.
@@ -2130,7 +2130,7 @@ func (nStrDtoElectron *numStrDtoElectron) setThousandsSeparator(
 	numStrDto.fmtSpec.
 		signedNumValue.
 		numericSeparators.
-		decimalSeparator = integerDigitsSeparator
+		decimalSeparators = integerDigitsSeparator
 
 	numStrDto.fmtSpec.
 		signedNumValue.
@@ -2271,14 +2271,14 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparatorsToDefaultIfEmpty(
 //  numStrDto           *NumStrDto
 //     - A pointer to an instance of NumStrDto. This method WILL
 //       CHANGE and overwrite the value of internal member variables
-//       'numStrDto.decimalSeparator', 'numStrDto.integerDigitsSeparator'
+//       'numStrDto.decimalSeparators', 'numStrDto.integerDigitsSeparator'
 //       and 'numStrDto.currencySymbols'.
 //
 //
-//  decimalSeparator    rune
+//  decimalSeparators    rune
 //     - This rune or text character conveys the decimal separator
 //       character which will populate the internal member variable
-//       'numStrDto.decimalSeparator' for the input parameter,
+//       'numStrDto.decimalSeparators' for the input parameter,
 //       'numStrDto'.
 //
 //
@@ -2368,17 +2368,17 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 	numStrDto.fmtSpec.
 		absoluteValue.
 		numericSeparators.
-		decimalSeparator = decimalSeparator
+		decimalSeparators = decimalSeparator
 
 	numStrDto.fmtSpec.
 		currencyValue.
 		numericSeparators.
-		decimalSeparator = decimalSeparator
+		decimalSeparators = decimalSeparator
 
 	numStrDto.fmtSpec.
 		signedNumValue.
 		numericSeparators.
-		decimalSeparator = decimalSeparator
+		decimalSeparators = decimalSeparator
 
 	numStrDto.fmtSpec.
 		absoluteValue.
@@ -2394,7 +2394,7 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 	numStrDto.fmtSpec.
 		currencyValue.
 		numericSeparators.
-		decimalSeparator = integerDigitsSeparator
+		decimalSeparators = integerDigitsSeparator
 
 	numStrDto.fmtSpec.
 		currencyValue.
@@ -2405,7 +2405,7 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 	numStrDto.fmtSpec.
 		signedNumValue.
 		numericSeparators.
-		decimalSeparator = integerDigitsSeparator
+		decimalSeparators = integerDigitsSeparator
 
 	numStrDto.fmtSpec.
 		signedNumValue.
@@ -2455,7 +2455,7 @@ func (nStrDtoElectron *numStrDtoElectron) setNumericSeparators(
 //       are listed as follows:
 //
 //          type NumericSeparators struct {
-//             decimalSeparator              rune
+//             decimalSeparators              rune
 //             integerDigitsSeparator        rune
 //             integerDigitsGroupingSequence []uint
 //          }

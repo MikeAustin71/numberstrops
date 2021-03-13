@@ -93,12 +93,12 @@ type numStrFmtSpecAbsoluteValueDtoMechanics struct {
 //       including in the number string text display.
 //
 //        type NumericSeparators struct {
-//         decimalSeparator              rune
+//         decimalSeparators              rune
 //         integerDigitsSeparator        rune
 //         integerDigitsGroupingSequence []uint
 //        }
 //
-//        decimalSeparator rune
+//        decimalSeparators rune
 //
 //        The 'Decimal Separator' is used to separate integer and
 //        fractional digits within a floating point number display.

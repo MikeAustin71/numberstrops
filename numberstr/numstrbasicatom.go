@@ -572,8 +572,8 @@ func (nStrBasicAtom *numStrBasicAtom) parseIntFracRunesFromNumStr(
 	if decimalSeparator == 0 {
 
 		err = fmt.Errorf("%v\n"+
-			"Input parameter 'decimalSeparator' is INVALID!\n"+
-			"decimalSeparator == ZERO!\n",
+			"Input parameter 'decimalSeparators' is INVALID!\n"+
+			"decimalSeparators == ZERO!\n",
 			ePrefix.String())
 
 		return signChar, intNumRunes, lenIntNumRunes, fracNumRunes, lenFracNumRunes, err

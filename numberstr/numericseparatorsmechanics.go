@@ -49,8 +49,8 @@ func (numSepsMech *numericSeparatorsMechanics) setIntDigitsSeps(
 
 	if decimalSeparator == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'decimalSeparator' is invalid!\n"+
-			"decimalSeparator == 0\n",
+			"Error: Input parameter 'decimalSeparators' is invalid!\n"+
+			"decimalSeparators == 0\n",
 			ePrefix.String())
 
 		return err
@@ -75,7 +75,7 @@ func (numSepsMech *numericSeparatorsMechanics) setIntDigitsSeps(
 
 	newNumericSeps := NumericSeparators{}
 
-	newNumericSeps.decimalSeparator =
+	newNumericSeps.decimalSeparators =
 		decimalSeparator
 
 	newNumericSeps.integerSeparators =

@@ -185,7 +185,7 @@ func (nStrBasicMech *numStrBasicMechanics) convertRunesToInt64(
 //       value and returned to the calling function.
 //
 //
-//  decimalSeparator    rune
+//  decimalSeparators    rune
 //     - A unicode character inserted into a number string to
 //       separate integer and fractional digits. In the United
 //       States, the decimal separator is the period character
@@ -561,7 +561,7 @@ func (nStrBasicMech *numStrBasicMechanics) delimitCurrencyStr(
 //              integerDigitsGroupingSequence = []uint{3,2}
 //
 //
-//  decimalSeparator               rune
+//  decimalSeparators               rune
 //     - A unicode character inserted into a number string to
 //       separate integer and fractional digits. In the United
 //       States, the decimal separator is the period character
@@ -584,7 +584,7 @@ func (nStrBasicMech *numStrBasicMechanics) delimitCurrencyStr(
 //       digits separated into thousands by the delimiter character
 //       supplied in input parameter, 'integerDigitsSeparator'.
 //       Floating point numeric values will be properly formatted
-//       and delimited with the 'decimalSeparator' character.
+//       and delimited with the 'decimalSeparators' character.
 //
 //
 //  err                            error
