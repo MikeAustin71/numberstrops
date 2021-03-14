@@ -9,7 +9,7 @@ type numericSeparatorsUtility struct {
 	lock *sync.Mutex
 }
 
-// setWithComponents - Transfers new data to an instance of
+// setWithUSADefaults - Transfers new data to an instance of
 // NumericSeparators. After completion, all the data fields within
 // input parameter 'numSeps' will be overwritten.
 //
@@ -78,7 +78,7 @@ func (numSepsUtility *numericSeparatorsUtility) setWithUSADefaults(
 
 	ePrefix.SetEPref(
 		"numericSeparatorsUtility." +
-			"setWithUSADefaults()")
+			"setToUSADefaults()")
 
 	if numSeps == nil {
 		err = fmt.Errorf("%v\n"+

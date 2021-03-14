@@ -534,10 +534,10 @@ func (numSeps *NumericSeparators) IsValidInstanceError(
 		"NumericSeparators.IsValidInstanceError()",
 		"Testing Validity of 'numSeps'")
 
-	nStrFmtSpecDigitsSepsQuark := numericSeparatorsQuark{}
+	numSepsQuark := numericSeparatorsQuark{}
 
 	_,
-		err := nStrFmtSpecDigitsSepsQuark.testValidityOfNumericSeparators(
+		err := numSepsQuark.testValidityOfNumericSeparators(
 		numSeps,
 		ePrefix)
 
@@ -1119,15 +1119,22 @@ func (numSeps *NumericSeparators) SetIntegerSeparators(
 }
 
 // SetToUSADefaultsIfEmpty - If any of the NumericSeparators
-// data values are zero, this method will set ALL data elements to
-// United States default values.
+// data values are zero or invalid, this method will set ALL data
+// elements to United States default values.
 //
 // If the current NumericSeparators instance is valid and populated
 // with data, this method will take no action and exit.
 //
+// United States default numeric separators are listed as follows:
+//
+//  Decimal Separator = '.'
+//  Thousands Separator (a.k.a Integer Digits Separator) = ','
+//  Integer Digits Grouping Sequence = 3
+//  Example Floating Point Number String: 1,000,000,000.456
+//
 // IMPORTANT
 //
-// This method will overwrite all pre-existing data values in the
+// This method MAY overwrite all pre-existing data values in the
 // current NumericSeparators instance.
 //
 func (numSeps *NumericSeparators) SetToUSADefaultsIfEmpty() {
@@ -1379,7 +1386,7 @@ func (numSeps *NumericSeparators) SetBasic(
 					restartIntGroupingSequence: false,
 				},
 			},
-			ePrefix)
+			ePrefix.XCtx("numSeps"))
 }
 
 // SetWithComponents - This method will set all of the member variable

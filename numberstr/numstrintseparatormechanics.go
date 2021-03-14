@@ -28,6 +28,102 @@ func (intSeparatorMech numStrIntSeparatorMechanics) ptr() *numStrIntSeparatorMec
 	return newIntSeparatorMech
 }
 
+// setToUSADefaults - Receives a pointer to an instance of
+// NumStrIntSeparator and proceeds to overwrite and set the
+// internal member variable data values to default values
+// used in the United States. Integer separator values used
+// in the United States consist of the comma character (','),
+// an integer grouping of three ('3') and unlimited repetitions of
+// this sequence.
+//   United States Integer Separation Example:
+//         '1,000,000,000,000'
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  nStrIntSep                 *NumStrIntSeparator
+//     - A pointer to an instance of NumStrIntSeparator. All the
+//       internal member variable data values contained in this
+//       object will be overwritten and reset to default integer
+//       separator values used in the United States.
+//           United States Integer Separation Example:
+//                  '1,000,000,000,000'
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSeparatorMech *numStrIntSeparatorMechanics) setToUSADefaults(
+	nStrIntSep *NumStrIntSeparator,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if intSeparatorMech.lock == nil {
+		intSeparatorMech.lock = new(sync.Mutex)
+	}
+
+	intSeparatorMech.lock.Lock()
+
+	defer intSeparatorMech.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrIntSeparatorMechanics." +
+			"setToUSADefaults()")
+
+	if nStrIntSep == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'nStrIntSep' is invalid!\n"+
+			"'nStrIntSep' is a nil pointer.",
+			ePrefix.String())
+
+		return err
+	}
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.intSeparatorChars =
+		make([]rune, 1, 2)
+
+	nStrIntSep.intSeparatorChars[0] = ','
+
+	nStrIntSep.intSeparatorGrouping = 3
+
+	nStrIntSep.intSeparatorRepetitions = 0
+
+	nStrIntSep.restartIntGroupingSequence = false
+
+	return err
+}
+
 // setWithComponents - Receives a pointer to an instance of
 // NumStrIntSeparator and proceeds to overwrite and set the
 // internal member variable data values based on the other input
@@ -181,102 +277,6 @@ func (intSeparatorMech *numStrIntSeparatorMechanics) setWithComponents(
 
 	nStrIntSep.restartIntGroupingSequence =
 		restartIntGroupingSequence
-
-	return err
-}
-
-// setWithUSADefaults - Receives a pointer to an instance of
-// NumStrIntSeparator and proceeds to overwrite and set the
-// internal member variable data values to default values
-// used in the United States. Integer separator values used
-// in the United States consist of the comma character (','),
-// an integer grouping of three ('3') and unlimited repetitions of
-// this sequence.
-//   United States Integer Separation Example:
-//         '1,000,000,000,000'
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  nStrIntSep                 *NumStrIntSeparator
-//     - A pointer to an instance of NumStrIntSeparator. All the
-//       internal member variable data values contained in this
-//       object will be overwritten and reset to default integer
-//       separator values used in the United States.
-//           United States Integer Separation Example:
-//                  '1,000,000,000,000'
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (intSeparatorMech *numStrIntSeparatorMechanics) setWithUSADefaults(
-	nStrIntSep *NumStrIntSeparator,
-	ePrefix *ErrPrefixDto) (
-	err error) {
-
-	if intSeparatorMech.lock == nil {
-		intSeparatorMech.lock = new(sync.Mutex)
-	}
-
-	intSeparatorMech.lock.Lock()
-
-	defer intSeparatorMech.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"numStrIntSeparatorMechanics." +
-			"setWithUSADefaults()")
-
-	if nStrIntSep == nil {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrIntSep' is invalid!\n"+
-			"'nStrIntSep' is a nil pointer.",
-			ePrefix.String())
-
-		return err
-	}
-
-	if nStrIntSep.lock == nil {
-		nStrIntSep.lock = new(sync.Mutex)
-	}
-
-	nStrIntSep.intSeparatorChars =
-		make([]rune, 1, 2)
-
-	nStrIntSep.intSeparatorChars[0] = ','
-
-	nStrIntSep.intSeparatorGrouping = 3
-
-	nStrIntSep.intSeparatorRepetitions = 0
-
-	nStrIntSep.restartIntGroupingSequence = false
 
 	return err
 }

@@ -1,7 +1,6 @@
 package numberstr
 
 import (
-	"fmt"
 	"sync"
 )
 
@@ -337,7 +336,7 @@ func (nStrIntSep NumStrIntSeparator) New() NumStrIntSeparator {
 	newIntSep := NumStrIntSeparator{}
 
 	_ = numStrIntSeparatorMechanics{}.ptr().
-		setWithUSADefaults(
+		setToUSADefaults(
 			&newIntSep,
 			nil)
 
@@ -429,23 +428,13 @@ func (nStrIntSep NumStrIntSeparator) NewBasic(
 
 	newIntSep := NumStrIntSeparator{}
 
-	if len(integerDigitsSeparators) == 0 {
-		return newIntSep,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'integerDigitsSeparators' is invalid!\n"+
-				"'integerDigitsSeparators' is an empty string.\n",
-				ePrefix.String())
-	}
-
 	err :=
-		numStrIntSeparatorMechanics{}.ptr().
-			setWithComponents(
+		numStrIntSeparatorUtility{}.ptr().
+			setBasic(
 				&newIntSep,
-				[]rune(integerDigitsSeparators),
-				3,
-				0,
-				false,
-				ePrefix)
+				integerDigitsSeparators,
+				ePrefix.XCtx(
+					"newIntSep"))
 
 	return newIntSep, err
 }
@@ -567,6 +556,233 @@ func (nStrIntSep NumStrIntSeparator) NewWithComponents(
 	return newIntSep, err
 }
 
+// SetBasic - Overwrites all the member variable data values for
+// the current NumStrIntSeparator. This method is intended to
+// configure a basic or simple integer separator object using
+// default values and a minimum number of input parameters.
+//
+// The input parameter 'integerDigitsSeparators' is string
+// containing the integer separator characters. The integer digit
+// grouping is defaulted to a value of three (3). The 'separator
+// repetitions' value is defaulted to zero (0) signaling unlimited
+// repetitions.
+//
+// This means that integer digits will be separated into 'thousands'
+// with each group containing three digits each (Example:
+// 1,000,000,000). Users have the option of specifying integer
+// separator characters through input parameter
+// 'integerDigitsSeparators'.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  integerDigitsSeparators    string
+//     - One or more characters used to separate groups of
+//       integers. This separator is also known as the 'thousands'
+//       separator. It is used to separate groups of integer digits
+//       to the left of the decimal separator
+//       (a.k.a. decimal point). In the United States, the standard
+//       integer digits separator is the comma (",").
+//
+//             Example:  1,000,000,000
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrIntSeparator
+//     - If this method completes successfully, a new instance of
+//       NumStrIntSeparator will be created and returned. The
+//       'integer digits grouping sequence' will be automatically
+//       set to a default value of 3-digits.
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrIntSep *NumStrIntSeparator) SetBasic(
+	integerDigitsSeparators string,
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparator." +
+			"SetBasic()")
+
+	return numStrIntSeparatorUtility{}.ptr().
+		setBasic(
+			nStrIntSep,
+			integerDigitsSeparators,
+			ePrefix.XCtx(
+				"nStrIntSep"))
+}
+
+// SetToUSADefaults - This method will overwrite and set the all
+// the internal member variable data values to default values used
+// in the United States. Integer separator values used in the
+// United States consist of the comma character (','), an integer
+// grouping of three ('3') and unlimited repetitions of this
+// sequence.
+//
+//   United States Integer Separation Example:
+//         '1,000,000,000,000'
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrIntSep *NumStrIntSeparator) SetToUSADefaults(
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparator." +
+			"SetToUSADefaults()")
+
+	return numStrIntSeparatorMechanics{}.ptr().
+		setToUSADefaults(
+			nStrIntSep,
+			ePrefix)
+}
+
+// SetToUSADefaultsIfEmpty - If any of the current
+// NumStrIntSeparator instance data values are zero or invalid,
+// this method will reset ALL data elements to United States
+// default values.
+//
+// If the current NumStrIntSeparator instance is valid and
+// populated with data, this method will take no action and exit.
+//
+// United States default numeric separators are listed as follows:
+//
+//  Decimal Separator = '.'
+//  Thousands Separator (a.k.a Integer Digits Separator) = ','
+//  Integer Digits Grouping Sequence = 3
+//  Example Floating Point Number String: 1,000,000,000.456
+//
+// IMPORTANT
+//
+// This method MAY overwrite all pre-existing data values in the
+// current NumStrIntSeparator instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrIntSep *NumStrIntSeparator) SetToUSADefaultsIfEmpty(
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparator." +
+			"SetBasic()")
+
+	return numStrIntSeparatorUtility{}.ptr().
+		setToUSADefaultsIfEmpty(
+			nStrIntSep,
+			ePrefix.XCtx(
+				"nStrIntSep"))
+}
+
 // SetWithComponents - This method will overwrite and set the
 // internal member variable data values for the current
 // NumStrIntSeparator instance based on the component elements
@@ -674,68 +890,4 @@ func (nStrIntSep *NumStrIntSeparator) SetWithComponents(
 			intSeparatorRepetitions,
 			restartIntGroupingSequence,
 			ePrefix.XCtx("nStrIntSep"))
-}
-
-// SetWithUSADefaults - This method will overwrite and set the all
-// the internal member variable data values to default values used
-// in the United States. Integer separator values used in the
-// United States consist of the comma character (','), an integer
-// grouping of three ('3') and unlimited repetitions of this
-// sequence.
-//
-//   United States Integer Separation Example:
-//         '1,000,000,000,000'
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (nStrIntSep *NumStrIntSeparator) SetWithUSADefaults(
-	ePrefix *ErrPrefixDto) error {
-
-	if nStrIntSep.lock == nil {
-		nStrIntSep.lock = new(sync.Mutex)
-	}
-
-	nStrIntSep.lock.Lock()
-
-	defer nStrIntSep.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"NumStrIntSeparator." +
-			"SetWithUSADefaults()")
-
-	return numStrIntSeparatorMechanics{}.ptr().
-		setWithUSADefaults(
-			nStrIntSep,
-			ePrefix)
 }
