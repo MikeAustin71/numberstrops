@@ -580,11 +580,13 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 
 // NewBasic - Creates and returns a new instance of
 // NumericSeparators. The returned NumericSeparators instance
-// represents a basic numeric separators object with a three digit
-// integer grouping sequence. This means that integer digits will
-// be separated into 'thousands' with each group containing three
-// digits each (Example: 1,000,000,000). Users have the option of
-// specifying integer separator and decimal separator characters.
+// represents a basic or simple numeric separators object using
+// default values and a minimum number of input parameters.
+//
+//This means that integer digits will be separated into 'thousands'
+// with each group containing three digits each (Example:
+// 1,000,000,000). Users have the option of specifying integer
+// separator and decimal separator characters.
 //
 // The NumericSeparators type encapsulates the numeric digit
 // separators used in formatting a number string for text display.
@@ -594,8 +596,8 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 // Separators include the integer digits grouping sequence.
 //
 // This method defaults the integer digits grouping sequence to
-// that most commonly used across the world. Namely, this is the
-// the thousands grouping of three '3' digits.
+// that most commonly used across the world. Namely, this is a
+// constant thousands grouping of three '3' digits.
 //      Example: 1,000,000,000,000
 //
 // In most countries, integer digits to the left of the decimal
@@ -664,10 +666,10 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 // Return Values
 //
 //  NumericSeparators
-//     - If this method completes successfully, new instance of
-//       NumericSeparators will be created and
-//       returned. The 'integer digits grouping sequence' will be
-//       automatically set to default of 3-digits or []uint{3}.
+//     - If this method completes successfully, a new instance of
+//       NumericSeparators will be created and returned. The
+//       'integer digits grouping sequence' will be automatically
+//       set to a default value of 3-digits.
 //
 //  error
 //     - If this method completes successfully, the returned error
@@ -681,9 +683,9 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 //       error message.
 //
 func (numSeps NumericSeparators) NewBasic(
-	ePrefix *ErrPrefixDto,
 	decimalSeparators string,
-	integerDigitsSeparators string) (
+	integerDigitsSeparators string,
+	ePrefix *ErrPrefixDto) (
 	NumericSeparators,
 	error) {
 
@@ -1125,6 +1127,11 @@ func (numSeps *NumericSeparators) SetIntegerSeparators(
 // If the current NumericSeparators instance is valid and populated
 // with data, this method will take no action and exit.
 //
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumericSeparators instance.
+//
 func (numSeps *NumericSeparators) SetToUSADefaultsIfEmpty() {
 
 	if numSeps.lock == nil {
@@ -1161,6 +1168,11 @@ func (numSeps *NumericSeparators) SetToUSADefaultsIfEmpty() {
 //  Thousands Separator (a.k.a Integer Digits Separator) = ','
 //  Integer Digits Grouping Sequence = 3
 //  Example Floating Point Number String: 1,000,000,000.456
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumericSeparators instance.
 //
 func (numSeps *NumericSeparators) SetToUSADefaults() {
 
@@ -1268,6 +1280,11 @@ func (numSeps *NumericSeparators) String() string {
 // to some value other than the default, see method:
 //     NumericSeparators.SetWithComponents()
 //
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumericSeparators instance.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -1372,6 +1389,11 @@ func (numSeps *NumericSeparators) SetBasic(
 //
 // The NumericSeparators type encapsulates the digit separators
 // used in formatting a number string for text display.
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumericSeparators instance.
 //
 //
 // ----------------------------------------------------------------
