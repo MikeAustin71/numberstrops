@@ -613,9 +613,7 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 // In some countries and cultures other integer groupings are used.
 // In India, for example, a number might be formatted as like this:
 // '6,78,90,00,00,00,00,000'. The right most group has three digits
-// and all the others are grouped by two. In this case 'integer
-// digits grouping sequence' would be configured as:
-//        integerDigitsGroupingSequence = []uint{3,2}
+// and all the others are grouped by two.
 //
 // Again, this method will automatically set the 'integer digits
 // grouping sequence' to a default of 3-digits.

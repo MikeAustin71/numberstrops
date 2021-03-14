@@ -1,6 +1,7 @@
 package numberstr
 
 import (
+	"fmt"
 	"sync"
 )
 
@@ -299,6 +300,156 @@ func (nStrIntSep *NumStrIntSeparator) IsValidInstanceError(
 	return err
 }
 
+// New - Creates and returns a new instance of NumStrIntSeparator
+// set to United States default integer separators. Integer
+// separator values used in the United States consist of the
+// comma character (','), an integer grouping of
+// three ('3') and unlimited repetitions of this sequence.
+//
+//   United States Integer Separation Example:
+//         '1,000,000,000,000'
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  - NONE -
+//
+//
+// -----------------------------------------------------------------
+//
+//  NumStrIntSeparator
+//     - This will return a new and fully populated instance of
+//       NumStrIntSeparator configured with United States default
+//       integer separator values.
+//
+func (nStrIntSep NumStrIntSeparator) New() NumStrIntSeparator {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	newIntSep := NumStrIntSeparator{}
+
+	_ = numStrIntSeparatorMechanics{}.ptr().
+		setWithUSADefaults(
+			&newIntSep,
+			nil)
+
+	return newIntSep
+}
+
+// NewBasic - Creates and returns a new instance of
+// NumStrIntSeparator. The returned NumStrIntSeparator instance
+// represents a basic or simple integer separator object using
+// default values and a minimum number of input parameters.
+//
+// The input parameter 'integerDigitsSeparators' is string
+// containing the integer separator characters. The integer digit
+// grouping is defaulted to a value of three (3). The 'separator
+// repetitions' value is defaulted to zero (0) signaling unlimited
+// repetitions.
+//
+// This means that integer digits will be separated into 'thousands'
+// with each group containing three digits each (Example:
+// 1,000,000,000). Users have the option of specifying integer
+// separator characters through input parameter
+// 'integerDigitsSeparators'.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  integerDigitsSeparators    string
+//     - One or more characters used to separate groups of
+//       integers. This separator is also known as the 'thousands'
+//       separator. It is used to separate groups of integer digits
+//       to the left of the decimal separator
+//       (a.k.a. decimal point). In the United States, the standard
+//       integer digits separator is the comma (",").
+//
+//             Example:  1,000,000,000
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrIntSeparator
+//     - If this method completes successfully, a new instance of
+//       NumStrIntSeparator will be created and returned. The
+//       'integer digits grouping sequence' will be automatically
+//       set to a default value of 3-digits.
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrIntSep NumStrIntSeparator) NewBasic(
+	integerDigitsSeparators string,
+	ePrefix *ErrPrefixDto) (
+	NumStrIntSeparator,
+	error) {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumStrIntSeparator.CopyIn()")
+
+	newIntSep := NumStrIntSeparator{}
+
+	if len(integerDigitsSeparators) == 0 {
+		return newIntSep,
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'integerDigitsSeparators' is invalid!\n"+
+				"'integerDigitsSeparators' is an empty string.\n",
+				ePrefix.String())
+	}
+
+	err :=
+		numStrIntSeparatorMechanics{}.ptr().
+			setWithComponents(
+				&newIntSep,
+				[]rune(integerDigitsSeparators),
+				3,
+				0,
+				false,
+				ePrefix)
+
+	return newIntSep, err
+}
+
 // NewWithComponents - Creates and returns a new instance of
 // NumStrIntSeparator. The new instance is generated based on
 // component elements passed as input parameters.
@@ -411,53 +562,9 @@ func (nStrIntSep NumStrIntSeparator) NewWithComponents(
 				intSeparatorGrouping,
 				intSeparatorRepetitions,
 				restartIntGroupingSequence,
-				ePrefix)
+				ePrefix.XCtx("newIntSep"))
 
 	return newIntSep, err
-}
-
-// NewWithUSADefaults - Creates and returns a new instance of
-// NumStrIntSeparator set to United States default integer
-// separators. Integer separator values used in the United States
-// consist of the comma character (','), an integer grouping of
-// three ('3') and unlimited repetitions of this sequence.
-//
-//   United States Integer Separation Example:
-//         '1,000,000,000,000'
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  - NONE -
-//
-//
-// -----------------------------------------------------------------
-//
-//  NumStrIntSeparator
-//     - This will return a new and fully populated instance of
-//       NumStrIntSeparator configured with United States default
-//       integer separator values.
-//
-func (nStrIntSep NumStrIntSeparator) NewWithUSADefaults() NumStrIntSeparator {
-
-	if nStrIntSep.lock == nil {
-		nStrIntSep.lock = new(sync.Mutex)
-	}
-
-	nStrIntSep.lock.Lock()
-
-	defer nStrIntSep.lock.Unlock()
-
-	newIntSep := NumStrIntSeparator{}
-
-	_ = numStrIntSeparatorMechanics{}.ptr().
-		setWithUSADefaults(
-			&newIntSep,
-			nil)
-
-	return newIntSep
 }
 
 // SetWithComponents - This method will overwrite and set the
@@ -566,7 +673,7 @@ func (nStrIntSep *NumStrIntSeparator) SetWithComponents(
 			intSeparatorGrouping,
 			intSeparatorRepetitions,
 			restartIntGroupingSequence,
-			ePrefix)
+			ePrefix.XCtx("nStrIntSep"))
 }
 
 // SetWithUSADefaults - This method will overwrite and set the all
