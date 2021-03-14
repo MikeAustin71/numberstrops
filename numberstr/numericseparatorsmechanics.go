@@ -29,7 +29,7 @@ func (numSepsMech numericSeparatorsMechanics) ptr() *numericSeparatorsMechanics 
 	return newMech
 }
 
-// setIntDigitsSeps - Transfers new data to an instance of
+// setWithComponents - Transfers new data to an instance of
 // NumericSeparators. After completion, all the data fields within
 // input parameter 'numSeps' will be overwritten.
 //
@@ -131,7 +131,7 @@ func (numSepsMech numericSeparatorsMechanics) ptr() *numericSeparatorsMechanics 
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (numSepsMech *numericSeparatorsMechanics) setIntDigitsSeps(
+func (numSepsMech *numericSeparatorsMechanics) setWithComponents(
 	numSeps *NumericSeparators,
 	decimalSeparators []rune,
 	integerSeparators []NumStrIntSeparator,
@@ -152,7 +152,7 @@ func (numSepsMech *numericSeparatorsMechanics) setIntDigitsSeps(
 
 	ePrefix.SetEPref(
 		"numericSeparatorsMechanics." +
-			"setIntDigitsSeps()")
+			"setWithComponents()")
 
 	if numSeps == nil {
 		err = fmt.Errorf("%v\n"+

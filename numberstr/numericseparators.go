@@ -546,11 +546,13 @@ func (numSeps *NumericSeparators) IsValidInstanceError(
 
 // New - Returns a new instance of NumericSeparators.
 //
-// The values are automatically set to USA defaults.
+// The values are automatically set to United States default
+// numeric separator values. These values are listed as follows:
 //
 //  Decimal Separator = '.'
 //  Thousands Separator (a.k.a Integer Digits Separator) = ','
-//  Integer Digits Grouping Sequence = []uint{3}
+//  Integer Digits Grouping Sequence = 3
+//  Example Floating Point Number String: 1,000,000,000.456
 //
 //
 func (numSeps NumericSeparators) New() NumericSeparators {
@@ -576,6 +578,167 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 	return newNumSep
 }
 
+// NewBasic - Creates and returns a new instance of
+// NumericSeparators. The returned NumericSeparators instance
+// represents a basic numeric separators object with a three digit
+// integer grouping sequence. This means that integer digits will
+// be separated into 'thousands' with each group containing three
+// digits each (Example: 1,000,000,000). Users have the option of
+// specifying integer separator and decimal separator characters.
+//
+// The NumericSeparators type encapsulates the numeric digit
+// separators used in formatting a number string for text display.
+//
+// Digit separators are commonly referred to as the decimal point
+// and thousands separator characters. In addition, Digit
+// Separators include the integer digits grouping sequence.
+//
+// This method defaults the integer digits grouping sequence to
+// that most commonly used across the world. Namely, this is the
+// the thousands grouping of three '3' digits.
+//      Example: 1,000,000,000,000
+//
+// In most countries, integer digits to the left of the decimal
+// separator (a.k.a. decimal point) are separated into groups of
+// three (3) digits representing a grouping of 'thousands' like
+// this: '1,000,000,000,000'. In this case the 'integer digits
+// grouping sequence' would be configured as:
+//        integer digits grouping sequence = 3
+//
+// Again, this method applies the 3-digit integer digits grouping
+// sequence by default.
+//
+// In some countries and cultures other integer groupings are used.
+// In India, for example, a number might be formatted as like this:
+// '6,78,90,00,00,00,00,000'. The right most group has three digits
+// and all the others are grouped by two. In this case 'integer
+// digits grouping sequence' would be configured as:
+//        integerDigitsGroupingSequence = []uint{3,2}
+//
+// Again, this method will automatically set the 'integer digits
+// grouping sequence' to a default of 3-digits.
+//
+// If you wish to configure the 'integer digits grouping sequence'
+// to some value other than the default, see method:
+//     NumericSeparators.NewWithComponents()
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparators          string
+//     - One or more text characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the standard decimal separator is the
+//       period character (".") otherwise known as a decimal point.
+//
+//            Example: 12.345
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  integerDigitsSeparators    string
+//     - One or more characters used to separate groups of
+//       integers. This separator is also known as the 'thousands'
+//       separator. It is used to separate groups of integer digits
+//       to the left of the decimal separator
+//       (a.k.a. decimal point). In the United States, the standard
+//       integer digits separator is the comma (",").
+//
+//             Example:  1,000,000,000
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumericSeparators
+//     - If this method completes successfully, new instance of
+//       NumericSeparators will be created and
+//       returned. The 'integer digits grouping sequence' will be
+//       automatically set to default of 3-digits or []uint{3}.
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (numSeps NumericSeparators) NewBasic(
+	ePrefix *ErrPrefixDto,
+	decimalSeparators string,
+	integerDigitsSeparators string) (
+	NumericSeparators,
+	error) {
+
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
+	}
+
+	numSeps.lock.Lock()
+
+	defer numSeps.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumericSeparators.NewBasic()")
+
+	newNumericSeps := NumericSeparators{}
+
+	if len(decimalSeparators) == 0 {
+
+		return newNumericSeps,
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'decimalSeparators' is invalid!\n"+
+				"'decimalSeparators' is zero length string.\n",
+				ePrefix.String())
+	}
+
+	if len(integerDigitsSeparators) == 0 {
+
+		return newNumericSeps,
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'integerDigitsSeparators' is invalid!\n"+
+				"'integerDigitsSeparators' is zero length string.\n",
+				ePrefix.String())
+	}
+
+	err := numericSeparatorsMechanics{}.ptr().
+		setWithComponents(
+			&newNumericSeps,
+			[]rune(decimalSeparators),
+			[]NumStrIntSeparator{
+				{
+					intSeparatorChars:          []rune(integerDigitsSeparators),
+					intSeparatorGrouping:       3,
+					intSeparatorRepetitions:    0,
+					restartIntGroupingSequence: false,
+				},
+			},
+			ePrefix)
+
+	return newNumericSeps, err
+}
+
 // NewWithComponents - Creates and returns a new instance of NumericSeparators.
 // This type encapsulates the digit separators used in formatting a
 // number string for text display.
@@ -592,7 +755,7 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 //       period ('.') character otherwise known as a decimal point.
 //
 //
-//  integerSeparatorsDto          []NumStrIntSeparator
+//  integerSeparators             []NumStrIntSeparator
 //     - Encapsulates an array of type NumStrIntSeparator
 //       containing specifications for integer separation
 //       formatting.
@@ -695,7 +858,7 @@ func (numSeps NumericSeparators) NewWithComponents(
 	numericSeparatorDtoMech :=
 		numericSeparatorsMechanics{}
 
-	err := numericSeparatorDtoMech.setIntDigitsSeps(
+	err := numericSeparatorDtoMech.setWithComponents(
 		&newDigitsSepsDto,
 		decimalSeparators,
 		integerSeparators,
@@ -704,67 +867,29 @@ func (numSeps NumericSeparators) NewWithComponents(
 	return newDigitsSepsDto, err
 }
 
-// NewWithDefaults - Creates and returns a new instance of
-// NumericSeparators. This type encapsulates the numeric digit
-// separators used in formatting a number string for text display.
-// Digit separators are commonly referred to as the decimal point
-// and thousands separator characters. In addition, Digit
-// Separators include the integer digits grouping sequence.
+// SetDecimalSeparators - Sets the value of the decimal separators
+// for the current NumericSeparators instance.
 //
-// This method defaults the integer digits grouping sequence to
-// that most commonly used across the world. Namely, this is the
-// the thousands grouping of three '3' digits.
-//      Example: 1,000,000,000,000
+// The decimal separator separates integer and fractional digits
+// in a floating point number string. In the United States, the
+// decimal separator is the period (".") or decimal point.
 //
-// In most countries, integer digits to the left of the decimal
-// separator (a.k.a. decimal point) are separated into groups of
-// three (3) digits representing a grouping of 'thousands' like
-// this: '1,000,000,000,000'. In this case the 'integer digits
-// grouping sequence' would be configured as:
-//        integer digits grouping sequence = []uint{3}
-// This method applies the 3-digit integer digits grouping sequence
-// by default.
-//
-// In some countries and cultures other integer groupings are used.
-// In India, for example, a number might be formatted as like this:
-// '6,78,90,00,00,00,00,000'. The right most group has three digits
-// and all the others are grouped by two. In this case 'integer
-// digits grouping sequence' would be configured as:
-//        integerDigitsGroupingSequence = []uint{3,2}
-//
-// Again, this method will automatically set the 'integer digits
-// grouping sequence' to a default of 3-digits or []uint{3}.
-//
-// If you wish to configure the 'integer digits grouping sequence'
-// to some value other than the default, see method:
-//     NumericSeparators.NewWithComponents()
+//             Example: 1234.456
 //
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  decimalSeparators          string
-//     - One or more text characters used to separate integer and
-//       fractional digits in a floating point number string. In
-//       the United States, the standard decimal separator is the
-//       period character (".") otherwise known as a decimal point.
+//  decimalSeparators   string
+//     - Contains the character or characters which will be used to
+//       separate integer and fractional digits in a number string.
+//       The decimal separators value for the current
+//       NumericSeparators instance will be overwritten and
+//       replaced by the characters contained in this string.
 //
-//       If this input parameter is empty, an error will be
-//       returned.
-//
-//
-//  integerDigitsSeparator     string
-//     - This separator is also known as the 'thousands' separator.
-//       It is used to separate groups of integer digits to the left
-//       of the decimal separator (a.k.a. decimal point). In the
-//       United States, the standard integer digits separator is the
-//       comma (",").
-//
-//        Example:  1,000,000,000
-//
-//       If this input parameter contains a zero length string, an
-//       error will be returned.
+//       If a zero length string is is passed for this parameter,
+//       an error will be returned.
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -772,16 +897,13 @@ func (numSeps NumericSeparators) NewWithComponents(
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
 // Return Values
-//
-//  NumericSeparators
-//     - If this method completes successfully, new instance of
-//       NumericSeparators will be created and
-//       returned. The 'integer digits grouping sequence' will be
-//       automatically set to default of 3-digits or []uint{3}.
 //
 //  error
 //     - If this method completes successfully, the returned error
@@ -794,12 +916,9 @@ func (numSeps NumericSeparators) NewWithComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (numSeps NumericSeparators) NewWithDefaults(
-	ePrefix *ErrPrefixDto,
-	decimalSeparator rune,
-	integerDigitsSeparator rune) (
-	NumericSeparators,
-	error) {
+func (numSeps *NumericSeparators) SetDecimalSeparators(
+	decimalSeparators string,
+	ePrefix *ErrPrefixDto) error {
 
 	if numSeps.lock == nil {
 		numSeps.lock = new(sync.Mutex)
@@ -814,175 +933,37 @@ func (numSeps NumericSeparators) NewWithDefaults(
 	}
 
 	ePrefix.SetEPref(
-		"NumericSeparators.NewWithDefaults()")
+		"NumericSeparators." +
+			"SetDecimalSeparators()")
 
-	newDigitsSepsDto := NumericSeparators{}
-
-	nStrFmtSpecDigitsSepsDtoMech :=
-		numericSeparatorsMechanics{}
-
-	err := nStrFmtSpecDigitsSepsDtoMech.setIntDigitsSeps(
-		&newDigitsSepsDto,
-		decimalSeparator,
-		[]NumStrIntSeparator{
-			{
-				intSeparatorChar:     integerDigitsSeparator,
-				intSeparatorGrouping: 3,
-			},
-		},
-		ePrefix)
-
-	return newDigitsSepsDto, err
-
-}
-
-// SetDecimalSeparator - Sets the value of the decimal separator.
-//
-// The decimal separator separates integer and fractional digits
-// in a floating point number string. In the United States, the
-// decimal separator is the period ('.') or decimal point.
-//
-//             Example: 1234.456
-//
-//
-func (numSeps *NumericSeparators) SetDecimalSeparator(
-	decimalSeparator rune) {
-
-	if numSeps.lock == nil {
-		numSeps.lock = new(sync.Mutex)
+	if len(decimalSeparators) == 0 {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'decimalSeparators' is invalid!\n"+
+			"'decimalSeparators' is a zero length string.\n",
+			ePrefix.String())
 	}
 
-	numSeps.lock.Lock()
+	decSepRunes := []rune(decimalSeparators)
 
-	defer numSeps.lock.Unlock()
+	lenDecSepRunes := len(decSepRunes)
 
-	numSeps.decimalSeparators = decimalSeparator
-
-}
-
-// SetNumSeps - This method will set all of the member variable
-// data values for the current instance of NumericSeparators.
-//
-// The NumericSeparators type encapsulates the digit separators
-// used in formatting a number string for text display.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  decimalSeparators               rune
-//     - A text character used to separate integer and fractional
-//       digits in a floating point number string. In the United
-//       States, the standard decimal separator is the period
-//       ('.') or decimal point.
-//
-//
-//  integerSeparatorsDto             []NumStrIntSeparator
-//     - An array of NumStrIntSeparator elements used to specify
-//       the integer separation operation.
-//
-//        type NumStrIntSeparator struct {
-//          intSeparatorChar     rune   // Integer separator character
-//          intSeparatorGrouping uint   // Number of integers in a group
-//          intSeparatorRepetitions uint // Number of times this character/group is repeated
-//                                       // A zero value signals unlimited repetitions.
-//        }
-//
-//         intSeparatorChar     rune
-//         - This separator is commonly known as the 'thousands'
-//           separator. It is used to separate groups of integer
-//           digits to the left of the decimal separator (a.k.a.
-//           decimal point). In the United States, the standard
-//           integer digits separator is the comma (','). Other
-//           countries use periods, spaces or apostrophes to
-//           separate integers.
-//             United States Example:  1,000,000,000
-//              numSeps.intSeparators =
-//                []NumStrIntSeparator{
-//                     {
-//                     intSeparatorChar:   ',',
-//                     intSeparatorGrouping: 3,
-//                     intSeparatorRepetitions: 0,
-//                     },
-//                  }
-//
-//
-//         intSeparatorGrouping []uint
-//         - In most western countries integer digits to the left
-//           of the decimal separator (a.k.a. decimal point) are
-//           separated into groups of three digits representing
-//           a grouping of 'thousands' like this: '1,000,000,000'.
-//           In this case the intSeparatorGrouping value would be
-//           set to three ('3').
-//
-//       In some countries and cultures other integer groupings are
-//       used. In India, for example, a number might be formatted
-//       like this: '6,78,90,00,00,00,00,000'. The right most group
-//       has three digits and all the others are grouped by two. In
-//       this case 'integerSeparatorsDto' would be configured as
-//       follows:
-//       as:
-//
-//       numSeps.intSeparators =
-//         []NumStrIntSeparator{
-//              {
-//              intSeparatorChar:   ',',
-//              intSeparatorGrouping: 3,
-//              intSeparatorRepetitions: 1,
-//              },
-//              {
-//              intSeparatorChar:     ',',
-//              intSeparatorGrouping: 2,
-//              intSeparatorRepetitions: 0,
-//              },
-//           }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (numSeps *NumericSeparators) SetNumSeps(
-	decimalSeparator rune,
-	integerSeparators []NumStrIntSeparator,
-	ePrefix *ErrPrefixDto) error {
-
-	if numSeps.lock == nil {
-		numSeps.lock = new(sync.Mutex)
+	if lenDecSepRunes == 0 {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'decimalSeparators' is invalid!\n"+
+			"Converting 'decimalSeparators' to a rune array produced\n"+
+			"a zero length rune array.\n",
+			ePrefix.String())
 	}
 
-	numSeps.lock.Lock()
+	numSeps.decimalSeparators =
+		make([]rune, lenDecSepRunes, lenDecSepRunes+5)
 
-	defer numSeps.lock.Unlock()
+	for i := 0; i < lenDecSepRunes; i++ {
+		numSeps.decimalSeparators[i] =
+			decSepRunes[i]
+	}
 
-	ePrefix.SetEPref("NumericSeparators.SetNumSeps()")
-
-	nStrFmtSpecDigitsSepsDtoMech :=
-		numericSeparatorsMechanics{}
-
-	return nStrFmtSpecDigitsSepsDtoMech.setIntDigitsSeps(
-		numSeps,
-		decimalSeparator,
-		integerSeparators,
-		ePrefix.XCtx("Setting Data Values for current instance 'numSeps'"))
+	return nil
 }
 
 // SetIntegerSeparators - Sets the value of the integer digit
@@ -1138,8 +1119,11 @@ func (numSeps *NumericSeparators) SetIntegerSeparators(
 }
 
 // SetToUSADefaultsIfEmpty - If any of the NumericSeparators
-// data values are zero, this method will set ALL data elements to USA
-// default values.
+// data values are zero, this method will set ALL data elements to
+// United States default values.
+//
+// If the current NumericSeparators instance is valid and populated
+// with data, this method will take no action and exit.
 //
 func (numSeps *NumericSeparators) SetToUSADefaultsIfEmpty() {
 
@@ -1157,32 +1141,26 @@ func (numSeps *NumericSeparators) SetToUSADefaultsIfEmpty() {
 		numSeps,
 		new(ErrPrefixDto))
 
-	if !isValid {
-
-		numSeps.decimalSeparators = '.'
-
-		numSeps.integerSeparatorsDto =
-			make([]NumStrIntSeparator, 1, 5)
-
-		numSeps.integerSeparatorsDto[0].
-			intSeparatorChar = ','
-
-		numSeps.integerSeparatorsDto[0].
-			intSeparatorGrouping = 3
-
+	if isValid {
+		return
 	}
 
+	_ =
+		numericSeparatorsUtility{}.ptr().
+			setWithUSADefaults(
+				numSeps,
+				nil)
 }
 
 // SetToUSADefaults - Sets all of the numeric separator
-// member variables to default USA values.
+// member variables to default United States values.
 //
-// USA default numeric separators are listed as follows:
+// United States default numeric separators are listed as follows:
 //
-//   Thousands Separator
-//    (a.k.a.) Integer Digits Separator: ','
-//
-//   Decimal Separator: '.'
+//  Decimal Separator = '.'
+//  Thousands Separator (a.k.a Integer Digits Separator) = ','
+//  Integer Digits Grouping Sequence = 3
+//  Example Floating Point Number String: 1,000,000,000.456
 //
 func (numSeps *NumericSeparators) SetToUSADefaults() {
 
@@ -1194,17 +1172,11 @@ func (numSeps *NumericSeparators) SetToUSADefaults() {
 
 	defer numSeps.lock.Unlock()
 
-	numSeps.decimalSeparators = '.'
-
-	numSeps.integerSeparatorsDto =
-		make([]NumStrIntSeparator, 1, 5)
-
-	numSeps.integerSeparatorsDto[0].
-		intSeparatorChar = ','
-
-	numSeps.integerSeparatorsDto[0].
-		intSeparatorGrouping = 3
-
+	_ =
+		numericSeparatorsUtility{}.ptr().
+			setWithUSADefaults(
+				numSeps,
+				nil)
 }
 
 // String - Returns a string detailing numeric separator
@@ -1220,23 +1192,294 @@ func (numSeps *NumericSeparators) String() string {
 
 	defer numSeps.lock.Unlock()
 
-	str := fmt.Sprintf("Decimal Separator: %v\n",
+	str := fmt.Sprintf("Decimal Separators: %v\n",
 		string(numSeps.decimalSeparators))
 
-	if numSeps.integerSeparatorsDto == nil {
-		numSeps.integerSeparatorsDto =
+	if numSeps.integerSeparatorsDto.intSeparators == nil {
+		numSeps.integerSeparatorsDto.intSeparators =
 			make([]NumStrIntSeparator, 0, 5)
 	}
 
-	lenIntSeps := len(numSeps.integerSeparatorsDto)
+	lenIntSeps := len(numSeps.integerSeparatorsDto.intSeparators)
 
 	for i := 0; i < lenIntSeps; i++ {
-		str += fmt.Sprintf("Integer Separator Char= '%v' "+
-			"Integer Grouping= '%v'\n",
-			string(numSeps.integerSeparatorsDto[i].intSeparatorChar),
-			numSeps.integerSeparatorsDto[i].intSeparatorGrouping)
+		str += fmt.Sprintf("Integer Separator Chars= '%v' "+
+			"Integer Grouping= '%v' "+
+			"SeparatorRepetitions= '%v' "+
+			"Restart Group Sequence='%v'\n",
+			string(numSeps.integerSeparatorsDto.intSeparators[i].intSeparatorChars),
+			numSeps.integerSeparatorsDto.intSeparators[i].intSeparatorGrouping,
+			numSeps.integerSeparatorsDto.intSeparators[i].intSeparatorRepetitions,
+			numSeps.integerSeparatorsDto.intSeparators[i].restartIntGroupingSequence)
 
 	}
 
 	return str
+}
+
+// SetBasic - Overwrites all the member variable data values for
+// the current NumericSeparators instance with numeric separator
+// values generated from a minimum number of input parameters and
+// specified default values.
+//
+// The resulting NumericSeparators values represent a basic numeric
+// separators object with a three digit integer grouping sequence.
+// This means that integer digits will be separated into
+// 'thousands' with each group containing three digits each.
+//
+//     Example: 1,000,000,000
+//
+// Users have the option of specifying integer separator and
+// decimal separator characters.
+//
+// The NumericSeparators type encapsulates the numeric digit
+// separators used in formatting a number string for text display.
+//
+// Digit separators are commonly referred to as the decimal point
+// and thousands separator characters. In addition, Digit
+// Separators include the integer digits grouping sequence.
+//
+// This method defaults the integer digits grouping sequence to
+// that most commonly used across the world. Namely, this is the
+// the thousands grouping of three '3' digits.
+//      Example: 1,000,000,000,000
+//
+// In most countries, integer digits to the left of the decimal
+// separator (a.k.a. decimal point) are separated into groups of
+// three (3) digits representing a grouping of 'thousands' like
+// this: '1,000,000,000,000'. In this case the 'integer digits
+// grouping sequence' would be configured as:
+//        integer digits grouping sequence = 3
+//
+// Again, this method applies the 3-digit integer digits grouping
+// sequence by default.
+//
+// In some countries and cultures other integer groupings are used.
+// In India, for example, a number might be formatted as like this:
+// '6,78,90,00,00,00,00,000'. The right most group has three digits
+// and all the others are grouped by two. In this case 'integer
+// digits grouping sequence' would be configured as:
+//        integerDigitsGroupingSequence = []uint{3,2}
+//
+// Again, this method will automatically set the 'integer digits
+// grouping sequence' to a default of 3-digits.
+//
+// If you wish to configure the 'integer digits grouping sequence'
+// to some value other than the default, see method:
+//     NumericSeparators.SetWithComponents()
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparators          string
+//     - One or more text characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the standard decimal separator is the
+//       period character (".") otherwise known as a decimal point.
+//
+//            Example: 12.345
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  integerDigitsSeparators    string
+//     - One or more characters used to separate groups of
+//       integers. This separator is also known as the 'thousands'
+//       separator. It is used to separate groups of integer digits
+//       to the left of the decimal separator
+//       (a.k.a. decimal point). In the United States, the standard
+//       integer digits separator is the comma (",").
+//
+//             Example:  1,000,000,000
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (numSeps *NumericSeparators) SetBasic(
+	decimalSeparators string,
+	integerDigitsSeparators string,
+	ePrefix *ErrPrefixDto) error {
+
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
+	}
+
+	numSeps.lock.Lock()
+
+	defer numSeps.lock.Unlock()
+
+	ePrefix.SetEPref(
+		"NumericSeparators.SetWithComponents()")
+
+	if len(decimalSeparators) == 0 {
+
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'decimalSeparators' is invalid!\n"+
+			"'decimalSeparators' is zero length string.\n",
+			ePrefix.String())
+	}
+
+	if len(integerDigitsSeparators) == 0 {
+
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'integerDigitsSeparators' is invalid!\n"+
+			"'integerDigitsSeparators' is zero length string.\n",
+			ePrefix.String())
+	}
+
+	return numericSeparatorsMechanics{}.ptr().
+		setWithComponents(
+			numSeps,
+			[]rune(decimalSeparators),
+			[]NumStrIntSeparator{
+				{
+					intSeparatorChars:          []rune(integerDigitsSeparators),
+					intSeparatorGrouping:       3,
+					intSeparatorRepetitions:    0,
+					restartIntGroupingSequence: false,
+				},
+			},
+			ePrefix)
+}
+
+// SetWithComponents - This method will set all of the member variable
+// data values for the current instance of NumericSeparators.
+//
+// The NumericSeparators type encapsulates the digit separators
+// used in formatting a number string for text display.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparators             []rune
+//     - One or more text characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the standard decimal separator is the
+//       period ('.') character otherwise known as a decimal point.
+//
+//
+//  integerSeparators             []NumStrIntSeparator
+//     - Encapsulates an array of type NumStrIntSeparator
+//       containing specifications for integer separation
+//       formatting.
+//
+//        type NumStrIntSeparator struct {
+//            intSeparatorChars       []rune  // A series of runes used to separate integer digits.
+//            intSeparatorGrouping    uint    // Number of integer digits in a group
+//            intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
+//                                            // A zero value signals unlimited repetitions.
+//            restartIntGroupingSequence bool // If true, the entire grouping sequence is repeated
+//                                            //  beginning at array index zero.
+//        }
+//
+//        intSeparatorChars          []rune
+//           - A series of runes or characters used to separate integer
+//             digits in a number string. These characters are commonly
+//             known as the 'thousands separator'. A 'thousands
+//             separator' is used to separate groups of integer digits to
+//             the left of the decimal separator (a.k.a. decimal point).
+//             In the United States, the standard integer digits
+//             separator is the single comma character (','). Other
+//             countries and cultures use periods, spaces, apostrophes or
+//             multiple characters to separate integers.
+//                   United States Example:  1,000,000,000
+//
+//        intSeparatorGrouping       uint
+//           - This unsigned integer values specifies the number of
+//             integer digits within a group. This value is used to group
+//             integers within a number string.
+//
+//             In most western countries integer digits to the left of
+//             the decimal separator (a.k.a. decimal point) are separated
+//             into groups of three digits representing a grouping of
+//             'thousands' like this: '1,000,000,000'. In this case the
+//             intSeparatorGrouping value would be set to three ('3').
+//
+//             In some countries and cultures other integer groupings are
+//             used. In India, for example, a number might be formatted
+//             like this: '6,78,90,00,00,00,00,000'.
+//
+//        intSeparatorRepetitions    uint
+//           - This unsigned integer value specifies the number of times
+//             this integer grouping is repeated. A value of zero signals
+//             that this integer grouping will be repeated indefinitely.
+//
+//        restartIntGroupingSequence bool
+//           - If the NumStrIntSeparator is the last element in an array
+//             of NumStrIntSeparator objects, this boolean flag signals
+//             whether the entire integer grouping sequence will be
+//             restarted from array element zero.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (numSeps *NumericSeparators) SetWithComponents(
+	decimalSeparators []rune,
+	integerSeparators []NumStrIntSeparator,
+	ePrefix *ErrPrefixDto) error {
+
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
+	}
+
+	numSeps.lock.Lock()
+
+	defer numSeps.lock.Unlock()
+
+	ePrefix.SetEPref(
+		"NumericSeparators.SetWithComponents()")
+
+	return numericSeparatorsMechanics{}.ptr().
+		setWithComponents(
+			numSeps,
+			decimalSeparators,
+			integerSeparators,
+			ePrefix.XCtx(
+				"Setting Data Values for current instance 'numSeps'"))
 }

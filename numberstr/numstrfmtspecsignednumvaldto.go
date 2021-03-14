@@ -1266,7 +1266,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecSignedNumValueDto." +
-			"NewWithDefaults()")
+			"NewBasic()")
 
 	newNStrFmtSpecSignedNumValueDto :=
 		NumStrFmtSpecSignedNumValueDto{}

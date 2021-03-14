@@ -9,7 +9,7 @@ type numericSeparatorsUtility struct {
 	lock *sync.Mutex
 }
 
-// setIntDigitsSeps - Transfers new data to an instance of
+// setWithComponents - Transfers new data to an instance of
 // NumericSeparators. After completion, all the data fields within
 // input parameter 'numSeps' will be overwritten.
 //
@@ -103,7 +103,7 @@ func (numSepsUtility *numericSeparatorsUtility) setWithUSADefaults(
 
 	err =
 		numericSeparatorsMechanics{}.ptr().
-			setIntDigitsSeps(
+			setWithComponents(
 				numSeps,
 				decimalSeparators,
 				integerSeparators,

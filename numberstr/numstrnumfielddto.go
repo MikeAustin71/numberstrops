@@ -559,7 +559,7 @@ func (nFieldDto NumberFieldDto) NewWithDefaults(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumberFieldDto.NewWithDefaults()")
+	ePrefix.SetEPref("NumberFieldDto.NewBasic()")
 
 	if !numberFieldTextJustify.XIsValid() {
 		err = fmt.Errorf("%v\n"+

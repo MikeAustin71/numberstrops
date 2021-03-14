@@ -1092,7 +1092,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecAbsoluteValueDto." +
-			"NewWithDefaults()")
+			"NewBasic()")
 
 	newNumStrFmtSpecAbsValueDto :=
 		NumStrFmtSpecAbsoluteValueDto{}

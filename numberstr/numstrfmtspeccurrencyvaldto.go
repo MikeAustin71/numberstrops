@@ -1672,7 +1672,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto.NewWithDefaults()")
+		"NumStrFmtSpecCurrencyValueDto.NewBasic()")
 
 	newNStrFmtSpecCurrencyValDto :=
 		NumStrFmtSpecCurrencyValueDto{}
