@@ -627,7 +627,7 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) New() NumStrIntSeparatorsDto {
 	newIntSepsDto := NumStrIntSeparatorsDto{}
 
 	_ = numStrIntSeparatorsDtoMechanics{}.ptr().
-		setWithUnitedStatesDefaults(
+		setToUSADefaults(
 			&newIntSepsDto,
 			nil)
 
@@ -740,29 +740,11 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) NewBasic(
 		"NumStrIntSeparatorsDto." +
 			"NewBasic()")
 
-	if len(integerDigitsSeparators) == 0 {
-
-		err =
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'integerDigitsSeparators' is invalid!\n"+
-				"'integerDigitsSeparators' is zero length string.\n",
-				ePrefix.String())
-
-		return newIntSepsDto, err
-	}
-
 	err =
-		numStrIntSeparatorsDtoMechanics{}.ptr().
-			setWithComponents(
+		numStrIntSeparatorsDtoUtility{}.ptr().
+			setBasic(
 				&newIntSepsDto,
-				[]NumStrIntSeparator{
-					{
-						intSeparatorChars:          []rune(integerDigitsSeparators),
-						intSeparatorGrouping:       3,
-						intSeparatorRepetitions:    0,
-						restartIntGroupingSequence: false,
-					},
-				},
+				integerDigitsSeparators,
 				ePrefix.XCtx("newIntSepsDto"))
 
 	return newIntSepsDto, err
@@ -928,7 +910,7 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) NewWithComponents(
 //
 // If you wish to configure the 'integer digits grouping sequence'
 // to some value other than the default, see method:
-//     NumStrIntSeparatorsDto.NewWithComponents()
+//     NumStrIntSeparatorsDto.SetWithComponents()
 //
 // IMPORTANT
 //
@@ -1010,17 +992,10 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) SetBasic(
 
 	}
 
-	return numStrIntSeparatorsDtoMechanics{}.ptr().
-		setWithComponents(
+	return numStrIntSeparatorsDtoUtility{}.ptr().
+		setBasic(
 			intSeparatorsDto,
-			[]NumStrIntSeparator{
-				{
-					intSeparatorChars:          []rune(integerDigitsSeparators),
-					intSeparatorGrouping:       3,
-					intSeparatorRepetitions:    0,
-					restartIntGroupingSequence: false,
-				},
-			},
+			integerDigitsSeparators,
 			ePrefix.XCtx("intSeparatorsDto"))
 }
 

@@ -9,6 +9,26 @@ type numStrIntSeparatorsDtoMechanics struct {
 	lock *sync.Mutex
 }
 
+// ptr - Returns a pointer to a new instance of
+// numStrIntSeparatorsDtoMechanics.
+//
+func (intSepsDtoMech numStrIntSeparatorsDtoMechanics) ptr() *numStrIntSeparatorsDtoMechanics {
+
+	if intSepsDtoMech.lock == nil {
+		intSepsDtoMech.lock = new(sync.Mutex)
+	}
+
+	intSepsDtoMech.lock.Lock()
+
+	defer intSepsDtoMech.lock.Unlock()
+
+	newMech := new(numStrIntSeparatorsDtoMechanics)
+
+	newMech.lock = new(sync.Mutex)
+
+	return newMech
+}
+
 // setWithComponents - Sets the member variable data values of the
 // incoming NumStrIntSeparatorsDto instance with the array values
 // passed by input parameter 'integerSeparatorsDto'.
@@ -84,11 +104,11 @@ func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setWithComponents(
 	return err
 }
 
-// setWithUnitedStatesDefaults - Sets the member variable data
+// setToUSADefaults - Sets the member variable data
 // values of the incoming NumStrIntSeparatorsDto instance to United
 // States default values.
 //
-func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setWithUnitedStatesDefaults(
+func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setToUSADefaults(
 	intSepsDto *NumStrIntSeparatorsDto,
 	ePrefix *ErrPrefixDto) (
 	err error) {
@@ -107,7 +127,7 @@ func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setWithUnitedStatesDefaul
 
 	ePrefix.SetEPref(
 		"numStrIntSeparatorsDtoMechanics." +
-			"setWithUnitedStatesDefaults()")
+			"setToUSADefaults()")
 
 	if intSepsDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -138,24 +158,4 @@ func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setWithUnitedStatesDefaul
 		false
 
 	return err
-}
-
-// ptr - Returns a pointer to a new instance of
-// numStrIntSeparatorsDtoQuark.
-//
-func (intSepsDtoMech numStrIntSeparatorsDtoMechanics) ptr() *numStrIntSeparatorsDtoMechanics {
-
-	if intSepsDtoMech.lock == nil {
-		intSepsDtoMech.lock = new(sync.Mutex)
-	}
-
-	intSepsDtoMech.lock.Lock()
-
-	defer intSepsDtoMech.lock.Unlock()
-
-	newMech := new(numStrIntSeparatorsDtoMechanics)
-
-	newMech.lock = new(sync.Mutex)
-
-	return newMech
 }
