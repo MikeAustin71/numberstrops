@@ -1,6 +1,7 @@
 package numberstr
 
 import (
+	"fmt"
 	"sync"
 )
 
@@ -187,6 +188,86 @@ func (nStrIntSep *NumStrIntSeparator) Equal(
 
 	return numStrIntSeparatorMolecule{}.ptr().
 		equal(nStrIntSep, &nStrIntSep2)
+}
+
+// GetIntSeparatorChars - Returns the integer digit separator
+// characters for the current NumStrIntSeparator instance as an
+// array of runes.
+//
+// If the rune array is zero length, an error will be returned.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  [] rune
+//     - If this method completes successfully, an array of runes
+//       will be returned representing the integer digit separator
+//       characters.
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrIntSep *NumStrIntSeparator) GetIntSeparatorChars(
+	ePrefix *ErrPrefixDto) ([]rune, error) {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref("NumStrIntSeparator.GetIntSeparatorChars()")
+
+	if nStrIntSep.intSeparatorChars == nil {
+		nStrIntSep.intSeparatorChars =
+			make([]rune, 0, 5)
+	}
+
+	lenIntSepChars := len(nStrIntSep.intSeparatorChars)
+
+	if lenIntSepChars == 0 {
+		return make([]rune, 0, 5),
+			fmt.Errorf("%v\n"+
+				"Error: The internal 'intSeparatorChars' array is invalid!\n"+
+				"'nStrIntSep.intSeparatorChars' is a zero length array.\n",
+				ePrefix.String())
+	}
+
+	newIntSepChars :=
+		make([]rune, lenIntSepChars, lenIntSepChars+5)
+
+	for i := 0; i < lenIntSepChars; i++ {
+		newIntSepChars[i] =
+			nStrIntSep.intSeparatorChars[i]
+	}
+
+	return newIntSepChars, nil
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
