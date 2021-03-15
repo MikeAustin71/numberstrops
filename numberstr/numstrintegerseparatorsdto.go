@@ -660,11 +660,10 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) New() NumStrIntSeparatorsDto {
 // sequence by default.
 //
 // In some countries and cultures other integer groupings are used.
-// In India, for example, a number might be formatted as like this:
-// '6,78,90,00,00,00,00,000'. The right most group has three digits
-// and all the others are grouped by two. In this case 'integer
-// digits grouping sequence' would be configured as:
-//        integerDigitsGroupingSequence = []uint{3,2}
+// In India, for example, a number might be formatted like this:
+// '6,78,90,00,00,00,00,000'. Chinese Numerals have an integer
+// grouping value of four ('4').
+//    Chinese Numerals Example: '12,3456,7890,2345'
 //
 // Again, this method will automatically set the 'integer digits
 // grouping sequence' to a default of 3-digits.
@@ -751,6 +750,126 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) NewBasic(
 	return newIntSepsDto, err
 }
 
+// NewBasicRunes - Creates and returns a new instance of
+// NumStrIntSeparatorsDto. This method is intended to configure a
+// basic or simple NumStrIntSeparatorsDto instance. Data values for
+// the new instance are generated from default values and a minimum
+// number of input parameters.
+//
+// The NumStrIntSeparatorsDto type encapsulates the integer digit
+// separators used in formatting a number string for text display.
+//
+// This method defaults the integer digits grouping sequence to
+// that most commonly used across the world. Namely, this is a
+// constant thousands grouping of three '3' digits.
+//      Example: 1,000,000,000,000
+//
+// In most countries, integer digits to the left of the decimal
+// separator (a.k.a. decimal point) are separated into groups of
+// three (3) digits representing a grouping of 'thousands' like
+// this: '1,000,000,000,000'. In this case the 'integer digits
+// grouping sequence' would be configured as:
+//        integer digits grouping sequence = 3
+//
+// Again, this method applies the 3-digit integer digits grouping
+// sequence by default.
+//
+// In some countries and cultures other integer groupings are used.
+// In India, for example, a number might be formatted like this:
+// '6,78,90,00,00,00,00,000'. Chinese Numerals have an integer
+// grouping value of four ('4').
+//    Chinese Numerals Example: '12,3456,7890,2345'
+//
+// Again, this method will automatically set the 'integer digits
+// grouping sequence' to a default of 3-digits.
+//
+// If you wish to configure the 'integer digits grouping sequence'
+// to some value other than the default, see method:
+//     NumStrIntSeparatorsDto.NewWithComponents()
+//
+// This method is an alternative to method
+// NumStrIntSeparatorsDto.NewBasic() in that this method
+// accepts integer separator characters as an array of runes
+// instead of a string.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  integerDigitsSeparators    string
+//     - One or more characters used to separate groups of
+//       integers. This separator is also known as the 'thousands'
+//       separator. It is used to separate groups of integer digits
+//       to the left of the decimal separator
+//       (a.k.a. decimal point). In the United States, the standard
+//       integer digits separator is the comma (",").
+//
+//             Example:  1,000,000,000
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  newIntSepsDto              NumStrIntSeparatorsDto
+//     - If this method completes successfully, a new instance of
+//       NumStrIntSeparatorsDto will be created and returned. The
+//       'integer digits grouping sequence' will be automatically
+//       set to a default value of 3-digits.
+//
+//  err                        error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSeparatorsDto NumStrIntSeparatorsDto) NewBasicRunes(
+	integerDigitsSeparators []rune,
+	ePrefix *ErrPrefixDto) (
+	newIntSepsDto NumStrIntSeparatorsDto,
+	err error) {
+
+	if intSeparatorsDto.lock == nil {
+		intSeparatorsDto.lock = new(sync.Mutex)
+	}
+
+	intSeparatorsDto.lock.Lock()
+
+	defer intSeparatorsDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparatorsDto." +
+			"NewBasicRunes()")
+
+	err =
+		numStrIntSeparatorsDtoUtility{}.ptr().
+			setBasicRunes(
+				&newIntSepsDto,
+				integerDigitsSeparators,
+				ePrefix.XCtx("newIntSepsDto"))
+
+	return newIntSepsDto, err
+}
+
 // NewWithComponents - Creates and returns a new instance of
 // NumStrIntSeparatorsDto. The new is generated from the array of
 // NumStrIntSeparator objects passed through input parameter,
@@ -799,8 +918,10 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) NewBasic(
 //             intSeparatorGrouping value would be set to three ('3').
 //
 //             In some countries and cultures other integer groupings are
-//             used. In India, for example, a number might be formatted
-//             like this: '6,78,90,00,00,00,00,000'.
+//             used. In India, for example, a number might be formatted like
+//             this: '6,78,90,00,00,00,00,000'. Chinese Numerals have an
+//             integer grouping value of four ('4').
+//                Chinese Numerals Example: '12,3456,7890,2345'
 //
 //        intSeparatorRepetitions    uint
 //           - This unsigned integer value specifies the number of times
@@ -900,11 +1021,10 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) NewWithComponents(
 // sequence by default.
 //
 // In some countries and cultures other integer groupings are used.
-// In India, for example, a number might be formatted as like this:
-// '6,78,90,00,00,00,00,000'. The right most group has three digits
-// and all the others are grouped by two. In this case 'integer
-// digits grouping sequence' would be configured as:
-//        integerDigitsGroupingSequence = []uint{3,2}
+// In India, for example, a number might be formatted like this:
+// '6,78,90,00,00,00,00,000'. Chinese Numerals have an integer
+// grouping value of four ('4').
+//    Chinese Numerals Example: '12,3456,7890,2345'
 //
 // Again, this method will automatically set the 'integer digits
 // grouping sequence' to a default of 3-digits.
@@ -1197,8 +1317,10 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) SetToUSADefaultsIfEmpty(
 //             intSeparatorGrouping value would be set to three ('3').
 //
 //             In some countries and cultures other integer groupings are
-//             used. In India, for example, a number might be formatted
-//             like this: '6,78,90,00,00,00,00,000'.
+//             used. In India, for example, a number might be formatted like
+//             this: '6,78,90,00,00,00,00,000'. Chinese Numerals have an
+//             integer grouping value of four ('4').
+//                Chinese Numerals Example: '12,3456,7890,2345'
 //
 //        intSeparatorRepetitions    uint
 //           - This unsigned integer value specifies the number of times
