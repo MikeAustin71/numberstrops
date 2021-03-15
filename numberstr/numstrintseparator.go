@@ -322,6 +322,38 @@ func (nStrIntSep *NumStrIntSeparator) GetIntSeparatorRepetitions() uint {
 	return nStrIntSep.intSeparatorRepetitions
 }
 
+// GetRestartIntGroupingSequence - Returns the internal member
+// variable 'restartIntGroupingSequence' for the current
+// NumStrIntSeparator instance.
+//
+// The NumStrIntSeparator type is intended to be configured in an
+// array of NumStrIntSeparator objects which, taken as whole,
+// provides formatting specifications for complex integer group
+// separation operations.
+//
+// If the current NumStrIntSeparator is the last element in an
+// array of NumStrIntSeparator objects, the 'Restart Integer
+// Grouping Sequence' flag signals whether the integer separation
+// will be restarted from the first NumStrIntSeparator object in
+// the array.
+//
+// Again, the NumStrIntSeparator.restartIntGroupingSequence boolean
+// flag only has meaning if the current NumStrIntSeparator object
+// is last element in an array of NumStrIntSeparator objects.
+//
+func (nStrIntSep *NumStrIntSeparator) GetRestartIntGroupingSequence() bool {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	return nStrIntSep.restartIntGroupingSequence
+}
+
 // IsValidInstance - Performs a diagnostic review of the current
 // NumStrIntSeparator instance to determine whether the current
 // instance is valid in all respects.
@@ -784,6 +816,94 @@ func (nStrIntSep *NumStrIntSeparator) SetBasic(
 			integerDigitsSeparators,
 			ePrefix.XCtx(
 				"nStrIntSep"))
+}
+
+// SetIntSeparatorChars - Sets the 'intSeparatorChars' member
+// variable for the current NumStrIntSeparator instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  intSeparatorChars          []rune
+//     - A series of runes or characters used to separate integer
+//       digits in a number string. These characters are commonly
+//       known as the 'thousands separator'. A 'thousands
+//       separator' is used to separate groups of integer digits to
+//       the left of the decimal separator (a.k.a. decimal point).
+//       In the United States, the standard integer digits
+//       separator is the single comma character (','). Other
+//       countries and cultures use periods, spaces, apostrophes or
+//       multiple characters to separate integers.
+//             United States Example:  1,000,000,000
+//
+//       If this parameter resolves as a zero length array, an
+//       error will be returned.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrIntSep *NumStrIntSeparator) SetIntSeparatorChars(
+	intSeparatorChars []rune,
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparator." +
+			"SetIntSeparatorChars()")
+
+	lenIntSepChars := len(intSeparatorChars)
+
+	if lenIntSepChars == 0 {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'intSeparatorChars' is invalid!\n"+
+			"'intSeparatorChars' is a zero length array.\n",
+			ePrefix.String())
+	}
+
+	nStrIntSep.intSeparatorChars =
+		make([]rune, lenIntSepChars, lenIntSepChars+5)
+
+	for i := 0; i < lenIntSepChars; i++ {
+		nStrIntSep.intSeparatorChars[i] =
+			intSeparatorChars[i]
+	}
+
+	return nil
 }
 
 // SetToUSADefaults - This method will overwrite and set the all
