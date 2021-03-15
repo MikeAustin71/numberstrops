@@ -970,6 +970,55 @@ func (nStrIntSep *NumStrIntSeparator) SetIntSeparatorGrouping(
 	return
 }
 
+// SetIntSeparatorRepetitions - Sets the 'Integer Separator
+// Repetitions' specification for the current NumStrIntSeparator
+// instance.
+//
+// The 'Integer Separator Repetitions' value is an unsigned integer
+// which specifies the number of cycles for which the integer
+// separation operation defined by separator characters and integer
+// digit grouping value in this NumStrIntSeparator instance will be
+// repeated.
+//
+// A value of zero for 'Integer Separator Repetitions' specifies
+// that the integer separation operation configured by the current
+// NumStrIntSeparator instance will be repeated indefinitely for
+// all integer numeric digits within the number string.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  intSeparatorRepetitions    uint
+//     - The 'Integer Separator Repetitions' value used to
+//       determine how many cycles the current integer digit
+//       separation operation will be repeated.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  -- NONE --
+//
+func (nStrIntSep *NumStrIntSeparator) SetIntSeparatorRepetitions(
+	intSeparatorRepetitions uint) {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	nStrIntSep.intSeparatorRepetitions =
+		intSeparatorRepetitions
+
+	return
+}
+
 // SetToUSADefaults - This method will overwrite and set the all
 // the internal member variable data values to default values used
 // in the United States. Integer separator values used in the
