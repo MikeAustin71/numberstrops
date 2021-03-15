@@ -327,15 +327,15 @@ func (nStrIntSep *NumStrIntSeparator) GetIntSeparatorRepetitions() uint {
 // NumStrIntSeparator instance.
 //
 // The NumStrIntSeparator type is intended to be configured in an
-// array of NumStrIntSeparator objects which, taken as whole,
+// array of NumStrIntSeparator objects which, taken as a whole,
 // provides formatting specifications for complex integer group
 // separation operations.
 //
 // If the current NumStrIntSeparator is the last element in an
 // array of NumStrIntSeparator objects, the 'Restart Integer
 // Grouping Sequence' flag signals whether the integer separation
-// will be restarted from the first NumStrIntSeparator object in
-// the array.
+// operation will be restarted from the first NumStrIntSeparator
+// object in the array.
 //
 // Again, the NumStrIntSeparator.restartIntGroupingSequence boolean
 // flag only has meaning if the current NumStrIntSeparator object
@@ -627,7 +627,7 @@ func (nStrIntSep NumStrIntSeparator) NewBasic(
 //
 //
 //  intSeparatorGrouping       uint
-//     - This unsigned integer values specifies the number of
+//     - This unsigned integer value specifies the number of
 //       integer digits within a group. This value is used to group
 //       integers within a number string.
 //
@@ -640,7 +640,8 @@ func (nStrIntSep NumStrIntSeparator) NewBasic(
 //       In some countries and cultures other integer groupings are
 //       used. In India, for example, a number might be formatted
 //       like this: '6,78,90,00,00,00,00,000'. Chinese Numerals
-//       would be formatted like this: '12,3456,7890,2345'
+//       have an integer grouping value of four ('4').
+//         Chinese Numerals Example: '12,3456,7890,2345'
 //
 //
 //  intSeparatorRepetitions    uint
@@ -650,10 +651,21 @@ func (nStrIntSep NumStrIntSeparator) NewBasic(
 //
 //
 //  restartIntGroupingSequence bool
-//     - If the NumStrIntSeparator is the last element in an array
-//       of NumStrIntSeparator objects, this boolean flag signals
-//       whether the entire integer grouping sequence will be
-//       restarted from array element zero.
+//     - The NumStrIntSeparator type is intended to be configured
+//       in an array of NumStrIntSeparator objects which, taken as
+//       a whole, provides formatting specifications for complex
+//       integer group separation operations.
+//
+//       If the current NumStrIntSeparator is the last element in
+//       an array of NumStrIntSeparator objects, the 'Restart
+//       Integer Grouping Sequence' flag signals whether the
+//       integer separation operation will be restarted from the
+//       first NumStrIntSeparator object in the array.
+//
+//       In summary, if the NumStrIntSeparator is the last element
+//       in an array of NumStrIntSeparator objects, this boolean
+//       flag signals whether the entire integer grouping sequence
+//       will be restarted from array element zero.
 //
 //
 //  ePrefix                    *ErrPrefixDto
@@ -904,6 +916,58 @@ func (nStrIntSep *NumStrIntSeparator) SetIntSeparatorChars(
 	}
 
 	return nil
+}
+
+// SetIntSeparatorGrouping - Sets the 'Integer Separator Grouping'
+// specification for the current NumStrIntSeparator instance.
+//
+// This unsigned integer values specifies the number of integer
+// digits within a group. This value is used to group integers
+// within a number string.
+//
+// In most western countries integer digits to the left of the
+// decimal separator (a.k.a. decimal point) are separated into
+// groups of three digits representing a grouping of 'thousands'
+// like this: '1,000,000,000'. In this case the
+// 'intSeparatorGrouping' value would be set to three ('3').
+//
+// In some countries and cultures other integer groupings are used.
+// In India, for example, a number might be formatted like this:
+// '6,78,90,00,00,00,00,000'. Chinese Numerals have an integer
+// grouping value of four ('4').
+//   Chinese Numerals Example: '12,3456,7890,2345'
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  intSeparatorGrouping       uint
+//     - The 'Integer Separator Grouping' value used to set
+//       the integer grouping specification for the current
+//       NumStrIntSeparator instance.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  -- NONE --
+//
+func (nStrIntSep *NumStrIntSeparator) SetIntSeparatorGrouping(
+	intSeparatorGrouping uint) {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	nStrIntSep.intSeparatorGrouping = intSeparatorGrouping
+
+	return
 }
 
 // SetToUSADefaults - This method will overwrite and set the all
