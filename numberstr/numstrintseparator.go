@@ -589,13 +589,116 @@ func (nStrIntSep NumStrIntSeparator) NewBasic(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrIntSeparator.CopyIn()")
+	ePrefix.SetEPref(
+		"NumStrIntSeparator.NewBasic()")
 
 	newIntSep := NumStrIntSeparator{}
 
 	err :=
 		numStrIntSeparatorUtility{}.ptr().
 			setBasic(
+				&newIntSep,
+				integerDigitsSeparators,
+				ePrefix.XCtx(
+					"newIntSep"))
+
+	return newIntSep, err
+}
+
+// NewBasicRunes - Creates and returns a new instance of
+// NumStrIntSeparator. The returned NumStrIntSeparator instance
+// represents a basic or simple integer separator object using
+// default values and a minimum number of input parameters.
+//
+// This method is an alternative to method
+// NumStrIntSeparator.NewBasic() in that this method accepts
+// integer separator characters as an array of runes instead
+// of a string.
+//
+// The input parameter 'integerDigitsSeparators' is an array of
+// runes containing the integer separator characters. The integer
+// digit grouping is defaulted to a value of three (3). The
+// 'separator repetitions' value is defaulted to zero (0) signaling
+// unlimited repetitions.
+//
+// This means that integer digits will be separated into 'thousands'
+// with each group containing three digits each (Example:
+// 1,000,000,000). Users have the option of specifying integer
+// separator characters through input parameter
+// 'integerDigitsSeparators'.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  integerDigitsSeparators    []rune
+//     - One or more characters used to separate groups of
+//       integers. This separator is also known as the 'thousands'
+//       separator. It is used to separate groups of integer digits
+//       to the left of the decimal separator (a.k.a. decimal
+//       point). In the United States, the standard integer digits
+//       separator is the comma (',').
+//
+//             Example:  1,000,000,000
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrIntSeparator
+//     - If this method completes successfully, a new instance of
+//       NumStrIntSeparator will be created and returned. The
+//       'integer digits grouping sequence' will be automatically
+//       set to a default value of 3-digits.
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrIntSep NumStrIntSeparator) NewBasicRunes(
+	integerDigitsSeparators []rune,
+	ePrefix *ErrPrefixDto) (
+	NumStrIntSeparator,
+	error) {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparator.NewBasicRunes()")
+
+	newIntSep := NumStrIntSeparator{}
+
+	err :=
+		numStrIntSeparatorUtility{}.ptr().
+			setBasicRunes(
 				&newIntSep,
 				integerDigitsSeparators,
 				ePrefix.XCtx(
@@ -719,7 +822,8 @@ func (nStrIntSep NumStrIntSeparator) NewWithComponents(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrIntSeparator.NewWithComponents()")
+	ePrefix.SetEPref(
+		"NumStrIntSeparator.NewWithComponents()")
 
 	err =
 		numStrIntSeparatorMechanics{}.ptr().
