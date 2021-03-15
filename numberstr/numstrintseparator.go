@@ -270,6 +270,58 @@ func (nStrIntSep *NumStrIntSeparator) GetIntSeparatorChars(
 	return newIntSepChars, nil
 }
 
+// GetIntSeparatorGrouping - Returns an unsigned integer
+// representing the number of integer digits included in an integer
+// group for the current NumStrIntSeparator instance.
+//
+// This unsigned integer value is used to group integers within a
+// number string.
+//
+// In most western countries integer digits to the left of
+// the decimal separator (a.k.a. decimal point) are separated
+// into groups of three digits representing a grouping of
+// 'thousands' like this: '1,000,000,000'. In this case the
+// intSeparatorGrouping value would be set to three ('3').
+//
+// In some countries and cultures other integer groupings are
+// used. In India, for example, a number might be formatted
+// like this: '6,78,90,00,00,00,00,000'. Chinese Numerals
+// would be formatted like this: 12,3456,7890,2345
+//
+func (nStrIntSep *NumStrIntSeparator) GetIntSeparatorGrouping() uint {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	return nStrIntSep.intSeparatorGrouping
+}
+
+// GetIntSeparatorRepetitions - Returns the Integer Separator
+// repetitions specification for the current NumStrIntSeparator
+// instance.
+//
+// The returned unsigned integer value specifies the number of
+// times this integer grouping is repeated. A value of zero signals
+// that this integer grouping will be repeated indefinitely.
+//
+func (nStrIntSep *NumStrIntSeparator) GetIntSeparatorRepetitions() uint {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	return nStrIntSep.intSeparatorRepetitions
+}
+
 // IsValidInstance - Performs a diagnostic review of the current
 // NumStrIntSeparator instance to determine whether the current
 // instance is valid in all respects.
@@ -555,7 +607,8 @@ func (nStrIntSep NumStrIntSeparator) NewBasic(
 //
 //       In some countries and cultures other integer groupings are
 //       used. In India, for example, a number might be formatted
-//       like this: '6,78,90,00,00,00,00,000'.
+//       like this: '6,78,90,00,00,00,00,000'. Chinese Numerals
+//       would be formatted like this: '12,3456,7890,2345'
 //
 //
 //  intSeparatorRepetitions    uint
@@ -915,7 +968,8 @@ func (nStrIntSep *NumStrIntSeparator) SetToUSADefaultsIfEmpty(
 //
 //       In some countries and cultures other integer groupings are
 //       used. In India, for example, a number might be formatted
-//       like this: '6,78,90,00,00,00,00,000'.
+//       like this: '6,78,90,00,00,00,00,000'. Chinese Numerals
+//       would be formatted like this: '12,3456,7890,2345'
 //
 //
 //  intSeparatorRepetitions    uint
