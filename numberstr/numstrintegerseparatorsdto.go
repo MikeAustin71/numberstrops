@@ -519,15 +519,12 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) GetNumberOfArrayElements() int {
 // objects, taken as a whole, provide formatting specifications for
 // complex integer group separation operations.
 //
-// If the current NumStrIntSeparator is the last element in an
-// array of NumStrIntSeparator objects, the 'Restart Integer
-// Grouping Sequence' flag signals whether the integer separation
-// operation will be restarted from the first NumStrIntSeparator
-// object in the array.
-//
-// Again, the NumStrIntSeparator.restartIntGroupingSequence boolean
-// flag only has meaning if the current NumStrIntSeparator object
-// is last element in an array of NumStrIntSeparator objects.
+// This method therefore returns the 'Restart Integer Grouping
+// Sequence' flag for the last element in the internal array of
+// NumStrIntSeparator objects. If the flag is set to 'true' it
+// signals that the integer separation operation will start over
+// at array index zero when the last array element completes its
+// cycle.
 //
 func (intSeparatorsDto *NumStrIntSeparatorsDto) GetRestartIntGroupingSequence(
 	ePrefix *ErrPrefixDto) (
@@ -1306,6 +1303,105 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) SetBasicRunes(
 			intSeparatorsDto,
 			integerDigitsSeparators,
 			ePrefix.XCtx("intSeparatorsDto"))
+}
+
+// SetRestartIntGroupingSequence - Sets the internal member
+// variable 'restartIntGroupingSequence' for the last element in
+// the internal array of NumStrIntSeparator objects. If the
+// internal array of NumStrIntSeparator objects is a zero length
+// array, this method will return an error.
+//
+// The NumStrIntSeparatorsDto type manages an internal collection
+// or array of NumStrIntSeparator objects. These NumStrIntSeparator
+// objects, taken as a whole, provide formatting specifications for
+// complex integer group separation operations.
+//
+// This method therefore sets the 'Restart Integer Grouping
+// Sequence' flag for the last element in the internal array of
+// NumStrIntSeparator objects. If the flag is set to 'true' it
+// specifies that the integer separation operation will start over
+// at array index zero when the last array element completes its
+// cycle.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  restartIntGroupingSequence bool
+//     - The current NumStrIntSeparatorsDto instance contains an
+//       internal array of NumStrIntSeparator objects which, taken
+//       as a whole, provides formatting specifications for complex
+//       integer group separation operations.
+//
+//       This parameter will set the 'Restart Integer Grouping
+//       Sequence' flag for the last element in the internal array.
+//       The flag signals whether the integer separation operation
+//       will be restarted from the first NumStrIntSeparator object
+//       in the array when the last NumStrIntSeparator object
+//       completes its cycle.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSeparatorsDto *NumStrIntSeparatorsDto) SetRestartIntGroupingSequence(
+	restartIntGroupingSequence bool,
+	ePrefix *ErrPrefixDto) error {
+
+	if intSeparatorsDto.lock == nil {
+		intSeparatorsDto.lock = new(sync.Mutex)
+	}
+
+	intSeparatorsDto.lock.Lock()
+
+	defer intSeparatorsDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparatorsDto." +
+			"SetRestartIntGroupingSequence()")
+
+	if intSeparatorsDto.intSeparators == nil {
+		intSeparatorsDto.intSeparators =
+			make([]NumStrIntSeparator, 0, 5)
+	}
+
+	lenIntSeps := len(intSeparatorsDto.intSeparators)
+
+	if lenIntSeps == 0 {
+
+		return fmt.Errorf("%v\n"+
+			"Error: Internal member variable is invalid!\n"+
+			"'intSeparatorsDto.intSeparators' is a zero length array.\n",
+			ePrefix.String())
+	}
+
+	intSeparatorsDto.intSeparators[lenIntSeps-1].
+		restartIntGroupingSequence = restartIntGroupingSequence
+
+	return nil
 }
 
 // SetToUSADefaults - This method will overwrite and set the all
