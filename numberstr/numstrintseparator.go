@@ -1019,6 +1019,71 @@ func (nStrIntSep *NumStrIntSeparator) SetIntSeparatorRepetitions(
 	return
 }
 
+// SetRestartIntGroupingSequence - Sets the internal member
+// variable 'restartIntGroupingSequence' for the current
+// NumStrIntSeparator instance.
+//
+// The NumStrIntSeparator type is intended to be configured in an
+// array of NumStrIntSeparator objects which, taken as a whole,
+// provides formatting specifications for complex integer group
+// separation operations.
+//
+// If the current NumStrIntSeparator is the last element in an
+// array of NumStrIntSeparator objects, the 'Restart Integer
+// Grouping Sequence' flag signals whether the integer separation
+// operation will be restarted from the first NumStrIntSeparator
+// object in the array.
+//
+// Again, the NumStrIntSeparator.restartIntGroupingSequence boolean
+// flag only has meaning if the current NumStrIntSeparator object
+// is last element in an array of NumStrIntSeparator objects.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  restartIntGroupingSequence bool
+//     - The NumStrIntSeparator type is intended to be configured
+//       in an array of NumStrIntSeparator objects which, taken as
+//       a whole, provides formatting specifications for complex
+//       integer group separation operations.
+//
+//       If the current NumStrIntSeparator is the last element in
+//       an array of NumStrIntSeparator objects, the 'Restart
+//       Integer Grouping Sequence' flag signals whether the
+//       integer separation operation will be restarted from the
+//       first NumStrIntSeparator object in the array.
+//
+//       In summary, if the NumStrIntSeparator is the last element
+//       in an array of NumStrIntSeparator objects, this boolean
+//       flag signals whether the entire integer grouping sequence
+//       will be restarted from array element zero.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  -- NONE --
+//
+func (nStrIntSep *NumStrIntSeparator) SetRestartIntGroupingSequence(
+	restartIntGroupingSequence bool) {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	nStrIntSep.restartIntGroupingSequence =
+		restartIntGroupingSequence
+
+	return
+}
+
 // SetToUSADefaults - This method will overwrite and set the all
 // the internal member variable data values to default values used
 // in the United States. Integer separator values used in the
