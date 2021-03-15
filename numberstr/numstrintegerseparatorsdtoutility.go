@@ -179,3 +179,102 @@ func (intSepsDtoUtil *numStrIntSeparatorsDtoUtility) setBasic(
 
 	return err
 }
+
+// setToUSADefaultsIfEmpty - If any of the NumStrIntSeparatorsDto
+// data values are zero or invalid, this method will reset ALL data
+// elements to United States default values.
+//
+// If the input parameter 'intSepsDto' object is valid and
+// populated with data, this method will take no action and exit.
+//
+// United States default numeric separators are listed as follows:
+//
+//  Decimal Separator = '.'
+//  Thousands Separator (a.k.a Integer Digits Separator) = ','
+//  Integer Digits Grouping Sequence = 3
+//  Example Floating Point Number String: 1,000,000,000.456
+//
+// IMPORTANT
+//
+// This method MAY overwrite all pre-existing data values in the
+// input parameter, 'intSepsDto'.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  intSepsDto                 *NumStrIntSeparatorsDto
+//     - A pointer to an instance of NumStrIntSeparatorsDto. If
+//       this object is invalid or contains zero data values, all
+//       member variable data values will be overwritten and reset
+//       to United States default integer separator values.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                        error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSepsDtoUtil *numStrIntSeparatorsDtoUtility) setToUSADefaultsIfEmpty(
+	intSepsDto *NumStrIntSeparatorsDto,
+	ePrefix *ErrPrefixDto) error {
+
+	if intSepsDtoUtil.lock == nil {
+		intSepsDtoUtil.lock = new(sync.Mutex)
+	}
+
+	intSepsDtoUtil.lock.Lock()
+
+	defer intSepsDtoUtil.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrIntSeparatorsDtoUtility." +
+			"setToUSADefaultsIfEmpty()")
+
+	if intSepsDto == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'intSepsDto' is invalid!\n"+
+			"'intSepsDto' is a 'nil' pointer.\n",
+			ePrefix.String())
+	}
+
+	if intSepsDto.lock == nil {
+		intSepsDto.lock = new(sync.Mutex)
+	}
+
+	_,
+		err := numStrIntSeparatorsDtoQuark{}.ptr().
+		testValidityOfNumStrIntSepsDto(
+			intSepsDto,
+			ePrefix.XCtx("intSepsDto"))
+
+	if err == nil {
+		return err
+	}
+
+	return numStrIntSeparatorsDtoMechanics{}.ptr().
+		setToUSADefaults(
+			intSepsDto,
+			ePrefix.XCtx("intSeparatorsDto"))
+}

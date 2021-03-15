@@ -573,6 +573,11 @@ func (nStrIntSep NumStrIntSeparator) NewWithComponents(
 // separator characters through input parameter
 // 'integerDigitsSeparators'.
 //
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumStrIntSeparator instance.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -656,6 +661,11 @@ func (nStrIntSep *NumStrIntSeparator) SetBasic(
 //
 //   United States Integer Separation Example:
 //         '1,000,000,000,000'
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumStrIntSeparator instance.
 //
 //
 // ----------------------------------------------------------------
@@ -787,6 +797,11 @@ func (nStrIntSep *NumStrIntSeparator) SetToUSADefaultsIfEmpty(
 // internal member variable data values for the current
 // NumStrIntSeparator instance based on the component elements
 // passed as input parameters.
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumStrIntSeparator instance.
 //
 //
 // ----------------------------------------------------------------

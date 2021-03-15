@@ -170,7 +170,7 @@ func (intSeparatorUtil *numStrIntSeparatorUtility) setBasic(
 // IMPORTANT
 //
 // This method MAY overwrite all pre-existing data values in the
-// current NumStrIntSeparator instance.
+// input parameter, 'intSep'.
 //
 //
 // ----------------------------------------------------------------
@@ -249,9 +249,11 @@ func (intSeparatorUtil *numStrIntSeparatorUtility) setToUSADefaultsIfEmpty(
 		return err
 	}
 
-	return numStrIntSeparatorMechanics{}.ptr().
+	err = numStrIntSeparatorMechanics{}.ptr().
 		setToUSADefaults(
 			intSep,
 			ePrefix.XCtx(
 				"intSep"))
+
+	return err
 }

@@ -599,7 +599,8 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) IsValidInstanceError(
 		err := numStrIntSeparatorsDtoQuark{}.ptr().
 		testValidityOfNumStrIntSepsDto(
 			intSeparatorsDto,
-			nil)
+			ePrefix.XCtx(
+				"intSeparatorsDto"))
 
 	return err
 }
@@ -997,6 +998,150 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) SetBasic(
 			intSeparatorsDto,
 			integerDigitsSeparators,
 			ePrefix.XCtx("intSeparatorsDto"))
+}
+
+// SetToUSADefaults - This method will overwrite and set the all
+// the internal member variable data values to default values used
+// in the United States. Integer separator values used in the
+// United States consist of the comma character (','), an integer
+// grouping of three ('3') and unlimited repetitions of this
+// sequence.
+//
+//   United States Integer Separation Example:
+//         '1,000,000,000,000'
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumStrIntSeparatorsDto instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSeparatorsDto *NumStrIntSeparatorsDto) SetToUSADefaults(
+	ePrefix *ErrPrefixDto) error {
+
+	if intSeparatorsDto.lock == nil {
+		intSeparatorsDto.lock = new(sync.Mutex)
+	}
+
+	intSeparatorsDto.lock.Lock()
+
+	defer intSeparatorsDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparatorsDto." +
+			"SetToUSADefaults()")
+
+	return numStrIntSeparatorsDtoMechanics{}.ptr().
+		setToUSADefaults(
+			intSeparatorsDto,
+			ePrefix.XCtx(
+				"intSeparatorsDto"))
+}
+
+// SetToUSADefaultsIfEmpty - If any of the NumStrIntSeparatorsDto
+// data values are zero or invalid, this method will reset ALL data
+// elements to United States default values.
+//
+// If the current NumStrIntSeparatorsDto instance is valid and
+// populated with data, this method will take no action and exit.
+//
+// United States default numeric separators are listed as follows:
+//
+//  Decimal Separator = '.'
+//  Thousands Separator (a.k.a Integer Digits Separator) = ','
+//  Integer Digits Grouping Sequence = 3
+//  Example Floating Point Number String: 1,000,000,000.456
+//
+// IMPORTANT
+//
+// This method MAY overwrite all pre-existing data values in the
+// the current NumStrIntSeparatorsDto instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSeparatorsDto *NumStrIntSeparatorsDto) SetToUSADefaultsIfEmpty(
+	ePrefix *ErrPrefixDto) error {
+
+	if intSeparatorsDto.lock == nil {
+		intSeparatorsDto.lock = new(sync.Mutex)
+	}
+
+	intSeparatorsDto.lock.Lock()
+
+	defer intSeparatorsDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparatorsDto." +
+			"SetToUSADefaultsIfEmpty()")
+
+	return numStrIntSeparatorsDtoMechanics{}.ptr().
+		setToUSADefaults(
+			intSeparatorsDto,
+			ePrefix.XCtx(
+				"intSeparatorsDto"))
 }
 
 // SetWithComponents - This method will reset all of the member
