@@ -1899,6 +1899,356 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyCodeNo(
 	nStrFmtSpecCurrValDto.currencyCodeNo = currencyCodeNo
 }
 
+// SetCurrencyData - Sets all of the basic currency values. This
+// method is designed to be used in conjunction with the following
+// methods:
+//   NumStrFmtSpecCurrencyValueDto.SetNumericSeparators()
+//   NumStrFmtSpecCurrencyValueDto.SetNumberFieldLengthDto()
+//
+// The only two elements of the NumStrFmtSpecCurrencyValueDto
+// instance which are NOT set by this method are the
+// NumericSeparators and the NumberFieldDto data elements.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  positiveValueFmt              string
+//     - This format string will be used to format positive currency
+//       value in text number strings. Valid positive currency value
+//       format strings must comply with the following constraints.
+//
+//       Positive Currency Value Formatting Terminology and Placeholders:
+//
+//               "$" - Placeholder for the previously selected currency
+//                     symbol associated with the user's preferred country
+//                     or culture. This placeholder symbol, '$', MUST BE
+//                     present in the positive value format string in order
+//                     to correctly position the actual currency symbol
+//                     relative to the currency numeric value.
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for absolute value number formatting.
+//
+//       Valid format strings for positive currency values are
+//       listed as follows:
+//
+//          $127.54
+//          $ 127.54
+//          127.54$
+//          127.54 $
+//
+//          $127.54+
+//          $127.54 +
+//          $ 127.54+
+//          $ 127.54 +
+//
+//          $+127.54
+//          $ +127.54
+//          $+ 127.54
+//          $ + 127.54
+//
+//          127.54$+
+//          127.54$ +
+//          127.54 $+
+//          127.54$ +
+//          127.54 $ +
+//
+//          127.54+$
+//          127.54+ $
+//          127.54 +$
+//          127.54+ $
+//          127.54 + $
+//
+//          +127.54$
+//          +127.54 $
+//          + 127.54$
+//          + 127.54 $
+//
+//
+//  negativeValueFmt              string
+//     - This format string will be used to format negative currency
+//       values in text number strings. Valid negative currency value
+//       format strings must comply with the following constraints.
+//
+//       Negative Currency Value Formatting Terminology and Placeholders:
+//
+//               "$" - Placeholder for the previously selected currency
+//                     symbol associated with the user's preferred country
+//                     or culture. This placeholder symbol, '$', MUST BE
+//                     present in the positive value format string in order
+//                     to correctly position the actual currency symbol
+//                     relative to the currency numeric value.
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "-" - The Minus Sign ('-'). If present in the
+//                     format string, the minus sign ('-') specifies
+//                     where the minus sign will be positioned
+//                     relative to the numeric value in the text
+//                     number string.
+//
+//             "(-)" - These three characters are often used in
+//                     Europe and the United Kingdom to classify
+//                     a numeric value as negative.
+//
+//              "()" - Opposing parenthesis characters are
+//                     frequently used in the United States
+//                     to classify a numeric value as negative.
+//
+//       Valid format strings for negative currency values are
+//       listed as follows:
+//
+//          ( $127.54 )
+//          ( $ 127.54 )
+//          ($ 127.54)
+//          ($127.54)
+//
+//          $(127.54)
+//          $ (127.54)
+//          $( 127.54 )
+//          $ ( 127.54 )
+//
+//          ( 127.54$ )
+//          ( 127.54 $ )
+//          ( 127.54 $)
+//          (127.54$)
+//
+//          (127.54)$
+//          (127.54) $
+//          ( 127.54 )$
+//          ( 127.54 ) $
+//
+//          (-) $127.54
+//          (-) $ 127.54
+//          (-)$127.54
+//          (-)$ 127.54
+//
+//          $ (-)127.54
+//          $ (-) 127.54
+//          $(-)127.54
+//          $(-) 127.54
+//
+//          (-) 127.54$
+//          (-) 127.54 $
+//          (-)127.54$
+//          (-)127.54 $
+//
+//          127.54(-) $
+//          127.54 (-) $
+//          127.54(-)$
+//          127.54 (-)$
+//
+//          127.54$(-)
+//          127.54$ (-)
+//          127.54 $ (-)
+//          127.54 $(-)
+//
+//          $127.54(-)
+//          $127.54 (-)
+//          $ 127.54(-)
+//          $ 127.54 (-)
+//
+//          - $127.54
+//          - $ 127.54
+//          -$127.54
+//          -$ 127.54
+//
+//          $ -127.54
+//          $ - 127.54
+//          $-127.54
+//          $- 127.54
+//
+//          - 127.54$
+//          - 127.54 $
+//          -127.54$
+//          -127.54 $
+//
+//          127.54- $
+//          127.54 - $
+//          127.54-$
+//          127.54 -$
+//
+//          127.54$-
+//          127.54$ -
+//          127.54 $ -
+//          127.54 $-
+//
+//          $127.54-
+//          $127.54 -
+//          $ 127.54-
+//          $ 127.54 -
+//
+//
+//  decimalDigits                 uint
+//     - The standard number of digits to the right of the decimal
+//       place which is expected for currency values. In the United
+//       States, currency is typically formatted with two digits to
+//       the right of the decimal.
+//         Example:  $24.92
+//
+//
+//  currencyCode                  string
+//     - The ISO 4217 Currency Code associated with this currency
+//       specification. Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
+//  currencyCodeNo                string
+//     - The ISO 4217 Currency Code Number associated with this
+//       currency specification. The Currency Code Number is stored
+//       as a string per ISO 4217.
+//
+//       Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
+//  currencyName                  string
+//     - The official name for this currency.
+//
+//
+//  currencySymbols               []rune
+//     - The authorized unicode character symbols associated with
+//       this currency specification. The currency symbol for the
+//       United States is the dollar sign ('$'). Some countries and
+//       cultures have currency symbols consisting of two or more
+//       characters.
+//
+//
+//  minorCurrencyName             string
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢). Some countries and cultures have currency symbols
+//       consisting of two or more characters.
+//
+//
+//  minorCurrencySymbols          []rune
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢).
+//
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: 1,000,000,000
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: 1000000000
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyData(
+	positiveValueFmt string,
+	negativeValueFmt string,
+	decimalDigits uint,
+	currencyCode string,
+	currencyCodeNo string,
+	currencyName string,
+	currencySymbols []rune,
+	minorCurrencyName string,
+	minorCurrencySymbols []rune,
+	turnOnIntegerDigitsSeparation bool,
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrFmtSpecCurrValDto.lock == nil {
+		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValDto.lock.Lock()
+
+	defer nStrFmtSpecCurrValDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFmtSpecCurrencyValueDto." +
+			"SetCurrencyData()")
+
+	return numStrFmtSpecCurrencyValueDtoNanobot{}.ptr().
+		setCurrencyData(
+			nStrFmtSpecCurrValDto,
+			positiveValueFmt,
+			negativeValueFmt,
+			decimalDigits,
+			currencyCode,
+			currencyCodeNo,
+			currencyName,
+			currencySymbols,
+			minorCurrencyName,
+			minorCurrencySymbols,
+			turnOnIntegerDigitsSeparation,
+			ePrefix)
+
+}
+
 // SetCurrencyName - Sets the currency name associated with
 // this currency.
 // Reference:
@@ -2356,6 +2706,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueForm
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
 //
 // -----------------------------------------------------------------
 //
@@ -2390,7 +2743,8 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLength
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto.SetNumberFieldLengthDto()")
+		"NumStrFmtSpecCurrencyValueDto." +
+			"SetNumberFieldLengthDto()")
 
 	err =
 		nStrFmtSpecCurrValDto.numFieldLenDto.CopyIn(
@@ -2400,11 +2754,12 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLength
 	return err
 }
 
-// SetNumericSeparators - Sets the Number Separators Dto object
+// SetNumericSeparators - Sets the Number Separators object
 // for the current NumStrFmtSpecCurrencyValueDto instance.
 //
-// The Number Separators Dto object is used to specify the Decimal
-// Separators Character and the Integer Digits Separator Characters.
+// The Number Separators object is used to specify the Decimal
+// Separator Character(s) and the Integer Digits Separator
+// Character(s).
 //
 // ----------------------------------------------------------------
 //
@@ -2486,14 +2841,33 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLength
 //                    restarted from array element zero.
 //
 //
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
 // -----------------------------------------------------------------
 //
 // Return Values
 //
-//  --- NONE ---
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumericSeparators(
-	numericSeparators NumericSeparators) {
+	numericSeparators NumericSeparators,
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -2502,10 +2876,19 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumericSeparators
 	nStrFmtSpecCurrValDto.lock.Lock()
 
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
 
-	_ = nStrFmtSpecCurrValDto.numericSeparators.CopyIn(
-		&numericSeparators,
-		new(ErrPrefixDto))
+	ePrefix.SetEPref(
+		"NumStrFmtSpecCurrencyValueDto." +
+			"SetNumericSeparators()")
+
+	return numStrFmtSpecCurrencyValueDtoMechanics{}.ptr().
+		setNumericSeparators(
+			nStrFmtSpecCurrValDto,
+			numericSeparators,
+			ePrefix.XCtx("nStrFmtSpecCurrValDto"))
 }
 
 // SetPositiveValueFormat - Sets the currency positive value format
@@ -3298,6 +3681,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
 //
 //
 // -----------------------------------------------------------------
