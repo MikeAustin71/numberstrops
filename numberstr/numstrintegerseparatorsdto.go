@@ -497,6 +497,27 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) CopyOut(
 			ePrefix)
 }
 
+// Empty - Deletes a members of the internal NumStrIntSeparator
+// array and sets the array to a zero length array.
+//
+// This effectively wipes or deletes all data maintained by this
+// NumStrIntSeparatorsDto instance.
+func (intSeparatorsDto *NumStrIntSeparatorsDto) Empty() {
+
+	if intSeparatorsDto.lock == nil {
+		intSeparatorsDto.lock = new(sync.Mutex)
+	}
+
+	intSeparatorsDto.lock.Lock()
+
+	defer intSeparatorsDto.lock.Unlock()
+
+	intSeparatorsDto.intSeparators =
+		make([]NumStrIntSeparator, 0, 5)
+
+	return
+}
+
 // Equal - Receives an incoming NumStrIntSeparatorsDto
 // instance and compares it the current NumStrIntSeparatorsDto
 // instance. If the two objects have equal data values, this method
