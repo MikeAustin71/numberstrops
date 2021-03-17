@@ -2714,7 +2714,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueForm
 //
 // Return Values
 //
-//  err                 error
+//  error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'.
 //
@@ -2727,8 +2727,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueForm
 //
 func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLengthDto(
 	numberFieldLenDto NumberFieldDto,
-	ePrefix *ErrPrefixDto) (
-	err error) {
+	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -2746,12 +2745,12 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLength
 		"NumStrFmtSpecCurrencyValueDto." +
 			"SetNumberFieldLengthDto()")
 
-	err =
-		nStrFmtSpecCurrValDto.numFieldLenDto.CopyIn(
-			&numberFieldLenDto,
-			ePrefix)
-
-	return err
+	return numStrFmtSpecCurrencyValueDtoMechanics{}.
+		ptr().setNumberFieldLengthDto(
+		nStrFmtSpecCurrValDto,
+		numberFieldLenDto,
+		ePrefix.XCtx(
+			"nStrFmtSpecCurrValDto"))
 }
 
 // SetNumericSeparators - Sets the Number Separators object

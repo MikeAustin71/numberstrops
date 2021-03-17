@@ -537,7 +537,96 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	return err
 }
 
-// SetNumericSeparators - Sets the Number Separators object
+// setNumberFieldLengthDto - Sets the Number Field Length Dto object
+// for the current NumStrFmtSpecCurrencyValueDto instance.
+//
+// The Number Separators Dto object is used to specify the Decimal
+// Separators Character and the Integer Digits Separator Characters.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  nStrFmtSpecCurrencyValDto     *NumStrFmtSpecCurrencyValueDto,
+//
+//     - A pointer to an instance of NumStrFmtSpecCurrencyValueDto.
+//       All of the data values in this object will be overwritten
+//       set to new values based on the following input parameters.
+//
+//
+//  numberFieldLenDto             NumberFieldDto
+//     - The NumberFieldDto details the length of the number field
+//       in which the signed numeric value will be displayed and
+//       right justified.
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int
+//         actualNumFieldLength    int
+//         minimumNumFieldLength   int
+//       }
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setNumberFieldLengthDto(
+	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
+	numberFieldLenDto NumberFieldDto,
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrFmtSpecCurrValMech.lock == nil {
+		nStrFmtSpecCurrValMech.lock = new(sync.Mutex)
+	}
+
+	nStrFmtSpecCurrValMech.lock.Lock()
+
+	defer nStrFmtSpecCurrValMech.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrFmtSpecCurrencyValueDtoMechanics." +
+			"setNumberFieldLengthDto()")
+
+	if nStrFmtSpecCurrencyValDto == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'nStrFmtSpecCurrencyValDto' is invalid!\n"+
+			"'nStrFmtSpecCurrencyValDto' is a 'nil' pointer\n",
+			ePrefix.String())
+
+	}
+
+	return nStrFmtSpecCurrencyValDto.
+		numFieldLenDto.CopyIn(
+		&numberFieldLenDto,
+		ePrefix.XCtx(
+			"nStrFmtSpecCurrencyValDto"))
+}
+
+// setNumericSeparators - Sets the Number Separators object
 // for the NumStrFmtSpecCurrencyValueDto instance,
 // 'nStrFmtSpecCurrencyValDto'.
 //
