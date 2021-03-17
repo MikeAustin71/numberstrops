@@ -21,7 +21,7 @@ import (
 //
 // The 'Decimal Separator' is used to separate integer and
 // fractional digits within a floating point number display.
-// The decimal may consist of one or more runes.
+// The decimal separator may consist of one or more runes.
 //
 //
 // integerSeparatorsDto    NumStrIntSeparatorsDto
@@ -45,20 +45,6 @@ import (
 //         restartIntGroupingSequence bool // If true, the grouping sequence starts over at index zero.
 //        }
 //
-//
-// integerSeparatorsDto             []NumStrIntSeparator
-//
-// An array of NumStrIntSeparator elements used to specify the
-// integer separation operation.
-//
-//    type NumStrIntSeparator struct {
-//      intSeparatorChar     rune       // Integer separator character
-//      intSeparatorGrouping uint       // Number of integers in a group
-//      intSeparatorRepetitions uint    // Number of times this character/group is repeated
-//                                      // A zero value signals unlimited repetitions.
-//      restartIntGroupingSequence bool // If true, the entire grouping sequence is repeated
-//                                      //  beginning at array index zero.
-//    }
 //
 //    intSeparatorChars          []rune
 //       - A series of runes or characters used to separate integer

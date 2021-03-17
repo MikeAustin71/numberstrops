@@ -1418,7 +1418,7 @@ func (nStrDtoAtom *numStrDtoAtom) formatCurrencyStr(
 		}
 
 		outRunes[outIdx] =
-			currencyFormat.GetDecimalSeparator()
+			currencyFormat.GetDecimalSeparators()
 
 		outIdx--
 	}
