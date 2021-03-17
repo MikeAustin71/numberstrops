@@ -22,18 +22,19 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 //
 // Input Parameters
 //
-//  decimalSeparatorChar       rune
-//     - The character used to separate integer and fractional
-//       digits in a floating point number string. In the United
-//       States, the Decimal Separator character is the period
-//       ('.') or Decimal Point.
-//           Example: '123.45678'
+//  decimalSeparatorChars      []rune
+//     - The characters or character used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
 //
 //
-//  thousandsSeparatorChar     rune
-//     - The character which will be used to delimit 'thousands' in
-//       integer number strings. In the United States, the
-//       Thousands separator is the comma character (',').
+//  thousandsSeparatorChars    []rune
+//     - The characters or character which will be used to delimit
+//       'thousands' in integer number strings. In the United
+//       States, the Thousands separator is the comma character
+//       (',').
 //           United States Example: '1,000,000,000'
 //
 //       The default integer digit grouping of three ('3') digits
@@ -372,8 +373,8 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 //
 func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrValDtoWithDefaults(
 	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
-	decimalSeparatorChar rune,
-	thousandsSeparatorChar rune,
+	decimalSeparatorChars []rune,
+	thousandsSeparatorChars []rune,
 	turnOnIntegerDigitsSeparation bool,
 	positiveValueFmt string,
 	negativeValueFmt string,
@@ -423,24 +424,18 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 		return err
 	}
 
-	var numberSeparatorsDto NumericSeparators
+	var numericSeparators NumericSeparators
 
-	intSeps := make([]NumStrIntSeparator, 1, 5)
-
-	intSeps[0].intSeparatorChar = thousandsSeparatorChar
-	intSeps[0].intSeparatorGrouping = 3
-	intSeps[0].intSeparatorRepetitions = 0
-
-	numberSeparatorsDto,
-		err = NumericSeparators{}.NewWithComponents(
-		decimalSeparatorChar,
-		intSeps,
+	numericSeparators,
+		err = NumericSeparators{}.NewBasicRunes(
+		decimalSeparatorChars,
+		thousandsSeparatorChars,
 		ePrefix.XCtx(
 			fmt.Sprintf("\n"+
-				"decimalSeparatorChar='%v'\n"+
-				"thousandsSeparatorChar='%v'\n",
-				decimalSeparatorChar,
-				thousandsSeparatorChar)))
+				"decimalSeparatorChars='%v'\n"+
+				"thousandsSeparatorChars='%v'\n",
+				decimalSeparatorChars,
+				thousandsSeparatorChars)))
 
 	if err != nil {
 		return err
@@ -461,7 +456,7 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 		minorCurrencyName,
 		minorCurrencySymbols,
 		turnOnIntegerDigitsSeparation,
-		numberSeparatorsDto,
+		numericSeparators,
 		numFieldDto,
 		ePrefix)
 
@@ -563,21 +558,18 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setToUnit
 		return err
 	}
 
-	var numberSeparatorsDto NumericSeparators
+	var numericSeparators NumericSeparators
 
-	intSeps := make([]NumStrIntSeparator, 1, 5)
-
-	intSeps[0].intSeparatorChar = ','
-	intSeps[0].intSeparatorGrouping = 3
-	intSeps[0].intSeparatorRepetitions = 0
-
-	numberSeparatorsDto,
-		err = NumericSeparators{}.NewWithComponents(
-		'.',
-		intSeps,
+	numericSeparators,
+		err = NumericSeparators{}.NewBasic(
+		".",
+		",",
 		ePrefix.XCtx(
-			"decimalSeparatorChar='%v' "+
-				"thousandsSeparatorChar='%v' "))
+			fmt.Sprintf("\n"+
+				"decimalSeparatorChars='%v'\n"+
+				"thousandsSeparatorChars='%v'\n",
+				".",
+				",")))
 
 	if err != nil {
 		return err
@@ -598,7 +590,7 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setToUnit
 		"Cent",
 		[]rune{'\U000000a2'},
 		true,
-		numberSeparatorsDto,
+		numericSeparators,
 		numFieldDto,
 		ePrefix)
 
