@@ -101,8 +101,46 @@ type NumericSeparators struct {
 // This method will OVERWRITE the data fields of the current
 // NumericSeparators instance.
 //
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingNumericSeparators     *NumStrIntSeparator
+//     - A pointer to an instance of NumStrIntSeparator.
+//       The data values in this object will be copied to the
+//       current NumStrIntSeparator instance.
+//
+//       If input parameter 'incomingNStrIntSeparator' is judged
+//       to be invalid, this method will return an error.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
 func (numSeps *NumericSeparators) CopyIn(
-	incomingSpecDigitsSepDto *NumericSeparators,
+	incomingNumericSeparators *NumericSeparators,
 	ePrefix *ErrPrefixDto) error {
 
 	if numSeps.lock == nil {
@@ -125,7 +163,7 @@ func (numSeps *NumericSeparators) CopyIn(
 
 	return nStrFmtSpecDigitsSepsElectron.copyIn(
 		numSeps,
-		incomingSpecDigitsSepDto,
+		incomingNumericSeparators,
 		ePrefix)
 }
 
