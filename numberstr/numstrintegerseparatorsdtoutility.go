@@ -9,6 +9,433 @@ type numStrIntSeparatorsDtoUtility struct {
 	lock *sync.Mutex
 }
 
+// addBasic - Adds one NumStrIntSeparator object to the existing
+// collection of NumStrIntSeparator objects encapsulated by the
+// input NumStrIntSeparatorsDto instance, 'intSep' .
+//
+// The new NumStrIntSeparator object is generated from default
+// values and a string specifying the integer digits separator.
+//
+// For the newly added NumStrIntSeparator array element, the input
+// parameter 'integerDigitsSeparators' specifies the integer
+// separator character or characters. The integer digit grouping is
+// defaulted to a value of three (3). The 'separator repetitions'
+// value is defaulted to zero (0), signaling unlimited
+// repetitions. Finally, the 'restartIntGroupingSequence' flag will
+// be defaulted to 'false'.
+//
+// The NumStrIntSeparatorsDto type encapsulates the integer digit
+// separators used in formatting a number string for text display.
+//
+// This method defaults the integer digits grouping sequence to
+// that most commonly used across the world. Namely, this is a
+// constant thousands grouping of three '3' digits.
+//      Example: 1,000,000,000,000
+//
+// In most countries, integer digits to the left of the decimal
+// separator (a.k.a. decimal point) are separated into groups of
+// three (3) digits representing a grouping of 'thousands' like
+// this: '1,000,000,000,000'. In this case the 'integer digits
+// grouping sequence' would be configured as:
+//        integer digits grouping sequence = 3
+//
+// In some countries and cultures other integer groupings are used.
+// In India, for example, a number might be formatted like this:
+// '6,78,90,00,00,00,00,000'. Chinese Numerals have an integer
+// grouping value of four ('4').
+//    Chinese Numerals Example: '12,3456,7890,2345'
+//
+// Again, this method will automatically set the 'integer digits
+// grouping sequence' to a default of 3-digits.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  intSepsDto                 *NumStrIntSeparatorsDto
+//     - A pointer to an instance of NumStrIntSeparatorsDto. A new
+//       instance NumStrIntSeparator will be created and added to
+//       the collection of NumStrIntSeparator objects encapsulated
+//       by this NumStrIntSeparatorsDto instance.
+//
+//
+//  integerDigitsSeparators    string
+//     - One or more characters used to separate groups of
+//       integers. This separator is also known as the 'thousands'
+//       separator. It is used to separate groups of integer digits
+//       to the left of the decimal separator
+//       (a.k.a. decimal point). In the United States, the standard
+//       integer digits separator is the comma (",").
+//
+//             Example:  1,000,000,000
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                        error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. An error value of 'nil'
+//       signals that the new NumStrIntSeparator object was
+//       successfully added to the collection managed by the
+//       'intSepsDto' NumStrIntSeparatorsDto instance.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSepsDtoUtil *numStrIntSeparatorsDtoUtility) addBasic(
+	intSepsDto *NumStrIntSeparatorsDto,
+	integerDigitsSeparators string,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	intSepsDtoUtil.lock.Lock()
+
+	defer intSepsDtoUtil.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrIntSeparatorUtility." +
+			"addBasic()")
+
+	if intSepsDto == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'intSepsDto' is invalid!\n"+
+			"'intSepsDto' is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	if intSepsDto.lock == nil {
+		intSepsDto.lock = new(sync.Mutex)
+	}
+
+	var newNumStrIntSep NumStrIntSeparator
+
+	newNumStrIntSep,
+		err = NumStrIntSeparator{}.NewBasic(
+		integerDigitsSeparators,
+		ePrefix.XCtx(
+			"newNumStrIntSep"))
+
+	if err != nil {
+		return err
+	}
+
+	if intSepsDto.intSeparators == nil {
+		intSepsDto.intSeparators =
+			make([]NumStrIntSeparator, 0, 5)
+	}
+
+	intSepsDto.intSeparators =
+		append(intSepsDto.intSeparators, newNumStrIntSep)
+
+	return err
+}
+
+// addBasicRunes - Adds one NumStrIntSeparator object to the
+// existing collection of NumStrIntSeparator objects encapsulated
+// by the input NumStrIntSeparatorsDto instance, 'intSep' .
+//
+// The new NumStrIntSeparator object is generated from default
+// values and a string specifying the integer digits separator.
+//
+// For the newly added NumStrIntSeparator array element, the input
+// parameter 'integerDigitsSeparators' specifies the integer
+// separator character or characters. The integer digit grouping is
+// defaulted to a value of three (3). The 'separator repetitions'
+// value is defaulted to zero (0), signaling unlimited
+// repetitions. Finally, the 'restartIntGroupingSequence' flag will
+// be defaulted to 'false'.
+//
+// The NumStrIntSeparatorsDto type encapsulates the integer digit
+// separators used in formatting a number string for text display.
+//
+// This method defaults the integer digits grouping sequence to
+// that most commonly used across the world. Namely, this is a
+// constant thousands grouping of three '3' digits.
+//      Example: 1,000,000,000,000
+//
+// In most countries, integer digits to the left of the decimal
+// separator (a.k.a. decimal point) are separated into groups of
+// three (3) digits representing a grouping of 'thousands' like
+// this: '1,000,000,000,000'. In this case the 'integer digits
+// grouping sequence' would be configured as:
+//        integer digits grouping sequence = 3
+//
+// In some countries and cultures other integer groupings are used.
+// In India, for example, a number might be formatted like this:
+// '6,78,90,00,00,00,00,000'. Chinese Numerals have an integer
+// grouping value of four ('4').
+//    Chinese Numerals Example: '12,3456,7890,2345'
+//
+// Again, this method will automatically set the 'integer digits
+// grouping sequence' to a default of 3-digits.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  intSepsDto                 *NumStrIntSeparatorsDto
+//     - A pointer to an instance of NumStrIntSeparatorsDto. A new
+//       instance NumStrIntSeparator will be created and added to
+//       the collection of NumStrIntSeparator objects encapsulated
+//       by this NumStrIntSeparatorsDto instance.
+//
+//
+//  integerDigitsSeparators    []rune
+//     - One or more characters used to separate groups of
+//       integers. This separator is also known as the 'thousands'
+//       separator. It is used to separate groups of integer digits
+//       to the left of the decimal separator
+//       (a.k.a. decimal point). In the United States, the standard
+//       integer digits separator is the comma (',').
+//
+//             Example:  1,000,000,000
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                        error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. An error value of 'nil'
+//       signals that the new NumStrIntSeparator object was
+//       successfully added to the collection managed by the
+//       'intSepsDto' NumStrIntSeparatorsDto instance.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSepsDtoUtil *numStrIntSeparatorsDtoUtility) addBasicRunes(
+	intSepsDto *NumStrIntSeparatorsDto,
+	integerDigitsSeparators []rune,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	intSepsDtoUtil.lock.Lock()
+
+	defer intSepsDtoUtil.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrIntSeparatorUtility." +
+			"addBasicRunes()")
+
+	if intSepsDto == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'intSepsDto' is invalid!\n"+
+			"'intSepsDto' is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	if intSepsDto.lock == nil {
+		intSepsDto.lock = new(sync.Mutex)
+	}
+
+	var newNumStrIntSep NumStrIntSeparator
+
+	newNumStrIntSep,
+		err = NumStrIntSeparator{}.NewBasicRunes(
+		integerDigitsSeparators,
+		ePrefix.XCtx(
+			"newNumStrIntSep"))
+
+	if err != nil {
+		return err
+	}
+
+	if intSepsDto.intSeparators == nil {
+		intSepsDto.intSeparators =
+			make([]NumStrIntSeparator, 0, 5)
+	}
+
+	intSepsDto.intSeparators =
+		append(intSepsDto.intSeparators, newNumStrIntSep)
+
+	return err
+}
+
+// addWithComponents - Adds one NumStrIntSeparator object to the
+// existing collection of NumStrIntSeparator objects encapsulated
+// by the input NumStrIntSeparatorsDto parameter, 'intSepsDto'.
+//
+// The new NumStrIntSeparator member of the collection is created
+// from the following input parameters.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  intSepsDto                 *NumStrIntSeparatorsDto
+//     - A pointer to an instance of NumStrIntSeparatorsDto. A new
+//       instance NumStrIntSeparator will be created and added to
+//       the collection of NumStrIntSeparator objects encapsulated
+//       by this NumStrIntSeparatorsDto instance.
+//
+//
+//  intSeparatorChars          []rune
+//     - An array of characters used to delimit or separate integer
+//       digits within a number string. The most common example is
+//       the thousands separator. In the United States, this is a
+//       a single comma character ','. United States Example:
+//               1,000,000,000
+//
+//       In other countries and cultures, multiple characters are
+//       used to separate integer digits in a number string.
+//
+//
+//  intSeparatorGrouping       uint
+//     - The number of integer digits in group to be separated by
+//       separator characters. The most common grouping is the
+//       thousands grouping consisting of 3-digits. United States
+//       Example:
+//               1,000,000,000
+//
+//       Other countries and cultures use different grouping sequences.
+//       used to separate integer digits in a number string.
+//       Indian Number System Example: 6,78,90,00,00,00,00,000
+//       Chinese Numeral Example:      6789,0000,0000,0000
+//
+//
+//  intSeparatorRepetitions    uint
+//     - Number of times this character/group sequence is repeated.
+//       A zero value signals unlimited repetitions.
+//
+//
+//  restartIntGroupingSequence bool
+//     - Used in the last NumStrIntSeparatorsDto array element to
+//       signal whether the entire array sequence will be restarted
+//       from index array element zero.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  err                 error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. An error value of 'nil'
+//       signals that the new NumStrIntSeparator object was
+//       successfully added to the collection managed by the
+//       'intSepsDto' NumStrIntSeparatorsDto instance.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSepsDtoUtil *numStrIntSeparatorsDtoUtility) addWithComponents(
+	intSepsDto *NumStrIntSeparatorsDto,
+	intSeparatorChars []rune,
+	intSeparatorGrouping uint,
+	intSeparatorRepetitions uint,
+	restartIntGroupingSequence bool,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	intSepsDtoUtil.lock.Lock()
+
+	defer intSepsDtoUtil.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrIntSeparatorUtility." +
+			"addWithComponents()")
+
+	if intSepsDto == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'intSepsDto' is invalid!\n"+
+			"'intSepsDto' is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	if intSepsDto.lock == nil {
+		intSepsDto.lock = new(sync.Mutex)
+	}
+
+	var newNumStrIntSep NumStrIntSeparator
+
+	newNumStrIntSep,
+		err = NumStrIntSeparator{}.NewWithComponents(
+		intSeparatorChars,
+		intSeparatorGrouping,
+		intSeparatorRepetitions,
+		restartIntGroupingSequence,
+		ePrefix.XCtx(
+			"newNumStrIntSep"))
+
+	if err != nil {
+		return err
+	}
+
+	if intSepsDto.intSeparators == nil {
+		intSepsDto.intSeparators =
+			make([]NumStrIntSeparator, 0, 5)
+	}
+
+	intSepsDto.intSeparators =
+		append(intSepsDto.intSeparators, newNumStrIntSep)
+
+	return err
+}
+
 // ptr - Returns a pointer to a new instance of
 // numStrIntSeparatorsDtoUtility.
 //

@@ -25,12 +25,12 @@ type NumStrIntSeparatorsDto struct {
 	lock          *sync.Mutex
 }
 
-// Add - Adds one NumStrIntSeparator object to the existing
-// collection of NumStrIntSeparator objects encapsulated by the
-// current NumStrIntSeparatorsDto instance.
+// AddWithComponents - Adds one NumStrIntSeparator object to the
+// existing collection of NumStrIntSeparator objects encapsulated
+// by the current NumStrIntSeparatorsDto instance.
 //
-// The new NumStrIntSeparator object is created from the following
-// input parameters.
+// The new NumStrIntSeparator member of the collection is created
+// from the following input parameters.
 //
 //
 // ----------------------------------------------------------------
@@ -99,7 +99,7 @@ type NumStrIntSeparatorsDto struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (intSeparatorsDto *NumStrIntSeparatorsDto) Add(
+func (intSeparatorsDto *NumStrIntSeparatorsDto) AddWithComponents(
 	intSeparatorChars []rune,
 	intSeparatorGrouping uint,
 	intSeparatorRepetitions uint,
@@ -119,52 +119,240 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) Add(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrIntSeparatorsDto.Add()")
+		"NumStrIntSeparatorsDto.AddWithComponents()")
 
-	if intSeparatorChars == nil {
-		intSeparatorChars =
-			make([]rune, 0, 5)
+	return numStrIntSeparatorsDtoUtility{}.ptr().
+		addWithComponents(
+			intSeparatorsDto,
+			intSeparatorChars,
+			intSeparatorGrouping,
+			intSeparatorRepetitions,
+			restartIntGroupingSequence,
+			ePrefix.XCtx(
+				"intSeparatorsDto"))
+}
+
+// AddBasic - Adds one NumStrIntSeparator object to the existing
+// collection of NumStrIntSeparator objects encapsulated by the
+// current NumStrIntSeparatorsDto instance.
+//
+// The new NumStrIntSeparator object is generated from default
+// values and a string specifying the integer digits separator.
+//
+// For the newly added NumStrIntSeparator array element, the input
+// parameter 'integerDigitsSeparators' specifies the integer
+// separator character or characters. The integer digit grouping is
+// defaulted to a value of three (3). The 'separator repetitions'
+// value is defaulted to zero (0), signaling unlimited
+// repetitions. Finally, the 'restartIntGroupingSequence' flag will
+// be defaulted to 'false'.
+//
+// The NumStrIntSeparatorsDto type encapsulates the integer digit
+// separators used in formatting a number string for text display.
+//
+// This method defaults the integer digits grouping sequence to
+// that most commonly used across the world. Namely, this is a
+// constant thousands grouping of three '3' digits.
+//      Example: 1,000,000,000,000
+//
+// In most countries, integer digits to the left of the decimal
+// separator (a.k.a. decimal point) are separated into groups of
+// three (3) digits representing a grouping of 'thousands' like
+// this: '1,000,000,000,000'. In this case the 'integer digits
+// grouping sequence' would be configured as:
+//        integer digits grouping sequence = 3
+//
+// In some countries and cultures other integer groupings are used.
+// In India, for example, a number might be formatted like this:
+// '6,78,90,00,00,00,00,000'. Chinese Numerals have an integer
+// grouping value of four ('4').
+//    Chinese Numerals Example: '12,3456,7890,2345'
+//
+// Again, this method will automatically set the 'integer digits
+// grouping sequence' to a default of 3-digits.
+//
+// If you wish to configure the 'integer digits grouping sequence'
+// to some value other than the default, see method:
+//     NumStrIntSeparatorsDto.AddWithComponents()
+//
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  integerDigitsSeparators    string
+//     - One or more characters used to separate groups of
+//       integers. This separator is also known as the 'thousands'
+//       separator. It is used to separate groups of integer digits
+//       to the left of the decimal separator
+//       (a.k.a. decimal point). In the United States, the standard
+//       integer digits separator is the comma (",").
+//
+//             Example:  1,000,000,000
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                        error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. An error value of 'nil'
+//       signals that the new NumStrIntSeparator object was
+//       successfully added to the collection managed by the
+//       'intSepsDto' NumStrIntSeparatorsDto instance.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSeparatorsDto *NumStrIntSeparatorsDto) AddBasic(
+	integerDigitsSeparators string,
+	ePrefix *ErrPrefixDto) error {
+
+	if intSeparatorsDto.lock == nil {
+		intSeparatorsDto.lock = new(sync.Mutex)
 	}
 
-	lIntSepChars := len(intSeparatorChars)
+	intSeparatorsDto.lock.Lock()
 
-	if lIntSepChars == 0 {
-		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'intSeparatorChars' is invalid!\n"+
-			"'intSeparatorChars' is a zero length rune array.\n",
-			ePrefix)
+	defer intSeparatorsDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	newIntSep := NumStrIntSeparator{}
+	ePrefix.SetEPref(
+		"NumStrIntSeparatorsDto.AddBasic()")
 
-	newIntSep.intSeparatorChars =
-		make([]rune, lIntSepChars, lIntSepChars+5)
+	return numStrIntSeparatorsDtoUtility{}.ptr().
+		addBasic(
+			intSeparatorsDto,
+			integerDigitsSeparators,
+			ePrefix.XCtx(
+				"intSeparatorsDto"))
+}
 
-	for i := 0; i < lIntSepChars; i++ {
-		newIntSep.intSeparatorChars[i] =
-			intSeparatorChars[i]
+// AddBasicRunes - Adds one NumStrIntSeparator object to the
+// existing collection of NumStrIntSeparator objects encapsulated
+// by the current NumStrIntSeparatorsDto instance.
+//
+// The new NumStrIntSeparator object is generated from default
+// values and a string specifying the integer digits separator.
+//
+// For the newly added NumStrIntSeparator array element, the input
+// parameter 'integerDigitsSeparators' specifies the integer
+// separator character or characters. The integer digit grouping is
+// defaulted to a value of three (3). The 'separator repetitions'
+// value is defaulted to zero (0), signaling unlimited
+// repetitions. Finally, the 'restartIntGroupingSequence' flag will
+// be defaulted to 'false'.
+//
+// The NumStrIntSeparatorsDto type encapsulates the integer digit
+// separators used in formatting a number string for text display.
+//
+// This method defaults the integer digits grouping sequence to
+// that most commonly used across the world. Namely, this is a
+// constant thousands grouping of three '3' digits.
+//      Example: 1,000,000,000,000
+//
+// In most countries, integer digits to the left of the decimal
+// separator (a.k.a. decimal point) are separated into groups of
+// three (3) digits representing a grouping of 'thousands' like
+// this: '1,000,000,000,000'. In this case the 'integer digits
+// grouping sequence' would be configured as:
+//        integer digits grouping sequence = 3
+//
+// In some countries and cultures other integer groupings are used.
+// In India, for example, a number might be formatted like this:
+// '6,78,90,00,00,00,00,000'. Chinese Numerals have an integer
+// grouping value of four ('4').
+//    Chinese Numerals Example: '12,3456,7890,2345'
+//
+// Again, this method will automatically set the 'integer digits
+// grouping sequence' to a default of 3-digits.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  integerDigitsSeparators    []rune
+//     - One or more characters used to separate groups of
+//       integers. This separator is also known as the 'thousands'
+//       separator. It is used to separate groups of integer digits
+//       to the left of the decimal separator
+//       (a.k.a. decimal point). In the United States, the standard
+//       integer digits separator is the comma (',').
+//
+//             Example:  1,000,000,000
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                        error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. An error value of 'nil'
+//       signals that the new NumStrIntSeparator object was
+//       successfully added to the collection managed by the
+//       'intSepsDto' NumStrIntSeparatorsDto instance.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSeparatorsDto *NumStrIntSeparatorsDto) AddBasicRunes(
+	integerDigitsSeparators []rune,
+	ePrefix *ErrPrefixDto) error {
+
+	if intSeparatorsDto.lock == nil {
+		intSeparatorsDto.lock = new(sync.Mutex)
 	}
 
-	newIntSep.intSeparatorGrouping =
-		intSeparatorGrouping
+	intSeparatorsDto.lock.Lock()
 
-	newIntSep.intSeparatorRepetitions =
-		intSeparatorRepetitions
+	defer intSeparatorsDto.lock.Unlock()
 
-	newIntSep.restartIntGroupingSequence =
-		restartIntGroupingSequence
-
-	newIntSep.lock = new(sync.Mutex)
-
-	if intSeparatorsDto.intSeparators == nil {
-		intSeparatorsDto.intSeparators =
-			make([]NumStrIntSeparator, 0, 5)
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	intSeparatorsDto.intSeparators =
-		append(intSeparatorsDto.intSeparators, newIntSep)
+	ePrefix.SetEPref(
+		"NumStrIntSeparatorsDto.AddBasicRunes()")
 
-	return nil
+	return numStrIntSeparatorsDtoUtility{}.ptr().
+		addBasicRunes(
+			intSeparatorsDto,
+			integerDigitsSeparators,
+			ePrefix.XCtx(
+				"intSeparatorsDto"))
 }
 
 // CopyIn - Copies the data fields from an incoming
@@ -700,8 +888,18 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) New() NumStrIntSeparatorsDto {
 // NewBasic - Creates and returns a new instance of
 // NumStrIntSeparatorsDto. This method is intended to configure a
 // basic or simple NumStrIntSeparatorsDto instance. Data values for
-// the new instance are generated from default values and a minimum
-// number of input parameters.
+// the new instance are generated from default values and a string
+// specifying the integer digits separator character or characters.
+// This method creates an internal array of consisting of a single
+// NumStrIntSeparator element.
+//
+// For this single NumStrIntSeparator array element, the input
+// parameter 'integerDigitsSeparators' specifies the integer
+// separator character or characters. The integer digit grouping is
+// defaulted to a value of three (3). The 'separator repetitions'
+// value is defaulted to zero (0), signaling unlimited
+// repetitions. Finally, the 'restartIntGroupingSequence' flag will
+// be defaulted to 'false'.
 //
 // The NumStrIntSeparatorsDto type encapsulates the integer digit
 // separators used in formatting a number string for text display.
@@ -717,9 +915,6 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) New() NumStrIntSeparatorsDto {
 // this: '1,000,000,000,000'. In this case the 'integer digits
 // grouping sequence' would be configured as:
 //        integer digits grouping sequence = 3
-//
-// Again, this method applies the 3-digit integer digits grouping
-// sequence by default.
 //
 // In some countries and cultures other integer groupings are used.
 // In India, for example, a number might be formatted like this:
@@ -815,8 +1010,18 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) NewBasic(
 // NewBasicRunes - Creates and returns a new instance of
 // NumStrIntSeparatorsDto. This method is intended to configure a
 // basic or simple NumStrIntSeparatorsDto instance. Data values for
-// the new instance are generated from default values and a minimum
-// number of input parameters.
+// the new instance are generated from default values and an array
+// of runes specifying the integer digits separator character or
+// characters.
+//
+// This method creates an internal array of consisting of a single
+// NumStrIntSeparator element. For this single NumStrIntSeparator
+// array element, the input parameter 'integerDigitsSeparators'
+// specifies the integer separator character or characters. The
+// integer digit grouping is defaulted to a value of three (3).
+// The 'separator repetitions' value is defaulted to zero (0),
+// signaling unlimited repetitions. Finally, the
+// 'restartIntGroupingSequence' flag will be defaulted to 'false'.
 //
 // The NumStrIntSeparatorsDto type encapsulates the integer digit
 // separators used in formatting a number string for text display.
@@ -1062,7 +1267,16 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) NewWithComponents(
 // the current NumStrIntSeparatorsDto instance. This method is
 // intended to configure a basic or simple NumStrIntSeparatorsDto
 // object using a minimum number of input parameters and specified
-// default values.
+// default values. Accordingly, this method creates an internal
+// array consisting of a single NumStrIntSeparator element.
+//
+// For this single NumStrIntSeparator array element, the input
+// parameter 'integerDigitsSeparators' specifies the integer
+// separator character or characters. The integer digit grouping is
+// defaulted to a value of three (3). The 'separator repetitions'
+// value is defaulted to zero (0), signaling unlimited repetitions.
+// Finally, the 'restartIntGroupingSequence' flag will be defaulted
+// to 'false'.
 //
 // The NumStrIntSeparatorsDto type encapsulates the integer digit
 // separators used in formatting a number string for text display.
@@ -1179,11 +1393,20 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) SetBasic(
 			ePrefix.XCtx("intSeparatorsDto"))
 }
 
-// SetBasicRunes - Overwrites all the member variable data values for
-// the current NumStrIntSeparatorsDto instance. This method is
+// SetBasicRunes - Overwrites all the member variable data values
+// for the current NumStrIntSeparatorsDto instance. This method is
 // intended to configure a basic or simple NumStrIntSeparatorsDto
 // object using a minimum number of input parameters and specified
-// default values.
+// default values. Accordingly, this method creates an internal
+// array consisting of a single NumStrIntSeparator element.
+//
+// For this single NumStrIntSeparator array element, the input
+// parameter 'integerDigitsSeparators' (an array of runes)
+// specifies the integer separator character or characters. The
+// integer digit grouping is defaulted to a value of three (3). The
+// 'separator repetitions' value is defaulted to zero (0),
+// signaling unlimited repetitions. Finally, the
+// 'restartIntGroupingSequence' flag will be defaulted to 'false'.
 //
 // The NumStrIntSeparatorsDto type encapsulates the integer digit
 // separators used in formatting a number string for text display.

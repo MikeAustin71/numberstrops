@@ -583,6 +583,13 @@ func (numSeps NumericSeparators) New() NumericSeparators {
 // represents a basic or simple numeric separators object using
 // default values and a minimum number of input parameters.
 //
+// Input parameter 'integerDigitsSeparators' specifies  the integer
+// separator character or characters. The integer digit grouping is
+// defaulted to a value of three (3). The 'separator repetitions'
+// value is defaulted to zero (0), signaling unlimited repetitions.
+// Finally, the 'restartIntGroupingSequence' flag will be defaulted
+// to 'false'.
+//
 //This means that integer digits will be separated into 'thousands'
 // with each group containing three digits each (Example:
 // 1,000,000,000). Users have the option of specifying integer

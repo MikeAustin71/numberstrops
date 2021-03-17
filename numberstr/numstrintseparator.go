@@ -619,7 +619,8 @@ func (nStrIntSep NumStrIntSeparator) NewBasic(
 // runes containing the integer separator characters. The integer
 // digit grouping is defaulted to a value of three (3). The
 // 'separator repetitions' value is defaulted to zero (0) signaling
-// unlimited repetitions.
+// unlimited repetitions. The 'restartIntGroupingSequence' flag
+// will be defaulted to 'false'.
 //
 // This means that integer digits will be separated into 'thousands'
 // with each group containing three digits each (Example:
@@ -841,13 +842,14 @@ func (nStrIntSep NumStrIntSeparator) NewWithComponents(
 // SetBasic - Overwrites all the member variable data values for
 // the current NumStrIntSeparator. This method is intended to
 // configure a basic or simple integer separator object using
-// default values and a minimum number of input parameters.
+// default values and a minimum number of input parameters
 //
-// The input parameter 'integerDigitsSeparators' is string
-// containing the integer separator characters. The integer digit
-// grouping is defaulted to a value of three (3). The 'separator
-// repetitions' value is defaulted to zero (0) signaling unlimited
-// repetitions.
+// Input parameter 'integerDigitsSeparators' specifies  the integer
+// separator character or characters. The integer digit grouping is
+// defaulted to a value of three (3). The 'separator repetitions'
+// value is defaulted to zero (0), signaling unlimited repetitions.
+// Finally, the 'restartIntGroupingSequence' flag will be defaulted
+// to 'false'.
 //
 // This means that integer digits will be separated into 'thousands'
 // with each group containing three digits each (Example:
