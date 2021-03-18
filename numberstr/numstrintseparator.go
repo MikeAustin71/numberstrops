@@ -1694,6 +1694,34 @@ func (nStrIntSep *NumStrIntSeparator) SetToUSADefaultsIfEmpty(
 				"nStrIntSep"))
 }
 
+//
+func (nStrIntSep *NumStrIntSeparator) String() string {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	if nStrIntSep.intSeparatorChars == nil {
+		nStrIntSep.intSeparatorChars =
+			make([]rune, 0, 5)
+	}
+
+	str := fmt.Sprintf("Integer Separator Char(s) = '%v'\n",
+		string(nStrIntSep.intSeparatorChars))
+
+	str += fmt.Sprintf("Integer Separator Grouping = '%v'\n",
+		nStrIntSep.intSeparatorGrouping)
+
+	str += fmt.Sprintf("Restart Grouping Sequence  = '%v'\n",
+		nStrIntSep.restartIntGroupingSequence)
+
+	return str
+}
+
 // SetWithComponents - This method will overwrite and reset the
 // internal member variable data values for the current
 // NumStrIntSeparator instance based on the component elements

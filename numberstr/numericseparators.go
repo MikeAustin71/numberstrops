@@ -2017,24 +2017,9 @@ func (numSeps *NumericSeparators) String() string {
 	str := fmt.Sprintf("Decimal Separators: %v\n",
 		string(numSeps.decimalSeparators))
 
-	if numSeps.integerSeparatorsDto.intSeparators == nil {
-		numSeps.integerSeparatorsDto.intSeparators =
-			make([]NumStrIntSeparator, 0, 5)
-	}
+	str += numSeps.integerSeparatorsDto.String()
 
-	lenIntSeps := len(numSeps.integerSeparatorsDto.intSeparators)
-
-	for i := 0; i < lenIntSeps; i++ {
-		str += fmt.Sprintf("Integer Separator Chars= '%v' "+
-			"Integer Grouping= '%v' "+
-			"SeparatorRepetitions= '%v' "+
-			"Restart Group Sequence='%v'\n",
-			string(numSeps.integerSeparatorsDto.intSeparators[i].intSeparatorChars),
-			numSeps.integerSeparatorsDto.intSeparators[i].intSeparatorGrouping,
-			numSeps.integerSeparatorsDto.intSeparators[i].intSeparatorRepetitions,
-			numSeps.integerSeparatorsDto.intSeparators[i].restartIntGroupingSequence)
-
-	}
+	str += "\n"
 
 	return str
 }
