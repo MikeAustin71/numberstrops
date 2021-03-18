@@ -15,7 +15,7 @@ type NumStrFmtSpecDto struct {
 	tag            string
 	countryCulture NumStrFmtSpecCountryDto
 	absoluteValue  NumStrFmtSpecAbsoluteValueDto
-	currencyValue  NumStrFmtSpecCurrencyValueDto
+	currencyValue  FormatterCurrency
 	signedNumValue NumStrFmtSpecSignedNumValueDto
 	sciNotation    NumStrFmtSpecSciNotationDto
 	lock           *sync.Mutex
@@ -352,9 +352,9 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencyIntDigitSeparators(
 //
 // The returned NumericSeparators object represents the Numeric
 // Separator values used to configure the current instance of
-// NumStrFmtSpecCurrencyValueDto.
+// FormatterCurrency.
 //
-// If the NumStrFmtSpecCurrencyValueDto or Numeric Separator
+// If the FormatterCurrency or Numeric Separator
 // objects are judged to be invalid, this method will return an
 // error.
 //
@@ -381,7 +381,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencyIntDigitSeparators(
 //       NumericSeparators will be returned through this
 //       parameter. This object is a deep copy of the Numeric
 //       Separator information used to configure the current
-//       instance of NumStrFmtSpecCurrencyValueDto.
+//       instance of FormatterCurrency.
 //
 //
 //  error
@@ -425,7 +425,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencyNumericSeparators(
 }
 
 // GetCurrencySpec - Returns a deep copy of the member variable
-// 'currencyValue', of type NumStrFmtSpecCurrencyValueDto. This
+// 'currencyValue', of type FormatterCurrency. This
 // is the format specification used in formatting currency values
 // within number strings.
 //
@@ -437,7 +437,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencyNumericSeparators(
 // NumStrFmtSpecDto.IsValidInstance() and
 // NumStrFmtSpecDto.IsValidInstanceError().
 //
-func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySpec() NumStrFmtSpecCurrencyValueDto {
+func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySpec() FormatterCurrency {
 
 	if fmtSpecDto.lock == nil {
 		fmtSpecDto.lock = new(sync.Mutex)
@@ -1200,8 +1200,8 @@ func (fmtSpecDto NumStrFmtSpecDto) NewCustomFmtSpec(
 //       will be returned.
 //
 //
-//  currencyValue                 NumStrFmtSpecCurrencyValueDto
-//     - A valid and fully populated NumStrFmtSpecCurrencyValueDto
+//  currencyValue                 FormatterCurrency
+//     - A valid and fully populated FormatterCurrency
 //       object. This object contains formatting specifications
 //       controlling the text display of currency number strings.
 //
@@ -1263,7 +1263,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromComponents(
 	tag string,
 	countryCulture NumStrFmtSpecCountryDto,
 	absoluteValue NumStrFmtSpecAbsoluteValueDto,
-	currencyValue NumStrFmtSpecCurrencyValueDto,
+	currencyValue FormatterCurrency,
 	signedNumValue NumStrFmtSpecSignedNumValueDto,
 	sciNotation NumStrFmtSpecSciNotationDto,
 	ePrefix *ErrPrefixDto) (
@@ -1607,8 +1607,8 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 //       will be returned.
 //
 //
-//  currencyValue                 NumStrFmtSpecCurrencyValueDto
-//     - A valid and fully populated NumStrFmtSpecCurrencyValueDto
+//  currencyValue                 FormatterCurrency
+//     - A valid and fully populated FormatterCurrency
 //       object. This object contains formatting specifications
 //       controlling the text display of currency number strings.
 //
@@ -1665,7 +1665,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetNumStrFmtSpecDto(
 	tag string,
 	countryCulture NumStrFmtSpecCountryDto,
 	absoluteValue NumStrFmtSpecAbsoluteValueDto,
-	currencyValue NumStrFmtSpecCurrencyValueDto,
+	currencyValue FormatterCurrency,
 	signedNumValue NumStrFmtSpecSignedNumValueDto,
 	sciNotation NumStrFmtSpecSciNotationDto,
 	ePrefix *ErrPrefixDto) error {

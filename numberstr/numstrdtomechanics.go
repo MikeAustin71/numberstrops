@@ -36,7 +36,7 @@ type numStrDtoMechanics struct {
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }

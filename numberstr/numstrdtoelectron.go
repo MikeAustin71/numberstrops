@@ -1936,7 +1936,7 @@ func (nStrDtoElectron *numStrDtoElectron) setDecimalSeparator(
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }

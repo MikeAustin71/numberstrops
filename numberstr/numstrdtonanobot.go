@@ -49,7 +49,7 @@ type numStrDtoNanobot struct {
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
@@ -272,7 +272,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
@@ -445,7 +445,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
@@ -725,7 +725,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
@@ -887,7 +887,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
@@ -1049,7 +1049,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
@@ -1246,7 +1246,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
@@ -1385,7 +1385,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
@@ -1532,7 +1532,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newRational(
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
@@ -1691,7 +1691,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
@@ -1913,7 +1913,7 @@ func (nStrDtoNanobot numStrDtoNanobot) ptr() *numStrDtoNanobot {
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }

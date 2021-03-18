@@ -10,10 +10,10 @@ type numStrFmtSpecCurrencyValueDtoMolecule struct {
 }
 
 // testValidityOfCurrencyValDto - Tests the validity of
-// NumStrFmtSpecCurrencyValueDto objects.
+// FormatterCurrency objects.
 //
 func (nStrFmtSpecCurrDtoMolecule *numStrFmtSpecCurrencyValueDtoMolecule) testValidityOfCurrencyValDto(
-	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
+	nStrFmtSpecCurrencyValDto *FormatterCurrency,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
@@ -73,7 +73,7 @@ func (nStrFmtSpecCurrDtoMolecule *numStrFmtSpecCurrencyValueDtoMolecule) testVal
 	}
 
 	nStrCurrencyAtom :=
-		numStrFmtSpecCurrencyValueDtoAtom{}
+		formatterCurrencyAtom{}
 
 	_,
 		err = nStrCurrencyAtom.testCurrencyPositiveValueFormat(

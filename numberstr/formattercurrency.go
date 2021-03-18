@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-type NumStrFmtSpecCurrencyValueDto struct {
+type FormatterCurrency struct {
 	positiveValueFmt              string
 	negativeValueFmt              string
 	decimalDigits                 uint
@@ -22,23 +22,23 @@ type NumStrFmtSpecCurrencyValueDto struct {
 }
 
 // CopyIn - Copies the data fields from an incoming
-// NumStrFmtSpecCurrencyValueDto instance to the data fields
-// of the current NumStrFmtSpecCurrencyValueDto instance.
+// FormatterCurrency instance to the data fields
+// of the current FormatterCurrency instance.
 //
 // If input parameter 'incomingCurrencyValDto' is judged to be
 // invalid, this method will return an error.
 //
 // Be advised, all of the data fields in the current
-// NumStrFmtSpecCurrencyValueDto instance will be overwritten.
+// FormatterCurrency instance will be overwritten.
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  incomingCurrencyValDto     *NumStrFmtSpecCurrencyValueDto
-//     - A pointer to an instance of NumStrFmtSpecCurrencyValueDto.
+//  incomingCurrencyValDto     *FormatterCurrency
+//     - A pointer to an instance of FormatterCurrency.
 //       The data values in this object will be copied to the
-//       current NumStrFmtSpecCurrencyValueDto instance.
+//       current FormatterCurrency instance.
 //
 //       If input parameter 'incomingCurrencyValDto' is judged to
 //       be invalid, this method will return an error.
@@ -68,8 +68,8 @@ type NumStrFmtSpecCurrencyValueDto struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyIn(
-	incomingCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
+func (nStrFmtSpecCurrValDto *FormatterCurrency) CopyIn(
+	incomingCurrencyValDto *FormatterCurrency,
 	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -84,7 +84,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyIn(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.CopyIn()")
+	ePrefix.SetEPref("FormatterCurrency.CopyIn()")
 
 	nStrFmtSpecCurrValNanobot :=
 		numStrFmtSpecCurrencyValueDtoNanobot{}
@@ -96,9 +96,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyIn(
 }
 
 // CopyOut - Creates and returns a deep copy of the current
-// NumStrFmtSpecCurrencyValueDto instance.
+// FormatterCurrency instance.
 //
-// If the current NumStrFmtSpecCurrencyValueDto instance is judged
+// If the current FormatterCurrency instance is judged
 // to be invalid, this method will return an error.
 //
 //
@@ -119,11 +119,11 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyIn(
 //
 // Return Values
 //
-//  NumStrFmtSpecCurrencyValueDto
+//  FormatterCurrency
 //     - If this method completes successfully, a new instance of
-//       NumStrFmtSpecCurrencyValueDto will be created and returned
+//       FormatterCurrency will be created and returned
 //       containing all of the data values copied from the current
-//       instance of NumStrFmtSpecCurrencyValueDto.
+//       instance of FormatterCurrency.
 //
 //
 //  err                 error
@@ -137,9 +137,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyIn(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyOut(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) CopyOut(
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecCurrencyValueDto,
+	FormatterCurrency,
 	error) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -154,7 +154,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyOut(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.CopyOut()")
+	ePrefix.SetEPref("FormatterCurrency.CopyOut()")
 
 	nStrFmtSpecCurrValNanobot :=
 		numStrFmtSpecCurrencyValueDtoNanobot{}
@@ -167,7 +167,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) CopyOut(
 // GetNegativeValueFormat - Returns the formatting string used to
 // format negative currency values in text number strings.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNegativeValueFormat() string {
+func (nStrFmtSpecCurrValDto *FormatterCurrency) GetNegativeValueFormat() string {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -185,7 +185,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNegativeValueForm
 // Reference:
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencyCode() string {
+func (nStrFmtSpecCurrValDto *FormatterCurrency) GetCurrencyCode() string {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -205,7 +205,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencyCode() st
 // Reference:
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencyCodeNo() string {
+func (nStrFmtSpecCurrValDto *FormatterCurrency) GetCurrencyCodeNo() string {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -222,7 +222,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencyCodeNo() 
 // currency. Reference:
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencyName() string {
+func (nStrFmtSpecCurrValDto *FormatterCurrency) GetCurrencyName() string {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -243,7 +243,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencyName() st
 // Reference:
 //        https://www.xe.com/symbols.php
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencySymbols() []rune {
+func (nStrFmtSpecCurrValDto *FormatterCurrency) GetCurrencySymbols() []rune {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -260,7 +260,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetCurrencySymbols()
 // digits to the right of the decimal point formatted
 // in currency number strings.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetDecimalDigits() uint {
+func (nStrFmtSpecCurrValDto *FormatterCurrency) GetDecimalDigits() uint {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -285,7 +285,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetDecimalDigits() u
 // Decimal Separators are extracted from the underlying member
 // variable, 'nStrFmtSpecCurrValDto.numericSeparators'.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetDecimalSeparators() []rune {
+func (nStrFmtSpecCurrValDto *FormatterCurrency) GetDecimalSeparators() []rune {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -305,7 +305,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetDecimalSeparators
 // NumStrIntSeparator is used to separate integer digits.
 //
 // The returned integer digit separators are those configured
-// for the current instance of NumStrFmtSpecCurrencyValueDto.
+// for the current instance of FormatterCurrency.
 //
 // The integer digit separators is also known as the 'thousands'
 // separator. In the United States the standard integer digit
@@ -397,7 +397,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetDecimalSeparators
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetIntegerDigitSeparators(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) GetIntegerDigitSeparators(
 	ePrefix *ErrPrefixDto) (
 	NumStrIntSeparatorsDto,
 	error) {
@@ -415,7 +415,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetIntegerDigitSepar
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto." +
+		"FormatterCurrency." +
 			"GetIntegerDigitSeparators()")
 
 	return nStrFmtSpecCurrValDto.
@@ -433,7 +433,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetIntegerDigitSepar
 // cultures have minor currency symbols consisting of two or more
 // characters.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetMinorCurrencySymbols() []rune {
+func (nStrFmtSpecCurrValDto *FormatterCurrency) GetMinorCurrencySymbols() []rune {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -480,7 +480,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetMinorCurrencySymb
 //       NumberFieldDto will be returned through this parameter.
 //       This object is deep copy of the Number Field information
 //       used to configure the current instance of
-//       NumStrFmtSpecCurrencyValueDto.
+//       FormatterCurrency.
 //
 //
 //  error
@@ -497,7 +497,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetMinorCurrencySymb
 //       Be advised that if the returned 'NumberFieldDto' object is
 //       judged invalid, this method will return an error.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLengthDto(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) GetNumberFieldLengthDto(
 	ePrefix *ErrPrefixDto) (
 	NumberFieldDto,
 	error) {
@@ -514,7 +514,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.GetNumberFieldLengthDto()")
+	ePrefix.SetEPref("FormatterCurrency.GetNumberFieldLengthDto()")
 
 	return nStrFmtSpecCurrValDto.numFieldLenDto.CopyOut(
 		ePrefix.XCtx("nStrFmtSpecCurrValDto.numFieldLenDto->"))
@@ -536,9 +536,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 //
 // The returned NumericSeparators object represents the Numeric
 // Separator values used to configure the current instance of
-// NumStrFmtSpecCurrencyValueDto.
+// FormatterCurrency.
 //
-// If the NumStrFmtSpecCurrencyValueDto or NumericSeparators object
+// If the FormatterCurrency or NumericSeparators object
 // is judged to be invalid, this method will return an error.
 //
 //
@@ -564,7 +564,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 //       NumericSeparators will be returned through this
 //       parameter. This object is a deep copy of the Numeric
 //       Separator information used to configure the current
-//       instance of NumStrFmtSpecCurrencyValueDto.
+//       instance of FormatterCurrency.
 //
 //
 //  error
@@ -578,11 +578,11 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumberFieldLength
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-//       If the NumStrFmtSpecCurrencyValueDto or NumericSeparators
+//       If the FormatterCurrency or NumericSeparators
 //       object is judged to be invalid, this method will return
 //       an error.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumericSeparators(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) GetNumericSeparators(
 	ePrefix *ErrPrefixDto) (
 	NumericSeparators,
 	error) {
@@ -600,7 +600,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumericSeparators
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto." +
+		"FormatterCurrency." +
 			"GetNumericSeparators()")
 
 	nStrFmtSpecCurrDtoMolecule :=
@@ -622,7 +622,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetNumericSeparators
 // GetPositiveValueFormat - Returns the formatting string used to
 // format positive currency values in text number strings.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetPositiveValueFormat() string {
+func (nStrFmtSpecCurrValDto *FormatterCurrency) GetPositiveValueFormat() string {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -648,7 +648,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetPositiveValueForm
 // in text number strings as shown in the following example.
 //  Example: 1000000000000
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetTurnOnIntegerDigitsSeparationFlag() bool {
+func (nStrFmtSpecCurrValDto *FormatterCurrency) GetTurnOnIntegerDigitsSeparationFlag() bool {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
 		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
@@ -662,7 +662,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetTurnOnIntegerDigi
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
-// NumStrFmtSpecCurrencyValueDto instance to determine whether
+// FormatterCurrency instance to determine whether
 // the current instance is valid in all respects.
 //
 //
@@ -679,12 +679,12 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) GetTurnOnIntegerDigi
 //
 //  isValid             bool
 //     - This returned boolean value will signal whether the current
-//       NumStrFmtSpecCurrencyValueDto is valid, or not. If the
-//       current NumStrFmtSpecCurrencyValueDto contains valid data,
+//       FormatterCurrency is valid, or not. If the
+//       current FormatterCurrency contains valid data,
 //       this method returns 'true'. If the data is invalid, this
 //       method will return 'false'.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstance() (
+func (nStrFmtSpecCurrValDto *FormatterCurrency) IsValidInstance() (
 	isValid bool) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -707,7 +707,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstance() (
 }
 
 // IsValidInstanceError - Performs a diagnostic review of the current
-// NumStrFmtSpecCurrencyValueDto instance to determine whether the
+// FormatterCurrency instance to determine whether the
 // current instance is valid in all respects.
 //
 //
@@ -729,7 +729,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstance() (
 // Return Values
 //
 //  error
-//     - If the current instance of NumStrFmtSpecCurrencyValueDto
+//     - If the current instance of FormatterCurrency
 //       contains invalid data, a detailed error message will be
 //       returned identifying the invalid data item.
 //
@@ -743,7 +743,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstance() (
 //       If the current instance is valid, this error parameter
 //       will be set to nil.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) IsValidInstanceError(
 	ePrefix *ErrPrefixDto) error {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -758,7 +758,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPrefCtx("NumStrFmtSpecCurrencyValueDto.IsValidInstanceError()",
+	ePrefix.SetEPrefCtx("FormatterCurrency.IsValidInstanceError()",
 		"Testing Validity of 'nStrFmtSpecCurrValDto'")
 
 	nStrFmtSpecCurrDtoMolecule :=
@@ -773,19 +773,19 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 }
 
 // NewWithComponents - Creates and returns a new instance of
-// NumStrFmtSpecCurrencyValueDto.
+// FormatterCurrency.
 //
-// The NumStrFmtSpecCurrencyValueDto type encapsulates the
+// The FormatterCurrency type encapsulates the
 // configuration parameters necessary to format numeric currency
 // values for display in text number strings.
 //
 // This method requires detailed input parameters which provide
 // granular control over all data fields contained in the returned
-// new instance of NumStrFmtSpecCurrencyValueDto.
+// new instance of FormatterCurrency.
 //
 // For a 'New' method using minimum input parameters coupled
 // with default values, see:
-//      NumStrFmtSpecCurrencyValueDto.NewWithDefaults()
+//      FormatterCurrency.NewWithDefaults()
 //
 //
 // ----------------------------------------------------------------
@@ -1180,10 +1180,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //
 // Return Values
 //
-//  NumStrFmtSpecCurrencyValueDto
+//  FormatterCurrency
 //     - If this method completes successfully, this parameter will
 //       return a new, populated instance of
-//       NumStrFmtSpecCurrencyValueDto.
+//       FormatterCurrency.
 //
 //
 //  error
@@ -1197,7 +1197,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) IsValidInstanceError
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithComponents(
+func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithComponents(
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -1211,7 +1211,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithComponents(
 	numericSeparators NumericSeparators,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecCurrencyValueDto,
+	FormatterCurrency,
 	error) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -1227,10 +1227,10 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithComponents(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto." +
+		"FormatterCurrency." +
 			"NewWithComponents()")
 
-	newNStrFmtSpecCurrencyValueDto := NumStrFmtSpecCurrencyValueDto{}
+	newNStrFmtSpecCurrencyValueDto := FormatterCurrency{}
 
 	nStrFmtSpecCurrValMech :=
 		numStrFmtSpecCurrencyValueDtoMechanics{}
@@ -1255,15 +1255,15 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithComponents(
 }
 
 // NewWithDefaults - Creates and returns a new instance of
-// NumStrFmtSpecCurrencyValueDto. This method specifies the minimum
+// FormatterCurrency. This method specifies the minimum
 // number of input parameters required to construct a new instance
-// of NumStrFmtSpecCurrencyValueDto. Default values are used to
+// of FormatterCurrency. Default values are used to
 // supplement these input parameters.
 //
 // To exercise granular control over all parameters needed to
-// construct an instance of NumStrFmtSpecCurrencyValueDto,
+// construct an instance of FormatterCurrency,
 // reference method:
-//   'NumStrFmtSpecCurrencyValueDto.NewWithComponents()'
+//   'FormatterCurrency.NewWithComponents()'
 //
 // This method automatically sets a default integer digits
 // grouping sequence of '3'. This means that integers will
@@ -1272,9 +1272,9 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithComponents(
 //     Example: '1,000,000,000'
 //
 // To control and specify alternative integer digit groupings, use
-// method 'NumStrFmtSpecCurrencyValueDto.NewWithComponents()'.
+// method 'FormatterCurrency.NewWithComponents()'.
 //
-// The NumStrFmtSpecCurrencyValueDto type encapsulates the
+// The FormatterCurrency type encapsulates the
 // formatting parameters necessary to format numeric currency
 // values for display in text number strings.
 //
@@ -1303,7 +1303,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithComponents(
 //           United States Example: '1,000,000,000'
 //
 //       For custom integer digit grouping, use method
-//       NumStrFmtSpecCurrencyValueDto.NewWithComponents().
+//       FormatterCurrency.NewWithComponents().
 //
 //
 //  turnOnThousandsSeparator      bool
@@ -1620,9 +1620,9 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithComponents(
 //
 // Return Values
 //
-//  NumStrFmtSpecCurrencyValueDto
+//  FormatterCurrency
 //     - If this method completes successfully, this parameter will
-//       return a new, populated instance of NumStrFmtSpecCurrencyValueDto.
+//       return a new, populated instance of FormatterCurrency.
 //
 //
 //  error
@@ -1636,7 +1636,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
+func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithDefaults(
 	decimalSeparatorChars []rune,
 	thousandsSeparatorChars []rune,
 	turnOnThousandsSeparator bool,
@@ -1652,7 +1652,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecCurrencyValueDto,
+	FormatterCurrency,
 	error) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -1668,10 +1668,10 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto.NewWithDefaults()")
+		"FormatterCurrency.NewWithDefaults()")
 
 	newNStrFmtSpecCurrencyValDto :=
-		NumStrFmtSpecCurrencyValueDto{}
+		FormatterCurrency{}
 
 	nStrFmtSpecCurrValDtoUtil :=
 		numStrFmtSpecCurrencyValueDtoUtility{}
@@ -1699,7 +1699,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 }
 
 // NewWithFmtSpecSetupDto - Creates and returns a new
-// NumStrFmtSpecCurrencyValueDto instance based on input received
+// FormatterCurrency instance based on input received
 // from an instance of NumStrFmtSpecSetupDto.
 //
 //
@@ -1709,7 +1709,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //
 //  fmtSpecSetupDto     *NumStrFmtSpecSetupDto
 //     - A data structure conveying setup information for a
-//       NumStrFmtSpecCurrencyValueDto object. Only the following
+//       FormatterCurrency object. Only the following
 //       data fields with a prefix of "Currency" are used.
 //
 //       type NumStrFmtSpecSetupDto struct {
@@ -1771,9 +1771,9 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //
 // Return Values
 //
-//  NumStrFmtSpecCurrencyValueDto
+//  FormatterCurrency
 //     - If this method completes successfully, a new instance of
-//       NumStrFmtSpecCurrencyValueDto will be returned to the
+//       FormatterCurrency will be returned to the
 //       caller.
 //
 //
@@ -1788,10 +1788,10 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithDefaults(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithFmtSpecSetupDto(
+func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecCurrencyValueDto,
+	FormatterCurrency,
 	error) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -1807,11 +1807,11 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithFmtSpecSetupDt
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto." +
+		"FormatterCurrency." +
 			"NewWithFmtSpecSetupDto()")
 
 	newNStrFmtSpecCurrencyValDto :=
-		NumStrFmtSpecCurrencyValueDto{}
+		FormatterCurrency{}
 
 	if fmtSpecSetupDto == nil {
 		return newNStrFmtSpecCurrencyValDto,
@@ -1856,7 +1856,7 @@ func (nStrFmtSpecCurrValDto NumStrFmtSpecCurrencyValueDto) NewWithFmtSpecSetupDt
 // 4217 standard. Reference:
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyCode(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyCode(
 	currencyCode string) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -1880,7 +1880,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyCode(
 // Reference:
 //       https://en.wikipedia.org/wiki/ISO_4217
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyCodeNo(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyCodeNo(
 	currencyCodeNo string) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -1897,10 +1897,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyCodeNo(
 // SetCurrencyData - Sets all of the basic currency values. This
 // method is designed to be used in conjunction with the following
 // methods:
-//   NumStrFmtSpecCurrencyValueDto.SetNumericSeparators()
-//   NumStrFmtSpecCurrencyValueDto.SetNumberFieldLengthDto()
+//   FormatterCurrency.SetNumericSeparators()
+//   FormatterCurrency.SetNumberFieldLengthDto()
 //
-// The only two elements of the NumStrFmtSpecCurrencyValueDto
+// The only two elements of the FormatterCurrency
 // instance which are NOT set by this method are the
 // NumericSeparators and the NumberFieldDto data elements.
 //
@@ -2198,7 +2198,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyCodeNo(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyData(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyData(
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -2224,7 +2224,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyData(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto." +
+		"FormatterCurrency." +
 			"SetCurrencyData()")
 
 	return numStrFmtSpecCurrencyValueDtoNanobot{}.ptr().
@@ -2249,7 +2249,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyData(
 // Reference:
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyName(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyName(
 	currencyName string) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -2310,7 +2310,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencyName(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbols(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencySymbols(
 	currencyName string,
 	currencySymbols []rune,
 	ePrefix *ErrPrefixDto) (
@@ -2328,7 +2328,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbols(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetCurrencySymbols()")
+	ePrefix.SetEPref("FormatterCurrency.SetCurrencySymbols()")
 
 	err = nil
 
@@ -2367,7 +2367,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetCurrencySymbols(
 // of the decimal point.
 //   Example: $27.94
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetDecimalDigits(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetDecimalDigits(
 	decimalDigits uint) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -2429,7 +2429,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetDecimalDigits(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetMinorCurrencySymbol(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetMinorCurrencySymbol(
 	minorCurrencyName string,
 	minorCurrencySymbols []rune,
 	ePrefix *ErrPrefixDto) (
@@ -2447,7 +2447,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetMinorCurrencySymb
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetCurrencySymbols()")
+	ePrefix.SetEPref("FormatterCurrency.SetCurrencySymbols()")
 
 	err = nil
 
@@ -2637,7 +2637,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetMinorCurrencySymb
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueFormat(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNegativeValueFormat(
 	negativeValueFmt string,
 	ePrefix *ErrPrefixDto) (
 	err error) {
@@ -2654,10 +2654,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueForm
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetNegativeValueFormat()")
+	ePrefix.SetEPref("FormatterCurrency.SetNegativeValueFormat()")
 
 	nStrCurrencyElectron :=
-		numStrFmtSpecCurrencyValueDtoElectron{}
+		formatterCurrencyElectron{}
 
 	_,
 		err = nStrCurrencyElectron.testCurrencyNegativeValueFormatStr(
@@ -2675,7 +2675,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueForm
 }
 
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object
-// for the current NumStrFmtSpecCurrencyValueDto instance.
+// for the current FormatterCurrency instance.
 //
 // The Number Separators Dto object is used to specify the Decimal
 // Separators Character and the Integer Digits Separator Characters.
@@ -2720,7 +2720,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNegativeValueForm
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLengthDto(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNumberFieldLengthDto(
 	numberFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
@@ -2737,7 +2737,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLength
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto." +
+		"FormatterCurrency." +
 			"SetNumberFieldLengthDto()")
 
 	return numStrFmtSpecCurrencyValueDtoMechanics{}.
@@ -2749,7 +2749,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLength
 }
 
 // SetNumericSeparators - Sets the Number Separators object
-// for the current NumStrFmtSpecCurrencyValueDto instance.
+// for the current FormatterCurrency instance.
 //
 // The Number Separators object is used to specify the Decimal
 // Separator Character(s) and the Integer Digits Separator
@@ -2859,7 +2859,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumberFieldLength
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumericSeparators(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNumericSeparators(
 	numericSeparators NumericSeparators,
 	ePrefix *ErrPrefixDto) error {
 
@@ -2875,7 +2875,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumericSeparators
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto." +
+		"FormatterCurrency." +
 			"SetNumericSeparators()")
 
 	return numStrFmtSpecCurrencyValueDtoMechanics{}.ptr().
@@ -2990,7 +2990,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetNumericSeparators
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetPositiveValueFormat(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetPositiveValueFormat(
 	positiveValueFmt string,
 	ePrefix *ErrPrefixDto) (
 	err error) {
@@ -3007,10 +3007,10 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetPositiveValueForm
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCurrencyValueDto.SetPositiveValueFormat()")
+	ePrefix.SetEPref("FormatterCurrency.SetPositiveValueFormat()")
 
 	nStrCurrencyElectron :=
-		numStrFmtSpecCurrencyValueDtoElectron{}
+		formatterCurrencyElectron{}
 
 	_,
 		err = nStrCurrencyElectron.testCurrencyPositiveValueFormatStr(
@@ -3050,7 +3050,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetPositiveValueForm
 // IMPORTANT
 //
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecCurrencyValueDto instance.
+// current FormatterCurrency instance.
 //
 //
 // ----------------------------------------------------------------
@@ -3081,7 +3081,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetPositiveValueForm
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetToUnitedStatesDefaults(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetToUnitedStatesDefaults(
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
@@ -3098,7 +3098,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetToUnitedStatesDef
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto." +
+		"FormatterCurrency." +
 			"SetToUnitedStatesDefaults()")
 
 	currValDtoUtil :=
@@ -3112,7 +3112,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetToUnitedStatesDef
 }
 
 // SetToUnitedStatesDefaultsIfEmpty -If the current
-// NumStrFmtSpecCurrencyValueDto instance is empty or invalid,
+// FormatterCurrency instance is empty or invalid,
 // this method will set the member variable data values to United
 // States default values.
 //
@@ -3138,7 +3138,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetToUnitedStatesDef
 // IMPORTANT
 //
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecCurrencyValueDto instance.
+// current FormatterCurrency instance.
 //
 //
 // ----------------------------------------------------------------
@@ -3169,7 +3169,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetToUnitedStatesDef
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetToUnitedStatesDefaultsIfEmpty(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetToUnitedStatesDefaultsIfEmpty(
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
@@ -3186,7 +3186,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetToUnitedStatesDef
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto." +
+		"FormatterCurrency." +
 			"SetToUnitedStatesDefaultsIfEmpty()")
 
 	nStrFmtSpecCurrDtoMolecule :=
@@ -3213,7 +3213,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetToUnitedStatesDef
 
 // SetTurnOnIntegerDigitsSeparationFlag - Sets the
 // 'turnOnIntegerDigitsSeparation' flag for the current instance of
-// NumStrFmtSpecCurrencyValueDto.
+// FormatterCurrency.
 //
 // This boolean flag signals whether integer digits within a number
 // string will be grouped by thousands and separated by an integer
@@ -3257,7 +3257,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetToUnitedStatesDef
 //
 //  --- NONE ---
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigitsSeparationFlag(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetTurnOnIntegerDigitsSeparationFlag(
 	turnOnIntegerDigitsSeparation bool) {
 
 	if nStrFmtSpecCurrValDto.lock == nil {
@@ -3274,21 +3274,21 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 
 // SetWithComponents - This method will overwrite and set all data
 // data values for the current instance of
-// NumStrFmtSpecCurrencyValueDto.
+// FormatterCurrency.
 //
-// The NumStrFmtSpecCurrencyValueDto type encapsulates the
+// The FormatterCurrency type encapsulates the
 // formatting parameters necessary to format numeric currency
 // values for display in text number strings.
 //
 // This method requires detailed input parameters to control
 // configuration for all member variables in the current instance
-// of NumStrFmtSpecCurrencyValueDto. For a similar method using
+// of FormatterCurrency. For a similar method using
 // minimum input parameters coupled with default values, see:
-//      NumStrFmtSpecCurrencyValueDto.SetWithDefaults()
+//      FormatterCurrency.SetWithDefaults()
 //
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecCurrencyValueDto instance.
+// current FormatterCurrency instance.
 //
 //
 // ----------------------------------------------------------------
@@ -3695,7 +3695,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetTurnOnIntegerDigi
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithComponents(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithComponents(
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -3723,7 +3723,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithComponents(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto." +
+		"FormatterCurrency." +
 			"SetWithComponents()")
 
 	nStrFmtSpecCurrValMech :=
@@ -3749,9 +3749,9 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithComponents(
 
 // SetWithDefaults - This method will set all of the member
 // variable data values for the current instance of
-// NumStrFmtSpecCurrencyValueDto. The input parameters represent
+// FormatterCurrency. The input parameters represent
 // the minimum information required to configure a
-// NumStrFmtSpecCurrencyValueDto object.
+// FormatterCurrency object.
 //
 // This method automatically sets a default integer digits grouping
 // sequence of '3'. This means that integers will be grouped by
@@ -3761,7 +3761,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithComponents(
 //
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecCurrencyValueDto instance.
+// current FormatterCurrency instance.
 //
 //
 // ----------------------------------------------------------------
@@ -3788,7 +3788,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithComponents(
 //           United States Example: '1,000,000,000'
 //
 //       For custom integer digit grouping, use method
-//       NumStrFmtSpecCurrencyValueDto.SetWithComponents().
+//       FormatterCurrency.SetWithComponents().
 //
 //
 //  turnOnIntegerDigitsSeparation bool
@@ -4113,7 +4113,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithDefaults(
 	decimalSeparatorChars []rune,
 	thousandsSeparatorChars []rune,
 	turnOnIntegerDigitsSeparation bool,
@@ -4143,7 +4143,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto.SetWithDefaults()")
+		"FormatterCurrency.SetWithDefaults()")
 
 	nStrFmtSpecCurrValDtoUtil :=
 		numStrFmtSpecCurrencyValueDtoUtility{}
@@ -4168,12 +4168,12 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 }
 
 // SetWithFmtSpecSetupDto - Sets the data values for current
-// NumStrFmtSpecCurrencyValueDto instance based on input received
+// FormatterCurrency instance based on input received
 // from an instance of NumStrFmtSpecSetupDto.
 //
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecCurrencyValueDto instance.
+// current FormatterCurrency instance.
 //
 //
 // ----------------------------------------------------------------
@@ -4182,7 +4182,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 //
 //  fmtSpecSetupDto     NumStrFmtSpecSetupDto
 //     - A data structure conveying setup information for a
-//       NumStrFmtSpecCurrencyValueDto object. Only the following
+//       FormatterCurrency object. Only the following
 //       data fields with a prefix of "Currency" are used.
 //
 //       type NumStrFmtSpecSetupDto struct {
@@ -4252,7 +4252,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithDefaults(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithFmtSpecSetupDto(
+func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix *ErrPrefixDto) error {
 
@@ -4269,7 +4269,7 @@ func (nStrFmtSpecCurrValDto *NumStrFmtSpecCurrencyValueDto) SetWithFmtSpecSetupD
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCurrencyValueDto." +
+		"FormatterCurrency." +
 			"SetWithFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {

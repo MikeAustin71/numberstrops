@@ -263,8 +263,8 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 //       will be returned.
 //
 //
-//  currencyValue                 NumStrFmtSpecCurrencyValueDto
-//     - A valid and fully populated NumStrFmtSpecCurrencyValueDto
+//  currencyValue                 FormatterCurrency
+//     - A valid and fully populated FormatterCurrency
 //       object. This object contains formatting specifications
 //       controlling the text display of currency number strings.
 //
@@ -322,7 +322,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
 	tag string,
 	countryCulture NumStrFmtSpecCountryDto,
 	absoluteValue NumStrFmtSpecAbsoluteValueDto,
-	currencyValue NumStrFmtSpecCurrencyValueDto,
+	currencyValue FormatterCurrency,
 	signedNumValue NumStrFmtSpecSignedNumValueDto,
 	sciNotation NumStrFmtSpecSciNotationDto,
 	ePrefix *ErrPrefixDto) (err error) {

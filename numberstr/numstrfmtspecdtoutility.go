@@ -54,7 +54,7 @@ func (nStrFmtSpecDtoUtil numStrFmtSpecDtoUtility) ptr() *numStrFmtSpecDtoUtility
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  NumStrFmtSpecAbsoluteValueDto
-//         currencyValue  NumStrFmtSpecCurrencyValueDto
+//         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
@@ -677,7 +677,7 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 		minorCurrencySymbols = make([]rune, 0, 10)
 	}
 
-	nStrCurrencyElectron := numStrFmtSpecCurrencyValueDtoElectron{}
+	nStrCurrencyElectron := formatterCurrencyElectron{}
 
 	var err error
 

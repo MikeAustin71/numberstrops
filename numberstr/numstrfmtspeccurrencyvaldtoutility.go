@@ -10,10 +10,10 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 }
 
 // setCurrValDtoWithDefaults - Sets the data values for an
-// instance NumStrFmtSpecCurrencyValueDto passed as an input
+// instance FormatterCurrency passed as an input
 // parameter.
 //
-// The NumStrFmtSpecCurrencyValueDto type encapsulates the
+// The FormatterCurrency type encapsulates the
 // formatting parameters necessary to format absolute numeric
 // values for display in text number strings.
 //
@@ -43,7 +43,7 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 //           United States Example: '1,000,000,000'
 //
 //       For custom integer digit grouping, use method
-//       NumStrFmtSpecCurrencyValueDto.NewWithComponents().
+//       FormatterCurrency.NewWithComponents().
 //
 //
 //  turnOnIntegerDigitsSeparation bool
@@ -372,7 +372,7 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 //       error message.
 //
 func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrValDtoWithDefaults(
-	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
+	nStrFmtSpecCurrencyValDto *FormatterCurrency,
 	decimalSeparatorChars []rune,
 	thousandsSeparatorChars []rune,
 	turnOnIntegerDigitsSeparation bool,
@@ -488,8 +488,8 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 //
 // Input Parameters
 //
-//  nStrFmtSpecCurrencyValDto     *NumStrFmtSpecCurrencyValueDto,
-//     - A pointer to an instance of NumStrFmtSpecCurrencyValueDto.
+//  nStrFmtSpecCurrencyValDto     *FormatterCurrency,
+//     - A pointer to an instance of FormatterCurrency.
 //       All data values in this object will be overwritten and
 //       set to United States default values for currency number
 //       values displayed in number strings.
@@ -520,7 +520,7 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 //       error message.
 //
 func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setToUnitedStatesDefaults(
-	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
+	nStrFmtSpecCurrencyValDto *FormatterCurrency,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 

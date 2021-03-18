@@ -20,8 +20,8 @@ type numStrFmtSpecCurrencyValueDtoNanobot struct {
 // to be invalid, this method will return an error.
 //
 func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
-	targetNStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
-	inComingNStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
+	targetNStrFmtSpecCurrencyValDto *FormatterCurrency,
+	inComingNStrFmtSpecCurrencyValDto *FormatterCurrency,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
@@ -140,15 +140,15 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 
 // copyOut - Returns a deep copy of input parameter
 // 'nStrFmtSpecCurrencyValDto' styled as a new instance
-// of NumStrFmtSpecCurrencyValueDto.
+// of FormatterCurrency.
 //
 // If input parameter 'nStrFmtSpecCurrencyValDto' is judged to be
 // invalid, this method will return an error.
 //
 func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
-	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
+	nStrFmtSpecCurrencyValDto *FormatterCurrency,
 	ePrefix *ErrPrefixDto) (
-	newNStrFmtSpecCurrencyValDto NumStrFmtSpecCurrencyValueDto,
+	newNStrFmtSpecCurrencyValDto FormatterCurrency,
 	err error) {
 
 	if nStrFmtSpecCurrValNanobot.lock == nil {
@@ -280,8 +280,8 @@ func (nStrFmtSpecCurrValNanobot numStrFmtSpecCurrencyValueDtoNanobot) ptr() *num
 }
 
 // setCurrencyData - Sets the basic currency data elements of
-// an instance of NumStrFmtSpecCurrencyValueDto. The only two
-// elements of a NumStrFmtSpecCurrencyValueDto instance which are
+// an instance of FormatterCurrency. The only two
+// elements of a FormatterCurrency instance which are
 // NOT set by this method are the NumericSeparators and the
 // NumberFieldDto data elements.
 //
@@ -290,9 +290,9 @@ func (nStrFmtSpecCurrValNanobot numStrFmtSpecCurrencyValueDtoNanobot) ptr() *num
 //
 // Input Parameters
 //
-//  nStrFmtSpecCurrencyValDto     *NumStrFmtSpecCurrencyValueDto,
+//  nStrFmtSpecCurrencyValDto     *FormatterCurrency,
 //
-//     - A pointer to an instance of NumStrFmtSpecCurrencyValueDto.
+//     - A pointer to an instance of FormatterCurrency.
 //       All of the currency data values in this object will be
 //       overwritten and set to new values based on the following
 //       input parameters.
@@ -586,7 +586,7 @@ func (nStrFmtSpecCurrValNanobot numStrFmtSpecCurrencyValueDtoNanobot) ptr() *num
 //       error message.
 //
 func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) setCurrencyData(
-	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
+	nStrFmtSpecCurrencyValDto *FormatterCurrency,
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -645,7 +645,7 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) setCurren
 	}
 
 	nStrCurrencyElectron :=
-		numStrFmtSpecCurrencyValueDtoElectron{}
+		formatterCurrencyElectron{}
 
 	_,
 		err = nStrCurrencyElectron.testCurrencyPositiveValueFormatStr(
@@ -673,7 +673,7 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) setCurren
 
 	lenMinorCurrSymbols := len(minorCurrencySymbols)
 
-	newNStrFmtSpecCurrencyValDto := NumStrFmtSpecCurrencyValueDto{}
+	newNStrFmtSpecCurrencyValDto := FormatterCurrency{}
 
 	newNStrFmtSpecCurrencyValDto.lock =
 		new(sync.Mutex)

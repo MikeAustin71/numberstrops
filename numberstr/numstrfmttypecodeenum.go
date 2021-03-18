@@ -284,7 +284,7 @@ func (nStrValSpec NumStrFormatTypeCode) CountryCulture() NumStrFormatTypeCode {
 // Note: Placement and formatting formatting characters
 // such as  plus ('+'), minus ('-') parentheses ('()') and
 // currency ('$') is controlled by type,
-// 'NumStrFmtSpecCurrencyValueDto'.
+// 'FormatterCurrency'.
 //
 //
 // This method is part of the standard enumeration.

@@ -31,7 +31,7 @@ func (nStrFmtSpecCurrValMech numStrFmtSpecCurrencyValueDtoMechanics) ptr() *numS
 }
 
 // setCurrencyValDtoFromComponents - Transfers new data to an instance of
-// NumStrFmtSpecCurrencyValueDto. After completion, all the data
+// FormatterCurrency. After completion, all the data
 // fields within input parameter 'nStrFmtSpecCurrencyValDto' will be
 // overwritten.
 //
@@ -40,9 +40,9 @@ func (nStrFmtSpecCurrValMech numStrFmtSpecCurrencyValueDtoMechanics) ptr() *numS
 //
 // Input Parameters
 //
-//  nStrFmtSpecCurrencyValDto     *NumStrFmtSpecCurrencyValueDto,
+//  nStrFmtSpecCurrencyValDto     *FormatterCurrency,
 //
-//     - A pointer to an instance of NumStrFmtSpecCurrencyValueDto.
+//     - A pointer to an instance of FormatterCurrency.
 //       All of the data values in this object will be overwritten
 //       set to new values based on the following input parameters.
 //
@@ -446,7 +446,7 @@ func (nStrFmtSpecCurrValMech numStrFmtSpecCurrencyValueDtoMechanics) ptr() *numS
 //       error message.
 //
 func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrencyValDtoFromComponents(
-	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
+	nStrFmtSpecCurrencyValDto *FormatterCurrency,
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -487,7 +487,7 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 		return err
 	}
 
-	newNStrFmtSpecCurrencyValDto := NumStrFmtSpecCurrencyValueDto{}
+	newNStrFmtSpecCurrencyValDto := FormatterCurrency{}
 
 	err =
 		numStrFmtSpecCurrencyValueDtoNanobot{}.ptr().
@@ -538,7 +538,7 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 }
 
 // setNumberFieldLengthDto - Sets the Number Field Length Dto object
-// for the current NumStrFmtSpecCurrencyValueDto instance.
+// for the current FormatterCurrency instance.
 //
 // The Number Separators Dto object is used to specify the Decimal
 // Separators Character and the Integer Digits Separator Characters.
@@ -547,9 +547,9 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 //
 // Input Parameters
 //
-//  nStrFmtSpecCurrencyValDto     *NumStrFmtSpecCurrencyValueDto,
+//  nStrFmtSpecCurrencyValDto     *FormatterCurrency,
 //
-//     - A pointer to an instance of NumStrFmtSpecCurrencyValueDto.
+//     - A pointer to an instance of FormatterCurrency.
 //       All of the data values in this object will be overwritten
 //       set to new values based on the following input parameters.
 //
@@ -591,7 +591,7 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 //       error message.
 //
 func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setNumberFieldLengthDto(
-	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
+	nStrFmtSpecCurrencyValDto *FormatterCurrency,
 	numberFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
@@ -627,7 +627,7 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setNumberF
 }
 
 // setNumericSeparators - Sets the Number Separators object
-// for the NumStrFmtSpecCurrencyValueDto instance,
+// for the FormatterCurrency instance,
 // 'nStrFmtSpecCurrencyValDto'.
 //
 // The Number Separators object is used to specify the Decimal
@@ -638,9 +638,9 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setNumberF
 //
 // Input Parameters
 //
-//  nStrFmtSpecCurrencyValDto     *NumStrFmtSpecCurrencyValueDto,
+//  nStrFmtSpecCurrencyValDto     *FormatterCurrency,
 //
-//     - A pointer to an instance of NumStrFmtSpecCurrencyValueDto.
+//     - A pointer to an instance of FormatterCurrency.
 //       The Numeric Separator data values in this object will be
 //       overwritten and set to new values based on the following
 //       input parameters.
@@ -747,7 +747,7 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setNumberF
 //       error message.
 //
 func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setNumericSeparators(
-	nStrFmtSpecCurrencyValDto *NumStrFmtSpecCurrencyValueDto,
+	nStrFmtSpecCurrencyValDto *FormatterCurrency,
 	numericSeparators NumericSeparators,
 	ePrefix *ErrPrefixDto) error {
 

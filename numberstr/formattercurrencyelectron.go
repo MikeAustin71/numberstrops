@@ -6,8 +6,27 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecCurrencyValueDtoElectron struct {
+type formatterCurrencyElectron struct {
 	lock *sync.Mutex
+}
+
+// ptr - Returns a pointer to a new instance of
+// formatterCurrencyElectron.
+func (fmtCurrencyElectron formatterCurrencyElectron) ptr() *formatterCurrencyElectron {
+
+	if fmtCurrencyElectron.lock == nil {
+		fmtCurrencyElectron.lock = new(sync.Mutex)
+	}
+
+	fmtCurrencyElectron.lock.Lock()
+
+	defer fmtCurrencyElectron.lock.Unlock()
+
+	currencyElectron := new(formatterCurrencyElectron)
+
+	currencyElectron.lock = new(sync.Mutex)
+
+	return currencyElectron
 }
 
 // testCurrencyPositiveValueFormatStr - Inspects the Positive Value
@@ -126,25 +145,25 @@ type numStrFmtSpecCurrencyValueDtoElectron struct {
 //       is invalid, 'err' will be returned with an appropriate error
 //       message.
 //
-func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyPositiveValueFormatStr(
+func (fmtCurrencyElectron *formatterCurrencyElectron) testCurrencyPositiveValueFormatStr(
 	positiveValFmtStr string,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
-	if nStrCurrencyElectron.lock == nil {
-		nStrCurrencyElectron.lock = new(sync.Mutex)
+	if fmtCurrencyElectron.lock == nil {
+		fmtCurrencyElectron.lock = new(sync.Mutex)
 	}
 
-	nStrCurrencyElectron.lock.Lock()
+	fmtCurrencyElectron.lock.Lock()
 
-	defer nStrCurrencyElectron.lock.Unlock()
+	defer fmtCurrencyElectron.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoElectron.testCurrencyPositiveValueFormatStr()")
+	ePrefix.SetEPref("formatterCurrencyElectron.testCurrencyPositiveValueFormatStr()")
 
 	isValid = false
 
@@ -400,25 +419,25 @@ func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyP
 //       is invalid, 'err' will be returned with an appropriate error
 //       message.
 //
-func (nStrCurrencyElectron *numStrFmtSpecCurrencyValueDtoElectron) testCurrencyNegativeValueFormatStr(
+func (fmtCurrencyElectron *formatterCurrencyElectron) testCurrencyNegativeValueFormatStr(
 	negativeValFmtStr string,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
-	if nStrCurrencyElectron.lock == nil {
-		nStrCurrencyElectron.lock = new(sync.Mutex)
+	if fmtCurrencyElectron.lock == nil {
+		fmtCurrencyElectron.lock = new(sync.Mutex)
 	}
 
-	nStrCurrencyElectron.lock.Lock()
+	fmtCurrencyElectron.lock.Lock()
 
-	defer nStrCurrencyElectron.lock.Unlock()
+	defer fmtCurrencyElectron.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoElectron.testCurrencyNegativeValueFormatStr()")
+	ePrefix.SetEPref("formatterCurrencyElectron.testCurrencyNegativeValueFormatStr()")
 
 	isValid = false
 
