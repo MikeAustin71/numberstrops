@@ -426,6 +426,9 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) AddBasicRunes(
 //       The data values in this object will be copied to the
 //       current NumStrIntSeparatorsDto instance.
 //
+//       If input parameter 'incomingIntSepsDto' is judged to be
+//       invalid, this method will return an error.
+//
 //
 //  ePrefix             *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is

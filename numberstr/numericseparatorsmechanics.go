@@ -29,6 +29,111 @@ func (numSepsMech numericSeparatorsMechanics) ptr() *numericSeparatorsMechanics 
 	return newMech
 }
 
+// setDecimalSeparatorsString - Overwrites and resets the value of
+// the decimal separator character or characters in a
+// NumericSeparators object passed as an input parameter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numSeps             *NumericSeparators
+//     - A pointer to an instance of NumericSeparators. This
+//       object's internal member variable 'decimalSeparators'
+//       will be deleted and replaced with data extracted from
+//       input parameter, 'decimalSeparators'.
+//
+//
+//  decimalSeparators   string
+//     - This string contains the character or characters which
+//       will be used to separate integer and fractional digits in
+//       a number string. The decimal separators value for the
+//       input parameter 'numSeps' will be overwritten and replaced
+//       by the characters contained in this string.
+//
+//       If a zero length string is passed for this parameter,
+//       an error will be returned.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (numSepsMech *numericSeparatorsMechanics) setDecimalSeparatorsString(
+	numSeps *NumericSeparators,
+	decimalSeparators string,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if numSepsMech.lock == nil {
+		numSepsMech.lock = new(sync.Mutex)
+	}
+
+	numSepsMech.lock.Lock()
+
+	defer numSepsMech.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numericSeparatorsMechanics." +
+			"setDecimalSeparatorsString()")
+
+	if numSeps == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numSeps' is invalid!\n"+
+			"'numSeps' is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
+	}
+
+	if len(decimalSeparators) == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'decimalSeparators' is invalid!\n"+
+			"'decimalSeparators' is zero length string.\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	err = numericSeparatorsNanobot{}.ptr().
+		setDecimalSeparatorRunes(
+			numSeps,
+			[]rune(decimalSeparators),
+			ePrefix.XCtx(
+				"numSeps"))
+
+	return err
+}
+
 // setDetail - Transfers new data to an instance of
 // NumericSeparators. After completion, all the data fields within
 // input parameter 'numSeps' will be overwritten.
@@ -48,16 +153,19 @@ func (numSepsMech numericSeparatorsMechanics) ptr() *numericSeparatorsMechanics 
 //       following input parameters.
 //
 //
-//  decimalSeparators             []rune
+//  decimalSeparators             string
 //     - One or more text characters used to separate integer and
 //       fractional digits in a floating point number string. In
 //       the United States, the standard decimal separator is the
 //       period ('.') character otherwise known as a decimal point.
 //
 //
-//  integerSeparators             []NumStrIntSeparator
-//     - An array of type NumStrIntSeparator containing
-//       specifications for integer separation formatting.
+//  integerSeparatorsDto          NumStrIntSeparatorsDto
+//     - The NumStrIntSeparatorsDto type manages an internal
+//       collection or array of NumStrIntSeparator objects.
+//       the integer separation operation in number strings.
+//       If this object is judged invalid, this method will return
+//       an error.
 //
 //        type NumStrIntSeparator struct {
 //            intSeparatorChars       []rune  // A series of runes used to separate integer digits.
@@ -92,8 +200,10 @@ func (numSepsMech numericSeparatorsMechanics) ptr() *numericSeparatorsMechanics 
 //             intSeparatorGrouping value would be set to three ('3').
 //
 //             In some countries and cultures other integer groupings are
-//             used. In India, for example, a number might be formatted
-//             like this: '6,78,90,00,00,00,00,000'.
+//             used. In India, for example, a number might be formatted like
+//             this: '6,78,90,00,00,00,00,000'. Chinese Numerals have an
+//             integer grouping value of four ('4').
+//                Chinese Numerals Example: '12,3456,7890,2345'
 //
 //        intSeparatorRepetitions    uint
 //           - This unsigned integer value specifies the number of times
@@ -133,8 +243,8 @@ func (numSepsMech numericSeparatorsMechanics) ptr() *numericSeparatorsMechanics 
 //
 func (numSepsMech *numericSeparatorsMechanics) setDetail(
 	numSeps *NumericSeparators,
-	decimalSeparators []rune,
-	integerSeparators []NumStrIntSeparator,
+	decimalSeparators string,
+	integerSeparatorsDto *NumStrIntSeparatorsDto,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
@@ -157,7 +267,7 @@ func (numSepsMech *numericSeparatorsMechanics) setDetail(
 	if numSeps == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'numSeps' is invalid!\n"+
-			"'numSeps' is a 'nil' pointer\n",
+			"'numSeps' is a 'nil' pointer.\n",
 			ePrefix.String())
 
 		return err
@@ -167,92 +277,55 @@ func (numSepsMech *numericSeparatorsMechanics) setDetail(
 		numSeps.lock = new(sync.Mutex)
 	}
 
-	if decimalSeparators == nil {
-		decimalSeparators =
-			make([]rune, 0, 5)
-	}
-
-	lenDecSeps := len(decimalSeparators)
-
-	if lenDecSeps == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'decimalSeparators' is invalid!\n"+
-			"decimalSeparators is a zero length rune array\n",
-			ePrefix.String())
-
-		return err
-	}
-
-	if integerSeparators == nil {
-		integerSeparators =
-			make([]NumStrIntSeparator, 0, 5)
-	}
-
-	lenIntDigitSeparators :=
-		len(integerSeparators)
-
-	if lenIntDigitSeparators == 0 {
+	if integerSeparatorsDto == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'integerSeparatorsDto' is invalid!\n"+
-			"'integerSeparatorsDto' is a zero length or empty array.\n",
+			"'integerSeparatorsDto' is a 'nil' pointer.\n",
 			ePrefix.String())
 
 		return err
 	}
 
+	if len(decimalSeparators) == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'decimalSeparators' is invalid!\n"+
+			"'decimalSeparators' is zero length string.\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	numSepsNanobot := numericSeparatorsNanobot{}
 	newNumericSeps := NumericSeparators{}
-
-	newNumericSeps.decimalSeparators =
-		make([]rune, lenDecSeps, lenDecSeps+5)
-
-	for i := 0; i < lenDecSeps; i++ {
-		newNumericSeps.decimalSeparators[i] =
-			decimalSeparators[i]
-	}
-
-	newNumericSeps.integerSeparatorsDto.intSeparators =
-		make([]NumStrIntSeparator,
-			lenIntDigitSeparators,
-			lenIntDigitSeparators+5)
-
-	for i := 0; i < lenIntDigitSeparators; i++ {
-		err =
-			newNumericSeps.integerSeparatorsDto.
-				intSeparators[i].
-				CopyIn(
-					&integerSeparators[i],
-					ePrefix.XCtx(
-						fmt.Sprintf(
-							"integerSeparatorsDto[%v]",
-							i)))
-
-		if err != nil {
-			return err
-		}
-
-	}
-
 	newNumericSeps.lock = new(sync.Mutex)
 
-	nStrFmtSpecDigitsSepsQuark := numericSeparatorsQuark{}
-	_,
-		err =
-		nStrFmtSpecDigitsSepsQuark.testValidityOfNumericSeparators(
+	err = numSepsNanobot.
+		setDecimalSeparatorRunes(
 			&newNumericSeps,
-			ePrefix.XCtx("Testing validity of preliminary 'newNumericSeps'"))
+			[]rune(decimalSeparators),
+			ePrefix.XCtx(
+				"numSeps"))
 
 	if err != nil {
 		return err
 	}
 
-	nStrFmtSpecDigitsSepsElectron :=
-		numericSeparatorsElectron{}
+	err = numSepsNanobot.setIntegerSeparatorsDto(
+		&newNumericSeps,
+		integerSeparatorsDto,
+		ePrefix.XCtx(
+			"newNumericSeps"))
+
+	if err != nil {
+		return err
+	}
 
 	err =
-		nStrFmtSpecDigitsSepsElectron.copyIn(
-			numSeps,
-			&newNumericSeps,
-			ePrefix.XCtx("newNumericSeps->numSeps"))
+		numericSeparatorsElectron{}.ptr().
+			copyIn(
+				numSeps,
+				&newNumericSeps,
+				ePrefix.XCtx("newNumericSeps->numSeps"))
 
 	return err
 }
@@ -395,19 +468,18 @@ func (numSepsMech *numericSeparatorsMechanics) setWithComponents(
 		numSeps.lock = new(sync.Mutex)
 	}
 
-	if decimalSeparators == nil {
-		decimalSeparators =
-			make([]rune, 0, 5)
-	}
+	newNumericSeps := NumericSeparators{}
 
-	lenDecSeps := len(decimalSeparators)
+	newNumericSeps.lock = new(sync.Mutex)
 
-	if lenDecSeps == 0 {
-		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'decimalSeparators' is invalid!\n"+
-			"decimalSeparators is a zero length rune array\n",
-			ePrefix.String())
+	err = numericSeparatorsNanobot{}.ptr().
+		setDecimalSeparatorRunes(
+			&newNumericSeps,
+			decimalSeparators,
+			ePrefix.XCtx(
+				"newNumericSeps"))
 
+	if err != nil {
 		return err
 	}
 
@@ -428,56 +500,18 @@ func (numSepsMech *numericSeparatorsMechanics) setWithComponents(
 		return err
 	}
 
-	newNumericSeps := NumericSeparators{}
-
-	newNumericSeps.decimalSeparators =
-		make([]rune, lenDecSeps, lenDecSeps+5)
-
-	for i := 0; i < lenDecSeps; i++ {
-		newNumericSeps.decimalSeparators[i] =
-			decimalSeparators[i]
-	}
-
-	newNumericSeps.integerSeparatorsDto.intSeparators =
-		make([]NumStrIntSeparator,
-			lenIntDigitSeparators,
-			lenIntDigitSeparators+5)
-
-	for i := 0; i < lenIntDigitSeparators; i++ {
-		err =
-			newNumericSeps.integerSeparatorsDto.
-				intSeparators[i].
-				CopyIn(
-					&integerSeparators[i],
-					ePrefix.XCtx(
-						fmt.Sprintf(
-							"integerSeparatorsDto[%v]",
-							i)))
-
-		if err != nil {
-			return err
-		}
-
-	}
-
-	newNumericSeps.lock = new(sync.Mutex)
-
-	nStrFmtSpecDigitsSepsQuark := numericSeparatorsQuark{}
-	_,
-		err =
-		nStrFmtSpecDigitsSepsQuark.testValidityOfNumericSeparators(
-			&newNumericSeps,
-			ePrefix.XCtx("Testing validity of preliminary 'newNumericSeps'"))
+	err = newNumericSeps.
+		integerSeparatorsDto.SetWithComponents(
+		integerSeparators,
+		ePrefix.XCtx(
+			"newNumericSeps.integerSeparatorsDto"))
 
 	if err != nil {
 		return err
 	}
 
-	nStrFmtSpecDigitsSepsElectron :=
-		numericSeparatorsElectron{}
-
 	err =
-		nStrFmtSpecDigitsSepsElectron.copyIn(
+		numericSeparatorsElectron{}.ptr().copyIn(
 			numSeps,
 			&newNumericSeps,
 			ePrefix.XCtx("newNumericSeps->numSeps"))
