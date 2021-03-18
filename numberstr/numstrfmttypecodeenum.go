@@ -10,11 +10,12 @@ var mNumStrFmtTypeCodeToString = map[NumStrFormatTypeCode]string{
 	NumStrFormatTypeCode(0): "None",
 	NumStrFormatTypeCode(1): "AbsoluteValue",
 	NumStrFormatTypeCode(2): "Binary",
-	NumStrFormatTypeCode(3): "Currency",
-	NumStrFormatTypeCode(4): "Hexadecimal",
-	NumStrFormatTypeCode(5): "Octal",
-	NumStrFormatTypeCode(6): "SignedNumber",
-	NumStrFormatTypeCode(7): "ScientificNotation",
+	NumStrFormatTypeCode(3): "CountryCulture",
+	NumStrFormatTypeCode(4): "Currency",
+	NumStrFormatTypeCode(5): "Hexadecimal",
+	NumStrFormatTypeCode(6): "Octal",
+	NumStrFormatTypeCode(7): "SignedNumber",
+	NumStrFormatTypeCode(8): "ScientificNotation",
 }
 
 var mNumStrFmtTypeCodeStringToCode = map[string]NumStrFormatTypeCode{
@@ -23,23 +24,27 @@ var mNumStrFmtTypeCodeStringToCode = map[string]NumStrFormatTypeCode{
 	"Absolute Value":       NumStrFormatTypeCode(1),
 	"Absolute":             NumStrFormatTypeCode(1),
 	"Binary":               NumStrFormatTypeCode(2),
-	"Currency":             NumStrFormatTypeCode(3),
-	"Currency Value":       NumStrFormatTypeCode(3),
-	"CurrencyValue":        NumStrFormatTypeCode(3),
-	"Hexadecimal":          NumStrFormatTypeCode(4),
-	"Octal":                NumStrFormatTypeCode(5),
-	"SignedNumber":         NumStrFormatTypeCode(6),
-	"Signed Number Value":  NumStrFormatTypeCode(6),
-	"SignedNumericValue":   NumStrFormatTypeCode(6),
-	"Signed Numeric Value": NumStrFormatTypeCode(6),
-	"Signed Number":        NumStrFormatTypeCode(6),
-	"Signed":               NumStrFormatTypeCode(6),
-	"ScientificNotation":   NumStrFormatTypeCode(7),
-	"Scientific Notation":  NumStrFormatTypeCode(7),
-	"SCI":                  NumStrFormatTypeCode(7),
-	"Scientific Form":      NumStrFormatTypeCode(7),
-	"Standard Index Form":  NumStrFormatTypeCode(7),
-	"Standard Form":        NumStrFormatTypeCode(7),
+	"Country":              NumStrFormatTypeCode(3),
+	"Culture":              NumStrFormatTypeCode(3),
+	"CountryCulture":       NumStrFormatTypeCode(3),
+	"Country Culture":      NumStrFormatTypeCode(3),
+	"Currency":             NumStrFormatTypeCode(4),
+	"Currency Value":       NumStrFormatTypeCode(4),
+	"CurrencyValue":        NumStrFormatTypeCode(4),
+	"Hexadecimal":          NumStrFormatTypeCode(5),
+	"Octal":                NumStrFormatTypeCode(6),
+	"SignedNumber":         NumStrFormatTypeCode(7),
+	"Signed Number Value":  NumStrFormatTypeCode(7),
+	"SignedNumericValue":   NumStrFormatTypeCode(7),
+	"Signed Numeric Value": NumStrFormatTypeCode(7),
+	"Signed Number":        NumStrFormatTypeCode(7),
+	"Signed":               NumStrFormatTypeCode(7),
+	"ScientificNotation":   NumStrFormatTypeCode(8),
+	"Scientific Notation":  NumStrFormatTypeCode(8),
+	"SCI":                  NumStrFormatTypeCode(8),
+	"Scientific Form":      NumStrFormatTypeCode(8),
+	"Standard Index Form":  NumStrFormatTypeCode(8),
+	"Standard Form":        NumStrFormatTypeCode(8),
 }
 
 var mNumStrFmtTypeCodeLwrCaseStringToCode = map[string]NumStrFormatTypeCode{
@@ -48,23 +53,27 @@ var mNumStrFmtTypeCodeLwrCaseStringToCode = map[string]NumStrFormatTypeCode{
 	"absolute value":       NumStrFormatTypeCode(1),
 	"absolute":             NumStrFormatTypeCode(1),
 	"binary":               NumStrFormatTypeCode(2),
-	"currency":             NumStrFormatTypeCode(3),
-	"currency value":       NumStrFormatTypeCode(3),
-	"currencyvalue":        NumStrFormatTypeCode(3),
-	"hexadecimal":          NumStrFormatTypeCode(4),
-	"octal":                NumStrFormatTypeCode(5),
-	"signednumber":         NumStrFormatTypeCode(6),
-	"signed number value":  NumStrFormatTypeCode(6),
-	"signednumericvalue":   NumStrFormatTypeCode(6),
-	"signed numeric value": NumStrFormatTypeCode(6),
-	"signed number":        NumStrFormatTypeCode(6),
-	"signed":               NumStrFormatTypeCode(6),
-	"scientificnotation":   NumStrFormatTypeCode(7),
-	"scientific notation":  NumStrFormatTypeCode(7),
-	"sci":                  NumStrFormatTypeCode(7),
-	"scientific form":      NumStrFormatTypeCode(7),
-	"standard index form":  NumStrFormatTypeCode(7),
-	"standard form":        NumStrFormatTypeCode(7),
+	"country":              NumStrFormatTypeCode(3),
+	"culture":              NumStrFormatTypeCode(3),
+	"countryculture":       NumStrFormatTypeCode(3),
+	"country culture":      NumStrFormatTypeCode(3),
+	"currency":             NumStrFormatTypeCode(4),
+	"currency value":       NumStrFormatTypeCode(4),
+	"currencyvalue":        NumStrFormatTypeCode(4),
+	"hexadecimal":          NumStrFormatTypeCode(5),
+	"octal":                NumStrFormatTypeCode(6),
+	"signednumber":         NumStrFormatTypeCode(7),
+	"signed number value":  NumStrFormatTypeCode(7),
+	"signednumericvalue":   NumStrFormatTypeCode(7),
+	"signed numeric value": NumStrFormatTypeCode(7),
+	"signed number":        NumStrFormatTypeCode(7),
+	"signed":               NumStrFormatTypeCode(7),
+	"scientificnotation":   NumStrFormatTypeCode(8),
+	"scientific notation":  NumStrFormatTypeCode(8),
+	"sci":                  NumStrFormatTypeCode(8),
+	"scientific form":      NumStrFormatTypeCode(8),
+	"standard index form":  NumStrFormatTypeCode(8),
+	"standard form":        NumStrFormatTypeCode(8),
 }
 
 // NumStrFormatTypeCode - The 'Number String Format Type Code' is
@@ -80,16 +89,16 @@ var mNumStrFmtTypeCodeLwrCaseStringToCode = map[string]NumStrFormatTypeCode{
 // display specifications. These methods are listed as
 // follows:
 //
-// Method           Integer
-// Name              Value
-// ------           -------
+// Method             Integer
+// Name                Value
+// ------             -------
 //
-// None               (0)
+// None                 (0)
 //  - Signals that the Number String Value Specification (NumStrFormatTypeCode)
 //    Type is not initialized. This is an error condition.
 //
 //
-// AbsoluteValue      (1)
+// AbsoluteValue        (1)
 //  - This format specification signals that a numeric value will
 //    be displayed in text as a positive number regardless of
 //    whether the native value is positive or negative.
@@ -100,12 +109,18 @@ var mNumStrFmtTypeCodeLwrCaseStringToCode = map[string]NumStrFormatTypeCode{
 //      Positive Values          Negative Values
 //       +132 = +132              -123 = +123
 //
-// Binary        (2)
+// Binary               (2)
 //  - The 'Binary' format specification provides support for the
 //    display of text number strings in base-16 or binary format.
 //
 //
-// Currency      (3)
+// CountryCulture       (3)
+//  - This format specification provides extensive background
+//    information on the country or culture associated with the
+//    current format operation.
+//
+//
+// Currency             (4)
 //  - The 'Currency' format specification signals that all numeric
 //    values will be displayed in number strings as currency
 //    formatted with appropriate currency characters.
@@ -123,18 +138,18 @@ var mNumStrFmtTypeCodeLwrCaseStringToCode = map[string]NumStrFormatTypeCode{
 //       +132 = $132               -123 = ($123)
 //
 //
-// Hexadecimal   (4)
+// Hexadecimal          (5)
 //  - The 'Hexadecimal' format specification provides support for
 //    the display of text number strings in base-16 or hexadecimal
 //    format.
 //
 //
-// Octal         (5)
+// Octal                (6)
 //  - The 'Octal' format specification provides support for the
 //    display of text number strings in base-8 or octal format.
 //
 //
-// SignedNumber  (6)
+// SignedNumber         (7)
 //  - Signals that the numeric value will be displayed in text as a
 //    standard positive or negative value contingent upon the
 //    number sign associated with the numeric value. NO CURRENCY
@@ -151,7 +166,7 @@ var mNumStrFmtTypeCodeLwrCaseStringToCode = map[string]NumStrFormatTypeCode{
 //        +132 = 132               -123 = -123
 //
 //
-// ScientificNotation (7)
+// ScientificNotation   (8)
 //  - Signals that the numeric value will be displayed in text as
 //    Scientific Notation.
 //
@@ -230,6 +245,21 @@ func (nStrValSpec NumStrFormatTypeCode) Binary() NumStrFormatTypeCode {
 	return NumStrFormatTypeCode(2)
 }
 
+// CountryCulture - This format specification provides extensive
+// background information on the country or culture associated with
+// the current format operation.
+//
+// This method is part of the standard enumeration.
+//
+func (nStrValSpec NumStrFormatTypeCode) CountryCulture() NumStrFormatTypeCode {
+
+	lockNumStrFormatTypeCode.Lock()
+
+	defer lockNumStrFormatTypeCode.Unlock()
+
+	return NumStrFormatTypeCode(3)
+}
+
 // Currency - The 'Currency' format specification
 // signals that all numeric values will be displayed in
 // number strings as currency formatted with appropriate
@@ -265,7 +295,7 @@ func (nStrValSpec NumStrFormatTypeCode) Currency() NumStrFormatTypeCode {
 
 	defer lockNumStrFormatTypeCode.Unlock()
 
-	return NumStrFormatTypeCode(3)
+	return NumStrFormatTypeCode(4)
 }
 
 // Hexadecimal - The 'Hexadecimal' format type provides support for
@@ -283,7 +313,7 @@ func (nStrValSpec NumStrFormatTypeCode) Hexadecimal() NumStrFormatTypeCode {
 
 	defer lockNumStrFormatTypeCode.Unlock()
 
-	return NumStrFormatTypeCode(4)
+	return NumStrFormatTypeCode(5)
 }
 
 // Octal - The 'Octal' format type provides support for
@@ -301,7 +331,7 @@ func (nStrValSpec NumStrFormatTypeCode) Octal() NumStrFormatTypeCode {
 
 	defer lockNumStrFormatTypeCode.Unlock()
 
-	return NumStrFormatTypeCode(5)
+	return NumStrFormatTypeCode(6)
 }
 
 // SignedNumber - The 'Signed Number' specification
@@ -321,7 +351,7 @@ func (nStrValSpec NumStrFormatTypeCode) SignedNumber() NumStrFormatTypeCode {
 
 	defer lockNumStrFormatTypeCode.Unlock()
 
-	return NumStrFormatTypeCode(6)
+	return NumStrFormatTypeCode(7)
 }
 
 // ScientificNotation - The 'Scientific Notation' specification
@@ -347,7 +377,7 @@ func (nStrValSpec NumStrFormatTypeCode) ScientificNotation() NumStrFormatTypeCod
 
 	defer lockNumStrFormatTypeCode.Unlock()
 
-	return NumStrFormatTypeCode(7)
+	return NumStrFormatTypeCode(8)
 }
 
 // String - Returns a string with the name of the enumeration associated
@@ -404,7 +434,7 @@ func (nStrValSpec NumStrFormatTypeCode) XIsValid() bool {
 
 	defer lockNumStrFormatTypeCode.Unlock()
 
-	if nStrValSpec > 7 ||
+	if nStrValSpec > 8 ||
 		nStrValSpec < 1 {
 		return false
 	}
@@ -441,6 +471,10 @@ func (nStrValSpec NumStrFormatTypeCode) XIsValid() bool {
 //           "Absolute Value"
 //           "Absolute"
 //           "Binary"
+//           "Country"
+//           "Culture"
+//           "CountryCulture"
+//           "Country Culture"
 //           "Currency"
 //           "Currency Value"
 //           "CurrencyValue"
@@ -467,6 +501,10 @@ func (nStrValSpec NumStrFormatTypeCode) XIsValid() bool {
 //             "absolute value"
 //             "absolute"
 //             "binary"
+//             "country"
+//             "culture"
+//             "countryculture"
+//             "country culture"
 //             "currency"
 //             "currency value"
 //             "currencyvalue"
@@ -603,8 +641,12 @@ func (nStrValSpec NumStrFormatTypeCode) XValueInt() int {
 // Usage:
 // NStrFmtType.None(),
 // NStrFmtType.AbsoluteValue(),
+// NStrFmtType.Binary(),
+// NStrFmtType.CountryCulture(),
 // NStrFmtType.Currency(),
-// NStrFmtType.SignedNumber(),
+// NStrFmtType.Binary(),
+// NStrFmtType.Hexadecimal(),
+// NStrFmtType.Octal(),
 // NStrFmtType.ScientificNotation(),
 //
 var NStrFmtType NumStrFormatTypeCode
