@@ -9,6 +9,53 @@ type numStrIntSeparatorsDtoQuark struct {
 	lock *sync.Mutex
 }
 
+// empty - Deletes and resets data values for all member variables
+// within a NumStrIntSeparatorsDto instance to their initial 'zero'
+// values.
+//
+func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) empty(
+	intSepsDto *NumStrIntSeparatorsDto,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if intSepsDtoQuark.lock == nil {
+		intSepsDtoQuark.lock = new(sync.Mutex)
+	}
+
+	intSepsDtoQuark.lock.Lock()
+
+	defer intSepsDtoQuark.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrIntSeparatorsDtoQuark." +
+			"isEqual()")
+
+	if intSepsDto == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'intSepsDto' is invalid!\n"+
+			"'intSepsDto' is a 'nil' pointer\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	if intSepsDto.intSeparators != nil {
+		lenIntSeps := len(intSepsDto.intSeparators)
+
+		for i := 0; i < lenIntSeps; i++ {
+			intSepsDto.intSeparators[i].Empty()
+		}
+
+		intSepsDto.intSeparators = nil
+	}
+
+	return err
+}
+
 // isEmpty - Returns a boolean flag signaling whether the incoming
 // NumStrIntSeparatorsDto is populated with data.
 //
@@ -32,11 +79,6 @@ func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) isEmpty(
 
 	if intSepsDto == nil {
 		return true
-	}
-
-	if intSepsDto.intSeparators == nil {
-		intSepsDto.intSeparators =
-			make([]NumStrIntSeparator, 0, 5)
 	}
 
 	if len(intSepsDto.intSeparators) == 0 {
@@ -134,11 +176,6 @@ func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) isEqual(
 		return isEqual, err
 	}
 
-	if nStrIntSepDto01.intSeparators == nil {
-		nStrIntSepDto01.intSeparators =
-			make([]NumStrIntSeparator, 0, 5)
-	}
-
 	if nStrIntSepDto02 == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'nStrIntSepDto02' is invalid!\n"+
@@ -146,11 +183,6 @@ func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) isEqual(
 			ePrefix.String())
 
 		return isEqual, err
-	}
-
-	if nStrIntSepDto02.intSeparators == nil {
-		nStrIntSepDto02.intSeparators =
-			make([]NumStrIntSeparator, 0, 5)
 	}
 
 	lenIntSeps01 := len(nStrIntSepDto01.intSeparators)
