@@ -492,7 +492,7 @@ func (fmtCurrMech *formatterCurrencyMechanics) setFormatterCurrencyFromComponent
 	newFormatterCurrency := FormatterCurrency{}
 
 	err =
-		numStrFmtSpecCurrencyValueDtoNanobot{}.ptr().
+		formatterCurrencyNanobot{}.ptr().
 			setCurrencyData(
 				&newFormatterCurrency,
 				positiveValueFmt,
@@ -527,7 +527,7 @@ func (fmtCurrMech *formatterCurrencyMechanics) setFormatterCurrencyFromComponent
 			ePrefix.XCtx(" numFieldLenDto->newFormatterCurrency"))
 
 	nStrFmtSpecCurrValNanobot :=
-		numStrFmtSpecCurrencyValueDtoNanobot{}
+		formatterCurrencyNanobot{}
 
 	err =
 		nStrFmtSpecCurrValNanobot.copyIn(

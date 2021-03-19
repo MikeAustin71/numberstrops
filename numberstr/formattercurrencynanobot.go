@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecCurrencyValueDtoNanobot struct {
+type formatterCurrencyNanobot struct {
 	lock *sync.Mutex
 }
 
@@ -13,44 +13,45 @@ type numStrFmtSpecCurrencyValueDtoNanobot struct {
 // 'inComingNStrFmtSpecCurrencyValDto' to input parameter
 // 'targetNStrFmtSpecCurrencyValDto'.
 //
-// Be advised - All data fields in 'targetNStrFmtSpecCurrencyValDto'
+// Be advised - All data fields in 'targetFormatterCurrency'
 // will be overwritten.
 //
-// If input parameter 'inComingNStrFmtSpecCurrencyValDto' is judged
+// If input parameter 'inComingFormatterCurrency' is judged
 // to be invalid, this method will return an error.
 //
-func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
-	targetNStrFmtSpecCurrencyValDto *FormatterCurrency,
-	inComingNStrFmtSpecCurrencyValDto *FormatterCurrency,
+func (fmtCurrNanobot *formatterCurrencyNanobot) copyIn(
+	targetFormatterCurrency *FormatterCurrency,
+	inComingFormatterCurrency *FormatterCurrency,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecCurrValNanobot.lock == nil {
-		nStrFmtSpecCurrValNanobot.lock = new(sync.Mutex)
+	if fmtCurrNanobot.lock == nil {
+		fmtCurrNanobot.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValNanobot.lock.Lock()
+	fmtCurrNanobot.lock.Lock()
 
-	defer nStrFmtSpecCurrValNanobot.lock.Unlock()
+	defer fmtCurrNanobot.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoNanobot.copyIn()")
+	ePrefix.SetEPref(
+		"formatterCurrencyNanobot.copyIn()")
 
-	if targetNStrFmtSpecCurrencyValDto == nil {
+	if targetFormatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'targetNStrFmtSpecCurrencyValDto' is"+
+			"Error: Input parameter 'targetFormatterCurrency' is"+
 			" a 'nil' pointer!\n",
 			ePrefix.String())
 
 		return err
 	}
 
-	if inComingNStrFmtSpecCurrencyValDto == nil {
+	if inComingFormatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'inComingNStrFmtSpecCurrencyValDto' is"+
+			"Error: Input parameter 'inComingFormatterCurrency' is"+
 			" a 'nil' pointer!\n",
 			ePrefix.String())
 		return err
@@ -62,78 +63,78 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 	_,
 		err =
 		nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(
-			inComingNStrFmtSpecCurrencyValDto,
-			ePrefix.XCtx("Testing validity of 'inComingNStrFmtSpecCurrencyValDto'"))
+			inComingFormatterCurrency,
+			ePrefix.XCtx("Testing validity of 'inComingFormatterCurrency'"))
 
 	if err != nil {
 		return err
 	}
 
-	lenCurrencySymbols := len(inComingNStrFmtSpecCurrencyValDto.currencySymbols)
+	lenCurrencySymbols := len(inComingFormatterCurrency.currencySymbols)
 
 	if lenCurrencySymbols == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: 'inComingNStrFmtSpecCurrencyValDto.currencySymbols' invalid!\n"+
+			"Error: 'inComingFormatterCurrency.currencySymbols' invalid!\n"+
 			"The currencySymbols array is a zero length array.\n",
 			ePrefix.XCtxEmpty().String())
 
 		return err
 	}
 
-	targetNStrFmtSpecCurrencyValDto.positiveValueFmt =
-		inComingNStrFmtSpecCurrencyValDto.positiveValueFmt
+	targetFormatterCurrency.positiveValueFmt =
+		inComingFormatterCurrency.positiveValueFmt
 
-	targetNStrFmtSpecCurrencyValDto.negativeValueFmt =
-		inComingNStrFmtSpecCurrencyValDto.negativeValueFmt
+	targetFormatterCurrency.negativeValueFmt =
+		inComingFormatterCurrency.negativeValueFmt
 
-	targetNStrFmtSpecCurrencyValDto.decimalDigits =
-		inComingNStrFmtSpecCurrencyValDto.decimalDigits
+	targetFormatterCurrency.decimalDigits =
+		inComingFormatterCurrency.decimalDigits
 
-	targetNStrFmtSpecCurrencyValDto.currencyCode =
-		inComingNStrFmtSpecCurrencyValDto.currencyCode
+	targetFormatterCurrency.currencyCode =
+		inComingFormatterCurrency.currencyCode
 
-	targetNStrFmtSpecCurrencyValDto.currencyCodeNo =
-		inComingNStrFmtSpecCurrencyValDto.currencyCodeNo
+	targetFormatterCurrency.currencyCodeNo =
+		inComingFormatterCurrency.currencyCodeNo
 
-	targetNStrFmtSpecCurrencyValDto.currencyName =
-		inComingNStrFmtSpecCurrencyValDto.currencyName
+	targetFormatterCurrency.currencyName =
+		inComingFormatterCurrency.currencyName
 
-	targetNStrFmtSpecCurrencyValDto.currencySymbols =
+	targetFormatterCurrency.currencySymbols =
 		make([]rune, lenCurrencySymbols, 10)
 
 	_ = copy(
-		targetNStrFmtSpecCurrencyValDto.currencySymbols,
-		inComingNStrFmtSpecCurrencyValDto.currencySymbols)
+		targetFormatterCurrency.currencySymbols,
+		inComingFormatterCurrency.currencySymbols)
 
-	targetNStrFmtSpecCurrencyValDto.minorCurrencyName =
-		inComingNStrFmtSpecCurrencyValDto.minorCurrencyName
+	targetFormatterCurrency.minorCurrencyName =
+		inComingFormatterCurrency.minorCurrencyName
 
-	lenCurrencySymbols = len(inComingNStrFmtSpecCurrencyValDto.minorCurrencySymbols)
+	lenCurrencySymbols = len(inComingFormatterCurrency.minorCurrencySymbols)
 
-	targetNStrFmtSpecCurrencyValDto.minorCurrencySymbols =
+	targetFormatterCurrency.minorCurrencySymbols =
 		make([]rune, lenCurrencySymbols, 10)
 
 	_ = copy(
-		targetNStrFmtSpecCurrencyValDto.minorCurrencySymbols,
-		inComingNStrFmtSpecCurrencyValDto.minorCurrencySymbols)
+		targetFormatterCurrency.minorCurrencySymbols,
+		inComingFormatterCurrency.minorCurrencySymbols)
 
-	targetNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation =
-		inComingNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation
+	targetFormatterCurrency.turnOnIntegerDigitsSeparation =
+		inComingFormatterCurrency.turnOnIntegerDigitsSeparation
 
 	err =
-		targetNStrFmtSpecCurrencyValDto.numericSeparators.CopyIn(
-			&inComingNStrFmtSpecCurrencyValDto.numericSeparators,
-			ePrefix.XCtx("'inComingNStrFmtSpecCurrencyValDto' -> "+
-				"'targetNStrFmtSpecCurrencyValDto'"))
+		targetFormatterCurrency.numericSeparators.CopyIn(
+			&inComingFormatterCurrency.numericSeparators,
+			ePrefix.XCtx("'inComingFormatterCurrency' -> "+
+				"'targetFormatterCurrency'"))
 
 	if err != nil {
 		return err
 	}
 
 	err =
-		targetNStrFmtSpecCurrencyValDto.numFieldLenDto.CopyIn(
-			&inComingNStrFmtSpecCurrencyValDto.numFieldLenDto,
-			ePrefix.XCtx("\ninComingNStrFmtSpecCurrencyValDto->targetNStrFmtSpecCurrencyValDto"))
+		targetFormatterCurrency.numFieldLenDto.CopyIn(
+			&inComingFormatterCurrency.numFieldLenDto,
+			ePrefix.XCtx("\ninComingFormatterCurrency->targetFormatterCurrency"))
 
 	return err
 }
@@ -142,36 +143,37 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 // 'nStrFmtSpecCurrencyValDto' styled as a new instance
 // of FormatterCurrency.
 //
-// If input parameter 'nStrFmtSpecCurrencyValDto' is judged to be
+// If input parameter 'formatterCurrency' is judged to be
 // invalid, this method will return an error.
 //
-func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
-	nStrFmtSpecCurrencyValDto *FormatterCurrency,
+func (fmtCurrNanobot *formatterCurrencyNanobot) copyOut(
+	formatterCurrency *FormatterCurrency,
 	ePrefix *ErrPrefixDto) (
-	newNStrFmtSpecCurrencyValDto FormatterCurrency,
+	newFormatterCurrency FormatterCurrency,
 	err error) {
 
-	if nStrFmtSpecCurrValNanobot.lock == nil {
-		nStrFmtSpecCurrValNanobot.lock = new(sync.Mutex)
+	if fmtCurrNanobot.lock == nil {
+		fmtCurrNanobot.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValNanobot.lock.Lock()
+	fmtCurrNanobot.lock.Lock()
 
-	defer nStrFmtSpecCurrValNanobot.lock.Unlock()
+	defer fmtCurrNanobot.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numStrFmtSpecCurrencyValueDtoNanobot.copyOut()")
+	ePrefix.SetEPref(
+		"formatterCurrencyNanobot.copyOut()")
 
-	if nStrFmtSpecCurrencyValDto == nil {
+	if formatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecCurrencyValDto' is"+
+			"Error: Input parameter 'formatterCurrency' is"+
 			" a 'nil' pointer!\n",
 			ePrefix.String())
 
-		return newNStrFmtSpecCurrencyValDto, err
+		return newFormatterCurrency, err
 	}
 
 	nStrFmtSpecCurrDtoMolecule :=
@@ -180,99 +182,99 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 	_,
 		err =
 		nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(
-			nStrFmtSpecCurrencyValDto,
-			ePrefix.XCtx("Testing validity of 'nStrFmtSpecCurrencyValDto'"))
+			formatterCurrency,
+			ePrefix.XCtx("Testing validity of 'formatterCurrency'"))
 
 	if err != nil {
-		return newNStrFmtSpecCurrencyValDto, err
+		return newFormatterCurrency, err
 	}
 
 	lenCurrencySymbols :=
-		len(nStrFmtSpecCurrencyValDto.currencySymbols)
+		len(formatterCurrency.currencySymbols)
 
 	if lenCurrencySymbols == 0 {
 		err = fmt.Errorf("%v\n"+
-			"Error: 'nStrFmtSpecCurrencyValDto.currencySymbols' invalid!\n"+
+			"Error: 'formatterCurrency.currencySymbols' invalid!\n"+
 			"The currencySymbols array is a zero length array.\n",
 			ePrefix.XCtxEmpty().String())
 
-		return newNStrFmtSpecCurrencyValDto, err
+		return newFormatterCurrency, err
 	}
 
-	newNStrFmtSpecCurrencyValDto.positiveValueFmt =
-		nStrFmtSpecCurrencyValDto.positiveValueFmt
+	newFormatterCurrency.positiveValueFmt =
+		formatterCurrency.positiveValueFmt
 
-	newNStrFmtSpecCurrencyValDto.negativeValueFmt =
-		nStrFmtSpecCurrencyValDto.negativeValueFmt
+	newFormatterCurrency.negativeValueFmt =
+		formatterCurrency.negativeValueFmt
 
-	newNStrFmtSpecCurrencyValDto.decimalDigits =
-		nStrFmtSpecCurrencyValDto.decimalDigits
+	newFormatterCurrency.decimalDigits =
+		formatterCurrency.decimalDigits
 
-	newNStrFmtSpecCurrencyValDto.currencyCode =
-		nStrFmtSpecCurrencyValDto.currencyCode
+	newFormatterCurrency.currencyCode =
+		formatterCurrency.currencyCode
 
-	newNStrFmtSpecCurrencyValDto.currencyCodeNo =
-		nStrFmtSpecCurrencyValDto.currencyCodeNo
+	newFormatterCurrency.currencyCodeNo =
+		formatterCurrency.currencyCodeNo
 
-	newNStrFmtSpecCurrencyValDto.currencyName =
-		nStrFmtSpecCurrencyValDto.currencyName
+	newFormatterCurrency.currencyName =
+		formatterCurrency.currencyName
 
-	newNStrFmtSpecCurrencyValDto.currencySymbols =
+	newFormatterCurrency.currencySymbols =
 		make([]rune, lenCurrencySymbols, 10)
 
 	_ = copy(
-		newNStrFmtSpecCurrencyValDto.currencySymbols,
-		nStrFmtSpecCurrencyValDto.currencySymbols)
+		newFormatterCurrency.currencySymbols,
+		formatterCurrency.currencySymbols)
 
-	newNStrFmtSpecCurrencyValDto.minorCurrencyName =
-		nStrFmtSpecCurrencyValDto.minorCurrencyName
+	newFormatterCurrency.minorCurrencyName =
+		formatterCurrency.minorCurrencyName
 
 	lenCurrencySymbols =
-		len(nStrFmtSpecCurrencyValDto.minorCurrencySymbols)
+		len(formatterCurrency.minorCurrencySymbols)
 
-	newNStrFmtSpecCurrencyValDto.minorCurrencySymbols =
+	newFormatterCurrency.minorCurrencySymbols =
 		make([]rune, lenCurrencySymbols, 10)
 
 	_ = copy(
-		newNStrFmtSpecCurrencyValDto.minorCurrencySymbols,
-		nStrFmtSpecCurrencyValDto.minorCurrencySymbols)
+		newFormatterCurrency.minorCurrencySymbols,
+		formatterCurrency.minorCurrencySymbols)
 
-	newNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation =
-		nStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation
+	newFormatterCurrency.turnOnIntegerDigitsSeparation =
+		formatterCurrency.turnOnIntegerDigitsSeparation
 
-	err = newNStrFmtSpecCurrencyValDto.numericSeparators.CopyIn(
-		&nStrFmtSpecCurrencyValDto.numericSeparators,
-		ePrefix.XCtx("nStrFmtSpecCurrencyValDto->newNStrFmtSpecCurrencyValDto"))
+	err = newFormatterCurrency.numericSeparators.CopyIn(
+		&formatterCurrency.numericSeparators,
+		ePrefix.XCtx("formatterCurrency->newFormatterCurrency"))
 
 	if err != nil {
-		return newNStrFmtSpecCurrencyValDto, err
+		return newFormatterCurrency, err
 	}
 
 	err =
-		newNStrFmtSpecCurrencyValDto.numFieldLenDto.CopyIn(
-			&nStrFmtSpecCurrencyValDto.numFieldLenDto,
-			ePrefix.XCtx("nStrFmtSpecCurrencyValDto->newNStrFmtSpecCurrencyValDto"))
+		newFormatterCurrency.numFieldLenDto.CopyIn(
+			&formatterCurrency.numFieldLenDto,
+			ePrefix.XCtx("formatterCurrency->newFormatterCurrency"))
 
-	newNStrFmtSpecCurrencyValDto.lock = new(sync.Mutex)
+	newFormatterCurrency.lock = new(sync.Mutex)
 
-	return newNStrFmtSpecCurrencyValDto, err
+	return newFormatterCurrency, err
 }
 
 // ptr - Returns a pointer to a new instance of
-// numStrFmtSpecCurrencyValueDtoNanobot.
+// formatterCurrencyNanobot.
 //
-func (nStrFmtSpecCurrValNanobot numStrFmtSpecCurrencyValueDtoNanobot) ptr() *numStrFmtSpecCurrencyValueDtoNanobot {
+func (fmtCurrNanobot formatterCurrencyNanobot) ptr() *formatterCurrencyNanobot {
 
-	if nStrFmtSpecCurrValNanobot.lock == nil {
-		nStrFmtSpecCurrValNanobot.lock = new(sync.Mutex)
+	if fmtCurrNanobot.lock == nil {
+		fmtCurrNanobot.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValNanobot.lock.Lock()
+	fmtCurrNanobot.lock.Lock()
 
-	defer nStrFmtSpecCurrValNanobot.lock.Unlock()
+	defer fmtCurrNanobot.lock.Unlock()
 
 	newCurrencyValDtoNanobot :=
-		new(numStrFmtSpecCurrencyValueDtoNanobot)
+		new(formatterCurrencyNanobot)
 
 	newCurrencyValDtoNanobot.lock = new(sync.Mutex)
 
@@ -290,7 +292,7 @@ func (nStrFmtSpecCurrValNanobot numStrFmtSpecCurrencyValueDtoNanobot) ptr() *num
 //
 // Input Parameters
 //
-//  nStrFmtSpecCurrencyValDto     *FormatterCurrency,
+//  formatterCurrency             *FormatterCurrency,
 //
 //     - A pointer to an instance of FormatterCurrency.
 //       All of the currency data values in this object will be
@@ -585,8 +587,8 @@ func (nStrFmtSpecCurrValNanobot numStrFmtSpecCurrencyValueDtoNanobot) ptr() *num
 //       The 'ePrefix' text will be prefixed to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) setCurrencyData(
-	nStrFmtSpecCurrencyValDto *FormatterCurrency,
+func (fmtCurrNanobot *formatterCurrencyNanobot) setCurrencyData(
+	formatterCurrency *FormatterCurrency,
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -600,26 +602,26 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) setCurren
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecCurrValNanobot.lock == nil {
-		nStrFmtSpecCurrValNanobot.lock = new(sync.Mutex)
+	if fmtCurrNanobot.lock == nil {
+		fmtCurrNanobot.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValNanobot.lock.Lock()
+	fmtCurrNanobot.lock.Lock()
 
-	defer nStrFmtSpecCurrValNanobot.lock.Unlock()
+	defer fmtCurrNanobot.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"numStrFmtSpecCurrencyValueDtoNanobot." +
+		"formatterCurrencyNanobot." +
 			"setCurrencyData()")
 
-	if nStrFmtSpecCurrencyValDto == nil {
+	if formatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecCurrencyValDto' is invalid!\n"+
-			"'nStrFmtSpecCurrencyValDto' is a 'nil' pointer\n",
+			"Error: Input parameter 'formatterCurrency' is invalid!\n"+
+			"'formatterCurrency' is a 'nil' pointer\n",
 			ePrefix.String())
 
 		return err
@@ -673,33 +675,33 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) setCurren
 
 	lenMinorCurrSymbols := len(minorCurrencySymbols)
 
-	newNStrFmtSpecCurrencyValDto := FormatterCurrency{}
+	newFormatterCurrency := FormatterCurrency{}
 
-	newNStrFmtSpecCurrencyValDto.lock =
+	newFormatterCurrency.lock =
 		new(sync.Mutex)
 
-	newNStrFmtSpecCurrencyValDto.positiveValueFmt =
+	newFormatterCurrency.positiveValueFmt =
 		positiveValueFmt
 
-	newNStrFmtSpecCurrencyValDto.negativeValueFmt =
+	newFormatterCurrency.negativeValueFmt =
 		negativeValueFmt
 
-	newNStrFmtSpecCurrencyValDto.decimalDigits =
+	newFormatterCurrency.decimalDigits =
 		decimalDigits
 
-	newNStrFmtSpecCurrencyValDto.currencyCode =
+	newFormatterCurrency.currencyCode =
 		currencyCode
 
-	newNStrFmtSpecCurrencyValDto.currencyCodeNo =
+	newFormatterCurrency.currencyCodeNo =
 		currencyCodeNo
 
-	newNStrFmtSpecCurrencyValDto.currencyName =
+	newFormatterCurrency.currencyName =
 		currencyName
 
-	newNStrFmtSpecCurrencyValDto.currencySymbols =
-		make([]rune, lenCurrencySymbols, 10)
+	newFormatterCurrency.currencySymbols =
+		make([]rune, lenCurrencySymbols)
 
-	runesCopied := copy(newNStrFmtSpecCurrencyValDto.currencySymbols,
+	runesCopied := copy(newFormatterCurrency.currencySymbols,
 		currencySymbols)
 
 	if runesCopied != lenCurrencySymbols {
@@ -708,23 +710,23 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) setCurren
 			"Expected to copy %v currency symbol runes.\n"+
 			"However, only %v currency symbol runes were copied.\n"+
 			"Source currencySymbols = '%v'\n"+
-			"Destination newNStrFmtSpecCurrencyValDto.currencySymbols = '%v'\n",
+			"Destination newFormatterCurrency.currencySymbols = '%v'\n",
 			ePrefix.String(),
 			lenCurrencySymbols,
 			runesCopied,
 			string(currencySymbols),
-			string(newNStrFmtSpecCurrencyValDto.currencySymbols))
+			string(newFormatterCurrency.currencySymbols))
 
 		return err
 	}
 
-	newNStrFmtSpecCurrencyValDto.minorCurrencyName =
+	newFormatterCurrency.minorCurrencyName =
 		minorCurrencyName
 
-	newNStrFmtSpecCurrencyValDto.minorCurrencySymbols =
-		make([]rune, lenMinorCurrSymbols, 10)
+	newFormatterCurrency.minorCurrencySymbols =
+		make([]rune, lenMinorCurrSymbols)
 
-	runesCopied = copy(newNStrFmtSpecCurrencyValDto.minorCurrencySymbols,
+	runesCopied = copy(newFormatterCurrency.minorCurrencySymbols,
 		minorCurrencySymbols)
 
 	if runesCopied != lenMinorCurrSymbols {
@@ -733,17 +735,17 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) setCurren
 			"Expected to copy %v minor currency symbol runes.\n"+
 			"However, only %v minor currency symbol runes were copied.\n"+
 			"Source minorCurrencySymbols = '%v'\n"+
-			"Destination newNStrFmtSpecCurrencyValDto.minorCurrencySymbols = '%v'\n",
+			"Destination newFormatterCurrency.minorCurrencySymbols = '%v'\n",
 			ePrefix.String(),
 			lenMinorCurrSymbols,
 			runesCopied,
 			string(minorCurrencySymbols),
-			string(newNStrFmtSpecCurrencyValDto.minorCurrencySymbols))
+			string(newFormatterCurrency.minorCurrencySymbols))
 
 		return err
 	}
 
-	newNStrFmtSpecCurrencyValDto.turnOnIntegerDigitsSeparation =
+	newFormatterCurrency.turnOnIntegerDigitsSeparation =
 		turnOnIntegerDigitsSeparation
 
 	return err

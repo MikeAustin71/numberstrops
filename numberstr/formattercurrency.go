@@ -87,7 +87,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) CopyIn(
 	ePrefix.SetEPref("FormatterCurrency.CopyIn()")
 
 	nStrFmtSpecCurrValNanobot :=
-		numStrFmtSpecCurrencyValueDtoNanobot{}
+		formatterCurrencyNanobot{}
 
 	return nStrFmtSpecCurrValNanobot.copyIn(
 		nStrFmtSpecCurrValDto,
@@ -157,7 +157,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) CopyOut(
 	ePrefix.SetEPref("FormatterCurrency.CopyOut()")
 
 	nStrFmtSpecCurrValNanobot :=
-		numStrFmtSpecCurrencyValueDtoNanobot{}
+		formatterCurrencyNanobot{}
 
 	return nStrFmtSpecCurrValNanobot.copyOut(
 		nStrFmtSpecCurrValDto,
@@ -2227,7 +2227,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyData(
 		"FormatterCurrency." +
 			"SetCurrencyData()")
 
-	return numStrFmtSpecCurrencyValueDtoNanobot{}.ptr().
+	return formatterCurrencyNanobot{}.ptr().
 		setCurrencyData(
 			nStrFmtSpecCurrValDto,
 			positiveValueFmt,
