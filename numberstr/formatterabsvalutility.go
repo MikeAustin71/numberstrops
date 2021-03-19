@@ -250,7 +250,7 @@ func (fmtAbsValUtil *formatterAbsoluteValueUtility) setBasic(
 	var numFieldDto NumberFieldDto
 
 	numFieldDto,
-		err = NumberFieldDto{}.NewWithDefaults(
+		err = NumberFieldDto{}.NewBasic(
 		requestedNumberFieldLen,
 		numberFieldTextJustify,
 		ePrefix)
@@ -518,7 +518,7 @@ func (fmtAbsValUtil *formatterAbsoluteValueUtility) setBasicRunes(
 	var numFieldDto NumberFieldDto
 
 	numFieldDto,
-		err = NumberFieldDto{}.NewWithDefaults(
+		err = NumberFieldDto{}.NewBasic(
 		requestedNumberFieldLen,
 		numberFieldTextJustify,
 		ePrefix)
@@ -638,7 +638,7 @@ func (fmtAbsValUtil *formatterAbsoluteValueUtility) setToUnitedStatesDefaults(
 	var numFieldDto NumberFieldDto
 
 	numFieldDto,
-		err = NumberFieldDto{}.NewWithDefaults(
+		err = NumberFieldDto{}.NewBasic(
 		-1,
 		TextJustify(0).Right(),
 		ePrefix)

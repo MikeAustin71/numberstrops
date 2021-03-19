@@ -285,7 +285,7 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 	var numFieldDto NumberFieldDto
 
 	numFieldDto,
-		err = NumberFieldDto{}.NewWithDefaults(
+		err = NumberFieldDto{}.NewBasic(
 		requestedNumberFieldLen,
 		numberFieldTextJustify,
 		ePrefix)
@@ -409,7 +409,7 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setToUnite
 	var numFieldDto NumberFieldDto
 
 	numFieldDto,
-		err = NumberFieldDto{}.NewWithDefaults(
+		err = NumberFieldDto{}.NewBasic(
 		-1,
 		TxtJustify.Right(),
 		ePrefix)

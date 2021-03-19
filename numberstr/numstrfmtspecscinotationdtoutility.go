@@ -190,7 +190,7 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 	var numFieldDto NumberFieldDto
 
 	numFieldDto,
-		err = NumberFieldDto{}.NewWithDefaults(
+		err = NumberFieldDto{}.NewBasic(
 		requestedNumberFieldLen,
 		numberFieldTextJustify,
 		ePrefix)
@@ -296,7 +296,7 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setToUnitedS
 	var numFieldDto NumberFieldDto
 
 	numFieldDto,
-		err = NumberFieldDto{}.NewWithDefaults(
+		err = NumberFieldDto{}.NewBasic(
 		-1,
 		TextJustify(0).Right(),
 		ePrefix)

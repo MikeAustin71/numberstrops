@@ -442,7 +442,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFormatterCurrency(
 	var numFieldDto NumberFieldDto
 
 	numFieldDto,
-		err = NumberFieldDto{}.NewWithDefaults(
+		err = NumberFieldDto{}.NewBasic(
 		requestedNumberFieldLen,
 		numberFieldTextJustify,
 		ePrefix)
@@ -577,7 +577,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setToUnitedStatesDefaults(
 	var numFieldDto NumberFieldDto
 
 	numFieldDto,
-		err = NumberFieldDto{}.NewWithDefaults(
+		err = NumberFieldDto{}.NewBasic(
 		-1,
 		TextJustify(0).Right(),
 		ePrefix)

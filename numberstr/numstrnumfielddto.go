@@ -13,6 +13,27 @@ type NumberFieldDto struct {
 	lock                    *sync.Mutex
 }
 
+// Empty - Deletes and resets data values for all member variables
+// in the current NumberFieldDto instance to their initial 'zero'
+// values.
+//
+func (nFieldDto *NumberFieldDto) Empty() {
+
+	if nFieldDto.lock == nil {
+		nFieldDto.lock = new(sync.Mutex)
+	}
+
+	nFieldDto.lock.Lock()
+
+	_ = numStrNumFieldDtoQuark{}.ptr().empty(
+		nFieldDto,
+		nil)
+
+	nFieldDto.lock.Unlock()
+
+	nFieldDto.lock = nil
+}
+
 // CopyIn - Copies the data fields from an incoming NumberFieldDto
 // to the data fields of the current instance of NumberFieldDto.
 //
@@ -454,7 +475,11 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 	return err
 }
 
-// NewWithDefaults - Creates and returns a new instance of 'NumberFieldDto'.
+// NewBasic - Creates and returns a new instance of NumberFieldDto.
+//
+// The input parameters represent the minimum information required
+// to configure the data values for a NumberFieldDto object.
+// Default values are used to supplement these input parameters.
 //
 // This method will default the text justification to
 // 'right-justify'. This setting will position the number string on
@@ -540,7 +565,7 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nFieldDto NumberFieldDto) NewWithDefaults(
+func (nFieldDto NumberFieldDto) NewBasic(
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) (
@@ -571,13 +596,12 @@ func (nFieldDto NumberFieldDto) NewWithDefaults(
 		return newNumFieldDto, err
 	}
 
-	nStrNumFieldDtoMech := numStrNumFieldDtoMechanics{}
-
-	err = nStrNumFieldDtoMech.setNumberFieldDto(
-		&newNumFieldDto,
-		requestedNumberFieldLen,
-		numberFieldTextJustify,
-		ePrefix)
+	err = numStrNumFieldDtoMechanics{}.ptr().
+		setNumberFieldDto(
+			&newNumFieldDto,
+			requestedNumberFieldLen,
+			numberFieldTextJustify,
+			ePrefix)
 
 	return newNumFieldDto, err
 }

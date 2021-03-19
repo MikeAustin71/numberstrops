@@ -9,6 +9,27 @@ type numStrNumFieldDtoMechanics struct {
 	lock *sync.Mutex
 }
 
+// ptr - Returns a pointer to a new instance of
+// numStrNumFieldDtoMechanics.
+//
+func (nStrNumFieldDtoMech numStrNumFieldDtoMechanics) ptr() *numStrNumFieldDtoMechanics {
+
+	if nStrNumFieldDtoMech.lock == nil {
+		nStrNumFieldDtoMech.lock = new(sync.Mutex)
+	}
+
+	nStrNumFieldDtoMech.lock.Lock()
+
+	defer nStrNumFieldDtoMech.lock.Unlock()
+
+	newNStrNumFieldDtoMech :=
+		new(numStrNumFieldDtoMechanics)
+
+	newNStrNumFieldDtoMech.lock = new(sync.Mutex)
+
+	return newNStrNumFieldDtoMech
+}
+
 // setNumberFieldDto - Sets the internal member variable values
 // for an instance of NumberFieldDto passed as an input parameter.
 //

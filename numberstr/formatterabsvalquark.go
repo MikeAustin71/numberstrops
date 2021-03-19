@@ -53,7 +53,7 @@ func (fmtAbsValQuark *formatterAbsoluteValueQuark) empty(
 
 	fmtAbsoluteVal.numericSeparators.Empty()
 
-	fmtAbsoluteVal.numFieldLenDto = NumberFieldDto{}
+	fmtAbsoluteVal.numFieldLenDto.Empty()
 
 	return err
 }
