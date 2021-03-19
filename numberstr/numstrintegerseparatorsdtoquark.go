@@ -266,11 +266,6 @@ func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) testValidityOfNumStrIntSepsD
 		return isValid, err
 	}
 
-	if intSepsDto.intSeparators == nil {
-		intSepsDto.intSeparators =
-			make([]NumStrIntSeparator, 0, 5)
-	}
-
 	lenIntSeps := len(intSepsDto.intSeparators)
 
 	if lenIntSeps == 0 {

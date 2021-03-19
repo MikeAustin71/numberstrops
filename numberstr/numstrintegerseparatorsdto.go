@@ -562,11 +562,13 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) Empty() {
 
 	intSeparatorsDto.lock.Lock()
 
-	defer intSeparatorsDto.lock.Unlock()
-
 	_ = numStrIntSeparatorsDtoQuark{}.ptr().empty(
 		intSeparatorsDto,
 		nil)
+
+	intSeparatorsDto.lock.Unlock()
+
+	intSeparatorsDto.lock = nil
 
 	return
 }

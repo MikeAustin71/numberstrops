@@ -9,6 +9,47 @@ type numericSeparatorsQuark struct {
 	lock *sync.Mutex
 }
 
+// empty - Deletes and resets the data values of all member
+// variables within a NumericSeparators instance to their initial
+// 'zero' values.
+//
+func (numSepsQuark *numericSeparatorsQuark) empty(
+	numericSeparators *NumericSeparators,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if numSepsQuark.lock == nil {
+		numSepsQuark.lock = new(sync.Mutex)
+	}
+
+	numSepsQuark.lock.Lock()
+
+	defer numSepsQuark.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numericSeparatorsQuark." +
+			"testValidityOfNumericSeparators()")
+
+	if numericSeparators == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numericSeparators' is invalid!\n"+
+			"'numericSeparators' is a 'nil' pointer\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	numericSeparators.decimalSeparators = nil
+
+	numericSeparators.integerSeparatorsDto.Empty()
+
+	return err
+}
+
 // numericSeparatorsAreEqual - Returns 'true' if the two NumericSeparators
 // objects submitted as input parameters have equal data values.
 //
@@ -27,16 +68,6 @@ func (numSepsQuark *numericSeparatorsQuark) numericSeparatorsAreEqual(
 	if numSep1 == nil ||
 		numSep2 == nil {
 		return false
-	}
-
-	if numSep1.decimalSeparators == nil {
-		numSep1.decimalSeparators =
-			make([]rune, 0, 2)
-	}
-
-	if numSep2.decimalSeparators == nil {
-		numSep2.decimalSeparators =
-			make([]rune, 0, 2)
 	}
 
 	lenDecSep := len(numSep1.decimalSeparators)
@@ -121,11 +152,6 @@ func (numSepsQuark *numericSeparatorsQuark) testValidityOfNumericSeparators(
 			ePrefix.String())
 
 		return isValid, err
-	}
-
-	if numericSeparators.decimalSeparators == nil {
-		numericSeparators.decimalSeparators =
-			make([]rune, 0, 2)
 	}
 
 	lenDecSeps := len(numericSeparators.decimalSeparators)

@@ -181,11 +181,13 @@ func (nStrIntSep *NumStrIntSeparator) Empty() {
 
 	nStrIntSep.lock.Lock()
 
-	defer nStrIntSep.lock.Unlock()
-
 	_ = numStrIntSeparatorQuark{}.ptr().empty(
 		nStrIntSep,
 		nil)
+
+	nStrIntSep.lock.Unlock()
+
+	nStrIntSep.lock = nil
 
 	return
 }

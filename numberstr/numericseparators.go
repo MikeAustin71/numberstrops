@@ -240,6 +240,27 @@ func (numSeps *NumericSeparators) CopyOut(
 		ePrefix.XCtx("numSeps->"))
 }
 
+// Empty - Deletes and resets the data values of all member
+// variables within the current NumericSeparators instance to their
+// initial 'zero' values.
+//
+func (numSeps *NumericSeparators) Empty() {
+
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
+	}
+
+	numSeps.lock.Lock()
+
+	_ = numericSeparatorsQuark{}.ptr().empty(
+		numSeps,
+		nil)
+
+	numSeps.lock.Unlock()
+
+	numSeps.lock = nil
+}
+
 // Equal - Receives an incoming NumericSeparators
 // instance and compares it the current NumericSeparators
 // instance. If the two objects have equal data values, this method
