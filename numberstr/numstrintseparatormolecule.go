@@ -58,7 +58,7 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyIn(
 
 	_,
 		err =
-		numStrIntSeparatorQuark{}.Ptr().
+		numStrIntSeparatorQuark{}.ptr().
 			testValidityOfNumStrIntSeparator(
 				incomingNStrIntSeparator,
 				ePrefix.XCtx(
@@ -135,7 +135,7 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyOut(
 
 	_,
 		err =
-		numStrIntSeparatorQuark{}.Ptr().
+		numStrIntSeparatorQuark{}.ptr().
 			testValidityOfNumStrIntSeparator(
 				numStrIntSeparator,
 				ePrefix.XCtx(

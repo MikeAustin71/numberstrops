@@ -9,6 +9,50 @@ type numStrIntSeparatorQuark struct {
 	lock *sync.Mutex
 }
 
+// empty - Deletes and resets the data values for all member
+// variables within a NumStrIntSeparator instance to their
+// 'zero' values.
+//
+func (nStrIntSepQuark *numStrIntSeparatorQuark) empty(
+	nStrIntSep *NumStrIntSeparator,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrIntSepQuark.lock == nil {
+		nStrIntSepQuark.lock = new(sync.Mutex)
+	}
+
+	nStrIntSepQuark.lock.Lock()
+
+	defer nStrIntSepQuark.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrIntSeparatorQuark." +
+			"empty()")
+	if nStrIntSep == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'nStrIntSep' is invalid!\n"+
+			"'nStrIntSep' is a nil pointer.",
+			ePrefix.String())
+
+		return err
+	}
+
+	nStrIntSep.intSeparatorChars = nil
+
+	nStrIntSep.intSeparatorGrouping = 0
+
+	nStrIntSep.intSeparatorRepetitions = 0
+
+	nStrIntSep.restartIntGroupingSequence = false
+
+	return err
+}
+
 // testValidityOfNumStrIntSeparator - Tests the validity of a
 // NumStrIntSeparator instance.
 //
@@ -89,9 +133,9 @@ func (nStrIntSepQuark *numStrIntSeparatorQuark) testValidityOfNumStrIntSeparator
 	return isValid, err
 }
 
-// Ptr - Returns a pointer to a new instance of
+// ptr - Returns a pointer to a new instance of
 // numStrIntSeparatorQuark
-func (nStrIntSepQuark numStrIntSeparatorQuark) Ptr() *numStrIntSeparatorQuark {
+func (nStrIntSepQuark numStrIntSeparatorQuark) ptr() *numStrIntSeparatorQuark {
 
 	if nStrIntSepQuark.lock == nil {
 		nStrIntSepQuark.lock = new(sync.Mutex)

@@ -369,7 +369,7 @@ func (intSeparatorUtil *numStrIntSeparatorUtility) setToUSADefaultsIfEmpty(
 		"Testing Validity of 'intSep'")
 	_,
 		err =
-		numStrIntSeparatorQuark{}.Ptr().
+		numStrIntSeparatorQuark{}.ptr().
 			testValidityOfNumStrIntSeparator(
 				intSep,
 				ePrefix)

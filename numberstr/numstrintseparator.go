@@ -170,6 +170,26 @@ func (nStrIntSep *NumStrIntSeparator) CopyOut(
 			ePrefix)
 }
 
+// Empty - Deletes and resets the data values for all member
+// variables within the current NumStrIntSeparator instance to
+// their 'zero' values.
+//
+func (nStrIntSep *NumStrIntSeparator) Empty() {
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	_ = numStrIntSeparatorQuark{}.ptr().empty(
+		nStrIntSep,
+		nil)
+
+	return
+}
+
 // Equal - Receives an incoming NumStrIntSeparator
 // instance and compares it the current NumStrIntSeparator
 // instance. If the two objects have equal data values, this method
@@ -390,7 +410,7 @@ func (nStrIntSep *NumStrIntSeparator) IsValidInstance() (
 
 	isValid,
 		_ =
-		numStrIntSeparatorQuark{}.Ptr().
+		numStrIntSeparatorQuark{}.ptr().
 			testValidityOfNumStrIntSeparator(
 				nStrIntSep,
 				nil)
@@ -456,7 +476,7 @@ func (nStrIntSep *NumStrIntSeparator) IsValidInstanceError(
 		"Testing Validity of 'nStrIntSep'")
 	_,
 		err =
-		numStrIntSeparatorQuark{}.Ptr().
+		numStrIntSeparatorQuark{}.ptr().
 			testValidityOfNumStrIntSeparator(
 				nStrIntSep,
 				ePrefix)
