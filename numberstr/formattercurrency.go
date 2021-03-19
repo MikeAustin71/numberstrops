@@ -604,7 +604,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetNumericSeparators(
 			"GetNumericSeparators()")
 
 	nStrFmtSpecCurrDtoMolecule :=
-		numStrFmtSpecCurrencyValueDtoMolecule{}
+		formatterCurrencyMolecule{}
 
 	_,
 		err := nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(
@@ -696,7 +696,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) IsValidInstance() (
 	defer nStrFmtSpecCurrValDto.lock.Unlock()
 
 	nStrFmtSpecCurrDtoMolecule :=
-		numStrFmtSpecCurrencyValueDtoMolecule{}
+		formatterCurrencyMolecule{}
 
 	isValid,
 		_ = nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(
@@ -762,7 +762,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) IsValidInstanceError(
 		"Testing Validity of 'nStrFmtSpecCurrValDto'")
 
 	nStrFmtSpecCurrDtoMolecule :=
-		numStrFmtSpecCurrencyValueDtoMolecule{}
+		formatterCurrencyMolecule{}
 
 	_,
 		err := nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(
@@ -3190,7 +3190,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetToUnitedStatesDefaultsIfEmpty
 			"SetToUnitedStatesDefaultsIfEmpty()")
 
 	nStrFmtSpecCurrDtoMolecule :=
-		numStrFmtSpecCurrencyValueDtoMolecule{}
+		formatterCurrencyMolecule{}
 
 	isValid,
 		_ := nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(

@@ -57,7 +57,7 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyIn(
 	}
 
 	nStrFmtSpecCurrDtoMolecule :=
-		numStrFmtSpecCurrencyValueDtoMolecule{}
+		formatterCurrencyMolecule{}
 
 	_,
 		err =
@@ -175,7 +175,7 @@ func (nStrFmtSpecCurrValNanobot *numStrFmtSpecCurrencyValueDtoNanobot) copyOut(
 	}
 
 	nStrFmtSpecCurrDtoMolecule :=
-		numStrFmtSpecCurrencyValueDtoMolecule{}
+		formatterCurrencyMolecule{}
 
 	_,
 		err =
