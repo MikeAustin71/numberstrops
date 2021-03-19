@@ -72,7 +72,7 @@ func (fmtAbsValMolecule *formatterAbsoluteValueMolecule) testValidityOfAbsoluteV
 	}
 
 	nStrAbsValDtoAtom :=
-		numStrFmtSpecAbsoluteValueDtoAtom{}
+		formatterAbsoluteValueAtom{}
 
 	isValid,
 		err = nStrAbsValDtoAtom.testAbsoluteValueFormat(

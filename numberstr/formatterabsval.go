@@ -78,7 +78,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyIn(
 		"FormatterAbsoluteValue.CopyIn()")
 
 	nStrFmtSpecAbsValDtoNanobot :=
-		numStrFmtSpecAbsoluteValueDtoNanobot{}
+		formatterAbsoluteValueNanobot{}
 
 	return nStrFmtSpecAbsValDtoNanobot.copyIn(
 		fmtAbsVal,
@@ -147,7 +147,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyOut(
 		"FormatterAbsoluteValue.CopyOut()")
 
 	nStrFmtSpecAbsValDtoNanobot :=
-		numStrFmtSpecAbsoluteValueDtoNanobot{}
+		formatterAbsoluteValueNanobot{}
 
 	return nStrFmtSpecAbsValDtoNanobot.copyOut(
 		fmtAbsVal,

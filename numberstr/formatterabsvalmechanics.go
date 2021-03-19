@@ -265,7 +265,7 @@ func (fmtAbsValMech *formatterAbsoluteValueMechanics) setAbsValDtoWithComponents
 			ePrefix.XCtx("numFieldLenDto"))
 
 	nStrFmtSpecAbsValDtoNanobot :=
-		numStrFmtSpecAbsoluteValueDtoNanobot{}
+		formatterAbsoluteValueNanobot{}
 
 	err = nStrFmtSpecAbsValDtoNanobot.copyIn(
 		fmtAbsoluteVal,
