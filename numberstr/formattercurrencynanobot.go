@@ -646,10 +646,6 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) setCurrencyData(
 		return err
 	}
 
-	if minorCurrencySymbols == nil {
-		minorCurrencySymbols = make([]rune, 0, 5)
-	}
-
 	nStrCurrencyElectron :=
 		formatterCurrencyElectron{}
 
@@ -677,82 +673,52 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) setCurrencyData(
 		return err
 	}
 
-	lenMinorCurrSymbols := len(minorCurrencySymbols)
-
-	newFormatterCurrency := FormatterCurrency{}
-
-	newFormatterCurrency.lock =
-		new(sync.Mutex)
-
-	newFormatterCurrency.positiveValueFmt =
+	formatterCurrency.positiveValueFmt =
 		positiveValueFmt
 
-	newFormatterCurrency.negativeValueFmt =
+	formatterCurrency.negativeValueFmt =
 		negativeValueFmt
 
-	newFormatterCurrency.decimalDigits =
+	formatterCurrency.decimalDigits =
 		decimalDigits
 
-	newFormatterCurrency.currencyCode =
+	formatterCurrency.currencyCode =
 		currencyCode
 
-	newFormatterCurrency.currencyCodeNo =
+	formatterCurrency.currencyCodeNo =
 		currencyCodeNo
 
-	newFormatterCurrency.currencyName =
+	formatterCurrency.currencyName =
 		currencyName
 
-	newFormatterCurrency.numStrFormatterType =
+	formatterCurrency.numStrFormatterType =
 		NumStrFormatTypeCode(0).Currency()
 
-	newFormatterCurrency.currencySymbols =
+	formatterCurrency.currencySymbols =
 		make([]rune, lenCurrencySymbols)
 
-	runesCopied := copy(newFormatterCurrency.currencySymbols,
+	copy(formatterCurrency.currencySymbols,
 		currencySymbols)
 
-	if runesCopied != lenCurrencySymbols {
-		err = fmt.Errorf("%v\n"+
-			"Error copying currency symbols!\n"+
-			"Expected to copy %v currency symbol runes.\n"+
-			"However, only %v currency symbol runes were copied.\n"+
-			"Source currencySymbols = '%v'\n"+
-			"Destination newFormatterCurrency.currencySymbols = '%v'\n",
-			ePrefix.String(),
-			lenCurrencySymbols,
-			runesCopied,
-			string(currencySymbols),
-			string(newFormatterCurrency.currencySymbols))
-
-		return err
-	}
-
-	newFormatterCurrency.minorCurrencyName =
+	formatterCurrency.minorCurrencyName =
 		minorCurrencyName
 
-	newFormatterCurrency.minorCurrencySymbols =
-		make([]rune, lenMinorCurrSymbols)
+	lenMinorCurrSymbols := len(minorCurrencySymbols)
 
-	runesCopied = copy(newFormatterCurrency.minorCurrencySymbols,
-		minorCurrencySymbols)
+	if lenMinorCurrSymbols == 0 {
 
-	if runesCopied != lenMinorCurrSymbols {
-		err = fmt.Errorf("%v\n"+
-			"Error copying minor currency symbols!\n"+
-			"Expected to copy %v minor currency symbol runes.\n"+
-			"However, only %v minor currency symbol runes were copied.\n"+
-			"Source minorCurrencySymbols = '%v'\n"+
-			"Destination newFormatterCurrency.minorCurrencySymbols = '%v'\n",
-			ePrefix.String(),
-			lenMinorCurrSymbols,
-			runesCopied,
-			string(minorCurrencySymbols),
-			string(newFormatterCurrency.minorCurrencySymbols))
+		formatterCurrency.minorCurrencySymbols = nil
 
-		return err
+	} else {
+
+		formatterCurrency.minorCurrencySymbols =
+			make([]rune, lenMinorCurrSymbols)
+
+		copy(formatterCurrency.minorCurrencySymbols,
+			minorCurrencySymbols)
 	}
 
-	newFormatterCurrency.turnOnIntegerDigitsSeparation =
+	formatterCurrency.turnOnIntegerDigitsSeparation =
 		turnOnIntegerDigitsSeparation
 
 	return err

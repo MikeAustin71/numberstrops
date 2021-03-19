@@ -163,6 +163,26 @@ func (fmtCurr *FormatterCurrency) CopyOut(
 			ePrefix.XCtx("Copy Out from 'fmtCurr'"))
 }
 
+// Empty - Deletes and resets the data values of all member
+// variables within the current FormatterCurrency instance to their
+// initial 'zero' values.
+//
+func (fmtCurr *FormatterCurrency) Empty() {
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
+	}
+
+	fmtCurr.lock.Lock()
+
+	_ = formatterCurrencyQuark{}.ptr().empty(
+		fmtCurr,
+		nil)
+
+	fmtCurr.lock.Unlock()
+
+	fmtCurr.lock = nil
+}
+
 // GetNegativeValueFormat - Returns the formatting string used to
 // format negative currency values in text number strings.
 //

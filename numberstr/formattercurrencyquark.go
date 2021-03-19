@@ -1,9 +1,73 @@
 package numberstr
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+)
 
 type formatterCurrencyQuark struct {
 	lock *sync.Mutex
+}
+
+// empty - Deletes and resets the data values of all member
+// variables within a FormatterCurrency instance to their initial
+// 'zero' values.
+//
+func (fmtCurrQuark *formatterCurrencyQuark) empty(
+	fmtCurrency *FormatterCurrency,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if fmtCurrQuark.lock == nil {
+		fmtCurrQuark.lock = new(sync.Mutex)
+	}
+
+	fmtCurrQuark.lock.Lock()
+
+	defer fmtCurrQuark.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"formatterCurrencyQuark.empty()")
+
+	if fmtCurrency == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtCurrency' is a 'nil' pointer!\n",
+			ePrefix.String())
+		return err
+	}
+
+	fmtCurrency.numStrFormatterType =
+		NumStrFormatTypeCode(0).None()
+
+	fmtCurrency.positiveValueFmt = ""
+
+	fmtCurrency.negativeValueFmt = ""
+
+	fmtCurrency.decimalDigits = 0
+
+	fmtCurrency.currencyCode = ""
+
+	fmtCurrency.currencyCodeNo = ""
+
+	fmtCurrency.currencyName = ""
+
+	fmtCurrency.currencySymbols = nil
+
+	fmtCurrency.minorCurrencyName = ""
+
+	fmtCurrency.minorCurrencySymbols = nil
+
+	fmtCurrency.turnOnIntegerDigitsSeparation = false
+
+	fmtCurrency.numericSeparators.Empty()
+
+	fmtCurrency.numFieldLenDto.Empty()
+
+	return err
 }
 
 // getValidCurrencyPositiveValFmtChars - Returns an array of runes which
