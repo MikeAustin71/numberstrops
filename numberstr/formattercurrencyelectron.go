@@ -176,7 +176,7 @@ func (fmtCurrencyElectron *formatterCurrencyElectron) testCurrencyPositiveValueF
 		return isValid, err
 	}
 
-	nStrFmtSpecCurrValDtoQuark := numStrFmtSpecCurrencyValueDtoQuark{}
+	nStrFmtSpecCurrValDtoQuark := formatterCurrencyQuark{}
 
 	validFmtChars :=
 		nStrFmtSpecCurrValDtoQuark.getValidCurrencyPositiveValFmtChars()
@@ -450,7 +450,7 @@ func (fmtCurrencyElectron *formatterCurrencyElectron) testCurrencyNegativeValueF
 	}
 
 	nStrFmtSpecCurrValDtoQuark :=
-		numStrFmtSpecCurrencyValueDtoQuark{}
+		formatterCurrencyQuark{}
 
 	validFmtChars :=
 		nStrFmtSpecCurrValDtoQuark.getValidCurrencyNegativeValFmtChars()
