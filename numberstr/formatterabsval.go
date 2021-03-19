@@ -1328,7 +1328,7 @@ func (fmtAbsVal FormatterAbsoluteValue) NewWithComponents(
 	newNumStrFmtSpecAbsValueDto.lock = new(sync.Mutex)
 
 	nStrFmtSpecAbsValDtoMech :=
-		numStrFmtSpecAbsoluteValueDtoMechanics{}
+		formatterAbsoluteValueMechanics{}
 
 	err := nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
 		&newNumStrFmtSpecAbsValueDto,
@@ -2546,7 +2546,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetWithComponents(
 			"SetWithComponents()")
 
 	nStrFmtSpecAbsValDtoMech :=
-		numStrFmtSpecAbsoluteValueDtoMechanics{}
+		formatterAbsoluteValueMechanics{}
 
 	return nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
 		fmtAbsVal,

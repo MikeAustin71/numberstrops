@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecAbsoluteValueDtoMechanics struct {
+type formatterAbsoluteValueMechanics struct {
 	lock *sync.Mutex
 }
 
@@ -18,7 +18,7 @@ type numStrFmtSpecAbsoluteValueDtoMechanics struct {
 //
 // Input Parameters
 //
-//  nStrFmtSpecAbValDto           *FormatterAbsoluteValue
+//  fmtAbsoluteVal                *FormatterAbsoluteValue
 //     - A pointer to a FormatterAbsoluteValue object. All
 //       of the data fields in this object will overwritten and set
 //       to new values based on the following input parameters.
@@ -189,8 +189,8 @@ type numStrFmtSpecAbsoluteValueDtoMechanics struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsValDtoWithComponents(
-	nStrFmtSpecAbValDto *FormatterAbsoluteValue,
+func (fmtAbsValMech *formatterAbsoluteValueMechanics) setAbsValDtoWithComponents(
+	fmtAbsoluteVal *FormatterAbsoluteValue,
 	absoluteValueFormat string,
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumericSeparators,
@@ -198,25 +198,25 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecAbsValDtoMech.lock == nil {
-		nStrFmtSpecAbsValDtoMech.lock = new(sync.Mutex)
+	if fmtAbsValMech.lock == nil {
+		fmtAbsValMech.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecAbsValDtoMech.lock.Lock()
+	fmtAbsValMech.lock.Lock()
 
-	defer nStrFmtSpecAbsValDtoMech.lock.Unlock()
+	defer fmtAbsValMech.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"numStrFmtSpecAbsoluteValueDtoMechanics." +
+		"formatterAbsoluteValueMechanics." +
 			"setAbsValDtoWithComponents()\n")
 
-	if nStrFmtSpecAbValDto == nil {
+	if fmtAbsoluteVal == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecAbValDto' is"+
+			"Error: Input parameter 'fmtAbsoluteVal' is"+
 			" a 'nil' pointer!\n",
 			ePrefix)
 		return err
@@ -268,10 +268,31 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 		numStrFmtSpecAbsoluteValueDtoNanobot{}
 
 	err = nStrFmtSpecAbsValDtoNanobot.copyIn(
-		nStrFmtSpecAbValDto,
+		fmtAbsoluteVal,
 		&newNStrFmtSpecAbsValDto,
 		ePrefix.XCtx(
-			"newNStrFmtSpecAbsValDto -> nStrFmtSpecAbValDto\n"))
+			"newNStrFmtSpecAbsValDto -> fmtAbsoluteVal\n"))
 
 	return err
+}
+
+// ptr - Returns a pointer to a new instance of
+// formatterAbsoluteValueMechanics.
+//
+func (fmtAbsValMech formatterAbsoluteValueMechanics) ptr() *formatterAbsoluteValueMechanics {
+
+	if fmtAbsValMech.lock == nil {
+		fmtAbsValMech.lock = new(sync.Mutex)
+	}
+
+	fmtAbsValMech.lock.Lock()
+
+	defer fmtAbsValMech.lock.Unlock()
+
+	newAbsValMechanics :=
+		new(formatterAbsoluteValueMechanics)
+
+	newAbsValMechanics.lock = new(sync.Mutex)
+
+	return newAbsValMechanics
 }

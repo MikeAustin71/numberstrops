@@ -277,7 +277,7 @@ func (fmtAbsValUtil *formatterAbsoluteValueUtility) setBasic(
 	}
 
 	nStrFmtSpecAbsValDtoMech :=
-		numStrFmtSpecAbsoluteValueDtoMechanics{}
+		formatterAbsoluteValueMechanics{}
 
 	err = nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
 		fmtAbsoluteValue,
@@ -545,7 +545,7 @@ func (fmtAbsValUtil *formatterAbsoluteValueUtility) setBasicRunes(
 	}
 
 	nStrFmtSpecAbsValDtoMech :=
-		numStrFmtSpecAbsoluteValueDtoMechanics{}
+		formatterAbsoluteValueMechanics{}
 
 	err = nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
 		fmtAbsoluteValue,
@@ -664,7 +664,7 @@ func (fmtAbsValUtil *formatterAbsoluteValueUtility) setToUnitedStatesDefaults(
 	}
 
 	nStrFmtSpecAbsValDtoMech :=
-		numStrFmtSpecAbsoluteValueDtoMechanics{}
+		formatterAbsoluteValueMechanics{}
 
 	err = nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
 		nStrFmtSpecAbsValDto,
