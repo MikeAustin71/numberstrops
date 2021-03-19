@@ -69,7 +69,7 @@ func (fmtAbsValElectron *formatterAbsoluteValueElectron) testAbsoluteValueFormat
 		return isValid, err
 	}
 
-	nStrFmtSpecAbsValueDtoQuark := numStrFmtSpecAbsoluteValueDtoQuark{}
+	nStrFmtSpecAbsValueDtoQuark := formatterAbsoluteValueQuark{}
 
 	validFmtChars :=
 		nStrFmtSpecAbsValueDtoQuark.getValidAbsoluteValFmtChars()

@@ -9,6 +9,27 @@ type formatterAbsoluteValueMolecule struct {
 	lock *sync.Mutex
 }
 
+// ptr - Returns a pointer to a new instance of
+// formatterAbsoluteValueQuark.
+//
+func (fmtAbsValMolecule formatterAbsoluteValueMolecule) ptr() *formatterAbsoluteValueMolecule {
+
+	if fmtAbsValMolecule.lock == nil {
+		fmtAbsValMolecule.lock = new(sync.Mutex)
+	}
+
+	fmtAbsValMolecule.lock.Lock()
+
+	defer fmtAbsValMolecule.lock.Unlock()
+
+	newAbsValMolecule :=
+		new(formatterAbsoluteValueMolecule)
+
+	newAbsValMolecule.lock = new(sync.Mutex)
+
+	return newAbsValMolecule
+}
+
 // testValidityOfAbsoluteValDto - Receives an instance of
 // FormatterAbsoluteValue and proceeds to test the
 // validity of the member data fields.
