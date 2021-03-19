@@ -6,34 +6,56 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecAbsoluteValueDtoElectron struct {
+type formatterAbsoluteValueElectron struct {
 	lock *sync.Mutex
+}
+
+// ptr - Returns a pointer to a new instance of
+// formatterAbsoluteValueElectron.
+//
+func (fmtAbsValElectron formatterAbsoluteValueElectron) ptr() *formatterAbsoluteValueElectron {
+
+	if fmtAbsValElectron.lock == nil {
+		fmtAbsValElectron.lock = new(sync.Mutex)
+	}
+
+	fmtAbsValElectron.lock.Lock()
+
+	defer fmtAbsValElectron.lock.Unlock()
+
+	newAbsValElectron :=
+		new(formatterAbsoluteValueElectron)
+
+	newAbsValElectron.lock = new(sync.Mutex)
+
+	return newAbsValElectron
 }
 
 // testAbsoluteValueFormatStr - Inspects the format string for an
 // Absolute Value number string and returns an error if the format
 // string is invalid.
 //
-func (nStrAbsValDtoElectron *numStrFmtSpecAbsoluteValueDtoElectron) testAbsoluteValueFormatStr(
+func (fmtAbsValElectron *formatterAbsoluteValueElectron) testAbsoluteValueFormatStr(
 	absoluteValueFormatStr string,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
-	if nStrAbsValDtoElectron.lock == nil {
-		nStrAbsValDtoElectron.lock = new(sync.Mutex)
+	if fmtAbsValElectron.lock == nil {
+		fmtAbsValElectron.lock = new(sync.Mutex)
 	}
 
-	nStrAbsValDtoElectron.lock.Lock()
+	fmtAbsValElectron.lock.Lock()
 
-	defer nStrAbsValDtoElectron.lock.Unlock()
+	defer fmtAbsValElectron.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"numStrFmtSpecAbsoluteValueDtoElectron.testAbsoluteValueFormatStr()")
+		"formatterAbsoluteValueElectron." +
+			"testAbsoluteValueFormatStr()")
 
 	isValid = false
 

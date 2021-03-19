@@ -223,7 +223,7 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 	}
 
 	nStrAbsValDtoElectron :=
-		numStrFmtSpecAbsoluteValueDtoElectron{}
+		formatterAbsoluteValueElectron{}
 
 	_,
 		err =

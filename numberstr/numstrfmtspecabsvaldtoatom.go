@@ -32,7 +32,7 @@ func (nStrAbsValDtoAtom *numStrFmtSpecAbsoluteValueDtoAtom) testAbsoluteValueFor
 	}
 
 	ePrefix.SetEPref(
-		"numStrFmtSpecAbsoluteValueDtoElectron.testAbsoluteValueFormat()")
+		"formatterAbsoluteValueElectron.testAbsoluteValueFormat()")
 
 	isValid = false
 
@@ -54,7 +54,7 @@ func (nStrAbsValDtoAtom *numStrFmtSpecAbsoluteValueDtoAtom) testAbsoluteValueFor
 	}
 
 	nStrAbsValDtoElectron :=
-		numStrFmtSpecAbsoluteValueDtoElectron{}
+		formatterAbsoluteValueElectron{}
 
 	isValid,
 		err = nStrAbsValDtoElectron.testAbsoluteValueFormatStr(

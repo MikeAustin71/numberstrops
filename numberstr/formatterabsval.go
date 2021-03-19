@@ -1443,7 +1443,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetAbsoluteValueFormat(
 		"FormatterAbsoluteValue.SetAbsoluteValueFormat()")
 
 	nStrAbsValDtoElectron :=
-		numStrFmtSpecAbsoluteValueDtoElectron{}
+		formatterAbsoluteValueElectron{}
 
 	_,
 		err = nStrAbsValDtoElectron.testAbsoluteValueFormatStr(

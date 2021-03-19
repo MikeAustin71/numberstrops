@@ -277,12 +277,12 @@ func (fmtCurrNanobot formatterCurrencyNanobot) ptr() *formatterCurrencyNanobot {
 
 	defer fmtCurrNanobot.lock.Unlock()
 
-	newCurrencyValDtoNanobot :=
+	newFmtCurrencyNanobot :=
 		new(formatterCurrencyNanobot)
 
-	newCurrencyValDtoNanobot.lock = new(sync.Mutex)
+	newFmtCurrencyNanobot.lock = new(sync.Mutex)
 
-	return newCurrencyValDtoNanobot
+	return newFmtCurrencyNanobot
 }
 
 // setCurrencyData - Sets the basic currency data elements of
