@@ -1689,7 +1689,7 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithDefaults(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.SetWithDefaults()")
+		"NumStrFmtSpecSciNotationDto.SetBasicRunes()")
 
 	nStrFmtSpecSciNotDtoUtil :=
 		numStrFmtSpecSciNotationDtoUtility{}

@@ -1,7 +1,7 @@
 package numberstr
 
 type INumStrFormatter interface {
-	SetNumStrFormatTypeCode(fmtTypeCode NumStrFormatTypeCode)
+	SetNumStrFormatTypeCode()
 
 	GetNumStrFormatTypeCode() NumStrFormatTypeCode
 }

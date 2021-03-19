@@ -6,6 +6,7 @@ import (
 )
 
 type FormatterCurrency struct {
+	numStrFormatterType           NumStrFormatTypeCode
 	positiveValueFmt              string
 	negativeValueFmt              string
 	decimalDigits                 uint
@@ -35,7 +36,7 @@ type FormatterCurrency struct {
 //
 // Input Parameters
 //
-//  incomingCurrencyValDto     *FormatterCurrency
+//  incomingFormatterCurrency     *FormatterCurrency
 //     - A pointer to an instance of FormatterCurrency.
 //       The data values in this object will be copied to the
 //       current FormatterCurrency instance.
@@ -44,7 +45,7 @@ type FormatterCurrency struct {
 //       be invalid, this method will return an error.
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -57,7 +58,7 @@ type FormatterCurrency struct {
 //
 // Return Values
 //
-//  err                 error
+//  error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'.
 //
@@ -68,38 +69,37 @@ type FormatterCurrency struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) CopyIn(
-	incomingCurrencyValDto *FormatterCurrency,
+func (fmtCurr *FormatterCurrency) CopyIn(
+	incomingFormatterCurrency *FormatterCurrency,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("FormatterCurrency.CopyIn()")
+	ePrefix.SetEPref(
+		"FormatterCurrency.CopyIn()")
 
-	nStrFmtSpecCurrValNanobot :=
-		formatterCurrencyNanobot{}
-
-	return nStrFmtSpecCurrValNanobot.copyIn(
-		nStrFmtSpecCurrValDto,
-		incomingCurrencyValDto,
-		ePrefix.XCtx("incomingCurrencyValDto->nStrFmtSpecCurrValDto"))
+	return formatterCurrencyNanobot{}.ptr().
+		copyIn(
+			fmtCurr,
+			incomingFormatterCurrency,
+			ePrefix.XCtx("incomingFormatterCurrency->fmtCurr"))
 }
 
 // CopyOut - Creates and returns a deep copy of the current
 // FormatterCurrency instance.
 //
-// If the current FormatterCurrency instance is judged
-// to be invalid, this method will return an error.
+// If the current FormatterCurrency instance is judged to be
+// invalid, this method will return an error.
 //
 //
 // ----------------------------------------------------------------
@@ -126,7 +126,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) CopyIn(
 //       instance of FormatterCurrency.
 //
 //
-//  err                 error
+//  error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'.
 //
@@ -137,47 +137,46 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) CopyIn(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) CopyOut(
+func (fmtCurr *FormatterCurrency) CopyOut(
 	ePrefix *ErrPrefixDto) (
 	FormatterCurrency,
 	error) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("FormatterCurrency.CopyOut()")
+	ePrefix.SetEPref(
+		"FormatterCurrency.CopyOut()")
 
-	nStrFmtSpecCurrValNanobot :=
-		formatterCurrencyNanobot{}
-
-	return nStrFmtSpecCurrValNanobot.copyOut(
-		nStrFmtSpecCurrValDto,
-		ePrefix.XCtx("Copy Out from 'nStrFmtSpecCurrValDto'"))
+	return formatterCurrencyNanobot{}.ptr().
+		copyOut(
+			fmtCurr,
+			ePrefix.XCtx("Copy Out from 'fmtCurr'"))
 }
 
 // GetNegativeValueFormat - Returns the formatting string used to
 // format negative currency values in text number strings.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) GetNegativeValueFormat() string {
+func (fmtCurr *FormatterCurrency) GetNegativeValueFormat() string {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	return nStrFmtSpecCurrValDto.negativeValueFmt
+	return fmtCurr.negativeValueFmt
 }
 
 // GetCurrencyCode - Returns the ISO 4217 Currency Code associated
@@ -185,17 +184,17 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetNegativeValueFormat() string 
 // Reference:
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) GetCurrencyCode() string {
+func (fmtCurr *FormatterCurrency) GetCurrencyCode() string {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	return nStrFmtSpecCurrValDto.currencyCode
+	return fmtCurr.currencyCode
 }
 
 // GetCurrencyCodeNo - Returns the ISO 4217 Currency Code Number
@@ -205,34 +204,34 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetCurrencyCode() string {
 // Reference:
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) GetCurrencyCodeNo() string {
+func (fmtCurr *FormatterCurrency) GetCurrencyCodeNo() string {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	return nStrFmtSpecCurrValDto.currencyCodeNo
+	return fmtCurr.currencyCodeNo
 }
 
 // GetCurrencyName - Returns the official name of this
 // currency. Reference:
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) GetCurrencyName() string {
+func (fmtCurr *FormatterCurrency) GetCurrencyName() string {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	return nStrFmtSpecCurrValDto.currencyName
+	return fmtCurr.currencyName
 }
 
 // GetCurrencySymbols - Returns the currency symbols associated
@@ -243,34 +242,34 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetCurrencyName() string {
 // Reference:
 //        https://www.xe.com/symbols.php
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) GetCurrencySymbols() []rune {
+func (fmtCurr *FormatterCurrency) GetCurrencySymbols() []rune {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	return nStrFmtSpecCurrValDto.currencySymbols
+	return fmtCurr.currencySymbols
 }
 
 // GetDecimalDigits - Returns the standard number of
 // digits to the right of the decimal point formatted
 // in currency number strings.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) GetDecimalDigits() uint {
+func (fmtCurr *FormatterCurrency) GetDecimalDigits() uint {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	return nStrFmtSpecCurrValDto.decimalDigits
+	return fmtCurr.decimalDigits
 }
 
 // GetDecimalSeparators - Returns an array of unicode characters
@@ -285,17 +284,17 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetDecimalDigits() uint {
 // Decimal Separators are extracted from the underlying member
 // variable, 'nStrFmtSpecCurrValDto.numericSeparators'.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) GetDecimalSeparators() []rune {
+func (fmtCurr *FormatterCurrency) GetDecimalSeparators() []rune {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	return nStrFmtSpecCurrValDto.
+	return fmtCurr.
 		numericSeparators.
 		GetDecimalSeparators()
 }
@@ -397,18 +396,18 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetDecimalSeparators() []rune {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) GetIntegerDigitSeparators(
+func (fmtCurr *FormatterCurrency) GetIntegerDigitSeparators(
 	ePrefix *ErrPrefixDto) (
 	NumStrIntSeparatorsDto,
 	error) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -418,11 +417,11 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetIntegerDigitSeparators(
 		"FormatterCurrency." +
 			"GetIntegerDigitSeparators()")
 
-	return nStrFmtSpecCurrValDto.
+	return fmtCurr.
 		numericSeparators.
 		GetIntegerDigitSeparators(
 			ePrefix.XCtx(
-				"nStrFmtSpecCurrValDto.numericSeparators"))
+				"fmtCurr.numericSeparators"))
 }
 
 // GetMinorCurrencySymbols - Returns the minor currency symbols.
@@ -433,17 +432,17 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetIntegerDigitSeparators(
 // cultures have minor currency symbols consisting of two or more
 // characters.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) GetMinorCurrencySymbols() []rune {
+func (fmtCurr *FormatterCurrency) GetMinorCurrencySymbols() []rune {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	return nStrFmtSpecCurrValDto.minorCurrencySymbols
+	return fmtCurr.minorCurrencySymbols
 }
 
 // GetNumberFieldLengthDto - Returns a deep copy of the
@@ -497,18 +496,18 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetMinorCurrencySymbols() []rune
 //       Be advised that if the returned 'NumberFieldDto' object is
 //       judged invalid, this method will return an error.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) GetNumberFieldLengthDto(
+func (fmtCurr *FormatterCurrency) GetNumberFieldLengthDto(
 	ePrefix *ErrPrefixDto) (
 	NumberFieldDto,
 	error) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -516,8 +515,8 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetNumberFieldLengthDto(
 
 	ePrefix.SetEPref("FormatterCurrency.GetNumberFieldLengthDto()")
 
-	return nStrFmtSpecCurrValDto.numFieldLenDto.CopyOut(
-		ePrefix.XCtx("nStrFmtSpecCurrValDto.numFieldLenDto->"))
+	return fmtCurr.numFieldLenDto.CopyOut(
+		ePrefix.XCtx("fmtCurr.numFieldLenDto->"))
 }
 
 // GetNumericSeparators - Returns a deep copy of the
@@ -582,18 +581,18 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetNumberFieldLengthDto(
 //       object is judged to be invalid, this method will return
 //       an error.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) GetNumericSeparators(
+func (fmtCurr *FormatterCurrency) GetNumericSeparators(
 	ePrefix *ErrPrefixDto) (
 	NumericSeparators,
 	error) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -607,32 +606,51 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetNumericSeparators(
 		formatterCurrencyMolecule{}
 
 	_,
-		err := nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(
-		nStrFmtSpecCurrValDto,
+		err := nStrFmtSpecCurrDtoMolecule.testValidityOfFormatterCurrency(
+		fmtCurr,
 		ePrefix)
 
 	if err != nil {
 		return NumericSeparators{}, err
 	}
 
-	return nStrFmtSpecCurrValDto.numericSeparators.CopyOut(
-		ePrefix.XCtx("nStrFmtSpecCurrValDto.numericSeparators"))
+	return fmtCurr.numericSeparators.CopyOut(
+		ePrefix.XCtx("fmtCurr.numericSeparators"))
+}
+
+// GetNumStrFormatTypeCode - Returns the Number String Format Type
+// Code. The Number String Format Type Code for FormatterCurrency
+// objects is NumStrFormatTypeCode(0).Currency().
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtCurr *FormatterCurrency) GetNumStrFormatTypeCode() NumStrFormatTypeCode {
+
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
+	}
+
+	fmtCurr.lock.Lock()
+
+	defer fmtCurr.lock.Unlock()
+
+	return fmtCurr.numStrFormatterType
 }
 
 // GetPositiveValueFormat - Returns the formatting string used to
 // format positive currency values in text number strings.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) GetPositiveValueFormat() string {
+func (fmtCurr *FormatterCurrency) GetPositiveValueFormat() string {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	return nStrFmtSpecCurrValDto.positiveValueFmt
+	return fmtCurr.positiveValueFmt
 }
 
 // GetTurnOnIntegerDigitsSeparationFlag - Returns the boolean flag
@@ -648,17 +666,17 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetPositiveValueFormat() string 
 // in text number strings as shown in the following example.
 //  Example: 1000000000000
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) GetTurnOnIntegerDigitsSeparationFlag() bool {
+func (fmtCurr *FormatterCurrency) GetTurnOnIntegerDigitsSeparationFlag() bool {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	return nStrFmtSpecCurrValDto.turnOnIntegerDigitsSeparation
+	return fmtCurr.turnOnIntegerDigitsSeparation
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
@@ -684,23 +702,23 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) GetTurnOnIntegerDigitsSeparation
 //       this method returns 'true'. If the data is invalid, this
 //       method will return 'false'.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) IsValidInstance() (
+func (fmtCurr *FormatterCurrency) IsValidInstance() (
 	isValid bool) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	nStrFmtSpecCurrDtoMolecule :=
 		formatterCurrencyMolecule{}
 
 	isValid,
-		_ = nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(
-		nStrFmtSpecCurrValDto,
+		_ = nStrFmtSpecCurrDtoMolecule.testValidityOfFormatterCurrency(
+		fmtCurr,
 		new(ErrPrefixDto))
 
 	return isValid
@@ -743,30 +761,30 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) IsValidInstance() (
 //       If the current instance is valid, this error parameter
 //       will be set to nil.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) IsValidInstanceError(
+func (fmtCurr *FormatterCurrency) IsValidInstanceError(
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPrefCtx("FormatterCurrency.IsValidInstanceError()",
-		"Testing Validity of 'nStrFmtSpecCurrValDto'")
+		"Testing Validity of 'fmtCurr'")
 
 	nStrFmtSpecCurrDtoMolecule :=
 		formatterCurrencyMolecule{}
 
 	_,
-		err := nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(
-		nStrFmtSpecCurrValDto,
+		err := nStrFmtSpecCurrDtoMolecule.testValidityOfFormatterCurrency(
+		fmtCurr,
 		ePrefix)
 
 	return err
@@ -785,7 +803,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) IsValidInstanceError(
 //
 // For a 'New' method using minimum input parameters coupled
 // with default values, see:
-//      FormatterCurrency.NewWithDefaults()
+//      FormatterCurrency.NewBasicRunes()
 //
 //
 // ----------------------------------------------------------------
@@ -1197,7 +1215,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) IsValidInstanceError(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithComponents(
+func (fmtCurr FormatterCurrency) NewWithComponents(
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -1214,13 +1232,13 @@ func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithComponents(
 	FormatterCurrency,
 	error) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -1235,7 +1253,7 @@ func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithComponents(
 	nStrFmtSpecCurrValMech :=
 		formatterCurrencyMechanics{}
 
-	err := nStrFmtSpecCurrValMech.setFormatterCurrencyFromComponents(
+	err := nStrFmtSpecCurrValMech.setFormatterCurrencyWithComponents(
 		&newNStrFmtSpecCurrencyValueDto,
 		positiveValueFmt,
 		negativeValueFmt,
@@ -1254,11 +1272,482 @@ func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithComponents(
 	return newNStrFmtSpecCurrencyValueDto, err
 }
 
-// NewWithDefaults - Creates and returns a new instance of
+// NewBasic - Creates and returns a new instance of
 // FormatterCurrency. This method specifies the minimum
 // number of input parameters required to construct a new instance
-// of FormatterCurrency. Default values are used to
-// supplement these input parameters.
+// of FormatterCurrency. Default values are used to supplement
+// these input parameters.
+//
+// This method differs from method FormatterCurrency.NewBasicRunes()
+// in that this method accepts strings for input parameters,
+// 'decimalSeparatorChars' and 'thousandsSeparatorChars'.
+//
+// To exercise granular control over all parameters needed to
+// construct an instance of FormatterCurrency, reference method:
+//   'FormatterCurrency.NewWithComponents()'
+//
+// This method automatically sets a default integer digits
+// grouping sequence of '3'. This means that integers will
+// be grouped by thousands.
+//
+//     Example: '1,000,000,000'
+//
+// To control and specify alternative integer digit groupings, use
+// method 'FormatterCurrency.NewWithComponents()'.
+//
+// The FormatterCurrency type encapsulates the
+// formatting parameters necessary to format numeric currency
+// values for display in text number strings.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparatorChars         string
+//     - The character or characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
+//
+//
+//  thousandsSeparatorChars       string
+//     - The character or characters which will be used to delimit
+//       'thousands' in integer number strings. In the United States,
+//       the Thousands separator is the comma character (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//       For custom integer digit grouping, use method
+//       FormatterCurrency.NewWithComponents().
+//
+//
+//  turnOnThousandsSeparator      bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnThousandsSeparator' is a boolean flag
+//       used to control the 'Thousands Separator'. When set to
+//       'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
+//  positiveValueFmt              string
+//     - This format string will be used to format positive currency
+//       value in text number strings. Valid positive currency value
+//       format strings must comply with the following constraints.
+//
+//       Positive Currency Value Formatting Terminology and Placeholders:
+//
+//               "$" - Placeholder for the previously selected currency
+//                     symbol associated with the user's preferred country
+//                     or culture. This placeholder symbol, '$', MUST BE
+//                     present in the positive value format string in order
+//                     to correctly position the actual currency symbol
+//                     relative to the currency numeric value.
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for absolute value number formatting.
+//
+//       Valid format strings for positive currency values are
+//       listed as follows:
+//
+//          $127.54
+//          $ 127.54
+//          127.54$
+//          127.54 $
+//
+//          $127.54+
+//          $127.54 +
+//          $ 127.54+
+//          $ 127.54 +
+//
+//          $+127.54
+//          $ +127.54
+//          $+ 127.54
+//          $ + 127.54
+//
+//          127.54$+
+//          127.54$ +
+//          127.54 $+
+//          127.54$ +
+//          127.54 $ +
+//
+//          127.54+$
+//          127.54+ $
+//          127.54 +$
+//          127.54+ $
+//          127.54 + $
+//
+//          +127.54$
+//          +127.54 $
+//          + 127.54$
+//          + 127.54 $
+//
+//
+//  negativeValueFmt              string
+//     - This format string will be used to format negative currency
+//       values in text number strings. Valid negative currency value
+//       format strings must comply with the following constraints.
+//
+//       Negative Currency Value Formatting Terminology and Placeholders:
+//
+//               "$" - Placeholder for the previously selected currency
+//                     symbol associated with the user's preferred country
+//                     or culture. This placeholder symbol, '$', MUST BE
+//                     present in the negative value format string in order
+//                     to correctly position the actual currency symbol
+//                     relative to the currency numeric value.
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "-" - The Minus Sign ('-'). If present in the
+//                     format string, the minus sign ('-') specifies
+//                     where the minus sign will be positioned
+//                     relative to the numeric value in the text
+//                     number string.
+//
+//             "(-)" - These three characters are often used in
+//                     Europe and the United Kingdom to classify
+//                     a numeric value as negative.
+//
+//              "()" - Opposing parenthesis characters are
+//                     frequently used in the United States
+//                     to classify a numeric value as negative.
+//
+//       Valid format strings for negative currency values are
+//       listed as follows:
+//
+//          ( $127.54 )
+//          ( $ 127.54 )
+//          ($ 127.54)
+//          ($127.54)
+//
+//          $(127.54)
+//          $ (127.54)
+//          $( 127.54 )
+//          $ ( 127.54 )
+//
+//          ( 127.54$ )
+//          ( 127.54 $ )
+//          ( 127.54 $)
+//          (127.54$)
+//
+//          (127.54)$
+//          (127.54) $
+//          ( 127.54 )$
+//          ( 127.54 ) $
+//
+//          (-) $127.54
+//          (-) $ 127.54
+//          (-)$127.54
+//          (-)$ 127.54
+//
+//          $ (-)127.54
+//          $ (-) 127.54
+//          $(-)127.54
+//          $(-) 127.54
+//
+//          (-) 127.54$
+//          (-) 127.54 $
+//          (-)127.54$
+//          (-)127.54 $
+//
+//          127.54(-) $
+//          127.54 (-) $
+//          127.54(-)$
+//          127.54 (-)$
+//
+//          127.54$(-)
+//          127.54$ (-)
+//          127.54 $ (-)
+//          127.54 $(-)
+//
+//          $127.54(-)
+//          $127.54 (-)
+//          $ 127.54(-)
+//          $ 127.54 (-)
+//
+//          - $127.54
+//          - $ 127.54
+//          -$127.54
+//          -$ 127.54
+//
+//          $ -127.54
+//          $ - 127.54
+//          $-127.54
+//          $- 127.54
+//
+//          - 127.54$
+//          - 127.54 $
+//          -127.54$
+//          -127.54 $
+//
+//          127.54- $
+//          127.54 - $
+//          127.54-$
+//          127.54 -$
+//
+//          127.54$-
+//          127.54$ -
+//          127.54 $ -
+//          127.54 $-
+//
+//          $127.54-
+//          $127.54 -
+//          $ 127.54-
+//          $ 127.54 -
+//
+//
+//  decimalDigits                 uint
+//     - The standard number of digits to the right of the decimal
+//       place which is expected for currency values. In the United
+//       States, currency is typically formatted with two digits to
+//       the right of the decimal.
+//         Example:  $24.92
+//
+//
+//  currencyCode                  string
+//     - The ISO 4217 Currency Code associated with this currency
+//       specification. Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
+//  currencyCodeNo                string
+//     - The ISO 4217 Currency Code Number associated with this
+//       currency specification. The Currency Code Number is stored
+//       as a string per ISO 4217.
+//
+//       Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
+//  currencyName                  string
+//     - The official name for this currency.
+//
+//
+//  currencySymbols               []rune
+//     - The authorized unicode character symbol associated with
+//       this currency specification. The currency symbol for the
+//       United States is the dollar sign ('$'). Some countries and
+//       cultures have currency symbols consisting of two or more
+//       characters.
+//
+//
+//  minorCurrencyName             string
+//     - The minor currency name. In the United States, the minor
+//       currency name is 'Cent'.
+//
+//
+//  minorCurrencySymbols          []rune
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢). Some countries and cultures have currency symbols
+//       consisting of two or more characters.
+//
+//
+//  requestedNumberFieldLen       int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
+//
+//
+//  numberFieldTextJustify        TextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterCurrency
+//     - If this method completes successfully, this parameter will
+//       return a new, populated instance of FormatterCurrency.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtCurr FormatterCurrency) NewBasic(
+	decimalSeparatorChars string,
+	thousandsSeparatorChars string,
+	turnOnThousandsSeparator bool,
+	positiveValueFmt string,
+	negativeValueFmt string,
+	decimalDigits uint,
+	currencyCode string,
+	currencyCodeNo string,
+	currencyName string,
+	currencySymbols []rune,
+	minorCurrencyName string,
+	minorCurrencySymbols []rune,
+	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
+	ePrefix *ErrPrefixDto) (
+	FormatterCurrency,
+	error) {
+
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
+	}
+
+	fmtCurr.lock.Lock()
+
+	defer fmtCurr.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterCurrency.NewBasicRunes()")
+
+	newFormatterCurrency :=
+		FormatterCurrency{}
+
+	if len(decimalSeparatorChars) == 0 {
+
+		return newFormatterCurrency,
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'decimalSeparatorChars' is invalid!\n"+
+				"'decimalSeparatorChars' is an empty string.\n",
+				ePrefix.String())
+
+	}
+
+	if len(thousandsSeparatorChars) == 0 {
+
+		return newFormatterCurrency,
+			fmt.Errorf("%v\n"+
+				"Error: Input parameter 'thousandsSeparatorChars' is invalid!\n"+
+				"'thousandsSeparatorChars' is an empty string.\n",
+				ePrefix.String())
+
+	}
+
+	newFormatterCurrency.lock = new(sync.Mutex)
+
+	err :=
+		formatterCurrencyUtility{}.ptr().
+			setBasicRunesFormatterCurrency(
+				&newFormatterCurrency,
+				[]rune(decimalSeparatorChars),
+				[]rune(thousandsSeparatorChars),
+				turnOnThousandsSeparator,
+				positiveValueFmt,
+				negativeValueFmt,
+				decimalDigits,
+				currencyCode,
+				currencyCodeNo,
+				currencyName,
+				currencySymbols,
+				minorCurrencyName,
+				minorCurrencySymbols,
+				requestedNumberFieldLen,
+				numberFieldTextJustify,
+				ePrefix.XCtx("Setting 'newFormatterCurrency'"))
+
+	return newFormatterCurrency, err
+}
+
+// NewBasicRunes - Creates and returns a new instance of
+// FormatterCurrency. This method specifies the minimum number of
+// input parameters required to construct a new instance of
+// FormatterCurrency. Default values are used to supplement these
+// input parameters.
+//
+// This method differs from method FormatterCurrency.NewBasic()
+// in that this method accepts rune arrays for input parameters,
+// 'decimalSeparatorChars' and 'thousandsSeparatorChars'.
 //
 // To exercise granular control over all parameters needed to
 // construct an instance of FormatterCurrency,
@@ -1274,9 +1763,9 @@ func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithComponents(
 // To control and specify alternative integer digit groupings, use
 // method 'FormatterCurrency.NewWithComponents()'.
 //
-// The FormatterCurrency type encapsulates the
-// formatting parameters necessary to format numeric currency
-// values for display in text number strings.
+// The FormatterCurrency type encapsulates the formatting
+// parameters necessary to format numeric currency values for
+// display in text number strings.
 //
 //
 // ----------------------------------------------------------------
@@ -1636,7 +2125,7 @@ func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithDefaults(
+func (fmtCurr FormatterCurrency) NewBasicRunes(
 	decimalSeparatorChars []rune,
 	thousandsSeparatorChars []rune,
 	turnOnThousandsSeparator bool,
@@ -1655,20 +2144,20 @@ func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithDefaults(
 	FormatterCurrency,
 	error) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"FormatterCurrency.NewWithDefaults()")
+		"FormatterCurrency.NewBasicRunes()")
 
 	newNStrFmtSpecCurrencyValDto :=
 		FormatterCurrency{}
@@ -1677,7 +2166,7 @@ func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithDefaults(
 		formatterCurrencyUtility{}
 
 	err :=
-		nStrFmtSpecCurrValDtoUtil.setFormatterCurrencyWithDefaults(
+		nStrFmtSpecCurrValDtoUtil.setBasicRunesFormatterCurrency(
 			&newNStrFmtSpecCurrencyValDto,
 			decimalSeparatorChars,
 			thousandsSeparatorChars,
@@ -1698,176 +2187,23 @@ func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithDefaults(
 	return newNStrFmtSpecCurrencyValDto, err
 }
 
-// NewWithFmtSpecSetupDto - Creates and returns a new
-// FormatterCurrency instance based on input received
-// from an instance of NumStrFmtSpecSetupDto.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  fmtSpecSetupDto     *NumStrFmtSpecSetupDto
-//     - A data structure conveying setup information for a
-//       FormatterCurrency object. Only the following
-//       data fields with a prefix of "Currency" are used.
-//
-//       type NumStrFmtSpecSetupDto struct {
-//         IdNo                                      uint64
-//         IdString                                  string
-//         Description                               string
-//         Tag                                       string
-//         CountryIdNo                               uint64
-//         CountryIdString                           string
-//         CountryDescription                        string
-//         CountryTag                                string
-//         CountryCultureName                        string
-//         CountryAbbreviatedName                    string
-//         CountryAlternateNames                     []string
-//         CountryCodeTwoChar                        string
-//         CountryCodeThreeChar                      string
-//         CountryCodeNumber                         string
-//         AbsoluteValFmt                            string
-//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumSeps                        NumericSeparators
-//         AbsoluteValNumField                       NumberFieldDto
-//         CurrencyPositiveValueFmt                  string
-//         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     uint
-//         CurrencyCode                              string
-//         CurrencyCodeNo                            string
-//         CurrencyName                              string
-//         CurrencySymbols                           []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []rune
-//         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumSeps                           NumericSeparators
-//         CurrencyNumField                          NumberFieldDto
-//         SignedNumValPositiveValueFmt              string
-//         SignedNumValNegativeValueFmt              string
-//         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumSeps                       NumericSeparators
-//         SignedNumValNumField                      NumberFieldDto
-//         SciNotSignificandUsesLeadingPlus          bool
-//         SciNotMantissaLength                      uint
-//         SciNotExponentChar                        rune
-//         SciNotExponentUsesLeadingPlus             bool
-//         SciNotNumFieldLen                         int
-//         SciNotNumFieldTextJustify                 TextJustify
-//         Lock                                      *sync.Mutex
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  FormatterCurrency
-//     - If this method completes successfully, a new instance of
-//       FormatterCurrency will be returned to the
-//       caller.
-//
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithFmtSpecSetupDto(
-	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix *ErrPrefixDto) (
-	FormatterCurrency,
-	error) {
-
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCurrValDto.lock.Lock()
-
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"FormatterCurrency." +
-			"NewWithFmtSpecSetupDto()")
-
-	newNStrFmtSpecCurrencyValDto :=
-		FormatterCurrency{}
-
-	if fmtSpecSetupDto == nil {
-		return newNStrFmtSpecCurrencyValDto,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
-				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-				ePrefix.String())
-	}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCurrValMech :=
-		formatterCurrencyMechanics{}
-
-	fmtSpecSetupDto.Lock.Lock()
-
-	defer fmtSpecSetupDto.Lock.Unlock()
-
-	err := nStrFmtSpecCurrValMech.setFormatterCurrencyFromComponents(
-		&newNStrFmtSpecCurrencyValDto,
-		fmtSpecSetupDto.CurrencyPositiveValueFmt,
-		fmtSpecSetupDto.CurrencyNegativeValueFmt,
-		fmtSpecSetupDto.CurrencyDecimalDigits,
-		fmtSpecSetupDto.CurrencyCode,
-		fmtSpecSetupDto.CurrencyCodeNo,
-		fmtSpecSetupDto.CurrencyName,
-		fmtSpecSetupDto.CurrencySymbols,
-		fmtSpecSetupDto.MinorCurrencyName,
-		fmtSpecSetupDto.MinorCurrencySymbols,
-		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
-		fmtSpecSetupDto.CurrencyNumSeps,
-		fmtSpecSetupDto.CurrencyNumField,
-		ePrefix)
-
-	return newNStrFmtSpecCurrencyValDto, err
-}
-
 // SetCurrencyCode - Sets the currency code associated with
 // this currency. Currency codes are designated by the ISO
 // 4217 standard. Reference:
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyCode(
+func (fmtCurr *FormatterCurrency) SetCurrencyCode(
 	currencyCode string) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	nStrFmtSpecCurrValDto.currencyCode = currencyCode
+	fmtCurr.currencyCode = currencyCode
 }
 
 // SetCurrencyCodeNo - Sets the Currency Code Number associated
@@ -1880,18 +2216,18 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyCode(
 // Reference:
 //       https://en.wikipedia.org/wiki/ISO_4217
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyCodeNo(
+func (fmtCurr *FormatterCurrency) SetCurrencyCodeNo(
 	currencyCodeNo string) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	nStrFmtSpecCurrValDto.currencyCodeNo = currencyCodeNo
+	fmtCurr.currencyCodeNo = currencyCodeNo
 }
 
 // SetCurrencyData - Sets all of the basic currency values. This
@@ -2198,7 +2534,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyCodeNo(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyData(
+func (fmtCurr *FormatterCurrency) SetCurrencyData(
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -2211,13 +2547,13 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyData(
 	turnOnIntegerDigitsSeparation bool,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -2229,7 +2565,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyData(
 
 	return formatterCurrencyNanobot{}.ptr().
 		setCurrencyData(
-			nStrFmtSpecCurrValDto,
+			fmtCurr,
 			positiveValueFmt,
 			negativeValueFmt,
 			decimalDigits,
@@ -2249,18 +2585,18 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyData(
 // Reference:
 //        https://en.wikipedia.org/wiki/ISO_4217
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyName(
+func (fmtCurr *FormatterCurrency) SetCurrencyName(
 	currencyName string) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	nStrFmtSpecCurrValDto.currencyName = currencyName
+	fmtCurr.currencyName = currencyName
 }
 
 // SetCurrencySymbols - Sets the currency name and currency symbols
@@ -2310,19 +2646,19 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencyName(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencySymbols(
+func (fmtCurr *FormatterCurrency) SetCurrencySymbols(
 	currencyName string,
 	currencySymbols []rune,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -2347,14 +2683,14 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencySymbols(
 		return err
 	}
 
-	nStrFmtSpecCurrValDto.currencySymbols =
+	fmtCurr.currencySymbols =
 		make([]rune, lenCurrencySymbols, 10)
 
 	_ = copy(
-		nStrFmtSpecCurrValDto.currencySymbols,
+		fmtCurr.currencySymbols,
 		currencySymbols)
 
-	nStrFmtSpecCurrValDto.currencyName =
+	fmtCurr.currencyName =
 		currencyName
 
 	return err
@@ -2367,18 +2703,18 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetCurrencySymbols(
 // of the decimal point.
 //   Example: $27.94
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetDecimalDigits(
+func (fmtCurr *FormatterCurrency) SetDecimalDigits(
 	decimalDigits uint) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	nStrFmtSpecCurrValDto.decimalDigits = decimalDigits
+	fmtCurr.decimalDigits = decimalDigits
 
 }
 
@@ -2429,19 +2765,19 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetDecimalDigits(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetMinorCurrencySymbol(
+func (fmtCurr *FormatterCurrency) SetMinorCurrencySymbol(
 	minorCurrencyName string,
 	minorCurrencySymbols []rune,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -2466,14 +2802,14 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetMinorCurrencySymbol(
 		return err
 	}
 
-	nStrFmtSpecCurrValDto.minorCurrencySymbols =
+	fmtCurr.minorCurrencySymbols =
 		make([]rune, lenMinorCurrencySymbols, 10)
 
 	_ = copy(
-		nStrFmtSpecCurrValDto.minorCurrencySymbols,
+		fmtCurr.minorCurrencySymbols,
 		minorCurrencySymbols)
 
-	nStrFmtSpecCurrValDto.minorCurrencyName =
+	fmtCurr.minorCurrencyName =
 		minorCurrencyName
 
 	return err
@@ -2637,18 +2973,18 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetMinorCurrencySymbol(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNegativeValueFormat(
+func (fmtCurr *FormatterCurrency) SetNegativeValueFormat(
 	negativeValueFmt string,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -2668,7 +3004,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNegativeValueFormat(
 		return err
 	}
 
-	nStrFmtSpecCurrValDto.negativeValueFmt =
+	fmtCurr.negativeValueFmt =
 		negativeValueFmt
 
 	return err
@@ -2720,17 +3056,17 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNegativeValueFormat(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNumberFieldLengthDto(
+func (fmtCurr *FormatterCurrency) SetNumberFieldLengthDto(
 	numberFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -2742,10 +3078,10 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNumberFieldLengthDto(
 
 	return formatterCurrencyMechanics{}.
 		ptr().setNumberFieldLengthDto(
-		nStrFmtSpecCurrValDto,
+		fmtCurr,
 		numberFieldLenDto,
 		ePrefix.XCtx(
-			"nStrFmtSpecCurrValDto"))
+			"fmtCurr"))
 }
 
 // SetNumericSeparators - Sets the Number Separators object
@@ -2859,17 +3195,17 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNumberFieldLengthDto(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNumericSeparators(
+func (fmtCurr *FormatterCurrency) SetNumericSeparators(
 	numericSeparators NumericSeparators,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
@@ -2880,9 +3216,27 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNumericSeparators(
 
 	return formatterCurrencyMechanics{}.ptr().
 		setNumericSeparators(
-			nStrFmtSpecCurrValDto,
+			fmtCurr,
 			numericSeparators,
-			ePrefix.XCtx("nStrFmtSpecCurrValDto"))
+			ePrefix.XCtx("fmtCurr"))
+}
+
+// SetNumStrFormatTypeCode - Sets the Number String Format Type
+// coded for this FormatterCurrency object. For Currency formatters
+// the Number String Format Type Code is set to
+// NumStrFormatTypeCode(0).Currency().
+//
+func (fmtCurr *FormatterCurrency) SetNumStrFormatTypeCode() {
+
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
+	}
+
+	fmtCurr.lock.Lock()
+
+	defer fmtCurr.lock.Unlock()
+
+	fmtCurr.numStrFormatterType = NumStrFormatTypeCode(0).Currency()
 }
 
 // SetPositiveValueFormat - Sets the currency positive value format
@@ -2990,18 +3344,18 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNumericSeparators(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetPositiveValueFormat(
+func (fmtCurr *FormatterCurrency) SetPositiveValueFormat(
 	positiveValueFmt string,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -3021,7 +3375,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetPositiveValueFormat(
 		return err
 	}
 
-	nStrFmtSpecCurrValDto.positiveValueFmt =
+	fmtCurr.positiveValueFmt =
 		positiveValueFmt
 
 	return err
@@ -3081,17 +3435,17 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetPositiveValueFormat(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetToUnitedStatesDefaults(
+func (fmtCurr *FormatterCurrency) SetToUnitedStatesDefaults(
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -3105,7 +3459,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetToUnitedStatesDefaults(
 		formatterCurrencyUtility{}
 
 	err = currValDtoUtil.setToUnitedStatesDefaults(
-		nStrFmtSpecCurrValDto,
+		fmtCurr,
 		ePrefix)
 
 	return err
@@ -3169,17 +3523,17 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetToUnitedStatesDefaults(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetToUnitedStatesDefaultsIfEmpty(
+func (fmtCurr *FormatterCurrency) SetToUnitedStatesDefaultsIfEmpty(
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -3193,20 +3547,18 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetToUnitedStatesDefaultsIfEmpty
 		formatterCurrencyMolecule{}
 
 	isValid,
-		_ := nStrFmtSpecCurrDtoMolecule.testValidityOfCurrencyValDto(
-		nStrFmtSpecCurrValDto,
+		_ := nStrFmtSpecCurrDtoMolecule.testValidityOfFormatterCurrency(
+		fmtCurr,
 		new(ErrPrefixDto))
 
 	if isValid {
 		return
 	}
 
-	currValDtoUtil :=
-		formatterCurrencyUtility{}
-
-	err = currValDtoUtil.setToUnitedStatesDefaults(
-		nStrFmtSpecCurrValDto,
-		ePrefix)
+	err = formatterCurrencyUtility{}.ptr().
+		setToUnitedStatesDefaults(
+			fmtCurr,
+			ePrefix)
 
 	return err
 }
@@ -3257,18 +3609,18 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetToUnitedStatesDefaultsIfEmpty
 //
 //  --- NONE ---
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetTurnOnIntegerDigitsSeparationFlag(
+func (fmtCurr *FormatterCurrency) SetTurnOnIntegerDigitsSeparationFlag(
 	turnOnIntegerDigitsSeparation bool) {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
-	nStrFmtSpecCurrValDto.turnOnIntegerDigitsSeparation =
+	fmtCurr.turnOnIntegerDigitsSeparation =
 		turnOnIntegerDigitsSeparation
 }
 
@@ -3284,7 +3636,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetTurnOnIntegerDigitsSeparation
 // configuration for all member variables in the current instance
 // of FormatterCurrency. For a similar method using
 // minimum input parameters coupled with default values, see:
-//      FormatterCurrency.SetWithDefaults()
+//      FormatterCurrency.SetBasicRunes()
 //
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
@@ -3695,7 +4047,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetTurnOnIntegerDigitsSeparation
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithComponents(
+func (fmtCurr *FormatterCurrency) SetWithComponents(
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -3710,13 +4062,13 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithComponents(
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -3729,8 +4081,8 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithComponents(
 	nStrFmtSpecCurrValMech :=
 		formatterCurrencyMechanics{}
 
-	return nStrFmtSpecCurrValMech.setFormatterCurrencyFromComponents(
-		nStrFmtSpecCurrValDto,
+	return nStrFmtSpecCurrValMech.setFormatterCurrencyWithComponents(
+		fmtCurr,
 		positiveValueFmt,
 		negativeValueFmt,
 		decimalDigits,
@@ -3744,14 +4096,465 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithComponents(
 		numberSeparators,
 		numFieldDto,
 		ePrefix.XCtx(
-			"Setting 'nStrFmtSpecCurrValDto'"))
+			"Setting 'fmtCurr'"))
 }
 
-// SetWithDefaults - This method will set all of the member
+// SetBasic - This method will set all of the member variable data
+// values for the current instance of FormatterCurrency. The input
+// parameters represent the minimum information required to
+// configure a FormatterCurrency object.
+//
+// This method differs from method FormatterCurrency.SetBasicRunes()
+// in that this method accepts strings for input parameters,
+// 'decimalSeparatorChars' and 'thousandsSeparatorChars'.
+//
+// To exercise granular control over all parameters needed to
+// construct an instance of FormatterCurrency, reference method:
+//   'FormatterCurrency.SetWithComponents()'
+//
+// This method automatically sets a default integer digits grouping
+// sequence of '3'. This means that integers will be grouped by
+// thousands.
+//
+//        Example: '1,000,000,000'
+//
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// current FormatterCurrency instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparatorChars         string
+//     - The character or characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
+//
+//
+//  thousandsSeparatorChars       string
+//     - The character or characters used to delimit 'thousands' in
+//       integer number strings. In the United States, the
+//       Thousands separator is the comma character (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//       For custom integer digit grouping, use method
+//       FormatterCurrency.SetWithComponents().
+//
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
+//  positiveValueFmt              string
+//     - This format string will be used to format positive currency
+//       value in text number strings. Valid positive currency value
+//       format strings must comply with the following constraints.
+//
+//       Positive Currency Value Formatting Terminology and Placeholders:
+//
+//               "$" - Placeholder for the previously selected currency
+//                     symbol associated with the user's preferred country
+//                     or culture. This placeholder symbol, '$', MUST BE
+//                     present in the positive value format string in order
+//                     to correctly position the actual currency symbol
+//                     relative to the currency numeric value.
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for absolute value number formatting.
+//
+//       Valid format strings for positive currency values are
+//       listed as follows:
+//
+//          $127.54
+//          $ 127.54
+//          127.54$
+//          127.54 $
+//
+//          $127.54+
+//          $127.54 +
+//          $ 127.54+
+//          $ 127.54 +
+//
+//          $+127.54
+//          $ +127.54
+//          $+ 127.54
+//          $ + 127.54
+//
+//          127.54$+
+//          127.54$ +
+//          127.54 $+
+//          127.54$ +
+//          127.54 $ +
+//
+//          127.54+$
+//          127.54+ $
+//          127.54 +$
+//          127.54+ $
+//          127.54 + $
+//
+//          +127.54$
+//          +127.54 $
+//          + 127.54$
+//          + 127.54 $
+//
+//
+//  negativeValueFmt              string
+//     - This format string will be used to format negative currency
+//       values in text number strings. Valid negative currency value
+//       format strings must comply with the following constraints.
+//
+//       Negative Currency Value Formatting Terminology and Placeholders:
+//
+//               "$" - Placeholder for the previously selected currency
+//                     symbol associated with the user's preferred country
+//                     or culture. This placeholder symbol, '$', MUST BE
+//                     present in the positive value format string in order
+//                     to correctly position the actual currency symbol
+//                     relative to the currency numeric value.
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "-" - The Minus Sign ('-'). If present in the
+//                     format string, the minus sign ('-') specifies
+//                     where the minus sign will be positioned
+//                     relative to the numeric value in the text
+//                     number string.
+//
+//             "(-)" - These three characters are often used in
+//                     Europe and the United Kingdom to classify
+//                     a numeric value as negative.
+//
+//              "()" - Opposing parenthesis characters are
+//                     frequently used in the United States
+//                     to classify a numeric value as negative.
+//
+//       Valid format strings for negative currency values are
+//       listed as follows:
+//
+//          ( $127.54 )
+//          ( $ 127.54 )
+//          ($ 127.54)
+//          ($127.54)
+//
+//          $(127.54)
+//          $ (127.54)
+//          $( 127.54 )
+//          $ ( 127.54 )
+//
+//          ( 127.54$ )
+//          ( 127.54 $ )
+//          ( 127.54 $)
+//          (127.54$)
+//
+//          (127.54)$
+//          (127.54) $
+//          ( 127.54 )$
+//          ( 127.54 ) $
+//
+//          (-) $127.54
+//          (-) $ 127.54
+//          (-)$127.54
+//          (-)$ 127.54
+//
+//          $ (-)127.54
+//          $ (-) 127.54
+//          $(-)127.54
+//          $(-) 127.54
+//
+//          (-) 127.54$
+//          (-) 127.54 $
+//          (-)127.54$
+//          (-)127.54 $
+//
+//          127.54(-) $
+//          127.54 (-) $
+//          127.54(-)$
+//          127.54 (-)$
+//
+//          127.54$(-)
+//          127.54$ (-)
+//          127.54 $ (-)
+//          127.54 $(-)
+//
+//          $127.54(-)
+//          $127.54 (-)
+//          $ 127.54(-)
+//          $ 127.54 (-)
+//
+//          - $127.54
+//          - $ 127.54
+//          -$127.54
+//          -$ 127.54
+//
+//          $ -127.54
+//          $ - 127.54
+//          $-127.54
+//          $- 127.54
+//
+//          - 127.54$
+//          - 127.54 $
+//          -127.54$
+//          -127.54 $
+//
+//          127.54- $
+//          127.54 - $
+//          127.54-$
+//          127.54 -$
+//
+//          127.54$-
+//          127.54$ -
+//          127.54 $ -
+//          127.54 $-
+//
+//          $127.54-
+//          $127.54 -
+//          $ 127.54-
+//          $ 127.54 -
+//
+//
+//  decimalDigits                 uint
+//     - The standard number of digits to the right of the decimal
+//       place which is expected for currency values. In the United
+//       States, currency is typically formatted with two digits to
+//       the right of the decimal.
+//         Example:  $24.92
+//
+//
+//  currencyCode                  string
+//     - The ISO 4217 Currency Code associated with this currency
+//       specification. Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
+//  currencyCodeNo                string
+//     - The ISO 4217 Currency Code Number associated with this
+//       currency specification. The Currency Code Number is stored
+//       as a string per ISO 4217.
+//
+//       Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
+//  currencyName                  string
+//     - The official name for this currency.
+//
+//
+//  currencySymbols               []rune
+//     - The authorized unicode character symbol associated with
+//       this currency specification. The currency symbol for the
+//       United States is the dollar sign ('$'). Some countries and
+//       cultures have currency symbols consisting of two or more
+//       characters.
+//
+//
+//  minorCurrencyName             string
+//     - The minor currency name. In the United States, the minor
+//       currency name is 'Cent'.
+//
+//
+//  minorCurrencySymbols          []rune
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢). Some countries and cultures have currency symbols
+//       consisting of two or more characters.
+//
+//
+//  requestedNumberFieldLen       int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
+//
+//
+//  numberFieldTextJustify        TextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtCurr *FormatterCurrency) SetBasic(
+	decimalSeparatorChars string,
+	thousandsSeparatorChars string,
+	turnOnIntegerDigitsSeparation bool,
+	positiveValueFmt string,
+	negativeValueFmt string,
+	decimalDigits uint,
+	currencyCode string,
+	currencyCodeNo string,
+	currencyName string,
+	currencySymbols []rune,
+	minorCurrencyName string,
+	minorCurrencySymbols []rune,
+	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
+	}
+
+	fmtCurr.lock.Lock()
+
+	defer fmtCurr.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterCurrency.SetBasicRunes()")
+
+	if len(decimalSeparatorChars) == 0 {
+
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'decimalSeparatorChars' is invalid!\n"+
+			"'decimalSeparatorChars' is an empty string.\n",
+			ePrefix.String())
+
+	}
+
+	if len(thousandsSeparatorChars) == 0 {
+
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'thousandsSeparatorChars' is invalid!\n"+
+			"'thousandsSeparatorChars' is an empty string.\n",
+			ePrefix.String())
+
+	}
+
+	return formatterCurrencyUtility{}.ptr().
+		setBasicRunesFormatterCurrency(
+			fmtCurr,
+			[]rune(decimalSeparatorChars),
+			[]rune(thousandsSeparatorChars),
+			turnOnIntegerDigitsSeparation,
+			positiveValueFmt,
+			negativeValueFmt,
+			decimalDigits,
+			currencyCode,
+			currencyCodeNo,
+			currencyName,
+			currencySymbols,
+			minorCurrencyName,
+			minorCurrencySymbols,
+			requestedNumberFieldLen,
+			numberFieldTextJustify,
+			ePrefix.XCtx("Setting 'fmtCurr'"))
+}
+
+// SetBasicRunes - This method will set all of the member
 // variable data values for the current instance of
 // FormatterCurrency. The input parameters represent
 // the minimum information required to configure a
 // FormatterCurrency object.
+//
+// This method differs from method FormatterCurrency.SetBasic()
+// in that this method accepts rune arrays for input parameters,
+// 'decimalSeparatorChars' and 'thousandsSeparatorChars'.
+//
+// To exercise granular control over all parameters needed to
+// construct an instance of FormatterCurrency, reference method:
+//   'FormatterCurrency.SetWithComponents()'
 //
 // This method automatically sets a default integer digits grouping
 // sequence of '3'. This means that integers will be grouped by
@@ -4113,7 +4916,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithDefaults(
+func (fmtCurr *FormatterCurrency) SetBasicRunes(
 	decimalSeparatorChars []rune,
 	thousandsSeparatorChars []rune,
 	turnOnIntegerDigitsSeparation bool,
@@ -4130,26 +4933,26 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithDefaults(
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDto.lock.Lock()
+	fmtCurr.lock.Lock()
 
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
+	defer fmtCurr.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"FormatterCurrency.SetWithDefaults()")
+		"FormatterCurrency.SetBasicRunes()")
 
 	nStrFmtSpecCurrValDtoUtil :=
 		formatterCurrencyUtility{}
 
-	return nStrFmtSpecCurrValDtoUtil.setFormatterCurrencyWithDefaults(
-		nStrFmtSpecCurrValDto,
+	return nStrFmtSpecCurrValDtoUtil.setBasicRunesFormatterCurrency(
+		fmtCurr,
 		decimalSeparatorChars,
 		thousandsSeparatorChars,
 		turnOnIntegerDigitsSeparation,
@@ -4164,145 +4967,5 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithDefaults(
 		minorCurrencySymbols,
 		requestedNumberFieldLen,
 		numberFieldTextJustify,
-		ePrefix.XCtx("Setting 'nStrFmtSpecCurrValDto'"))
-}
-
-// SetWithFmtSpecSetupDto - Sets the data values for current
-// FormatterCurrency instance based on input received
-// from an instance of NumStrFmtSpecSetupDto.
-//
-// IMPORTANT
-// This method will overwrite all pre-existing data values in the
-// current FormatterCurrency instance.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
-//     - A data structure conveying setup information for a
-//       FormatterCurrency object. Only the following
-//       data fields with a prefix of "Currency" are used.
-//
-//       type NumStrFmtSpecSetupDto struct {
-//         IdNo                                      uint64
-//         IdString                                  string
-//         Description                               string
-//         Tag                                       string
-//         CountryIdNo                               uint64
-//         CountryIdString                           string
-//         CountryDescription                        string
-//         CountryTag                                string
-//         CountryCultureName                        string
-//         CountryAbbreviatedName                    string
-//         CountryAlternateNames                     []string
-//         CountryCodeTwoChar                        string
-//         CountryCodeThreeChar                      string
-//         CountryCodeNumber                         string
-//         AbsoluteValFmt                            string
-//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumSeps                        NumericSeparators
-//         AbsoluteValNumField                       NumberFieldDto
-//         CurrencyPositiveValueFmt                  string
-//         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     uint
-//         CurrencyCode                              string
-//         CurrencyCodeNo                            string
-//         CurrencyName                              string
-//         CurrencySymbols                           []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []rune
-//         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumSeps                           NumericSeparators
-//         CurrencyNumField                          NumberFieldDto
-//         SignedNumValPositiveValueFmt              string
-//         SignedNumValNegativeValueFmt              string
-//         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumSeps                       NumericSeparators
-//         SignedNumValNumField                      NumberFieldDto
-//         SciNotSignificandUsesLeadingPlus          bool
-//         SciNotMantissaLength                      uint
-//         SciNotExponentChar                        rune
-//         SciNotExponentUsesLeadingPlus             bool
-//         SciNotNumFieldLen                         int
-//         SciNotNumFieldTextJustify                 TextJustify
-//         Lock                                      *sync.Mutex
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithFmtSpecSetupDto(
-	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix *ErrPrefixDto) error {
-
-	if nStrFmtSpecCurrValDto.lock == nil {
-		nStrFmtSpecCurrValDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCurrValDto.lock.Lock()
-
-	defer nStrFmtSpecCurrValDto.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"FormatterCurrency." +
-			"SetWithFmtSpecSetupDto()")
-
-	if fmtSpecSetupDto == nil {
-		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
-			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-			ePrefix.String())
-	}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCurrValMech :=
-		formatterCurrencyMechanics{}
-
-	fmtSpecSetupDto.Lock.Lock()
-
-	defer fmtSpecSetupDto.Lock.Unlock()
-
-	return nStrFmtSpecCurrValMech.setFormatterCurrencyFromComponents(
-		nStrFmtSpecCurrValDto,
-		fmtSpecSetupDto.CurrencyPositiveValueFmt,
-		fmtSpecSetupDto.CurrencyNegativeValueFmt,
-		fmtSpecSetupDto.CurrencyDecimalDigits,
-		fmtSpecSetupDto.CurrencyCode,
-		fmtSpecSetupDto.CurrencyCodeNo,
-		fmtSpecSetupDto.CurrencyName,
-		fmtSpecSetupDto.CurrencySymbols,
-		fmtSpecSetupDto.MinorCurrencyName,
-		fmtSpecSetupDto.MinorCurrencySymbols,
-		fmtSpecSetupDto.CurrencyTurnOnIntegerDigitsSeparation,
-		fmtSpecSetupDto.CurrencyNumSeps,
-		fmtSpecSetupDto.CurrencyNumField,
-		ePrefix)
+		ePrefix.XCtx("Setting 'fmtCurr'"))
 }

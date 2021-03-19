@@ -30,7 +30,7 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 	return newCurrencyUtility
 }
 
-// setFormatterCurrencyWithDefaults - Sets the data values for an
+// setBasicRunesFormatterCurrency - Sets the data values for an
 // instance FormatterCurrency passed as an input
 // parameter.
 //
@@ -392,7 +392,7 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (fmtCurrUtil *formatterCurrencyUtility) setFormatterCurrencyWithDefaults(
+func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFormatterCurrency(
 	formatterCurrency *FormatterCurrency,
 	decimalSeparatorChars []rune,
 	thousandsSeparatorChars []rune,
@@ -425,7 +425,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setFormatterCurrencyWithDefaults(
 
 	ePrefix.SetEPref(
 		"formatterCurrencyUtility." +
-			"setFormatterCurrencyWithDefaults()")
+			"setBasicRunesFormatterCurrency()")
 
 	if formatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
@@ -433,6 +433,10 @@ func (fmtCurrUtil *formatterCurrencyUtility) setFormatterCurrencyWithDefaults(
 			"'formatterCurrency' is a 'nil' pointer.\n",
 			ePrefix.String())
 		return err
+	}
+
+	if formatterCurrency.lock == nil {
+		formatterCurrency.lock = new(sync.Mutex)
 	}
 
 	var numFieldDto NumberFieldDto
@@ -465,7 +469,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setFormatterCurrencyWithDefaults(
 	}
 
 	err = formatterCurrencyMechanics{}.ptr().
-		setFormatterCurrencyFromComponents(
+		setFormatterCurrencyWithComponents(
 			formatterCurrency,
 			positiveValueFmt,
 			negativeValueFmt,
@@ -559,7 +563,8 @@ func (fmtCurrUtil *formatterCurrencyUtility) setToUnitedStatesDefaults(
 	}
 
 	ePrefix.SetEPref(
-		"formatterCurrencyUtility.setToUnitedStatesDefaults()")
+		"formatterCurrencyUtility." +
+			"setToUnitedStatesDefaults()")
 
 	if formatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
@@ -599,7 +604,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setToUnitedStatesDefaults(
 	}
 
 	err = formatterCurrencyMechanics{}.ptr().
-		setFormatterCurrencyFromComponents(
+		setFormatterCurrencyWithComponents(
 			formatterCurrency,
 			"$127.54",
 			"($127.54)",
@@ -616,5 +621,4 @@ func (fmtCurrUtil *formatterCurrencyUtility) setToUnitedStatesDefaults(
 			ePrefix)
 
 	return err
-
 }

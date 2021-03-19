@@ -9,6 +9,78 @@ type formatterCurrencyMolecule struct {
 	lock *sync.Mutex
 }
 
+// emptyFormatterCurrency - Deletes all data in a FormatterCurrency
+// object passed as input parameter, 'formatterCurrency'.
+//
+// All member variable data fields in this object will be returned
+// to their 'zero' state.
+//
+func (fmtCurrMolecule *formatterCurrencyMolecule) emptyFormatterCurrency(
+	formatterCurrency *FormatterCurrency,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if fmtCurrMolecule.lock == nil {
+		fmtCurrMolecule.lock = new(sync.Mutex)
+	}
+
+	fmtCurrMolecule.lock.Lock()
+
+	defer fmtCurrMolecule.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+
+		"formatterCurrencyMolecule." +
+			"emptyFormatterCurrency()")
+
+	if formatterCurrency == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'formatterCurrency' is"+
+			" a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	formatterCurrency.numStrFormatterType =
+		NumStrFormatTypeCode(0).None()
+
+	formatterCurrency.positiveValueFmt = ""
+
+	formatterCurrency.negativeValueFmt = ""
+
+	formatterCurrency.decimalDigits = 0
+
+	formatterCurrency.currencyCode = ""
+
+	formatterCurrency.currencyCodeNo = ""
+
+	formatterCurrency.currencyName = ""
+
+	formatterCurrency.currencySymbols =
+		make([]rune, 0)
+
+	formatterCurrency.minorCurrencyName = ""
+
+	formatterCurrency.minorCurrencySymbols =
+		make([]rune, 0)
+
+	formatterCurrency.turnOnIntegerDigitsSeparation =
+		false
+
+	formatterCurrency.numericSeparators =
+		NumericSeparators{}
+
+	formatterCurrency.numFieldLenDto =
+		NumberFieldDto{}
+
+	return err
+}
+
 // ptr - Returns a pointer to a new instance of
 // formatterCurrencyMolecule.
 //
@@ -30,10 +102,10 @@ func (fmtCurrMolecule formatterCurrencyMolecule) ptr() *formatterCurrencyMolecul
 	return newFmtCurrencyMolecule
 }
 
-// testValidityOfCurrencyValDto - Tests the validity of
+// testValidityOfFormatterCurrency - Tests the validity of
 // FormatterCurrency objects.
 //
-func (fmtCurrMolecule *formatterCurrencyMolecule) testValidityOfCurrencyValDto(
+func (fmtCurrMolecule *formatterCurrencyMolecule) testValidityOfFormatterCurrency(
 	formatterCurrency *FormatterCurrency,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
@@ -53,7 +125,7 @@ func (fmtCurrMolecule *formatterCurrencyMolecule) testValidityOfCurrencyValDto(
 
 	ePrefix.SetEPref(
 		"formatterCurrencyMolecule." +
-			"testValidityOfCurrencyValDto()")
+			"testValidityOfFormatterCurrency()")
 
 	isValid = false
 
@@ -64,6 +136,20 @@ func (fmtCurrMolecule *formatterCurrencyMolecule) testValidityOfCurrencyValDto(
 			ePrefix.String())
 
 		return isValid, err
+	}
+
+	if formatterCurrency.numStrFormatterType !=
+		NumStrFormatTypeCode(0).Currency() {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Number String Formatter Type Code is invalid!\n"+
+			"formatterCurrency.numStrFormatterType != NumStrFormatTypeCode(0).Currency().\n"+
+			"Integer formatterCurrency.numStrFormatterType ='%v'",
+			ePrefix.String(),
+			formatterCurrency.numStrFormatterType.XValueInt())
+
+		return isValid, err
+
 	}
 
 	if formatterCurrency.currencySymbols == nil {

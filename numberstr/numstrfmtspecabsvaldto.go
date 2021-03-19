@@ -2222,7 +2222,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
 
 	ePrefix.SetEPref(
 		"NumStrFmtSpecAbsoluteValueDto." +
-			"SetWithDefaults()")
+			"SetBasicRunes()")
 
 	nStrFmtSpecAbsValDtoUtil :=
 		numStrFmtSpecAbsoluteValueDtoUtility{}

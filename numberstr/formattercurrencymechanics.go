@@ -30,9 +30,9 @@ func (fmtCurrMech formatterCurrencyMechanics) ptr() *formatterCurrencyMechanics 
 	return newCurrencyValDtoMechanics
 }
 
-// setFormatterCurrencyFromComponents - Transfers new data to an instance of
-// FormatterCurrency. After completion, all the data
-// fields within input parameter 'nStrFmtSpecCurrencyValDto' will be
+// setFormatterCurrencyWithComponents - Transfers new data to an
+// instance of FormatterCurrency. After completion, all the data
+// fields within input parameter 'formatterCurrency' will be
 // overwritten.
 //
 //
@@ -447,7 +447,7 @@ func (fmtCurrMech formatterCurrencyMechanics) ptr() *formatterCurrencyMechanics 
 //       The 'ePrefix' text will be prefixed to the beginning of the
 //       error message.
 //
-func (fmtCurrMech *formatterCurrencyMechanics) setFormatterCurrencyFromComponents(
+func (fmtCurrMech *formatterCurrencyMechanics) setFormatterCurrencyWithComponents(
 	formatterCurrency *FormatterCurrency,
 	positiveValueFmt string,
 	negativeValueFmt string,
@@ -478,7 +478,7 @@ func (fmtCurrMech *formatterCurrencyMechanics) setFormatterCurrencyFromComponent
 
 	ePrefix.SetEPref(
 		"formatterCurrencyMechanics." +
-			"setFormatterCurrencyFromComponents()")
+			"setFormatterCurrencyWithComponents()")
 
 	if formatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
@@ -489,7 +489,13 @@ func (fmtCurrMech *formatterCurrencyMechanics) setFormatterCurrencyFromComponent
 		return err
 	}
 
+	if formatterCurrency.lock == nil {
+		formatterCurrency.lock = new(sync.Mutex)
+	}
+
 	newFormatterCurrency := FormatterCurrency{}
+
+	newFormatterCurrency.lock = new(sync.Mutex)
 
 	err =
 		formatterCurrencyNanobot{}.ptr().
@@ -526,15 +532,17 @@ func (fmtCurrMech *formatterCurrencyMechanics) setFormatterCurrencyFromComponent
 			&numFieldLenDto,
 			ePrefix.XCtx(" numFieldLenDto->newFormatterCurrency"))
 
-	nStrFmtSpecCurrValNanobot :=
-		formatterCurrencyNanobot{}
+	if err != nil {
+		return err
+	}
 
 	err =
-		nStrFmtSpecCurrValNanobot.copyIn(
-			formatterCurrency,
-			&newFormatterCurrency,
-			ePrefix.XCtx("newFormatterCurrency-> "+
-				"formatterCurrency"))
+		formatterCurrencyNanobot{}.ptr().
+			copyIn(
+				formatterCurrency,
+				&newFormatterCurrency,
+				ePrefix.XCtx("newFormatterCurrency-> "+
+					"formatterCurrency"))
 
 	return err
 }
