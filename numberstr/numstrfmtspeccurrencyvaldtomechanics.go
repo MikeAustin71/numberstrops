@@ -5,32 +5,32 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecCurrencyValueDtoMechanics struct {
+type formatterCurrencyMechanics struct {
 	lock *sync.Mutex
 }
 
 // ptr - Returns a pointer to a new instance of
-// numStrFmtSpecCurrencyValueDtoMechanics.
+// formatterCurrencyMechanics.
 //
-func (nStrFmtSpecCurrValMech numStrFmtSpecCurrencyValueDtoMechanics) ptr() *numStrFmtSpecCurrencyValueDtoMechanics {
+func (fmtCurrMech formatterCurrencyMechanics) ptr() *formatterCurrencyMechanics {
 
-	if nStrFmtSpecCurrValMech.lock == nil {
-		nStrFmtSpecCurrValMech.lock = new(sync.Mutex)
+	if fmtCurrMech.lock == nil {
+		fmtCurrMech.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValMech.lock.Lock()
+	fmtCurrMech.lock.Lock()
 
-	defer nStrFmtSpecCurrValMech.lock.Unlock()
+	defer fmtCurrMech.lock.Unlock()
 
 	newCurrencyValDtoMechanics :=
-		new(numStrFmtSpecCurrencyValueDtoMechanics)
+		new(formatterCurrencyMechanics)
 
 	newCurrencyValDtoMechanics.lock = new(sync.Mutex)
 
 	return newCurrencyValDtoMechanics
 }
 
-// setCurrencyValDtoFromComponents - Transfers new data to an instance of
+// setFormatterCurrencyFromComponents - Transfers new data to an instance of
 // FormatterCurrency. After completion, all the data
 // fields within input parameter 'nStrFmtSpecCurrencyValDto' will be
 // overwritten.
@@ -40,7 +40,7 @@ func (nStrFmtSpecCurrValMech numStrFmtSpecCurrencyValueDtoMechanics) ptr() *numS
 //
 // Input Parameters
 //
-//  nStrFmtSpecCurrencyValDto     *FormatterCurrency,
+//  formatterCurrency             *FormatterCurrency,
 //
 //     - A pointer to an instance of FormatterCurrency.
 //       All of the data values in this object will be overwritten
@@ -372,9 +372,11 @@ func (nStrFmtSpecCurrValMech numStrFmtSpecCurrencyValueDtoMechanics) ptr() *numS
 //                    'thousands' like this: '1,000,000,000'. In this case the
 //                    intSeparatorGrouping value would be set to three ('3').
 //
-//                    In some countries and cultures other integer groupings are
-//                    used. In India, for example, a number might be formatted
-//                    like this: '6,78,90,00,00,00,00,000'.
+//                     In some countries and cultures other integer groupings
+//                     are used. In India, for example, a number might be
+//                     formatted like this: '6,78,90,00,00,00,00,000'. Chinese
+//                     Numerals have an integer grouping value of four ('4').
+//                         Chinese Numerals Example: '12,3456,7890,2345'
 //
 //               intSeparatorRepetitions    uint
 //                  - This unsigned integer value specifies the number of times
@@ -445,8 +447,8 @@ func (nStrFmtSpecCurrValMech numStrFmtSpecCurrencyValueDtoMechanics) ptr() *numS
 //       The 'ePrefix' text will be prefixed to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrencyValDtoFromComponents(
-	nStrFmtSpecCurrencyValDto *FormatterCurrency,
+func (fmtCurrMech *formatterCurrencyMechanics) setFormatterCurrencyFromComponents(
+	formatterCurrency *FormatterCurrency,
 	positiveValueFmt string,
 	negativeValueFmt string,
 	decimalDigits uint,
@@ -462,37 +464,37 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecCurrValMech.lock == nil {
-		nStrFmtSpecCurrValMech.lock = new(sync.Mutex)
+	if fmtCurrMech.lock == nil {
+		fmtCurrMech.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValMech.lock.Lock()
+	fmtCurrMech.lock.Lock()
 
-	defer nStrFmtSpecCurrValMech.lock.Unlock()
+	defer fmtCurrMech.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"numStrFmtSpecCurrencyValueDtoMechanics." +
-			"setCurrencyValDtoFromComponents()")
+		"formatterCurrencyMechanics." +
+			"setFormatterCurrencyFromComponents()")
 
-	if nStrFmtSpecCurrencyValDto == nil {
+	if formatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecCurrencyValDto' is invalid!\n"+
-			"'nStrFmtSpecCurrencyValDto' is a 'nil' pointer\n",
+			"Error: Input parameter 'formatterCurrency' is invalid!\n"+
+			"'formatterCurrency' is a 'nil' pointer\n",
 			ePrefix.String())
 
 		return err
 	}
 
-	newNStrFmtSpecCurrencyValDto := FormatterCurrency{}
+	newFormatterCurrency := FormatterCurrency{}
 
 	err =
 		numStrFmtSpecCurrencyValueDtoNanobot{}.ptr().
 			setCurrencyData(
-				&newNStrFmtSpecCurrencyValDto,
+				&newFormatterCurrency,
 				positiveValueFmt,
 				negativeValueFmt,
 				decimalDigits,
@@ -504,35 +506,35 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 				minorCurrencySymbols,
 				turnOnIntegerDigitsSeparation,
 				ePrefix.XCtx(
-					"newNStrFmtSpecCurrencyValDto"))
+					"newFormatterCurrency"))
 
 	if err != nil {
 		return err
 	}
 
 	err =
-		newNStrFmtSpecCurrencyValDto.numericSeparators.CopyIn(
+		newFormatterCurrency.numericSeparators.CopyIn(
 			&numericSeparators,
-			ePrefix.XCtx("numericSeparators->newNStrFmtSpecCurrencyValDto"))
+			ePrefix.XCtx("numericSeparators->newFormatterCurrency"))
 
 	if err != nil {
 		return err
 	}
 
 	err =
-		newNStrFmtSpecCurrencyValDto.numFieldLenDto.CopyIn(
+		newFormatterCurrency.numFieldLenDto.CopyIn(
 			&numFieldLenDto,
-			ePrefix.XCtx(" numFieldLenDto->newNStrFmtSpecCurrencyValDto"))
+			ePrefix.XCtx(" numFieldLenDto->newFormatterCurrency"))
 
 	nStrFmtSpecCurrValNanobot :=
 		numStrFmtSpecCurrencyValueDtoNanobot{}
 
 	err =
 		nStrFmtSpecCurrValNanobot.copyIn(
-			nStrFmtSpecCurrencyValDto,
-			&newNStrFmtSpecCurrencyValDto,
-			ePrefix.XCtx("newNStrFmtSpecCurrencyValDto-> "+
-				"nStrFmtSpecCurrencyValDto"))
+			formatterCurrency,
+			&newFormatterCurrency,
+			ePrefix.XCtx("newFormatterCurrency-> "+
+				"formatterCurrency"))
 
 	return err
 }
@@ -547,7 +549,7 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 //
 // Input Parameters
 //
-//  nStrFmtSpecCurrencyValDto     *FormatterCurrency,
+//  formatterCurrency             *FormatterCurrency,
 //
 //     - A pointer to an instance of FormatterCurrency.
 //       All of the data values in this object will be overwritten
@@ -590,40 +592,40 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setCurrenc
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setNumberFieldLengthDto(
-	nStrFmtSpecCurrencyValDto *FormatterCurrency,
+func (fmtCurrMech *formatterCurrencyMechanics) setNumberFieldLengthDto(
+	formatterCurrency *FormatterCurrency,
 	numberFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCurrValMech.lock == nil {
-		nStrFmtSpecCurrValMech.lock = new(sync.Mutex)
+	if fmtCurrMech.lock == nil {
+		fmtCurrMech.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValMech.lock.Lock()
+	fmtCurrMech.lock.Lock()
 
-	defer nStrFmtSpecCurrValMech.lock.Unlock()
+	defer fmtCurrMech.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"numStrFmtSpecCurrencyValueDtoMechanics." +
+		"formatterCurrencyMechanics." +
 			"setNumberFieldLengthDto()")
 
-	if nStrFmtSpecCurrencyValDto == nil {
+	if formatterCurrency == nil {
 		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecCurrencyValDto' is invalid!\n"+
-			"'nStrFmtSpecCurrencyValDto' is a 'nil' pointer\n",
+			"Error: Input parameter 'formatterCurrency' is invalid!\n"+
+			"'formatterCurrency' is a 'nil' pointer\n",
 			ePrefix.String())
 
 	}
 
-	return nStrFmtSpecCurrencyValDto.
+	return formatterCurrency.
 		numFieldLenDto.CopyIn(
 		&numberFieldLenDto,
 		ePrefix.XCtx(
-			"nStrFmtSpecCurrencyValDto"))
+			"formatterCurrency"))
 }
 
 // setNumericSeparators - Sets the Number Separators object
@@ -638,7 +640,7 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setNumberF
 //
 // Input Parameters
 //
-//  nStrFmtSpecCurrencyValDto     *FormatterCurrency,
+//  formatterCurrency          *FormatterCurrency,
 //
 //     - A pointer to an instance of FormatterCurrency.
 //       The Numeric Separator data values in this object will be
@@ -646,83 +648,96 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setNumberF
 //       input parameters.
 //
 //
-//  numericSeparators        NumericSeparators
-//     - This instance of 'NumericSeparators' is
-//       used to specify the separator characters which will be
-//       including in the number string text display.
+//  numericSeparators          NumericSeparators
+//     - This instance of 'NumericSeparators' encapsulates all the
+//       number separators required to format numeric values in
+//       text strings. These separators include the 'Decimal
+//       Separator(s)' and the 'Integer Digits Separators'.
 //
-//        type NumericSeparators struct {
+//       The 'Integer Digits Separators' includes both the character or
+//       characters used to separate groups of integers and the grouping
+//       sequence. In Western Countries, integer grouping is most
+//       commonly known as 'thousands' grouping.
+//            United States Example: 1,000,0000,000
+//
+//       type NumericSeparators struct {
 //         decimalSeparators    []rune
 //         integerSeparatorsDto NumStrIntSeparatorsDto
+//       }
+//
+// decimalSeparators    []rune
+//
+// The 'Decimal Separator' is used to separate integer and
+// fractional digits within a floating point number display.
+// The decimal separator may consist of one or more runes.
+//
+//
+// integerSeparatorsDto    NumStrIntSeparatorsDto
+//
+// The NumStrIntSeparatorsDto type encapsulates the integer digits
+// separators, often referred to as the 'Thousands Separator'.
+// Integer digit separators are used to separate integers into
+// specific groups within a number string. The
+// NumStrIntSeparatorsDto manages an array or collection of
+// NumStrIntSeparator objects. Taken as a whole, these
+// NumStrIntSeparator objects define the integer separation
+// operation used in formatting number strings.
+//
+//        type NumStrIntSeparatorsDto struct {
+//          intSeparators []NumStrIntSeparator
 //        }
 //
-//        decimalSeparators     []rune
+//        type NumStrIntSeparator struct {
+//         intSeparatorChars       []rune  // A series of runes used to separate integer digits.
+//         intSeparatorGrouping    uint    // Number of integer digits in a group
+//         intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
+//                                         // A zero value signals unlimited repetitions.
+//         restartIntGroupingSequence bool // If true, the grouping sequence starts over at index zero.
+//        }
 //
-//        The 'Decimal Separator' is used to separate integer and
-//        fractional digits within a floating point number display.
-//        The decimal separator may consist of one or more runes.
+//        intSeparatorChars          []rune
+//           - A series of runes or characters used to separate integer
+//             digits in a number string. These characters are commonly
+//             known as the 'thousands separator'. A 'thousands
+//             separator' is used to separate groups of integer digits to
+//             the left of the decimal separator (a.k.a. decimal point).
+//             In the United States, the standard integer digits
+//             separator is the single comma character (','). Other
+//             countries and cultures use periods, spaces, apostrophes or
+//             multiple characters to separate integers.
+//                   United States Example:  1,000,000,000
 //
-//        integerSeparatorsDto    NumStrIntSeparatorsDto
+//        intSeparatorGrouping       uint
+//           - This unsigned integer values specifies the number of
+//             integer digits within a group. This value is used to group
+//             integers within a number string.
 //
-//        The NumStrIntSeparatorsDto type encapsulates the integer digits
-//        separators, often referred to as the 'Thousands Separator'.
-//        Integer digit separators are used to separate integers into
-//        specific groups within a number string. The
-//        NumStrIntSeparatorsDto manages an array or collection of
-//        NumStrIntSeparator objects.
+//             In most western countries integer digits to the left of
+//             the decimal separator (a.k.a. decimal point) are separated
+//             into groups of three digits representing a grouping of
+//             'thousands' like this: '1,000,000,000'. In this case the
+//             intSeparatorGrouping value would be set to three ('3').
 //
-//               type NumStrIntSeparatorsDto struct {
-//                 intSeparators []NumStrIntSeparator
-//               }
+//             In some countries and cultures other integer groupings
+//             are used. In India, for example, a number might be
+//             formatted like this: '6,78,90,00,00,00,00,000'. Chinese
+//             Numerals have an integer grouping value of four ('4').
+//                 Chinese Numerals Example: '12,3456,7890,2345'
 //
-//               type NumStrIntSeparator struct {
-//                intSeparatorChars       []rune  // A series of runes used to separate integer digits.
-//                intSeparatorGrouping    uint    // Number of integer digits in a group
-//                intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
-//                                                // A zero value signals unlimited repetitions.
-//                restartIntGroupingSequence bool // If true, the grouping sequence starts over at index zero.
-//               }
+//        intSeparatorRepetitions    uint
+//           - This unsigned integer value specifies the number of times
+//             this integer grouping is repeated. A value of zero signals
+//             that this integer grouping will be repeated indefinitely.
 //
-//               intSeparatorChars          []rune
-//                  - A series of runes or characters used to separate integer
-//                    digits in a number string. These characters are commonly
-//                    known as the 'thousands separator'. A 'thousands
-//                    separator' is used to separate groups of integer digits to
-//                    the left of the decimal separator (a.k.a. decimal point).
-//                    In the United States, the standard integer digits
-//                    separator is the single comma character (','). Other
-//                    countries and cultures use periods, spaces, apostrophes or
-//                    multiple characters to separate integers.
-//                          United States Example:  1,000,000,000
-//
-//               intSeparatorGrouping       uint
-//                  - This unsigned integer values specifies the number of
-//                    integer digits within a group. This value is used to group
-//                    integers within a number string.
-//
-//                    In most western countries integer digits to the left of
-//                    the decimal separator (a.k.a. decimal point) are separated
-//                    into groups of three digits representing a grouping of
-//                    'thousands' like this: '1,000,000,000'. In this case the
-//                    intSeparatorGrouping value would be set to three ('3').
-//
-//                    In some countries and cultures other integer groupings are
-//                    used. In India, for example, a number might be formatted
-//                    like this: '6,78,90,00,00,00,00,000'.
-//
-//               intSeparatorRepetitions    uint
-//                  - This unsigned integer value specifies the number of times
-//                    this integer grouping is repeated. A value of zero signals
-//                    that this integer grouping will be repeated indefinitely.
-//
-//               restartIntGroupingSequence bool
-//                  - If the NumStrIntSeparator is the last element in an array
-//                    of NumStrIntSeparator objects, this boolean flag signals
-//                    whether the entire integer grouping sequence will be
-//                    restarted from array element zero.
+//        restartIntGroupingSequence bool
+//           - If the NumStrIntSeparator is the last element in an array
+//             of NumStrIntSeparator objects, this boolean flag signals
+//             whether the entire integer grouping sequence will be
+//             restarted from array element zero.
 //
 //
-//  ePrefix             *ErrPrefixDto
+//
+//  ePrefix                    *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -746,35 +761,35 @@ func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setNumberF
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValMech *numStrFmtSpecCurrencyValueDtoMechanics) setNumericSeparators(
-	nStrFmtSpecCurrencyValDto *FormatterCurrency,
+func (fmtCurrMech *formatterCurrencyMechanics) setNumericSeparators(
+	formatterCurrency *FormatterCurrency,
 	numericSeparators NumericSeparators,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCurrValMech.lock == nil {
-		nStrFmtSpecCurrValMech.lock = new(sync.Mutex)
+	if fmtCurrMech.lock == nil {
+		fmtCurrMech.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValMech.lock.Lock()
+	fmtCurrMech.lock.Lock()
 
-	defer nStrFmtSpecCurrValMech.lock.Unlock()
+	defer fmtCurrMech.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"numStrFmtSpecCurrencyValueDtoMechanics." +
+		"formatterCurrencyMechanics." +
 			"setNumericSeparators()")
 
-	if nStrFmtSpecCurrencyValDto == nil {
+	if formatterCurrency == nil {
 		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecCurrencyValDto' is invalid!\n"+
-			"'nStrFmtSpecCurrencyValDto' is a 'nil' pointer\n",
+			"Error: Input parameter 'formatterCurrency' is invalid!\n"+
+			"'formatterCurrency' is a 'nil' pointer\n",
 			ePrefix.String())
 	}
 
-	return nStrFmtSpecCurrencyValDto.numericSeparators.CopyIn(
+	return formatterCurrency.numericSeparators.CopyIn(
 		&numericSeparators,
 		ePrefix)
 }

@@ -442,9 +442,9 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 	}
 
 	nStrFmtSpecCurrValMech :=
-		numStrFmtSpecCurrencyValueDtoMechanics{}
+		formatterCurrencyMechanics{}
 
-	err = nStrFmtSpecCurrValMech.setCurrencyValDtoFromComponents(
+	err = nStrFmtSpecCurrValMech.setFormatterCurrencyFromComponents(
 		nStrFmtSpecCurrencyValDto,
 		positiveValueFmt,
 		negativeValueFmt,
@@ -576,9 +576,9 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setToUnit
 	}
 
 	nStrFmtSpecCurrValMech :=
-		numStrFmtSpecCurrencyValueDtoMechanics{}
+		formatterCurrencyMechanics{}
 
-	err = nStrFmtSpecCurrValMech.setCurrencyValDtoFromComponents(
+	err = nStrFmtSpecCurrValMech.setFormatterCurrencyFromComponents(
 		nStrFmtSpecCurrencyValDto,
 		"$127.54",
 		"($127.54)",

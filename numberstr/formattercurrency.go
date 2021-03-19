@@ -1233,9 +1233,9 @@ func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithComponents(
 	newNStrFmtSpecCurrencyValueDto := FormatterCurrency{}
 
 	nStrFmtSpecCurrValMech :=
-		numStrFmtSpecCurrencyValueDtoMechanics{}
+		formatterCurrencyMechanics{}
 
-	err := nStrFmtSpecCurrValMech.setCurrencyValDtoFromComponents(
+	err := nStrFmtSpecCurrValMech.setFormatterCurrencyFromComponents(
 		&newNStrFmtSpecCurrencyValueDto,
 		positiveValueFmt,
 		negativeValueFmt,
@@ -1826,13 +1826,13 @@ func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithFmtSpecSetupDto(
 	}
 
 	nStrFmtSpecCurrValMech :=
-		numStrFmtSpecCurrencyValueDtoMechanics{}
+		formatterCurrencyMechanics{}
 
 	fmtSpecSetupDto.Lock.Lock()
 
 	defer fmtSpecSetupDto.Lock.Unlock()
 
-	err := nStrFmtSpecCurrValMech.setCurrencyValDtoFromComponents(
+	err := nStrFmtSpecCurrValMech.setFormatterCurrencyFromComponents(
 		&newNStrFmtSpecCurrencyValDto,
 		fmtSpecSetupDto.CurrencyPositiveValueFmt,
 		fmtSpecSetupDto.CurrencyNegativeValueFmt,
@@ -2740,7 +2740,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNumberFieldLengthDto(
 		"FormatterCurrency." +
 			"SetNumberFieldLengthDto()")
 
-	return numStrFmtSpecCurrencyValueDtoMechanics{}.
+	return formatterCurrencyMechanics{}.
 		ptr().setNumberFieldLengthDto(
 		nStrFmtSpecCurrValDto,
 		numberFieldLenDto,
@@ -2878,7 +2878,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetNumericSeparators(
 		"FormatterCurrency." +
 			"SetNumericSeparators()")
 
-	return numStrFmtSpecCurrencyValueDtoMechanics{}.ptr().
+	return formatterCurrencyMechanics{}.ptr().
 		setNumericSeparators(
 			nStrFmtSpecCurrValDto,
 			numericSeparators,
@@ -3727,9 +3727,9 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithComponents(
 			"SetWithComponents()")
 
 	nStrFmtSpecCurrValMech :=
-		numStrFmtSpecCurrencyValueDtoMechanics{}
+		formatterCurrencyMechanics{}
 
-	return nStrFmtSpecCurrValMech.setCurrencyValDtoFromComponents(
+	return nStrFmtSpecCurrValMech.setFormatterCurrencyFromComponents(
 		nStrFmtSpecCurrValDto,
 		positiveValueFmt,
 		negativeValueFmt,
@@ -4284,13 +4284,13 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithFmtSpecSetupDto(
 	}
 
 	nStrFmtSpecCurrValMech :=
-		numStrFmtSpecCurrencyValueDtoMechanics{}
+		formatterCurrencyMechanics{}
 
 	fmtSpecSetupDto.Lock.Lock()
 
 	defer fmtSpecSetupDto.Lock.Unlock()
 
-	return nStrFmtSpecCurrValMech.setCurrencyValDtoFromComponents(
+	return nStrFmtSpecCurrValMech.setFormatterCurrencyFromComponents(
 		nStrFmtSpecCurrValDto,
 		fmtSpecSetupDto.CurrencyPositiveValueFmt,
 		fmtSpecSetupDto.CurrencyNegativeValueFmt,

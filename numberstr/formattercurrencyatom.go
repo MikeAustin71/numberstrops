@@ -11,15 +11,15 @@ type formatterCurrencyAtom struct {
 
 // ptr - Returns a pointer to a new instance of
 // formatterCurrencyAtom.
-func (fmtCurrencyAtom formatterCurrencyAtom) ptr() *formatterCurrencyAtom {
+func (fmtCurrAtom formatterCurrencyAtom) ptr() *formatterCurrencyAtom {
 
-	if fmtCurrencyAtom.lock == nil {
-		fmtCurrencyAtom.lock = new(sync.Mutex)
+	if fmtCurrAtom.lock == nil {
+		fmtCurrAtom.lock = new(sync.Mutex)
 	}
 
-	fmtCurrencyAtom.lock.Lock()
+	fmtCurrAtom.lock.Lock()
 
-	defer fmtCurrencyAtom.lock.Unlock()
+	defer fmtCurrAtom.lock.Unlock()
 
 	currencyAtom := new(formatterCurrencyAtom)
 
@@ -33,19 +33,19 @@ func (fmtCurrencyAtom formatterCurrencyAtom) ptr() *formatterCurrencyAtom {
 // an error if the format string is invalid.
 //
 //
-func (fmtCurrencyAtom *formatterCurrencyAtom) testCurrencyPositiveValueFormat(
+func (fmtCurrAtom *formatterCurrencyAtom) testCurrencyPositiveValueFormat(
 	formatterCurrency *FormatterCurrency,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
-	if fmtCurrencyAtom.lock == nil {
-		fmtCurrencyAtom.lock = new(sync.Mutex)
+	if fmtCurrAtom.lock == nil {
+		fmtCurrAtom.lock = new(sync.Mutex)
 	}
 
-	fmtCurrencyAtom.lock.Lock()
+	fmtCurrAtom.lock.Lock()
 
-	defer fmtCurrencyAtom.lock.Unlock()
+	defer fmtCurrAtom.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -79,19 +79,19 @@ func (fmtCurrencyAtom *formatterCurrencyAtom) testCurrencyPositiveValueFormat(
 // an error if the format string is invalid.
 //
 //
-func (fmtCurrencyAtom *formatterCurrencyAtom) testCurrencyNegativeValueFormat(
+func (fmtCurrAtom *formatterCurrencyAtom) testCurrencyNegativeValueFormat(
 	formatterCurrency *FormatterCurrency,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
-	if fmtCurrencyAtom.lock == nil {
-		fmtCurrencyAtom.lock = new(sync.Mutex)
+	if fmtCurrAtom.lock == nil {
+		fmtCurrAtom.lock = new(sync.Mutex)
 	}
 
-	fmtCurrencyAtom.lock.Lock()
+	fmtCurrAtom.lock.Lock()
 
-	defer fmtCurrencyAtom.lock.Unlock()
+	defer fmtCurrAtom.lock.Unlock()
 
 	ePrefix.SetEPref("formatterCurrencyAtom.testCurrencyNegativeValueFormat()")
 

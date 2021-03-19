@@ -58,7 +58,7 @@ import (
 //         separator is the single comma character (','). Other
 //         countries and cultures use periods, spaces, apostrophes or
 //         multiple characters to separate integers.
-//               United States Example:  1,000,000,000
+//             United States Example:  1,000,000,000
 //
 //    intSeparatorGrouping       uint
 //       - This unsigned integer values specifies the number of
@@ -71,9 +71,11 @@ import (
 //         'thousands' like this: '1,000,000,000'. In this case the
 //         intSeparatorGrouping value would be set to three ('3').
 //
-//         In some countries and cultures other integer groupings are
-//         used. In India, for example, a number might be formatted
-//         like this: '6,78,90,00,00,00,00,000'.
+//         In some countries and cultures other integer groupings
+//         are used. In India, for example, a number might be
+//         formatted like this: '6,78,90,00,00,00,00,000'. Chinese
+//         Numerals have an integer grouping value of four ('4').
+//             Chinese Numerals Example: '12,3456,7890,2345'
 //
 //    intSeparatorRepetitions    uint
 //       - This unsigned integer value specifies the number of times
