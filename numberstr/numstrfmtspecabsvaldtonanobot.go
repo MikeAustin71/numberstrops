@@ -59,7 +59,7 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
 	}
 
 	nStrFmtSpecAbsValDtoMolecule :=
-		numStrFmtSpecAbsoluteValueDtoMolecule{}
+		formatterAbsoluteValueMolecule{}
 
 	_,
 		err = nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
@@ -136,7 +136,7 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyOut
 	}
 
 	nStrFmtSpecAbsValDtoMolecule :=
-		numStrFmtSpecAbsoluteValueDtoMolecule{}
+		formatterAbsoluteValueMolecule{}
 
 	_,
 		err = nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(

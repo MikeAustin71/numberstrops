@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecAbsoluteValueDtoMolecule struct {
+type formatterAbsoluteValueMolecule struct {
 	lock *sync.Mutex
 }
 
@@ -17,31 +17,33 @@ type numStrFmtSpecAbsoluteValueDtoMolecule struct {
 // error is returned and the return boolean parameter, 'isValid',
 // is set to 'false'.
 //
-func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) testValidityOfAbsoluteValDto(
-	nStrFmtSpecAbsoluteValDto *FormatterAbsoluteValue,
+func (fmtAbsValMolecule *formatterAbsoluteValueMolecule) testValidityOfAbsoluteValDto(
+	fmtAbsoluteVal *FormatterAbsoluteValue,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
-	if nStrFmtSpecAbsValDtoMolecule.lock == nil {
-		nStrFmtSpecAbsValDtoMolecule.lock = new(sync.Mutex)
+	if fmtAbsValMolecule.lock == nil {
+		fmtAbsValMolecule.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecAbsValDtoMolecule.lock.Lock()
+	fmtAbsValMolecule.lock.Lock()
 
-	defer nStrFmtSpecAbsValDtoMolecule.lock.Unlock()
+	defer fmtAbsValMolecule.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numStrFmtSpecAbsoluteValueDtoMolecule.testValidityOfAbsoluteValDto()")
+	ePrefix.SetEPref(
+		"formatterAbsoluteValueMolecule." +
+			"testValidityOfAbsoluteValDto()")
 
 	isValid = false
 
-	if nStrFmtSpecAbsoluteValDto == nil {
+	if fmtAbsoluteVal == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecAbsoluteValDto' is"+
+			"Error: Input parameter 'fmtAbsoluteVal' is"+
 			" a 'nil' pointer!\n",
 			ePrefix.String())
 
@@ -53,17 +55,17 @@ func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) testV
 
 	isValid,
 		err = nStrAbsValDtoAtom.testAbsoluteValueFormat(
-		nStrFmtSpecAbsoluteValDto,
-		ePrefix.XCtx("Validating nStrFmtSpecAbsoluteValDto Format"))
+		fmtAbsoluteVal,
+		ePrefix.XCtx("Validating fmtAbsoluteVal Format"))
 
 	if err != nil {
 		return isValid, err
 	}
 
 	err =
-		nStrFmtSpecAbsoluteValDto.numericSeparators.IsValidInstanceError(
+		fmtAbsoluteVal.numericSeparators.IsValidInstanceError(
 			ePrefix.XCtx(
-				"Validating nStrFmtSpecAbsoluteValDto Number Separators"))
+				"Validating fmtAbsoluteVal Number Separators"))
 
 	if err != nil {
 		isValid = false

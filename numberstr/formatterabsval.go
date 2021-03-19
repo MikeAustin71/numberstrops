@@ -545,7 +545,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstance() (
 	defer fmtAbsVal.lock.Unlock()
 
 	nStrFmtSpecAbsValDtoMolecule :=
-		numStrFmtSpecAbsoluteValueDtoMolecule{}
+		formatterAbsoluteValueMolecule{}
 
 	isValid,
 		_ = nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
@@ -607,7 +607,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstanceError(
 		"Testing Validity of 'fmtAbsVal'")
 
 	nStrFmtSpecAbsValDtoMolecule :=
-		numStrFmtSpecAbsoluteValueDtoMolecule{}
+		formatterAbsoluteValueMolecule{}
 
 	_,
 		err := nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
@@ -2230,7 +2230,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetToUnitedStatesDefaultsIfEmpty(
 			"SetToUnitedStatesDefaults()")
 
 	nStrFmtSpecAbsValDtoMolecule :=
-		numStrFmtSpecAbsoluteValueDtoMolecule{}
+		formatterAbsoluteValueMolecule{}
 
 	isValid,
 		_ := nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
