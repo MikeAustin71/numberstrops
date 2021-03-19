@@ -1674,10 +1674,10 @@ func (nStrFmtSpecCurrValDto FormatterCurrency) NewWithDefaults(
 		FormatterCurrency{}
 
 	nStrFmtSpecCurrValDtoUtil :=
-		numStrFmtSpecCurrencyValueDtoUtility{}
+		formatterCurrencyUtility{}
 
 	err :=
-		nStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults(
+		nStrFmtSpecCurrValDtoUtil.setFormatterCurrencyWithDefaults(
 			&newNStrFmtSpecCurrencyValDto,
 			decimalSeparatorChars,
 			thousandsSeparatorChars,
@@ -3102,7 +3102,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetToUnitedStatesDefaults(
 			"SetToUnitedStatesDefaults()")
 
 	currValDtoUtil :=
-		numStrFmtSpecCurrencyValueDtoUtility{}
+		formatterCurrencyUtility{}
 
 	err = currValDtoUtil.setToUnitedStatesDefaults(
 		nStrFmtSpecCurrValDto,
@@ -3202,7 +3202,7 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetToUnitedStatesDefaultsIfEmpty
 	}
 
 	currValDtoUtil :=
-		numStrFmtSpecCurrencyValueDtoUtility{}
+		formatterCurrencyUtility{}
 
 	err = currValDtoUtil.setToUnitedStatesDefaults(
 		nStrFmtSpecCurrValDto,
@@ -4146,9 +4146,9 @@ func (nStrFmtSpecCurrValDto *FormatterCurrency) SetWithDefaults(
 		"FormatterCurrency.SetWithDefaults()")
 
 	nStrFmtSpecCurrValDtoUtil :=
-		numStrFmtSpecCurrencyValueDtoUtility{}
+		formatterCurrencyUtility{}
 
-	return nStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults(
+	return nStrFmtSpecCurrValDtoUtil.setFormatterCurrencyWithDefaults(
 		nStrFmtSpecCurrValDto,
 		decimalSeparatorChars,
 		thousandsSeparatorChars,

@@ -5,11 +5,32 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecCurrencyValueDtoUtility struct {
+type formatterCurrencyUtility struct {
 	lock *sync.Mutex
 }
 
-// setCurrValDtoWithDefaults - Sets the data values for an
+// ptr - Returns a pointer to a new instance of
+// formatterCurrencyUtility.
+//
+func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
+
+	if fmtCurrUtil.lock == nil {
+		fmtCurrUtil.lock = new(sync.Mutex)
+	}
+
+	fmtCurrUtil.lock.Lock()
+
+	defer fmtCurrUtil.lock.Unlock()
+
+	newCurrencyUtility :=
+		new(formatterCurrencyUtility)
+
+	newCurrencyUtility.lock = new(sync.Mutex)
+
+	return newCurrencyUtility
+}
+
+// setFormatterCurrencyWithDefaults - Sets the data values for an
 // instance FormatterCurrency passed as an input
 // parameter.
 //
@@ -371,8 +392,8 @@ type numStrFmtSpecCurrencyValueDtoUtility struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrValDtoWithDefaults(
-	nStrFmtSpecCurrencyValDto *FormatterCurrency,
+func (fmtCurrUtil *formatterCurrencyUtility) setFormatterCurrencyWithDefaults(
+	formatterCurrency *FormatterCurrency,
 	decimalSeparatorChars []rune,
 	thousandsSeparatorChars []rune,
 	turnOnIntegerDigitsSeparation bool,
@@ -390,24 +411,26 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecCurrValDtoUtil.lock == nil {
-		nStrFmtSpecCurrValDtoUtil.lock = new(sync.Mutex)
+	if fmtCurrUtil.lock == nil {
+		fmtCurrUtil.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDtoUtil.lock.Lock()
+	fmtCurrUtil.lock.Lock()
 
-	defer nStrFmtSpecCurrValDtoUtil.lock.Unlock()
+	defer fmtCurrUtil.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("nStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults()")
+	ePrefix.SetEPref(
+		"formatterCurrencyUtility." +
+			"setFormatterCurrencyWithDefaults()")
 
-	if nStrFmtSpecCurrencyValDto == nil {
+	if formatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecCurrencyValDto' is invalid!\n"+
-			"'nStrFmtSpecCurrencyValDto' is a 'nil' pointer.\n",
+			"Error: Input parameter 'formatterCurrency' is invalid!\n"+
+			"'formatterCurrency' is a 'nil' pointer.\n",
 			ePrefix.String())
 		return err
 	}
@@ -441,24 +464,23 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 		return err
 	}
 
-	nStrFmtSpecCurrValMech :=
-		formatterCurrencyMechanics{}
-
-	err = nStrFmtSpecCurrValMech.setFormatterCurrencyFromComponents(
-		nStrFmtSpecCurrencyValDto,
-		positiveValueFmt,
-		negativeValueFmt,
-		decimalDigits,
-		currencyCode,
-		currencyCodeNo,
-		currencyName,
-		currencySymbols,
-		minorCurrencyName,
-		minorCurrencySymbols,
-		turnOnIntegerDigitsSeparation,
-		numericSeparators,
-		numFieldDto,
-		ePrefix)
+	err = formatterCurrencyMechanics{}.ptr().
+		setFormatterCurrencyFromComponents(
+			formatterCurrency,
+			positiveValueFmt,
+			negativeValueFmt,
+			decimalDigits,
+			currencyCode,
+			currencyCodeNo,
+			currencyName,
+			currencySymbols,
+			minorCurrencyName,
+			minorCurrencySymbols,
+			turnOnIntegerDigitsSeparation,
+			numericSeparators,
+			numFieldDto,
+			ePrefix.XCtx(
+				"formatterCurrency"))
 
 	return err
 }
@@ -519,29 +541,30 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setCurrVa
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setToUnitedStatesDefaults(
-	nStrFmtSpecCurrencyValDto *FormatterCurrency,
+func (fmtCurrUtil *formatterCurrencyUtility) setToUnitedStatesDefaults(
+	formatterCurrency *FormatterCurrency,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecCurrValDtoUtil.lock == nil {
-		nStrFmtSpecCurrValDtoUtil.lock = new(sync.Mutex)
+	if fmtCurrUtil.lock == nil {
+		fmtCurrUtil.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCurrValDtoUtil.lock.Lock()
+	fmtCurrUtil.lock.Lock()
 
-	defer nStrFmtSpecCurrValDtoUtil.lock.Unlock()
+	defer fmtCurrUtil.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("nStrFmtSpecCurrValDtoUtil.setCurrValDtoWithDefaults()")
+	ePrefix.SetEPref(
+		"formatterCurrencyUtility.setToUnitedStatesDefaults()")
 
-	if nStrFmtSpecCurrencyValDto == nil {
+	if formatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecCurrencyValDto' is invalid!\n"+
-			"'nStrFmtSpecCurrencyValDto' is a 'nil' pointer.\n",
+			"Error: Input parameter 'formatterCurrency' is invalid!\n"+
+			"'formatterCurrency' is a 'nil' pointer.\n",
 			ePrefix.String())
 		return err
 	}
@@ -575,24 +598,22 @@ func (nStrFmtSpecCurrValDtoUtil *numStrFmtSpecCurrencyValueDtoUtility) setToUnit
 		return err
 	}
 
-	nStrFmtSpecCurrValMech :=
-		formatterCurrencyMechanics{}
-
-	err = nStrFmtSpecCurrValMech.setFormatterCurrencyFromComponents(
-		nStrFmtSpecCurrencyValDto,
-		"$127.54",
-		"($127.54)",
-		2,
-		"USD",
-		"840",
-		"Dollar",
-		[]rune{'\U00000024'},
-		"Cent",
-		[]rune{'\U000000a2'},
-		true,
-		numericSeparators,
-		numFieldDto,
-		ePrefix)
+	err = formatterCurrencyMechanics{}.ptr().
+		setFormatterCurrencyFromComponents(
+			formatterCurrency,
+			"$127.54",
+			"($127.54)",
+			2,
+			"USD",
+			"840",
+			"Dollar",
+			[]rune{'\U00000024'},
+			"Cent",
+			[]rune{'\U000000a2'},
+			true,
+			numericSeparators,
+			numFieldDto,
+			ePrefix)
 
 	return err
 

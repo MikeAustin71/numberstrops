@@ -39,3 +39,24 @@ func (fmtCurrQuark *formatterCurrencyQuark) getValidCurrencyNegativeValFmtChars(
 
 	return []rune("(-) $127.54NUMFIELD")
 }
+
+// ptr - Returns a pointer to a new instance of
+// formatterCurrencyQuark.
+//
+func (fmtCurrQuark formatterCurrencyQuark) ptr() *formatterCurrencyQuark {
+
+	if fmtCurrQuark.lock == nil {
+		fmtCurrQuark.lock = new(sync.Mutex)
+	}
+
+	fmtCurrQuark.lock.Lock()
+
+	defer fmtCurrQuark.lock.Unlock()
+
+	newCurrencyQuark :=
+		new(formatterCurrencyQuark)
+
+	newCurrencyQuark.lock = new(sync.Mutex)
+
+	return newCurrencyQuark
+}
