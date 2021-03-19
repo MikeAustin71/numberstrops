@@ -13,7 +13,7 @@ type nStrFmtSpecSignedNumValUtility struct {
 // instance NumStrFmtSpecSignedNumValueDto passed as an input
 // parameter.
 //
-// The NumStrFmtSpecAbsoluteValueDto type encapsulates the
+// The FormatterAbsoluteValue type encapsulates the
 // formatting parameters necessary to format absolute numeric
 // values for display in text number strings.
 //

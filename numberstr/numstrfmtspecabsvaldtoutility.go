@@ -10,10 +10,10 @@ type numStrFmtSpecAbsoluteValueDtoUtility struct {
 }
 
 // setAbsValDtoWithDefaults() - Sets the data values for an
-// instance NumStrFmtSpecAbsoluteValueDto passed as an input
+// instance FormatterAbsoluteValue passed as an input
 // parameter.
 //
-// The NumStrFmtSpecAbsoluteValueDto type encapsulates the
+// The FormatterAbsoluteValue type encapsulates the
 // formatting parameters necessary to format absolute numeric
 // values for display in text number strings.
 //
@@ -22,8 +22,8 @@ type numStrFmtSpecAbsoluteValueDtoUtility struct {
 //
 // Input Parameters
 //
-//  nStrFmtSpecAbsValDto          *NumStrFmtSpecAbsoluteValueDto
-//     - A pointer to an instance of NumStrFmtSpecAbsoluteValueDto.
+//  nStrFmtSpecAbsValDto          *FormatterAbsoluteValue
+//     - A pointer to an instance of FormatterAbsoluteValue.
 //       All of the data values in this object will be overwritten
 //       set to new values based on the following input parameters.
 //
@@ -48,7 +48,7 @@ type numStrFmtSpecAbsoluteValueDtoUtility struct {
 //           United States Example: '1,000,000,000'
 //
 //       For custom integer digit grouping, use method
-//       NumStrFmtSpecAbsoluteValueDto.NewWithComponents().
+//       FormatterAbsoluteValue.NewWithComponents().
 //
 //
 //  turnOnThousandsSeparator      bool
@@ -173,7 +173,7 @@ type numStrFmtSpecAbsoluteValueDtoUtility struct {
 //       error message.
 //
 func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValDtoWithDefaults(
-	nStrFmtSpecAbsValDto *NumStrFmtSpecAbsoluteValueDto,
+	nStrFmtSpecAbsValDto *FormatterAbsoluteValue,
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
 	turnOnIntegerDigitsSeparation bool,
@@ -257,7 +257,7 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 }
 
 // setToUnitedStatesDefaults - Sets the member variable data
-// values for the incoming NumStrFmtSpecAbsoluteValueDto instance
+// values for the incoming FormatterAbsoluteValue instance
 // to United States Default values.
 //
 // In the United States, Absolute Value default formatting
@@ -273,8 +273,8 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 //
 // Input Parameters
 //
-//  nStrFmtSpecAbsValDto          *NumStrFmtSpecAbsoluteValueDto
-//     - A pointer to an instance of NumStrFmtSpecAbsoluteValueDto.
+//  nStrFmtSpecAbsValDto          *FormatterAbsoluteValue
+//     - A pointer to an instance of FormatterAbsoluteValue.
 //       All data values in this object will be overwritten and
 //       set to United States default values for absolute numeric
 //       values displayed in number strings.
@@ -305,7 +305,7 @@ func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setAbsValD
 //       error message.
 //
 func (nStrFmtSpecAbsValDtoUtil *numStrFmtSpecAbsoluteValueDtoUtility) setToUnitedStatesDefaults(
-	nStrFmtSpecAbsValDto *NumStrFmtSpecAbsoluteValueDto,
+	nStrFmtSpecAbsValDto *FormatterAbsoluteValue,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 

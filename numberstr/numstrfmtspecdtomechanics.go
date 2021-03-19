@@ -254,8 +254,8 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 //       will be returned.
 //
 //
-//  absoluteValue                 NumStrFmtSpecAbsoluteValueDto
-//     - A valid and fully populated NumStrFmtSpecAbsoluteValueDto
+//  absoluteValue                 FormatterAbsoluteValue
+//     - A valid and fully populated FormatterAbsoluteValue
 //       object. This object contains formatting specifications
 //       controlling the text display of absolute numeric values.
 //
@@ -321,7 +321,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
 	description string,
 	tag string,
 	countryCulture NumStrFmtSpecCountryDto,
-	absoluteValue NumStrFmtSpecAbsoluteValueDto,
+	absoluteValue FormatterAbsoluteValue,
 	currencyValue FormatterCurrency,
 	signedNumValue NumStrFmtSpecSignedNumValueDto,
 	sciNotation NumStrFmtSpecSciNotationDto,

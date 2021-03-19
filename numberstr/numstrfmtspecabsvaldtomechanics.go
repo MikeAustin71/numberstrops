@@ -11,15 +11,15 @@ type numStrFmtSpecAbsoluteValueDtoMechanics struct {
 
 // setAbsValDtoWithComponents - Sets the data value for incoming parameter
 // 'nStrFmtSpecAbValDto', an instance of
-// NumStrFmtSpecAbsoluteValueDto.
+// FormatterAbsoluteValue.
 //
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  nStrFmtSpecAbValDto           *NumStrFmtSpecAbsoluteValueDto
-//     - A pointer to a NumStrFmtSpecAbsoluteValueDto object. All
+//  nStrFmtSpecAbValDto           *FormatterAbsoluteValue
+//     - A pointer to a FormatterAbsoluteValue object. All
 //       of the data fields in this object will overwritten and set
 //       to new values based on the following input parameters.
 //
@@ -190,7 +190,7 @@ type numStrFmtSpecAbsoluteValueDtoMechanics struct {
 //       error message.
 //
 func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsValDtoWithComponents(
-	nStrFmtSpecAbValDto *NumStrFmtSpecAbsoluteValueDto,
+	nStrFmtSpecAbValDto *FormatterAbsoluteValue,
 	absoluteValueFormat string,
 	turnOnIntegerDigitsSeparation bool,
 	numberSeparatorsDto NumericSeparators,
@@ -239,7 +239,7 @@ func (nStrFmtSpecAbsValDtoMech *numStrFmtSpecAbsoluteValueDtoMechanics) setAbsVa
 	}
 
 	newNStrFmtSpecAbsValDto :=
-		NumStrFmtSpecAbsoluteValueDto{}
+		FormatterAbsoluteValue{}
 
 	newNStrFmtSpecAbsValDto.lock =
 		new(sync.Mutex)

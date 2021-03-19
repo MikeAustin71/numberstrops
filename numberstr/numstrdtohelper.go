@@ -37,7 +37,7 @@ type numStrDtoHelper struct {
 //         description    string
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
-//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
@@ -363,7 +363,7 @@ func (nStrDtoHelper *numStrDtoHelper) multiplyNumStrs(
 //         description    string
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
-//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto
@@ -569,7 +569,7 @@ func (nStrDtoHelper *numStrDtoHelper) signValuesAreEqualAddNumStrs(
 //         description    string
 //         tag            string
 //         countryCulture NumStrFmtSpecCountryDto
-//         absoluteValue  NumStrFmtSpecAbsoluteValueDto
+//         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue NumStrFmtSpecSignedNumValueDto
 //         sciNotation    NumStrFmtSpecSciNotationDto

@@ -10,7 +10,7 @@ type numStrFmtSpecAbsoluteValueDtoMolecule struct {
 }
 
 // testValidityOfAbsoluteValDto - Receives an instance of
-// NumStrFmtSpecAbsoluteValueDto and proceeds to test the
+// FormatterAbsoluteValue and proceeds to test the
 // validity of the member data fields.
 //
 // If one or more data elements are found to be invalid, an
@@ -18,7 +18,7 @@ type numStrFmtSpecAbsoluteValueDtoMolecule struct {
 // is set to 'false'.
 //
 func (nStrFmtSpecAbsValDtoMolecule *numStrFmtSpecAbsoluteValueDtoMolecule) testValidityOfAbsoluteValDto(
-	nStrFmtSpecAbsoluteValDto *NumStrFmtSpecAbsoluteValueDto,
+	nStrFmtSpecAbsoluteValDto *FormatterAbsoluteValue,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {

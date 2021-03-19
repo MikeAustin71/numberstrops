@@ -5,7 +5,8 @@ import (
 	"sync"
 )
 
-type NumStrFmtSpecAbsoluteValueDto struct {
+type FormatterAbsoluteValue struct {
+	numStrFmtType                 NumStrFormatTypeCode
 	absoluteValFmt                string
 	turnOnIntegerDigitsSeparation bool
 	numericSeparators             NumericSeparators
@@ -14,27 +15,27 @@ type NumStrFmtSpecAbsoluteValueDto struct {
 }
 
 // CopyIn - Copies the data fields from an incoming instance of
-// NumStrFmtSpecAbsoluteValueDto ('inComingNStrFmtAbsValDto') to
-// the data fields of the current NumStrFmtSpecAbsoluteValueDto
+// FormatterAbsoluteValue ('inComingNStrFmtAbsValDto') to
+// the data fields of the current FormatterAbsoluteValue
 // instance.
 //
 // If 'inComingNStrFmtAbsValDto' is judged to be invalid, this
 // method will return an error.
 //
 // Be advised, all of the data fields in the current
-// NumStrFmtSpecAbsoluteValueDto instance will be overwritten.
+// FormatterAbsoluteValue instance will be overwritten.
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  inComingNStrFmtAbsValDto   *NumStrFmtSpecAbsoluteValueDto
-//     - A pointer to an instance of NumStrFmtSpecAbsoluteValueDto.
+//  incomingFormatterAbsVal    *FormatterAbsoluteValue
+//     - A pointer to an instance of FormatterAbsoluteValue.
 //       The data values in this object will be copied to the
-//       current NumStrFmtSpecAbsoluteValueDto instance.
+//       current FormatterAbsoluteValue instance.
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                    *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -58,38 +59,38 @@ type NumStrFmtSpecAbsoluteValueDto struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyIn(
-	inComingNStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto,
+func (fmtAbsVal *FormatterAbsoluteValue) CopyIn(
+	incomingFormatterAbsVal *FormatterAbsoluteValue,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecAbsoluteValueDto.CopyIn()")
+		"FormatterAbsoluteValue.CopyIn()")
 
 	nStrFmtSpecAbsValDtoNanobot :=
 		numStrFmtSpecAbsoluteValueDtoNanobot{}
 
 	return nStrFmtSpecAbsValDtoNanobot.copyIn(
-		nStrFmtAbsValDto,
-		inComingNStrFmtAbsValDto,
-		ePrefix.XCtx("inComingNStrFmtAbsValDto -> nStrFmtAbsValDto"))
+		fmtAbsVal,
+		incomingFormatterAbsVal,
+		ePrefix.XCtx("incomingFormatterAbsVal -> fmtAbsVal"))
 }
 
 // CopyOut - Returns a deep copy of the current
-// NumStrFmtSpecAbsoluteValueDto instance.
+// FormatterAbsoluteValue instance.
 //
-// If the current NumStrFmtSpecAbsoluteValueDto instance is judged
+// If the current FormatterAbsoluteValue instance is judged
 // to be invalid, this method will return an error.
 //
 //
@@ -110,11 +111,11 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyIn(
 //
 // Return Values
 //
-//  NumStrFmtSpecAbsoluteValueDto
+//  FormatterAbsoluteValue
 //     - If this method completes successfully, a new instance of
-//       NumStrFmtSpecAbsoluteValueDto will be created and returned
+//       FormatterAbsoluteValue will be created and returned
 //       containing all of the data values copied from the current
-//       instance of NumStrFmtSpecAbsoluteValueDto.
+//       instance of FormatterAbsoluteValue.
 //
 //
 //  error
@@ -128,50 +129,50 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyIn(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) CopyOut(
-	ePrefix *ErrPrefixDto) (NumStrFmtSpecAbsoluteValueDto, error) {
+func (fmtAbsVal *FormatterAbsoluteValue) CopyOut(
+	ePrefix *ErrPrefixDto) (FormatterAbsoluteValue, error) {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecAbsoluteValueDto.CopyOut()")
+		"FormatterAbsoluteValue.CopyOut()")
 
 	nStrFmtSpecAbsValDtoNanobot :=
 		numStrFmtSpecAbsoluteValueDtoNanobot{}
 
 	return nStrFmtSpecAbsValDtoNanobot.copyOut(
-		nStrFmtAbsValDto,
+		fmtAbsVal,
 		ePrefix.XCtx(
-			"Copy -> 'nStrFmtAbsValDto'"))
+			"Copy -> 'fmtAbsVal'"))
 }
 
 // GetAbsoluteValueFormat - Returns the formatting string used to
 // format absolute numeric values in text number strings.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetAbsoluteValueFormat() string {
+func (fmtAbsVal *FormatterAbsoluteValue) GetAbsoluteValueFormat() string {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
-	return nStrFmtAbsValDto.absoluteValFmt
+	return fmtAbsVal.absoluteValFmt
 }
 
-// GetDecimalSeparator - Returns the unicode character(s) (runes)
+// GetDecimalSeparators - Returns the unicode character(s) (runes)
 // used to separate integer and fractional digits in a floating
 // point number.
 //
@@ -183,17 +184,17 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetAbsoluteValueFormat() 
 // Decimal Separator is extracted from the underlying member
 // variable, 'nStrFmtAbsValDto.numericSeparators'.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetDecimalSeparator() []rune {
+func (fmtAbsVal *FormatterAbsoluteValue) GetDecimalSeparators() []rune {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
-	return nStrFmtAbsValDto.
+	return fmtAbsVal.
 		numericSeparators.
 		GetDecimalSeparators()
 }
@@ -203,7 +204,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetDecimalSeparator() []r
 // NumStrIntSeparator is used to separate integer digits.
 //
 // The returned integer digit separators are those configured
-// for the current instance of NumStrFmtSpecAbsoluteValueDto.
+// for the current instance of FormatterAbsoluteValue.
 //
 // The integer digit separators is also known as the 'thousands'
 // separator. In the United States the standard integer digit
@@ -295,32 +296,32 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetDecimalSeparator() []r
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetIntegerDigitSeparators(
+func (fmtAbsVal *FormatterAbsoluteValue) GetIntegerDigitSeparators(
 	ePrefix *ErrPrefixDto) (
 	NumStrIntSeparatorsDto,
 	error) {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecAbsoluteValueDto." +
+		"FormatterAbsoluteValue." +
 			"GetIntegerDigitSeparators() ")
 
-	return nStrFmtAbsValDto.
+	return fmtAbsVal.
 		numericSeparators.
 		GetIntegerDigitSeparators(
 			ePrefix.XCtx(
-				"nStrFmtAbsValDto.numericSeparators"))
+				"fmtAbsVal.numericSeparators"))
 }
 
 // GetNumberFieldLengthDto - Returns the NumberFieldDto object
@@ -356,7 +357,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetIntegerDigitSeparators
 //       NumberFieldDto will be created and returned containing all
 //       of the data values copied from the Number Field values
 //       used to configure the current instance of
-//       NumStrFmtSpecAbsoluteValueDto.
+//       FormatterAbsoluteValue.
 //
 //  error
 //     - If this method completes successfully, the returned error
@@ -372,28 +373,30 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetIntegerDigitSeparators
 //       Be advised - If the NumberFieldDto object is judged to be
 //       invalid, this method will return an error.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto(
+func (fmtAbsVal *FormatterAbsoluteValue) GetNumberFieldLengthDto(
 	ePrefix *ErrPrefixDto) (
 	NumberFieldDto,
 	error) {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecAbsoluteValueDto.GetNumberFieldLengthDto()")
+	ePrefix.SetEPref(
+		"FormatterAbsoluteValue." +
+			"GetNumberFieldLengthDto()")
 
-	return nStrFmtAbsValDto.numFieldLenDto.CopyOut(
+	return fmtAbsVal.numFieldLenDto.CopyOut(
 		ePrefix.XCtx(
-			"nStrFmtAbsValDto.numFieldLenDto->"))
+			"fmtAbsVal.numFieldLenDto->"))
 }
 
 // GetNumericSeparators - Returns a deep copy of the
@@ -412,9 +415,9 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto(
 //
 // The returned NumericSeparators object represents the Numeric
 // Separator values used to configure the current instance of
-// NumStrFmtSpecAbsoluteValueDto.
+// FormatterAbsoluteValue.
 //
-// If the NumStrFmtSpecAbsoluteValueDto or NumericSeparators object
+// If the FormatterAbsoluteValue or NumericSeparators object
 // is judged to be invalid, this method will return an error.
 //
 //
@@ -440,7 +443,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto(
 //       NumericSeparators will be returned through this
 //       parameter. This object is a deep copy of the Numeric
 //       Separator information used to configure the current
-//       instance of NumStrFmtSpecAbsoluteValueDto.
+//       instance of FormatterAbsoluteValue.
 //
 //
 //  error
@@ -454,32 +457,32 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumberFieldLengthDto(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-//       If the NumStrFmtSpecAbsoluteValueDto or NumericSeparators
+//       If the FormatterAbsoluteValue or NumericSeparators
 //       object is judged to be invalid, this method will return
 //       an error.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumericSeparators(
+func (fmtAbsVal *FormatterAbsoluteValue) GetNumericSeparators(
 	ePrefix *ErrPrefixDto) (
 	NumericSeparators,
 	error) {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecAbsoluteValueDto.GetNumericSeparators()")
+		"FormatterAbsoluteValue.GetNumericSeparators()")
 
-	return nStrFmtAbsValDto.numericSeparators.CopyOut(
-		ePrefix.XCtx("nStrFmtAbsValDto.numericSeparators->"))
+	return fmtAbsVal.numericSeparators.CopyOut(
+		ePrefix.XCtx("fmtAbsVal.numericSeparators->"))
 }
 
 // GetTurnOnIntegerDigitsSeparationFlag - Returns the boolean flag
@@ -495,21 +498,21 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetNumericSeparators(
 // in text number strings as shown in the following example.
 //  Example: 1000000000000
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetTurnOnIntegerDigitsSeparationFlag() bool {
+func (fmtAbsVal *FormatterAbsoluteValue) GetTurnOnIntegerDigitsSeparationFlag() bool {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
-	return nStrFmtAbsValDto.turnOnIntegerDigitsSeparation
+	return fmtAbsVal.turnOnIntegerDigitsSeparation
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
-// NumStrFmtSpecAbsoluteValueDto instance to determine whether
+// FormatterAbsoluteValue instance to determine whether
 // the current instance is valid in all respects.
 //
 //
@@ -526,35 +529,35 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) GetTurnOnIntegerDigitsSep
 //
 //  isValid             bool
 //     - If this method completes successfully, the returned boolean
-//       value will signal whether the current NumStrFmtSpecAbsoluteValueDto
-//       is valid, or not. If the current NumStrFmtSpecAbsoluteValueDto
+//       value will signal whether the current FormatterAbsoluteValue
+//       is valid, or not. If the current FormatterAbsoluteValue
 //       contains valid data, this method returns 'true'. If the data is
 //       invalid, this method returns 'false'.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstance() (
+func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstance() (
 	isValid bool) {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	nStrFmtSpecAbsValDtoMolecule :=
 		numStrFmtSpecAbsoluteValueDtoMolecule{}
 
 	isValid,
 		_ = nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
-		nStrFmtAbsValDto,
+		fmtAbsVal,
 		ErrPrefixDto{}.Ptr())
 
 	return isValid
 }
 
 // IsValidInstanceError - Performs a diagnostic review of the current
-// NumStrFmtSpecAbsoluteValueDto instance to determine whether the
+// FormatterAbsoluteValue instance to determine whether the
 // current instance is valid in all respects.
 //
 //
@@ -586,49 +589,49 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstance() (
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
+func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstanceError(
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPrefCtx("NumStrFmtSpecAbsoluteValueDto.IsValidInstanceError()",
-		"Testing Validity of 'nStrFmtAbsValDto'")
+	ePrefix.SetEPrefCtx("FormatterAbsoluteValue.IsValidInstanceError()",
+		"Testing Validity of 'fmtAbsVal'")
 
 	nStrFmtSpecAbsValDtoMolecule :=
 		numStrFmtSpecAbsoluteValueDtoMolecule{}
 
 	_,
 		err := nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
-		nStrFmtAbsValDto,
+		fmtAbsVal,
 		ePrefix)
 
 	return err
 }
 
 // NewWithComponents - Creates and returns a new instance of
-// NumStrFmtSpecAbsoluteValueDto.
+// FormatterAbsoluteValue.
 //
-// The NumStrFmtSpecAbsoluteValueDto type encapsulates the
+// The FormatterAbsoluteValue type encapsulates the
 // configuration parameters necessary to format absolute numeric
 // values for display in text number strings.
 //
 // This method requires detailed input parameters which provide
 // granular control over all data fields contained in the returned
-// new instance of NumStrFmtSpecAbsoluteValueDto.
+// new instance of FormatterAbsoluteValue.
 //
 // For a 'New' method using minimum input parameters coupled
 // with default values, see:
-//      NumStrFmtSpecAbsoluteValueDto.NewWithDefaults()
+//      FormatterAbsoluteValue.NewWithDefaults()
 //
 //
 // ----------------------------------------------------------------
@@ -821,10 +824,10 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 //
 // Return Values
 //
-//  NumStrFmtSpecAbsoluteValueDto
+//  FormatterAbsoluteValue
 //     - If this method completes successfully, this parameter will
 //       return a new, populated instance of
-//       NumStrFmtSpecAbsoluteValueDto.
+//       FormatterAbsoluteValue.
 //
 //
 //  error
@@ -836,32 +839,32 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) IsValidInstanceError(
 //       The 'ePrefix' text will be prefixed to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithComponents(
+func (fmtAbsVal FormatterAbsoluteValue) NewWithComponents(
 	absoluteValFmt string,
 	turnOnIntegerDigitsSeparation bool,
 	numericSeparators NumericSeparators,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecAbsoluteValueDto,
+	FormatterAbsoluteValue,
 	error) {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecAbsoluteValueDto." +
+		"FormatterAbsoluteValue." +
 			"NewWithComponents()")
 
-	newNumStrFmtSpecAbsValueDto := NumStrFmtSpecAbsoluteValueDto{}
+	newNumStrFmtSpecAbsValueDto := FormatterAbsoluteValue{}
 
 	newNumStrFmtSpecAbsValueDto.lock = new(sync.Mutex)
 
@@ -882,15 +885,15 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithComponents(
 }
 
 // NewWithDefaults - Creates and returns a new instance of
-// NumStrFmtSpecAbsoluteValueDto. This method specifies the minimum
+// FormatterAbsoluteValue. This method specifies the minimum
 // number of input parameters required to construct a new instance
-// of NumStrFmtSpecAbsoluteValueDto. Default values are used to
+// of FormatterAbsoluteValue. Default values are used to
 // supplement these input parameters.
 //
 // To exercise granular control over all parameters needed to
-// construct an instance of NumStrFmtSpecAbsoluteValueDto,
+// construct an instance of FormatterAbsoluteValue,
 // reference method:
-//   'NumStrFmtSpecAbsoluteValueDto.NewWithComponents()'
+//   'FormatterAbsoluteValue.NewWithComponents()'
 //
 // This method automatically sets a default integer digits
 // grouping sequence of '3'. This means that integers will
@@ -899,9 +902,9 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithComponents(
 //     Example: '1,000,000,000'
 //
 // To control and specify alternative integer digit groupings, use
-// method 'NumStrFmtSpecAbsoluteValueDto.NewWithComponents()'.
+// method 'FormatterAbsoluteValue.NewWithComponents()'.
 //
-// The NumStrFmtSpecAbsoluteValueDto type encapsulates the
+// The FormatterAbsoluteValue type encapsulates the
 // formatting parameters necessary to format absolute numeric
 // values for display in text number strings.
 //
@@ -930,7 +933,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithComponents(
 //           United States Example: '1,000,000,000'
 //
 //       For custom integer digit grouping, use method
-//       NumStrFmtSpecAbsoluteValueDto.NewWithComponents().
+//       FormatterAbsoluteValue.NewWithComponents().
 //
 //
 //  turnOnThousandsSeparator   bool
@@ -1046,9 +1049,9 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithComponents(
 //
 // Return Values
 //
-//  NumStrFmtSpecAbsoluteValueDto
+//  FormatterAbsoluteValue
 //     - If this method completes successfully, this parameter will
-//       return a new, populated instance of NumStrFmtSpecAbsoluteValueDto.
+//       return a new, populated instance of FormatterAbsoluteValue.
 //
 //
 //  error
@@ -1062,7 +1065,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
+func (fmtAbsVal FormatterAbsoluteValue) NewWithDefaults(
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
 	turnOnThousandsSeparator bool,
@@ -1070,27 +1073,27 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecAbsoluteValueDto,
+	FormatterAbsoluteValue,
 	error) {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecAbsoluteValueDto." +
+		"FormatterAbsoluteValue." +
 			"NewBasic()")
 
 	newNumStrFmtSpecAbsValueDto :=
-		NumStrFmtSpecAbsoluteValueDto{}
+		FormatterAbsoluteValue{}
 
 	newNumStrFmtSpecAbsValueDto.lock = new(sync.Mutex)
 
@@ -1112,7 +1115,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 }
 
 // NewWithFmtSpecSetupDto - Creates and returns a new
-// NumStrFmtSpecAbsoluteValueDto instance based on input received
+// FormatterAbsoluteValue instance based on input received
 // from an instance of NumStrFmtSpecSetupDto.
 //
 //
@@ -1122,7 +1125,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 //
 //  fmtSpecSetupDto     NumStrFmtSpecSetupDto
 //     - A data structure conveying setup information for a
-//       NumStrFmtSpecAbsoluteValueDto object. Only the following
+//       FormatterAbsoluteValue object. Only the following
 //       data fields with a prefix of "AbsoluteVal" are used.
 //
 //       type NumStrFmtSpecSetupDto struct {
@@ -1184,9 +1187,9 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 //
 // Return Values
 //
-//  NumStrFmtSpecAbsoluteValueDto
+//  FormatterAbsoluteValue
 //     - If this method completes successfully, a new instance of
-//       NumStrFmtSpecAbsoluteValueDto will be returned to the
+//       FormatterAbsoluteValue will be returned to the
 //       caller.
 //
 //  error
@@ -1200,19 +1203,19 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithDefaults(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithFmtSpecSetupDto(
+func (fmtAbsVal FormatterAbsoluteValue) NewWithFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecAbsoluteValueDto,
+	FormatterAbsoluteValue,
 	error) {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -1223,7 +1226,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithFmtSpecSetupDto(
 			"NewWithFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
-		return NumStrFmtSpecAbsoluteValueDto{},
+		return FormatterAbsoluteValue{},
 			fmt.Errorf("%v\n"+
 				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
 				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
@@ -1238,7 +1241,7 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithFmtSpecSetupDto(
 
 	defer fmtSpecSetupDto.Lock.Unlock()
 
-	newNumStrFmtSpecAbsValueDto := NumStrFmtSpecAbsoluteValueDto{}
+	newNumStrFmtSpecAbsValueDto := FormatterAbsoluteValue{}
 
 	newNumStrFmtSpecAbsValueDto.lock = new(sync.Mutex)
 
@@ -1335,25 +1338,25 @@ func (nStrFmtAbsValDto NumStrFmtSpecAbsoluteValueDto) NewWithFmtSpecSetupDto(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
+func (fmtAbsVal *FormatterAbsoluteValue) SetAbsoluteValueFormat(
 	absoluteValueFormatStr string,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecAbsoluteValueDto.SetAbsoluteValueFormat()")
+		"FormatterAbsoluteValue.SetAbsoluteValueFormat()")
 
 	nStrAbsValDtoElectron :=
 		numStrFmtSpecAbsoluteValueDtoElectron{}
@@ -1368,13 +1371,13 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 		return err
 	}
 
-	nStrFmtAbsValDto.absoluteValFmt = absoluteValueFormatStr
+	fmtAbsVal.absoluteValFmt = absoluteValueFormatStr
 
 	return err
 }
 
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object
-// for the current NumStrFmtSpecAbsoluteValueDto instance.
+// for the current FormatterAbsoluteValue instance.
 //
 // The Number Separators Dto object is used to specify the Decimal
 // Separators Character and the Integer Digits Separator Characters.
@@ -1419,32 +1422,32 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetAbsoluteValueFormat(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberFieldLengthDto(
+func (fmtAbsVal *FormatterAbsoluteValue) SetNumberFieldLengthDto(
 	numberFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecAbsoluteValueDto.SetNumberFieldLengthDto()")
+		"FormatterAbsoluteValue.SetNumberFieldLengthDto()")
 
-	return nStrFmtAbsValDto.numFieldLenDto.CopyIn(
+	return fmtAbsVal.numFieldLenDto.CopyIn(
 		&numberFieldLenDto,
 		ePrefix)
 }
 
 // SetNumberSeparatorsDto - Sets the Number Separators Dto object
-// for the current NumStrFmtSpecAbsoluteValueDto instance.
+// for the current FormatterAbsoluteValue instance.
 //
 // The Number Separators Dto object is used to specify the Decimal
 // Separators Character and the Integer Digits Separator Characters.
@@ -1514,33 +1517,33 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberFieldLengthDto(
 //
 //  --- NONE ---
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberSeparatorsDto(
+func (fmtAbsVal *FormatterAbsoluteValue) SetNumberSeparatorsDto(
 	numberSeparatorsDto NumericSeparators,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecAbsoluteValueDto." +
+		"FormatterAbsoluteValue." +
 			"SetNumberSeparatorsDto()")
 
-	return nStrFmtAbsValDto.numericSeparators.CopyIn(
+	return fmtAbsVal.numericSeparators.CopyIn(
 		&numberSeparatorsDto,
 		ePrefix)
 }
 
 // SetToUnitedStatesDefaults - Sets the member variable data
-// values for the current NumStrFmtSpecAbsoluteValueDto instance
+// values for the current FormatterAbsoluteValue instance
 // to United States Default values.
 //
 // In the United States, Absolute Value default formatting
@@ -1554,7 +1557,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberSeparatorsDto(
 // IMPORTANT
 //
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecAbsoluteValueDto instance.
+// current FormatterAbsoluteValue instance.
 //
 //
 // ----------------------------------------------------------------
@@ -1585,41 +1588,41 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetNumberSeparatorsDto(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetToUnitedStatesDefaults(
+func (fmtAbsVal *FormatterAbsoluteValue) SetToUnitedStatesDefaults(
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecAbsoluteValueDto." +
+		"FormatterAbsoluteValue." +
 			"SetToUnitedStatesDefaults()")
 
 	absValUtil := numStrFmtSpecAbsoluteValueDtoUtility{}
 
 	err = absValUtil.setToUnitedStatesDefaults(
-		nStrFmtAbsValDto,
-		ePrefix.XCtx("nStrFmtAbsValDto"))
+		fmtAbsVal,
+		ePrefix.XCtx("fmtAbsVal"))
 
 	return err
 }
 
 // SetToUnitedStatesDefaultsIfEmpty - If the current
-// NumStrFmtSpecAbsoluteValueDto instance is empty or invalid,
+// FormatterAbsoluteValue instance is empty or invalid,
 // this method will set the member variable data values to United
 // States default values.
 //
-// If the current NumStrFmtSpecAbsoluteValueDto instance is valid
+// If the current FormatterAbsoluteValue instance is valid
 // and NOT empty, this method will take no action and exit.
 //
 // In the United States, Absolute Value default formatting
@@ -1633,7 +1636,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetToUnitedStatesDefaults
 // IMPORTANT
 //
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecAbsoluteValueDto instance.
+// current FormatterAbsoluteValue instance.
 //
 //
 // ----------------------------------------------------------------
@@ -1664,24 +1667,24 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetToUnitedStatesDefaults
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetToUnitedStatesDefaultsIfEmpty(
+func (fmtAbsVal *FormatterAbsoluteValue) SetToUnitedStatesDefaultsIfEmpty(
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecAbsoluteValueDto." +
+		"FormatterAbsoluteValue." +
 			"SetToUnitedStatesDefaults()")
 
 	nStrFmtSpecAbsValDtoMolecule :=
@@ -1689,7 +1692,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetToUnitedStatesDefaults
 
 	isValid,
 		_ := nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
-		nStrFmtAbsValDto,
+		fmtAbsVal,
 		ErrPrefixDto{}.Ptr())
 
 	absValUtil := numStrFmtSpecAbsoluteValueDtoUtility{}
@@ -1699,15 +1702,15 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetToUnitedStatesDefaults
 	}
 
 	err = absValUtil.setToUnitedStatesDefaults(
-		nStrFmtAbsValDto,
-		ePrefix.XCtx("nStrFmtAbsValDto"))
+		fmtAbsVal,
+		ePrefix.XCtx("fmtAbsVal"))
 
 	return err
 }
 
 // SetTurnOnIntegerDigitsSeparationFlag - Sets the
 // 'turnOnIntegerDigitsSeparation' flag for the current instance of
-// NumStrFmtSpecAbsoluteValueDto.
+// FormatterAbsoluteValue.
 //
 // This boolean flag signals whether integer digits within a number
 // string will be grouped by thousands and separated by an integer
@@ -1751,32 +1754,32 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetToUnitedStatesDefaults
 //
 //  --- NONE ---
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetTurnOnIntegerDigitsSeparationFlag(
+func (fmtAbsVal *FormatterAbsoluteValue) SetTurnOnIntegerDigitsSeparationFlag(
 	turnOnIntegerDigitsSeparation bool) {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
-	nStrFmtAbsValDto.turnOnIntegerDigitsSeparation =
+	fmtAbsVal.turnOnIntegerDigitsSeparation =
 		turnOnIntegerDigitsSeparation
 }
 
 // SetWithComponents - This method will set all of the member
 // variable data values for the current instance of
-// NumStrFmtSpecAbsoluteValueDto.
+// FormatterAbsoluteValue.
 //
-// The NumStrFmtSpecAbsoluteValueDto type encapsulates the
+// The FormatterAbsoluteValue type encapsulates the
 // configuration parameters necessary to format absolute numeric
 // values for display in text number strings.
 //
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecAbsoluteValueDto instance.
+// current FormatterAbsoluteValue instance.
 //
 //
 // ----------------------------------------------------------------
@@ -1977,53 +1980,53 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetTurnOnIntegerDigitsSep
 //       The 'ePrefix' text will be prefixed to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithComponents(
+func (fmtAbsVal *FormatterAbsoluteValue) SetWithComponents(
 	absoluteValFmt string,
 	turnOnIntegerDigitsSeparation bool,
 	numericSeparators NumericSeparators,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecAbsoluteValueDto." +
+		"FormatterAbsoluteValue." +
 			"SetWithComponents()")
 
 	nStrFmtSpecAbsValDtoMech :=
 		numStrFmtSpecAbsoluteValueDtoMechanics{}
 
 	return nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
-		nStrFmtAbsValDto,
+		fmtAbsVal,
 		absoluteValFmt,
 		turnOnIntegerDigitsSeparation,
 		numericSeparators,
 		numFieldDto,
 		ePrefix.XCtx(
-			"Setting 'nStrFmtAbsValDto'"))
+			"Setting 'fmtAbsVal'"))
 }
 
 // SetWithDefaults - This method will set all of the member
 // variable data values for the current instance of
-// NumStrFmtSpecAbsoluteValueDto. The input parameters
+// FormatterAbsoluteValue. The input parameters
 // represent the minimum information required to configure
-// the data values for a NumStrFmtSpecAbsoluteValueDto object.
+// the data values for a FormatterAbsoluteValue object.
 // Default values are used to supplement these input parameters.
 //
 // To exercise granular control over all parameters needed to
-// construct an instance of NumStrFmtSpecAbsoluteValueDto,
+// construct an instance of FormatterAbsoluteValue,
 // reference method:
-//   'NumStrFmtSpecAbsoluteValueDto.SetWithComponents()'
+//   'FormatterAbsoluteValue.SetWithComponents()'
 //
 // This method automatically sets a default integer digits grouping
 // sequence of '3'. This means that integers will be grouped by
@@ -2033,7 +2036,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithComponents(
 //
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecAbsoluteValueDto instance.
+// current FormatterAbsoluteValue instance.
 //
 //
 // ----------------------------------------------------------------
@@ -2060,7 +2063,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithComponents(
 //           United States Example: '1,000,000,000'
 //
 //       For custom integer digit grouping, use method
-//       NumStrFmtSpecAbsoluteValueDto.SetWithComponents().
+//       FormatterAbsoluteValue.SetWithComponents().
 //
 //
 //  turnOnThousandsSeparator      bool
@@ -2135,7 +2138,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithComponents(
 //           United States Example: '1,000,000,000'
 //
 //       For custom integer digit grouping, use method
-//       NumStrFmtSpecAbsoluteValueDto.NewWithComponents().
+//       FormatterAbsoluteValue.NewWithComponents().
 //
 //
 //  requestedNumberFieldLen       int
@@ -2199,7 +2202,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
+func (fmtAbsVal *FormatterAbsoluteValue) SetWithDefaults(
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
 	turnOnThousandsSeparator bool,
@@ -2208,27 +2211,27 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecAbsoluteValueDto." +
+		"FormatterAbsoluteValue." +
 			"SetBasicRunes()")
 
 	nStrFmtSpecAbsValDtoUtil :=
 		numStrFmtSpecAbsoluteValueDtoUtility{}
 
 	return nStrFmtSpecAbsValDtoUtil.setAbsValDtoWithDefaults(
-		nStrFmtAbsValDto,
+		fmtAbsVal,
 		decimalSeparatorChar,
 		thousandsSeparatorChar,
 		turnOnThousandsSeparator,
@@ -2239,12 +2242,12 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
 }
 
 // SetWithFmtSpecSetupDto - Sets the data values for current
-// NumStrFmtSpecAbsoluteValueDto instance based on input received
+// FormatterAbsoluteValue instance based on input received
 // from an instance of NumStrFmtSpecSetupDto.
 //
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecAbsoluteValueDto instance.
+// current FormatterAbsoluteValue instance.
 //
 //
 // ----------------------------------------------------------------
@@ -2253,7 +2256,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
 //
 //  fmtSpecSetupDto     NumStrFmtSpecSetupDto
 //     - A data structure conveying setup information for a
-//       NumStrFmtSpecAbsoluteValueDto object. Only the following
+//       FormatterAbsoluteValue object. Only the following
 //       data fields with a prefix of "AbsoluteVal" are used.
 //
 //       type NumStrFmtSpecSetupDto struct {
@@ -2324,17 +2327,17 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithDefaults(
 //       The 'ePrefix' text will be prefixed to the beginning of the
 //       error message.
 //
-func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithFmtSpecSetupDto(
+func (fmtAbsVal *FormatterAbsoluteValue) SetWithFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtAbsValDto.lock == nil {
-		nStrFmtAbsValDto.lock = new(sync.Mutex)
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
 	}
 
-	nStrFmtAbsValDto.lock.Lock()
+	fmtAbsVal.lock.Lock()
 
-	defer nStrFmtAbsValDto.lock.Unlock()
+	defer fmtAbsVal.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -2363,7 +2366,7 @@ func (nStrFmtAbsValDto *NumStrFmtSpecAbsoluteValueDto) SetWithFmtSpecSetupDto(
 	defer fmtSpecSetupDto.Lock.Unlock()
 
 	return nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
-		nStrFmtAbsValDto,
+		fmtAbsVal,
 		fmtSpecSetupDto.AbsoluteValFmt,
 		fmtSpecSetupDto.AbsoluteValTurnOnIntegerDigitsSeparation,
 		fmtSpecSetupDto.AbsoluteValNumSeps,

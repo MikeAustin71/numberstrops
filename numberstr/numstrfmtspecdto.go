@@ -14,7 +14,7 @@ type NumStrFmtSpecDto struct {
 	description    string
 	tag            string
 	countryCulture NumStrFmtSpecCountryDto
-	absoluteValue  NumStrFmtSpecAbsoluteValueDto
+	absoluteValue  FormatterAbsoluteValue
 	currencyValue  FormatterCurrency
 	signedNumValue NumStrFmtSpecSignedNumValueDto
 	sciNotation    NumStrFmtSpecSciNotationDto
@@ -160,17 +160,17 @@ func (fmtSpecDto *NumStrFmtSpecDto) CopyOut(
 }
 
 // GetAbsoluteValueSpec - Returns a deep copy of the member variable
-// 'absoluteValue', of type NumStrFmtSpecAbsoluteValueDto.
+// 'absoluteValue', of type FormatterAbsoluteValue.
 //
 // IMPORTANT
 //
 // No validity tests are performed on the current NumStrFmtSpecDto
-// instance before returning the NumStrFmtSpecAbsoluteValueDto
+// instance before returning the FormatterAbsoluteValue
 // object. To validate the current NumStrFmtSpecDto instance
 // reference methods NumStrFmtSpecDto.IsValidInstance() and
 // NumStrFmtSpecDto.IsValidInstanceError().
 //
-func (fmtSpecDto *NumStrFmtSpecDto) GetAbsoluteValueSpec() NumStrFmtSpecAbsoluteValueDto {
+func (fmtSpecDto *NumStrFmtSpecDto) GetAbsoluteValueSpec() FormatterAbsoluteValue {
 
 	if fmtSpecDto.lock == nil {
 		fmtSpecDto.lock = new(sync.Mutex)
@@ -1191,8 +1191,8 @@ func (fmtSpecDto NumStrFmtSpecDto) NewCustomFmtSpec(
 //       will be returned.
 //
 //
-//  absoluteValue                 NumStrFmtSpecAbsoluteValueDto
-//     - A valid and fully populated NumStrFmtSpecAbsoluteValueDto
+//  absoluteValue                 FormatterAbsoluteValue
+//     - A valid and fully populated FormatterAbsoluteValue
 //       object. This object contains formatting specifications
 //       controlling the text display of absolute numeric values.
 //
@@ -1262,7 +1262,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromComponents(
 	description string,
 	tag string,
 	countryCulture NumStrFmtSpecCountryDto,
-	absoluteValue NumStrFmtSpecAbsoluteValueDto,
+	absoluteValue FormatterAbsoluteValue,
 	currencyValue FormatterCurrency,
 	signedNumValue NumStrFmtSpecSignedNumValueDto,
 	sciNotation NumStrFmtSpecSciNotationDto,
@@ -1598,8 +1598,8 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 //       will be returned.
 //
 //
-//  absoluteValue                 NumStrFmtSpecAbsoluteValueDto
-//     - A valid and fully populated NumStrFmtSpecAbsoluteValueDto
+//  absoluteValue                 FormatterAbsoluteValue
+//     - A valid and fully populated FormatterAbsoluteValue
 //       object. This object contains formatting specifications
 //       controlling the text display of absolute numeric values.
 //
@@ -1664,7 +1664,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetNumStrFmtSpecDto(
 	description string,
 	tag string,
 	countryCulture NumStrFmtSpecCountryDto,
-	absoluteValue NumStrFmtSpecAbsoluteValueDto,
+	absoluteValue FormatterAbsoluteValue,
 	currencyValue FormatterCurrency,
 	signedNumValue NumStrFmtSpecSignedNumValueDto,
 	sciNotation NumStrFmtSpecSciNotationDto,

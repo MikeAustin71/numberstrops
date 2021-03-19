@@ -14,7 +14,7 @@ type numStrFmtSpecAbsoluteValueDtoAtom struct {
 // string is invalid.
 //
 func (nStrAbsValDtoAtom *numStrFmtSpecAbsoluteValueDtoAtom) testAbsoluteValueFormat(
-	nStrFmtSpecAbsValDto *NumStrFmtSpecAbsoluteValueDto,
+	nStrFmtSpecAbsValDto *FormatterAbsoluteValue,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {

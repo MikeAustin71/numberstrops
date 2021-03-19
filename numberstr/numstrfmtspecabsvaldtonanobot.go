@@ -20,8 +20,8 @@ type numStrFmtSpecAbsoluteValueDtoNanobot struct {
 // invalid, this method will return an error.
 //
 func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
-	targetNStrFmtSpecAbsoluteValDto *NumStrFmtSpecAbsoluteValueDto,
-	inComingNStrFmtSpecAbsoluteValDto *NumStrFmtSpecAbsoluteValueDto,
+	targetNStrFmtSpecAbsoluteValDto *FormatterAbsoluteValue,
+	inComingNStrFmtSpecAbsoluteValDto *FormatterAbsoluteValue,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
@@ -100,15 +100,15 @@ func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyIn(
 
 // copyOut - Returns a deep copy of input parameter
 // 'nStrFmtSpecAbsoluteValDto' styled as a new instance
-// of NumStrFmtSpecAbsoluteValueDto.
+// of FormatterAbsoluteValue.
 //
 // If input parameter 'nStrFmtSpecAbsoluteValDto' is judged to be
 // invalid, this method will return an error.
 //
 func (nStrFmtSpecAbsValDtoNanobot *numStrFmtSpecAbsoluteValueDtoNanobot) copyOut(
-	nStrFmtSpecAbsoluteValDto *NumStrFmtSpecAbsoluteValueDto,
+	nStrFmtSpecAbsoluteValDto *FormatterAbsoluteValue,
 	ePrefix *ErrPrefixDto) (
-	newNStrFmtSpecAbsoluteValDto NumStrFmtSpecAbsoluteValueDto,
+	newNStrFmtSpecAbsoluteValDto FormatterAbsoluteValue,
 	err error) {
 
 	if nStrFmtSpecAbsValDtoNanobot.lock == nil {
