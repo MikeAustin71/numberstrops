@@ -565,7 +565,7 @@ func (intSepsDtoUtil *numStrIntSeparatorsDtoUtility) setBasic(
 
 	ePrefix.SetEPref(
 		"numStrIntSeparatorsDtoUtility." +
-			"setBasic()")
+			"setBasicRunes()")
 
 	if intSepsDto == nil {
 		err = fmt.Errorf("%v\n"+

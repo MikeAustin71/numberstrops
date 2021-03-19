@@ -34,9 +34,9 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 // instance FormatterCurrency passed as an input
 // parameter.
 //
-// The FormatterCurrency type encapsulates the
-// formatting parameters necessary to format absolute numeric
-// values for display in text number strings.
+// The FormatterCurrency type encapsulates the formatting
+// parameters necessary to format absolute numeric values for
+// display in text number strings.
 //
 //
 // ----------------------------------------------------------------

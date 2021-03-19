@@ -1,7 +1,6 @@
 package numberstr
 
 import (
-	"fmt"
 	"sync"
 )
 
@@ -618,6 +617,466 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstanceError(
 	return err
 }
 
+// NewBasic - Creates and returns a new instance of
+// FormatterAbsoluteValue. This method specifies the minimum
+// number of input parameters required to construct a new instance
+// of FormatterAbsoluteValue. Default values are used to
+// supplement these input parameters.
+//
+// To exercise granular control over all parameters needed to
+// construct an instance of FormatterAbsoluteValue,
+// reference method:
+//   'FormatterAbsoluteValue.NewWithComponents()'
+//
+// This method automatically sets a default integer digits
+// grouping sequence of '3'. This means that integers will
+// be grouped by thousands.
+//
+//     Example: '1,000,000,000'
+//
+// To control and specify alternative integer digit groupings, use
+// method 'FormatterAbsoluteValue.NewWithComponents()'.
+//
+// The FormatterAbsoluteValue type encapsulates the
+// formatting parameters necessary to format absolute numeric
+// values for display in text number strings.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparatorChar          string
+//     - The character used to separate integer and fractional
+//       digits in a floating point number string. In the United
+//       States, the Decimal Separator character is the period
+//       ('.') or Decimal Point.
+//           Example: '123.45678'
+//
+//
+//  thousandsSeparatorChar        string
+//     - The character which will be used to delimit 'thousands' in
+//       integer number strings. In the United States, the
+//       Thousands separator is the comma character (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//       For custom integer digit grouping, use method
+//       FormatterAbsoluteValue.NewWithComponents().
+//
+//
+//  turnOnThousandsSeparator   bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnThousandsSeparator' is a boolean flag
+//       used to control the 'Thousands Separator'. When set to
+//       'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
+//  absoluteValFmt                string
+//     - A string specifying the number string format to be used in
+//       formatting absolute numeric values in text number strings.
+//
+//       Absolute Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for absolute value number formatting.
+//
+//       Valid format strings for absolute value number strings
+//       (NOT Currency) are listed as follows:
+//
+//               "+NUMFIELD"
+//               "+ NUMFIELD"
+//               "NUMFIELD+"
+//               "NUMFIELD +"
+//               "NUMFIELD"
+//               "+127.54"
+//               "+ 127.54"
+//               "127.54+"
+//               "127.54 +"
+//               "127.54" THE DEFAULT Absolute Value Format
+//
+//
+//  requestedNumberFieldLen    int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
+//
+//
+//  numberFieldTextJustify        TextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterAbsoluteValue
+//     - If this method completes successfully, this parameter will
+//       return a new, populated instance of FormatterAbsoluteValue.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtAbsVal FormatterAbsoluteValue) NewBasic(
+	decimalSeparatorChars string,
+	thousandsSeparatorChars string,
+	turnOnThousandsSeparator bool,
+	absoluteValFmt string,
+	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
+	ePrefix *ErrPrefixDto) (
+	FormatterAbsoluteValue,
+	error) {
+
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
+	}
+
+	fmtAbsVal.lock.Lock()
+
+	defer fmtAbsVal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterAbsoluteValue." +
+			"NewBasic()")
+
+	newNumStrFmtSpecAbsValueDto :=
+		FormatterAbsoluteValue{}
+
+	newNumStrFmtSpecAbsValueDto.lock = new(sync.Mutex)
+
+	nStrFmtSpecAbsValDtoUtil :=
+		formatterAbsoluteValueUtility{}
+
+	err := nStrFmtSpecAbsValDtoUtil.
+		setBasic(
+			&newNumStrFmtSpecAbsValueDto,
+			decimalSeparatorChars,
+			thousandsSeparatorChars,
+			turnOnThousandsSeparator,
+			absoluteValFmt,
+			requestedNumberFieldLen,
+			numberFieldTextJustify,
+			ePrefix)
+
+	return newNumStrFmtSpecAbsValueDto, err
+}
+
+// NewBasicRunes - Creates and returns a new instance of
+// FormatterAbsoluteValue. This method specifies the minimum
+// number of input parameters required to construct a new instance
+// of FormatterAbsoluteValue. Default values are used to
+// supplement these input parameters.
+//
+// To exercise granular control over all parameters needed to
+// construct an instance of FormatterAbsoluteValue,
+// reference method:
+//   'FormatterAbsoluteValue.NewWithComponents()'
+//
+// This method automatically sets a default integer digits
+// grouping sequence of '3'. This means that integers will
+// be grouped by thousands.
+//
+//     Example: '1,000,000,000'
+//
+// To control and specify alternative integer digit groupings, use
+// method 'FormatterAbsoluteValue.NewWithComponents()'.
+//
+// The FormatterAbsoluteValue type encapsulates the
+// formatting parameters necessary to format absolute numeric
+// values for display in text number strings.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparatorChar          []rune
+//     - The character used to separate integer and fractional
+//       digits in a floating point number string. In the United
+//       States, the Decimal Separator character is the period
+//       ('.') or Decimal Point.
+//           Example: '123.45678'
+//
+//
+//  thousandsSeparatorChar        []rune
+//     - The character which will be used to delimit 'thousands' in
+//       integer number strings. In the United States, the
+//       Thousands separator is the comma character (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//       For custom integer digit grouping, use method
+//       FormatterAbsoluteValue.NewWithComponents().
+//
+//
+//  turnOnThousandsSeparator   bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnThousandsSeparator' is a boolean flag
+//       used to control the 'Thousands Separator'. When set to
+//       'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
+//  absoluteValFmt                string
+//     - A string specifying the number string format to be used in
+//       formatting absolute numeric values in text number strings.
+//
+//       Absolute Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for absolute value number formatting.
+//
+//       Valid format strings for absolute value number strings
+//       (NOT Currency) are listed as follows:
+//
+//               "+NUMFIELD"
+//               "+ NUMFIELD"
+//               "NUMFIELD+"
+//               "NUMFIELD +"
+//               "NUMFIELD"
+//               "+127.54"
+//               "+ 127.54"
+//               "127.54+"
+//               "127.54 +"
+//               "127.54" THE DEFAULT Absolute Value Format
+//
+//
+//  requestedNumberFieldLen    int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
+//
+//
+//  numberFieldTextJustify        TextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterAbsoluteValue
+//     - If this method completes successfully, this parameter will
+//       return a new, populated instance of FormatterAbsoluteValue.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtAbsVal FormatterAbsoluteValue) NewBasicRunes(
+	decimalSeparatorChars []rune,
+	thousandsSeparatorChars []rune,
+	turnOnThousandsSeparator bool,
+	absoluteValFmt string,
+	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
+	ePrefix *ErrPrefixDto) (
+	FormatterAbsoluteValue,
+	error) {
+
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
+	}
+
+	fmtAbsVal.lock.Lock()
+
+	defer fmtAbsVal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterAbsoluteValue." +
+			"NewBasic()")
+
+	newNumStrFmtSpecAbsValueDto :=
+		FormatterAbsoluteValue{}
+
+	newNumStrFmtSpecAbsValueDto.lock = new(sync.Mutex)
+
+	nStrFmtSpecAbsValDtoUtil :=
+		formatterAbsoluteValueUtility{}
+
+	err := nStrFmtSpecAbsValDtoUtil.
+		setBasicRunes(
+			&newNumStrFmtSpecAbsValueDto,
+			decimalSeparatorChars,
+			thousandsSeparatorChars,
+			turnOnThousandsSeparator,
+			absoluteValFmt,
+			requestedNumberFieldLen,
+			numberFieldTextJustify,
+			ePrefix)
+
+	return newNumStrFmtSpecAbsValueDto, err
+}
+
 // NewWithComponents - Creates and returns a new instance of
 // FormatterAbsoluteValue.
 //
@@ -631,7 +1090,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstanceError(
 //
 // For a 'New' method using minimum input parameters coupled
 // with default values, see:
-//      FormatterAbsoluteValue.NewWithDefaults()
+//      FormatterAbsoluteValue.NewBasicRunes()
 //
 //
 // ----------------------------------------------------------------
@@ -884,381 +1343,6 @@ func (fmtAbsVal FormatterAbsoluteValue) NewWithComponents(
 	return newNumStrFmtSpecAbsValueDto, err
 }
 
-// NewWithDefaults - Creates and returns a new instance of
-// FormatterAbsoluteValue. This method specifies the minimum
-// number of input parameters required to construct a new instance
-// of FormatterAbsoluteValue. Default values are used to
-// supplement these input parameters.
-//
-// To exercise granular control over all parameters needed to
-// construct an instance of FormatterAbsoluteValue,
-// reference method:
-//   'FormatterAbsoluteValue.NewWithComponents()'
-//
-// This method automatically sets a default integer digits
-// grouping sequence of '3'. This means that integers will
-// be grouped by thousands.
-//
-//     Example: '1,000,000,000'
-//
-// To control and specify alternative integer digit groupings, use
-// method 'FormatterAbsoluteValue.NewWithComponents()'.
-//
-// The FormatterAbsoluteValue type encapsulates the
-// formatting parameters necessary to format absolute numeric
-// values for display in text number strings.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  decimalSeparatorChar       rune
-//     - The character used to separate integer and fractional
-//       digits in a floating point number string. In the United
-//       States, the Decimal Separator character is the period
-//       ('.') or Decimal Point.
-//           Example: '123.45678'
-//
-//
-//  thousandsSeparatorChar        rune
-//     - The character which will be used to delimit 'thousands' in
-//       integer number strings. In the United States, the
-//       Thousands separator is the comma character (',').
-//           United States Example: '1,000,000,000'
-//
-//       The default integer digit grouping of three ('3') digits
-//       is applied with this separator character. An integer digit
-//       grouping of three ('3') results in thousands grouping.
-//           United States Example: '1,000,000,000'
-//
-//       For custom integer digit grouping, use method
-//       FormatterAbsoluteValue.NewWithComponents().
-//
-//
-//  turnOnThousandsSeparator   bool
-//     - Inter digits separation is also known as the 'Thousands
-//       Separator". Often a single character is used to separate
-//       thousands within the integer component of a numeric value
-//       in number strings. In the United States, the comma
-//       character (',') is used to separate thousands.
-//            Example: 1,000,000,000
-//
-//       The parameter 'turnOnThousandsSeparator' is a boolean flag
-//       used to control the 'Thousands Separator'. When set to
-//       'true', integer number strings will be separated into
-//       thousands for text presentation.
-//            Example: '1,000,000,000'
-//
-//       When this parameter is set to 'false', the 'Thousands
-//       Separator' will NOT be inserted into text number strings.
-//            Example: '1000000000'
-//
-//
-//  absoluteValFmt                string
-//     - A string specifying the number string format to be used in
-//       formatting absolute numeric values in text number strings.
-//
-//       Absolute Value Formatting Terminology and Placeholders:
-//
-//        "NUMFIELD" - Placeholder for a number field. A number field has
-//                     a string length which is equal to or greater than
-//                     the actual numeric value string length. Actual
-//                     numeric values are right justified within number
-//                     fields for text displays.
-//
-//          "127.54" - Place holder for the actual numeric value of
-//                     a number string. This place holder signals
-//                     that the actual length of the numeric value
-//                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
-//
-//               "+" - The Plus Sign ('+'). If present in the format
-//                     string, the plus sign ('+') specifies  where
-//                     the plus sign will be placed in relation to
-//                     the positive numeric value.
-//
-//       Absence of "+" - The absence of a plus sign ('+') means that
-//                        the positive numeric value will be displayed
-//                        in text with out a plus sign ('+'). This is
-//                        the default for absolute value number formatting.
-//
-//       Valid format strings for absolute value number strings
-//       (NOT Currency) are listed as follows:
-//
-//               "+NUMFIELD"
-//               "+ NUMFIELD"
-//               "NUMFIELD+"
-//               "NUMFIELD +"
-//               "NUMFIELD"
-//               "+127.54"
-//               "+ 127.54"
-//               "127.54+"
-//               "127.54 +"
-//               "127.54" THE DEFAULT Absolute Value Format
-//
-//
-//  requestedNumberFieldLen    int
-//     - This is the requested length of the number field in which
-//       the number string will be displayed. If this field length
-//       is greater than the actual length of the number string,
-//       the number string will be right justified within the the
-//       number field. If the actual number string length is greater
-//       than the requested number field length, the number field
-//       length will be automatically expanded to display the entire
-//       number string. The 'requested' number field length is used
-//       to create number fields of standard lengths for text
-//       presentations.
-//
-//
-//  numberFieldTextJustify        TextJustify
-//     - An enumeration value used to specify the type of text
-//       formatting which will be applied to a number string when
-//       it is positioned inside of a number field. This
-//       enumeration value must be one of the three following
-//       format specifications:
-//
-//       1. Left   - Signals that the text justification format is
-//                   set to 'Left-Justify'. Strings within text
-//                   fields will be flush with the left margin.
-//                          Example: "TextString      "
-//
-//       2. Right  - Signals that the text justification format is
-//                   set to 'Right-Justify'. Strings within text
-//                   fields will terminate at the right margin.
-//                          Example: "      TextString"
-//
-//       3. Center - Signals that the text justification format is
-//                   is set to 'Centered'. Strings will be positioned
-//                   in the center of the text field equidistant
-//                   from the left and right margins.
-//                           Example: "   TextString   "
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  FormatterAbsoluteValue
-//     - If this method completes successfully, this parameter will
-//       return a new, populated instance of FormatterAbsoluteValue.
-//
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (fmtAbsVal FormatterAbsoluteValue) NewWithDefaults(
-	decimalSeparatorChar rune,
-	thousandsSeparatorChar rune,
-	turnOnThousandsSeparator bool,
-	absoluteValFmt string,
-	requestedNumberFieldLen int,
-	numberFieldTextJustify TextJustify,
-	ePrefix *ErrPrefixDto) (
-	FormatterAbsoluteValue,
-	error) {
-
-	if fmtAbsVal.lock == nil {
-		fmtAbsVal.lock = new(sync.Mutex)
-	}
-
-	fmtAbsVal.lock.Lock()
-
-	defer fmtAbsVal.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"FormatterAbsoluteValue." +
-			"NewBasic()")
-
-	newNumStrFmtSpecAbsValueDto :=
-		FormatterAbsoluteValue{}
-
-	newNumStrFmtSpecAbsValueDto.lock = new(sync.Mutex)
-
-	nStrFmtSpecAbsValDtoUtil :=
-		numStrFmtSpecAbsoluteValueDtoUtility{}
-
-	err := nStrFmtSpecAbsValDtoUtil.
-		setAbsValDtoWithDefaults(
-			&newNumStrFmtSpecAbsValueDto,
-			decimalSeparatorChar,
-			thousandsSeparatorChar,
-			turnOnThousandsSeparator,
-			absoluteValFmt,
-			requestedNumberFieldLen,
-			numberFieldTextJustify,
-			ePrefix)
-
-	return newNumStrFmtSpecAbsValueDto, err
-}
-
-// NewWithFmtSpecSetupDto - Creates and returns a new
-// FormatterAbsoluteValue instance based on input received
-// from an instance of NumStrFmtSpecSetupDto.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
-//     - A data structure conveying setup information for a
-//       FormatterAbsoluteValue object. Only the following
-//       data fields with a prefix of "AbsoluteVal" are used.
-//
-//       type NumStrFmtSpecSetupDto struct {
-//         IdNo                                      uint64
-//         IdString                                  string
-//         Description                               string
-//         Tag                                       string
-//         CountryIdNo                               uint64
-//         CountryIdString                           string
-//         CountryDescription                        string
-//         CountryTag                                string
-//         CountryCultureName                        string
-//         CountryAbbreviatedName                    string
-//         CountryAlternateNames                     []string
-//         CountryCodeTwoChar                        string
-//         CountryCodeThreeChar                      string
-//         CountryCodeNumber                         string
-//         AbsoluteValFmt                            string
-//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumSeps                        NumericSeparators
-//         AbsoluteValNumField                       NumberFieldDto
-//         CurrencyPositiveValueFmt                  string
-//         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     uint
-//         CurrencyCode                              string
-//         CurrencyCodeNo                            string
-//         CurrencyName                              string
-//         CurrencySymbols                           []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []rune
-//         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumSeps                           NumericSeparators
-//         CurrencyNumField                          NumberFieldDto
-//         SignedNumValPositiveValueFmt              string
-//         SignedNumValNegativeValueFmt              string
-//         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumSeps                       NumericSeparators
-//         SignedNumValNumField                      NumberFieldDto
-//         SciNotSignificandUsesLeadingPlus          bool
-//         SciNotMantissaLength                      uint
-//         SciNotExponentChar                        rune
-//         SciNotExponentUsesLeadingPlus             bool
-//         SciNotNumFieldLen                         int
-//         SciNotNumFieldTextJustify                 TextJustify
-//         Lock                                      *sync.Mutex
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  FormatterAbsoluteValue
-//     - If this method completes successfully, a new instance of
-//       FormatterAbsoluteValue will be returned to the
-//       caller.
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (fmtAbsVal FormatterAbsoluteValue) NewWithFmtSpecSetupDto(
-	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix *ErrPrefixDto) (
-	FormatterAbsoluteValue,
-	error) {
-
-	if fmtAbsVal.lock == nil {
-		fmtAbsVal.lock = new(sync.Mutex)
-	}
-
-	fmtAbsVal.lock.Lock()
-
-	defer fmtAbsVal.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"nNumStrFmtSpecAbsoluteValueDto." +
-			"NewWithFmtSpecSetupDto()")
-
-	if fmtSpecSetupDto == nil {
-		return FormatterAbsoluteValue{},
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
-				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-				ePrefix.String())
-	}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	fmtSpecSetupDto.Lock.Lock()
-
-	defer fmtSpecSetupDto.Lock.Unlock()
-
-	newNumStrFmtSpecAbsValueDto := FormatterAbsoluteValue{}
-
-	newNumStrFmtSpecAbsValueDto.lock = new(sync.Mutex)
-
-	nStrFmtSpecAbsValDtoMech :=
-		numStrFmtSpecAbsoluteValueDtoMechanics{}
-
-	err := nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
-		&newNumStrFmtSpecAbsValueDto,
-		fmtSpecSetupDto.AbsoluteValFmt,
-		fmtSpecSetupDto.AbsoluteValTurnOnIntegerDigitsSeparation,
-		fmtSpecSetupDto.AbsoluteValNumSeps,
-		fmtSpecSetupDto.AbsoluteValNumField,
-		ePrefix)
-
-	return newNumStrFmtSpecAbsValueDto, err
-}
-
 // SetAbsoluteValueFormat - Sets the formatting string used to
 // format absolute numeric values in text number strings.
 //
@@ -1376,6 +1460,464 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetAbsoluteValueFormat(
 	return err
 }
 
+// SetBasic - This method will set all of the member variable
+// data values for the current instance of FormatterAbsoluteValue.
+// The input parameters represent the minimum information required
+// to configure the data values for a FormatterAbsoluteValue
+// object. Default values are used to supplement these input
+// parameters.
+//
+// This method differs from FormatterAbsoluteValue.SetBasicRunes()
+// in that this method accepts strings for input parameters,
+// 'decimalSeparatorChars' and 'thousandsSeparatorChars'.
+//
+// To exercise granular control over all parameters needed to
+// construct an instance of FormatterAbsoluteValue,
+// reference method:
+//   'FormatterAbsoluteValue.SetWithComponents()'
+//
+// This method automatically sets a default integer digits grouping
+// sequence of '3'. This means that integers will be grouped by
+// thousands.
+//
+//        Example: '1,000,000,000'
+//
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// current FormatterAbsoluteValue instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparatorChars         string
+//     - The character or characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           Example: '123.45678'
+//
+//
+//  thousandsSeparatorChars       string
+//     - The character or characters which will be used to delimit
+//       'thousands' in integer number strings. In the United
+//       States, the Thousands separator is the comma character
+//       (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//       For custom integer digit grouping, use method
+//       FormatterAbsoluteValue.SetWithComponents().
+//
+//
+//  turnOnThousandsSeparator      bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnThousandsSeparator' is a boolean flag
+//       used to control the 'Thousands Separator'. When set to
+//       'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
+//  absoluteValFmt                string
+//     - A string specifying the number string format to be used in
+//       formatting absolute numeric values in text number strings.
+//
+//       Absolute Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for absolute value number formatting.
+//
+//       Valid format strings for absolute value number strings
+//       (NOT Currency) are listed as follows:
+//
+//               "+NUMFIELD"
+//               "+ NUMFIELD"
+//               "NUMFIELD+"
+//               "NUMFIELD +"
+//               "NUMFIELD"
+//               "+127.54"
+//               "+ 127.54"
+//               "127.54+"
+//               "127.54 +"
+//               "127.54" THE DEFAULT Absolute Value Format
+//     - The character which will be used to delimit 'thousands' in
+//       integer number strings. In the United States, the
+//       Thousands separator is the comma character (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//       For custom integer digit grouping, use method
+//       FormatterAbsoluteValue.NewWithComponents().
+//
+//
+//  requestedNumberFieldLen       int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
+//
+//
+//  numberFieldTextJustify        TextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtAbsVal *FormatterAbsoluteValue) SetBasic(
+	decimalSeparatorChars string,
+	thousandsSeparatorChars string,
+	turnOnThousandsSeparator bool,
+	absoluteValFmt string,
+	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
+	}
+
+	fmtAbsVal.lock.Lock()
+
+	defer fmtAbsVal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterAbsoluteValue." +
+			"SetBasicRunes()")
+
+	return formatterAbsoluteValueUtility{}.ptr().
+		setBasic(
+			fmtAbsVal,
+			decimalSeparatorChars,
+			thousandsSeparatorChars,
+			turnOnThousandsSeparator,
+			absoluteValFmt,
+			requestedNumberFieldLen,
+			numberFieldTextJustify,
+			ePrefix)
+}
+
+// SetBasicRunes - This method will set all of the member variable
+// data values for the current instance of FormatterAbsoluteValue.
+// The input parameters represent the minimum information required
+// to configure the data values for a FormatterAbsoluteValue
+// object. Default values are used to supplement these input
+// parameters.
+//
+// This method differs from FormatterAbsoluteValue.SetBasic() in
+// that this method accepts rune arrays for input parameters,
+// 'decimalSeparatorChars' and 'thousandsSeparatorChars'.
+//
+// To exercise granular control over all parameters needed to
+// construct an instance of FormatterAbsoluteValue,
+// reference method:
+//   'FormatterAbsoluteValue.SetWithComponents()'
+//
+// This method automatically sets a default integer digits grouping
+// sequence of '3'. This means that integers will be grouped by
+// thousands.
+//
+//        Example: '1,000,000,000'
+//
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// current FormatterAbsoluteValue instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparatorChars         []rune
+//     - The character or characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           Example: '123.45678'
+//
+//
+//  thousandsSeparatorChars       []rune
+//     - The character or characters which will be used to delimit
+//       'thousands' in integer number strings. In the United
+//       States, the Thousands separator is the comma character
+//       (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//       For custom integer digit grouping, use method
+//       FormatterAbsoluteValue.SetWithComponents().
+//
+//
+//  turnOnThousandsSeparator      bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnThousandsSeparator' is a boolean flag
+//       used to control the 'Thousands Separator'. When set to
+//       'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
+//  absoluteValFmt                string
+//     - A string specifying the number string format to be used in
+//       formatting absolute numeric values in text number strings.
+//
+//       Absolute Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for absolute value number formatting.
+//
+//       Valid format strings for absolute value number strings
+//       (NOT Currency) are listed as follows:
+//
+//               "+NUMFIELD"
+//               "+ NUMFIELD"
+//               "NUMFIELD+"
+//               "NUMFIELD +"
+//               "NUMFIELD"
+//               "+127.54"
+//               "+ 127.54"
+//               "127.54+"
+//               "127.54 +"
+//               "127.54" THE DEFAULT Absolute Value Format
+//     - The character which will be used to delimit 'thousands' in
+//       integer number strings. In the United States, the
+//       Thousands separator is the comma character (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//       For custom integer digit grouping, use method
+//       FormatterAbsoluteValue.NewWithComponents().
+//
+//
+//  requestedNumberFieldLen       int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
+//
+//
+//  numberFieldTextJustify        TextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtAbsVal *FormatterAbsoluteValue) SetBasicRunes(
+	decimalSeparatorChars []rune,
+	thousandsSeparatorChars []rune,
+	turnOnThousandsSeparator bool,
+	absoluteValFmt string,
+	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
+	}
+
+	fmtAbsVal.lock.Lock()
+
+	defer fmtAbsVal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterAbsoluteValue." +
+			"SetBasicRunes()")
+
+	nStrFmtSpecAbsValDtoUtil :=
+		formatterAbsoluteValueUtility{}
+
+	return nStrFmtSpecAbsValDtoUtil.setBasicRunes(
+		fmtAbsVal,
+		decimalSeparatorChars,
+		thousandsSeparatorChars,
+		turnOnThousandsSeparator,
+		absoluteValFmt,
+		requestedNumberFieldLen,
+		numberFieldTextJustify,
+		ePrefix)
+}
+
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object
 // for the current FormatterAbsoluteValue instance.
 //
@@ -1446,7 +1988,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetNumberFieldLengthDto(
 		ePrefix)
 }
 
-// SetNumberSeparatorsDto - Sets the Number Separators Dto object
+// SetNumericSeparators - Sets the Number Separators Dto object
 // for the current FormatterAbsoluteValue instance.
 //
 // The Number Separators Dto object is used to specify the Decimal
@@ -1517,8 +2059,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetNumberFieldLengthDto(
 //
 //  --- NONE ---
 //
-func (fmtAbsVal *FormatterAbsoluteValue) SetNumberSeparatorsDto(
-	numberSeparatorsDto NumericSeparators,
+func (fmtAbsVal *FormatterAbsoluteValue) SetNumericSeparators(
+	numberSeparators NumericSeparators,
 	ePrefix *ErrPrefixDto) error {
 
 	if fmtAbsVal.lock == nil {
@@ -1535,10 +2077,10 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetNumberSeparatorsDto(
 
 	ePrefix.SetEPref(
 		"FormatterAbsoluteValue." +
-			"SetNumberSeparatorsDto()")
+			"SetNumericSeparators()")
 
 	return fmtAbsVal.numericSeparators.CopyIn(
-		&numberSeparatorsDto,
+		&numberSeparators,
 		ePrefix)
 }
 
@@ -1608,7 +2150,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetToUnitedStatesDefaults(
 		"FormatterAbsoluteValue." +
 			"SetToUnitedStatesDefaults()")
 
-	absValUtil := numStrFmtSpecAbsoluteValueDtoUtility{}
+	absValUtil := formatterAbsoluteValueUtility{}
 
 	err = absValUtil.setToUnitedStatesDefaults(
 		fmtAbsVal,
@@ -1695,7 +2237,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetToUnitedStatesDefaultsIfEmpty(
 		fmtAbsVal,
 		ErrPrefixDto{}.Ptr())
 
-	absValUtil := numStrFmtSpecAbsoluteValueDtoUtility{}
+	absValUtil := formatterAbsoluteValueUtility{}
 
 	if isValid {
 		return err
@@ -2014,362 +2556,4 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetWithComponents(
 		numFieldDto,
 		ePrefix.XCtx(
 			"Setting 'fmtAbsVal'"))
-}
-
-// SetWithDefaults - This method will set all of the member
-// variable data values for the current instance of
-// FormatterAbsoluteValue. The input parameters
-// represent the minimum information required to configure
-// the data values for a FormatterAbsoluteValue object.
-// Default values are used to supplement these input parameters.
-//
-// To exercise granular control over all parameters needed to
-// construct an instance of FormatterAbsoluteValue,
-// reference method:
-//   'FormatterAbsoluteValue.SetWithComponents()'
-//
-// This method automatically sets a default integer digits grouping
-// sequence of '3'. This means that integers will be grouped by
-// thousands.
-//
-//        Example: '1,000,000,000'
-//
-// IMPORTANT
-// This method will overwrite all pre-existing data values in the
-// current FormatterAbsoluteValue instance.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  decimalSeparatorChar          rune
-//     - The character used to separate integer and fractional
-//       digits in a floating point number string. In the United
-//       States, the Decimal Separator character is the period
-//       ('.') or Decimal Point.
-//           Example: '123.45678'
-//
-//
-//  thousandsSeparatorChar        rune
-//     - The character which will be used to delimit 'thousands' in
-//       integer number strings. In the United States, the
-//       Thousands separator is the comma character (',').
-//           United States Example: '1,000,000,000'
-//
-//       The default integer digit grouping of three ('3') digits
-//       is applied with this separator character. An integer digit
-//       grouping of three ('3') results in thousands grouping.
-//           United States Example: '1,000,000,000'
-//
-//       For custom integer digit grouping, use method
-//       FormatterAbsoluteValue.SetWithComponents().
-//
-//
-//  turnOnThousandsSeparator      bool
-//     - Inter digits separation is also known as the 'Thousands
-//       Separator". Often a single character is used to separate
-//       thousands within the integer component of a numeric value
-//       in number strings. In the United States, the comma
-//       character (',') is used to separate thousands.
-//            Example: 1,000,000,000
-//
-//       The parameter 'turnOnThousandsSeparator' is a boolean flag
-//       used to control the 'Thousands Separator'. When set to
-//       'true', integer number strings will be separated into
-//       thousands for text presentation.
-//            Example: '1,000,000,000'
-//
-//       When this parameter is set to 'false', the 'Thousands
-//       Separator' will NOT be inserted into text number strings.
-//            Example: '1000000000'
-//
-//
-//  absoluteValFmt                string
-//     - A string specifying the number string format to be used in
-//       formatting absolute numeric values in text number strings.
-//
-//       Absolute Value Formatting Terminology and Placeholders:
-//
-//        "NUMFIELD" - Placeholder for a number field. A number field has
-//                     a string length which is equal to or greater than
-//                     the actual numeric value string length. Actual
-//                     numeric values are right justified within number
-//                     fields for text displays.
-//
-//          "127.54" - Place holder for the actual numeric value of
-//                     a number string. This place holder signals
-//                     that the actual length of the numeric value
-//                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
-//
-//               "+" - The Plus Sign ('+'). If present in the format
-//                     string, the plus sign ('+') specifies  where
-//                     the plus sign will be placed in relation to
-//                     the positive numeric value.
-//
-//       Absence of "+" - The absence of a plus sign ('+') means that
-//                        the positive numeric value will be displayed
-//                        in text with out a plus sign ('+'). This is
-//                        the default for absolute value number formatting.
-//
-//       Valid format strings for absolute value number strings
-//       (NOT Currency) are listed as follows:
-//
-//               "+NUMFIELD"
-//               "+ NUMFIELD"
-//               "NUMFIELD+"
-//               "NUMFIELD +"
-//               "NUMFIELD"
-//               "+127.54"
-//               "+ 127.54"
-//               "127.54+"
-//               "127.54 +"
-//               "127.54" THE DEFAULT Absolute Value Format
-//     - The character which will be used to delimit 'thousands' in
-//       integer number strings. In the United States, the
-//       Thousands separator is the comma character (',').
-//           United States Example: '1,000,000,000'
-//
-//       The default integer digit grouping of three ('3') digits
-//       is applied with this separator character. An integer digit
-//       grouping of three ('3') results in thousands grouping.
-//           United States Example: '1,000,000,000'
-//
-//       For custom integer digit grouping, use method
-//       FormatterAbsoluteValue.NewWithComponents().
-//
-//
-//  requestedNumberFieldLen       int
-//     - This is the requested length of the number field in which
-//       the number string will be displayed. If this field length
-//       is greater than the actual length of the number string,
-//       the number string will be right justified within the the
-//       number field. If the actual number string length is greater
-//       than the requested number field length, the number field
-//       length will be automatically expanded to display the entire
-//       number string. The 'requested' number field length is used
-//       to create number fields of standard lengths for text
-//       presentations.
-//
-//
-//  numberFieldTextJustify        TextJustify
-//     - An enumeration value used to specify the type of text
-//       formatting which will be applied to a number string when
-//       it is positioned inside of a number field. This
-//       enumeration value must be one of the three following
-//       format specifications:
-//
-//       1. Left   - Signals that the text justification format is
-//                   set to 'Left-Justify'. Strings within text
-//                   fields will be flush with the left margin.
-//                          Example: "TextString      "
-//
-//       2. Right  - Signals that the text justification format is
-//                   set to 'Right-Justify'. Strings within text
-//                   fields will terminate at the right margin.
-//                          Example: "      TextString"
-//
-//       3. Center - Signals that the text justification format is
-//                   is set to 'Centered'. Strings will be positioned
-//                   in the center of the text field equidistant
-//                   from the left and right margins.
-//                           Example: "   TextString   "
-//
-//
-//  ePrefix                       *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (fmtAbsVal *FormatterAbsoluteValue) SetWithDefaults(
-	decimalSeparatorChar rune,
-	thousandsSeparatorChar rune,
-	turnOnThousandsSeparator bool,
-	absoluteValFmt string,
-	requestedNumberFieldLen int,
-	numberFieldTextJustify TextJustify,
-	ePrefix *ErrPrefixDto) error {
-
-	if fmtAbsVal.lock == nil {
-		fmtAbsVal.lock = new(sync.Mutex)
-	}
-
-	fmtAbsVal.lock.Lock()
-
-	defer fmtAbsVal.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"FormatterAbsoluteValue." +
-			"SetBasicRunes()")
-
-	nStrFmtSpecAbsValDtoUtil :=
-		numStrFmtSpecAbsoluteValueDtoUtility{}
-
-	return nStrFmtSpecAbsValDtoUtil.setAbsValDtoWithDefaults(
-		fmtAbsVal,
-		decimalSeparatorChar,
-		thousandsSeparatorChar,
-		turnOnThousandsSeparator,
-		absoluteValFmt,
-		requestedNumberFieldLen,
-		numberFieldTextJustify,
-		ePrefix)
-}
-
-// SetWithFmtSpecSetupDto - Sets the data values for current
-// FormatterAbsoluteValue instance based on input received
-// from an instance of NumStrFmtSpecSetupDto.
-//
-// IMPORTANT
-// This method will overwrite all pre-existing data values in the
-// current FormatterAbsoluteValue instance.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
-//     - A data structure conveying setup information for a
-//       FormatterAbsoluteValue object. Only the following
-//       data fields with a prefix of "AbsoluteVal" are used.
-//
-//       type NumStrFmtSpecSetupDto struct {
-//         IdNo                                      uint64
-//         IdString                                  string
-//         Description                               string
-//         Tag                                       string
-//         CountryIdNo                               uint64
-//         CountryIdString                           string
-//         CountryDescription                        string
-//         CountryTag                                string
-//         CountryCultureName                        string
-//         CountryAbbreviatedName                    string
-//         CountryAlternateNames                     []string
-//         CountryCodeTwoChar                        string
-//         CountryCodeThreeChar                      string
-//         CountryCodeNumber                         string
-//         AbsoluteValFmt                            string
-//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumSeps                        NumericSeparators
-//         AbsoluteValNumField                       NumberFieldDto
-//         CurrencyPositiveValueFmt                  string
-//         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     uint
-//         CurrencyCode                              string
-//         CurrencyCodeNo                            string
-//         CurrencyName                              string
-//         CurrencySymbols                           []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []rune
-//         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumSeps                           NumericSeparators
-//         CurrencyNumField                          NumberFieldDto
-//         SignedNumValPositiveValueFmt              string
-//         SignedNumValNegativeValueFmt              string
-//         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumSeps                       NumericSeparators
-//         SignedNumValNumField                      NumberFieldDto
-//         SciNotSignificandUsesLeadingPlus          bool
-//         SciNotMantissaLength                      uint
-//         SciNotExponentChar                        rune
-//         SciNotExponentUsesLeadingPlus             bool
-//         SciNotNumFieldLen                         int
-//         SciNotNumFieldTextJustify                 TextJustify
-//         Lock                                      *sync.Mutex
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
-//       error message.
-//
-func (fmtAbsVal *FormatterAbsoluteValue) SetWithFmtSpecSetupDto(
-	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix *ErrPrefixDto) error {
-
-	if fmtAbsVal.lock == nil {
-		fmtAbsVal.lock = new(sync.Mutex)
-	}
-
-	fmtAbsVal.lock.Lock()
-
-	defer fmtAbsVal.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto." +
-			"SetWithFmtSpecSetupDto()")
-
-	if fmtSpecSetupDto == nil {
-		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
-			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-			ePrefix.String())
-	}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecAbsValDtoMech :=
-		numStrFmtSpecAbsoluteValueDtoMechanics{}
-
-	fmtSpecSetupDto.Lock.Lock()
-
-	defer fmtSpecSetupDto.Lock.Unlock()
-
-	return nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
-		fmtAbsVal,
-		fmtSpecSetupDto.AbsoluteValFmt,
-		fmtSpecSetupDto.AbsoluteValTurnOnIntegerDigitsSeparation,
-		fmtSpecSetupDto.AbsoluteValNumSeps,
-		fmtSpecSetupDto.AbsoluteValNumField,
-		ePrefix)
 }

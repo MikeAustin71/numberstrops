@@ -6340,7 +6340,7 @@ func (nDto *NumStrDto) SetNumericSeparatorsDto(
 	customSeparators NumericSeparators,
 	ePrefix string) error {
 
-	ePrefix += "NumStrDto.SetNumericSeparatorsDto() "
+	ePrefix += "NumStrDto.SetNumericSeparators() "
 
 	nStrDtoElectron := numStrDtoElectron{}
 

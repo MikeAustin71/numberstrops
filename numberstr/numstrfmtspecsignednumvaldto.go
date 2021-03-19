@@ -1772,7 +1772,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberSep
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.SetNumberSeparatorsDto()")
+	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.SetNumericSeparators()")
 
 	return nStrFmtSpecSignedNumValueDto.numericSeparators.CopyIn(
 		&numberSeparatorsDto,

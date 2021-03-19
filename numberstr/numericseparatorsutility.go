@@ -161,7 +161,16 @@ func (numSepsUtility *numericSeparatorsUtility) setBasic(
 
 	ePrefix.SetEPref(
 		"numericSeparatorsUtility." +
-			"setBasic()")
+			"setBasicRunes()")
+
+	if numSeps == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numSeps' is invalid!\n"+
+			"'numSeps' is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return err
+	}
 
 	if len(decimalSeparators) == 0 {
 
@@ -171,27 +180,28 @@ func (numSepsUtility *numericSeparatorsUtility) setBasic(
 			ePrefix.String())
 	}
 
-	if len(integerDigitsSeparators) == 0 {
+	var integerSeparatorsDto NumStrIntSeparatorsDto
 
-		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'integerDigitsSeparators' is invalid!\n"+
-			"'integerDigitsSeparators' is zero length string.\n",
-			ePrefix.String())
+	integerSeparatorsDto,
+		err =
+		NumStrIntSeparatorsDto{}.NewBasic(
+			integerDigitsSeparators,
+			ePrefix.XCtx(
+				fmt.Sprintf("integerDigitsSeparators='%v'",
+					integerDigitsSeparators)))
+
+	if err != nil {
+		return err
 	}
 
-	return numericSeparatorsMechanics{}.ptr().
-		setWithComponents(
-			numSeps,
-			[]rune(decimalSeparators),
-			[]NumStrIntSeparator{
-				{
-					intSeparatorChars:          []rune(integerDigitsSeparators),
-					intSeparatorGrouping:       3,
-					intSeparatorRepetitions:    0,
-					restartIntGroupingSequence: false,
-				},
-			},
-			ePrefix.XCtx("numSeps"))
+	err = numericSeparatorsMechanics{}.ptr().setDetail(
+		numSeps,
+		decimalSeparators,
+		&integerSeparatorsDto,
+		ePrefix.XCtx(
+			"numSeps"))
+
+	return err
 }
 
 // setBasicRunes - Overwrites all the member variable data values
@@ -332,35 +342,59 @@ func (numSepsUtility *numericSeparatorsUtility) setBasicRunes(
 		"numericSeparatorsUtility." +
 			"setBasicRunes()")
 
+	if numSeps == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numSeps' is invalid!\n"+
+			"'numSeps' is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	if decimalSeparators == nil {
+		decimalSeparators =
+			make([]rune, 0)
+	}
+
 	if len(decimalSeparators) == 0 {
 
 		return fmt.Errorf("%v\n"+
 			"Error: Input parameter 'decimalSeparators' is invalid!\n"+
-			"'decimalSeparators' is zero length string.\n",
+			"'decimalSeparators' is zero length rune array.\n",
 			ePrefix.String())
+	}
+
+	if integerDigitsSeparators == nil {
+		integerDigitsSeparators =
+			make([]rune, 0)
 	}
 
 	if len(integerDigitsSeparators) == 0 {
 
 		return fmt.Errorf("%v\n"+
 			"Error: Input parameter 'integerDigitsSeparators' is invalid!\n"+
-			"'integerDigitsSeparators' is zero length string.\n",
+			"'integerDigitsSeparators' is a zero length rune array.\n",
 			ePrefix.String())
 	}
 
-	return numericSeparatorsMechanics{}.ptr().
-		setWithComponents(
-			numSeps,
-			decimalSeparators,
-			[]NumStrIntSeparator{
-				{
-					intSeparatorChars:          integerDigitsSeparators,
-					intSeparatorGrouping:       3,
-					intSeparatorRepetitions:    0,
-					restartIntGroupingSequence: false,
-				},
-			},
-			ePrefix.XCtx("numSeps"))
+	var integerSeparatorsDto NumStrIntSeparatorsDto
+
+	integerSeparatorsDto,
+		err =
+		NumStrIntSeparatorsDto{}.NewBasicRunes(
+			integerDigitsSeparators,
+			ePrefix.XCtx(
+				fmt.Sprintf("integerDigitsSeparators='%v'",
+					string(integerDigitsSeparators))))
+
+	err = numericSeparatorsMechanics{}.ptr().setDetailRunes(
+		numSeps,
+		decimalSeparators,
+		&integerSeparatorsDto,
+		ePrefix.XCtx(
+			"numSeps"))
+
+	return err
 }
 
 // setWithUSADefaults - Transfers new data to an instance of

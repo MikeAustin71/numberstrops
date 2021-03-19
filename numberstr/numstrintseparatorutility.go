@@ -120,7 +120,7 @@ func (intSeparatorUtil *numStrIntSeparatorUtility) setBasic(
 	}
 
 	ePrefix.SetEPref(
-		"numStrIntSeparatorUtility.setBasic()")
+		"numStrIntSeparatorUtility.setBasicRunes()")
 
 	if intSep == nil {
 		err = fmt.Errorf("%v\n"+
