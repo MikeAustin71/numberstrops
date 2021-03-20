@@ -57,14 +57,12 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyIn(
 		return err
 	}
 
-	nStrFmtSpecCurrDtoMolecule :=
-		formatterCurrencyMolecule{}
-
 	_,
 		err =
-		nStrFmtSpecCurrDtoMolecule.testValidityOfFormatterCurrency(
-			inComingFormatterCurrency,
-			ePrefix.XCtx("Testing validity of 'inComingFormatterCurrency'"))
+		formatterCurrencyMolecule{}.ptr().
+			testValidityOfFormatterCurrency(
+				inComingFormatterCurrency,
+				ePrefix.XCtx("Testing validity of 'inComingFormatterCurrency'"))
 
 	if err != nil {
 		return err
@@ -80,6 +78,9 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyIn(
 
 		return err
 	}
+
+	targetFormatterCurrency.numStrFormatterType =
+		inComingFormatterCurrency.numStrFormatterType
 
 	targetFormatterCurrency.positiveValueFmt =
 		inComingFormatterCurrency.positiveValueFmt
@@ -98,9 +99,6 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyIn(
 
 	targetFormatterCurrency.currencyName =
 		inComingFormatterCurrency.currencyName
-
-	targetFormatterCurrency.numStrFormatterType =
-		inComingFormatterCurrency.numStrFormatterType
 
 	targetFormatterCurrency.currencySymbols =
 		make([]rune, lenCurrencySymbols, 10)
@@ -202,6 +200,9 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyOut(
 		return newFormatterCurrency, err
 	}
 
+	newFormatterCurrency.numStrFormatterType =
+		formatterCurrency.numStrFormatterType
+
 	newFormatterCurrency.positiveValueFmt =
 		formatterCurrency.positiveValueFmt
 
@@ -219,9 +220,6 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyOut(
 
 	newFormatterCurrency.currencyName =
 		formatterCurrency.currencyName
-
-	newFormatterCurrency.numStrFormatterType =
-		formatterCurrency.numStrFormatterType
 
 	newFormatterCurrency.currencySymbols =
 		make([]rune, lenCurrencySymbols, 10)
@@ -631,10 +629,6 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) setCurrencyData(
 		return err
 	}
 
-	if currencySymbols == nil {
-		currencySymbols = make([]rune, 0, 5)
-	}
-
 	lenCurrencySymbols := len(currencySymbols)
 
 	if lenCurrencySymbols == 0 {
@@ -673,6 +667,9 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) setCurrencyData(
 		return err
 	}
 
+	formatterCurrency.numStrFormatterType =
+		NumStrFormatTypeCode(0).Currency()
+
 	formatterCurrency.positiveValueFmt =
 		positiveValueFmt
 
@@ -690,9 +687,6 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) setCurrencyData(
 
 	formatterCurrency.currencyName =
 		currencyName
-
-	formatterCurrency.numStrFormatterType =
-		NumStrFormatTypeCode(0).Currency()
 
 	formatterCurrency.currencySymbols =
 		make([]rune, lenCurrencySymbols)
