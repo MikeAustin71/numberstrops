@@ -486,10 +486,10 @@ func (nStrIntSep *NumStrIntSeparator) IsValidInstanceError(
 	return err
 }
 
-// New - Creates and returns a new instance of NumStrIntSeparator
-// set to United States default integer separators. Integer
-// separator values used in the United States consist of the
-// comma character (','), an integer grouping of
+// NewUnitedStatesDefaults - Creates and returns a new instance of
+// NumStrIntSeparator set to United States default integer
+// separators. Integer separator values used in the United States
+// consist of the comma character (','), an integer grouping of
 // three ('3') and unlimited repetitions of this sequence.
 //
 //   United States Integer Separation Example:
@@ -510,7 +510,7 @@ func (nStrIntSep *NumStrIntSeparator) IsValidInstanceError(
 //       NumStrIntSeparator configured with United States default
 //       integer separator values.
 //
-func (nStrIntSep NumStrIntSeparator) New() NumStrIntSeparator {
+func (nStrIntSep NumStrIntSeparator) NewUnitedStatesDefaults() NumStrIntSeparator {
 
 	if nStrIntSep.lock == nil {
 		nStrIntSep.lock = new(sync.Mutex)

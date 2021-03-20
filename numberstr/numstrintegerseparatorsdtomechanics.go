@@ -70,19 +70,12 @@ func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setToUSADefaults(
 	intSepsDto.intSeparators = nil
 
 	intSepsDto.intSeparators =
-		make([]NumStrIntSeparator, 1, 5)
+		make([]NumStrIntSeparator, 1)
 
-	intSepsDto.intSeparators[0].intSeparatorChars =
-		make([]rune, 1, 5)
-
-	intSepsDto.intSeparators[0].intSeparatorChars[0] = ','
-
-	intSepsDto.intSeparators[0].intSeparatorGrouping = 3
-
-	intSepsDto.intSeparators[0].intSeparatorRepetitions = 0
-
-	intSepsDto.intSeparators[0].restartIntGroupingSequence =
-		false
+	err =
+		intSepsDto.intSeparators[0].SetToUSADefaults(
+			ePrefix.XCtx(
+				"intSepsDto.intSeparators[0]"))
 
 	return err
 }

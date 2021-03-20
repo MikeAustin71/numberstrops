@@ -111,7 +111,7 @@ func (intSeparatorMech *numStrIntSeparatorMechanics) setToUSADefaults(
 	}
 
 	nStrIntSep.intSeparatorChars =
-		make([]rune, 1, 5)
+		make([]rune, 1)
 
 	nStrIntSep.intSeparatorChars[0] = ','
 
