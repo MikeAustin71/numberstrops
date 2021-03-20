@@ -1719,6 +1719,61 @@ func (fmtCurr FormatterCurrency) NewBasicRunes(
 	return newNStrFmtSpecCurrencyValDto, err
 }
 
+// NewUnitedStatesDefaults - Creates and returns a new instance of
+// FormatterCurrency. This method specifies the United States
+// default values for currency number string formatting.
+//
+// United States Signed Number default currency formatting
+// parameters are defined as follows:
+//
+//      Positive Signed Number format: "$127.54"
+//      Negative Signed Number format: "(127.54)"
+//                     Decimal Digits: 2
+//                    Currency Symbol: "$"
+//        Decimal Separator Character: '.'
+//      Thousands Separator Character: ','
+//   Thousands Integer Digit Grouping: 3
+//        Turn On Thousands Separator: true
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  -- None --
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterCurrency
+//     - This parameter will return a new, populated instance of
+//       FormatterCurrency configured for United States default
+//       currency formats.
+//
+func (fmtCurr FormatterCurrency) NewUnitedStatesDefaults() FormatterCurrency {
+
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
+	}
+
+	fmtCurr.lock.Lock()
+
+	defer fmtCurr.lock.Unlock()
+
+	newFmtCurrency := FormatterCurrency{}
+
+	newFmtCurrency.lock = new(sync.Mutex)
+
+	_ = formatterCurrencyUtility{}.ptr().
+		setToUnitedStatesDefaults(
+			&newFmtCurrency,
+			nil)
+
+	return newFmtCurrency
+}
+
 // NewWithComponents - Creates and returns a new instance of
 // FormatterCurrency.
 //
@@ -4356,12 +4411,10 @@ func (fmtCurr *FormatterCurrency) SetToUnitedStatesDefaults(
 		"FormatterCurrency." +
 			"SetToUnitedStatesDefaults()")
 
-	currValDtoUtil :=
-		formatterCurrencyUtility{}
-
-	err = currValDtoUtil.setToUnitedStatesDefaults(
-		fmtCurr,
-		ePrefix)
+	err = formatterCurrencyUtility{}.ptr().
+		setToUnitedStatesDefaults(
+			fmtCurr,
+			ePrefix)
 
 	return err
 }

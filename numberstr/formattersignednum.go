@@ -1320,7 +1320,8 @@ func (fmtSignedNum FormatterSignedNumber) NewBasicRunes(
 //
 //  FormatterSignedNumber
 //     - This parameter will return a new, populated instance of
-//       FormatterSignedNumber.
+//       FormatterSignedNumber configured United States default
+//       signed number formatting parameters.
 //
 func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults() FormatterSignedNumber {
 
