@@ -67,6 +67,8 @@ func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setToUSADefaults(
 		intSepsDto.lock = new(sync.Mutex)
 	}
 
+	intSepsDto.intSeparators = nil
+
 	intSepsDto.intSeparators =
 		make([]NumStrIntSeparator, 1, 5)
 

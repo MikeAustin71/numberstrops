@@ -1500,9 +1500,9 @@ func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults() FormatterSig
 //
 //
 //  numericSeparators             NumericSeparators
-//     - This instance of 'NumericSeparators' is
-//       used to specify the separator characters which will be
-//       including in the number string text display.
+//     - This instance of 'NumericSeparators' is used to specify
+//       the separator characters which will be included in the
+//       number string text display.
 //
 //        type NumericSeparators struct {
 //         decimalSeparators    []rune
