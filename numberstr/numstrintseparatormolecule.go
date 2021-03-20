@@ -68,21 +68,27 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyIn(
 		return err
 	}
 
-	if incomingNStrIntSeparator.intSeparatorChars == nil {
-		incomingNStrIntSeparator.intSeparatorChars =
-			make([]rune, 0, 5)
-	}
-
 	lIntSepChars :=
 		len(incomingNStrIntSeparator.intSeparatorChars)
+
+	if lIntSepChars == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: 'incomingNStrIntSeparator.intSeparatorChars' "+
+			"is invalid!\n"+
+			"'incomingNStrIntSeparator.intSeparatorChars' is a zero "+
+			"length array.\n",
+			ePrefix.XCtxEmpty().String())
+
+		return err
+	}
+
+	targetNStrIntSeparator.intSeparatorChars = nil
 
 	targetNStrIntSeparator.intSeparatorChars =
 		make([]rune, lIntSepChars, lIntSepChars+5)
 
-	for i := 0; i < lIntSepChars; i++ {
-		targetNStrIntSeparator.intSeparatorChars[i] =
-			incomingNStrIntSeparator.intSeparatorChars[i]
-	}
+	copy(targetNStrIntSeparator.intSeparatorChars,
+		incomingNStrIntSeparator.intSeparatorChars)
 
 	targetNStrIntSeparator.intSeparatorGrouping =
 		incomingNStrIntSeparator.intSeparatorGrouping
@@ -145,21 +151,25 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyOut(
 		return newNumSrIntSeparator, err
 	}
 
-	if numStrIntSeparator.intSeparatorChars == nil {
-		numStrIntSeparator.intSeparatorChars =
-			make([]rune, 0, 5)
-	}
-
 	lIntSepChars :=
 		len(numStrIntSeparator.intSeparatorChars)
+
+	if lIntSepChars == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: 'numStrIntSeparator.intSeparatorChars' "+
+			"is invalid!\n"+
+			"'numStrIntSeparator.intSeparatorChars' is a zero "+
+			"length array.\n",
+			ePrefix.XCtxEmpty().String())
+
+		return newNumSrIntSeparator, err
+	}
 
 	newNumSrIntSeparator.intSeparatorChars =
 		make([]rune, lIntSepChars, lIntSepChars+5)
 
-	for i := 0; i < lIntSepChars; i++ {
-		newNumSrIntSeparator.intSeparatorChars[i] =
-			numStrIntSeparator.intSeparatorChars[i]
-	}
+	copy(newNumSrIntSeparator.intSeparatorChars,
+		numStrIntSeparator.intSeparatorChars)
 
 	newNumSrIntSeparator.intSeparatorGrouping =
 		numStrIntSeparator.intSeparatorGrouping
@@ -197,16 +207,6 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) equal(
 	defer nStrIntSepMolecule.lock.Unlock()
 
 	areEqual = true
-
-	if nStrIntSep1.intSeparatorChars == nil {
-		nStrIntSep1.intSeparatorChars =
-			make([]rune, 0, 5)
-	}
-
-	if nStrIntSep2.intSeparatorChars == nil {
-		nStrIntSep2.intSeparatorChars =
-			make([]rune, 0, 5)
-	}
 
 	lenIntSeps1 := len(nStrIntSep1.intSeparatorChars)
 
