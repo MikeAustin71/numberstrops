@@ -550,18 +550,20 @@ func (numSeps *NumericSeparators) IsValidInstanceError(
 	return err
 }
 
-// New - Returns a new instance of NumericSeparators.
+// NewUnitedStatesDefaults - Returns a new instance of
+// NumericSeparators.
 //
 // The values are automatically set to United States default
 // numeric separator values. These values are listed as follows:
 //
-//  Decimal Separator = '.'
+//  Decimal Separator Character = '.'
 //  Thousands Separator (a.k.a Integer Digits Separator) = ','
-//  Integer Digits Grouping Sequence = 3
-//  Example Floating Point Number String: 1,000,000,000.456
+//  Integer Digits (a.k.a. Thousands) Grouping Sequence = 3
 //
+//  United States Example Floating Point Number String:
+//      1,000,000,000.456
 //
-func (numSeps NumericSeparators) New() NumericSeparators {
+func (numSeps NumericSeparators) NewUnitedStatesDefaults() NumericSeparators {
 
 	if numSeps.lock == nil {
 		numSeps.lock = new(sync.Mutex)
