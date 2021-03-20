@@ -561,7 +561,23 @@ func (numSeps *NumericSeparators) IsValidInstanceError(
 //  Integer Digits (a.k.a. Thousands) Grouping Sequence = 3
 //
 //  United States Example Floating Point Number String:
-//      1,000,000,000.456
+//           1,000,000,000.456
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  -- None --
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumericSeparators
+//     - This parameter will return a new, populated instance of
+//       NumericSeparators.
 //
 func (numSeps NumericSeparators) NewUnitedStatesDefaults() NumericSeparators {
 
