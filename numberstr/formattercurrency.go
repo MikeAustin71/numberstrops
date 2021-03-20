@@ -4283,7 +4283,7 @@ func (fmtCurr *FormatterCurrency) SetPositiveValueFormat(
 }
 
 // SetToUnitedStatesDefaults - Sets the member variable data values
-// for the current NumStrFmtSpecSignedNumValueDto instance to
+// for the current FormatterSignedNumber instance to
 // United States Default values.
 //
 // In the United States, Currency Number default formatting
@@ -4371,7 +4371,7 @@ func (fmtCurr *FormatterCurrency) SetToUnitedStatesDefaults(
 // this method will set the member variable data values to United
 // States default values.
 //
-// If the current NumStrFmtSpecSignedNumValueDto instance is valid
+// If the current FormatterSignedNumber instance is valid
 // and NOT empty, this method will take no action and exit.
 //
 // In the United States, Currency Number default formatting

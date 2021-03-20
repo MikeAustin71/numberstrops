@@ -55,7 +55,7 @@ func (nStrFmtSpecDtoUtil numStrFmtSpecDtoUtility) ptr() *numStrFmtSpecDtoUtility
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
-//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         signedNumValue FormatterSignedNumber
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
 //
@@ -701,7 +701,7 @@ func (nStrFmtSpecDtoUtil *numStrFmtSpecDtoUtility) setCustomFmtSpecDto(
 		return err
 	}
 
-	nStrSignedNumElectron := numStrSignedNumValElectron{}
+	nStrSignedNumElectron := formatterSignedNumberElectron{}
 
 	_,
 		err = nStrSignedNumElectron.

@@ -5,30 +5,30 @@ import (
 	"sync"
 )
 
-type nStrFmtSpecSignedNumValUtility struct {
+type formatterSignedNumberUtility struct {
 	lock *sync.Mutex
 }
 
-// setSignedNumValDtoWithDefaults() - Sets the data values for an
-// instance NumStrFmtSpecSignedNumValueDto passed as an input
+// setBasicRunesSignedNumber() - Sets the data values for an
+// instance FormatterSignedNumber passed as an input
 // parameter.
 //
-// The FormatterAbsoluteValue type encapsulates the
-// formatting parameters necessary to format absolute numeric
-// values for display in text number strings.
+// The FormatterSignedNumber type encapsulates the formatting
+// parameters necessary to format signed numeric values for
+// display in text number strings.
 //
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  nStrFmtSpecSignedNumValDto    *NumStrFmtSpecSignedNumValueDto,
-//     - A pointer to an instance of NumStrFmtSpecSignedNumValueDto.
+//  fmtSignedNum                  *FormatterSignedNumber,
+//     - A pointer to an instance of FormatterSignedNumber.
 //       All data values in this object will be overwritten and
 //       set to new values based on the following input parameters.
 //
 //
-//  decimalSeparatorChar          rune
+//  decimalSeparatorChar          []rune
 //     - The character used to separate integer and fractional
 //       digits in a floating point number string. In the United
 //       States, the Decimal Separator character is the period
@@ -36,7 +36,7 @@ type nStrFmtSpecSignedNumValUtility struct {
 //           Example: '123.45678'
 //
 //
-//  thousandsSeparatorChar        rune
+//  thousandsSeparatorChar        []rune
 //     - The character which will be used to delimit 'thousands' in
 //       integer number strings. In the United States, the
 //       Thousands separator is the comma character (',').
@@ -248,10 +248,10 @@ type nStrFmtSpecSignedNumValUtility struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedNumValDtoWithDefaults(
-	nStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
-	decimalSeparatorChar rune,
-	thousandsSeparatorChar rune,
+func (fmtSignedNumUtil *formatterSignedNumberUtility) setBasicRunesSignedNumber(
+	fmtSignedNum *FormatterSignedNumber,
+	decimalSeparatorChars []rune,
+	thousandsSeparatorChars []rune,
 	turnOnThousandsSeparator bool,
 	positiveValueFmt string,
 	negativeValueFmt string,
@@ -260,24 +260,25 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecSignedNumValDtoUtil.lock == nil {
-		nStrFmtSpecSignedNumValDtoUtil.lock = new(sync.Mutex)
+	if fmtSignedNumUtil.lock == nil {
+		fmtSignedNumUtil.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValDtoUtil.lock.Lock()
+	fmtSignedNumUtil.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValDtoUtil.lock.Unlock()
+	defer fmtSignedNumUtil.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("nStrFmtSpecSignedNumValUtility.setSignedNumValDtoWithDefaults()")
+	ePrefix.SetEPref(
+		"formatterSignedNumberUtility.setBasicRunesSignedNumber()")
 
-	if nStrFmtSpecSignedNumValDto == nil {
+	if fmtSignedNum == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecSignedNumValDto' is invalid!\n"+
-			"'nStrFmtSpecSignedNumValDto' is a 'nil' pointer.\n",
+			"Error: Input parameter 'fmtSignedNum' is invalid!\n"+
+			"'fmtSignedNum' is a 'nil' pointer.\n",
 			ePrefix.String())
 		return err
 	}
@@ -292,44 +293,36 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 
 	var numberSeparatorsDto NumericSeparators
 
-	intSeps := make([]NumStrIntSeparator, 1, 5)
-
-	intSeps[0].intSeparatorChar = thousandsSeparatorChar
-	intSeps[0].intSeparatorGrouping = 3
-	intSeps[0].intSeparatorRepetitions = 0
-
 	numberSeparatorsDto,
-		err = NumericSeparators{}.NewWithComponents(
-		decimalSeparatorChar,
-		intSeps,
+		err = NumericSeparators{}.NewBasicRunes(
+		decimalSeparatorChars,
+		thousandsSeparatorChars,
 		ePrefix.XCtx(
 			fmt.Sprintf(
-				"decimalSeparatorChar='%v' "+
-					"thousandsSeparatorChar='%v'",
-				decimalSeparatorChar,
-				thousandsSeparatorChar)))
+				"decimalSeparatorChars='%v' "+
+					"thousandsSeparatorChars='%v'",
+				decimalSeparatorChars,
+				thousandsSeparatorChars)))
 
 	if err != nil {
 		return err
 	}
 
-	nStrFmtSpecSignedNumValMech :=
-		nStrFmtSpecSignedNumValMechanics{}
-
-	err = nStrFmtSpecSignedNumValMech.setSignedNumValDtoWithComponents(
-		nStrFmtSpecSignedNumValDto,
-		positiveValueFmt,
-		negativeValueFmt,
-		turnOnThousandsSeparator,
-		numberSeparatorsDto,
-		numFieldDto,
-		ePrefix.XCtx("Setting 'nStrFmtSpecSignedNumValDto'"))
+	err = formatterSignedNumberMechanics{}.ptr().
+		setFmtSignedNumWithComponents(
+			fmtSignedNum,
+			positiveValueFmt,
+			negativeValueFmt,
+			turnOnThousandsSeparator,
+			numberSeparatorsDto,
+			numFieldDto,
+			ePrefix.XCtx("Setting 'fmtSignedNum'"))
 
 	return err
 }
 
 // setToUnitedStatesDefaults - Sets the member variable data
-// values for the incoming NumStrFmtSpecSignedNumValueDto instance
+// values for the incoming FormatterSignedNumber instance
 // to United States Default values.
 //
 // In the United States, Signed Number default formatting
@@ -346,8 +339,8 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 //
 // Input Parameters
 //
-//  nStrFmtSpecSignedNumValDto    *NumStrFmtSpecSignedNumValueDto
-//     - A pointer to an instance of NumStrFmtSpecSignedNumValueDto.
+//  fmtSignedNum                  *FormatterSignedNumber
+//     - A pointer to an instance of FormatterSignedNumber.
 //       All data values in this object will be overwritten and
 //       set to United States default values for signed number
 //       numeric values displayed in number strings.
@@ -377,31 +370,31 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setSignedN
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setToUnitedStatesDefaults(
-	nStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
+func (fmtSignedNumUtil *formatterSignedNumberUtility) setToUnitedStatesDefaults(
+	fmtSignedNum *FormatterSignedNumber,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecSignedNumValDtoUtil.lock == nil {
-		nStrFmtSpecSignedNumValDtoUtil.lock = new(sync.Mutex)
+	if fmtSignedNumUtil.lock == nil {
+		fmtSignedNumUtil.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValDtoUtil.lock.Lock()
+	fmtSignedNumUtil.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValDtoUtil.lock.Unlock()
+	defer fmtSignedNumUtil.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"nStrFmtSpecSignedNumValUtility." +
+		"formatterSignedNumberUtility." +
 			"setToUnitedStatesDefaults()")
 
-	if nStrFmtSpecSignedNumValDto == nil {
+	if fmtSignedNum == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecSignedNumValDto' is invalid!\n"+
-			"'nStrFmtSpecSignedNumValDto' is a 'nil' pointer.\n",
+			"Error: Input parameter 'fmtSignedNum' is invalid!\n"+
+			"'fmtSignedNum' is a 'nil' pointer.\n",
 			ePrefix.String())
 		return err
 	}
@@ -414,18 +407,12 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setToUnite
 		TxtJustify.Right(),
 		ePrefix)
 
-	intSeps := make([]NumStrIntSeparator, 1, 5)
-
-	intSeps[0].intSeparatorChar = ','
-	intSeps[0].intSeparatorGrouping = 3
-	intSeps[0].intSeparatorRepetitions = 0
-
 	var numberSeparatorsDto NumericSeparators
 
 	numberSeparatorsDto,
-		err = NumericSeparators{}.NewWithComponents(
-		'.',
-		intSeps,
+		err = NumericSeparators{}.NewBasicRunes(
+		[]rune{'.'},
+		[]rune{','},
 		ePrefix.XCtx(
 			"decimalSeparatorChar='.' "+
 				"thousandsSeparatorChar=','"))
@@ -435,17 +422,17 @@ func (nStrFmtSpecSignedNumValDtoUtil *nStrFmtSpecSignedNumValUtility) setToUnite
 	}
 
 	nStrFmtSpecSignedNumValMech :=
-		nStrFmtSpecSignedNumValMechanics{}
+		formatterSignedNumberMechanics{}
 
-	err = nStrFmtSpecSignedNumValMech.setSignedNumValDtoWithComponents(
-		nStrFmtSpecSignedNumValDto,
+	err = nStrFmtSpecSignedNumValMech.setFmtSignedNumWithComponents(
+		fmtSignedNum,
 		"127.54",
 		"-127.54",
 		true,
 		numberSeparatorsDto,
 		numFieldDto,
 		ePrefix.XCtx(
-			"Setting 'nStrFmtSpecSignedNumValDto' "))
+			"Setting 'fmtSignedNum' "))
 
 	return err
 }

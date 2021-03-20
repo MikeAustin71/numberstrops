@@ -272,8 +272,8 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 //       will be returned.
 //
 //
-//  signedNumValue                NumStrFmtSpecSignedNumValueDto
-//     - A valid and fully populated NumStrFmtSpecSignedNumValueDto
+//  signedNumValue                FormatterSignedNumber
+//     - A valid and fully populated FormatterSignedNumber
 //       object. This object contains formatting specifications
 //       controlling the text display of signed numeric values.
 //
@@ -323,7 +323,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
 	countryCulture NumStrFmtSpecCountryDto,
 	absoluteValue FormatterAbsoluteValue,
 	currencyValue FormatterCurrency,
-	signedNumValue NumStrFmtSpecSignedNumValueDto,
+	signedNumValue FormatterSignedNumber,
 	sciNotation NumStrFmtSpecSciNotationDto,
 	ePrefix *ErrPrefixDto) (err error) {
 

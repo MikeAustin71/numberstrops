@@ -16,7 +16,7 @@ type NumStrFmtSpecDto struct {
 	countryCulture NumStrFmtSpecCountryDto
 	absoluteValue  FormatterAbsoluteValue
 	currencyValue  FormatterCurrency
-	signedNumValue NumStrFmtSpecSignedNumValueDto
+	signedNumValue FormatterSignedNumber
 	sciNotation    NumStrFmtSpecSciNotationDto
 	lock           *sync.Mutex
 }
@@ -481,17 +481,17 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetScientificNotationSpec() NumStrFmtSpecSci
 }
 
 // GetSignedNumSpec - Returns a deep copy of the member variable
-// 'signedNumValue', of type NumStrFmtSpecSignedNumValueDto.
+// 'signedNumValue', of type FormatterSignedNumber.
 //
 // IMPORTANT
 //
 // No validity tests are performed on the current NumStrFmtSpecDto
-// instance before returning the NumStrFmtSpecSignedNumValueDto
+// instance before returning the FormatterSignedNumber
 // object. To validate the current NumStrFmtSpecDto instance
 // reference methods NumStrFmtSpecDto.IsValidInstance() and
 // NumStrFmtSpecDto.IsValidInstanceError().
 //
-func (fmtSpecDto *NumStrFmtSpecDto) GetSignedNumSpec() NumStrFmtSpecSignedNumValueDto {
+func (fmtSpecDto *NumStrFmtSpecDto) GetSignedNumSpec() FormatterSignedNumber {
 
 	if fmtSpecDto.lock == nil {
 		fmtSpecDto.lock = new(sync.Mutex)
@@ -1209,8 +1209,8 @@ func (fmtSpecDto NumStrFmtSpecDto) NewCustomFmtSpec(
 //       will be returned.
 //
 //
-//  signedNumValue                NumStrFmtSpecSignedNumValueDto
-//     - A valid and fully populated NumStrFmtSpecSignedNumValueDto
+//  signedNumValue                FormatterSignedNumber
+//     - A valid and fully populated FormatterSignedNumber
 //       object. This object contains formatting specifications
 //       controlling the text display of signed numeric values.
 //
@@ -1264,7 +1264,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromComponents(
 	countryCulture NumStrFmtSpecCountryDto,
 	absoluteValue FormatterAbsoluteValue,
 	currencyValue FormatterCurrency,
-	signedNumValue NumStrFmtSpecSignedNumValueDto,
+	signedNumValue FormatterSignedNumber,
 	sciNotation NumStrFmtSpecSciNotationDto,
 	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecDto,
@@ -1616,8 +1616,8 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 //       will be returned.
 //
 //
-//  signedNumValue                NumStrFmtSpecSignedNumValueDto
-//     - A valid and fully populated NumStrFmtSpecSignedNumValueDto
+//  signedNumValue                FormatterSignedNumber
+//     - A valid and fully populated FormatterSignedNumber
 //       object. This object contains formatting specifications
 //       controlling the text display of signed numeric values.
 //
@@ -1666,7 +1666,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetNumStrFmtSpecDto(
 	countryCulture NumStrFmtSpecCountryDto,
 	absoluteValue FormatterAbsoluteValue,
 	currencyValue FormatterCurrency,
-	signedNumValue NumStrFmtSpecSignedNumValueDto,
+	signedNumValue FormatterSignedNumber,
 	sciNotation NumStrFmtSpecSciNotationDto,
 	ePrefix *ErrPrefixDto) error {
 

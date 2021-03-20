@@ -56,7 +56,7 @@ type numStrBasicAtom struct {
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
-//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         signedNumValue FormatterSignedNumber
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
 //
@@ -472,7 +472,7 @@ func (nStrBasicAtom *numStrBasicAtom) parseIntRunesFromNumStr(
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
-//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         signedNumValue FormatterSignedNumber
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
 //

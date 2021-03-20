@@ -6,33 +6,56 @@ import (
 	"sync"
 )
 
-type numStrSignedNumValElectron struct {
+type formatterSignedNumberElectron struct {
 	lock *sync.Mutex
+}
+
+// ptr - Returns a pointer to a new instance of
+// formatterSignedNumberElectron.
+//
+func (fmtSignedNumElectron formatterSignedNumberElectron) ptr() *formatterSignedNumberElectron {
+
+	if fmtSignedNumElectron.lock == nil {
+		fmtSignedNumElectron.lock = new(sync.Mutex)
+	}
+
+	fmtSignedNumElectron.lock.Lock()
+
+	defer fmtSignedNumElectron.lock.Unlock()
+
+	newFmtSignedNumElectron :=
+		new(formatterSignedNumberElectron)
+
+	newFmtSignedNumElectron.lock = new(sync.Mutex)
+
+	return newFmtSignedNumElectron
 }
 
 // testSignedNumValNegativeValueFormatStr - Inspects the Negative Value
 // Number Format string for a Signed Number Value Formatter and returns
 // an error if the format string is invalid.
 //
-func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativeValueFormatStr(
+func (fmtSignedNumElectron *formatterSignedNumberElectron) testSignedNumValNegativeValueFormatStr(
 	negativeValueFmtStr string,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
-	if nStrSignedNumElectron.lock == nil {
-		nStrSignedNumElectron.lock = new(sync.Mutex)
+	if fmtSignedNumElectron.lock == nil {
+		fmtSignedNumElectron.lock = new(sync.Mutex)
 	}
 
-	nStrSignedNumElectron.lock.Lock()
+	fmtSignedNumElectron.lock.Lock()
 
-	defer nStrSignedNumElectron.lock.Unlock()
+	defer fmtSignedNumElectron.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numStrSignedNumValElectron.testSignedNumValNegativeValueFormat()")
+	ePrefix.SetEPref(
+		"formatterSignedNumberElectron." +
+			"testSignedNumValNegativeValueFormat()")
 
 	isValid = false
 
@@ -45,7 +68,7 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 		return isValid, err
 	}
 
-	nStrFmtSpecSignedNumValQuark := numStrFmtSpecSignedNumValQuark{}
+	nStrFmtSpecSignedNumValQuark := formatterSignedNumberQuark{}
 
 	validFmtChars :=
 		nStrFmtSpecSignedNumValQuark.getValidSignedNumNegativeValFmtChars()
@@ -132,26 +155,26 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValNegativ
 // an error if the format string is invalid.
 //
 //
-func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValPositiveValueFormatStr(
+func (fmtSignedNumElectron *formatterSignedNumberElectron) testSignedNumValPositiveValueFormatStr(
 	positiveValueFmtStr string,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
-	if nStrSignedNumElectron.lock == nil {
-		nStrSignedNumElectron.lock = new(sync.Mutex)
+	if fmtSignedNumElectron.lock == nil {
+		fmtSignedNumElectron.lock = new(sync.Mutex)
 	}
 
-	nStrSignedNumElectron.lock.Lock()
+	fmtSignedNumElectron.lock.Lock()
 
-	defer nStrSignedNumElectron.lock.Unlock()
+	defer fmtSignedNumElectron.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"numStrSignedNumValElectron." +
+		"formatterSignedNumberElectron." +
 			"testSignedNumValPositiveValueFormatStr()")
 
 	isValid = false
@@ -165,7 +188,7 @@ func (nStrSignedNumElectron *numStrSignedNumValElectron) testSignedNumValPositiv
 		return isValid, err
 	}
 
-	nStrFmtSpecSignedNumValQuark := numStrFmtSpecSignedNumValQuark{}
+	nStrFmtSpecSignedNumValQuark := formatterSignedNumberQuark{}
 
 	validFmtChars :=
 		nStrFmtSpecSignedNumValQuark.getValidSignedNumPositiveValFmtChars()

@@ -35,7 +35,7 @@ type numStrDtoUtility struct {
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
-//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         signedNumValue FormatterSignedNumber
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
 //
@@ -294,7 +294,7 @@ func (nStrDtoUtil *numStrDtoUtility) addNumStrs(
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
-//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         signedNumValue FormatterSignedNumber
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
 //
@@ -494,7 +494,7 @@ func (nStrDtoUtil numStrDtoUtility) ptr() *numStrDtoUtility {
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
-//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         signedNumValue FormatterSignedNumber
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
 //
@@ -668,7 +668,7 @@ func (nStrDtoUtil *numStrDtoUtility) setNumStr(
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
-//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         signedNumValue FormatterSignedNumber
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
 //

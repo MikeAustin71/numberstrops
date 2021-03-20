@@ -1003,7 +1003,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFormatterCurrency(
 }
 
 // setToUnitedStatesDefaults - Sets the member variable data
-// values for the incoming NumStrFmtSpecSignedNumValueDto instance
+// values for the incoming FormatterSignedNumber instance
 // to United States Default values.
 //
 // In the United States, Currency Number default formatting

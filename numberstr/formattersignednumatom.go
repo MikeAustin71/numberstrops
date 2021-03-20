@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecSignedNumValAtom struct {
+type formatterSignedNumberAtom struct {
 	lock *sync.Mutex
 }
 
@@ -13,25 +13,25 @@ type numStrFmtSpecSignedNumValAtom struct {
 // Number Format string for a Signed Number Value Formatter and returns
 // an error if the format string is invalid.
 //
-func (nStrSignedNumAtom *numStrFmtSpecSignedNumValAtom) testSignedNumValPositiveValueFormat(
-	nStrFmtSpecSignedNumberValueDto *NumStrFmtSpecSignedNumValueDto,
+func (fmtSignedNumAtom *formatterSignedNumberAtom) testSignedNumValPositiveValueFormat(
+	nStrFmtSpecSignedNumberValueDto *FormatterSignedNumber,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
-	if nStrSignedNumAtom.lock == nil {
-		nStrSignedNumAtom.lock = new(sync.Mutex)
+	if fmtSignedNumAtom.lock == nil {
+		fmtSignedNumAtom.lock = new(sync.Mutex)
 	}
 
-	nStrSignedNumAtom.lock.Lock()
+	fmtSignedNumAtom.lock.Lock()
 
-	defer nStrSignedNumAtom.lock.Unlock()
+	defer fmtSignedNumAtom.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numStrFmtSpecSignedNumValAtom.testSignedNumValPositiveValueFormat()")
+	ePrefix.SetEPref("formatterSignedNumberAtom.testSignedNumValPositiveValueFormat()")
 
 	isValid = false
 
@@ -45,7 +45,7 @@ func (nStrSignedNumAtom *numStrFmtSpecSignedNumValAtom) testSignedNumValPositive
 	}
 
 	nStrSignedNumElectron :=
-		numStrSignedNumValElectron{}
+		formatterSignedNumberElectron{}
 
 	isValid,
 		err = nStrSignedNumElectron.testSignedNumValPositiveValueFormatStr(
@@ -60,25 +60,25 @@ func (nStrSignedNumAtom *numStrFmtSpecSignedNumValAtom) testSignedNumValPositive
 // an error if the format string is invalid.
 //
 //
-func (nStrSignedNumAtom *numStrFmtSpecSignedNumValAtom) testSignedNumValNegativeValueFormat(
-	nStrFmtSpecSignedNumberValueDto *NumStrFmtSpecSignedNumValueDto,
+func (fmtSignedNumAtom *formatterSignedNumberAtom) testSignedNumValNegativeValueFormat(
+	nStrFmtSpecSignedNumberValueDto *FormatterSignedNumber,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
 	err error) {
 
-	if nStrSignedNumAtom.lock == nil {
-		nStrSignedNumAtom.lock = new(sync.Mutex)
+	if fmtSignedNumAtom.lock == nil {
+		fmtSignedNumAtom.lock = new(sync.Mutex)
 	}
 
-	nStrSignedNumAtom.lock.Lock()
+	fmtSignedNumAtom.lock.Lock()
 
-	defer nStrSignedNumAtom.lock.Unlock()
+	defer fmtSignedNumAtom.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numStrFmtSpecSignedNumValAtom.testSignedNumValNegativeValueFormat()")
+	ePrefix.SetEPref("formatterSignedNumberAtom.testSignedNumValNegativeValueFormat()")
 
 	isValid = false
 
@@ -90,7 +90,7 @@ func (nStrSignedNumAtom *numStrFmtSpecSignedNumValAtom) testSignedNumValNegative
 	}
 
 	nStrSignedNumElectron :=
-		numStrSignedNumValElectron{}
+		formatterSignedNumberElectron{}
 
 	isValid,
 		err = nStrSignedNumElectron.testSignedNumValNegativeValueFormatStr(

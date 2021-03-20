@@ -1065,7 +1065,7 @@ func (nStrDtoMolecule numStrDtoMolecule) ptr() *numStrDtoMolecule {
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
-//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         signedNumValue FormatterSignedNumber
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
 //
@@ -1444,7 +1444,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) setPrecision(
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
-//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         signedNumValue FormatterSignedNumber
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
 //
@@ -1730,7 +1730,7 @@ func (nStrDtoMolecule *numStrDtoMolecule) shiftPrecisionLeft(
 //         countryCulture NumStrFmtSpecCountryDto
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
-//         signedNumValue NumStrFmtSpecSignedNumValueDto
+//         signedNumValue FormatterSignedNumber
 //         sciNotation    NumStrFmtSpecSciNotationDto
 //       }
 //

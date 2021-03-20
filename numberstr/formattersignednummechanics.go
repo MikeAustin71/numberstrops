@@ -5,12 +5,33 @@ import (
 	"sync"
 )
 
-type nStrFmtSpecSignedNumValMechanics struct {
+type formatterSignedNumberMechanics struct {
 	lock *sync.Mutex
 }
 
-// setSignedNumValDtoWithComponents - Transfers new data to an instance of
-// NumStrFmtSpecSignedNumValueDto. After completion, all the data
+// ptr - Returns a pointer to a new instance of
+// formatterSignedNumberMechanics.
+//
+func (fmtSignedNumMech formatterSignedNumberMechanics) ptr() *formatterSignedNumberMechanics {
+
+	if fmtSignedNumMech.lock == nil {
+		fmtSignedNumMech.lock = new(sync.Mutex)
+	}
+
+	fmtSignedNumMech.lock.Lock()
+
+	defer fmtSignedNumMech.lock.Unlock()
+
+	newFmtSignedNumMechanics :=
+		new(formatterSignedNumberMechanics)
+
+	newFmtSignedNumMechanics.lock = new(sync.Mutex)
+
+	return newFmtSignedNumMechanics
+}
+
+// setFmtSignedNumWithComponents - Transfers new data to an instance of
+// FormatterSignedNumber. After completion, all the data
 // fields within input parameter 'nStrFmtSpecSignedNumValDto' will
 // be overwritten.
 //
@@ -19,8 +40,8 @@ type nStrFmtSpecSignedNumValMechanics struct {
 //
 // Input Parameters
 //
-//  nStrFmtSpecSignedNumValDto    *NumStrFmtSpecSignedNumValueDto
-//     - A pointer to a NumStrFmtSpecSignedNumValueDto object. All
+//  fmtSignedNum                  *FormatterSignedNumber
+//     - A pointer to a FormatterSignedNumber object. All
 //       of the data fields in this object will overwritten and set
 //       to new values based on the following input parameters.
 //
@@ -269,8 +290,8 @@ type nStrFmtSpecSignedNumValMechanics struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNumValDtoWithComponents(
-	nStrFmtSpecSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
+func (fmtSignedNumMech *formatterSignedNumberMechanics) setFmtSignedNumWithComponents(
+	fmtSignedNum *FormatterSignedNumber,
 	positiveValueFmt string,
 	negativeValueFmt string,
 	turnOnIntegerDigitsSeparation bool,
@@ -279,42 +300,40 @@ func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNu
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecSignedNumValMech.lock == nil {
-		nStrFmtSpecSignedNumValMech.lock = new(sync.Mutex)
+	if fmtSignedNumMech.lock == nil {
+		fmtSignedNumMech.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValMech.lock.Lock()
+	fmtSignedNumMech.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValMech.lock.Unlock()
+	defer fmtSignedNumMech.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"nStrFmtSpecSignedNumValMechanics." +
-			"setSignedNumValDtoWithComponents()")
+		"formatterSignedNumberMechanics." +
+			"setFmtSignedNumWithComponents()")
 
-	if nStrFmtSpecSignedNumValDto == nil {
+	if fmtSignedNum == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrFmtSpecSignedNumValDto' is invalid!\n"+
-			"'nStrFmtSpecSignedNumValDto' is a 'nil' pointer\n",
+			"Error: Input parameter 'fmtSignedNum' is invalid!\n"+
+			"'fmtSignedNum' is a 'nil' pointer\n",
 			ePrefix.String())
 
 		return err
 	}
 
-	nStrSignedNumElectron := numStrSignedNumValElectron{}
-
+	fmtSignedNumElectron := formatterSignedNumberElectron{}
 	_,
-		err =
-		nStrSignedNumElectron.
-			testSignedNumValPositiveValueFormatStr(
-				positiveValueFmt,
-				ePrefix.XCtx(
-					fmt.Sprintf(
-						"positiveValueFmt='%v'",
-						positiveValueFmt)))
+		err = fmtSignedNumElectron.
+		testSignedNumValPositiveValueFormatStr(
+			positiveValueFmt,
+			ePrefix.XCtx(
+				fmt.Sprintf(
+					"positiveValueFmt='%v'",
+					positiveValueFmt)))
 
 	if err != nil {
 		return err
@@ -322,7 +341,7 @@ func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNu
 
 	_,
 		err =
-		nStrSignedNumElectron.
+		fmtSignedNumElectron.
 			testSignedNumValNegativeValueFormatStr(
 				negativeValueFmt,
 				ePrefix.XCtx(
@@ -334,44 +353,47 @@ func (nStrFmtSpecSignedNumValMech *nStrFmtSpecSignedNumValMechanics) setSignedNu
 		return err
 	}
 
-	newNStrFmtSpecSignedNumValDto := NumStrFmtSpecSignedNumValueDto{}
+	newFmtSignedNum := FormatterSignedNumber{}
 
-	newNStrFmtSpecSignedNumValDto.lock =
+	newFmtSignedNum.lock =
 		new(sync.Mutex)
 
-	newNStrFmtSpecSignedNumValDto.positiveValueFmt =
+	newFmtSignedNum.numStrFormatterType =
+		NumStrFormatTypeCode(0).SignedNumber()
+
+	newFmtSignedNum.positiveValueFmt =
 		positiveValueFmt
 
-	newNStrFmtSpecSignedNumValDto.negativeValueFmt =
+	newFmtSignedNum.negativeValueFmt =
 		negativeValueFmt
 
-	newNStrFmtSpecSignedNumValDto.turnOnIntegerDigitsSeparation =
+	newFmtSignedNum.turnOnIntegerDigitsSeparation =
 		turnOnIntegerDigitsSeparation
 
 	err =
-		newNStrFmtSpecSignedNumValDto.numericSeparators.CopyIn(
+		newFmtSignedNum.numericSeparators.CopyIn(
 			&numericSeparators,
-			ePrefix.XCtx("numericSeparators->newNStrFmtSpecSignedNumValDto"))
+			ePrefix.XCtx("numericSeparators->newFmtSignedNum"))
 
 	if err != nil {
 		return err
 	}
 
 	err =
-		newNStrFmtSpecSignedNumValDto.numFieldLenDto.CopyIn(
+		newFmtSignedNum.numFieldLenDto.CopyIn(
 			&numFieldDto,
 			ePrefix.XCtx("numFieldDto->"+
-				"newNStrFmtSpecSignedNumValDto.numFieldDto"))
+				"newFmtSignedNum.numFieldDto"))
 
 	nStrFmtSpecSignedNumValNanobot :=
-		numStrFmtSpecSignedNumValNanobot{}
+		formatterSignedNumberNanobot{}
 
 	err =
 		nStrFmtSpecSignedNumValNanobot.copyIn(
-			nStrFmtSpecSignedNumValDto,
-			&newNStrFmtSpecSignedNumValDto,
-			ePrefix.XCtx("newNStrFmtSpecSignedNumValDto-> "+
-				"nStrFmtSpecSignedNumValDto"))
+			fmtSignedNum,
+			&newFmtSignedNum,
+			ePrefix.XCtx("newFmtSignedNum-> "+
+				"fmtSignedNum"))
 
 	return err
 }

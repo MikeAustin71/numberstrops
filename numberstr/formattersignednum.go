@@ -5,7 +5,8 @@ import (
 	"sync"
 )
 
-type NumStrFmtSpecSignedNumValueDto struct {
+type FormatterSignedNumber struct {
+	numStrFormatterType           NumStrFormatTypeCode
 	positiveValueFmt              string
 	negativeValueFmt              string
 	turnOnIntegerDigitsSeparation bool
@@ -15,8 +16,8 @@ type NumStrFmtSpecSignedNumValueDto struct {
 }
 
 // CopyIn - Copies the data fields from an incoming
-// NumStrFmtSpecSignedNumValueDto instance  to the data fields
-// of the current instance of NumStrFmtSpecSignedNumValueDto
+// FormatterSignedNumber instance  to the data fields
+// of the current instance of FormatterSignedNumber
 // instance.
 //
 // If input parameter 'incomingSignedNumValDto' is judged to be
@@ -25,16 +26,16 @@ type NumStrFmtSpecSignedNumValueDto struct {
 // IMPORTANT
 //
 // Be advised, all of the data fields in the current
-// NumStrFmtSpecSignedNumValueDto instance will be overwritten.
+// FormatterSignedNumber instance will be overwritten.
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  incomingSignedNumValDto    *NumStrFmtSpecSignedNumValueDto
-//     - A pointer to an instance of NumStrFmtSpecSignedNumValueDto.
+//  incomingSignedNumValDto    *FormatterSignedNumber
+//     - A pointer to an instance of FormatterSignedNumber.
 //       The data values in this object will be copied to the
-//       current NumStrFmtSpecSignedNumValueDto instance.
+//       current FormatterSignedNumber instance.
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -61,39 +62,39 @@ type NumStrFmtSpecSignedNumValueDto struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
-	incomingSignedNumValDto *NumStrFmtSpecSignedNumValueDto,
+func (fmtSignedNum *FormatterSignedNumber) CopyIn(
+	incomingSignedNumValDto *FormatterSignedNumber,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSignedNumValueDto." +
+		"FormatterSignedNumber." +
 			"CopyIn()")
 
 	nStrFmtSpecSignedNumValNanobot :=
-		numStrFmtSpecSignedNumValNanobot{}
+		formatterSignedNumberNanobot{}
 
 	return nStrFmtSpecSignedNumValNanobot.copyIn(
-		nStrFmtSpecSignedNumValueDto,
+		fmtSignedNum,
 		incomingSignedNumValDto,
 		ePrefix)
 }
 
 // CopyOut - Creates and returns a deep copy of the current
-// NumStrFmtSpecSignedNumValueDto instance.
+// FormatterSignedNumber instance.
 //
-// If the current NumStrFmtSpecSignedNumValueDto instance is judged
+// If the current FormatterSignedNumber instance is judged
 // to be invalid, this method will return an error.
 //
 //
@@ -115,11 +116,11 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
 //
 // Return Values
 //
-//  NumStrFmtSpecSignedNumValueDto
+//  FormatterSignedNumber
 //     - If this method completes successfully, a new instance of
-//       NumStrFmtSpecSignedNumValueDto will be created and returned
+//       FormatterSignedNumber will be created and returned
 //       containing all of the data values copied from the current
-//       instance of NumStrFmtSpecSignedNumValueDto.
+//       instance of FormatterSignedNumber.
 //
 //
 //  error
@@ -133,32 +134,55 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyIn(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut(
+func (fmtSignedNum *FormatterSignedNumber) CopyOut(
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecSignedNumValueDto,
+	FormatterSignedNumber,
 	error) {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.CopyOut()")
+	ePrefix.SetEPref(
+		"FormatterSignedNumber.CopyOut()")
 
 	nStrFmtSpecSignedNumValNanobot :=
-		numStrFmtSpecSignedNumValNanobot{}
+		formatterSignedNumberNanobot{}
 
 	return nStrFmtSpecSignedNumValNanobot.copyOut(
-		nStrFmtSpecSignedNumValueDto,
+		fmtSignedNum,
 		ePrefix.XCtx(
-			"Copy Out from 'nStrFmtSpecSignedNumValueDto'"))
+			"Copy Out from 'fmtSignedNum'"))
+}
+
+// Empty - Deletes and resets the data values of all member
+// variables within a FormatterSignedNumber instance to their
+// initial 'zero' values.
+//
+func (fmtSignedNum *FormatterSignedNumber) Empty() {
+
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
+	}
+
+	fmtSignedNum.lock.Lock()
+
+	_ = formatterSignedNumberQuark{}.ptr().
+		empty(fmtSignedNum, nil)
+
+	fmtSignedNum.lock.Unlock()
+
+	fmtSignedNum.lock = nil
+
+	return
 }
 
 // GetDecimalSeparator - Returns the decimal separator character(s).
@@ -173,17 +197,17 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) CopyOut(
 // Decimal Separator is extracted from the underlying member
 // variable, 'nStrFmtSpecSignedNumValueDto.numericSeparators'.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetDecimalSeparator() []rune {
+func (fmtSignedNum *FormatterSignedNumber) GetDecimalSeparator() []rune {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
-	return nStrFmtSpecSignedNumValueDto.
+	return fmtSignedNum.
 		numericSeparators.
 		GetDecimalSeparators()
 }
@@ -193,7 +217,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetDecimalSe
 // NumStrIntSeparator is used to separate integer digits.
 //
 // The returned integer digit separators are those configured
-// for the current instance of NumStrFmtSpecSignedNumValueDto.
+// for the current instance of FormatterSignedNumber.
 //
 // The integer digit separators is also known as the 'thousands'
 // separator. In the United States the standard integer digit
@@ -285,28 +309,28 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetDecimalSe
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetIntegerDigitSeparators(
+func (fmtSignedNum *FormatterSignedNumber) GetIntegerDigitSeparators(
 	ePrefix *ErrPrefixDto) (
 	NumStrIntSeparatorsDto,
 	error) {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSignedNumValueDto." +
+		"FormatterSignedNumber." +
 			"GetIntegerDigitSeparators()")
 
-	return nStrFmtSpecSignedNumValueDto.
+	return fmtSignedNum.
 		numericSeparators.
 		GetIntegerDigitSeparators(
 			ePrefix.XCtx(
@@ -316,17 +340,17 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetIntegerDi
 // GetNegativeValueFormat - Returns the formatting string used to
 // format negative signed number values in text number strings.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNegativeValueFormat() string {
+func (fmtSignedNum *FormatterSignedNumber) GetNegativeValueFormat() string {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
-	return nStrFmtSpecSignedNumValueDto.negativeValueFmt
+	return fmtSignedNum.negativeValueFmt
 }
 
 // GetNumberFieldLengthDto - Returns the NumberFieldDto object
@@ -363,7 +387,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNegativeV
 //       NumberFieldDto will be returned through this parameter.
 //       This object is deep copy of the Number Field information
 //       used to configure the current instance of
-//       NumStrFmtSpecSignedNumValueDto.
+//       FormatterSignedNumber.
 //
 //
 //  error
@@ -380,28 +404,28 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNegativeV
 //       Be advised that if the returned 'NumberFieldDto' object is
 //       judged invalid, this method will return an error.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumberFieldLengthDto(
+func (fmtSignedNum *FormatterSignedNumber) GetNumberFieldLengthDto(
 	ePrefix *ErrPrefixDto) (
 	NumberFieldDto,
 	error) {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.GetNumberFieldLengthDto()")
+	ePrefix.SetEPref("FormatterSignedNumber.GetNumberFieldLengthDto()")
 
-	return nStrFmtSpecSignedNumValueDto.numFieldLenDto.CopyOut(
+	return fmtSignedNum.numFieldLenDto.CopyOut(
 		ePrefix.XCtx(
-			"nStrFmtSpecSignedNumValueDto.numFieldLenDto=>"))
+			"fmtSignedNum.numFieldLenDto=>"))
 }
 
 // GetNumericSeparators - Returns a deep copy of the
@@ -420,9 +444,9 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumberFie
 //
 // The returned NumericSeparators object represents the Numeric
 // Separator values used to configure the current instance of
-// NumStrFmtSpecSignedNumValueDto.
+// FormatterSignedNumber.
 //
-// If the NumStrFmtSpecSignedNumValueDto or NumericSeparators object
+// If the FormatterSignedNumber or NumericSeparators object
 // is judged to be invalid, this method will return an error.
 //
 //
@@ -448,7 +472,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumberFie
 //       NumericSeparators will be returned through this
 //       parameter. This object is a deep copy of the Numeric
 //       Separator information used to configure the current
-//       instance of NumStrFmtSpecSignedNumValueDto.
+//       instance of FormatterSignedNumber.
 //
 //
 //  error
@@ -462,50 +486,50 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumberFie
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-//       If the NumStrFmtSpecSignedNumValueDto or NumericSeparators
+//       If the FormatterSignedNumber or NumericSeparators
 //       object is judged to be invalid, this method will return
 //       an error.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetNumericSeparators(
+func (fmtSignedNum *FormatterSignedNumber) GetNumericSeparators(
 	ePrefix *ErrPrefixDto) (
 	NumericSeparators,
 	error) {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSignedNumValueDto." +
+		"FormatterSignedNumber." +
 			"GetNumericSeparators()")
 
-	return nStrFmtSpecSignedNumValueDto.numericSeparators.CopyOut(
+	return fmtSignedNum.numericSeparators.CopyOut(
 		ePrefix.XCtx(
-			"nStrFmtSpecSignedNumValueDto.numericSeparators ->"))
+			"fmtSignedNum.numericSeparators ->"))
 }
 
 // GetPositiveValueFormat - Returns the formatting string used to
 // format positive signed number values in text number strings.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetPositiveValueFormat() string {
+func (fmtSignedNum *FormatterSignedNumber) GetPositiveValueFormat() string {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
-	return nStrFmtSpecSignedNumValueDto.positiveValueFmt
+	return fmtSignedNum.positiveValueFmt
 }
 
 // GetTurnOnIntegerDigitsSeparationFlag - Returns the boolean flag
@@ -521,21 +545,21 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetPositiveV
 // in text number strings as shown in the following example.
 //  Example: 1000000000000
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetTurnOnIntegerDigitsSeparationFlag() bool {
+func (fmtSignedNum *FormatterSignedNumber) GetTurnOnIntegerDigitsSeparationFlag() bool {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
-	return nStrFmtSpecSignedNumValueDto.turnOnIntegerDigitsSeparation
+	return fmtSignedNum.turnOnIntegerDigitsSeparation
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
-// NumStrFmtSpecSignedNumValueDto instance to determine whether
+// FormatterSignedNumber instance to determine whether
 // the current instance is valid in all respects.
 //
 //
@@ -552,35 +576,35 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) GetTurnOnInt
 //
 //  isValid             bool
 //     - This returned boolean value will signal whether the current
-//       NumStrFmtSpecSignedNumValueDto is valid, or not. If the
-//       current NumStrFmtSpecSignedNumValueDto contains valid data,
+//       FormatterSignedNumber is valid, or not. If the
+//       current FormatterSignedNumber contains valid data,
 //       this method returns 'true'. If the data is invalid, this
 //       method will return 'false'.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInstance() (
+func (fmtSignedNum *FormatterSignedNumber) IsValidInstance() (
 	isValid bool) {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	nStrFmtSpecSignedNumValMolecule :=
-		numStrFmtSpecSignedNumValMolecule{}
+		formatterSignedNumberMolecule{}
 
 	isValid,
 		_ = nStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto(
-		nStrFmtSpecSignedNumValueDto,
+		fmtSignedNum,
 		new(ErrPrefixDto))
 
 	return isValid
 }
 
 // IsValidInstanceError - Performs a diagnostic review of the
-// current NumStrFmtSpecSignedNumValueDto instance to determine
+// current FormatterSignedNumber instance to determine
 // whether the current instance is valid in all respects.
 //
 //
@@ -602,57 +626,57 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 // Return Values
 //
 //  error
-//     - If the current instance of NumStrFmtSpecSignedNumValueDto
+//     - If the current instance of FormatterSignedNumber
 //       contains invalid data, a detailed error message will be
 //       returned identifying the invalid data item.
 //
 //       If the current instance is valid, this error parameter
 //       will be set to nil.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInstanceError(
+func (fmtSignedNum *FormatterSignedNumber) IsValidInstanceError(
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPrefCtx("NumStrFmtSpecSignedNumValueDto.IsValidInstanceError()",
-		"Testing Validity of 'nStrFmtSpecSignedNumValueDto'")
+	ePrefix.SetEPrefCtx("FormatterSignedNumber.IsValidInstanceError()",
+		"Testing Validity of 'fmtSignedNum'")
 
 	nStrFmtSpecSignedNumValMolecule :=
-		numStrFmtSpecSignedNumValMolecule{}
+		formatterSignedNumberMolecule{}
 
 	_,
 		err :=
 		nStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto(
-			nStrFmtSpecSignedNumValueDto,
+			fmtSignedNum,
 			ePrefix)
 
 	return err
 }
 
 // NewWithComponents - Creates and returns a new instance of
-// NumStrFmtSpecSignedNumValueDto.
+// FormatterSignedNumber.
 //
-// The NumStrFmtSpecSignedNumValueDto type encapsulates the
+// The FormatterSignedNumber type encapsulates the
 // configuration parameters necessary to format signed numeric
 // values for display in text number strings.
 //
 // This method requires detailed input parameters to control
 // all configuration parameters for the returned new instance
-// of NumStrFmtSpecSignedNumValueDto.
+// of FormatterSignedNumber.
 //
 // For a 'New' method using minimum input parameters coupled
 // with default values, see:
-//      NumStrFmtSpecSignedNumValueDto.NewWithDefaults()
+//      FormatterSignedNumber.NewWithDefaults()
 //
 //
 // ----------------------------------------------------------------
@@ -921,9 +945,9 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //
 // Return Values
 //
-//  NumStrFmtSpecSignedNumValueDto
+//  FormatterSignedNumber
 //     - If this method completes successfully, this parameter will
-//       return a new, populated instance of NumStrFmtSpecSignedNumValueDto.
+//       return a new, populated instance of FormatterSignedNumber.
 //
 //
 //  error
@@ -937,38 +961,38 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) IsValidInsta
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithComponents(
+func (fmtSignedNum FormatterSignedNumber) NewWithComponents(
 	positiveValueFmt string,
 	negativeValueFmt string,
 	turnOnIntegerDigitsSeparation bool,
 	numericSeparators NumericSeparators,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecSignedNumValueDto,
+	FormatterSignedNumber,
 	error) {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSignedNumValueDto." +
+		"FormatterSignedNumber." +
 			"NewWithComponents()")
 
-	newNStrFmtSpecSignedNumValueDto := NumStrFmtSpecSignedNumValueDto{}
+	newNStrFmtSpecSignedNumValueDto := FormatterSignedNumber{}
 
 	nStrFmtSpecSignedNumValMech :=
-		nStrFmtSpecSignedNumValMechanics{}
+		formatterSignedNumberMechanics{}
 
-	err := nStrFmtSpecSignedNumValMech.setSignedNumValDtoWithComponents(
+	err := nStrFmtSpecSignedNumValMech.setFmtSignedNumWithComponents(
 		&newNStrFmtSpecSignedNumValueDto,
 		positiveValueFmt,
 		negativeValueFmt,
@@ -982,15 +1006,15 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithCompon
 }
 
 // NewWithDefaults - Creates and returns a new instance of
-// NumStrFmtSpecSignedNumValueDto. This method specifies the
+// FormatterSignedNumber. This method specifies the
 // minimum number of input parameters required to construct a new
-// instance of NumStrFmtSpecSignedNumValueDto. Default values are
+// instance of FormatterSignedNumber. Default values are
 // used to supplement these input parameters.
 //
 // To exercise granular control over all parameters needed to
-// construct an instance of NumStrFmtSpecSignedNumValueDto,
+// construct an instance of FormatterSignedNumber,
 // reference method:
-//   'NumStrFmtSpecSignedNumValueDto.NewWithComponents()'
+//   'FormatterSignedNumber.NewWithComponents()'
 //
 // This method automatically sets a default integer digits grouping
 // sequence of '3'. This means that integers will be grouped by
@@ -999,9 +1023,9 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithCompon
 //        Example: '1,000,000,000'
 //
 // To control and specify alternative integer digit groupings, use
-// method 'NumStrFmtSpecSignedNumValueDto.NewWithComponents()'.
+// method 'FormatterSignedNumber.NewWithComponents()'.
 //
-// The NumStrFmtSpecSignedNumValueDto type encapsulates the
+// The FormatterSignedNumber type encapsulates the
 // formatting parameters necessary to format signed numeric values
 // for display in text number strings.
 //
@@ -1030,7 +1054,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithCompon
 //           United States Example: '1,000,000,000'
 //
 //       For custom integer digit grouping, use method
-//       NumStrFmtSpecSignedNumValueDto.NewWithComponents().
+//       FormatterSignedNumber.NewWithComponents().
 //
 //
 //  turnOnThousandsSeparator      bool
@@ -1222,9 +1246,9 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithCompon
 //
 // Return Values
 //
-//  NumStrFmtSpecSignedNumValueDto
+//  FormatterSignedNumber
 //     - If this method completes successfully, this parameter will
-//       return a new, populated instance of NumStrFmtSpecSignedNumValueDto.
+//       return a new, populated instance of FormatterSignedNumber.
 //
 //
 //  error
@@ -1238,7 +1262,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithCompon
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaults(
+func (fmtSignedNum FormatterSignedNumber) NewWithDefaults(
 	decimalSeparatorChar rune,
 	thousandsSeparatorChar rune,
 	turnOnThousandsSeparator bool,
@@ -1247,33 +1271,33 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecSignedNumValueDto,
+	FormatterSignedNumber,
 	error) {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSignedNumValueDto." +
+		"FormatterSignedNumber." +
 			"NewBasic()")
 
 	newNStrFmtSpecSignedNumValueDto :=
-		NumStrFmtSpecSignedNumValueDto{}
+		FormatterSignedNumber{}
 
 	nStrFmtSpecSignedNumValDtoUtil :=
-		nStrFmtSpecSignedNumValUtility{}
+		formatterSignedNumberUtility{}
 
 	err :=
-		nStrFmtSpecSignedNumValDtoUtil.setSignedNumValDtoWithDefaults(
+		nStrFmtSpecSignedNumValDtoUtil.setBasicRunesSignedNumber(
 			&newNStrFmtSpecSignedNumValueDto,
 			decimalSeparatorChar,
 			thousandsSeparatorChar,
@@ -1289,7 +1313,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 }
 
 // NewWithFmtSpecSetupDto - Creates and returns a new
-// NumStrFmtSpecSignedNumValueDto instance based on input received
+// FormatterSignedNumber instance based on input received
 // from an instance of NumStrFmtSpecSetupDto.
 //
 //
@@ -1299,7 +1323,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 //
 //  fmtSpecSetupDto     *NumStrFmtSpecSetupDto
 //     - A data structure conveying setup information for a
-//       NumStrFmtSpecSignedNumValueDto object. Only the following
+//       FormatterSignedNumber object. Only the following
 //       data fields with a prefix of "SignedNumVal" are used.
 //
 //       type NumStrFmtSpecSetupDto struct {
@@ -1361,9 +1385,9 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 //
 // Return Values
 //
-//  NumStrFmtSpecSignedNumValueDto
+//  FormatterSignedNumber
 //     - If this method completes successfully, a new instance of
-//       NumStrFmtSpecSignedNumValueDto will be returned to the
+//       FormatterSignedNumber will be returned to the
 //       caller.
 //
 //
@@ -1378,30 +1402,30 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithDefaul
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithFmtSpecSetupDto(
+func (fmtSignedNum FormatterSignedNumber) NewWithFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecSignedNumValueDto,
+	FormatterSignedNumber,
 	error) {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSignedNumValueDto." +
+		"FormatterSignedNumber." +
 			"NewWithFmtSpecSetupDto()")
 
 	newNStrFmtSpecSignedNumValueDto :=
-		NumStrFmtSpecSignedNumValueDto{}
+		FormatterSignedNumber{}
 
 	if fmtSpecSetupDto == nil {
 		return newNStrFmtSpecSignedNumValueDto,
@@ -1416,7 +1440,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithFmtSpe
 	}
 
 	nStrFmtSpecSignedNumValMech :=
-		nStrFmtSpecSignedNumValMechanics{}
+		formatterSignedNumberMechanics{}
 
 	fmtSpecSetupDto.Lock.Lock()
 
@@ -1424,7 +1448,7 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithFmtSpe
 
 	err :=
 		nStrFmtSpecSignedNumValMech.
-			setSignedNumValDtoWithComponents(
+			setFmtSignedNumWithComponents(
 				&newNStrFmtSpecSignedNumValueDto,
 				fmtSpecSetupDto.SignedNumValPositiveValueFmt,
 				fmtSpecSetupDto.SignedNumValNegativeValueFmt,
@@ -1546,27 +1570,27 @@ func (nStrFmtSpecSignedNumValueDto NumStrFmtSpecSignedNumValueDto) NewWithFmtSpe
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNegativeValueFormat(
+func (fmtSignedNum *FormatterSignedNumber) SetNegativeValueFormat(
 	negativeValueFmt string,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.SetNegativeValueFormat()")
+	ePrefix.SetEPref("FormatterSignedNumber.SetNegativeValueFormat()")
 
 	nStrSignedNumElectron :=
-		numStrSignedNumValElectron{}
+		formatterSignedNumberElectron{}
 
 	_,
 		err = nStrSignedNumElectron.testSignedNumValNegativeValueFormatStr(
@@ -1578,13 +1602,13 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNegativeV
 		return err
 	}
 
-	nStrFmtSpecSignedNumValueDto.negativeValueFmt = negativeValueFmt
+	fmtSignedNum.negativeValueFmt = negativeValueFmt
 
 	return err
 }
 
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object
-// for the current NumStrFmtSpecSignedNumValueDto instance.
+// for the current FormatterSignedNumber instance.
 //
 // The Number Separators Dto object is used to specify the Decimal
 // Separators Character and the Integer Digits Separator Characters.
@@ -1652,32 +1676,32 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNegativeV
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFieldLengthDto(
+func (fmtSignedNum *FormatterSignedNumber) SetNumberFieldLengthDto(
 	numberFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSignedNumValueDto.SetNumberFieldLengthDto()")
+		"FormatterSignedNumber.SetNumberFieldLengthDto()")
 
-	return nStrFmtSpecSignedNumValueDto.numFieldLenDto.CopyIn(
+	return fmtSignedNum.numFieldLenDto.CopyIn(
 		&numberFieldLenDto,
 		ePrefix)
 }
 
 // SetNumberSeparatorsDto - Sets the Number Separators Dto object
-// for the current NumStrFmtSpecSignedNumValueDto instance.
+// for the current FormatterSignedNumber instance.
 //
 // The Number Separators Dto object is used to specify the Decimal
 // Separators Character and the Integer Digits Separator Characters.
@@ -1756,27 +1780,27 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberFie
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberSeparatorsDto(
+func (fmtSignedNum *FormatterSignedNumber) SetNumberSeparatorsDto(
 	numberSeparatorsDto NumericSeparators,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.SetNumericSeparators()")
+	ePrefix.SetEPref("FormatterSignedNumber.SetNumericSeparators()")
 
-	return nStrFmtSpecSignedNumValueDto.numericSeparators.CopyIn(
+	return fmtSignedNum.numericSeparators.CopyIn(
 		&numberSeparatorsDto,
-		ePrefix.XCtx("numericSeparators->nStrFmtSpecSignedNumValueDto.numericSeparators"))
+		ePrefix.XCtx("numericSeparators->fmtSignedNum.numericSeparators"))
 }
 
 // SetPositiveValueFormat - Sets the positive value format string
@@ -1858,27 +1882,27 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetNumberSep
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveValueFormat(
+func (fmtSignedNum *FormatterSignedNumber) SetPositiveValueFormat(
 	positiveValueFmt string,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecSignedNumValueDto.SetPositiveValueFormat()")
+	ePrefix.SetEPref("FormatterSignedNumber.SetPositiveValueFormat()")
 
 	nStrSignedNumElectron :=
-		numStrSignedNumValElectron{}
+		formatterSignedNumberElectron{}
 
 	_,
 		err = nStrSignedNumElectron.testSignedNumValPositiveValueFormatStr(
@@ -1890,13 +1914,13 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 		return err
 	}
 
-	nStrFmtSpecSignedNumValueDto.positiveValueFmt = positiveValueFmt
+	fmtSignedNum.positiveValueFmt = positiveValueFmt
 
 	return err
 }
 
 // SetToUnitedStatesDefaults - Sets the member variable data values
-// for this NumStrFmtSpecSignedNumValueDto instance to United
+// for this FormatterSignedNumber instance to United
 // States default values.
 //
 // In the United States, Signed Number default formatting
@@ -1911,7 +1935,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 // IMPORTANT
 //
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecSignedNumValueDto instance.
+// current FormatterSignedNumber instance.
 //
 //
 // ----------------------------------------------------------------
@@ -1942,42 +1966,42 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetPositiveV
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetToUnitedStatesDefaults(
+func (fmtSignedNum *FormatterSignedNumber) SetToUnitedStatesDefaults(
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSignedNumValueDto." +
+		"FormatterSignedNumber." +
 			"SetToUnitedStatesDefaults()")
 
-	signedNumUtil := nStrFmtSpecSignedNumValUtility{}
+	signedNumUtil := formatterSignedNumberUtility{}
 
 	err = signedNumUtil.setToUnitedStatesDefaults(
-		nStrFmtSpecSignedNumValueDto,
+		fmtSignedNum,
 		ePrefix.XCtx(
-			"nStrFmtSpecSignedNumValueDto"))
+			"fmtSignedNum"))
 
 	return err
 }
 
 // SetToUnitedStatesDefaultsIfEmpty - If the current
-// NumStrFmtSpecSignedNumValueDto instance is empty or invalid,
+// FormatterSignedNumber instance is empty or invalid,
 // this method will set the member variable data values to United
 // States default values.
 //
-// If the current NumStrFmtSpecSignedNumValueDto instance is valid
+// If the current FormatterSignedNumber instance is valid
 // and NOT empty, this method will take no action and exit.
 //
 // In the United States, Signed Number default formatting values
@@ -1991,7 +2015,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetToUnitedS
 //
 // IMPORTANT
 //
-// If the current NumStrFmtSpecSignedNumValueDto instance is empty
+// If the current FormatterSignedNumber instance is empty
 // or invalid, this method will overwrite all pre-existing data
 // values.
 //
@@ -2024,42 +2048,42 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetToUnitedS
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetToUnitedStatesDefaultsIfEmpty(
+func (fmtSignedNum *FormatterSignedNumber) SetToUnitedStatesDefaultsIfEmpty(
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSignedNumValueDto." +
+		"FormatterSignedNumber." +
 			"SetToUnitedStatesDefaults()")
 
 	nStrFmtSpecSignedNumValMolecule :=
-		numStrFmtSpecSignedNumValMolecule{}
+		formatterSignedNumberMolecule{}
 
 	isValid,
 		_ := nStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto(
-		nStrFmtSpecSignedNumValueDto,
+		fmtSignedNum,
 		new(ErrPrefixDto))
 
 	if isValid {
 		return err
 	}
 
-	signedNumUtil := nStrFmtSpecSignedNumValUtility{}
+	signedNumUtil := formatterSignedNumberUtility{}
 
 	err = signedNumUtil.setToUnitedStatesDefaults(
-		nStrFmtSpecSignedNumValueDto,
+		fmtSignedNum,
 		ePrefix)
 
 	return err
@@ -2067,7 +2091,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetToUnitedS
 
 // SetTurnOnIntegerDigitsSeparationFlag - Sets the
 // 'turnOnIntegerDigitsSeparation' flag for the current instance of
-// NumStrFmtSpecSignedNumValueDto.
+// FormatterSignedNumber.
 //
 // This boolean flag signals whether integer digits within a number
 // string will be grouped by thousands and separated by an integer
@@ -2111,33 +2135,33 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetToUnitedS
 //
 //  --- NONE ---
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnIntegerDigitsSeparationFlag(
+func (fmtSignedNum *FormatterSignedNumber) SetTurnOnIntegerDigitsSeparationFlag(
 	turnOnIntegerDigitsSeparation bool) {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
-	nStrFmtSpecSignedNumValueDto.turnOnIntegerDigitsSeparation =
+	fmtSignedNum.turnOnIntegerDigitsSeparation =
 		turnOnIntegerDigitsSeparation
 }
 
 // SetWithComponents - This method will set all of the member
 // variable data values for the current instance of
-// NumStrFmtSpecSignedNumValueDto.
+// FormatterSignedNumber.
 //
-// The NumStrFmtSpecSignedNumValueDto type encapsulates the
+// The FormatterSignedNumber type encapsulates the
 // formatting parameters necessary for formatting signed number
 // values in text number strings.
 //
 // IMPORTANT
 //
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecSignedNumValueDto instance.
+// current FormatterSignedNumber instance.
 //
 //
 // ----------------------------------------------------------------
@@ -2417,7 +2441,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetTurnOnInt
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithComponents(
+func (fmtSignedNum *FormatterSignedNumber) SetWithComponents(
 	positiveValueFmt string,
 	negativeValueFmt string,
 	turnOnIntegerDigitsSeparation bool,
@@ -2425,41 +2449,41 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithCompo
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSignedNumValueDto." +
+		"FormatterSignedNumber." +
 			"SetWithComponents()")
 
 	nStrFmtSpecSignedNumValMech :=
-		nStrFmtSpecSignedNumValMechanics{}
+		formatterSignedNumberMechanics{}
 
 	return nStrFmtSpecSignedNumValMech.
-		setSignedNumValDtoWithComponents(
-			nStrFmtSpecSignedNumValueDto,
+		setFmtSignedNumWithComponents(
+			fmtSignedNum,
 			positiveValueFmt,
 			negativeValueFmt,
 			turnOnIntegerDigitsSeparation,
 			numberSeparatorsDto,
 			numFieldDto,
-			ePrefix.XCtx("Setting 'nStrFmtSpecSignedNumValueDto'"))
+			ePrefix.XCtx("Setting 'fmtSignedNum'"))
 }
 
 // SetWithDefaults - This method will set all of the member
 // variable data values for the current instance of
-// NumStrFmtSpecSignedNumValueDto. The input parameters
+// FormatterSignedNumber. The input parameters
 // represent the minimum information required to configure
-// the data values for a NumStrFmtSpecSignedNumValueDto object.
+// the data values for a FormatterSignedNumber object.
 //
 // This method automatically sets a default integer digits grouping
 // sequence of '3'. This means that integers will be grouped by
@@ -2470,7 +2494,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithCompo
 // IMPORTANT
 //
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecSignedNumValueDto instance.
+// current FormatterSignedNumber instance.
 //
 //
 // ----------------------------------------------------------------
@@ -2692,7 +2716,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithCompo
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefaults(
+func (fmtSignedNum *FormatterSignedNumber) SetWithDefaults(
 	positiveValueFmt string,
 	negativeValueFmt string,
 	turnOnIntegerDigitsSeparation bool,
@@ -2702,27 +2726,27 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefau
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSignedNumValueDto." +
+		"FormatterSignedNumber." +
 			"SetBasicRunes()")
 
 	nStrFmtSpecSignedNumValDtoUtil :=
-		nStrFmtSpecSignedNumValUtility{}
+		formatterSignedNumberUtility{}
 
-	return nStrFmtSpecSignedNumValDtoUtil.setSignedNumValDtoWithDefaults(
-		nStrFmtSpecSignedNumValueDto,
+	return nStrFmtSpecSignedNumValDtoUtil.setBasicRunesSignedNumber(
+		fmtSignedNum,
 		decimalSeparatorChar,
 		thousandsSeparatorChar,
 		turnOnIntegerDigitsSeparation,
@@ -2730,16 +2754,16 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefau
 		negativeValueFmt,
 		requestedNumberFieldLen,
 		numberFieldTextJustify,
-		ePrefix.XCtx("Setting 'nStrFmtSpecSignedNumValueDto'"))
+		ePrefix.XCtx("Setting 'fmtSignedNum'"))
 }
 
 // SetWithFmtSpecSetupDto - Sets the data values for current
-// NumStrFmtSpecSignedNumValueDto instance based on input received
+// FormatterSignedNumber instance based on input received
 // from an instance of NumStrFmtSpecSetupDto.
 //
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecSignedNumValueDto instance.
+// current FormatterSignedNumber instance.
 //
 //
 // ----------------------------------------------------------------
@@ -2748,7 +2772,7 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefau
 //
 //  fmtSpecSetupDto     NumStrFmtSpecSetupDto
 //     - A data structure conveying setup and configuration
-//       information for a NumStrFmtSpecSignedNumValueDto
+//       information for a FormatterSignedNumber
 //       object. Only the following data fields with a prefix of
 //       "SignedNumVal" are used.
 //
@@ -2822,24 +2846,24 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithDefau
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithFmtSpecSetupDto(
+func (fmtSignedNum *FormatterSignedNumber) SetWithFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecSignedNumValueDto.lock == nil {
-		nStrFmtSpecSignedNumValueDto.lock = new(sync.Mutex)
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSignedNumValueDto.lock.Lock()
+	fmtSignedNum.lock.Lock()
 
-	defer nStrFmtSpecSignedNumValueDto.lock.Unlock()
+	defer fmtSignedNum.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSignedNumValueDto." +
+		"FormatterSignedNumber." +
 			"SetWithFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
@@ -2854,19 +2878,19 @@ func (nStrFmtSpecSignedNumValueDto *NumStrFmtSpecSignedNumValueDto) SetWithFmtSp
 	}
 
 	nStrFmtSpecSignedNumValMech :=
-		nStrFmtSpecSignedNumValMechanics{}
+		formatterSignedNumberMechanics{}
 
 	fmtSpecSetupDto.Lock.Lock()
 
 	defer fmtSpecSetupDto.Lock.Unlock()
 
 	return nStrFmtSpecSignedNumValMech.
-		setSignedNumValDtoWithComponents(
-			nStrFmtSpecSignedNumValueDto,
+		setFmtSignedNumWithComponents(
+			fmtSignedNum,
 			fmtSpecSetupDto.SignedNumValPositiveValueFmt,
 			fmtSpecSetupDto.SignedNumValNegativeValueFmt,
 			fmtSpecSetupDto.SignedNumValTurnOnIntegerDigitsSeparation,
 			fmtSpecSetupDto.SignedNumValNumSeps,
 			fmtSpecSetupDto.SignedNumValNumField,
-			ePrefix.XCtx("Setting 'nStrFmtSpecSignedNumValueDto'"))
+			ePrefix.XCtx("Setting 'fmtSignedNum'"))
 }
