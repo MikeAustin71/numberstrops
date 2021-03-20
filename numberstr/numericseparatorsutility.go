@@ -364,11 +364,6 @@ func (numSepsUtility *numericSeparatorsUtility) setBasicRunes(
 			ePrefix.String())
 	}
 
-	if integerDigitsSeparators == nil {
-		integerDigitsSeparators =
-			make([]rune, 0)
-	}
-
 	if len(integerDigitsSeparators) == 0 {
 
 		return fmt.Errorf("%v\n"+
@@ -477,26 +472,22 @@ func (numSepsUtility *numericSeparatorsUtility) setWithUSADefaults(
 		return err
 	}
 
-	decimalSeparators := []rune{'.'}
+	var integerSeparatorsDto NumStrIntSeparatorsDto
 
-	integerSeparators := []NumStrIntSeparator{
-		{
-			intSeparatorChars:          []rune{','},
-			intSeparatorGrouping:       3,
-			intSeparatorRepetitions:    0,
-			restartIntGroupingSequence: false,
-			lock:                       new(sync.Mutex),
-		},
-	}
+	integerSeparatorsDto,
+		err =
+		NumStrIntSeparatorsDto{}.NewBasicRunes(
+			[]rune{','},
+			ePrefix.XCtx(
+				fmt.Sprintf("integerDigitsSeparators='%v'",
+					string([]rune{','}))))
 
-	err =
-		numericSeparatorsMechanics{}.ptr().
-			setWithComponents(
-				numSeps,
-				decimalSeparators,
-				integerSeparators,
-				ePrefix.XCtx(
-					"numSeps"))
+	err = numericSeparatorsMechanics{}.ptr().setDetailRunes(
+		numSeps,
+		[]rune{'.'},
+		&integerSeparatorsDto,
+		ePrefix.XCtx(
+			"numSeps"))
 
 	return err
 }

@@ -63,34 +63,32 @@ func (numSepsElectron *numericSeparatorsElectron) copyIn(
 		targetNumSeps.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecDigitsSepsQuark :=
-		numericSeparatorsQuark{}
-
 	_,
 		err =
-		nStrFmtSpecDigitsSepsQuark.testValidityOfNumericSeparators(
-			inComingNumSeps,
-			ePrefix.XCtx("Testing validity of 'inComingNumSeps'"))
+		numericSeparatorsQuark{}.ptr().
+			testValidityOfNumericSeparators(
+				inComingNumSeps,
+				ePrefix.XCtx("Testing validity of 'inComingNumSeps'"))
 
 	if err != nil {
 		return err
 	}
 
-	if inComingNumSeps.decimalSeparators == nil {
-		inComingNumSeps.decimalSeparators =
-			make([]rune, 0, 2)
-	}
-
 	lenDecSep := len(inComingNumSeps.decimalSeparators)
 
-	targetNumSeps.decimalSeparators =
-		make([]rune, lenDecSep, lenDecSep+5)
-
-	for i := 0; i < lenDecSep; i++ {
-
-		targetNumSeps.decimalSeparators[i] =
-			inComingNumSeps.decimalSeparators[i]
+	if lenDecSep == 0 {
+		err = fmt.Errorf("%v"+
+			"Error: 'inComingNumSeps.decimalSeparators' is invalid!\n"+
+			"'inComingNumSeps.decimalSeparators' is a zero length rune array.\n",
+			ePrefix.XCtxEmpty().String())
+		return err
 	}
+
+	targetNumSeps.decimalSeparators =
+		make([]rune, lenDecSep)
+
+	copy(targetNumSeps.decimalSeparators,
+		inComingNumSeps.decimalSeparators)
 
 	err = targetNumSeps.integerSeparatorsDto.CopyIn(
 		&inComingNumSeps.integerSeparatorsDto,
@@ -136,15 +134,13 @@ func (numSepsElectron *numericSeparatorsElectron) copyOut(
 		return newNumSeps, err
 	}
 
-	numSepsDtoQuark :=
-		numericSeparatorsQuark{}
-
 	_,
 		err =
-		numSepsDtoQuark.testValidityOfNumericSeparators(
-			numSeps,
-			ePrefix.XCtx(
-				"Testing validity of 'numSeps'"))
+		numericSeparatorsQuark{}.ptr().
+			testValidityOfNumericSeparators(
+				numSeps,
+				ePrefix.XCtx(
+					"Testing validity of 'numSeps'"))
 
 	if err != nil {
 		return newNumSeps, err
@@ -152,20 +148,20 @@ func (numSepsElectron *numericSeparatorsElectron) copyOut(
 
 	newNumSeps.lock = new(sync.Mutex)
 
-	if numSeps.decimalSeparators == nil {
-		numSeps.decimalSeparators =
-			make([]rune, 0, 2)
-	}
-
 	lenDecSeps := len(numSeps.decimalSeparators)
 
-	newNumSeps.decimalSeparators =
-		make([]rune, lenDecSeps, lenDecSeps+5)
-
-	for i := 0; i < lenDecSeps; i++ {
-		newNumSeps.decimalSeparators[i] =
-			numSeps.decimalSeparators[i]
+	if lenDecSeps == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: 'numSeps.decimalSeparators' is invalid!\n"+
+			"'numSeps.decimalSeparators' is a zero length rune array.\n",
+			ePrefix.XCtxEmpty())
 	}
+
+	newNumSeps.decimalSeparators =
+		make([]rune, lenDecSeps)
+
+	copy(newNumSeps.decimalSeparators,
+		numSeps.decimalSeparators)
 
 	err =
 		newNumSeps.integerSeparatorsDto.
