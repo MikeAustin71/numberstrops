@@ -81,13 +81,11 @@ func (fmtSignedNum *FormatterSignedNumber) CopyIn(
 		"FormatterSignedNumber." +
 			"CopyIn()")
 
-	nStrFmtSpecSignedNumValNanobot :=
-		formatterSignedNumberNanobot{}
-
-	return nStrFmtSpecSignedNumValNanobot.copyIn(
-		fmtSignedNum,
-		incomingSignedNumValDto,
-		ePrefix)
+	return formatterSignedNumberNanobot{}.ptr().
+		copyIn(
+			fmtSignedNum,
+			incomingSignedNumValDto,
+			ePrefix)
 }
 
 // CopyOut - Creates and returns a deep copy of the current
@@ -611,13 +609,11 @@ func (fmtSignedNum *FormatterSignedNumber) IsValidInstance() (
 
 	defer fmtSignedNum.lock.Unlock()
 
-	nStrFmtSpecSignedNumValMolecule :=
-		formatterSignedNumberMolecule{}
-
 	isValid,
-		_ = nStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto(
-		fmtSignedNum,
-		new(ErrPrefixDto))
+		_ = formatterSignedNumberMolecule{}.ptr().
+		testValidityOfSignedNumValDto(
+			fmtSignedNum,
+			new(ErrPrefixDto))
 
 	return isValid
 }
@@ -670,14 +666,12 @@ func (fmtSignedNum *FormatterSignedNumber) IsValidInstanceError(
 	ePrefix.SetEPrefCtx("FormatterSignedNumber.IsValidInstanceError()",
 		"Testing Validity of 'fmtSignedNum'")
 
-	nStrFmtSpecSignedNumValMolecule :=
-		formatterSignedNumberMolecule{}
-
 	_,
 		err :=
-		nStrFmtSpecSignedNumValMolecule.testValidityOfSignedNumValDto(
-			fmtSignedNum,
-			ePrefix)
+		formatterSignedNumberMolecule{}.ptr().
+			testValidityOfSignedNumValDto(
+				fmtSignedNum,
+				ePrefix)
 
 	return err
 }
