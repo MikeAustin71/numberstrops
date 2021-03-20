@@ -1101,22 +1101,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setToUnitedStatesDefaults(
 		return err
 	}
 
-	var numericSeparators NumericSeparators
-
-	numericSeparators,
-		err = NumericSeparators{}.NewBasic(
-		".",
-		",",
-		ePrefix.XCtx(
-			fmt.Sprintf("\n"+
-				"decimalSeparatorChars='%v'\n"+
-				"thousandsSeparatorChars='%v'\n",
-				".",
-				",")))
-
-	if err != nil {
-		return err
-	}
+	var numericSeparators = NumericSeparators{}.NewUnitedStatesDefaults()
 
 	err = formatterCurrencyMechanics{}.ptr().
 		setFormatterCurrencyWithComponents(
