@@ -773,7 +773,7 @@ func (nFieldDto *NumberFieldDto) SetBasic(
 	}
 
 	ePrefix.SetEPref(
-		"NumberFieldDto.SetBasic()")
+		"NumberFieldDto.SetBasicRunes()")
 
 	nStrNumFieldDtoMech := numStrNumFieldDtoMechanics{}
 

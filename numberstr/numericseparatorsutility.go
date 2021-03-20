@@ -209,7 +209,7 @@ func (numSepsUtility *numericSeparatorsUtility) setBasic(
 // generated from a minimum number of input parameters and
 // specified default values.
 //
-// This method is an alternative to numericSeparatorsUtility.SetBasic()
+// This method is an alternative to numericSeparatorsUtility.SetBasicRunes()
 // in that this method accepts decimal separators and integer digit
 // separators as rune arrays.
 //

@@ -1,7 +1,6 @@
 package numberstr
 
 import (
-	"fmt"
 	"sync"
 )
 
@@ -516,6 +515,26 @@ func (fmtSignedNum *FormatterSignedNumber) GetNumericSeparators(
 			"fmtSignedNum.numericSeparators ->"))
 }
 
+// GetNumStrFormatTypeCode - Returns the Number String Format Type
+// Code. The Number String Format Type Code for
+// FormatterSignedNumber objects is
+// NumStrFormatTypeCode(0).Currency().
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtSignedNum *FormatterSignedNumber) GetNumStrFormatTypeCode() NumStrFormatTypeCode {
+
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
+	}
+
+	fmtSignedNum.lock.Lock()
+
+	defer fmtSignedNum.lock.Unlock()
+
+	return fmtSignedNum.numStrFormatterType
+}
+
 // GetPositiveValueFormat - Returns the formatting string used to
 // format positive signed number values in text number strings.
 //
@@ -663,282 +682,26 @@ func (fmtSignedNum *FormatterSignedNumber) IsValidInstanceError(
 	return err
 }
 
-// NewWithComponents - Creates and returns a new instance of
-// FormatterSignedNumber.
+// New - Creates and returns a new instance of
+// FormatterSignedNumber. This method specifies the United States
+// default values for signed number string formatting.
 //
-// The FormatterSignedNumber type encapsulates the
-// configuration parameters necessary to format signed numeric
-// values for display in text number strings.
+// United States Signed Number default formatting parameters are
+// defined as follows:
 //
-// This method requires detailed input parameters to control
-// all configuration parameters for the returned new instance
-// of FormatterSignedNumber.
-//
-// For a 'New' method using minimum input parameters coupled
-// with default values, see:
-//      FormatterSignedNumber.NewWithDefaults()
+//      Positive Signed Number format: "127.54"
+//      Negative Signed Number format: "-127.54"
+//        Decimal Separator Character: '.'
+//      Thousands Separator Character: ','
+//   Thousands Integer Digit Grouping: 3
+//        Turn On Thousands Separator: true
 //
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  positiveValueFmt              string
-//     - A string specifying the number string format to be used in
-//       formatting positive numeric values for signed numbers in
-//       text strings.
-//
-//       Positive Value Formatting Terminology and Placeholders:
-//
-//        "NUMFIELD" - Placeholder for a number field. A number field has
-//                     a string length which is equal to or greater than
-//                     the actual numeric value string length. Actual
-//                     numeric values are right justified within number
-//                     fields for text displays.
-//
-//          "127.54" - Place holder for the actual numeric value of
-//                     a number string. This place holder signals
-//                     that the actual length of the numeric value
-//                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
-//
-//               "+" - The Plus Sign ('+'). If present in the format
-//                     string, the plus sign ('+') specifies  where
-//                     the plus sign will be placed in relation to
-//                     the positive numeric value.
-//
-//       Absence of "+" - The absence of a plus sign ('+') means that
-//                        the positive numeric value will be displayed
-//                        in text with out a plus sign ('+'). This is
-//                        the default for positive number formatting.
-//
-//       Valid format strings for positive numeric values
-//       (NOT Currency) are listed as follows:
-//
-//               "+NUMFIELD"
-//               "+ NUMFIELD"
-//               "NUMFIELD+"
-//               "NUMFIELD +"
-//               "NUMFIELD"
-//               "+127.54"
-//               "+ 127.54"
-//               "127.54+"
-//               "127.54 +"
-//               "127.54" THE DEFAULT Positive Value Format
-//
-//
-//  negativeValueFmt              string
-//     - A string specifying the number string format to be used in
-//       formatting negative numeric values in text strings.
-//
-//       Negative Value Formatting Terminology and Placeholders:
-//
-//        "NUMFIELD" - Placeholder for a number field. A number field has
-//                     a string length which is equal to or greater than
-//                     the actual numeric value string length. Actual
-//                     numeric values are right justified within number
-//                     fields for text displays.
-//
-//          "127.54" - Place holder for the actual numeric value of
-//                     a number string. This place holder signals
-//                     that the actual length of the numeric value
-//                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
-//
-//               "-" - The Minus Sign ('-'). If present in the
-//                     format string, the minus sign ('-') specifies
-//                     where the minus sign will be positioned
-//                     relative to the numeric value in the text
-//                     number string.
-//
-//             "(-)" - These three characters are often used in
-//                     Europe and the United Kingdom to classify
-//                     a numeric value as negative.
-//
-//              "()" - Opposing parenthesis characters are
-//                     frequently used in the United States
-//                     to classify a numeric value as negative.
-//
-//
-//       Valid format strings for negative numeric values
-//       (NOT Currency) are listed as follows:
-//
-//               -127.54   The Default Negative Value Format String
-//               - 127.54
-//               127.54-
-//               127.54 -
-//               (-) 127.54
-//               (-)127.54
-//               127.54(-)
-//               127.54 (-)
-//               (127.54)
-//               ( 127.54 )
-//               (127.54)
-//               ( 127.54 )
-//               -127.54
-//               - 127.54
-//               127.54-
-//               127.54 -
-//               (-) 127.54
-//               (-)127.54
-//               127.54(-)
-//               127.54 (-)
-//               (127.54)
-//               ( 127.54 )
-//               (127.54)
-//               ( 127.54 )
-//               -NUMFIELD
-//               - NUMFIELD
-//               NUMFIELD-
-//               NUMFIELD -
-//               (-) NUMFIELD
-//               (-)NUMFIELD
-//               NUMFIELD(-)
-//               NUMFIELD (-)
-//               (NUMFIELD)
-//               ( NUMFIELD )
-//               (NUMFIELD)
-//               ( NUMFIELD )
-//
-//
-//  turnOnIntegerDigitsSeparation bool
-//     - Inter digits separation is also known as the 'Thousands
-//       Separator". Often a single character is used to separate
-//       thousands within the integer component of a numeric value
-//       in number strings. In the United States, the comma
-//       character (',') is used to separate thousands.
-//            Example: 1,000,000,000
-//
-//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
-//       flag used to control the 'Thousands Separator'. When set
-//       to 'true', integer number strings will be separated into
-//       thousands for text presentation.
-//            Example: 1,000,000,000
-//
-//       When this parameter is set to 'false', the 'Thousands
-//       Separator' will NOT be inserted into text number strings.
-//            Example: 1000000000
-//
-//
-//  numericSeparators             NumericSeparators
-//     - This instance of 'NumericSeparators' is
-//       used to specify the separator characters which will be
-//       included in the number string text display.
-//
-//        type NumericSeparators struct {
-//         decimalSeparators              rune
-//         integerSeparatorsDto []NumStrIntSeparator
-//        }
-//
-//        decimalSeparators              rune
-//
-//        The 'Decimal Separator' is used to separate integer and
-//        fractional digits within a floating point number display.
-//
-//        integerSeparatorsDto             []NumStrIntSeparator
-//           - An array of NumStrIntSeparator elements used to specify
-//             the integer separation operation.
-//
-//               type NumStrIntSeparator struct {
-//                 intSeparatorChar     rune // Integer separator character
-//                 intSeparatorGrouping uint // Number of integers in a group
-//                 intSeparatorRepetitions uint // Number of times this character/group is repeated
-//                                             // A zero value signals unlimited repetitions.
-//               }
-//
-//               intSeparatorChar     rune
-//               - This separator is commonly known as the 'thousands'
-//                 separator. It is used to separate groups of integer
-//                 digits to the left of the decimal separator (a.k.a.
-//                 decimal point). In the United States, the standard
-//                 integer digits separator is the comma (','). Other
-//                 countries use periods, spaces or apostrophes to
-//                 separate integers.
-//                   United States Example:  1,000,000,000
-//                    numSeps.intSeparators =
-//                      []NumStrIntSeparator{
-//                           {
-//                           intSeparatorChar:   ',',
-//                           intSeparatorGrouping: 3,
-//                           intSeparatorRepetitions: 0,
-//                           },
-//                        }
-//
-//               intSeparatorGrouping []uint
-//               - In most western countries integer digits to the left
-//                 of the decimal separator (a.k.a. decimal point) are
-//                 separated into groups of three digits representing
-//                 a grouping of 'thousands' like this: '1,000,000,000'.
-//                 In this case the intSeparatorGrouping value would be
-//                 set to three ('3').
-//
-//             In some countries and cultures other integer groupings are
-//             used. In India, for example, a number might be formatted
-//             like this: '6,78,90,00,00,00,00,000'. The right most group
-//             has three digits and all the others are grouped by two. In
-//             this case 'integerSeparatorsDto' would be configured as
-//             follows:
-//             as:
-//
-//             numSeps.intSeparators =
-//               []NumStrIntSeparator{
-//                    {
-//                    intSeparatorChar:   ',',
-//                    intSeparatorGrouping: 3,
-//                    intSeparatorRepetitions: 1,
-//                    },
-//                    {
-//                    intSeparatorChar:     ',',
-//                    intSeparatorGrouping: 2,
-//                    intSeparatorRepetitions: 0,
-//                    },
-//                 }
-//
-//
-//  numFieldDto                NumberFieldDto
-//     - The NumberFieldDto object contains formatting instructions
-//       for the creation and implementation of a number field.
-//       Number fields are text strings which contain number strings
-//       for use in text displays.
-//
-//       The NumberFieldDto object contains specifications for number
-//       field length. Typically, the length of a number field is
-//       greater than the length of the number string which will be
-//       displayed within the number field.
-//
-//       The NumberFieldDto object also contains specifications
-//       for positioning or alignment of the number string within
-//       the number field. This alignment dynamic is described as
-//       text justification. The member variable '
-//       NumberFieldDto.textJustifyFormat' is used to specify one
-//       of three possible alignment formats. One of these formats
-//       will be selected to control the alignment of the number
-//       string within the number field. These optional alignment
-//       formats are shown below with examples:
-//
-//       (1) 'Right-Justification' - "       NumberString"
-//       (2) 'Left-Justification' - "NumberString        "
-//       (3) 'Centered'           - "    NumberString    "
-//
-//       The NumberFieldDto type is detailed as follows:
-//
-//       type NumberFieldDto struct {
-//         requestedNumFieldLength int // User requested number field length
-//         actualNumFieldLength    int // Machine generated actual number field Length
-//         minimumNumFieldLength   int // Machine generated minimum number field length
-//         textJustifyFormat       TextJustify // User specified text justification
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
+//  -- None --
 //
 //
 // -----------------------------------------------------------------
@@ -946,30 +709,10 @@ func (fmtSignedNum *FormatterSignedNumber) IsValidInstanceError(
 // Return Values
 //
 //  FormatterSignedNumber
-//     - If this method completes successfully, this parameter will
-//       return a new, populated instance of FormatterSignedNumber.
+//     - This parameter will return a new, populated instance of
+//       FormatterSignedNumber.
 //
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (fmtSignedNum FormatterSignedNumber) NewWithComponents(
-	positiveValueFmt string,
-	negativeValueFmt string,
-	turnOnIntegerDigitsSeparation bool,
-	numericSeparators NumericSeparators,
-	numFieldDto NumberFieldDto,
-	ePrefix *ErrPrefixDto) (
-	FormatterSignedNumber,
-	error) {
+func (fmtSignedNum FormatterSignedNumber) New() FormatterSignedNumber {
 
 	if fmtSignedNum.lock == nil {
 		fmtSignedNum.lock = new(sync.Mutex)
@@ -979,33 +722,19 @@ func (fmtSignedNum FormatterSignedNumber) NewWithComponents(
 
 	defer fmtSignedNum.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
+	newFmtSignedNum := FormatterSignedNumber{}
 
-	ePrefix.SetEPref(
-		"FormatterSignedNumber." +
-			"NewWithComponents()")
+	newFmtSignedNum.lock = new(sync.Mutex)
 
-	newNStrFmtSpecSignedNumValueDto := FormatterSignedNumber{}
+	_ = formatterSignedNumberUtility{}.ptr().
+		setToUnitedStatesDefaults(
+			&newFmtSignedNum,
+			nil)
 
-	nStrFmtSpecSignedNumValMech :=
-		formatterSignedNumberMechanics{}
-
-	err := nStrFmtSpecSignedNumValMech.setFmtSignedNumWithComponents(
-		&newNStrFmtSpecSignedNumValueDto,
-		positiveValueFmt,
-		negativeValueFmt,
-		turnOnIntegerDigitsSeparation,
-		numericSeparators,
-		numFieldDto,
-		ePrefix.XCtx(
-			"Setting 'newNStrFmtSpecSignedNumValueDto'"))
-
-	return newNStrFmtSpecSignedNumValueDto, err
+	return newFmtSignedNum
 }
 
-// NewWithDefaults - Creates and returns a new instance of
+// NewBasic - Creates and returns a new instance of
 // FormatterSignedNumber. This method specifies the
 // minimum number of input parameters required to construct a new
 // instance of FormatterSignedNumber. Default values are
@@ -1035,17 +764,18 @@ func (fmtSignedNum FormatterSignedNumber) NewWithComponents(
 // Input Parameters
 //
 //  decimalSeparatorChar          rune
-//     - The character used to separate integer and fractional
-//       digits in a floating point number string. In the United
-//       States, the Decimal Separator character is the period
-//       ('.') or Decimal Point.
-//           Example: '123.45678'
+//     - The character or characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
 //
 //
 //  thousandsSeparatorChar        rune
-//     - The character which will be used to delimit 'thousands' in
-//       integer number strings. In the United States, the
-//       Thousands separator is the comma character (',').
+//     - The character or characters which will be used to delimit
+//       'thousands' in integer number strings. In the United
+//       States, the Thousands separator is the comma character
+//       (',').
 //           United States Example: '1,000,000,000'
 //
 //       The default integer digit grouping of three ('3') digits
@@ -1262,9 +992,9 @@ func (fmtSignedNum FormatterSignedNumber) NewWithComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (fmtSignedNum FormatterSignedNumber) NewWithDefaults(
-	decimalSeparatorChar rune,
-	thousandsSeparatorChar rune,
+func (fmtSignedNum FormatterSignedNumber) NewBasic(
+	decimalSeparatorChars string,
+	thousandsSeparatorChars string,
 	turnOnThousandsSeparator bool,
 	positiveValueFmt string,
 	negativeValueFmt string,
@@ -1290,86 +1020,252 @@ func (fmtSignedNum FormatterSignedNumber) NewWithDefaults(
 		"FormatterSignedNumber." +
 			"NewBasic()")
 
-	newNStrFmtSpecSignedNumValueDto :=
+	newFmtSignedNum :=
 		FormatterSignedNumber{}
 
-	nStrFmtSpecSignedNumValDtoUtil :=
-		formatterSignedNumberUtility{}
-
 	err :=
-		nStrFmtSpecSignedNumValDtoUtil.setBasicRunesSignedNumber(
-			&newNStrFmtSpecSignedNumValueDto,
-			decimalSeparatorChar,
-			thousandsSeparatorChar,
+		formatterSignedNumberUtility{}.ptr().setBasicSignedNumber(
+			&newFmtSignedNum,
+			decimalSeparatorChars,
+			thousandsSeparatorChars,
 			turnOnThousandsSeparator,
 			positiveValueFmt,
 			negativeValueFmt,
 			requestedNumberFieldLen,
 			numberFieldTextJustify,
 			ePrefix.XCtx(
-				"Setting 'newNStrFmtSpecSignedNumValueDto'"))
+				"Setting 'newFmtSignedNum'"))
 
-	return newNStrFmtSpecSignedNumValueDto, err
+	return newFmtSignedNum, err
 }
 
-// NewWithFmtSpecSetupDto - Creates and returns a new
-// FormatterSignedNumber instance based on input received
-// from an instance of NumStrFmtSpecSetupDto.
+// NewBasicRunes - Creates and returns a new instance of
+// FormatterSignedNumber. This method specifies the
+// minimum number of input parameters required to construct a new
+// instance of FormatterSignedNumber. Default values are
+// used to supplement these input parameters.
+//
+// To exercise granular control over all parameters needed to
+// construct an instance of FormatterSignedNumber,
+// reference method:
+//   'FormatterSignedNumber.NewWithComponents()'
+//
+// This method automatically sets a default integer digits grouping
+// sequence of '3'. This means that integers will be grouped by
+// thousands.
+//
+//        Example: '1,000,000,000'
+//
+// To control and specify alternative integer digit groupings, use
+// method 'FormatterSignedNumber.NewWithComponents()'.
+//
+// The FormatterSignedNumber type encapsulates the
+// formatting parameters necessary to format signed numeric values
+// for display in text number strings.
 //
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  fmtSpecSetupDto     *NumStrFmtSpecSetupDto
-//     - A data structure conveying setup information for a
-//       FormatterSignedNumber object. Only the following
-//       data fields with a prefix of "SignedNumVal" are used.
+//  decimalSeparatorChar          []rune
+//     - The character or characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
 //
-//       type NumStrFmtSpecSetupDto struct {
-//         IdNo                                      uint64
-//         IdString                                  string
-//         Description                               string
-//         Tag                                       string
-//         CountryIdNo                               uint64
-//         CountryIdString                           string
-//         CountryDescription                        string
-//         CountryTag                                string
-//         CountryCultureName                        string
-//         CountryAbbreviatedName                    string
-//         CountryAlternateNames                     []string
-//         CountryCodeTwoChar                        string
-//         CountryCodeThreeChar                      string
-//         CountryCodeNumber                         string
-//         AbsoluteValFmt                            string
-//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumSeps                        NumericSeparators
-//         AbsoluteValNumField                       NumberFieldDto
-//         CurrencyPositiveValueFmt                  string
-//         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     uint
-//         CurrencyCode                              string
-//         CurrencyCodeNo                            string
-//         CurrencyName                              string
-//         CurrencySymbols                           []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []rune
-//         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumSeps                           NumericSeparators
-//         CurrencyNumField                          NumberFieldDto
-//         SignedNumValPositiveValueFmt              string
-//         SignedNumValNegativeValueFmt              string
-//         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumSeps                       NumericSeparators
-//         SignedNumValNumField                      NumberFieldDto
-//         SciNotSignificandUsesLeadingPlus          bool
-//         SciNotMantissaLength                      uint
-//         SciNotExponentChar                        rune
-//         SciNotExponentUsesLeadingPlus             bool
-//         SciNotNumFieldLen                         int
-//         SciNotNumFieldTextJustify                 TextJustify
-//         Lock                                      *sync.Mutex
-//       }
+//
+//  thousandsSeparatorChar        []rune
+//     - The character or characters which will be used to delimit
+//       'thousands' in integer number strings. In the United
+//       States, the Thousands separator is the comma character
+//       (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//       For custom integer digit grouping, use method
+//       FormatterSignedNumber.NewWithComponents().
+//
+//
+//  turnOnThousandsSeparator      bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnThousandsSeparator' is a boolean flag
+//       used to control the 'Thousands Separator'. When set to
+//       'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
+//  positiveValueFmt              string
+//     - A string specifying the number string format to be used in
+//       formatting positive numeric values for signed numbers in
+//       text strings.
+//
+//       Positive Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for positive number formatting.
+//
+//       Valid format strings for positive numeric values
+//       (NOT Currency) are listed as follows:
+//
+//               "+NUMFIELD"
+//               "+ NUMFIELD"
+//               "NUMFIELD+"
+//               "NUMFIELD +"
+//               "NUMFIELD"
+//               "+127.54"
+//               "+ 127.54"
+//               "127.54+"
+//               "127.54 +"
+//               "127.54" THE DEFAULT Positive Value Format
+//
+//
+//  negativeValueFmt              string
+//     - A string specifying the number string format to be used in
+//       formatting negative numeric values in text strings.
+//
+//       Negative Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "-" - The Minus Sign ('-'). If present in the
+//                     format string, the minus sign ('-') specifies
+//                     where the minus sign will be positioned
+//                     relative to the numeric value in the text
+//                     number string.
+//
+//             "(-)" - These three characters are often used in
+//                     Europe and the United Kingdom to classify
+//                     a numeric value as negative.
+//
+//              "()" - Opposing parenthesis characters are
+//                     frequently used in the United States
+//                     to classify a numeric value as negative.
+//
+//
+//       Valid format strings for negative numeric values
+//       (NOT Currency) are listed as follows:
+//
+//               -127.54   The Default Negative Value Format String
+//               - 127.54
+//               127.54-
+//               127.54 -
+//               (-) 127.54
+//               (-)127.54
+//               127.54(-)
+//               127.54 (-)
+//               (127.54)
+//               ( 127.54 )
+//               (127.54)
+//               ( 127.54 )
+//               -127.54
+//               - 127.54
+//               127.54-
+//               127.54 -
+//               (-) 127.54
+//               (-)127.54
+//               127.54(-)
+//               127.54 (-)
+//               (127.54)
+//               ( 127.54 )
+//               (127.54)
+//               ( 127.54 )
+//               -NUMFIELD
+//               - NUMFIELD
+//               NUMFIELD-
+//               NUMFIELD -
+//               (-) NUMFIELD
+//               (-)NUMFIELD
+//               NUMFIELD(-)
+//               NUMFIELD (-)
+//               (NUMFIELD)
+//               ( NUMFIELD )
+//               (NUMFIELD)
+//               ( NUMFIELD )
+//
+//
+//  requestedNumberFieldLen       int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
+//
+//
+//  numberFieldTextJustify        TextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -1386,9 +1282,8 @@ func (fmtSignedNum FormatterSignedNumber) NewWithDefaults(
 // Return Values
 //
 //  FormatterSignedNumber
-//     - If this method completes successfully, a new instance of
-//       FormatterSignedNumber will be returned to the
-//       caller.
+//     - If this method completes successfully, this parameter will
+//       return a new, populated instance of FormatterSignedNumber.
 //
 //
 //  error
@@ -1402,8 +1297,14 @@ func (fmtSignedNum FormatterSignedNumber) NewWithDefaults(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (fmtSignedNum FormatterSignedNumber) NewWithFmtSpecSetupDto(
-	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
+func (fmtSignedNum FormatterSignedNumber) NewBasicRunes(
+	decimalSeparatorChars []rune,
+	thousandsSeparatorChars []rune,
+	turnOnThousandsSeparator bool,
+	positiveValueFmt string,
+	negativeValueFmt string,
+	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) (
 	FormatterSignedNumber,
 	error) {
@@ -1422,43 +1323,964 @@ func (fmtSignedNum FormatterSignedNumber) NewWithFmtSpecSetupDto(
 
 	ePrefix.SetEPref(
 		"FormatterSignedNumber." +
-			"NewWithFmtSpecSetupDto()")
+			"NewBasic()")
 
-	newNStrFmtSpecSignedNumValueDto :=
+	newFmtSignedNum :=
 		FormatterSignedNumber{}
 
-	if fmtSpecSetupDto == nil {
-		return newNStrFmtSpecSignedNumValueDto,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
-				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-				ePrefix.String())
+	err :=
+		formatterSignedNumberUtility{}.ptr().setBasicRunesSignedNumber(
+			&newFmtSignedNum,
+			decimalSeparatorChars,
+			thousandsSeparatorChars,
+			turnOnThousandsSeparator,
+			positiveValueFmt,
+			negativeValueFmt,
+			requestedNumberFieldLen,
+			numberFieldTextJustify,
+			ePrefix.XCtx(
+				"Setting 'newFmtSignedNum'"))
+
+	return newFmtSignedNum, err
+}
+
+// NewWithComponents - Creates and returns a new instance of
+// FormatterSignedNumber.
+//
+// The FormatterSignedNumber type encapsulates the
+// configuration parameters necessary to format signed numeric
+// values for display in text number strings.
+//
+// This method requires detailed input parameters to control
+// all configuration parameters for the returned new instance
+// of FormatterSignedNumber.
+//
+// For a 'New' method using minimum input parameters coupled
+// with default values, see:
+//      FormatterSignedNumber.NewBasicRunes()
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  positiveValueFmt              string
+//     - A string specifying the number string format to be used in
+//       formatting positive numeric values for signed numbers in
+//       text strings.
+//
+//       Positive Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for positive number formatting.
+//
+//       Valid format strings for positive numeric values
+//       (NOT Currency) are listed as follows:
+//
+//               "+NUMFIELD"
+//               "+ NUMFIELD"
+//               "NUMFIELD+"
+//               "NUMFIELD +"
+//               "NUMFIELD"
+//               "+127.54"
+//               "+ 127.54"
+//               "127.54+"
+//               "127.54 +"
+//               "127.54" THE DEFAULT Positive Value Format
+//
+//
+//  negativeValueFmt              string
+//     - A string specifying the number string format to be used in
+//       formatting negative numeric values in text strings.
+//
+//       Negative Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "-" - The Minus Sign ('-'). If present in the
+//                     format string, the minus sign ('-') specifies
+//                     where the minus sign will be positioned
+//                     relative to the numeric value in the text
+//                     number string.
+//
+//             "(-)" - These three characters are often used in
+//                     Europe and the United Kingdom to classify
+//                     a numeric value as negative.
+//
+//              "()" - Opposing parenthesis characters are
+//                     frequently used in the United States
+//                     to classify a numeric value as negative.
+//
+//
+//       Valid format strings for negative numeric values
+//       (NOT Currency) are listed as follows:
+//
+//               -127.54   The Default Negative Value Format String
+//               - 127.54
+//               127.54-
+//               127.54 -
+//               (-) 127.54
+//               (-)127.54
+//               127.54(-)
+//               127.54 (-)
+//               (127.54)
+//               ( 127.54 )
+//               (127.54)
+//               ( 127.54 )
+//               -127.54
+//               - 127.54
+//               127.54-
+//               127.54 -
+//               (-) 127.54
+//               (-)127.54
+//               127.54(-)
+//               127.54 (-)
+//               (127.54)
+//               ( 127.54 )
+//               (127.54)
+//               ( 127.54 )
+//               -NUMFIELD
+//               - NUMFIELD
+//               NUMFIELD-
+//               NUMFIELD -
+//               (-) NUMFIELD
+//               (-)NUMFIELD
+//               NUMFIELD(-)
+//               NUMFIELD (-)
+//               (NUMFIELD)
+//               ( NUMFIELD )
+//               (NUMFIELD)
+//               ( NUMFIELD )
+//
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: 1,000,000,000
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: 1000000000
+//
+//
+//  numericSeparators             NumericSeparators
+//     - This instance of 'NumericSeparators' is
+//       used to specify the separator characters which will be
+//       including in the number string text display.
+//
+//        type NumericSeparators struct {
+//         decimalSeparators    []rune
+//         integerSeparatorsDto NumStrIntSeparatorsDto
+//        }
+//
+//        decimalSeparators     []rune
+//
+//        The 'Decimal Separator' is used to separate integer and
+//        fractional digits within a floating point number display.
+//        The decimal separator may consist of one or more runes.
+//
+//        integerSeparatorsDto    NumStrIntSeparatorsDto
+//
+//        The NumStrIntSeparatorsDto type encapsulates the integer digits
+//        separators, often referred to as the 'Thousands Separator'.
+//        Integer digit separators are used to separate integers into
+//        specific groups within a number string. The
+//        NumStrIntSeparatorsDto manages an array or collection of
+//        NumStrIntSeparator objects.
+//
+//               type NumStrIntSeparatorsDto struct {
+//                 intSeparators []NumStrIntSeparator
+//               }
+//
+//               type NumStrIntSeparator struct {
+//                intSeparatorChars       []rune  // A series of runes used to separate integer digits.
+//                intSeparatorGrouping    uint    // Number of integer digits in a group
+//                intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
+//                                                // A zero value signals unlimited repetitions.
+//                restartIntGroupingSequence bool // If true, the grouping sequence starts over at index zero.
+//               }
+//
+//               intSeparatorChars          []rune
+//                  - A series of runes or characters used to separate integer
+//                    digits in a number string. These characters are commonly
+//                    known as the 'thousands separator'. A 'thousands
+//                    separator' is used to separate groups of integer digits to
+//                    the left of the decimal separator (a.k.a. decimal point).
+//                    In the United States, the standard integer digits
+//                    separator is the single comma character (','). Other
+//                    countries and cultures use periods, spaces, apostrophes or
+//                    multiple characters to separate integers.
+//                          United States Example:  1,000,000,000
+//
+//               intSeparatorGrouping       uint
+//                  - This unsigned integer values specifies the number of
+//                    integer digits within a group. This value is used to group
+//                    integers within a number string.
+//
+//                    In most western countries integer digits to the left of
+//                    the decimal separator (a.k.a. decimal point) are separated
+//                    into groups of three digits representing a grouping of
+//                    'thousands' like this: '1,000,000,000'. In this case the
+//                    intSeparatorGrouping value would be set to three ('3').
+//
+//                    In some countries and cultures other integer groupings are
+//                    used. In India, for example, a number might be formatted
+//                    like this: '6,78,90,00,00,00,00,000'.
+//
+//               intSeparatorRepetitions    uint
+//                  - This unsigned integer value specifies the number of times
+//                    this integer grouping is repeated. A value of zero signals
+//                    that this integer grouping will be repeated indefinitely.
+//
+//               restartIntGroupingSequence bool
+//                  - If the NumStrIntSeparator is the last element in an array
+//                    of NumStrIntSeparator objects, this boolean flag signals
+//                    whether the entire integer grouping sequence will be
+//                    restarted from array element zero.
+//
+//
+//  numFieldDto                   NumberFieldDto
+//     - The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterSignedNumber
+//     - If this method completes successfully, this parameter will
+//       return a new, populated instance of FormatterSignedNumber.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtSignedNum FormatterSignedNumber) NewWithComponents(
+	positiveValueFmt string,
+	negativeValueFmt string,
+	turnOnIntegerDigitsSeparation bool,
+	numericSeparators NumericSeparators,
+	numFieldDto NumberFieldDto,
+	ePrefix *ErrPrefixDto) (
+	FormatterSignedNumber,
+	error) {
+
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
 	}
 
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
+	fmtSignedNum.lock.Lock()
+
+	defer fmtSignedNum.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
 	}
+
+	ePrefix.SetEPref(
+		"FormatterSignedNumber." +
+			"NewWithComponents()")
+
+	newNStrFmtSpecSignedNumValueDto := FormatterSignedNumber{}
 
 	nStrFmtSpecSignedNumValMech :=
 		formatterSignedNumberMechanics{}
 
-	fmtSpecSetupDto.Lock.Lock()
-
-	defer fmtSpecSetupDto.Lock.Unlock()
-
-	err :=
-		nStrFmtSpecSignedNumValMech.
-			setFmtSignedNumWithComponents(
-				&newNStrFmtSpecSignedNumValueDto,
-				fmtSpecSetupDto.SignedNumValPositiveValueFmt,
-				fmtSpecSetupDto.SignedNumValNegativeValueFmt,
-				fmtSpecSetupDto.SignedNumValTurnOnIntegerDigitsSeparation,
-				fmtSpecSetupDto.SignedNumValNumSeps,
-				fmtSpecSetupDto.SignedNumValNumField,
-				ePrefix.XCtx(
-					"Setting 'newNStrFmtSpecSignedNumValueDto'"))
+	err := nStrFmtSpecSignedNumValMech.setFmtSignedNumWithComponents(
+		&newNStrFmtSpecSignedNumValueDto,
+		positiveValueFmt,
+		negativeValueFmt,
+		turnOnIntegerDigitsSeparation,
+		numericSeparators,
+		numFieldDto,
+		ePrefix.XCtx(
+			"Setting 'newNStrFmtSpecSignedNumValueDto'"))
 
 	return newNStrFmtSpecSignedNumValueDto, err
+}
+
+// SetBasic - This method will set all of the member
+// variable data values for the current instance of
+// FormatterSignedNumber. The input parameters represent the
+// minimum information required to configure the data values for a
+// FormatterSignedNumber object. Default values are used to
+// supplement these input parameters.
+//
+// This method automatically sets a default integer digits grouping
+// sequence of '3'. This means that integers will be grouped by
+// thousands.
+//
+//        Example: '1,000,000,000'
+//
+// To control and specify alternative integer digit groupings, use
+// method 'FormatterSignedNumber.SetWithComponents()'.
+//
+// This method differs from method
+// FormatterSignedNumber.SetBasicRunes() in that this method
+// accepts strings for input parameters,
+// 'decimalSeparatorChars' and 'thousandsSeparatorChars'.
+//
+// The FormatterSignedNumber type encapsulates the
+// formatting parameters necessary to format signed numeric values
+// for display in text number strings.
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current FormatterSignedNumber instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparatorChars         string
+//     - The character or characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
+//
+//
+//  thousandsSeparatorChars        string
+//     - The character or characters which will be used to delimit
+//       'thousands' in integer number strings. In the United
+//       States, the Thousands separator is the comma character
+//       (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//       For custom integer digit grouping, use method
+//       FormatterSignedNumber.SetWithComponents().
+//
+//
+//  positiveValueFmt              string
+//     - A string specifying the number string format to be used in
+//       formatting positive numeric values for signed numbers in
+//       text strings.
+//
+//       Positive Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for positive number formatting.
+//
+//       Valid format strings for positive numeric values
+//       (NOT Currency) are listed as follows:
+//
+//               "+NUMFIELD"
+//               "+ NUMFIELD"
+//               "NUMFIELD+"
+//               "NUMFIELD +"
+//               "NUMFIELD"
+//               "+127.54"
+//               "+ 127.54"
+//               "127.54+"
+//               "127.54 +"
+//               "127.54" THE DEFAULT Positive Value Format
+//
+//
+//  negativeValueFmt              string
+//     - A string specifying the number string format to be used in
+//       formatting negative numeric values in text strings.
+//
+//       Negative Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "-" - The Minus Sign ('-'). If present in the
+//                     format string, the minus sign ('-') specifies
+//                     where the minus sign will be positioned
+//                     relative to the numeric value in the text
+//                     number string.
+//
+//             "(-)" - These three characters are often used in
+//                     Europe and the United Kingdom to classify
+//                     a numeric value as negative.
+//
+//              "()" - Opposing parenthesis characters are
+//                     frequently used in the United States
+//                     to classify a numeric value as negative.
+//
+//
+//       Valid format strings for negative numeric values
+//       (NOT Currency) are listed as follows:
+//
+//               -127.54   The Default Negative Value Format String
+//               - 127.54
+//               127.54-
+//               127.54 -
+//               (-) 127.54
+//               (-)127.54
+//               127.54(-)
+//               127.54 (-)
+//               (127.54)
+//               ( 127.54 )
+//               (127.54)
+//               ( 127.54 )
+//               -127.54
+//               - 127.54
+//               127.54-
+//               127.54 -
+//               (-) 127.54
+//               (-)127.54
+//               127.54(-)
+//               127.54 (-)
+//               (127.54)
+//               ( 127.54 )
+//               (127.54)
+//               ( 127.54 )
+//               -NUMFIELD
+//               - NUMFIELD
+//               NUMFIELD-
+//               NUMFIELD -
+//               (-) NUMFIELD
+//               (-)NUMFIELD
+//               NUMFIELD(-)
+//               NUMFIELD (-)
+//               (NUMFIELD)
+//               ( NUMFIELD )
+//               (NUMFIELD)
+//               ( NUMFIELD )
+//
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
+//  requestedNumberFieldLen       int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
+//
+//
+//  numberFieldTextJustify        TextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtSignedNum *FormatterSignedNumber) SetBasic(
+	decimalSeparatorChars string,
+	thousandsSeparatorChars string,
+	positiveValueFmt string,
+	negativeValueFmt string,
+	turnOnIntegerDigitsSeparation bool,
+	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
+	}
+
+	fmtSignedNum.lock.Lock()
+
+	defer fmtSignedNum.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterSignedNumber." +
+			"SetBasic()")
+
+	return formatterSignedNumberUtility{}.ptr().
+		setBasicSignedNumber(
+			fmtSignedNum,
+			decimalSeparatorChars,
+			thousandsSeparatorChars,
+			turnOnIntegerDigitsSeparation,
+			positiveValueFmt,
+			negativeValueFmt,
+			requestedNumberFieldLen,
+			numberFieldTextJustify,
+			ePrefix.XCtx("Setting 'fmtSignedNum'"))
+}
+
+// SetBasicRunes - This method will set all of the member
+// variable data values for the current instance of
+// FormatterSignedNumber. The input parameters represent the
+// minimum information required to configure the data values for a
+// FormatterSignedNumber object. Default values are used to
+// supplement these input parameters.
+//
+// This method automatically sets a default integer digits grouping
+// sequence of '3'. This means that integers will be grouped by
+// thousands.
+//
+//        Example: '1,000,000,000'
+//
+// To control and specify alternative integer digit groupings, use
+// method 'FormatterSignedNumber.SetWithComponents()'.
+//
+// The FormatterSignedNumber type encapsulates the
+// formatting parameters necessary to format signed numeric values
+// for display in text number strings.
+//
+// This method differs from method
+// FormatterSignedNumber.SetBasic() in that this method accepts
+// rune arrays for input parameters, 'decimalSeparatorChars' and
+// 'thousandsSeparatorChars'.
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current FormatterSignedNumber instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparatorChars         []rune
+//     - The character or characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
+//
+//
+//  thousandsSeparatorChars        []rune
+//     - The character or characters which will be used to delimit
+//       'thousands' in integer number strings. In the United
+//       States, the Thousands separator is the comma character
+//       (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//       For custom integer digit grouping, use method
+//       FormatterSignedNumber.SetWithComponents().
+//
+//
+//  positiveValueFmt              string
+//     - A string specifying the number string format to be used in
+//       formatting positive numeric values for signed numbers in
+//       text strings.
+//
+//       Positive Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for positive number formatting.
+//
+//       Valid format strings for positive numeric values
+//       (NOT Currency) are listed as follows:
+//
+//               "+NUMFIELD"
+//               "+ NUMFIELD"
+//               "NUMFIELD+"
+//               "NUMFIELD +"
+//               "NUMFIELD"
+//               "+127.54"
+//               "+ 127.54"
+//               "127.54+"
+//               "127.54 +"
+//               "127.54" THE DEFAULT Positive Value Format
+//
+//
+//  negativeValueFmt              string
+//     - A string specifying the number string format to be used in
+//       formatting negative numeric values in text strings.
+//
+//       Negative Value Formatting Terminology and Placeholders:
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "-" - The Minus Sign ('-'). If present in the
+//                     format string, the minus sign ('-') specifies
+//                     where the minus sign will be positioned
+//                     relative to the numeric value in the text
+//                     number string.
+//
+//             "(-)" - These three characters are often used in
+//                     Europe and the United Kingdom to classify
+//                     a numeric value as negative.
+//
+//              "()" - Opposing parenthesis characters are
+//                     frequently used in the United States
+//                     to classify a numeric value as negative.
+//
+//
+//       Valid format strings for negative numeric values
+//       (NOT Currency) are listed as follows:
+//
+//               -127.54   The Default Negative Value Format String
+//               - 127.54
+//               127.54-
+//               127.54 -
+//               (-) 127.54
+//               (-)127.54
+//               127.54(-)
+//               127.54 (-)
+//               (127.54)
+//               ( 127.54 )
+//               (127.54)
+//               ( 127.54 )
+//               -127.54
+//               - 127.54
+//               127.54-
+//               127.54 -
+//               (-) 127.54
+//               (-)127.54
+//               127.54(-)
+//               127.54 (-)
+//               (127.54)
+//               ( 127.54 )
+//               (127.54)
+//               ( 127.54 )
+//               -NUMFIELD
+//               - NUMFIELD
+//               NUMFIELD-
+//               NUMFIELD -
+//               (-) NUMFIELD
+//               (-)NUMFIELD
+//               NUMFIELD(-)
+//               NUMFIELD (-)
+//               (NUMFIELD)
+//               ( NUMFIELD )
+//               (NUMFIELD)
+//               ( NUMFIELD )
+//
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
+//  requestedNumberFieldLen       int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
+//
+//
+//  numberFieldTextJustify        TextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtSignedNum *FormatterSignedNumber) SetBasicRunes(
+	decimalSeparatorChars []rune,
+	thousandsSeparatorChars []rune,
+	positiveValueFmt string,
+	negativeValueFmt string,
+	turnOnIntegerDigitsSeparation bool,
+	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
+	}
+
+	fmtSignedNum.lock.Lock()
+
+	defer fmtSignedNum.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterSignedNumber." +
+			"SetBasicRunes()")
+
+	return formatterSignedNumberUtility{}.ptr().
+		setBasicRunesSignedNumber(
+			fmtSignedNum,
+			decimalSeparatorChars,
+			thousandsSeparatorChars,
+			turnOnIntegerDigitsSeparation,
+			positiveValueFmt,
+			negativeValueFmt,
+			requestedNumberFieldLen,
+			numberFieldTextJustify,
+			ePrefix.XCtx("Setting 'fmtSignedNum'"))
 }
 
 // SetNegativeValueFormat - Sets the negative value format string
@@ -1803,6 +2625,25 @@ func (fmtSignedNum *FormatterSignedNumber) SetNumberSeparatorsDto(
 		ePrefix.XCtx("numericSeparators->fmtSignedNum.numericSeparators"))
 }
 
+// SetNumStrFormatTypeCode - Sets the Number String Format Type
+// coded for this FormatterSignedNumber object. For Signed Number
+// formatters, the Number String Format Type Code is set to
+// NumStrFormatTypeCode(0).SignedNumber().
+//
+func (fmtSignedNum *FormatterSignedNumber) SetNumStrFormatTypeCode() {
+
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
+	}
+
+	fmtSignedNum.lock.Lock()
+
+	defer fmtSignedNum.lock.Unlock()
+
+	fmtSignedNum.numStrFormatterType =
+		NumStrFormatTypeCode(0).SignedNumber()
+}
+
 // SetPositiveValueFormat - Sets the positive value format string
 // used to configure signed numeric values in text number strings.
 //
@@ -1986,12 +2827,11 @@ func (fmtSignedNum *FormatterSignedNumber) SetToUnitedStatesDefaults(
 		"FormatterSignedNumber." +
 			"SetToUnitedStatesDefaults()")
 
-	signedNumUtil := formatterSignedNumberUtility{}
-
-	err = signedNumUtil.setToUnitedStatesDefaults(
-		fmtSignedNum,
-		ePrefix.XCtx(
-			"fmtSignedNum"))
+	err = formatterSignedNumberUtility{}.ptr().
+		setToUnitedStatesDefaults(
+			fmtSignedNum,
+			ePrefix.XCtx(
+				"fmtSignedNum"))
 
 	return err
 }
@@ -2310,79 +3150,80 @@ func (fmtSignedNum *FormatterSignedNumber) SetTurnOnIntegerDigitsSeparationFlag(
 //  numericSeparators             NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
-//       included in the number string text display.
+//       including in the number string text display.
 //
 //        type NumericSeparators struct {
-//         decimalSeparators              rune
-//         integerSeparatorsDto []NumStrIntSeparator
+//         decimalSeparators    []rune
+//         integerSeparatorsDto NumStrIntSeparatorsDto
 //        }
 //
-//        decimalSeparators              rune
+//        decimalSeparators     []rune
 //
 //        The 'Decimal Separator' is used to separate integer and
 //        fractional digits within a floating point number display.
+//        The decimal separator may consist of one or more runes.
 //
-//        integerSeparatorsDto             []NumStrIntSeparator
-//           - An array of NumStrIntSeparator elements used to specify
-//             the integer separation operation.
+//        integerSeparatorsDto    NumStrIntSeparatorsDto
 //
-//               type NumStrIntSeparator struct {
-//                 intSeparatorChar     rune   // Integer separator character
-//                 intSeparatorGrouping uint   // Number of integers in a group
-//                 intSeparatorRepetitions uint   // Number of times this character/group is repeated
-//                                                // A zero value signals unlimited repetitions.
+//        The NumStrIntSeparatorsDto type encapsulates the integer digits
+//        separators, often referred to as the 'Thousands Separator'.
+//        Integer digit separators are used to separate integers into
+//        specific groups within a number string. The
+//        NumStrIntSeparatorsDto manages an array or collection of
+//        NumStrIntSeparator objects.
+//
+//               type NumStrIntSeparatorsDto struct {
+//                 intSeparators []NumStrIntSeparator
 //               }
 //
-//               intSeparatorChar     rune
-//               - This separator is commonly known as the 'thousands'
-//                 separator. It is used to separate groups of integer
-//                 digits to the left of the decimal separator (a.k.a.
-//                 decimal point). In the United States, the standard
-//                 integer digits separator is the comma (','). Other
-//                 countries use periods, spaces or apostrophes to
-//                 separate integers.
-//                   United States Example:  1,000,000,000
-//                    numSeps.intSeparators =
-//                      []NumStrIntSeparator{
-//                           {
-//                           intSeparatorChar:   ',',
-//                           intSeparatorGrouping: 3,
-//                           intSeparatorRepetitions: 0,
-//                           },
-//                        }
+//               type NumStrIntSeparator struct {
+//                intSeparatorChars       []rune  // A series of runes used to separate integer digits.
+//                intSeparatorGrouping    uint    // Number of integer digits in a group
+//                intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
+//                                                // A zero value signals unlimited repetitions.
+//                restartIntGroupingSequence bool // If true, the grouping sequence starts over at index zero.
+//               }
 //
-//               intSeparatorGrouping []uint
-//               - In most western countries integer digits to the left
-//                 of the decimal separator (a.k.a. decimal point) are
-//                 separated into groups of three digits representing
-//                 a grouping of 'thousands' like this: '1,000,000,000'.
-//                 In this case the intSeparatorGrouping value would be
-//                 set to three ('3').
+//               intSeparatorChars          []rune
+//                  - A series of runes or characters used to separate integer
+//                    digits in a number string. These characters are commonly
+//                    known as the 'thousands separator'. A 'thousands
+//                    separator' is used to separate groups of integer digits to
+//                    the left of the decimal separator (a.k.a. decimal point).
+//                    In the United States, the standard integer digits
+//                    separator is the single comma character (','). Other
+//                    countries and cultures use periods, spaces, apostrophes or
+//                    multiple characters to separate integers.
+//                          United States Example:  1,000,000,000
 //
-//             In some countries and cultures other integer groupings are
-//             used. In India, for example, a number might be formatted
-//             like this: '6,78,90,00,00,00,00,000'. The right most group
-//             has three digits and all the others are grouped by two. In
-//             this case 'integerSeparatorsDto' would be configured as
-//             follows:
-//             as:
+//               intSeparatorGrouping       uint
+//                  - This unsigned integer values specifies the number of
+//                    integer digits within a group. This value is used to group
+//                    integers within a number string.
 //
-//             numSeps.intSeparators =
-//               []NumStrIntSeparator{
-//                    {
-//                    intSeparatorChar:   ',',
-//                    intSeparatorGrouping: 3,
-//                    intSeparatorRepetitions: 1,
-//                    },
-//                    {
-//                    intSeparatorChar:     ',',
-//                    intSeparatorGrouping: 2,
-//                    intSeparatorRepetitions: 0,
-//                    },
-//                 }
+//                    In most western countries integer digits to the left of
+//                    the decimal separator (a.k.a. decimal point) are separated
+//                    into groups of three digits representing a grouping of
+//                    'thousands' like this: '1,000,000,000'. In this case the
+//                    intSeparatorGrouping value would be set to three ('3').
+//
+//                    In some countries and cultures other integer groupings are
+//                    used. In India, for example, a number might be formatted
+//                    like this: '6,78,90,00,00,00,00,000'.
+//
+//               intSeparatorRepetitions    uint
+//                  - This unsigned integer value specifies the number of times
+//                    this integer grouping is repeated. A value of zero signals
+//                    that this integer grouping will be repeated indefinitely.
+//
+//               restartIntGroupingSequence bool
+//                  - If the NumStrIntSeparator is the last element in an array
+//                    of NumStrIntSeparator objects, this boolean flag signals
+//                    whether the entire integer grouping sequence will be
+//                    restarted from array element zero.
 //
 //
-//  numFieldDto                NumberFieldDto
+//  numFieldDto                   NumberFieldDto
 //     - The NumberFieldDto object contains formatting instructions
 //       for the creation and implementation of a number field.
 //       Number fields are text strings which contain number strings
@@ -2417,7 +3258,7 @@ func (fmtSignedNum *FormatterSignedNumber) SetTurnOnIntegerDigitsSeparationFlag(
 //       }
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -2476,421 +3317,5 @@ func (fmtSignedNum *FormatterSignedNumber) SetWithComponents(
 			turnOnIntegerDigitsSeparation,
 			numberSeparatorsDto,
 			numFieldDto,
-			ePrefix.XCtx("Setting 'fmtSignedNum'"))
-}
-
-// SetWithDefaults - This method will set all of the member
-// variable data values for the current instance of
-// FormatterSignedNumber. The input parameters
-// represent the minimum information required to configure
-// the data values for a FormatterSignedNumber object.
-//
-// This method automatically sets a default integer digits grouping
-// sequence of '3'. This means that integers will be grouped by
-// thousands.
-//
-//        Example: '1,000,000,000'
-//
-// IMPORTANT
-//
-// This method will overwrite all pre-existing data values in the
-// current FormatterSignedNumber instance.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  positiveValueFmt              string
-//     - A string specifying the number string format to be used in
-//       formatting positive numeric values for signed numbers in
-//       text strings.
-//
-//       Positive Value Formatting Terminology and Placeholders:
-//
-//        "NUMFIELD" - Placeholder for a number field. A number field has
-//                     a string length which is equal to or greater than
-//                     the actual numeric value string length. Actual
-//                     numeric values are right justified within number
-//                     fields for text displays.
-//
-//          "127.54" - Place holder for the actual numeric value of
-//                     a number string. This place holder signals
-//                     that the actual length of the numeric value
-//                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
-//
-//               "+" - The Plus Sign ('+'). If present in the format
-//                     string, the plus sign ('+') specifies  where
-//                     the plus sign will be placed in relation to
-//                     the positive numeric value.
-//
-//       Absence of "+" - The absence of a plus sign ('+') means that
-//                        the positive numeric value will be displayed
-//                        in text with out a plus sign ('+'). This is
-//                        the default for positive number formatting.
-//
-//       Valid format strings for positive numeric values
-//       (NOT Currency) are listed as follows:
-//
-//               "+NUMFIELD"
-//               "+ NUMFIELD"
-//               "NUMFIELD+"
-//               "NUMFIELD +"
-//               "NUMFIELD"
-//               "+127.54"
-//               "+ 127.54"
-//               "127.54+"
-//               "127.54 +"
-//               "127.54" THE DEFAULT Positive Value Format
-//
-//
-//  negativeValueFmt              string
-//     - A string specifying the number string format to be used in
-//       formatting negative numeric values in text strings.
-//
-//       Negative Value Formatting Terminology and Placeholders:
-//
-//        "NUMFIELD" - Placeholder for a number field. A number field has
-//                     a string length which is equal to or greater than
-//                     the actual numeric value string length. Actual
-//                     numeric values are right justified within number
-//                     fields for text displays.
-//
-//          "127.54" - Place holder for the actual numeric value of
-//                     a number string. This place holder signals
-//                     that the actual length of the numeric value
-//                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
-//
-//               "-" - The Minus Sign ('-'). If present in the
-//                     format string, the minus sign ('-') specifies
-//                     where the minus sign will be positioned
-//                     relative to the numeric value in the text
-//                     number string.
-//
-//             "(-)" - These three characters are often used in
-//                     Europe and the United Kingdom to classify
-//                     a numeric value as negative.
-//
-//              "()" - Opposing parenthesis characters are
-//                     frequently used in the United States
-//                     to classify a numeric value as negative.
-//
-//
-//       Valid format strings for negative numeric values
-//       (NOT Currency) are listed as follows:
-//
-//               -127.54   The Default Negative Value Format String
-//               - 127.54
-//               127.54-
-//               127.54 -
-//               (-) 127.54
-//               (-)127.54
-//               127.54(-)
-//               127.54 (-)
-//               (127.54)
-//               ( 127.54 )
-//               (127.54)
-//               ( 127.54 )
-//               -127.54
-//               - 127.54
-//               127.54-
-//               127.54 -
-//               (-) 127.54
-//               (-)127.54
-//               127.54(-)
-//               127.54 (-)
-//               (127.54)
-//               ( 127.54 )
-//               (127.54)
-//               ( 127.54 )
-//               -NUMFIELD
-//               - NUMFIELD
-//               NUMFIELD-
-//               NUMFIELD -
-//               (-) NUMFIELD
-//               (-)NUMFIELD
-//               NUMFIELD(-)
-//               NUMFIELD (-)
-//               (NUMFIELD)
-//               ( NUMFIELD )
-//               (NUMFIELD)
-//               ( NUMFIELD )
-//
-//
-//  turnOnIntegerDigitsSeparation bool
-//     - Inter digits separation is also known as the 'Thousands
-//       Separator". Often a single character is used to separate
-//       thousands within the integer component of a numeric value
-//       in number strings. In the United States, the comma
-//       character (',') is used to separate thousands.
-//            Example: 1,000,000,000
-//
-//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
-//       flag used to control the 'Thousands Separator'. When set
-//       to 'true', integer number strings will be separated into
-//       thousands for text presentation.
-//            Example: '1,000,000,000'
-//
-//       When this parameter is set to 'false', the 'Thousands
-//       Separator' will NOT be inserted into text number strings.
-//            Example: '1000000000'
-//
-//
-//  decimalSeparatorChar          rune
-//     - The character used to separate integer and fractional
-//       digits in a floating point number string. In the United
-//       States, the Decimal Separator character is the period
-//       ('.') or Decimal Point.
-//           Example: '123.45678'
-//
-//
-//  thousandsSeparatorChar        rune
-//     - The character which will be used to delimit 'thousands' in
-//       integer number strings. In the United States, the Thousands
-//       separator is the comma character (',').
-//           Example: '1,000,000,000'
-//
-//
-//  requestedNumberFieldLen       int
-//     - This is the requested length of the number field in which
-//       the number string will be displayed. If this field length
-//       is greater than the actual length of the number string,
-//       the number string will be right justified within the the
-//       number field. If the actual number string length is greater
-//       than the requested number field length, the number field
-//       length will be automatically expanded to display the entire
-//       number string. The 'requested' number field length is used
-//       to create number fields of standard lengths for text
-//       presentations.
-//
-//
-//  numberFieldTextJustify        TextJustify
-//     - An enumeration value used to specify the type of text
-//       formatting which will be applied to a number string when
-//       it is positioned inside of a number field. This
-//       enumeration value must be one of the three following
-//       format specifications:
-//
-//       1. Left   - Signals that the text justification format is
-//                   set to 'Left-Justify'. Strings within text
-//                   fields will be flush with the left margin.
-//                          Example: "TextString      "
-//
-//       2. Right  - Signals that the text justification format is
-//                   set to 'Right-Justify'. Strings within text
-//                   fields will terminate at the right margin.
-//                          Example: "      TextString"
-//
-//       3. Center - Signals that the text justification format is
-//                   is set to 'Centered'. Strings will be positioned
-//                   in the center of the text field equidistant
-//                   from the left and right margins.
-//                           Example: "   TextString   "
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (fmtSignedNum *FormatterSignedNumber) SetWithDefaults(
-	positiveValueFmt string,
-	negativeValueFmt string,
-	turnOnIntegerDigitsSeparation bool,
-	decimalSeparatorChar rune,
-	thousandsSeparatorChar rune,
-	requestedNumberFieldLen int,
-	numberFieldTextJustify TextJustify,
-	ePrefix *ErrPrefixDto) error {
-
-	if fmtSignedNum.lock == nil {
-		fmtSignedNum.lock = new(sync.Mutex)
-	}
-
-	fmtSignedNum.lock.Lock()
-
-	defer fmtSignedNum.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"FormatterSignedNumber." +
-			"SetBasicRunes()")
-
-	nStrFmtSpecSignedNumValDtoUtil :=
-		formatterSignedNumberUtility{}
-
-	return nStrFmtSpecSignedNumValDtoUtil.setBasicRunesSignedNumber(
-		fmtSignedNum,
-		decimalSeparatorChar,
-		thousandsSeparatorChar,
-		turnOnIntegerDigitsSeparation,
-		positiveValueFmt,
-		negativeValueFmt,
-		requestedNumberFieldLen,
-		numberFieldTextJustify,
-		ePrefix.XCtx("Setting 'fmtSignedNum'"))
-}
-
-// SetWithFmtSpecSetupDto - Sets the data values for current
-// FormatterSignedNumber instance based on input received
-// from an instance of NumStrFmtSpecSetupDto.
-//
-// IMPORTANT
-// This method will overwrite all pre-existing data values in the
-// current FormatterSignedNumber instance.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
-//     - A data structure conveying setup and configuration
-//       information for a FormatterSignedNumber
-//       object. Only the following data fields with a prefix of
-//       "SignedNumVal" are used.
-//
-//       type NumStrFmtSpecSetupDto struct {
-//         IdNo                                      uint64
-//         IdString                                  string
-//         Description                               string
-//         Tag                                       string
-//         CountryIdNo                               uint64
-//         CountryIdString                           string
-//         CountryDescription                        string
-//         CountryTag                                string
-//         CountryCultureName                        string
-//         CountryAbbreviatedName                    string
-//         CountryAlternateNames                     []string
-//         CountryCodeTwoChar                        string
-//         CountryCodeThreeChar                      string
-//         CountryCodeNumber                         string
-//         AbsoluteValFmt                            string
-//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumSeps                        NumericSeparators
-//         AbsoluteValNumField                       NumberFieldDto
-//         CurrencyPositiveValueFmt                  string
-//         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     uint
-//         CurrencyCode                              string
-//         CurrencyCodeNo                            string
-//         CurrencyName                              string
-//         CurrencySymbols                           []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []rune
-//         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumSeps                           NumericSeparators
-//         CurrencyNumField                          NumberFieldDto
-//         SignedNumValPositiveValueFmt              string
-//         SignedNumValNegativeValueFmt              string
-//         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumSeps                       NumericSeparators
-//         SignedNumValNumField                      NumberFieldDto
-//         SciNotSignificandUsesLeadingPlus          bool
-//         SciNotMantissaLength                      uint
-//         SciNotExponentChar                        rune
-//         SciNotExponentUsesLeadingPlus             bool
-//         SciNotNumFieldLen                         int
-//         SciNotNumFieldTextJustify                 TextJustify
-//         Lock                                      *sync.Mutex
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (fmtSignedNum *FormatterSignedNumber) SetWithFmtSpecSetupDto(
-	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix *ErrPrefixDto) error {
-
-	if fmtSignedNum.lock == nil {
-		fmtSignedNum.lock = new(sync.Mutex)
-	}
-
-	fmtSignedNum.lock.Lock()
-
-	defer fmtSignedNum.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"FormatterSignedNumber." +
-			"SetWithFmtSpecSetupDto()")
-
-	if fmtSpecSetupDto == nil {
-		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
-			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-			ePrefix.String())
-	}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecSignedNumValMech :=
-		formatterSignedNumberMechanics{}
-
-	fmtSpecSetupDto.Lock.Lock()
-
-	defer fmtSpecSetupDto.Lock.Unlock()
-
-	return nStrFmtSpecSignedNumValMech.
-		setFmtSignedNumWithComponents(
-			fmtSignedNum,
-			fmtSpecSetupDto.SignedNumValPositiveValueFmt,
-			fmtSpecSetupDto.SignedNumValNegativeValueFmt,
-			fmtSpecSetupDto.SignedNumValTurnOnIntegerDigitsSeparation,
-			fmtSpecSetupDto.SignedNumValNumSeps,
-			fmtSpecSetupDto.SignedNumValNumField,
 			ePrefix.XCtx("Setting 'fmtSignedNum'"))
 }

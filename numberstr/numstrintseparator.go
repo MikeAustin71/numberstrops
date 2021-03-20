@@ -1088,7 +1088,7 @@ func (nStrIntSep *NumStrIntSeparator) SetBasic(
 
 	ePrefix.SetEPref(
 		"NumStrIntSeparator." +
-			"SetBasic()")
+			"SetBasicRunes()")
 
 	return numStrIntSeparatorUtility{}.ptr().
 		setBasic(
@@ -1707,7 +1707,7 @@ func (nStrIntSep *NumStrIntSeparator) SetToUSADefaultsIfEmpty(
 
 	ePrefix.SetEPref(
 		"NumStrIntSeparator." +
-			"SetBasic()")
+			"SetBasicRunes()")
 
 	return numStrIntSeparatorUtility{}.ptr().
 		setToUSADefaultsIfEmpty(

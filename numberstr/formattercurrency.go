@@ -1090,7 +1090,7 @@ func (fmtCurr *FormatterCurrency) IsValidInstanceError(
 //            Example: 1000000000
 //
 //
-//  numericSeparators        NumericSeparators
+//  numericSeparators             NumericSeparators
 //     - This instance of 'NumericSeparators' is
 //       used to specify the separator characters which will be
 //       including in the number string text display.
@@ -2604,7 +2604,7 @@ func (fmtCurr *FormatterCurrency) SetBasic(
 	}
 
 	ePrefix.SetEPref(
-		"FormatterCurrency.SetBasic()")
+		"FormatterCurrency.SetBasicRunes()")
 
 	if len(decimalSeparatorChars) == 0 {
 
@@ -4123,8 +4123,8 @@ func (fmtCurr *FormatterCurrency) SetNumericSeparators(
 }
 
 // SetNumStrFormatTypeCode - Sets the Number String Format Type
-// coded for this FormatterCurrency object. For Currency formatters
-// the Number String Format Type Code is set to
+// coded for this FormatterCurrency object. For Currency
+// formatters, the Number String Format Type Code is set to
 // NumStrFormatTypeCode(0).Currency().
 //
 func (fmtCurr *FormatterCurrency) SetNumStrFormatTypeCode() {

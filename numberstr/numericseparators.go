@@ -1449,7 +1449,7 @@ func (numSeps *NumericSeparators) SetBasic(
 	defer numSeps.lock.Unlock()
 
 	ePrefix.SetEPref(
-		"NumericSeparators.SetBasic()")
+		"NumericSeparators.SetBasicRunes()")
 
 	return numericSeparatorsUtility{}.ptr().
 		setBasic(

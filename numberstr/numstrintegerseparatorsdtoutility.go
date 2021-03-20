@@ -645,7 +645,7 @@ func (intSepsDtoUtil *numStrIntSeparatorsDtoUtility) setBasic(
 //     numStrIntSeparatorsDtoMechanics.setWithComponents()
 //
 // This method is an alternative to method
-// numStrIntSeparatorsDtoUtility.SetBasic() in that this method
+// numStrIntSeparatorsDtoUtility.SetBasicRunes() in that this method
 // accepts integer separator characters as an array of runes
 // instead of a string.
 //

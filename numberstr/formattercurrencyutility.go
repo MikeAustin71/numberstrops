@@ -34,7 +34,8 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 // member variable data values for the FormatterCurrency input
 // parameter, 'formatterCurrency'. The other input parameters
 // represent the minimum information required to configure a
-// FormatterCurrency object.
+// FormatterCurrency object. Default values are used to supplement
+// these input parameters.
 //
 // This method differs from method
 // formatterCurrencyUtility.setBasicRunesFormatterCurrency()
@@ -520,7 +521,8 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicFormatterCurrency(
 // member variable data values for the FormatterCurrency input
 // parameter, 'formatterCurrency'. The other input parameters
 // represent the minimum information required to configure a
-// FormatterCurrency object.
+// FormatterCurrency object. Default values are used to supplement
+// these input parameters.
 //
 // This method differs from method
 // formatterCurrencyUtility.setBasicFormatterCurrency()
