@@ -69,18 +69,19 @@ func (intSepsDtoElectron *numStrIntSeparatorsDtoElectron) copyIn(
 		return err
 	}
 
-	if incomingIntSepsDto.intSeparators == nil {
-		incomingIntSepsDto.intSeparators =
-			make([]NumStrIntSeparator, 0, 5)
-	}
-
 	lenIncomingIntSeps :=
 		len(incomingIntSepsDto.intSeparators)
 
+	if lenIncomingIntSeps == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: 'incomingIntSepsDto.intSeparators' is invalid!\n"+
+			"'incomingIntSepsDto.intSeparators' is a zero length array!\n",
+			ePrefix.XCtxEmpty().String())
+	}
+
 	targetIntSepsDto.intSeparators =
 		make([]NumStrIntSeparator,
-			lenIncomingIntSeps,
-			lenIncomingIntSeps+5)
+			lenIncomingIntSeps)
 
 	for i := 0; i < lenIncomingIntSeps; i++ {
 		err = targetIntSepsDto.intSeparators[i].
@@ -136,11 +137,6 @@ func (intSepsDtoElectron *numStrIntSeparatorsDtoElectron) copyOut(
 		return newIntSepsDto, err
 	}
 
-	if intSepsDto.intSeparators == nil {
-		intSepsDto.intSeparators =
-			make([]NumStrIntSeparator, 0, 5)
-	}
-
 	_,
 		err =
 		numStrIntSeparatorsDtoQuark{}.ptr().
@@ -157,9 +153,15 @@ func (intSepsDtoElectron *numStrIntSeparatorsDtoElectron) copyOut(
 
 	lenIntSeps := len(intSepsDto.intSeparators)
 
+	if lenIntSeps == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: 'intSepsDto.intSeparators' is invalid!\n"+
+			"'intSepsDto.intSeparators' is a zero length array.\n",
+			ePrefix.XCtxEmpty().String())
+	}
+
 	newIntSepsDto.intSeparators =
-		make([]NumStrIntSeparator, lenIntSeps,
-			lenIntSeps+5)
+		make([]NumStrIntSeparator, lenIntSeps)
 
 	for i := 0; i < lenIntSeps; i++ {
 		err = newIntSepsDto.intSeparators[i].

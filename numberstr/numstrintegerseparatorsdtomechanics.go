@@ -126,11 +126,6 @@ func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setWithComponents(
 		intSepsDto.lock = new(sync.Mutex)
 	}
 
-	if integerSeparators == nil {
-		integerSeparators =
-			make([]NumStrIntSeparator, 0, 5)
-	}
-
 	lenIncomingSeps := len(integerSeparators)
 
 	if lenIncomingSeps == 0 {
