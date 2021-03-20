@@ -475,6 +475,49 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 	return err
 }
 
+// New - Creates and returns a new instance of NumberFieldDto.
+//
+// 'requestedNumFieldLength' is set to zero.
+//
+// 'textJustifyFormat' is set to TextJustify(0).Right().
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  -- NONE --
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumberFieldDto
+//     - If this method completes successfully, a new instance of
+//       NumberFieldDto will be returned to the caller.
+//
+func (nFieldDto NumberFieldDto) New() NumberFieldDto {
+
+	if nFieldDto.lock == nil {
+		nFieldDto.lock = new(sync.Mutex)
+	}
+
+	nFieldDto.lock.Lock()
+
+	defer nFieldDto.lock.Unlock()
+
+	newNumFieldDto := NumberFieldDto{
+		requestedNumFieldLength: 0,
+		actualNumFieldLength:    0,
+		minimumNumFieldLength:   0,
+		textJustifyFormat:       TextJustify(0).Right(),
+		lock:                    nil,
+	}
+
+	return newNumFieldDto
+}
+
 // NewBasic - Creates and returns a new instance of NumberFieldDto.
 //
 // The input parameters represent the minimum information required
@@ -485,6 +528,7 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 // 'right-justify'. This setting will position the number string on
 // the right margin of the number field.
 //            Example: "      123456.54"
+//
 //
 // ----------------------------------------------------------------
 //
@@ -606,116 +650,6 @@ func (nFieldDto NumberFieldDto) NewBasic(
 	return newNumFieldDto, err
 }
 
-// NewFromComponents - This version of the 'New' method also
-// creates and returns a new instance of NumberFieldDto. However,
-// this version provides the caller with the flexibility to
-// configure the text justification format used when inserting a
-// number string in a text number field.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Input Parameters
-//
-//  requestedNumberFieldLen    int
-//     - This is the requested length of the number field in which
-//       the number string will be displayed. If this field length
-//       is greater than the actual length of the number string,
-//       the number string will be right justified within the the
-//       number field. If the actual number string length is greater
-//       than the requested number field length, the number field
-//       length will be automatically expanded to display the entire
-//       number string. The 'requested' number field length is used
-//       to create number fields of standard lengths for text
-//       presentations.
-//
-//
-//  numberFieldTextJustify        TextJustify
-//     - An enumeration value used to specify the type of text
-//       formatting which will be applied to a number string when
-//       it is positioned inside of a number field. This
-//       enumeration value must be one of the three following
-//       format specifications:
-//
-//       1. Left   - Signals that the text justification format is
-//                   set to 'Left-Justify'. Strings within text
-//                   fields will be flush with the left margin.
-//                          Example: "TextString      "
-//
-//       2. Right  - Signals that the text justification format is
-//                   set to 'Right-Justify'. Strings within text
-//                   fields will terminate at the right margin.
-//                          Example: "      TextString"
-//
-//       3. Center - Signals that the text justification format is
-//                   is set to 'Centered'. Strings will be positioned
-//                   in the center of the text field equidistant
-//                   from the left and right margins.
-//                           Example: "   TextString   "
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// ------------------------------------------------------------------------
-//
-// Return Values
-//
-//  NumberFieldDto
-//     - If the method completes successfully, this parameter will
-//       represent a new instance of NumberFieldDto populated in
-//       accordance with the input parameters.
-//
-//  error
-//     - If the method completes successfully and no errors are
-//       encountered this return value is set to 'nil'. Otherwise,
-//       if errors are encountered this return value will contain
-//       an appropriate error message.
-//
-//       If an error message is returned, the input parameter
-//       'ePrefix' (error prefix) will be inserted or prefixed at
-//       the beginning of the error message.
-//
-func (nFieldDto NumberFieldDto) NewFromComponents(
-	requestedNumberFieldLen int,
-	numberFieldTextJustify TextJustify,
-	ePrefix *ErrPrefixDto) (
-	NumberFieldDto,
-	error) {
-
-	if nFieldDto.lock == nil {
-		nFieldDto.lock = new(sync.Mutex)
-	}
-
-	nFieldDto.lock.Lock()
-
-	defer nFieldDto.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref("NumberFieldDto.NewWithComponents()")
-
-	newNumFieldDto := NumberFieldDto{}
-
-	nStrNumFieldDtoMech := numStrNumFieldDtoMechanics{}
-
-	err := nStrNumFieldDtoMech.setNumberFieldDto(
-		&newNumFieldDto,
-		requestedNumberFieldLen,
-		numberFieldTextJustify,
-		ePrefix)
-
-	return newNumFieldDto, err
-}
-
 // SetActualNumFieldLength - Sets the actual number field
 // length.
 //
@@ -754,7 +688,7 @@ func (nFieldDto *NumberFieldDto) SetMinimumNumFieldLength(
 
 }
 
-// SetNumberFieldDto - Sets the internal member variable values
+// SetBasic - Sets the internal member variable values
 // for the current instance of NumberFieldDto.
 //
 // ------------------------------------------------------------------------
@@ -821,7 +755,7 @@ func (nFieldDto *NumberFieldDto) SetMinimumNumFieldLength(
 //       'ePrefix' (error prefix) will be inserted or prefixed at
 //       the beginning of the error message.
 //
-func (nFieldDto *NumberFieldDto) SetNumberFieldDto(
+func (nFieldDto *NumberFieldDto) SetBasic(
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) error {
@@ -838,7 +772,8 @@ func (nFieldDto *NumberFieldDto) SetNumberFieldDto(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumberFieldDto.SetNumberFieldDto()")
+	ePrefix.SetEPref(
+		"NumberFieldDto.SetBasic()")
 
 	nStrNumFieldDtoMech := numStrNumFieldDtoMechanics{}
 
