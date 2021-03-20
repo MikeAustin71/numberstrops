@@ -1726,14 +1726,15 @@ func (fmtCurr FormatterCurrency) NewBasicRunes(
 // United States Signed Number default currency formatting
 // parameters are defined as follows:
 //
-//      Positive Signed Number format: "$127.54"
-//      Negative Signed Number format: "(127.54)"
+//    Positive Currency Number format: "$127.54"
+//    Negative Currency Number format: "(127.54)"
 //                     Decimal Digits: 2
 //                    Currency Symbol: "$"
 //        Decimal Separator Character: '.'
 //      Thousands Separator Character: ','
 //   Thousands Integer Digit Grouping: 3
 //        Turn On Thousands Separator: true
+//     United States Currency Example: $2,354.92
 //
 //
 // ----------------------------------------------------------------

@@ -1102,6 +1102,59 @@ func (fmtAbsVal FormatterAbsoluteValue) NewBasicRunes(
 	return newNumStrFmtSpecAbsValueDto, err
 }
 
+// NewUnitedStatesDefaults - Creates and returns a new instance of
+// FormatterSignedNumber. This method specifies the United States
+// default values for signed number string formatting.
+//
+// United States Signed Number default formatting parameters are
+// defined as follows:
+//
+//                 Absolute Value format: "127.54"
+//           Decimal Separator Character: '.'
+//         Thousands Separator Character: ','
+//      Thousands Integer Digit Grouping: 3
+//           Turn On Thousands Separator: true
+//  United States Absolute Value Example: 2,354.92846
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  -- None --
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterAbsoluteValue
+//     - This parameter will return a new, populated instance of
+//       FormatterAbsoluteValue configured United States default
+//       absolute value number formatting parameters.
+//
+func (fmtAbsVal FormatterAbsoluteValue) NewUnitedStatesDefaults() FormatterAbsoluteValue {
+
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
+	}
+
+	fmtAbsVal.lock.Lock()
+
+	defer fmtAbsVal.lock.Unlock()
+
+	newFmtAbsoluteValue := FormatterAbsoluteValue{}
+
+	newFmtAbsoluteValue.lock = new(sync.Mutex)
+
+	_ = formatterAbsoluteValueUtility{}.ptr().
+		setToUnitedStatesDefaults(
+			&newFmtAbsoluteValue,
+			nil)
+
+	return newFmtAbsoluteValue
+}
+
 // NewWithComponents - Creates and returns a new instance of
 // FormatterAbsoluteValue.
 //
@@ -1463,7 +1516,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetAbsoluteValueFormat(
 	}
 
 	ePrefix.SetEPref(
-		"FormatterAbsoluteValue.SetAbsoluteValueFormat()")
+		"FormatterAbsoluteValue." +
+			"SetAbsoluteValueFormat()")
 
 	nStrAbsValDtoElectron :=
 		formatterAbsoluteValueElectron{}
@@ -2191,11 +2245,10 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetToUnitedStatesDefaults(
 		"FormatterAbsoluteValue." +
 			"SetToUnitedStatesDefaults()")
 
-	absValUtil := formatterAbsoluteValueUtility{}
-
-	err = absValUtil.setToUnitedStatesDefaults(
-		fmtAbsVal,
-		ePrefix.XCtx("fmtAbsVal"))
+	err = formatterAbsoluteValueUtility{}.ptr().
+		setToUnitedStatesDefaults(
+			fmtAbsVal,
+			ePrefix.XCtx("fmtAbsVal"))
 
 	return err
 }

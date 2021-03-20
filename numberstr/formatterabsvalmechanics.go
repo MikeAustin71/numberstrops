@@ -244,11 +244,11 @@ func (fmtAbsValMech *formatterAbsoluteValueMechanics) setAbsValDtoWithComponents
 	newNStrFmtSpecAbsValDto.lock =
 		new(sync.Mutex)
 
-	newNStrFmtSpecAbsValDto.absoluteValFmt =
-		absoluteValueFormat
-
 	newNStrFmtSpecAbsValDto.numStrFmtType =
 		NumStrFormatTypeCode(0).AbsoluteValue()
+
+	newNStrFmtSpecAbsValDto.absoluteValFmt =
+		absoluteValueFormat
 
 	newNStrFmtSpecAbsValDto.turnOnIntegerDigitsSeparation =
 		turnOnIntegerDigitsSeparation

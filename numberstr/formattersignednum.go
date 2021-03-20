@@ -1299,12 +1299,13 @@ func (fmtSignedNum FormatterSignedNumber) NewBasicRunes(
 // United States Signed Number default formatting parameters are
 // defined as follows:
 //
-//      Positive Signed Number format: "127.54"
-//      Negative Signed Number format: "-127.54"
-//        Decimal Separator Character: '.'
-//      Thousands Separator Character: ','
-//   Thousands Integer Digit Grouping: 3
-//        Turn On Thousands Separator: true
+//        Positive Signed Number format: "127.54"
+//        Negative Signed Number format: "-127.54"
+//          Decimal Separator Character: '.'
+//        Thousands Separator Character: ','
+//     Thousands Integer Digit Grouping: 3
+//          Turn On Thousands Separator: true
+//  United States Signed Number Example: 2,354.92
 //
 //
 // ----------------------------------------------------------------
