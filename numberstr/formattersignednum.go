@@ -682,7 +682,7 @@ func (fmtSignedNum *FormatterSignedNumber) IsValidInstanceError(
 	return err
 }
 
-// New - Creates and returns a new instance of
+// NewUnitedStatesDefaults - Creates and returns a new instance of
 // FormatterSignedNumber. This method specifies the United States
 // default values for signed number string formatting.
 //
@@ -712,7 +712,7 @@ func (fmtSignedNum *FormatterSignedNumber) IsValidInstanceError(
 //     - This parameter will return a new, populated instance of
 //       FormatterSignedNumber.
 //
-func (fmtSignedNum FormatterSignedNumber) New() FormatterSignedNumber {
+func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults() FormatterSignedNumber {
 
 	if fmtSignedNum.lock == nil {
 		fmtSignedNum.lock = new(sync.Mutex)
