@@ -806,488 +806,6 @@ func (fmtCurr *FormatterCurrency) IsValidInstanceError(
 	return err
 }
 
-// NewWithComponents - Creates and returns a new instance of
-// FormatterCurrency.
-//
-// The FormatterCurrency type encapsulates the
-// configuration parameters necessary to format numeric currency
-// values for display in text number strings.
-//
-// This method requires detailed input parameters which provide
-// granular control over all data fields contained in the returned
-// new instance of FormatterCurrency.
-//
-// For a 'New' method using minimum input parameters coupled
-// with default values, see:
-//      FormatterCurrency.NewBasicRunes()
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  positiveValueFmt              string
-//     - This format string will be used to format positive currency
-//       value in text number strings. Valid positive currency value
-//       format strings must comply with the following constraints.
-//
-//       Positive Currency Value Formatting Terminology and Placeholders:
-//
-//               "$" - Placeholder for the previously selected currency
-//                     symbol associated with the user's preferred country
-//                     or culture. This placeholder symbol, '$', MUST BE
-//                     present in the positive value format string in order
-//                     to correctly position the actual currency symbol
-//                     relative to the currency numeric value.
-//
-//        "NUMFIELD" - Placeholder for a number field. A number field has
-//                     a string length which is equal to or greater than
-//                     the actual numeric value string length. Actual
-//                     numeric values are right justified within number
-//                     fields for text displays.
-//
-//          "127.54" - Place holder for the actual numeric value of
-//                     a number string. This place holder signals
-//                     that the actual length of the numeric value
-//                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
-//
-//               "+" - The Plus Sign ('+'). If present in the format
-//                     string, the plus sign ('+') specifies  where
-//                     the plus sign will be placed in relation to
-//                     the positive numeric value.
-//
-//       Absence of "+" - The absence of a plus sign ('+') means that
-//                        the positive numeric value will be displayed
-//                        in text with out a plus sign ('+'). This is
-//                        the default for absolute value number formatting.
-//
-//       Valid format strings for positive currency values are
-//       listed as follows:
-//
-//          $127.54
-//          $ 127.54
-//          127.54$
-//          127.54 $
-//
-//          $127.54+
-//          $127.54 +
-//          $ 127.54+
-//          $ 127.54 +
-//
-//          $+127.54
-//          $ +127.54
-//          $+ 127.54
-//          $ + 127.54
-//
-//          127.54$+
-//          127.54$ +
-//          127.54 $+
-//          127.54$ +
-//          127.54 $ +
-//
-//          127.54+$
-//          127.54+ $
-//          127.54 +$
-//          127.54+ $
-//          127.54 + $
-//
-//          +127.54$
-//          +127.54 $
-//          + 127.54$
-//          + 127.54 $
-//
-//
-//  negativeValueFmt              string
-//     - This format string will be used to format negative currency
-//       values in text number strings. Valid negative currency value
-//       format strings must comply with the following constraints.
-//
-//       Negative Currency Value Formatting Terminology and Placeholders:
-//
-//               "$" - Placeholder for the previously selected currency
-//                     symbol associated with the user's preferred country
-//                     or culture. This placeholder symbol, '$', MUST BE
-//                     present in the positive value format string in order
-//                     to correctly position the actual currency symbol
-//                     relative to the currency numeric value.
-//
-//        "NUMFIELD" - Placeholder for a number field. A number field has
-//                     a string length which is equal to or greater than
-//                     the actual numeric value string length. Actual
-//                     numeric values are right justified within number
-//                     fields for text displays.
-//
-//          "127.54" - Place holder for the actual numeric value of
-//                     a number string. This place holder signals
-//                     that the actual length of the numeric value
-//                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
-//
-//               "-" - The Minus Sign ('-'). If present in the
-//                     format string, the minus sign ('-') specifies
-//                     where the minus sign will be positioned
-//                     relative to the numeric value in the text
-//                     number string.
-//
-//             "(-)" - These three characters are often used in
-//                     Europe and the United Kingdom to classify
-//                     a numeric value as negative.
-//
-//              "()" - Opposing parenthesis characters are
-//                     frequently used in the United States
-//                     to classify a numeric value as negative.
-//
-//       Valid format strings for negative currency values are
-//       listed as follows:
-//
-//          ( $127.54 )
-//          ( $ 127.54 )
-//          ($ 127.54)
-//          ($127.54)
-//
-//          $(127.54)
-//          $ (127.54)
-//          $( 127.54 )
-//          $ ( 127.54 )
-//
-//          ( 127.54$ )
-//          ( 127.54 $ )
-//          ( 127.54 $)
-//          (127.54$)
-//
-//          (127.54)$
-//          (127.54) $
-//          ( 127.54 )$
-//          ( 127.54 ) $
-//
-//          (-) $127.54
-//          (-) $ 127.54
-//          (-)$127.54
-//          (-)$ 127.54
-//
-//          $ (-)127.54
-//          $ (-) 127.54
-//          $(-)127.54
-//          $(-) 127.54
-//
-//          (-) 127.54$
-//          (-) 127.54 $
-//          (-)127.54$
-//          (-)127.54 $
-//
-//          127.54(-) $
-//          127.54 (-) $
-//          127.54(-)$
-//          127.54 (-)$
-//
-//          127.54$(-)
-//          127.54$ (-)
-//          127.54 $ (-)
-//          127.54 $(-)
-//
-//          $127.54(-)
-//          $127.54 (-)
-//          $ 127.54(-)
-//          $ 127.54 (-)
-//
-//          - $127.54
-//          - $ 127.54
-//          -$127.54
-//          -$ 127.54
-//
-//          $ -127.54
-//          $ - 127.54
-//          $-127.54
-//          $- 127.54
-//
-//          - 127.54$
-//          - 127.54 $
-//          -127.54$
-//          -127.54 $
-//
-//          127.54- $
-//          127.54 - $
-//          127.54-$
-//          127.54 -$
-//
-//          127.54$-
-//          127.54$ -
-//          127.54 $ -
-//          127.54 $-
-//
-//          $127.54-
-//          $127.54 -
-//          $ 127.54-
-//          $ 127.54 -
-//
-//
-//  decimalDigits                 uint
-//     - The standard number of digits to the right of the decimal
-//       place which is expected for currency values. In the United
-//       States, currency is typically formatted with two digits to
-//       the right of the decimal.
-//         Example:  $24.92
-//
-//
-//  currencyCode                  string
-//     - The ISO 4217 Currency Code associated with this currency
-//       specification. Reference:
-//        https://en.wikipedia.org/wiki/ISO_4217
-//
-//
-//  currencyCodeNo                string
-//     - The ISO 4217 Currency Code Number associated with this
-//       currency specification. The Currency Code Number is stored
-//       as a string per ISO 4217.
-//
-//       Reference:
-//        https://en.wikipedia.org/wiki/ISO_4217
-//
-//
-//  currencyName                  string
-//     - The official name for this currency.
-//
-//
-//  currencySymbols               []rune
-//     - The authorized unicode character symbols associated with
-//       this currency specification. The currency symbol for the
-//       United States is the dollar sign ('$'). Some countries and
-//       cultures have currency symbols consisting of two or more
-//       characters.
-//
-//
-//  minorCurrencyName             string
-//     - The minor currency name. In the United States, the minor
-//       currency name is 'Cent'.
-//
-//
-//  minorCurrencySymbols          []rune
-//     - The unicode character for minor currency symbol. In the
-//       United States, the minor currency symbol is the cent sign
-//       (¢). Some countries and cultures have currency symbols
-//       consisting of two or more characters.
-//
-//
-//  turnOnIntegerDigitsSeparation bool
-//     - Inter digits separation is also known as the 'Thousands
-//       Separator". Often a single character is used to separate
-//       thousands within the integer component of a numeric value
-//       in number strings. In the United States, the comma
-//       character (',') is used to separate thousands.
-//            Example: 1,000,000,000
-//
-//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
-//       flag used to control the 'Thousands Separator'. When set
-//       to 'true', integer number strings will be separated into
-//       thousands for text presentation.
-//            Example: 1,000,000,000
-//
-//       When this parameter is set to 'false', the 'Thousands
-//       Separator' will NOT be inserted into text number strings.
-//            Example: 1000000000
-//
-//
-//  numericSeparators             NumericSeparators
-//     - This instance of 'NumericSeparators' is
-//       used to specify the separator characters which will be
-//       including in the number string text display.
-//
-//        type NumericSeparators struct {
-//         decimalSeparators    []rune
-//         integerSeparatorsDto NumStrIntSeparatorsDto
-//        }
-//
-//        decimalSeparators     []rune
-//
-//        The 'Decimal Separator' is used to separate integer and
-//        fractional digits within a floating point number display.
-//        The decimal separator may consist of one or more runes.
-//
-//        integerSeparatorsDto    NumStrIntSeparatorsDto
-//
-//        The NumStrIntSeparatorsDto type encapsulates the integer digits
-//        separators, often referred to as the 'Thousands Separator'.
-//        Integer digit separators are used to separate integers into
-//        specific groups within a number string. The
-//        NumStrIntSeparatorsDto manages an array or collection of
-//        NumStrIntSeparator objects.
-//
-//               type NumStrIntSeparatorsDto struct {
-//                 intSeparators []NumStrIntSeparator
-//               }
-//
-//               type NumStrIntSeparator struct {
-//                intSeparatorChars       []rune  // A series of runes used to separate integer digits.
-//                intSeparatorGrouping    uint    // Number of integer digits in a group
-//                intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
-//                                                // A zero value signals unlimited repetitions.
-//                restartIntGroupingSequence bool // If true, the grouping sequence starts over at index zero.
-//               }
-//
-//               intSeparatorChars          []rune
-//                  - A series of runes or characters used to separate integer
-//                    digits in a number string. These characters are commonly
-//                    known as the 'thousands separator'. A 'thousands
-//                    separator' is used to separate groups of integer digits to
-//                    the left of the decimal separator (a.k.a. decimal point).
-//                    In the United States, the standard integer digits
-//                    separator is the single comma character (','). Other
-//                    countries and cultures use periods, spaces, apostrophes or
-//                    multiple characters to separate integers.
-//                          United States Example:  1,000,000,000
-//
-//               intSeparatorGrouping       uint
-//                  - This unsigned integer values specifies the number of
-//                    integer digits within a group. This value is used to group
-//                    integers within a number string.
-//
-//                    In most western countries integer digits to the left of
-//                    the decimal separator (a.k.a. decimal point) are separated
-//                    into groups of three digits representing a grouping of
-//                    'thousands' like this: '1,000,000,000'. In this case the
-//                    intSeparatorGrouping value would be set to three ('3').
-//
-//                    In some countries and cultures other integer groupings are
-//                    used. In India, for example, a number might be formatted
-//                    like this: '6,78,90,00,00,00,00,000'.
-//
-//               intSeparatorRepetitions    uint
-//                  - This unsigned integer value specifies the number of times
-//                    this integer grouping is repeated. A value of zero signals
-//                    that this integer grouping will be repeated indefinitely.
-//
-//               restartIntGroupingSequence bool
-//                  - If the NumStrIntSeparator is the last element in an array
-//                    of NumStrIntSeparator objects, this boolean flag signals
-//                    whether the entire integer grouping sequence will be
-//                    restarted from array element zero.
-//
-//
-//  numFieldDto                   NumberFieldDto
-//     - The NumberFieldDto object contains formatting instructions
-//       for the creation and implementation of a number field.
-//       Number fields are text strings which contain number strings
-//       for use in text displays.
-//
-//       The NumberFieldDto object contains specifications for number
-//       field length. Typically, the length of a number field is
-//       greater than the length of the number string which will be
-//       inserted and displayed within the number field.
-//
-//       The NumberFieldDto object also contains specifications
-//       for positioning or alignment of the number string within
-//       the number field. This alignment dynamic is described as
-//       text justification. The member variable '
-//       NumberFieldDto.textJustifyFormat' is used to specify one
-//       of three possible alignment formats. One of these formats
-//       will be selected to control the alignment of the number
-//       string within the number field. These optional alignment
-//       formats are shown below with examples:
-//
-//       (1) 'Right-Justification' - "       NumberString"
-//       (2) 'Left-Justification' - "NumberString        "
-//       (3) 'Centered'           - "    NumberString    "
-//
-//       The NumberFieldDto type is detailed as follows:
-//
-//       type NumberFieldDto struct {
-//         requestedNumFieldLength int // User requested number field length
-//         actualNumFieldLength    int // Machine generated actual number field Length
-//         minimumNumFieldLength   int // Machine generated minimum number field length
-//         textJustifyFormat       TextJustify // User specified text justification
-//       }
-//
-//
-//  ePrefix                       *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  FormatterCurrency
-//     - If this method completes successfully, this parameter will
-//       return a new, populated instance of
-//       FormatterCurrency.
-//
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (fmtCurr FormatterCurrency) NewWithComponents(
-	positiveValueFmt string,
-	negativeValueFmt string,
-	decimalDigits uint,
-	currencyCode string,
-	currencyCodeNo string,
-	currencyName string,
-	currencySymbols []rune,
-	minorCurrencyName string,
-	minorCurrencySymbols []rune,
-	turnOnIntegerDigitsSeparation bool,
-	numericSeparators NumericSeparators,
-	numFieldDto NumberFieldDto,
-	ePrefix *ErrPrefixDto) (
-	FormatterCurrency,
-	error) {
-
-	if fmtCurr.lock == nil {
-		fmtCurr.lock = new(sync.Mutex)
-	}
-
-	fmtCurr.lock.Lock()
-
-	defer fmtCurr.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"FormatterCurrency." +
-			"NewWithComponents()")
-
-	newNStrFmtSpecCurrencyValueDto := FormatterCurrency{}
-
-	nStrFmtSpecCurrValMech :=
-		formatterCurrencyMechanics{}
-
-	err := nStrFmtSpecCurrValMech.setFormatterCurrencyWithComponents(
-		&newNStrFmtSpecCurrencyValueDto,
-		positiveValueFmt,
-		negativeValueFmt,
-		decimalDigits,
-		currencyCode,
-		currencyCodeNo,
-		currencyName,
-		currencySymbols,
-		minorCurrencyName,
-		minorCurrencySymbols,
-		turnOnIntegerDigitsSeparation,
-		numericSeparators,
-		numFieldDto,
-		ePrefix.XCtx("Setting 'newNStrFmtSpecCurrencyValueDto'"))
-
-	return newNStrFmtSpecCurrencyValueDto, err
-}
-
 // NewBasic - Creates and returns a new instance of
 // FormatterCurrency. This method specifies the minimum
 // number of input parameters required to construct a new instance
@@ -2199,6 +1717,488 @@ func (fmtCurr FormatterCurrency) NewBasicRunes(
 				ePrefix.XCtx("Setting 'newNStrFmtSpecCurrencyValDto'"))
 
 	return newNStrFmtSpecCurrencyValDto, err
+}
+
+// NewWithComponents - Creates and returns a new instance of
+// FormatterCurrency.
+//
+// The FormatterCurrency type encapsulates the
+// configuration parameters necessary to format numeric currency
+// values for display in text number strings.
+//
+// This method requires detailed input parameters which provide
+// granular control over all data fields contained in the returned
+// new instance of FormatterCurrency.
+//
+// For a 'New' method using minimum input parameters coupled
+// with default values, see:
+//      FormatterCurrency.NewBasicRunes()
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  positiveValueFmt              string
+//     - This format string will be used to format positive currency
+//       value in text number strings. Valid positive currency value
+//       format strings must comply with the following constraints.
+//
+//       Positive Currency Value Formatting Terminology and Placeholders:
+//
+//               "$" - Placeholder for the previously selected currency
+//                     symbol associated with the user's preferred country
+//                     or culture. This placeholder symbol, '$', MUST BE
+//                     present in the positive value format string in order
+//                     to correctly position the actual currency symbol
+//                     relative to the currency numeric value.
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "+" - The Plus Sign ('+'). If present in the format
+//                     string, the plus sign ('+') specifies  where
+//                     the plus sign will be placed in relation to
+//                     the positive numeric value.
+//
+//       Absence of "+" - The absence of a plus sign ('+') means that
+//                        the positive numeric value will be displayed
+//                        in text with out a plus sign ('+'). This is
+//                        the default for absolute value number formatting.
+//
+//       Valid format strings for positive currency values are
+//       listed as follows:
+//
+//          $127.54
+//          $ 127.54
+//          127.54$
+//          127.54 $
+//
+//          $127.54+
+//          $127.54 +
+//          $ 127.54+
+//          $ 127.54 +
+//
+//          $+127.54
+//          $ +127.54
+//          $+ 127.54
+//          $ + 127.54
+//
+//          127.54$+
+//          127.54$ +
+//          127.54 $+
+//          127.54$ +
+//          127.54 $ +
+//
+//          127.54+$
+//          127.54+ $
+//          127.54 +$
+//          127.54+ $
+//          127.54 + $
+//
+//          +127.54$
+//          +127.54 $
+//          + 127.54$
+//          + 127.54 $
+//
+//
+//  negativeValueFmt              string
+//     - This format string will be used to format negative currency
+//       values in text number strings. Valid negative currency value
+//       format strings must comply with the following constraints.
+//
+//       Negative Currency Value Formatting Terminology and Placeholders:
+//
+//               "$" - Placeholder for the previously selected currency
+//                     symbol associated with the user's preferred country
+//                     or culture. This placeholder symbol, '$', MUST BE
+//                     present in the positive value format string in order
+//                     to correctly position the actual currency symbol
+//                     relative to the currency numeric value.
+//
+//        "NUMFIELD" - Placeholder for a number field. A number field has
+//                     a string length which is equal to or greater than
+//                     the actual numeric value string length. Actual
+//                     numeric values are right justified within number
+//                     fields for text displays.
+//
+//          "127.54" - Place holder for the actual numeric value of
+//                     a number string. This place holder signals
+//                     that the actual length of the numeric value
+//                     including formatting characters and symbols
+//                     such as Thousands Separators, Decimal
+//                     Separators and Currency Symbols.
+//
+//               "-" - The Minus Sign ('-'). If present in the
+//                     format string, the minus sign ('-') specifies
+//                     where the minus sign will be positioned
+//                     relative to the numeric value in the text
+//                     number string.
+//
+//             "(-)" - These three characters are often used in
+//                     Europe and the United Kingdom to classify
+//                     a numeric value as negative.
+//
+//              "()" - Opposing parenthesis characters are
+//                     frequently used in the United States
+//                     to classify a numeric value as negative.
+//
+//       Valid format strings for negative currency values are
+//       listed as follows:
+//
+//          ( $127.54 )
+//          ( $ 127.54 )
+//          ($ 127.54)
+//          ($127.54)
+//
+//          $(127.54)
+//          $ (127.54)
+//          $( 127.54 )
+//          $ ( 127.54 )
+//
+//          ( 127.54$ )
+//          ( 127.54 $ )
+//          ( 127.54 $)
+//          (127.54$)
+//
+//          (127.54)$
+//          (127.54) $
+//          ( 127.54 )$
+//          ( 127.54 ) $
+//
+//          (-) $127.54
+//          (-) $ 127.54
+//          (-)$127.54
+//          (-)$ 127.54
+//
+//          $ (-)127.54
+//          $ (-) 127.54
+//          $(-)127.54
+//          $(-) 127.54
+//
+//          (-) 127.54$
+//          (-) 127.54 $
+//          (-)127.54$
+//          (-)127.54 $
+//
+//          127.54(-) $
+//          127.54 (-) $
+//          127.54(-)$
+//          127.54 (-)$
+//
+//          127.54$(-)
+//          127.54$ (-)
+//          127.54 $ (-)
+//          127.54 $(-)
+//
+//          $127.54(-)
+//          $127.54 (-)
+//          $ 127.54(-)
+//          $ 127.54 (-)
+//
+//          - $127.54
+//          - $ 127.54
+//          -$127.54
+//          -$ 127.54
+//
+//          $ -127.54
+//          $ - 127.54
+//          $-127.54
+//          $- 127.54
+//
+//          - 127.54$
+//          - 127.54 $
+//          -127.54$
+//          -127.54 $
+//
+//          127.54- $
+//          127.54 - $
+//          127.54-$
+//          127.54 -$
+//
+//          127.54$-
+//          127.54$ -
+//          127.54 $ -
+//          127.54 $-
+//
+//          $127.54-
+//          $127.54 -
+//          $ 127.54-
+//          $ 127.54 -
+//
+//
+//  decimalDigits                 uint
+//     - The standard number of digits to the right of the decimal
+//       place which is expected for currency values. In the United
+//       States, currency is typically formatted with two digits to
+//       the right of the decimal.
+//         Example:  $24.92
+//
+//
+//  currencyCode                  string
+//     - The ISO 4217 Currency Code associated with this currency
+//       specification. Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
+//  currencyCodeNo                string
+//     - The ISO 4217 Currency Code Number associated with this
+//       currency specification. The Currency Code Number is stored
+//       as a string per ISO 4217.
+//
+//       Reference:
+//        https://en.wikipedia.org/wiki/ISO_4217
+//
+//
+//  currencyName                  string
+//     - The official name for this currency.
+//
+//
+//  currencySymbols               []rune
+//     - The authorized unicode character symbols associated with
+//       this currency specification. The currency symbol for the
+//       United States is the dollar sign ('$'). Some countries and
+//       cultures have currency symbols consisting of two or more
+//       characters.
+//
+//
+//  minorCurrencyName             string
+//     - The minor currency name. In the United States, the minor
+//       currency name is 'Cent'.
+//
+//
+//  minorCurrencySymbols          []rune
+//     - The unicode character for minor currency symbol. In the
+//       United States, the minor currency symbol is the cent sign
+//       (¢). Some countries and cultures have currency symbols
+//       consisting of two or more characters.
+//
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: 1,000,000,000
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: 1000000000
+//
+//
+//  numericSeparators             NumericSeparators
+//     - This instance of 'NumericSeparators' is
+//       used to specify the separator characters which will be
+//       including in the number string text display.
+//
+//        type NumericSeparators struct {
+//         decimalSeparators    []rune
+//         integerSeparatorsDto NumStrIntSeparatorsDto
+//        }
+//
+//        decimalSeparators     []rune
+//
+//        The 'Decimal Separator' is used to separate integer and
+//        fractional digits within a floating point number display.
+//        The decimal separator may consist of one or more runes.
+//
+//        integerSeparatorsDto    NumStrIntSeparatorsDto
+//
+//        The NumStrIntSeparatorsDto type encapsulates the integer digits
+//        separators, often referred to as the 'Thousands Separator'.
+//        Integer digit separators are used to separate integers into
+//        specific groups within a number string. The
+//        NumStrIntSeparatorsDto manages an array or collection of
+//        NumStrIntSeparator objects.
+//
+//               type NumStrIntSeparatorsDto struct {
+//                 intSeparators []NumStrIntSeparator
+//               }
+//
+//               type NumStrIntSeparator struct {
+//                intSeparatorChars       []rune  // A series of runes used to separate integer digits.
+//                intSeparatorGrouping    uint    // Number of integer digits in a group
+//                intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
+//                                                // A zero value signals unlimited repetitions.
+//                restartIntGroupingSequence bool // If true, the grouping sequence starts over at index zero.
+//               }
+//
+//               intSeparatorChars          []rune
+//                  - A series of runes or characters used to separate integer
+//                    digits in a number string. These characters are commonly
+//                    known as the 'thousands separator'. A 'thousands
+//                    separator' is used to separate groups of integer digits to
+//                    the left of the decimal separator (a.k.a. decimal point).
+//                    In the United States, the standard integer digits
+//                    separator is the single comma character (','). Other
+//                    countries and cultures use periods, spaces, apostrophes or
+//                    multiple characters to separate integers.
+//                          United States Example:  1,000,000,000
+//
+//               intSeparatorGrouping       uint
+//                  - This unsigned integer values specifies the number of
+//                    integer digits within a group. This value is used to group
+//                    integers within a number string.
+//
+//                    In most western countries integer digits to the left of
+//                    the decimal separator (a.k.a. decimal point) are separated
+//                    into groups of three digits representing a grouping of
+//                    'thousands' like this: '1,000,000,000'. In this case the
+//                    intSeparatorGrouping value would be set to three ('3').
+//
+//                    In some countries and cultures other integer groupings are
+//                    used. In India, for example, a number might be formatted
+//                    like this: '6,78,90,00,00,00,00,000'.
+//
+//               intSeparatorRepetitions    uint
+//                  - This unsigned integer value specifies the number of times
+//                    this integer grouping is repeated. A value of zero signals
+//                    that this integer grouping will be repeated indefinitely.
+//
+//               restartIntGroupingSequence bool
+//                  - If the NumStrIntSeparator is the last element in an array
+//                    of NumStrIntSeparator objects, this boolean flag signals
+//                    whether the entire integer grouping sequence will be
+//                    restarted from array element zero.
+//
+//
+//  numFieldDto                   NumberFieldDto
+//     - The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterCurrency
+//     - If this method completes successfully, this parameter will
+//       return a new, populated instance of
+//       FormatterCurrency.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtCurr FormatterCurrency) NewWithComponents(
+	positiveValueFmt string,
+	negativeValueFmt string,
+	decimalDigits uint,
+	currencyCode string,
+	currencyCodeNo string,
+	currencyName string,
+	currencySymbols []rune,
+	minorCurrencyName string,
+	minorCurrencySymbols []rune,
+	turnOnIntegerDigitsSeparation bool,
+	numericSeparators NumericSeparators,
+	numFieldDto NumberFieldDto,
+	ePrefix *ErrPrefixDto) (
+	FormatterCurrency,
+	error) {
+
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
+	}
+
+	fmtCurr.lock.Lock()
+
+	defer fmtCurr.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterCurrency." +
+			"NewWithComponents()")
+
+	newNStrFmtSpecCurrencyValueDto := FormatterCurrency{}
+
+	nStrFmtSpecCurrValMech :=
+		formatterCurrencyMechanics{}
+
+	err := nStrFmtSpecCurrValMech.setFormatterCurrencyWithComponents(
+		&newNStrFmtSpecCurrencyValueDto,
+		positiveValueFmt,
+		negativeValueFmt,
+		decimalDigits,
+		currencyCode,
+		currencyCodeNo,
+		currencyName,
+		currencySymbols,
+		minorCurrencyName,
+		minorCurrencySymbols,
+		turnOnIntegerDigitsSeparation,
+		numericSeparators,
+		numFieldDto,
+		ePrefix.XCtx("Setting 'newNStrFmtSpecCurrencyValueDto'"))
+
+	return newNStrFmtSpecCurrencyValueDto, err
 }
 
 // SetBasic - This method will set all of the member variable data
