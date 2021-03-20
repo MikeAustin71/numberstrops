@@ -643,28 +643,13 @@ func (fmtAbsValUtil *formatterAbsoluteValueUtility) setToUnitedStatesDefaults(
 		return err
 	}
 
-	var newNumericSeparators NumericSeparators
-	newNumericSeparators,
-		err = NumericSeparators{}.NewBasicRunes(
-		[]rune{'.'},
-		[]rune{','},
-		ePrefix.XCtx(
-			fmt.Sprintf("\n"+
-				"decimalSeparatorChar='%v'\n"+
-				"thousandsSeparatorChar='%v'\n",
-				".",
-				",")))
-
-	if err != nil {
-		return err
-	}
-
 	err = formatterAbsoluteValueMechanics{}.ptr().
 		setAbsValDtoWithComponents(
 			nStrFmtSpecAbsValDto,
 			"127.54",
 			true,
-			newNumericSeparators,
+			NumericSeparators{}.
+				NewUnitedStatesDefaults(),
 			numFieldDto,
 			ePrefix)
 

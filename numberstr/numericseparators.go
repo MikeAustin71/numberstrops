@@ -593,11 +593,18 @@ func (numSeps NumericSeparators) NewUnitedStatesDefaults() NumericSeparators {
 
 	newNumSep.lock = new(sync.Mutex)
 
-	_ =
+	ePrefix := ErrPrefixDto{}.
+		NewEPrefOld("NumericSeparators.NewUnitedStatesDefaults()")
+
+	err :=
 		numericSeparatorsUtility{}.ptr().
 			setWithUSADefaults(
 				&newNumSep,
-				nil)
+				&ePrefix)
+
+	if err != nil {
+		panic(fmt.Sprintf("%v\n", err.Error()))
+	}
 
 	return newNumSep
 }
