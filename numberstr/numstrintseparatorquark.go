@@ -90,11 +90,6 @@ func (nStrIntSepQuark *numStrIntSeparatorQuark) testValidityOfNumStrIntSeparator
 		return isValid, err
 	}
 
-	if nStrIntSep.intSeparatorChars == nil {
-		nStrIntSep.intSeparatorChars =
-			make([]rune, 0, 5)
-	}
-
 	lIntSepChars := len(nStrIntSep.intSeparatorChars)
 
 	if lIntSepChars == 0 {
