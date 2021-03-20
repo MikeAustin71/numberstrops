@@ -161,13 +161,11 @@ func (numSeps *NumericSeparators) CopyIn(
 	ePrefix.SetEPref(
 		"NumericSeparators.CopyIn()")
 
-	nStrFmtSpecDigitsSepsElectron :=
-		numericSeparatorsElectron{}
-
-	return nStrFmtSpecDigitsSepsElectron.copyIn(
-		numSeps,
-		incomingNumericSeparators,
-		ePrefix)
+	return numericSeparatorsElectron{}.ptr().
+		copyIn(
+			numSeps,
+			incomingNumericSeparators,
+			ePrefix)
 }
 
 // CopyOut - Returns a deep copy of the current NumericSeparators
@@ -232,12 +230,10 @@ func (numSeps *NumericSeparators) CopyOut(
 	ePrefix.SetEPref(
 		"NumericSeparators.CopyOut()")
 
-	nStrFmtSpecDigitsSepsElectron :=
-		numericSeparatorsElectron{}
-
-	return nStrFmtSpecDigitsSepsElectron.copyOut(
-		numSeps,
-		ePrefix.XCtx("numSeps->"))
+	return numericSeparatorsElectron{}.ptr().
+		copyOut(
+			numSeps,
+			ePrefix.XCtx("numSeps->"))
 }
 
 // Empty - Deletes and resets the data values of all member
