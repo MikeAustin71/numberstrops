@@ -14,11 +14,11 @@ type FormatterAbsoluteValue struct {
 }
 
 // CopyIn - Copies the data fields from an incoming instance of
-// FormatterAbsoluteValue ('inComingNStrFmtAbsValDto') to
+// FormatterAbsoluteValue ('incomingFormatterAbsVal') to
 // the data fields of the current FormatterAbsoluteValue
 // instance.
 //
-// If 'inComingNStrFmtAbsValDto' is judged to be invalid, this
+// If 'incomingFormatterAbsVal' is judged to be invalid, this
 // method will return an error.
 //
 // Be advised, all of the data fields in the current

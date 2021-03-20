@@ -83,6 +83,16 @@ func (fmtAbsValMolecule *formatterAbsoluteValueMolecule) testValidityOfFormatter
 		return isValid, err
 	}
 
+	if fmtAbsoluteVal.numStrFmtType !=
+		NumStrFormatTypeCode(0).AbsoluteValue() {
+		err = fmt.Errorf("%v\n"+
+			"Error: Number String Format Type Code is invalid!\n"+
+			"integer value of fmtAbsoluteVal.numStrFmtType= '%v'\n",
+			ePrefix.XCtxEmpty().String(),
+			fmtAbsoluteVal.numStrFmtType.XValueInt())
+		return isValid, err
+	}
+
 	err =
 		fmtAbsoluteVal.numericSeparators.IsValidInstanceError(
 			ePrefix.XCtx(

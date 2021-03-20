@@ -69,14 +69,14 @@ func (fmtAbsValNanobot *formatterAbsoluteValueNanobot) copyIn(
 		return err
 	}
 
+	targetFmtAbsoluteVal.numStrFmtType =
+		incomingFmtAbsoluteVal.numStrFmtType
+
 	targetFmtAbsoluteVal.absoluteValFmt =
 		incomingFmtAbsoluteVal.absoluteValFmt
 
 	targetFmtAbsoluteVal.turnOnIntegerDigitsSeparation =
 		incomingFmtAbsoluteVal.turnOnIntegerDigitsSeparation
-
-	targetFmtAbsoluteVal.numStrFmtType =
-		incomingFmtAbsoluteVal.numStrFmtType
 
 	err =
 		targetFmtAbsoluteVal.numericSeparators.CopyIn(
@@ -147,6 +147,9 @@ func (fmtAbsValNanobot *formatterAbsoluteValueNanobot) copyOut(
 	if err != nil {
 		return newFmtAbsoluteVal, err
 	}
+
+	newFmtAbsoluteVal.numStrFmtType =
+		fmtAbsoluteVal.numStrFmtType
 
 	newFmtAbsoluteVal.absoluteValFmt =
 		fmtAbsoluteVal.absoluteValFmt
