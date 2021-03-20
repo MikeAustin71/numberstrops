@@ -30,19 +30,47 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 	return newCurrencyUtility
 }
 
-// instance FormatterCurrency passed as an input
-// parameter.
+// setBasicFormatterCurrency - This method will set all of the
+// member variable data values for the FormatterCurrency input
+// parameter, 'formatterCurrency'. The other input parameters
+// represent the minimum information required to configure a
+// FormatterCurrency object.
+//
+// This method differs from method
+// formatterCurrencyUtility.setBasicRunesFormatterCurrency()
+// in that this method accepts strings for input parameters,
+// 'decimalSeparatorChars' and 'thousandsSeparatorChars'.
+//
+// To exercise granular control over all parameters needed to
+// construct an instance of FormatterCurrency, reference method:
+//   'FormatterCurrency.SetWithComponents()'
+//
+// This method automatically sets a default integer digits grouping
+// sequence of '3'. This means that integers will be grouped by
+// thousands.
+//
+//        Example: '1,000,000,000'
 //
 // The FormatterCurrency type encapsulates the formatting
 // parameters necessary to format absolute numeric values for
 // display in text number strings.
+//
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// input parameter 'formatterCurrency'.
 //
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  decimalSeparatorChars      []rune
+//  formatterCurrency             *FormatterCurrency,
+//     - A pointer to an instance of FormatterCurrency.
+//       All data values in this object will be overwritten and
+//       set to new values based on the following input parameters.
+//
+//
+//  decimalSeparatorChars      string
 //     - The characters or character used to separate integer and
 //       fractional digits in a floating point number string. In
 //       the United States, the Decimal Separator character is the
@@ -50,7 +78,7 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 //           United States Example: '123.45678'
 //
 //
-//  thousandsSeparatorChars    []rune
+//  thousandsSeparatorChars    string
 //     - The characters or character which will be used to delimit
 //       'thousands' in integer number strings. In the United
 //       States, the Thousands separator is the comma character
@@ -393,8 +421,8 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 //
 func (fmtCurrUtil *formatterCurrencyUtility) setBasicFormatterCurrency(
 	formatterCurrency *FormatterCurrency,
-	decimalSeparatorChars []rune,
-	thousandsSeparatorChars []rune,
+	decimalSeparatorChars string,
+	thousandsSeparatorChars string,
 	turnOnIntegerDigitsSeparation bool,
 	positiveValueFmt string,
 	negativeValueFmt string,
@@ -424,7 +452,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicFormatterCurrency(
 
 	ePrefix.SetEPref(
 		"formatterCurrencyUtility." +
-			"setBasicRunesFormatterCurrency()")
+			"setBasicFormatterCurrency()")
 
 	if formatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
@@ -453,7 +481,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicFormatterCurrency(
 	var numericSeparators NumericSeparators
 
 	numericSeparators,
-		err = NumericSeparators{}.NewBasicRunes(
+		err = NumericSeparators{}.NewBasic(
 		decimalSeparatorChars,
 		thousandsSeparatorChars,
 		ePrefix.XCtx(
@@ -488,18 +516,45 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicFormatterCurrency(
 	return err
 }
 
-// setBasicRunesFormatterCurrency - Sets the data values for an
-// instance FormatterCurrency passed as an input
-// parameter.
+// setBasicRunesFormatterCurrency - This method will set all of the
+// member variable data values for the FormatterCurrency input
+// parameter, 'formatterCurrency'. The other input parameters
+// represent the minimum information required to configure a
+// FormatterCurrency object.
+//
+// This method differs from method
+// formatterCurrencyUtility.setBasicFormatterCurrency()
+// in that this method accepts rune arrays for input parameters,
+// 'decimalSeparatorChars' and 'thousandsSeparatorChars'.
+//
+// To exercise granular control over all parameters needed to
+// construct an instance of FormatterCurrency, reference method:
+//   'FormatterCurrency.SetWithComponents()'
+//
+// This method automatically sets a default integer digits grouping
+// sequence of '3'. This means that integers will be grouped by
+// thousands.
+//
+//        Example: '1,000,000,000'
 //
 // The FormatterCurrency type encapsulates the formatting
 // parameters necessary to format absolute numeric values for
 // display in text number strings.
 //
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// input parameter 'formatterCurrency'.
+//
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
+//
+//  formatterCurrency             *FormatterCurrency,
+//     - A pointer to an instance of FormatterCurrency.
+//       All data values in this object will be overwritten and
+//       set to new values based on the following input parameters.
+//
 //
 //  decimalSeparatorChars      []rune
 //     - The characters or character used to separate integer and
@@ -972,7 +1027,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFormatterCurrency(
 //
 // Input Parameters
 //
-//  nStrFmtSpecCurrencyValDto     *FormatterCurrency,
+//  formatterCurrency             *FormatterCurrency,
 //     - A pointer to an instance of FormatterCurrency.
 //       All data values in this object will be overwritten and
 //       set to United States default values for currency number

@@ -733,13 +733,11 @@ func (fmtCurr *FormatterCurrency) IsValidInstance() (
 
 	defer fmtCurr.lock.Unlock()
 
-	nStrFmtSpecCurrDtoMolecule :=
-		formatterCurrencyMolecule{}
-
 	isValid,
-		_ = nStrFmtSpecCurrDtoMolecule.testValidityOfFormatterCurrency(
-		fmtCurr,
-		new(ErrPrefixDto))
+		_ = formatterCurrencyMolecule{}.ptr().
+		testValidityOfFormatterCurrency(
+			fmtCurr,
+			new(ErrPrefixDto))
 
 	return isValid
 }
@@ -799,13 +797,11 @@ func (fmtCurr *FormatterCurrency) IsValidInstanceError(
 	ePrefix.SetEPrefCtx("FormatterCurrency.IsValidInstanceError()",
 		"Testing Validity of 'fmtCurr'")
 
-	nStrFmtSpecCurrDtoMolecule :=
-		formatterCurrencyMolecule{}
-
 	_,
-		err := nStrFmtSpecCurrDtoMolecule.testValidityOfFormatterCurrency(
-		fmtCurr,
-		ePrefix)
+		err := formatterCurrencyMolecule{}.ptr().
+		testValidityOfFormatterCurrency(
+			fmtCurr,
+			ePrefix)
 
 	return err
 }
@@ -1738,10 +1734,10 @@ func (fmtCurr FormatterCurrency) NewBasic(
 
 	err :=
 		formatterCurrencyUtility{}.ptr().
-			setBasicRunesFormatterCurrency(
+			setBasicFormatterCurrency(
 				&newFormatterCurrency,
-				[]rune(decimalSeparatorChars),
-				[]rune(thousandsSeparatorChars),
+				decimalSeparatorChars,
+				thousandsSeparatorChars,
 				turnOnThousandsSeparator,
 				positiveValueFmt,
 				negativeValueFmt,
@@ -2182,27 +2178,25 @@ func (fmtCurr FormatterCurrency) NewBasicRunes(
 	newNStrFmtSpecCurrencyValDto :=
 		FormatterCurrency{}
 
-	nStrFmtSpecCurrValDtoUtil :=
-		formatterCurrencyUtility{}
-
 	err :=
-		nStrFmtSpecCurrValDtoUtil.setBasicRunesFormatterCurrency(
-			&newNStrFmtSpecCurrencyValDto,
-			decimalSeparatorChars,
-			thousandsSeparatorChars,
-			turnOnThousandsSeparator,
-			positiveValueFmt,
-			negativeValueFmt,
-			decimalDigits,
-			currencyCode,
-			currencyCodeNo,
-			currencyName,
-			currencySymbols,
-			minorCurrencyName,
-			minorCurrencySymbols,
-			requestedNumberFieldLen,
-			numberFieldTextJustify,
-			ePrefix.XCtx("Setting 'newNStrFmtSpecCurrencyValDto'"))
+		formatterCurrencyUtility{}.ptr().
+			setBasicRunesFormatterCurrency(
+				&newNStrFmtSpecCurrencyValDto,
+				decimalSeparatorChars,
+				thousandsSeparatorChars,
+				turnOnThousandsSeparator,
+				positiveValueFmt,
+				negativeValueFmt,
+				decimalDigits,
+				currencyCode,
+				currencyCodeNo,
+				currencyName,
+				currencySymbols,
+				minorCurrencyName,
+				minorCurrencySymbols,
+				requestedNumberFieldLen,
+				numberFieldTextJustify,
+				ePrefix.XCtx("Setting 'newNStrFmtSpecCurrencyValDto'"))
 
 	return newNStrFmtSpecCurrencyValDto, err
 }
@@ -2610,13 +2604,13 @@ func (fmtCurr *FormatterCurrency) SetBasic(
 	}
 
 	ePrefix.SetEPref(
-		"FormatterCurrency.SetBasicRunes()")
+		"FormatterCurrency.SetBasic()")
 
 	if len(decimalSeparatorChars) == 0 {
 
 		return fmt.Errorf("%v\n"+
 			"Error: Input parameter 'decimalSeparatorChars' is invalid!\n"+
-			"'decimalSeparatorChars' is an empty string.\n",
+			"'decimalSeparatorChars' is a zero length empty string.\n",
 			ePrefix.String())
 
 	}
@@ -2625,16 +2619,16 @@ func (fmtCurr *FormatterCurrency) SetBasic(
 
 		return fmt.Errorf("%v\n"+
 			"Error: Input parameter 'thousandsSeparatorChars' is invalid!\n"+
-			"'thousandsSeparatorChars' is an empty string.\n",
+			"'thousandsSeparatorChars' is a zero length empty string.\n",
 			ePrefix.String())
 
 	}
 
 	return formatterCurrencyUtility{}.ptr().
-		setBasicRunesFormatterCurrency(
+		setBasicFormatterCurrency(
 			fmtCurr,
-			[]rune(decimalSeparatorChars),
-			[]rune(thousandsSeparatorChars),
+			decimalSeparatorChars,
+			thousandsSeparatorChars,
 			turnOnIntegerDigitsSeparation,
 			positiveValueFmt,
 			negativeValueFmt,
@@ -3056,26 +3050,42 @@ func (fmtCurr *FormatterCurrency) SetBasicRunes(
 	ePrefix.SetEPref(
 		"FormatterCurrency.SetBasicRunes()")
 
-	nStrFmtSpecCurrValDtoUtil :=
-		formatterCurrencyUtility{}
+	if len(decimalSeparatorChars) == 0 {
 
-	return nStrFmtSpecCurrValDtoUtil.setBasicRunesFormatterCurrency(
-		fmtCurr,
-		decimalSeparatorChars,
-		thousandsSeparatorChars,
-		turnOnIntegerDigitsSeparation,
-		positiveValueFmt,
-		negativeValueFmt,
-		decimalDigits,
-		currencyCode,
-		currencyCodeNo,
-		currencyName,
-		currencySymbols,
-		minorCurrencyName,
-		minorCurrencySymbols,
-		requestedNumberFieldLen,
-		numberFieldTextJustify,
-		ePrefix.XCtx("Setting 'fmtCurr'"))
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'decimalSeparatorChars' is invalid!\n"+
+			"'decimalSeparatorChars' is a zero length rune array.\n",
+			ePrefix.String())
+
+	}
+
+	if len(thousandsSeparatorChars) == 0 {
+
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'thousandsSeparatorChars' is invalid!\n"+
+			"'thousandsSeparatorChars' is a zero length rune array.\n",
+			ePrefix.String())
+
+	}
+
+	return formatterCurrencyUtility{}.ptr().
+		setBasicRunesFormatterCurrency(
+			fmtCurr,
+			decimalSeparatorChars,
+			thousandsSeparatorChars,
+			turnOnIntegerDigitsSeparation,
+			positiveValueFmt,
+			negativeValueFmt,
+			decimalDigits,
+			currencyCode,
+			currencyCodeNo,
+			currencyName,
+			currencySymbols,
+			minorCurrencyName,
+			minorCurrencySymbols,
+			requestedNumberFieldLen,
+			numberFieldTextJustify,
+			ePrefix.XCtx("Setting 'fmtCurr'"))
 }
 
 // SetCurrencyCode - Sets the currency code associated with
