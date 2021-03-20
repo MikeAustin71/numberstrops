@@ -682,58 +682,6 @@ func (fmtSignedNum *FormatterSignedNumber) IsValidInstanceError(
 	return err
 }
 
-// NewUnitedStatesDefaults - Creates and returns a new instance of
-// FormatterSignedNumber. This method specifies the United States
-// default values for signed number string formatting.
-//
-// United States Signed Number default formatting parameters are
-// defined as follows:
-//
-//      Positive Signed Number format: "127.54"
-//      Negative Signed Number format: "-127.54"
-//        Decimal Separator Character: '.'
-//      Thousands Separator Character: ','
-//   Thousands Integer Digit Grouping: 3
-//        Turn On Thousands Separator: true
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  -- None --
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  FormatterSignedNumber
-//     - This parameter will return a new, populated instance of
-//       FormatterSignedNumber.
-//
-func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults() FormatterSignedNumber {
-
-	if fmtSignedNum.lock == nil {
-		fmtSignedNum.lock = new(sync.Mutex)
-	}
-
-	fmtSignedNum.lock.Lock()
-
-	defer fmtSignedNum.lock.Unlock()
-
-	newFmtSignedNum := FormatterSignedNumber{}
-
-	newFmtSignedNum.lock = new(sync.Mutex)
-
-	_ = formatterSignedNumberUtility{}.ptr().
-		setToUnitedStatesDefaults(
-			&newFmtSignedNum,
-			nil)
-
-	return newFmtSignedNum
-}
-
 // NewBasic - Creates and returns a new instance of
 // FormatterSignedNumber. This method specifies the
 // minimum number of input parameters required to construct a new
@@ -1342,6 +1290,58 @@ func (fmtSignedNum FormatterSignedNumber) NewBasicRunes(
 				"Setting 'newFmtSignedNum'"))
 
 	return newFmtSignedNum, err
+}
+
+// NewUnitedStatesDefaults - Creates and returns a new instance of
+// FormatterSignedNumber. This method specifies the United States
+// default values for signed number string formatting.
+//
+// United States Signed Number default formatting parameters are
+// defined as follows:
+//
+//      Positive Signed Number format: "127.54"
+//      Negative Signed Number format: "-127.54"
+//        Decimal Separator Character: '.'
+//      Thousands Separator Character: ','
+//   Thousands Integer Digit Grouping: 3
+//        Turn On Thousands Separator: true
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  -- None --
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterSignedNumber
+//     - This parameter will return a new, populated instance of
+//       FormatterSignedNumber.
+//
+func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults() FormatterSignedNumber {
+
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
+	}
+
+	fmtSignedNum.lock.Lock()
+
+	defer fmtSignedNum.lock.Unlock()
+
+	newFmtSignedNum := FormatterSignedNumber{}
+
+	newFmtSignedNum.lock = new(sync.Mutex)
+
+	_ = formatterSignedNumberUtility{}.ptr().
+		setToUnitedStatesDefaults(
+			&newFmtSignedNum,
+			nil)
+
+	return newFmtSignedNum
 }
 
 // NewWithComponents - Creates and returns a new instance of
