@@ -276,16 +276,14 @@ func (fmtAbsValUtil *formatterAbsoluteValueUtility) setBasic(
 		return err
 	}
 
-	nStrFmtSpecAbsValDtoMech :=
-		formatterAbsoluteValueMechanics{}
-
-	err = nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
-		fmtAbsoluteValue,
-		absoluteValFmt,
-		turnOnIntegerDigitsSeparation,
-		newNumericSeparators,
-		numFieldDto,
-		ePrefix)
+	err = formatterAbsoluteValueMechanics{}.ptr().
+		setAbsValDtoWithComponents(
+			fmtAbsoluteValue,
+			absoluteValFmt,
+			turnOnIntegerDigitsSeparation,
+			newNumericSeparators,
+			numFieldDto,
+			ePrefix)
 
 	return err
 }
@@ -544,16 +542,14 @@ func (fmtAbsValUtil *formatterAbsoluteValueUtility) setBasicRunes(
 		return err
 	}
 
-	nStrFmtSpecAbsValDtoMech :=
-		formatterAbsoluteValueMechanics{}
-
-	err = nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
-		fmtAbsoluteValue,
-		absoluteValFmt,
-		turnOnIntegerDigitsSeparation,
-		newNumericSeparators,
-		numFieldDto,
-		ePrefix)
+	err = formatterAbsoluteValueMechanics{}.ptr().
+		setAbsValDtoWithComponents(
+			fmtAbsoluteValue,
+			absoluteValFmt,
+			turnOnIntegerDigitsSeparation,
+			newNumericSeparators,
+			numFieldDto,
+			ePrefix)
 
 	return err
 }
@@ -663,16 +659,14 @@ func (fmtAbsValUtil *formatterAbsoluteValueUtility) setToUnitedStatesDefaults(
 		return err
 	}
 
-	nStrFmtSpecAbsValDtoMech :=
-		formatterAbsoluteValueMechanics{}
-
-	err = nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
-		nStrFmtSpecAbsValDto,
-		"127.54",
-		true,
-		newNumericSeparators,
-		numFieldDto,
-		ePrefix)
+	err = formatterAbsoluteValueMechanics{}.ptr().
+		setAbsValDtoWithComponents(
+			nStrFmtSpecAbsValDto,
+			"127.54",
+			true,
+			newNumericSeparators,
+			numFieldDto,
+			ePrefix)
 
 	return err
 }

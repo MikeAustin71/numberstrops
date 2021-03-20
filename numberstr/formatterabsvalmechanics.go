@@ -247,6 +247,9 @@ func (fmtAbsValMech *formatterAbsoluteValueMechanics) setAbsValDtoWithComponents
 	newNStrFmtSpecAbsValDto.absoluteValFmt =
 		absoluteValueFormat
 
+	newNStrFmtSpecAbsValDto.numStrFmtType =
+		NumStrFormatTypeCode(0).AbsoluteValue()
+
 	newNStrFmtSpecAbsValDto.turnOnIntegerDigitsSeparation =
 		turnOnIntegerDigitsSeparation
 

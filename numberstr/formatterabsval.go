@@ -143,13 +143,31 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyOut(
 	ePrefix.SetEPref(
 		"FormatterAbsoluteValue.CopyOut()")
 
-	nStrFmtSpecAbsValDtoNanobot :=
-		formatterAbsoluteValueNanobot{}
+	return formatterAbsoluteValueNanobot{}.ptr().
+		copyOut(
+			fmtAbsVal,
+			ePrefix.XCtx(
+				"Copy -> 'fmtAbsVal'"))
+}
 
-	return nStrFmtSpecAbsValDtoNanobot.copyOut(
-		fmtAbsVal,
-		ePrefix.XCtx(
-			"Copy -> 'fmtAbsVal'"))
+// Empty - Deletes and resets data values for all member variables
+// in the current FormatterAbsoluteValue instance to their initial
+// 'zero' values.
+//
+func (fmtAbsVal *FormatterAbsoluteValue) Empty() {
+
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
+	}
+
+	fmtAbsVal.lock.Lock()
+
+	_ = formatterAbsoluteValueQuark{}.ptr().
+		empty(fmtAbsVal, nil)
+
+	fmtAbsVal.lock.Unlock()
+
+	fmtAbsVal.lock = nil
 }
 
 // GetAbsoluteValueFormat - Returns the formatting string used to
@@ -481,6 +499,26 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetNumericSeparators(
 		ePrefix.XCtx("fmtAbsVal.numericSeparators->"))
 }
 
+// GetNumStrFormatTypeCode - Returns the Number String Format Type
+// Code. The Number String Format Type Code for
+// FormatterAbsoluteValue objects is:
+//     NumStrFormatTypeCode(0).AbsoluteValue().
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtAbsVal *FormatterAbsoluteValue) GetNumStrFormatTypeCode() NumStrFormatTypeCode {
+
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
+	}
+
+	fmtAbsVal.lock.Lock()
+
+	defer fmtAbsVal.lock.Unlock()
+
+	return fmtAbsVal.numStrFmtType
+}
+
 // GetTurnOnIntegerDigitsSeparationFlag - Returns the boolean flag
 // which signals whether integer digits within a number string will
 // be grouped by thousands and separated by an integer digits
@@ -541,13 +579,11 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstance() (
 
 	defer fmtAbsVal.lock.Unlock()
 
-	nStrFmtSpecAbsValDtoMolecule :=
-		formatterAbsoluteValueMolecule{}
-
 	isValid,
-		_ = nStrFmtSpecAbsValDtoMolecule.testValidityOfFormatterAbsoluteValue(
-		fmtAbsVal,
-		ErrPrefixDto{}.Ptr())
+		_ = formatterAbsoluteValueMolecule{}.ptr().
+		testValidityOfFormatterAbsoluteValue(
+			fmtAbsVal,
+			ErrPrefixDto{}.Ptr())
 
 	return isValid
 }
@@ -603,13 +639,11 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstanceError(
 	ePrefix.SetEPrefCtx("FormatterAbsoluteValue.IsValidInstanceError()",
 		"Testing Validity of 'fmtAbsVal'")
 
-	nStrFmtSpecAbsValDtoMolecule :=
-		formatterAbsoluteValueMolecule{}
-
 	_,
-		err := nStrFmtSpecAbsValDtoMolecule.testValidityOfFormatterAbsoluteValue(
-		fmtAbsVal,
-		ePrefix)
+		err := formatterAbsoluteValueMolecule{}.ptr().
+		testValidityOfFormatterAbsoluteValue(
+			fmtAbsVal,
+			ePrefix)
 
 	return err
 }
@@ -827,10 +861,7 @@ func (fmtAbsVal FormatterAbsoluteValue) NewBasic(
 
 	newNumStrFmtSpecAbsValueDto.lock = new(sync.Mutex)
 
-	nStrFmtSpecAbsValDtoUtil :=
-		formatterAbsoluteValueUtility{}
-
-	err := nStrFmtSpecAbsValDtoUtil.
+	err := formatterAbsoluteValueUtility{}.ptr().
 		setBasic(
 			&newNumStrFmtSpecAbsValueDto,
 			decimalSeparatorChars,
@@ -1057,10 +1088,7 @@ func (fmtAbsVal FormatterAbsoluteValue) NewBasicRunes(
 
 	newNumStrFmtSpecAbsValueDto.lock = new(sync.Mutex)
 
-	nStrFmtSpecAbsValDtoUtil :=
-		formatterAbsoluteValueUtility{}
-
-	err := nStrFmtSpecAbsValDtoUtil.
+	err := formatterAbsoluteValueUtility{}.ptr().
 		setBasicRunes(
 			&newNumStrFmtSpecAbsValueDto,
 			decimalSeparatorChars,
@@ -1320,24 +1348,21 @@ func (fmtAbsVal FormatterAbsoluteValue) NewWithComponents(
 		"FormatterAbsoluteValue." +
 			"NewWithComponents()")
 
-	newNumStrFmtSpecAbsValueDto := FormatterAbsoluteValue{}
+	newFmtAbsoluteValue := FormatterAbsoluteValue{}
 
-	newNumStrFmtSpecAbsValueDto.lock = new(sync.Mutex)
+	newFmtAbsoluteValue.lock = new(sync.Mutex)
 
-	nStrFmtSpecAbsValDtoMech :=
-		formatterAbsoluteValueMechanics{}
+	err := formatterAbsoluteValueMechanics{}.ptr().
+		setAbsValDtoWithComponents(
+			&newFmtAbsoluteValue,
+			absoluteValFmt,
+			turnOnIntegerDigitsSeparation,
+			numericSeparators,
+			numFieldDto,
+			ePrefix.XCtx(
+				"Setting 'newFmtAbsoluteValue'"))
 
-	err := nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
-		&newNumStrFmtSpecAbsValueDto,
-		absoluteValFmt,
-		turnOnIntegerDigitsSeparation,
-		numericSeparators,
-		numFieldDto,
-		ePrefix.XCtx(
-
-			"Setting 'newNStrFmtSpecAbsoluteValueDto'"))
-
-	return newNumStrFmtSpecAbsValueDto, err
+	return newFmtAbsoluteValue, err
 }
 
 // SetAbsoluteValueFormat - Sets the formatting string used to
@@ -1901,18 +1926,16 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetBasicRunes(
 		"FormatterAbsoluteValue." +
 			"SetBasicRunes()")
 
-	nStrFmtSpecAbsValDtoUtil :=
-		formatterAbsoluteValueUtility{}
-
-	return nStrFmtSpecAbsValDtoUtil.setBasicRunes(
-		fmtAbsVal,
-		decimalSeparatorChars,
-		thousandsSeparatorChars,
-		turnOnThousandsSeparator,
-		absoluteValFmt,
-		requestedNumberFieldLen,
-		numberFieldTextJustify,
-		ePrefix)
+	return formatterAbsoluteValueUtility{}.ptr().
+		setBasicRunes(
+			fmtAbsVal,
+			decimalSeparatorChars,
+			thousandsSeparatorChars,
+			turnOnThousandsSeparator,
+			absoluteValFmt,
+			requestedNumberFieldLen,
+			numberFieldTextJustify,
+			ePrefix)
 }
 
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object
@@ -2081,6 +2104,26 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetNumericSeparators(
 		ePrefix)
 }
 
+// SetNumStrFormatTypeCode - Sets the Number String Format Type
+// coded for this FormatterAbsoluteValue object. For Absolute Value
+// formatters the Number String Format Type Code is automatically
+// set to:
+//    NumStrFormatTypeCode(0).AbsoluteValue().
+//
+func (fmtAbsVal *FormatterAbsoluteValue) SetNumStrFormatTypeCode() {
+
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
+	}
+
+	fmtAbsVal.lock.Lock()
+
+	defer fmtAbsVal.lock.Unlock()
+
+	fmtAbsVal.numStrFmtType =
+		NumStrFormatTypeCode(0).AbsoluteValue()
+}
+
 // SetToUnitedStatesDefaults - Sets the member variable data
 // values for the current FormatterAbsoluteValue instance
 // to United States Default values.
@@ -2226,11 +2269,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetToUnitedStatesDefaultsIfEmpty(
 		"FormatterAbsoluteValue." +
 			"SetToUnitedStatesDefaults()")
 
-	nStrFmtSpecAbsValDtoMolecule :=
-		formatterAbsoluteValueMolecule{}
-
 	isValid,
-		_ := nStrFmtSpecAbsValDtoMolecule.testValidityOfFormatterAbsoluteValue(
+		_ := formatterAbsoluteValueMolecule{}.ptr().testValidityOfFormatterAbsoluteValue(
 		fmtAbsVal,
 		ErrPrefixDto{}.Ptr())
 
@@ -2542,15 +2582,13 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetWithComponents(
 		"FormatterAbsoluteValue." +
 			"SetWithComponents()")
 
-	nStrFmtSpecAbsValDtoMech :=
-		formatterAbsoluteValueMechanics{}
-
-	return nStrFmtSpecAbsValDtoMech.setAbsValDtoWithComponents(
-		fmtAbsVal,
-		absoluteValFmt,
-		turnOnIntegerDigitsSeparation,
-		numericSeparators,
-		numFieldDto,
-		ePrefix.XCtx(
-			"Setting 'fmtAbsVal'"))
+	return formatterAbsoluteValueMechanics{}.ptr().
+		setAbsValDtoWithComponents(
+			fmtAbsVal,
+			absoluteValFmt,
+			turnOnIntegerDigitsSeparation,
+			numericSeparators,
+			numFieldDto,
+			ePrefix.XCtx(
+				"Setting 'fmtAbsVal'"))
 }

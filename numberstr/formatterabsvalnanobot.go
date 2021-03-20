@@ -136,13 +136,11 @@ func (fmtAbsValNanobot *formatterAbsoluteValueNanobot) copyOut(
 		return newFmtAbsoluteVal, err
 	}
 
-	nStrFmtSpecAbsValDtoMolecule :=
-		formatterAbsoluteValueMolecule{}
-
 	_,
-		err = nStrFmtSpecAbsValDtoMolecule.testValidityOfFormatterAbsoluteValue(
-		fmtAbsoluteVal,
-		ePrefix.XCtx("\nTesting validity of 'fmtAbsoluteVal'"))
+		err = formatterAbsoluteValueMolecule{}.ptr().
+		testValidityOfFormatterAbsoluteValue(
+			fmtAbsoluteVal,
+			ePrefix.XCtx("\nTesting validity of 'fmtAbsoluteVal'"))
 
 	if err != nil {
 		return newFmtAbsoluteVal, err
