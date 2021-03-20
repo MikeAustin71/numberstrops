@@ -77,10 +77,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyIn(
 	ePrefix.SetEPref(
 		"FormatterAbsoluteValue.CopyIn()")
 
-	nStrFmtSpecAbsValDtoNanobot :=
-		formatterAbsoluteValueNanobot{}
-
-	return nStrFmtSpecAbsValDtoNanobot.copyIn(
+	return formatterAbsoluteValueNanobot{}.ptr().copyIn(
 		fmtAbsVal,
 		incomingFormatterAbsVal,
 		ePrefix.XCtx("incomingFormatterAbsVal -> fmtAbsVal"))
@@ -548,7 +545,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstance() (
 		formatterAbsoluteValueMolecule{}
 
 	isValid,
-		_ = nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
+		_ = nStrFmtSpecAbsValDtoMolecule.testValidityOfFormatterAbsoluteValue(
 		fmtAbsVal,
 		ErrPrefixDto{}.Ptr())
 
@@ -610,7 +607,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstanceError(
 		formatterAbsoluteValueMolecule{}
 
 	_,
-		err := nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
+		err := nStrFmtSpecAbsValDtoMolecule.testValidityOfFormatterAbsoluteValue(
 		fmtAbsVal,
 		ePrefix)
 
@@ -2233,7 +2230,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetToUnitedStatesDefaultsIfEmpty(
 		formatterAbsoluteValueMolecule{}
 
 	isValid,
-		_ := nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
+		_ := nStrFmtSpecAbsValDtoMolecule.testValidityOfFormatterAbsoluteValue(
 		fmtAbsVal,
 		ErrPrefixDto{}.Ptr())
 

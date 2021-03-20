@@ -111,14 +111,6 @@ func (nStrNFldDtoQuark *numStrNumFieldDtoQuark) testValidityNumberFieldDto(
 		numFieldDto.lock = new(sync.Mutex)
 	}
 
-	if numFieldDto.requestedNumFieldLength == 0 {
-		err = fmt.Errorf("%v"+
-			"Error: numFieldDto.requestedNumFieldLength == 0\n",
-			ePrefix.String())
-
-		return isValid, err
-	}
-
 	if numFieldDto.requestedNumFieldLength < -1 {
 		numFieldDto.requestedNumFieldLength = -1
 	}

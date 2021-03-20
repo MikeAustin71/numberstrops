@@ -60,7 +60,7 @@ func (fmtAbsValNanobot *formatterAbsoluteValueNanobot) copyIn(
 
 	_,
 		err = formatterAbsoluteValueMolecule{}.ptr().
-		testValidityOfAbsoluteValDto(
+		testValidityOfFormatterAbsoluteValue(
 			incomingFmtAbsoluteVal,
 			ePrefix.XCtx(
 				"Testing validity of 'incomingFmtAbsoluteVal'"))
@@ -74,6 +74,9 @@ func (fmtAbsValNanobot *formatterAbsoluteValueNanobot) copyIn(
 
 	targetFmtAbsoluteVal.turnOnIntegerDigitsSeparation =
 		incomingFmtAbsoluteVal.turnOnIntegerDigitsSeparation
+
+	targetFmtAbsoluteVal.numStrFmtType =
+		incomingFmtAbsoluteVal.numStrFmtType
 
 	err =
 		targetFmtAbsoluteVal.numericSeparators.CopyIn(
@@ -137,7 +140,7 @@ func (fmtAbsValNanobot *formatterAbsoluteValueNanobot) copyOut(
 		formatterAbsoluteValueMolecule{}
 
 	_,
-		err = nStrFmtSpecAbsValDtoMolecule.testValidityOfAbsoluteValDto(
+		err = nStrFmtSpecAbsValDtoMolecule.testValidityOfFormatterAbsoluteValue(
 		fmtAbsoluteVal,
 		ePrefix.XCtx("\nTesting validity of 'fmtAbsoluteVal'"))
 

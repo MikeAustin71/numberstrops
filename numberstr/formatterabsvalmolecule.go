@@ -30,7 +30,7 @@ func (fmtAbsValMolecule formatterAbsoluteValueMolecule) ptr() *formatterAbsolute
 	return newAbsValMolecule
 }
 
-// testValidityOfAbsoluteValDto - Receives an instance of
+// testValidityOfFormatterAbsoluteValue - Receives an instance of
 // FormatterAbsoluteValue and proceeds to test the
 // validity of the member data fields.
 //
@@ -38,7 +38,7 @@ func (fmtAbsValMolecule formatterAbsoluteValueMolecule) ptr() *formatterAbsolute
 // error is returned and the return boolean parameter, 'isValid',
 // is set to 'false'.
 //
-func (fmtAbsValMolecule *formatterAbsoluteValueMolecule) testValidityOfAbsoluteValDto(
+func (fmtAbsValMolecule *formatterAbsoluteValueMolecule) testValidityOfFormatterAbsoluteValue(
 	fmtAbsoluteVal *FormatterAbsoluteValue,
 	ePrefix *ErrPrefixDto) (
 	isValid bool,
@@ -58,7 +58,7 @@ func (fmtAbsValMolecule *formatterAbsoluteValueMolecule) testValidityOfAbsoluteV
 
 	ePrefix.SetEPref(
 		"formatterAbsoluteValueMolecule." +
-			"testValidityOfAbsoluteValDto()")
+			"testValidityOfFormatterAbsoluteValue()")
 
 	isValid = false
 
@@ -86,13 +86,21 @@ func (fmtAbsValMolecule *formatterAbsoluteValueMolecule) testValidityOfAbsoluteV
 	err =
 		fmtAbsoluteVal.numericSeparators.IsValidInstanceError(
 			ePrefix.XCtx(
-				"Validating fmtAbsoluteVal Number Separators"))
+				"Validating fmtAbsoluteVal"))
 
 	if err != nil {
-		isValid = false
-	} else {
-		isValid = true
+		return isValid, err
 	}
+
+	err =
+		fmtAbsoluteVal.numFieldLenDto.IsValidInstanceError(
+			ePrefix)
+
+	if err != nil {
+		return isValid, err
+	}
+
+	isValid = true
 
 	return isValid, err
 }

@@ -80,12 +80,8 @@ func (fmtCurrMolecule *formatterCurrencyMolecule) testValidityOfFormatterCurrenc
 
 	}
 
-	if formatterCurrency.currencySymbols == nil {
-		formatterCurrency.currencySymbols =
-			make([]rune, 0, 10)
-	}
-
-	lenCurrencySymbols := len(formatterCurrency.currencySymbols)
+	lenCurrencySymbols :=
+		len(formatterCurrency.currencySymbols)
 
 	if lenCurrencySymbols == 0 {
 		err = fmt.Errorf("%v\n"+
@@ -96,14 +92,17 @@ func (fmtCurrMolecule *formatterCurrencyMolecule) testValidityOfFormatterCurrenc
 		return isValid, err
 	}
 
-	if formatterCurrency.minorCurrencySymbols == nil {
-		formatterCurrency.minorCurrencySymbols =
-			make([]rune, 0, 10)
-	}
-
 	err =
 		formatterCurrency.numericSeparators.IsValidInstanceError(
 			ePrefix.XCtx("Validating 'formatterCurrency' Number Separators"))
+
+	if err != nil {
+		return isValid, err
+	}
+
+	err =
+		formatterCurrency.numFieldLenDto.IsValidInstanceError(
+			ePrefix)
 
 	if err != nil {
 		return isValid, err
