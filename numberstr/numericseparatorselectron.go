@@ -59,8 +59,8 @@ func (numSepsElectron *numericSeparatorsElectron) copyIn(
 		return err
 	}
 
-	if targetNumSeps.lock == nil {
-		targetNumSeps.lock = new(sync.Mutex)
+	if inComingNumSeps.lock == nil {
+		inComingNumSeps.lock = new(sync.Mutex)
 	}
 
 	_,
@@ -123,7 +123,8 @@ func (numSepsElectron *numericSeparatorsElectron) copyOut(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("numericSeparatorsElectron.copyOut()")
+	ePrefix.SetEPref(
+		"numericSeparatorsElectron.copyOut()")
 
 	if numSeps == nil {
 		err = fmt.Errorf("%v\n"+
