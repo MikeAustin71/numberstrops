@@ -66,15 +66,15 @@ func (fmtCurrMolecule *formatterCurrencyMolecule) testValidityOfFormatterCurrenc
 		return isValid, err
 	}
 
-	if formatterCurrency.numStrFormatterType !=
+	if formatterCurrency.numStrFmtType !=
 		NumStrFormatTypeCode(0).Currency() {
 
 		err = fmt.Errorf("%v\n"+
 			"Error: Number String Formatter Type Code is invalid!\n"+
-			"formatterCurrency.numStrFormatterType != NumStrFormatTypeCode(0).Currency().\n"+
-			"Integer formatterCurrency.numStrFormatterType ='%v'",
+			"formatterCurrency.numStrFmtType != NumStrFormatTypeCode(0).Currency().\n"+
+			"Integer formatterCurrency.numStrFmtType ='%v'",
 			ePrefix.String(),
-			formatterCurrency.numStrFormatterType.XValueInt())
+			formatterCurrency.numStrFmtType.XValueInt())
 
 		return isValid, err
 

@@ -101,8 +101,8 @@ func (fmtSignedNumMolecule *formatterSignedNumberMolecule) testValidityOfSignedN
 
 		err = fmt.Errorf("%v\n"+
 			"Error: Number String Format Type Code is invalid!\n"+
-			"'fmtSignedNum.numStrFormatterType' should be equal to NumStrFormatTypeCode(0).SignedNumber().\n"+
-			"Instead, 'fmtSignedNum.numStrFormatterType' is equal to integer value '%v'\n",
+			"'fmtSignedNum.numStrFmtType' should be equal to NumStrFormatTypeCode(0).SignedNumber().\n"+
+			"Instead, 'fmtSignedNum.numStrFmtType' is equal to integer value '%v'\n",
 			ePrefix.XCtxEmpty().String(),
 			fmtSignedNum.numStrFormatterType.XValueInt())
 

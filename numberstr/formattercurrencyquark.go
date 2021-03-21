@@ -40,7 +40,7 @@ func (fmtCurrQuark *formatterCurrencyQuark) empty(
 		return err
 	}
 
-	fmtCurrency.numStrFormatterType =
+	fmtCurrency.numStrFmtType =
 		NumStrFormatTypeCode(0).None()
 
 	fmtCurrency.positiveValueFmt = ""
