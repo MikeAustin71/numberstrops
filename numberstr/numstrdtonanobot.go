@@ -47,7 +47,7 @@ type numStrDtoNanobot struct {
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
@@ -270,7 +270,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
@@ -443,7 +443,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
@@ -723,7 +723,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
@@ -885,7 +885,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
@@ -1047,7 +1047,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
@@ -1244,7 +1244,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
@@ -1383,7 +1383,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
@@ -1530,7 +1530,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newRational(
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
@@ -1689,7 +1689,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
@@ -1911,7 +1911,7 @@ func (nStrDtoNanobot numStrDtoNanobot) ptr() *numStrDtoNanobot {
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber

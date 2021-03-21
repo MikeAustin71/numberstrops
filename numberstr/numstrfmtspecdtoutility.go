@@ -52,7 +52,7 @@ func (nStrFmtSpecDtoUtil numStrFmtSpecDtoUtility) ptr() *numStrFmtSpecDtoUtility
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber

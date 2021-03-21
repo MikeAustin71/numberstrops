@@ -5,7 +5,8 @@ import (
 	"sync"
 )
 
-type NumStrFmtSpecCountryDto struct {
+type FormatterCountry struct {
+	numStrFmtType          NumStrFormatTypeCode
 	idNo                   uint64
 	idString               string
 	description            string
@@ -21,99 +22,99 @@ type NumStrFmtSpecCountryDto struct {
 }
 
 // CopyIn - Copies the data fields from an incoming
-// NumStrFmtSpecCountryDto instance  to the data fields
-// of the current instance of NumStrFmtSpecCountryDto
+// FormatterCountry instance  to the data fields
+// of the current instance of FormatterCountry
 // instance.
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) CopyIn(
-	inComingSpecCntryDto *NumStrFmtSpecCountryDto,
+func (fmtCountry *FormatterCountry) CopyIn(
+	incomingFormatterCountry *FormatterCountry,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCountryDto.CopyIn()")
+	ePrefix.SetEPref("FormatterCountry.CopyIn()")
 
 	nStrFmtSpecCntryElectron :=
-		numStrFmtSpecCountryDtoElectron{}
+		formatterCountryElectron{}
 
 	return nStrFmtSpecCntryElectron.copyIn(
-		nStrFmtSpecCntryDto,
-		inComingSpecCntryDto,
+		fmtCountry,
+		incomingFormatterCountry,
 		ePrefix)
 }
 
 // CopyOut - Returns a deep copy of the current
-// NumStrFmtSpecCountryDto instance.
+// FormatterCountry instance.
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) CopyOut(
+func (fmtCountry *FormatterCountry) CopyOut(
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecCountryDto,
+	FormatterCountry,
 	error) {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("NumStrFmtSpecCountryDto.CopyOut()")
+	ePrefix.SetEPref("FormatterCountry.CopyOut()")
 
 	nStrFmtSpecCntryElectron :=
-		numStrFmtSpecCountryDtoElectron{}
+		formatterCountryElectron{}
 
 	return nStrFmtSpecCntryElectron.copyOut(
-		nStrFmtSpecCntryDto,
+		fmtCountry,
 		ePrefix.XCtx(
-			"nStrFmtSpecCntryDto->"))
+			"fmtCountry->"))
 }
 
 // GetAbbreviatedCountryName - Returns the value of member variable
 // 'abbreviatedCountryName'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetAbbreviatedCountryName() string {
+func (fmtCountry *FormatterCountry) GetAbbreviatedCountryName() string {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	return nStrFmtSpecCntryDto.abbreviatedCountryName
+	return fmtCountry.abbreviatedCountryName
 }
 
 // GetAlternateCountryNames - Returns the value of member variable
 // 'alternateCountryNames'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetAlternateCountryNames() []string {
+func (fmtCountry *FormatterCountry) GetAlternateCountryNames() []string {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
 	var altCountryNames []string
 
 	lenAltCntryNames :=
-		len(nStrFmtSpecCntryDto.alternateCountryNames)
+		len(fmtCountry.alternateCountryNames)
 
 	if lenAltCntryNames == 0 {
 		altCountryNames = make([]string, 0, 10)
@@ -123,7 +124,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetAlternateCountryNames() [
 
 		for i := 0; i < lenAltCntryNames; i++ {
 			altCountryNames[i] =
-				nStrFmtSpecCntryDto.alternateCountryNames[i]
+				fmtCountry.alternateCountryNames[i]
 		}
 	}
 
@@ -132,122 +133,122 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetAlternateCountryNames() [
 
 // GetCountryCodeNumber - Returns the value of member variable
 // 'countryCodeThreeChar'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetCountryCodeNumber() string {
+func (fmtCountry *FormatterCountry) GetCountryCodeNumber() string {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	return nStrFmtSpecCntryDto.countryCodeNumber
+	return fmtCountry.countryCodeNumber
 }
 
 // GetCountryCodeThreeChar - Returns the value of member variable
 // 'countryCodeThreeChar'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetCountryCodeThreeChar() string {
+func (fmtCountry *FormatterCountry) GetCountryCodeThreeChar() string {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	return nStrFmtSpecCntryDto.countryCodeThreeChar
+	return fmtCountry.countryCodeThreeChar
 }
 
 // GetCountryCodeTwoChar - Returns the value of member variable
 // 'countryCodeTwoChar'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetCountryCodeTwoChar() string {
+func (fmtCountry *FormatterCountry) GetCountryCodeTwoChar() string {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	return nStrFmtSpecCntryDto.countryCodeTwoChar
+	return fmtCountry.countryCodeTwoChar
 }
 
 // GetCountryCultureName - Returns the value of member variable
 // 'countryCultureName'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetCountryCultureName() string {
+func (fmtCountry *FormatterCountry) GetCountryCultureName() string {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	return nStrFmtSpecCntryDto.countryCultureName
+	return fmtCountry.countryCultureName
 }
 
 // GetDescription - Returns the value of member variable 'description'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetDescription() string {
+func (fmtCountry *FormatterCountry) GetDescription() string {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	return nStrFmtSpecCntryDto.description
+	return fmtCountry.description
 }
 
 // GetIdNo - Returns the value of member variable 'idNo'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetIdNo() uint64 {
+func (fmtCountry *FormatterCountry) GetIdNo() uint64 {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	return nStrFmtSpecCntryDto.idNo
+	return fmtCountry.idNo
 }
 
 // GetIdString - Returns the value of member variable 'idString'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetIdString() string {
+func (fmtCountry *FormatterCountry) GetIdString() string {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	return nStrFmtSpecCntryDto.idString
+	return fmtCountry.idString
 }
 
 // GetTag - Returns the value of member variable 'tag'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetTag() string {
+func (fmtCountry *FormatterCountry) GetTag() string {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	return nStrFmtSpecCntryDto.tag
+	return fmtCountry.tag
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
-// NumStrFmtSpecCountryDto instance to determine whether
+// FormatterCountry instance to determine whether
 // the current instance is valid in all respects.
 //
 //
@@ -264,34 +265,34 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) GetTag() string {
 //
 //  isValid             bool
 //     - This returned boolean value will signal whether the current
-//       NumStrFmtSpecCountryDto is valid, or not. If the current
-//       NumStrFmtSpecCountryDto contains valid data, this method
+//       FormatterCountry is valid, or not. If the current
+//       FormatterCountry contains valid data, this method
 //       returns 'true'. If the data is invalid, this method will
 //       return 'false'.
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) IsValidInstance() bool {
+func (fmtCountry *FormatterCountry) IsValidInstance() bool {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
 	nStrFmtSpecCntryQuark :=
-		numStrFmtSpecCountryDtoQuark{}
+		formatterCountryQuark{}
 
 	isValid,
-		_ := nStrFmtSpecCntryQuark.testValidityOfCountryDto(
-		nStrFmtSpecCntryDto,
+		_ := nStrFmtSpecCntryQuark.testValidityOfFormatterCountry(
+		fmtCountry,
 		new(ErrPrefixDto))
 
 	return isValid
 }
 
 // IsValidInstanceError - Performs a diagnostic review of the current
-// NumStrFmtSpecCountryDto instance to determine whether the current
+// FormatterCountry instance to determine whether the current
 // instance is valid in all respects.
 //
 //
@@ -324,33 +325,33 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) IsValidInstance() bool {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-//       If this instance of NumStrFmtSpecCountryDto contains
+//       If this instance of FormatterCountry contains
 //       invalid data, a detailed error message will be returned
 //       identifying the invalid data item.
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) IsValidInstanceError(
+func (fmtCountry *FormatterCountry) IsValidInstanceError(
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto.IsValidInstanceError()")
+		"FormatterCountry.IsValidInstanceError()")
 
-	nStrFmtSpecCntryQuark := numStrFmtSpecCountryDtoQuark{}
+	nStrFmtSpecCntryQuark := formatterCountryQuark{}
 
 	_,
-		err := nStrFmtSpecCntryQuark.testValidityOfCountryDto(
-		nStrFmtSpecCntryDto,
+		err := nStrFmtSpecCntryQuark.testValidityOfFormatterCountry(
+		fmtCountry,
 		ePrefix)
 
 	return err
@@ -423,9 +424,9 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) IsValidInstanceError(
 //
 // Return Values
 //
-//  NumStrFmtSpecCountryDto
+//  FormatterCountry
 //     - If this method completes successfully, new instance of
-//       NumStrFmtSpecCountryDto will be created and
+//       FormatterCountry will be created and
 //       returned.
 //
 //  error
@@ -439,7 +440,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) IsValidInstanceError(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewWithComponents(
+func (fmtCountry FormatterCountry) NewWithComponents(
 	idNo uint64,
 	idString string,
 	description string,
@@ -451,28 +452,28 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewWithComponents(
 	countryCodeThreeChar string,
 	countryCodeNumber string,
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecCountryDto,
+	FormatterCountry,
 	error) {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto.NewWithComponents()")
+		"FormatterCountry.NewWithComponents()")
 
 	nStrFmtSpecCntryMech :=
-		numStrFmtSpecCountryDtoMechanics{}
+		formatterCountryMechanics{}
 
-	newCntryDto := NumStrFmtSpecCountryDto{}
+	newCntryDto := FormatterCountry{}
 
 	err :=
 		nStrFmtSpecCntryMech.setWithComponents(
@@ -493,7 +494,7 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewWithComponents(
 }
 
 // NewWithFmtSpecSetupDto - Creates and returns a new
-// NumStrFmtSpecCountryDto instance based on input received from
+// FormatterCountry instance based on input received from
 // an instance of NumStrFmtSpecSetupDto.
 //
 //
@@ -503,7 +504,7 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewWithComponents(
 //
 //  fmtSpecSetupDto     NumStrFmtSpecSetupDto
 //     - A data structure conveying setup information for a
-//       NumStrFmtSpecCountryDto object. Only the following data
+//       FormatterCountry object. Only the following data
 //       fields with a prefix of "Country" are used.
 //
 //       type NumStrFmtSpecSetupDto struct {
@@ -565,9 +566,9 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewWithComponents(
 //
 // Return Values
 //
-//  NumStrFmtSpecCountryDto
+//  FormatterCountry
 //     - If this method completes successfully, a new instance of
-//       NumStrFmtSpecCountryDto will be returned to the caller.
+//       FormatterCountry will be returned to the caller.
 //
 //
 //  error
@@ -581,29 +582,29 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewWithComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewWithFmtSpecSetupDto(
+func (fmtCountry FormatterCountry) NewWithFmtSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecCountryDto,
+	FormatterCountry,
 	error) {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto.NewWithFmtSpecSetupDto()")
+		"FormatterCountry.NewWithFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
-		return NumStrFmtSpecCountryDto{},
+		return FormatterCountry{},
 			fmt.Errorf("%v\n"+
 				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
 				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
@@ -615,9 +616,9 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewWithFmtSpecSetupDto(
 	}
 
 	nStrFmtSpecCntryMech :=
-		numStrFmtSpecCountryDtoMechanics{}
+		formatterCountryMechanics{}
 
-	newCountryDto := NumStrFmtSpecCountryDto{}
+	newCountryDto := FormatterCountry{}
 
 	if fmtSpecSetupDto.Lock == nil {
 		fmtSpecSetupDto.Lock = new(sync.Mutex)
@@ -646,48 +647,48 @@ func (nStrFmtSpecCntryDto NumStrFmtSpecCountryDto) NewWithFmtSpecSetupDto(
 
 // SetAbbreviatedCountryName - Sets the value of member variable
 // 'abbreviatedCountryName'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetAbbreviatedCountryName(
+func (fmtCountry *FormatterCountry) SetAbbreviatedCountryName(
 	abbreviatedCountryName string) {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	nStrFmtSpecCntryDto.abbreviatedCountryName =
+	fmtCountry.abbreviatedCountryName =
 		abbreviatedCountryName
 }
 
 // SetAlternateCountryNames - Sets the value of member variable
 // 'alternateCountryNames'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetAlternateCountryNames(
+func (fmtCountry *FormatterCountry) SetAlternateCountryNames(
 	alternateCountryNames []string) {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
 	lenAltCntryNames :=
 		len(alternateCountryNames)
 
 	if lenAltCntryNames == 0 {
 
-		nStrFmtSpecCntryDto.alternateCountryNames =
+		fmtCountry.alternateCountryNames =
 			make([]string, 0, 10)
 
 	} else {
 
-		nStrFmtSpecCntryDto.alternateCountryNames = make([]string, lenAltCntryNames, 10)
+		fmtCountry.alternateCountryNames = make([]string, lenAltCntryNames, 10)
 
 		for i := 0; i < lenAltCntryNames; i++ {
-			nStrFmtSpecCntryDto.alternateCountryNames[i] =
+			fmtCountry.alternateCountryNames[i] =
 				alternateCountryNames[i]
 		}
 	}
@@ -702,18 +703,18 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetAlternateCountryNames(
 // Division.  Reference:
 //  https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetCountryCodeNumber(
+func (fmtCountry *FormatterCountry) SetCountryCodeNumber(
 	countryCodeNumber string) {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	nStrFmtSpecCntryDto.countryCodeNumber =
+	fmtCountry.countryCodeNumber =
 		countryCodeNumber
 }
 
@@ -724,18 +725,18 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetCountryCodeNumber(
 //  Reference:
 //   https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetCountryCodeThreeChar(
+func (fmtCountry *FormatterCountry) SetCountryCodeThreeChar(
 	countryCodeThreeChar string) {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	nStrFmtSpecCntryDto.countryCodeThreeChar =
+	fmtCountry.countryCodeThreeChar =
 		countryCodeThreeChar
 }
 
@@ -746,18 +747,18 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetCountryCodeThreeChar(
 // Reference:
 //  https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetCountryCodeTwoChar(
+func (fmtCountry *FormatterCountry) SetCountryCodeTwoChar(
 	countryCodeTwoChar string) {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	nStrFmtSpecCntryDto.countryCodeTwoChar =
+	fmtCountry.countryCodeTwoChar =
 		countryCodeTwoChar
 
 }
@@ -767,41 +768,41 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetCountryCodeTwoChar(
 //
 // Official name of the country.
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetCountryCultureName(
+func (fmtCountry *FormatterCountry) SetCountryCultureName(
 	countryCultureName string) {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	nStrFmtSpecCntryDto.countryCultureName =
+	fmtCountry.countryCultureName =
 		countryCultureName
 }
 
 // SetDescription - Sets the value of member variable 'description'.
 // This is a user defined description.
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetDescription(
+func (fmtCountry *FormatterCountry) SetDescription(
 	description string) {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	nStrFmtSpecCntryDto.description =
+	fmtCountry.description =
 		description
 }
 
 // SetWithSpecSetupDto - Sets the data values for current
-// NumStrFmtSpecCountryDto instance based on input received from
+// FormatterCountry instance based on input received from
 // an instance of NumStrFmtSpecSetupDto.
 //
 //
@@ -811,7 +812,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetDescription(
 //
 //  fmtSpecSetupDto     NumStrFmtSpecSetupDto
 //     - A data structure conveying setup information for a
-//       NumStrFmtSpecCountryDto object. Only the following data
+//       FormatterCountry object. Only the following data
 //       fields with a prefix of "Country" are used.
 //
 //       type NumStrFmtSpecSetupDto struct {
@@ -884,24 +885,24 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetDescription(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetWithSpecSetupDto(
+func (fmtCountry *FormatterCountry) SetWithSpecSetupDto(
 	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto." +
+		"FormatterCountry." +
 			"SetWithFmtSpecSetupDto()")
 
 	if fmtSpecSetupDto == nil {
@@ -920,10 +921,10 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetWithSpecSetupDto(
 	defer fmtSpecSetupDto.Lock.Unlock()
 
 	nStrFmtSpecCntryMech :=
-		numStrFmtSpecCountryDtoMechanics{}
+		formatterCountryMechanics{}
 
 	return nStrFmtSpecCntryMech.setWithComponents(
-		nStrFmtSpecCntryDto,
+		fmtCountry,
 		fmtSpecSetupDto.CountryIdNo,
 		fmtSpecSetupDto.CountryIdString,
 		fmtSpecSetupDto.CountryDescription,
@@ -938,54 +939,54 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetWithSpecSetupDto(
 }
 
 // SetIdNo - Sets the value of member variable 'idNo'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetIdNo(
+func (fmtCountry *FormatterCountry) SetIdNo(
 	idNo uint64) {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	nStrFmtSpecCntryDto.idNo = idNo
+	fmtCountry.idNo = idNo
 }
 
 // SetIdString - Sets the value of member variable 'idString'.
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetIdString(
+func (fmtCountry *FormatterCountry) SetIdString(
 	idString string) {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	nStrFmtSpecCntryDto.idString = idString
+	fmtCountry.idString = idString
 }
 
 // SetTag - Sets the value of member variable 'tag'.
 // This is a user defined description.
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetTag(
+func (fmtCountry *FormatterCountry) SetTag(
 	tag string) {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
-	nStrFmtSpecCntryDto.tag = tag
+	fmtCountry.tag = tag
 }
 
 // SetToUnitedStatesDefaults - Sets the member variable data
-// values for the incoming NumStrFmtSpecCountryDto instance
+// values for the incoming FormatterCountry instance
 // to United States Default values.
 //
 // For the United States, the country specification parameters are
@@ -1009,7 +1010,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetTag(
 // IMPORTANT
 //
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecCountryDto instance.
+// current FormatterCountry instance.
 //
 //
 // ----------------------------------------------------------------
@@ -1040,39 +1041,39 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetTag(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetToUnitedStatesDefaults(
+func (fmtCountry *FormatterCountry) SetToUnitedStatesDefaults(
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto." +
+		"FormatterCountry." +
 			"SetToUnitedStatesDefaults()")
 
 	countryUtil :=
-		numStrFmtSpecCountryDtoUtility{}
+		formatterCountryUtility{}
 
 	return countryUtil.setToUnitedStatesDefaults(
-		nStrFmtSpecCntryDto,
+		fmtCountry,
 		ePrefix)
 }
 
 // SetToUnitedStatesDefaultsIfEmpty - If the current
-// NumStrFmtSpecCountryDto instance is empty or invalid,
+// FormatterCountry instance is empty or invalid,
 // this method will set the member variable data values to United
 // States default values.
 //
-// If the current NumStrFmtSpecCountryDto instance is valid
+// If the current FormatterCountry instance is valid
 // and NOT empty, this method will take no action and exit.
 //
 // For the United States, the country specification parameters are
@@ -1096,7 +1097,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetToUnitedStatesDefaults(
 // IMPORTANT
 //
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecCountryDto instance.
+// current FormatterCountry instance.
 //
 //
 // ----------------------------------------------------------------
@@ -1127,31 +1128,31 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetToUnitedStatesDefaults(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetToUnitedStatesDefaultsIfEmpty(
+func (fmtCountry *FormatterCountry) SetToUnitedStatesDefaultsIfEmpty(
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto." +
+		"FormatterCountry." +
 			"SetToUnitedStatesDefaults()")
 
 	nStrFmtSpecCntryQuark :=
-		numStrFmtSpecCountryDtoQuark{}
+		formatterCountryQuark{}
 
 	isValid,
-		_ := nStrFmtSpecCntryQuark.testValidityOfCountryDto(
-		nStrFmtSpecCntryDto,
+		_ := nStrFmtSpecCntryQuark.testValidityOfFormatterCountry(
+		fmtCountry,
 		ePrefix)
 
 	if isValid {
@@ -1159,15 +1160,15 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetToUnitedStatesDefaultsIfE
 	}
 
 	countryUtil :=
-		numStrFmtSpecCountryDtoUtility{}
+		formatterCountryUtility{}
 
 	return countryUtil.setToUnitedStatesDefaults(
-		nStrFmtSpecCntryDto,
+		fmtCountry,
 		ePrefix)
 }
 
 // SetWithComponents - Sets the data values for current
-// NumStrFmtSpecCountryDto instance.
+// FormatterCountry instance.
 //
 //
 // ----------------------------------------------------------------
@@ -1243,7 +1244,7 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetToUnitedStatesDefaultsIfE
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetWithComponents(
+func (fmtCountry *FormatterCountry) SetWithComponents(
 	idNo uint64,
 	idString string,
 	description string,
@@ -1256,26 +1257,26 @@ func (nStrFmtSpecCntryDto *NumStrFmtSpecCountryDto) SetWithComponents(
 	countryCodeNumber string,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecCntryDto.lock == nil {
-		nStrFmtSpecCntryDto.lock = new(sync.Mutex)
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecCntryDto.lock.Lock()
+	fmtCountry.lock.Lock()
 
-	defer nStrFmtSpecCntryDto.lock.Unlock()
+	defer fmtCountry.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecCountryDto.SetWithComponents()")
+		"FormatterCountry.SetWithComponents()")
 
 	nStrFmtSpecCntryMech :=
-		numStrFmtSpecCountryDtoMechanics{}
+		formatterCountryMechanics{}
 
 	return nStrFmtSpecCntryMech.setWithComponents(
-		nStrFmtSpecCntryDto,
+		fmtCountry,
 		idNo,
 		idString,
 		description,

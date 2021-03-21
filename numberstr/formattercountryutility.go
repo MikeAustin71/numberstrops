@@ -5,12 +5,32 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecCountryDtoUtility struct {
+type formatterCountryUtility struct {
 	lock *sync.Mutex
 }
 
+// ptr - Returns a pointer to a new instance of
+// formatterCountryUtility.
+//
+func (fmtCountryUtil formatterCountryUtility) ptr() *formatterCountryUtility {
+
+	if fmtCountryUtil.lock == nil {
+		fmtCountryUtil.lock = new(sync.Mutex)
+	}
+
+	fmtCountryUtil.lock.Lock()
+
+	defer fmtCountryUtil.lock.Unlock()
+
+	newFormatterCountryUtility := new(formatterCountryUtility)
+
+	newFormatterCountryUtility.lock = new(sync.Mutex)
+
+	return newFormatterCountryUtility
+}
+
 // setToUnitedStatesDefaults - Sets the member variable data
-// values for the incoming NumStrFmtSpecCountryDto instance
+// values for the incoming FormatterCountry instance
 // to United States Default values.
 //
 // For the United States, the country specification parameters are
@@ -34,8 +54,8 @@ type numStrFmtSpecCountryDtoUtility struct {
 //
 // Input Parameters
 //
-//  nStrCountryDto                *NumStrFmtSpecCountryDto
-//     - A pointer to an instance of NumStrFmtSpecCountryDto.
+//  formatterCountry              *FormatterCountry
+//     - A pointer to an instance of FormatterCountry.
 //       All data values in this object will be overwritten and
 //       set to United States default values for Country
 //       specification codes.
@@ -65,50 +85,48 @@ type numStrFmtSpecCountryDtoUtility struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtCntryUtil *numStrFmtSpecCountryDtoUtility) setToUnitedStatesDefaults(
-	nStrCountryDto *NumStrFmtSpecCountryDto,
+func (fmtCountryUtil *formatterCountryUtility) setToUnitedStatesDefaults(
+	formatterCountry *FormatterCountry,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtCntryUtil.lock == nil {
-		nStrFmtCntryUtil.lock = new(sync.Mutex)
+	if fmtCountryUtil.lock == nil {
+		fmtCountryUtil.lock = new(sync.Mutex)
 	}
 
-	nStrFmtCntryUtil.lock.Lock()
+	fmtCountryUtil.lock.Lock()
 
-	defer nStrFmtCntryUtil.lock.Unlock()
+	defer fmtCountryUtil.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"numStrFmtSpecCountryDtoUtility." +
+		"formatterCountryUtility." +
 			"setToUnitedStatesDefaults()")
 
-	if nStrCountryDto == nil {
+	if formatterCountry == nil {
 		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrCountryDto' is invalid!\n"+
-			"'nStrCountryDto' is a 'nil' pointer!\n",
+			"Error: Input parameter 'formatterCountry' is invalid!\n"+
+			"'formatterCountry' is a 'nil' pointer!\n",
 			ePrefix.String())
 	}
 
-	nStrFmtSpecCntryMech :=
-		numStrFmtSpecCountryDtoMechanics{}
-
-	return nStrFmtSpecCntryMech.setWithComponents(
-		nStrCountryDto,
-		840,
-		"840",
-		"Country Setup - United States",
-		"",
-		"United States",
-		"USA",
-		[]string{
-			"The United States of America",
-			"United States of America",
-			"America"},
-		"US",
-		"USA",
-		"840",
-		ePrefix)
+	return formatterCountryMechanics{}.ptr().
+		setWithComponents(
+			formatterCountry,
+			840,
+			"840",
+			"Country Setup - United States",
+			"",
+			"United States",
+			"USA",
+			[]string{
+				"The United States of America",
+				"United States of America",
+				"America"},
+			"US",
+			"USA",
+			"840",
+			ePrefix)
 }

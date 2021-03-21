@@ -13,7 +13,7 @@ type NumStrFmtSpecDto struct {
 	idString       string
 	description    string
 	tag            string
-	countryCulture NumStrFmtSpecCountryDto
+	countryCulture FormatterCountry
 	absoluteValue  FormatterAbsoluteValue
 	currencyValue  FormatterCurrency
 	signedNumValue FormatterSignedNumber
@@ -188,17 +188,17 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetAbsoluteValueSpec() FormatterAbsoluteValu
 }
 
 // GetCountryCulture - Returns a deep copy of the member variable
-// 'countryCulture', of type NumStrFmtSpecCountryDto.
+// 'countryCulture', of type FormatterCountry.
 //
 // IMPORTANT
 //
 // No validity tests are performed on the current NumStrFmtSpecDto
-// instance before returning the NumStrFmtSpecCountryDto object. To
+// instance before returning the FormatterCountry object. To
 // validate the current NumStrFmtSpecDto instance reference methods
 // NumStrFmtSpecDto.IsValidInstance() and
 // NumStrFmtSpecDto.IsValidInstanceError().
 //
-func (fmtSpecDto *NumStrFmtSpecDto) GetCountryCulture() NumStrFmtSpecCountryDto {
+func (fmtSpecDto *NumStrFmtSpecDto) GetCountryCulture() FormatterCountry {
 
 	if fmtSpecDto.lock == nil {
 		fmtSpecDto.lock = new(sync.Mutex)
@@ -432,7 +432,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencyNumericSeparators(
 // IMPORTANT
 //
 // No validity tests are performed on the current NumStrFmtSpecDto
-// instance before returning the NumStrFmtSpecCountryDto object. To
+// instance before returning the FormatterCountry object. To
 // validate the current NumStrFmtSpecDto instance reference methods
 // NumStrFmtSpecDto.IsValidInstance() and
 // NumStrFmtSpecDto.IsValidInstanceError().
@@ -1182,8 +1182,8 @@ func (fmtSpecDto NumStrFmtSpecDto) NewCustomFmtSpec(
 //       object.
 //
 //
-//  countryCulture                NumStrFmtSpecCountryDto
-//     - A valid and fully populated NumStrFmtSpecCountryDto
+//  countryCulture                FormatterCountry
+//     - A valid and fully populated FormatterCountry
 //       object. This object contains information on the country
 //       or culture related to this number string format.
 //
@@ -1219,7 +1219,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewCustomFmtSpec(
 //
 //
 //  sciNotation                   NumStrFmtSpecSciNotationDto
-//     - A valid and fully populated NumStrFmtSpecCountryDto
+//     - A valid and fully populated FormatterCountry
 //       object. This object contains formatting specifications
 //       controlling the text display of scientific notation.
 //
@@ -1261,7 +1261,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromComponents(
 	idString string,
 	description string,
 	tag string,
-	countryCulture NumStrFmtSpecCountryDto,
+	countryCulture FormatterCountry,
 	absoluteValue FormatterAbsoluteValue,
 	currencyValue FormatterCurrency,
 	signedNumValue FormatterSignedNumber,
@@ -1589,8 +1589,8 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 //       object.
 //
 //
-//  countryCulture                NumStrFmtSpecCountryDto
-//     - A valid and fully populated NumStrFmtSpecCountryDto
+//  countryCulture                FormatterCountry
+//     - A valid and fully populated FormatterCountry
 //       object. This object contains information on the country
 //       or culture related to this number string format.
 //
@@ -1626,7 +1626,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 //
 //
 //  sciNotation                   NumStrFmtSpecSciNotationDto
-//     - A valid and fully populated NumStrFmtSpecCountryDto
+//     - A valid and fully populated FormatterCountry
 //       object. This object contains formatting specifications
 //       controlling the text display of scientific notation.
 //
@@ -1663,7 +1663,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetNumStrFmtSpecDto(
 	idString string,
 	description string,
 	tag string,
-	countryCulture NumStrFmtSpecCountryDto,
+	countryCulture FormatterCountry,
 	absoluteValue FormatterAbsoluteValue,
 	currencyValue FormatterCurrency,
 	signedNumValue FormatterSignedNumber,

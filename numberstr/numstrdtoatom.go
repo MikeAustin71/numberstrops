@@ -1896,7 +1896,7 @@ func (nStrDtoAtom *numStrDtoAtom) formatThousandsStr(
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber

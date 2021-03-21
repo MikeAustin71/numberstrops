@@ -6134,7 +6134,7 @@ func (nDto *NumStrDto) SetDecimalSeparator(decimalSeparator rune) {
 //         idString       string
 //         description    string
 //         tag            string
-//         countryCulture NumStrFmtSpecCountryDto
+//         countryCulture FormatterCountry
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber

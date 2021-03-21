@@ -245,8 +245,8 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 //       object.
 //
 //
-//  countryCulture                NumStrFmtSpecCountryDto
-//     - A valid and fully populated NumStrFmtSpecCountryDto
+//  countryCulture                FormatterCountry
+//     - A valid and fully populated FormatterCountry
 //       object. This object contains information on the country
 //       or culture related to this number string format.
 //
@@ -282,7 +282,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 //
 //
 //  sciNotation                   NumStrFmtSpecSciNotationDto
-//     - A valid and fully populated NumStrFmtSpecCountryDto
+//     - A valid and fully populated FormatterCountry
 //       object. This object contains formatting specifications
 //       controlling the text display of scientific notation.
 //
@@ -320,7 +320,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
 	idString string,
 	description string,
 	tag string,
-	countryCulture NumStrFmtSpecCountryDto,
+	countryCulture FormatterCountry,
 	absoluteValue FormatterAbsoluteValue,
 	currencyValue FormatterCurrency,
 	signedNumValue FormatterSignedNumber,
