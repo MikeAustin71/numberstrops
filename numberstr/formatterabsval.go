@@ -1086,6 +1086,10 @@ func (fmtAbsVal FormatterAbsoluteValue) NewBasic(
 // formatting parameters necessary to format absolute numeric
 // values for display in text number strings.
 //
+// The member variable 'FormatterAbsoluteValue.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).AbsoluteValue()
+//
 //
 // ----------------------------------------------------------------
 //
@@ -1303,6 +1307,10 @@ func (fmtAbsVal FormatterAbsoluteValue) NewBasicRunes(
 //           Turn On Thousands Separator: true
 //  United States Absolute Value Example: 2,354.92846
 //
+// The member variable 'FormatterAbsoluteValue.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).AbsoluteValue()
+//
 //
 // ----------------------------------------------------------------
 //
@@ -1356,6 +1364,10 @@ func (fmtAbsVal FormatterAbsoluteValue) NewUnitedStatesDefaults() FormatterAbsol
 // For a 'New' method using minimum input parameters coupled
 // with default values, see:
 //      FormatterAbsoluteValue.NewBasicRunes()
+//
+// The member variable 'FormatterAbsoluteValue.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).AbsoluteValue()
 //
 //
 // ----------------------------------------------------------------
@@ -1746,6 +1758,10 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetAbsoluteValueFormat(
 //
 //        Example: '1,000,000,000'
 //
+// The member variable 'FormatterAbsoluteValue.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).AbsoluteValue()
+//
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
 // current FormatterAbsoluteValue instance.
@@ -1973,6 +1989,10 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetBasic(
 // thousands.
 //
 //        Example: '1,000,000,000'
+//
+// The member variable 'FormatterAbsoluteValue.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).AbsoluteValue()
 //
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
@@ -2378,6 +2398,10 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetNumStrFormatTypeCode() {
 //   Thousands Separator Character: ','
 //     Turn On Thousands Separator: true
 //
+// The member variable 'FormatterAbsoluteValue.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).AbsoluteValue()
+//
 // IMPORTANT
 //
 // This method will overwrite all pre-existing data values in the
@@ -2596,6 +2620,10 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetTurnOnIntegerDigitsSeparationFlag(
 // The FormatterAbsoluteValue type encapsulates the
 // configuration parameters necessary to format absolute numeric
 // values for display in text number strings.
+//
+// The member variable 'FormatterAbsoluteValue.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).AbsoluteValue()
 //
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
