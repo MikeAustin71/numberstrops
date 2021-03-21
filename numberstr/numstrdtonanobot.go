@@ -51,7 +51,7 @@ type numStrDtoNanobot struct {
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //
@@ -274,7 +274,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) findNumStrSignificantDigitLimits(
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //
@@ -447,7 +447,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigFloat(
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //
@@ -727,7 +727,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newBigInt(
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //
@@ -889,7 +889,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newFloat64(
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //
@@ -1051,7 +1051,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64(
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //
@@ -1248,7 +1248,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newInt64Exponent(
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //
@@ -1387,7 +1387,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newNumStr(
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //
@@ -1534,7 +1534,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newRational(
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //
@@ -1693,7 +1693,7 @@ func (nStrDtoNanobot *numStrDtoNanobot) newUint64(
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //
@@ -1915,7 +1915,7 @@ func (nStrDtoNanobot numStrDtoNanobot) ptr() *numStrDtoNanobot {
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //

@@ -840,6 +840,8 @@ func (fmtCountry *FormatterCountry) SetIdString(
 // formatters, the Number String Format Type Code is set to
 // NumStrFormatTypeCode(0).CountryCulture().
 //
+// This method is required by interface INumStrFormatter.
+//
 func (fmtCountry *FormatterCountry) SetNumStrFormatTypeCode() {
 
 	if fmtCountry.lock == nil {

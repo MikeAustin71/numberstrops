@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-// NumStrFmtSpecSciNotationDto - Number String Format Specification
+// FormatterSciNotation - Number String Format Specification
 // for Scientific Notation. This type contains data fields and
 // methods used in formatting number strings as scientific
 // notation.
@@ -18,8 +18,8 @@ import (
 // the following form:
 //      2.652E+8
 //
-// The components which comprise this number format are
-// detailed below:
+// For background and general information, elements of a scientific
+// notation numeric value are described below:
 //
 //  Significand
 //    significand = '2.652'
@@ -27,34 +27,140 @@ import (
 //      Integer digit is between 1 - 9, including 1 and 9.
 //
 //      significand uses leading plus sign
-//         Positive significand integer digits may have a
-//         leading plus sign, '+2.652E+8'. The default is
-//         no leading plus sign, '2.652E+8'
+//         - Positive significand integer digits may have a
+//           leading plus sign, '+2.652E+8'. The default is
+//           no leading plus sign, '2.652E+8'
+//
+//         - Negative values always contain significand integer
+//           digits with a leading minus sign, '-2.652E+8'
 //
 //  Mantissa
 //      mantissa = significand factional digits = '.652'
-//      mantissaLength = length of fractional digits displayed in scientific notation.
+//      mantissaLength = The number of fractional digits displayed in scientific notation.
 //
-//  Exponent
+//  Exponent Character
 //      Exponent character or exponentChar = 'E'
-//          The character 'E' is used as the default to avoid confusion
-//          with Euler's number 'e'.  However the character 'e' is
-//          often used and may therefore be specified by the user.
+//          The character 'E' is used as the default to avoid
+//          confusion with Euler's number 'e'.  However the
+//          character lower case 'e' is often used and may
+//          therefore be specified by the user.
 //             Examples: 2.652E+8 or 2.652e+8
 //
 //      exponent = '8'  (10^8) 2.652E+8
 //        '+' exponent leading plus sign = exponentUsesLeadingPlus== true
 //        The exponent is often displayed without a leading plus sign.
 //             Example: 2.652E+8
+//        Of course, depending on the value, the exponent may have a leading
+//        minus sign.
 //
-//  Number Field Length
-//      number field  length = Length of string in which
-//        scientific notation is right justified.
-//        Example: Number Field Length = 9
-//  -------------------------------------- 123456789
-//        Formatted Scientific Notation = " 2.652E+8"
 //
-type NumStrFmtSpecSciNotationDto struct {
+// Data Fields
+//
+//  numStrFmtType                 NumStrFormatTypeCode
+//     - An enumeration value automatically set to:
+//           NumStrFormatTypeCode(0).AbsoluteValue()
+//
+//
+//  significandUsesLeadingPlus    bool
+//     - "Significand uses leading plus sign". This refers to the
+//       integer digit in a significand.
+//
+//       Positive significand integer digits may have a leading
+//       plus sign, '+2.652E+8'. The default is no leading plus
+//       sign, '2.652E+8'.
+//
+//       If this value is set to true, positive significand integer
+//       digit values will be prefixed with a leading plus sign
+//       ('+').
+//               Example: '+2.652E+8'
+//
+//       If this value is set to true, positive significand integer
+//       digit values will NOT be prefixed with a leading plus sign
+//       ('+').
+//               Example: '2.652E+8'
+//
+//
+//  mantissaLength                uint
+//     - This parameter sets the length of the mantissa used in the
+//       scientific notation format instructions.
+//
+//       In scientific notation, the term 'mantissa' refers to the
+//       fractional digits contained in the significand. In the
+//       scientific notation example, '2.652E+8', the 'mantissa'
+//       identifies the fractional digits, '.652'.
+//
+//       The input parameter, 'mantissaLength' controls the number
+//       of fractional digits displayed in the mantissa.
+//
+//
+//  exponentChar                  rune
+//     - This parameter specifies the exponent character to be used
+//       int the scientific notation format instructions.
+//
+//       In scientific notation example, '2.652E+8', the exponent
+//       character is 'E'.  The character 'E' is used as the
+//       default to avoid confusion with Euler's number 'e'.
+//       However the character 'e' is often used in scientific
+//       notation and may therefore be specified by the user.
+//
+//
+//  exponentUsesLeadingPlus       bool
+//     - This parameter signals whether a leading plus will be
+//       included for positive exponent value in scientific
+//       notation displays.
+//
+//       In scientific notation example, '2.652E8', the exponent
+//       value is '8'.
+//
+//       If input parameter 'exponentUsesLeadingPlus' is set to
+//       'true', the scientific notation text display will prefix
+//       a leading plus sign ('+') for positive exponent values.
+//             Example: '2.652E+8'
+//
+//       If input parameter 'exponentUsesLeadingPlus' is set to
+//       'false', the scientific notation text display will NOT
+//       include a leading plus sign ('+') for positive exponent
+//       values.
+//             Example: '2.652E8'
+//
+//
+//  numFieldLenDto                NumberFieldDto
+//     - The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string, or scientific
+//       notation string, which will be inserted and displayed within
+//       the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
+//
+type FormatterSciNotation struct {
+	numStrFmtType              NumStrFormatTypeCode
 	significandUsesLeadingPlus bool
 	mantissaLength             uint
 	exponentChar               rune
@@ -64,33 +170,36 @@ type NumStrFmtSpecSciNotationDto struct {
 }
 
 // CopyIn - Copies the data fields from an incoming instance
-// of NumStrFmtSpecSciNotationDto ('incomingSciNotDto') to the
-// current NumStrFmtSpecSciNotationDto instance.
+// of FormatterSciNotation ('incomingFmtSciNotation') to the
+// current FormatterSciNotation instance.
 //
-// The NumStrFmtSpecSciNotationDto type encapsulates the Scientific
+// The FormatterSciNotation type encapsulates the Scientific
 // Notation format specification used to format number strings for
 // text displays.
 //
 // When this method completes processing current instance of
-// NumStrFmtSpecSciNotationDto and the 'incomingSciNotDto' will
+// FormatterSciNotation and the 'incomingFmtSciNotation' will
 // have identical data values.
 //
 // This method will overwrite the member variable data values of
-// the current NumStrFmtSpecSciNotationDto instance.
+// the current FormatterSciNotation instance.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Input Parameters
 //
-//  incomingSciNotDto        *NumStrFmtSpecSciNotationDto
-//     - A pointer to an instance of NumStrFmtSpecSciNotationDto.
+//  incomingFmtSciNotation        *FormatterSciNotation
+//     - A pointer to an instance of FormatterSciNotation.
 //       The member variable data fields from this instance will be
 //       copied to those contained in the current instance of
-//       NumStrFmtSpecSciNotationDto.
+//       FormatterSciNotation.
+//
+//       If parameter 'incomingFmtSciNotation' is judged to be
+//       invalid, this method will return an error.
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -114,36 +223,37 @@ type NumStrFmtSpecSciNotationDto struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyIn(
-	incomingSciNotDto *NumStrFmtSpecSciNotationDto,
+func (fmtSciNotation *FormatterSciNotation) CopyIn(
+	incomingFmtSciNotation *FormatterSciNotation,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.CopyIn()")
+		"FormatterSciNotation.CopyIn()")
 
-	nStrFmtSpecSciNotDtoElectron :=
-		numStrFmtSpecSciNotationDtoElectron{}
-
-	return nStrFmtSpecSciNotDtoElectron.copyIn(
-		nStrFmtSpecSciNotDto,
-		incomingSciNotDto,
-		ePrefix.XCtx("incomingSciNotDto->nStrFmtSpecSciNotDto"))
+	return formatterSciNotationElectron{}.ptr().
+		copyIn(
+			fmtSciNotation,
+			incomingFmtSciNotation,
+			ePrefix.XCtx("incomingFmtSciNotation->fmtSciNotation"))
 }
 
 // CopyOut - Returns a deep copy of the current instance of
-// NumStrFmtSpecSciNotationDto.
+// FormatterSciNotation.
+//
+// If the current FormatterSciNotation instance is judged to be
+// invalid, this method will return an error.
 //
 //
 // ------------------------------------------------------------------------
@@ -163,12 +273,12 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyIn(
 //
 // Return Values
 //
-//  NumStrFmtSpecSciNotationDto
-//     - A new instance of NumStrFmtSpecSciNotationDto containing
+//  FormatterSciNotation
+//     - A new instance of FormatterSciNotation containing
 //       data values identical to those contained in the current
-//       NumStrFmtSpecSciNotationDto instance. This returned
-//       instance of NumStrFmtSpecSciNotationDto represents a deep
-//       copy of the current NumStrFmtSpecSciNotationDto instance.
+//       FormatterSciNotation instance. This returned
+//       instance of FormatterSciNotation represents a deep
+//       copy of the current FormatterSciNotation instance.
 //
 //
 //  error
@@ -182,36 +292,78 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyIn(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyOut(
+func (fmtSciNotation *FormatterSciNotation) CopyOut(
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecSciNotationDto,
+	FormatterSciNotation,
 	error) {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.CopyOut()")
+		"FormatterSciNotation.CopyOut()")
 
-	nStrFmtSpecSciNotDtoElectron :=
-		numStrFmtSpecSciNotationDtoElectron{}
+	return formatterSciNotationElectron{}.ptr().copyOut(
+		fmtSciNotation,
+		ePrefix.XCtx("fmtSciNotation->"))
+}
 
-	return nStrFmtSpecSciNotDtoElectron.copyOut(
-		nStrFmtSpecSciNotDto,
-		ePrefix.XCtx("nStrFmtSpecSciNotDto->"))
+// Empty - Deletes and resets the data values of all member
+// variables within the current FormatterSciNotation instance to
+// their initial 'zero' values.
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtSciNotation *FormatterSciNotation) Empty() {
+
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
+	}
+
+	fmtSciNotation.lock.Lock()
+
+	_ = formatterSciNotationQuark{}.ptr().
+		empty(fmtSciNotation,
+			nil)
+
+	fmtSciNotation.lock.Unlock()
+
+	fmtSciNotation.lock = nil
+
+	return
+}
+
+// GetNumStrFormatTypeCode - Returns the Number String Format Type
+// Code. The Number String Format Type Code for
+// FormatterSciNotation objects is
+//NumStrFormatTypeCode(0).ScientificNotation().
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtSciNotation *FormatterSciNotation) GetNumStrFormatTypeCode() NumStrFormatTypeCode {
+
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
+	}
+
+	fmtSciNotation.lock.Lock()
+
+	defer fmtSciNotation.lock.Unlock()
+
+	return fmtSciNotation.numStrFmtType
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
-// NumStrFmtSpecSciNotationDto instance to determine whether
+// FormatterSciNotation instance to determine whether
 // the current instance is valid in all respects.
 //
 //
@@ -228,35 +380,32 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) CopyOut(
 //
 //  isValid             bool
 //     - This returned boolean value will signal whether the current
-//       NumStrFmtSpecSciNotationDto is valid, or not. If the
-//       current NumStrFmtSpecSciNotationDto contains valid data,
+//       FormatterSciNotation is valid, or not. If the
+//       current FormatterSciNotation contains valid data,
 //       this method returns 'true'. If the data is invalid, this
 //       method will return 'false'.
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstance() (isValid bool) {
+func (fmtSciNotation *FormatterSciNotation) IsValidInstance() (isValid bool) {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
-
-	nStrFmtSpecSciNotQuark :=
-		numStrFmtSpecSciNotationDtoQuark{}
+	defer fmtSciNotation.lock.Unlock()
 
 	isValid,
-		_ = nStrFmtSpecSciNotQuark.
-		testValidityOfNumStrFmtSpecSciNotationDto(
-			nStrFmtSpecSciNotDto,
+		_ = formatterSciNotationQuark{}.ptr().
+		testValidityOfFormatterSciNotation(
+			fmtSciNotation,
 			new(ErrPrefixDto))
 
 	return isValid
 }
 
 // IsValidInstanceError - Performs a diagnostic review of the current
-// NumStrFmtSpecSciNotationDto instance to determine whether the
+// FormatterSciNotation instance to determine whether the
 // current instance is valid in all respects.
 //
 //
@@ -288,16 +437,16 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstance() (isVa
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstanceError(
+func (fmtSciNotation *FormatterSciNotation) IsValidInstanceError(
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -305,23 +454,20 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstanceError(
 
 	ePrefix.SetEPref(
 		"" +
-			"NumStrFmtSpecSciNotationDto." +
+			"FormatterSciNotation." +
 			"IsValidInstanceError()")
 
-	nStrFmtSpecSciNotQuark :=
-		numStrFmtSpecSciNotationDtoQuark{}
-
 	_,
-		err := nStrFmtSpecSciNotQuark.
-		testValidityOfNumStrFmtSpecSciNotationDto(
-			nStrFmtSpecSciNotDto,
-			ePrefix.XCtx("Testing validity of nStrFmtSpecSciNotDto"))
+		err := formatterSciNotationQuark{}.ptr().
+		testValidityOfFormatterSciNotation(
+			fmtSciNotation,
+			ePrefix.XCtx("Testing validity of fmtSciNotation"))
 
 	return err
 }
 
 // NewWithComponents - Creates and returns a new instance of
-// NumStrFmtSpecSciNotationDto.
+// FormatterSciNotation.
 //
 // Scientific Notation Format Specification objects encapsulate the
 // format specifications used in formatting scientific notation
@@ -447,9 +593,9 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstanceError(
 //
 // Return Values
 //
-//  NumStrFmtSpecSciNotationDto
+//  FormatterSciNotation
 //     - If this method completes successfully, this parameter will
-//       return a new, populated instance of NumStrFmtSpecSciNotationDto.
+//       return a new, populated instance of FormatterSciNotation.
 //
 //
 //  error
@@ -463,23 +609,23 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) IsValidInstanceError(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithComponents(
+func (fmtSciNotation FormatterSciNotation) NewWithComponents(
 	significandUsesLeadingPlus bool,
 	mantissaLength uint,
 	exponentChar rune,
 	exponentUsesLeadingPlus bool,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecSciNotationDto,
+	FormatterSciNotation,
 	error) {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -487,15 +633,12 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithComponents(
 
 	ePrefix.SetEPref(
 
-		"NumStrFmtSpecSciNotationDto." +
+		"FormatterSciNotation." +
 			"NewWithComponents()")
 
-	newNStrFmtSpecSciNotationDto := NumStrFmtSpecSciNotationDto{}
+	newNStrFmtSpecSciNotationDto := FormatterSciNotation{}
 
-	nStrFmtSpecSciNotDtoMech :=
-		numStrFmtSpecSciNotationDtoMechanics{}
-
-	err := nStrFmtSpecSciNotDtoMech.setSciNotationDto(
+	err := formatterSciNotationMechanics{}.ptr().setFmtSciNotWithComponents(
 		&newNStrFmtSpecSciNotationDto,
 		significandUsesLeadingPlus,
 		mantissaLength,
@@ -509,7 +652,7 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithComponents(
 }
 
 // NewWithDefaults - Creates and returns a new instance of
-// NumStrFmtSpecSciNotationDto.
+// FormatterSciNotation.
 //
 // Scientific Notation Format Specification objects encapsulate the
 // format specifications used in formatting scientific notation
@@ -641,9 +784,9 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithComponents(
 //
 // Return Values
 //
-//  NumStrFmtSpecSciNotationDto
+//  FormatterSciNotation
 //     - If this method completes successfully, this parameter will
-//       return a new, populated instance of NumStrFmtSpecSciNotationDto.
+//       return a new, populated instance of FormatterSciNotation.
 //
 //  error
 //     - If this method completes successfully, the returned error
@@ -656,7 +799,7 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithDefaults(
+func (fmtSciNotation FormatterSciNotation) NewWithDefaults(
 	significandUsesLeadingPlus bool,
 	mantissaLength uint,
 	exponentChar rune,
@@ -664,31 +807,28 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithDefaults(
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecSciNotationDto,
+	FormatterSciNotation,
 	error) {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.NewBasic()")
+		"FormatterSciNotation.NewBasic()")
 
 	newNStrFmtSpecSciNotationDto :=
-		NumStrFmtSpecSciNotationDto{}
+		FormatterSciNotation{}
 
-	nStrFmtSpecSciNotDtoUtil :=
-		numStrFmtSpecSciNotationDtoUtility{}
-
-	err := nStrFmtSpecSciNotDtoUtil.setSciNotationDtoWithDefaults(
+	err := formatterSciNotationUtility{}.ptr().setSciNotWithDefaults(
 		&newNStrFmtSpecSciNotationDto,
 		significandUsesLeadingPlus,
 		mantissaLength,
@@ -699,153 +839,6 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithDefaults(
 		ePrefix)
 
 	return newNStrFmtSpecSciNotationDto, err
-}
-
-// NewWithFmtSpecSetupDto - Creates and returns a new
-// NumStrFmtSpecSciNotationDto instance based on input received
-// from an instance of NumStrFmtSpecSetupDto.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
-//     - A data structure conveying setup information for a
-//       NumStrFmtSpecSciNotationDto object. Only the following
-//       data fields with a prefix of "SciNot" are used.
-//
-//       type NumStrFmtSpecSetupDto struct {
-//         IdNo                                      uint64
-//         IdString                                  string
-//         Description                               string
-//         Tag                                       string
-//         CountryIdNo                               uint64
-//         CountryIdString                           string
-//         CountryDescription                        string
-//         CountryTag                                string
-//         CountryCultureName                        string
-//         CountryAbbreviatedName                    string
-//         CountryAlternateNames                     []string
-//         CountryCodeTwoChar                        string
-//         CountryCodeThreeChar                      string
-//         CountryCodeNumber                         string
-//         AbsoluteValFmt                            string
-//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumSeps                        NumericSeparators
-//         AbsoluteValNumField                       NumberFieldDto
-//         CurrencyPositiveValueFmt                  string
-//         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     uint
-//         CurrencyCode                              string
-//         CurrencyCodeNo                            string
-//         CurrencyName                              string
-//         CurrencySymbols                           []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []rune
-//         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumSeps                           NumericSeparators
-//         CurrencyNumField                          NumberFieldDto
-//         SignedNumValPositiveValueFmt              string
-//         SignedNumValNegativeValueFmt              string
-//         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumSeps                       NumericSeparators
-//         SignedNumValNumField                      NumberFieldDto
-//         SciNotSignificandUsesLeadingPlus          bool
-//         SciNotMantissaLength                      uint
-//         SciNotExponentChar                        rune
-//         SciNotExponentUsesLeadingPlus             bool
-//         SciNotNumFieldLen                         int
-//         SciNotNumFieldTextJustify                 TextJustify
-//         Lock                                      *sync.Mutex
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  NumStrFmtSpecSciNotationDto
-//     - If this method completes successfully, this parameter will
-//       return a new, populated instance of NumStrFmtSpecSciNotationDto.
-//
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithFmtSpecSetupDto(
-	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix *ErrPrefixDto) (
-	NumStrFmtSpecSciNotationDto,
-	error) {
-
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecSciNotDto.lock.Lock()
-
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-
-		"NumStrFmtSpecSciNotationDto." +
-			"NewWithFmtSpecSetupDto()")
-
-	newNStrFmtSpecSciNotDto := NumStrFmtSpecSciNotationDto{}
-
-	if fmtSpecSetupDto == nil {
-		return newNStrFmtSpecSciNotDto,
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
-				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-				ePrefix.String())
-	}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	fmtSpecSetupDto.Lock.Lock()
-
-	defer fmtSpecSetupDto.Lock.Unlock()
-
-	nStrFmtSpecSciNotDtoUtil :=
-		numStrFmtSpecSciNotationDtoUtility{}
-
-	err := nStrFmtSpecSciNotDtoUtil.
-		setSciNotationDtoWithDefaults(
-			&newNStrFmtSpecSciNotDto,
-			fmtSpecSetupDto.SciNotSignificandUsesLeadingPlus,
-			fmtSpecSetupDto.SciNotMantissaLength,
-			fmtSpecSetupDto.SciNotExponentChar,
-			fmtSpecSetupDto.SciNotExponentUsesLeadingPlus,
-			fmtSpecSetupDto.SciNotNumFieldLen,
-			fmtSpecSetupDto.SciNotNumFieldTextJustify,
-			ePrefix)
-
-	return newNStrFmtSpecSciNotDto, err
 }
 
 // SetExponentChar - Sets the exponent character which will be
@@ -892,18 +885,18 @@ func (nStrFmtSpecSciNotDto NumStrFmtSpecSciNotationDto) NewWithFmtSpecSetupDto(
 //
 //  --- NONE ---
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetExponentChar(
+func (fmtSciNotation *FormatterSciNotation) SetExponentChar(
 	exponentChar rune) {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
-	nStrFmtSpecSciNotDto.exponentChar = exponentChar
+	fmtSciNotation.exponentChar = exponentChar
 }
 
 // SetExponentUsesLeadingPlus - Sets the boolean flag which
@@ -959,18 +952,18 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetExponentChar(
 //
 //  --- NONE ---
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetExponentUsesLeadingPlus(
+func (fmtSciNotation *FormatterSciNotation) SetExponentUsesLeadingPlus(
 	exponentUsesLeadingPlusSign bool) {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
-	nStrFmtSpecSciNotDto.exponentUsesLeadingPlus = exponentUsesLeadingPlusSign
+	fmtSciNotation.exponentUsesLeadingPlus = exponentUsesLeadingPlusSign
 }
 
 // SetMantissaLength - Sets the mantissa length used in
@@ -1001,22 +994,22 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetExponentUsesLeadingP
 //
 //  --- NONE ---
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetMantissaLength(
+func (fmtSciNotation *FormatterSciNotation) SetMantissaLength(
 	mantissaLength uint) {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
-	nStrFmtSpecSciNotDto.mantissaLength = mantissaLength
+	fmtSciNotation.mantissaLength = mantissaLength
 }
 
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object
-// for the current NumStrFmtSpecSciNotationDto instance.
+// for the current FormatterSciNotation instance.
 //
 // The Number Separators Dto object is used to specify the Decimal
 // Separators Character and the Integer Digits Separator Characters.
@@ -1061,28 +1054,50 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetMantissaLength(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetNumberFieldLengthDto(
+func (fmtSciNotation *FormatterSciNotation) SetNumberFieldLengthDto(
 	numberFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.SetNumberFieldLengthDto()")
+		"FormatterSciNotation.SetNumberFieldLengthDto()")
 
-	return nStrFmtSpecSciNotDto.numFieldLenDto.CopyIn(
+	return fmtSciNotation.numFieldLenDto.CopyIn(
 		&numberFieldLenDto,
-		ePrefix.XCtx("nStrFmtSpecSciNotDto\n"))
+		ePrefix.XCtx("fmtSciNotation\n"))
+}
+
+// SetNumStrFormatTypeCode - Sets the Number String Format Type
+// coded for this FormatterSciNotation object. For Scientific
+// Notation formatters, the Number String Format Type Code is set
+// to NumStrFormatTypeCode(0).ScientificNotation().
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtSciNotation *FormatterSciNotation) SetNumStrFormatTypeCode() {
+
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
+	}
+
+	fmtSciNotation.lock.Lock()
+
+	defer fmtSciNotation.lock.Unlock()
+
+	fmtSciNotation.numStrFmtType =
+		NumStrFormatTypeCode(0).ScientificNotation()
+
 }
 
 // SetSignificandUsesLeadingPlus - Sets the boolean flag which
@@ -1139,22 +1154,22 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetNumberFieldLengthDto
 //
 //  --- NONE ---
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetSignificandUsesLeadingPlus(
+func (fmtSciNotation *FormatterSciNotation) SetSignificandUsesLeadingPlus(
 	significandUsesLeadingPlus bool) {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
-	nStrFmtSpecSciNotDto.significandUsesLeadingPlus = significandUsesLeadingPlus
+	fmtSciNotation.significandUsesLeadingPlus = significandUsesLeadingPlus
 }
 
 // SetToUnitedStatesDefaults - Sets the member variable data values
-// for this NumStrFmtSpecSciNotationDto instance to United
+// for this FormatterSciNotation instance to United
 // States default values.
 //
 // In the United States, Signed Number default formatting
@@ -1171,7 +1186,7 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetSignificandUsesLeadi
 // IMPORTANT
 //
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecSciNotationDto instance.
+// current FormatterSciNotation instance.
 //
 //
 // ----------------------------------------------------------------
@@ -1202,27 +1217,27 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetSignificandUsesLeadi
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetToUnitedStatesDefaults(
+func (fmtSciNotation *FormatterSciNotation) SetToUnitedStatesDefaults(
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto." +
+		"FormatterSciNotation." +
 			"SetToUnitedStatesDefaults()")
 
-	if nStrFmtSpecSciNotDto == nil {
+	if fmtSciNotation == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetSciNotDto' is invalid!\n"+
 			"'targetSciNotDto' is a 'nil' pointer.\n",
@@ -1231,23 +1246,21 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetToUnitedStatesDefaul
 		return err
 	}
 
-	nStrFmtSpecSciNotDtoUtil :=
-		numStrFmtSpecSciNotationDtoUtility{}
-
 	err =
-		nStrFmtSpecSciNotDtoUtil.setToUnitedStatesDefaults(
-			nStrFmtSpecSciNotDto,
-			ePrefix)
+		formatterSciNotationUtility{}.ptr().
+			setToUnitedStatesDefaults(
+				fmtSciNotation,
+				ePrefix)
 
 	return err
 }
 
 // SetToUnitedStatesDefaultsIfEmpty - If the current
-// NumStrFmtSpecSciNotationDto instance is empty or invalid,
+// FormatterSciNotation instance is empty or invalid,
 // this method will set the member variable data values to United
 // States default values.
 //
-// If the current NumStrFmtSpecSciNotationDto instance is valid
+// If the current FormatterSciNotation instance is valid
 // and NOT empty, this method will take no action and exit.
 //
 // In the United States, Signed Number default formatting
@@ -1264,7 +1277,7 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetToUnitedStatesDefaul
 // IMPORTANT
 //
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecSciNotationDto instance.
+// current FormatterSciNotation instance.
 //
 //
 // ----------------------------------------------------------------
@@ -1295,27 +1308,27 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetToUnitedStatesDefaul
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetToUnitedStatesDefaultsIfEmpty(
+func (fmtSciNotation *FormatterSciNotation) SetToUnitedStatesDefaultsIfEmpty(
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto." +
+		"FormatterSciNotation." +
 			"SetToUnitedStatesDefaults()")
 
-	if nStrFmtSpecSciNotDto == nil {
+	if fmtSciNotation == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetSciNotDto' is invalid!\n"+
 			"'targetSciNotDto' is a 'nil' pointer.\n",
@@ -1324,37 +1337,32 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetToUnitedStatesDefaul
 		return err
 	}
 
-	nStrFmtSpecSciNotQuark :=
-		numStrFmtSpecSciNotationDtoQuark{}
-
 	isValid,
-		_ := nStrFmtSpecSciNotQuark.
-		testValidityOfNumStrFmtSpecSciNotationDto(
-			nStrFmtSpecSciNotDto,
+		_ := formatterSciNotationQuark{}.ptr().
+		testValidityOfFormatterSciNotation(
+			fmtSciNotation,
 			new(ErrPrefixDto))
 
 	if isValid {
 		return err
 	}
 
-	nStrFmtSpecSciNotDtoUtil :=
-		numStrFmtSpecSciNotationDtoUtility{}
-
 	err =
-		nStrFmtSpecSciNotDtoUtil.setToUnitedStatesDefaults(
-			nStrFmtSpecSciNotDto,
-			ePrefix)
+		formatterSciNotationUtility{}.ptr().
+			setToUnitedStatesDefaults(
+				fmtSciNotation,
+				ePrefix)
 
 	return err
 }
 
 // SetWithComponents - This method will set all of the member
 // variable data values for the current instance of
-// NumStrFmtSpecSciNotationDto.
+// FormatterSciNotation.
 //
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
-// current NumStrFmtSpecSciNotationDto instance.
+// current FormatterSciNotation instance.
 //
 //
 // ----------------------------------------------------------------
@@ -1484,7 +1492,7 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetToUnitedStatesDefaul
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithComponents(
+func (fmtSciNotation *FormatterSciNotation) SetWithComponents(
 	significandUsesLeadingPlus bool,
 	mantissaLength uint,
 	exponentChar rune,
@@ -1492,13 +1500,13 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithComponents(
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
@@ -1506,27 +1514,25 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithComponents(
 
 	ePrefix.SetEPref(
 
-		"NumStrFmtSpecSciNotationDto." +
+		"FormatterSciNotation." +
 			"SetWithComponents()")
 
-	nStrFmtSpecSciNotDtoMech :=
-		numStrFmtSpecSciNotationDtoMechanics{}
-
-	return nStrFmtSpecSciNotDtoMech.setSciNotationDto(
-		nStrFmtSpecSciNotDto,
-		significandUsesLeadingPlus,
-		mantissaLength,
-		exponentChar,
-		exponentUsesLeadingPlus,
-		numFieldDto,
-		ePrefix.XCtx("nStrFmtSpecSciNotDto"))
+	return formatterSciNotationMechanics{}.ptr().
+		setFmtSciNotWithComponents(
+			fmtSciNotation,
+			significandUsesLeadingPlus,
+			mantissaLength,
+			exponentChar,
+			exponentUsesLeadingPlus,
+			numFieldDto,
+			ePrefix.XCtx("fmtSciNotation"))
 }
 
 // SetWithDefaults - This method will set all of the member
 // variable data values for the current instance of
-// NumStrFmtSpecSciNotationDto. The input parameters
+// FormatterSciNotation. The input parameters
 // represent the minimum information required to set the data
-// values for a NumStrFmtSpecSciNotationDto object.
+// values for a FormatterSciNotation object.
 //
 // This method automatically sets a default integer digits grouping
 // sequence of '3'. This means that integers will be grouped by
@@ -1667,7 +1673,7 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithComponents(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithDefaults(
+func (fmtSciNotation *FormatterSciNotation) SetWithDefaults(
 	significandUsesLeadingPlus bool,
 	mantissaLength uint,
 	exponentChar rune,
@@ -1676,166 +1682,29 @@ func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithDefaults(
 	numberFieldTextJustify TextJustify,
 	ePrefix *ErrPrefixDto) error {
 
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDto.lock.Lock()
+	fmtSciNotation.lock.Lock()
 
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
+	defer fmtSciNotation.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"NumStrFmtSpecSciNotationDto.SetBasicRunes()")
+		"FormatterSciNotation.SetWithDefaults()")
 
-	nStrFmtSpecSciNotDtoUtil :=
-		numStrFmtSpecSciNotationDtoUtility{}
-
-	return nStrFmtSpecSciNotDtoUtil.setSciNotationDtoWithDefaults(
-		nStrFmtSpecSciNotDto,
-		significandUsesLeadingPlus,
-		mantissaLength,
-		exponentChar,
-		exponentUsesLeadingPlus,
-		requestedNumberFieldLen,
-		numberFieldTextJustify,
-		ePrefix.XCtx("nStrFmtSpecSciNotDto"))
-}
-
-// SetWithFmtSpecSetupDto - Sets the data values for current
-// NumStrFmtSpecSciNotationDto instance based on input received
-// from an instance of NumStrFmtSpecSetupDto.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
-//     - A data structure conveying setup information for a
-//       NumStrFmtSpecSciNotationDto object. Only the following
-//       data fields with a prefix of "SciNot" are used.
-//
-//       type NumStrFmtSpecSetupDto struct {
-//         IdNo                                      uint64
-//         IdString                                  string
-//         Description                               string
-//         Tag                                       string
-//         CountryIdNo                               uint64
-//         CountryIdString                           string
-//         CountryDescription                        string
-//         CountryTag                                string
-//         CountryCultureName                        string
-//         CountryAbbreviatedName                    string
-//         CountryAlternateNames                     []string
-//         CountryCodeTwoChar                        string
-//         CountryCodeThreeChar                      string
-//         CountryCodeNumber                         string
-//         AbsoluteValFmt                            string
-//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumSeps                        NumericSeparators
-//         AbsoluteValNumField                       NumberFieldDto
-//         CurrencyPositiveValueFmt                  string
-//         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     uint
-//         CurrencyCode                              string
-//         CurrencyCodeNo                            string
-//         CurrencyName                              string
-//         CurrencySymbols                           []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []rune
-//         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumSeps                           NumericSeparators
-//         CurrencyNumField                          NumberFieldDto
-//         SignedNumValPositiveValueFmt              string
-//         SignedNumValNegativeValueFmt              string
-//         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumSeps                       NumericSeparators
-//         SignedNumValNumField                      NumberFieldDto
-//         SciNotSignificandUsesLeadingPlus          bool
-//         SciNotMantissaLength                      uint
-//         SciNotExponentChar                        rune
-//         SciNotExponentUsesLeadingPlus             bool
-//         SciNotNumFieldLen                         int
-//         SciNotNumFieldTextJustify                 TextJustify
-//         Lock                                      *sync.Mutex
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto) SetWithFmtSpecSetupDto(
-	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix *ErrPrefixDto) error {
-
-	if nStrFmtSpecSciNotDto.lock == nil {
-		nStrFmtSpecSciNotDto.lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecSciNotDto.lock.Lock()
-
-	defer nStrFmtSpecSciNotDto.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-
-		"NumStrFmtSpecSciNotationDto." +
-			"SetWithFmtSpecSetupDto()")
-
-	if fmtSpecSetupDto == nil {
-		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
-			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-			ePrefix.String())
-	}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	fmtSpecSetupDto.Lock.Lock()
-
-	defer fmtSpecSetupDto.Lock.Unlock()
-
-	nStrFmtSpecSciNotDtoUtil :=
-		numStrFmtSpecSciNotationDtoUtility{}
-
-	return nStrFmtSpecSciNotDtoUtil.
-		setSciNotationDtoWithDefaults(
-			nStrFmtSpecSciNotDto,
-			fmtSpecSetupDto.SciNotSignificandUsesLeadingPlus,
-			fmtSpecSetupDto.SciNotMantissaLength,
-			fmtSpecSetupDto.SciNotExponentChar,
-			fmtSpecSetupDto.SciNotExponentUsesLeadingPlus,
-			fmtSpecSetupDto.SciNotNumFieldLen,
-			fmtSpecSetupDto.SciNotNumFieldTextJustify,
-			ePrefix)
+	return formatterSciNotationUtility{}.ptr().
+		setSciNotWithDefaults(
+			fmtSciNotation,
+			significandUsesLeadingPlus,
+			mantissaLength,
+			exponentChar,
+			exponentUsesLeadingPlus,
+			requestedNumberFieldLen,
+			numberFieldTextJustify,
+			ePrefix.XCtx("fmtSciNotation"))
 }

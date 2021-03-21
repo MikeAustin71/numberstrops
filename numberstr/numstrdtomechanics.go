@@ -38,7 +38,7 @@ type numStrDtoMechanics struct {
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //

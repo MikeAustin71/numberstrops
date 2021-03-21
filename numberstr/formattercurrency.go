@@ -4590,6 +4590,8 @@ func (fmtCurr *FormatterCurrency) SetNumericSeparators(
 // formatters, the Number String Format Type Code is set to
 // NumStrFormatTypeCode(0).Currency().
 //
+// This method is required by interface INumStrFormatter.
+//
 func (fmtCurr *FormatterCurrency) SetNumStrFormatTypeCode() {
 
 	if fmtCurr.lock == nil {

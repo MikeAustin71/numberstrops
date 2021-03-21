@@ -56,7 +56,7 @@ func (nStrFmtSpecDtoUtil numStrFmtSpecDtoUtility) ptr() *numStrFmtSpecDtoUtility
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //

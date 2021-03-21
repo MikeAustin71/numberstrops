@@ -5,12 +5,33 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecSciNotationDtoMechanics struct {
+type formatterSciNotationMechanics struct {
 	lock *sync.Mutex
 }
 
-// setSciNotationDto - Transfers new data to an instance of
-// NumStrFmtSpecSciNotationDto. After completion, all the data
+// ptr - Returns a pointer to a new instance of
+// formatterSciNotationMechanics.
+//
+func (fmtSciNotationMech formatterSciNotationMechanics) ptr() *formatterSciNotationMechanics {
+
+	if fmtSciNotationMech.lock == nil {
+		fmtSciNotationMech.lock = new(sync.Mutex)
+	}
+
+	fmtSciNotationMech.lock.Lock()
+
+	defer fmtSciNotationMech.lock.Unlock()
+
+	newFmtSciNotMechanics :=
+		new(formatterSciNotationMechanics)
+
+	newFmtSciNotMechanics.lock = new(sync.Mutex)
+
+	return newFmtSciNotMechanics
+}
+
+// setFmtSciNotWithComponents - Transfers new data to an instance of
+// FormatterSciNotation. After completion, all the data
 // fields within input parameter 'nStrFmtSpecSciNotDto' will be
 // overwritten.
 //
@@ -23,8 +44,8 @@ type numStrFmtSpecSciNotationDtoMechanics struct {
 //
 // Input Parameters
 //
-//  nStrFmtSpecSciNotDto          *NumStrFmtSpecSciNotationDto
-//     - A pointer to a NumStrFmtSpecSciNotationDto object. All
+//  formatterSciNotation          *FormatterSciNotation
+//     - A pointer to a FormatterSciNotation object. All
 //       of the data fields in this object will overwritten and set
 //       to new values based on the following input parameters.
 //
@@ -92,7 +113,7 @@ type numStrFmtSpecSciNotationDtoMechanics struct {
 //             Example: '2.652E8'
 //
 //
-//  numFieldDto                NumberFieldDto
+//  numFieldDto                   NumberFieldDto
 //     - The NumberFieldDto object contains formatting instructions
 //       for the creation and implementation of a number field.
 //       Number fields are text strings which contain number strings
@@ -128,7 +149,7 @@ type numStrFmtSpecSciNotationDtoMechanics struct {
 //       }
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -152,8 +173,8 @@ type numStrFmtSpecSciNotationDtoMechanics struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDtoMech *numStrFmtSpecSciNotationDtoMechanics) setSciNotationDto(
-	nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto,
+func (fmtSciNotationMech *formatterSciNotationMechanics) setFmtSciNotWithComponents(
+	formatterSciNotation *FormatterSciNotation,
 	significandUsesLeadingPlus bool,
 	mantissaLength uint,
 	exponentChar rune,
@@ -162,22 +183,22 @@ func (nStrFmtSpecSciNotDtoMech *numStrFmtSpecSciNotationDtoMechanics) setSciNota
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecSciNotDtoMech.lock == nil {
-		nStrFmtSpecSciNotDtoMech.lock = new(sync.Mutex)
+	if fmtSciNotationMech.lock == nil {
+		fmtSciNotationMech.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDtoMech.lock.Lock()
+	fmtSciNotationMech.lock.Lock()
 
-	defer nStrFmtSpecSciNotDtoMech.lock.Unlock()
+	defer fmtSciNotationMech.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"numStrFmtSpecSciNotationDtoMechanics.setSciNotationDto()")
+		"formatterSciNotationMechanics.setFmtSciNotWithComponents()")
 
-	if nStrFmtSpecSciNotDto == nil {
+	if formatterSciNotation == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetSciNotDto' is invalid!\n"+
 			"'targetSciNotDto' is a 'nil' pointer.\n",
@@ -186,37 +207,37 @@ func (nStrFmtSpecSciNotDtoMech *numStrFmtSpecSciNotationDtoMechanics) setSciNota
 		return err
 	}
 
-	testNumStrFmtSpecSciNotDto := NumStrFmtSpecSciNotationDto{}
+	newFmtSciNotation := FormatterSciNotation{}
 
-	testNumStrFmtSpecSciNotDto.significandUsesLeadingPlus =
+	newFmtSciNotation.numStrFmtType =
+		NumStrFormatTypeCode(0).ScientificNotation()
+
+	newFmtSciNotation.significandUsesLeadingPlus =
 		significandUsesLeadingPlus
 
-	testNumStrFmtSpecSciNotDto.mantissaLength =
+	newFmtSciNotation.mantissaLength =
 		mantissaLength
 
-	testNumStrFmtSpecSciNotDto.exponentChar =
+	newFmtSciNotation.exponentChar =
 		exponentChar
 
-	testNumStrFmtSpecSciNotDto.exponentUsesLeadingPlus =
+	newFmtSciNotation.exponentUsesLeadingPlus =
 		exponentUsesLeadingPlus
 
-	err = testNumStrFmtSpecSciNotDto.numFieldLenDto.CopyIn(
+	err = newFmtSciNotation.numFieldLenDto.CopyIn(
 		&numFieldDto,
 		ePrefix.XCtx(
-			"numFieldDto->nStrFmtSpecSciNotDto.numFieldDto"))
+			"numFieldDto->formatterSciNotation.numFieldDto"))
 
 	if err != nil {
 		return err
 	}
 
-	nStrFmtSpecSciNotDtoElectron :=
-		numStrFmtSpecSciNotationDtoElectron{}
-
-	err = nStrFmtSpecSciNotDtoElectron.copyIn(
-		nStrFmtSpecSciNotDto,
-		&testNumStrFmtSpecSciNotDto,
+	err = formatterSciNotationElectron{}.ptr().copyIn(
+		formatterSciNotation,
+		&newFmtSciNotation,
 		ePrefix.XCtx(
-			"testNumStrFmtSpecSciNotDto->nStrFmtSpecSciNotDto"))
+			"newFmtSciNotation->formatterSciNotation"))
 
 	return err
 }

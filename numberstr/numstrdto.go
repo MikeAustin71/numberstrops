@@ -6138,7 +6138,7 @@ func (nDto *NumStrDto) SetDecimalSeparator(decimalSeparator rune) {
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //

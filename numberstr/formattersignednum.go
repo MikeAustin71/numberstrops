@@ -2911,6 +2911,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetNumberSeparatorsDto(
 // formatters, the Number String Format Type Code is set to
 // NumStrFormatTypeCode(0).SignedNumber().
 //
+// This method is required by interface INumStrFormatter.
+//
 func (fmtSignedNum *FormatterSignedNumber) SetNumStrFormatTypeCode() {
 
 	if fmtSignedNum.lock == nil {

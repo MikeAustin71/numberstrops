@@ -5,13 +5,34 @@ import (
 	"sync"
 )
 
-type numStrFmtSpecSciNotationDtoUtility struct {
+type formatterSciNotationUtility struct {
 	lock *sync.Mutex
 }
 
-// setSciNotationDtoWithDefaults - Transfers new data to an instance of
-// NumStrFmtSpecSciNotationDto. After completion, all the data
-// fields within input parameter 'nStrFmtSpecSciNotDto' will be
+// ptr - Returns a pointer to a new instance of
+// formatterSciNotationUtility.
+//
+func (fmtSciNotUtil formatterSciNotationUtility) ptr() *formatterSciNotationUtility {
+
+	if fmtSciNotUtil.lock == nil {
+		fmtSciNotUtil.lock = new(sync.Mutex)
+	}
+
+	fmtSciNotUtil.lock.Lock()
+
+	defer fmtSciNotUtil.lock.Unlock()
+
+	newFmtSciNotUtility :=
+		new(formatterSciNotationUtility)
+
+	newFmtSciNotUtility.lock = new(sync.Mutex)
+
+	return newFmtSciNotUtility
+}
+
+// setSciNotWithDefaults - Transfers new data to an instance of
+// FormatterSciNotation. After completion, all the data
+// fields within input parameter 'formatterSciNotation' will be
 // overwritten.
 //
 // Scientific Notation Format Specification objects encapsulate the
@@ -22,8 +43,8 @@ type numStrFmtSpecSciNotationDtoUtility struct {
 //
 // Input Parameters
 //
-//  nStrFmtSpecSciNotDto          *NumStrFmtSpecSciNotationDto
-//     - A pointer to a NumStrFmtSpecSciNotationDto object. All
+//  formatterSciNotation          *FormatterSciNotation
+//     - A pointer to a FormatterSciNotation object. All
 //       of the data fields in this object will overwritten and set
 //       to new values based on the following input parameters.
 //
@@ -128,7 +149,7 @@ type numStrFmtSpecSciNotationDtoUtility struct {
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -152,8 +173,8 @@ type numStrFmtSpecSciNotationDtoUtility struct {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotationDtoWithDefaults(
-	nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto,
+func (fmtSciNotUtil *formatterSciNotationUtility) setSciNotWithDefaults(
+	formatterSciNotation *FormatterSciNotation,
 	significandUsesLeadingPlus bool,
 	mantissaLength uint,
 	exponentChar rune,
@@ -163,22 +184,22 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecSciNotDtoUtil.lock == nil {
-		nStrFmtSpecSciNotDtoUtil.lock = new(sync.Mutex)
+	if fmtSciNotUtil.lock == nil {
+		fmtSciNotUtil.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDtoUtil.lock.Lock()
+	fmtSciNotUtil.lock.Lock()
 
-	defer nStrFmtSpecSciNotDtoUtil.lock.Unlock()
+	defer fmtSciNotUtil.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"numStrFmtSpecSciNotationDtoUtility.setSciNotationDtoWithDefaults()")
+		"formatterSciNotationUtility.setSciNotWithDefaults()")
 
-	if nStrFmtSpecSciNotDto == nil {
+	if formatterSciNotation == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetSciNotDto' is invalid!\n"+
 			"'targetSciNotDto' is a 'nil' pointer.\n",
@@ -199,23 +220,21 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 		return err
 	}
 
-	nStrFmtSpecSciNotDtoMech :=
-		numStrFmtSpecSciNotationDtoMechanics{}
-
-	err = nStrFmtSpecSciNotDtoMech.setSciNotationDto(
-		nStrFmtSpecSciNotDto,
-		significandUsesLeadingPlus,
-		mantissaLength,
-		exponentChar,
-		exponentUsesLeadingPlus,
-		numFieldDto,
-		ePrefix.XCtx("nStrFmtSpecSciNotDto"))
+	err = formatterSciNotationMechanics{}.ptr().
+		setFmtSciNotWithComponents(
+			formatterSciNotation,
+			significandUsesLeadingPlus,
+			mantissaLength,
+			exponentChar,
+			exponentUsesLeadingPlus,
+			numFieldDto,
+			ePrefix.XCtx("formatterSciNotation"))
 
 	return err
 }
 
 // setToUnitedStatesDefaults - Sets the member variable data
-// values for the incoming NumStrFmtSpecSciNotationDto instance
+// values for the incoming FormatterSciNotation instance
 // to United States Default values.
 //
 // In the United States, Scientific Notation default formatting
@@ -233,8 +252,8 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 //
 // Input Parameters
 //
-//  nStrFmtSpecSciNotDto          *NumStrFmtSpecSciNotationDto
-//     - A pointer to an instance of NumStrFmtSpecSciNotationDto.
+//  formatterSciNotation          *FormatterSciNotation
+//     - A pointer to an instance of FormatterSciNotation.
 //       All data values in this object will be overwritten and
 //       set to United States default values for scientific
 //       notation values displayed in number strings.
@@ -264,27 +283,28 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setSciNotati
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setToUnitedStatesDefaults(
-	nStrFmtSpecSciNotDto *NumStrFmtSpecSciNotationDto,
+func (fmtSciNotUtil *formatterSciNotationUtility) setToUnitedStatesDefaults(
+	formatterSciNotation *FormatterSciNotation,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
-	if nStrFmtSpecSciNotDtoUtil.lock == nil {
-		nStrFmtSpecSciNotDtoUtil.lock = new(sync.Mutex)
+	if fmtSciNotUtil.lock == nil {
+		fmtSciNotUtil.lock = new(sync.Mutex)
 	}
 
-	nStrFmtSpecSciNotDtoUtil.lock.Lock()
+	fmtSciNotUtil.lock.Lock()
 
-	defer nStrFmtSpecSciNotDtoUtil.lock.Unlock()
+	defer fmtSciNotUtil.lock.Unlock()
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
 	ePrefix.SetEPref(
-		"numStrFmtSpecSciNotationDtoUtility.setSciNotationDtoWithDefaults()")
+		"formatterSciNotationUtility." +
+			"setSciNotWithDefaults()")
 
-	if nStrFmtSpecSciNotDto == nil {
+	if formatterSciNotation == nil {
 		err = fmt.Errorf("%v\n"+
 			"Error: Input parameter 'targetSciNotDto' is invalid!\n"+
 			"'targetSciNotDto' is a 'nil' pointer.\n",
@@ -306,16 +326,16 @@ func (nStrFmtSpecSciNotDtoUtil *numStrFmtSpecSciNotationDtoUtility) setToUnitedS
 	}
 
 	nStrFmtSpecSciNotDtoMech :=
-		numStrFmtSpecSciNotationDtoMechanics{}
+		formatterSciNotationMechanics{}
 
-	err = nStrFmtSpecSciNotDtoMech.setSciNotationDto(
-		nStrFmtSpecSciNotDto,
+	err = nStrFmtSpecSciNotDtoMech.setFmtSciNotWithComponents(
+		formatterSciNotation,
 		false,
 		6,
 		'E',
 		true,
 		numFieldDto,
-		ePrefix.XCtx("nStrFmtSpecSciNotDto"))
+		ePrefix.XCtx("formatterSciNotation"))
 
 	return err
 }

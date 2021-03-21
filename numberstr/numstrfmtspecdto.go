@@ -17,7 +17,7 @@ type NumStrFmtSpecDto struct {
 	absoluteValue  FormatterAbsoluteValue
 	currencyValue  FormatterCurrency
 	signedNumValue FormatterSignedNumber
-	sciNotation    NumStrFmtSpecSciNotationDto
+	sciNotation    FormatterSciNotation
 	lock           *sync.Mutex
 }
 
@@ -454,17 +454,17 @@ func (fmtSpecDto *NumStrFmtSpecDto) GetCurrencySpec() FormatterCurrency {
 }
 
 // GetScientificNotationSpec - Returns a deep copy of the member
-// variable 'sciNotation', of type NumStrFmtSpecSciNotationDto.
+// variable 'sciNotation', of type FormatterSciNotation.
 //
 // IMPORTANT
 //
 // No validity tests are performed on the current NumStrFmtSpecDto
-// instance before returning the NumStrFmtSpecSciNotationDto
+// instance before returning the FormatterSciNotation
 // object. To validate the current NumStrFmtSpecDto instance
 // reference methods NumStrFmtSpecDto.IsValidInstance() and
 // NumStrFmtSpecDto.IsValidInstanceError().
 //
-func (fmtSpecDto *NumStrFmtSpecDto) GetScientificNotationSpec() NumStrFmtSpecSciNotationDto {
+func (fmtSpecDto *NumStrFmtSpecDto) GetScientificNotationSpec() FormatterSciNotation {
 
 	if fmtSpecDto.lock == nil {
 		fmtSpecDto.lock = new(sync.Mutex)
@@ -1218,7 +1218,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewCustomFmtSpec(
 //       will be returned.
 //
 //
-//  sciNotation                   NumStrFmtSpecSciNotationDto
+//  sciNotation                   FormatterSciNotation
 //     - A valid and fully populated FormatterCountry
 //       object. This object contains formatting specifications
 //       controlling the text display of scientific notation.
@@ -1265,7 +1265,7 @@ func (fmtSpecDto NumStrFmtSpecDto) NewFromComponents(
 	absoluteValue FormatterAbsoluteValue,
 	currencyValue FormatterCurrency,
 	signedNumValue FormatterSignedNumber,
-	sciNotation NumStrFmtSpecSciNotationDto,
+	sciNotation FormatterSciNotation,
 	ePrefix *ErrPrefixDto) (
 	NumStrFmtSpecDto,
 	error) {
@@ -1625,7 +1625,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetFromFmtSpecSetupDto(
 //       will be returned.
 //
 //
-//  sciNotation                   NumStrFmtSpecSciNotationDto
+//  sciNotation                   FormatterSciNotation
 //     - A valid and fully populated FormatterCountry
 //       object. This object contains formatting specifications
 //       controlling the text display of scientific notation.
@@ -1667,7 +1667,7 @@ func (fmtSpecDto *NumStrFmtSpecDto) SetNumStrFmtSpecDto(
 	absoluteValue FormatterAbsoluteValue,
 	currencyValue FormatterCurrency,
 	signedNumValue FormatterSignedNumber,
-	sciNotation NumStrFmtSpecSciNotationDto,
+	sciNotation FormatterSciNotation,
 	ePrefix *ErrPrefixDto) error {
 
 	if fmtSpecDto.lock == nil {

@@ -281,7 +281,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setFromFmtSpecSetupDto(
 //       will be returned.
 //
 //
-//  sciNotation                   NumStrFmtSpecSciNotationDto
+//  sciNotation                   FormatterSciNotation
 //     - A valid and fully populated FormatterCountry
 //       object. This object contains formatting specifications
 //       controlling the text display of scientific notation.
@@ -324,7 +324,7 @@ func (nStrFmtSpecDtoMech *numStrFmtSpecDtoMechanics) setNumStrFmtSpecDto(
 	absoluteValue FormatterAbsoluteValue,
 	currencyValue FormatterCurrency,
 	signedNumValue FormatterSignedNumber,
-	sciNotation NumStrFmtSpecSciNotationDto,
+	sciNotation FormatterSciNotation,
 	ePrefix *ErrPrefixDto) (err error) {
 
 	if nStrFmtSpecDtoMech.lock == nil {

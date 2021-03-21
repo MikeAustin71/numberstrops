@@ -1938,7 +1938,7 @@ func (nStrDtoElectron *numStrDtoElectron) setDecimalSeparator(
 //         absoluteValue  FormatterAbsoluteValue
 //         currencyValue  FormatterCurrency
 //         signedNumValue FormatterSignedNumber
-//         sciNotation    NumStrFmtSpecSciNotationDto
+//         sciNotation    FormatterSciNotation
 //       }
 //
 //

@@ -2372,6 +2372,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetNumericSeparators(
 // set to:
 //    NumStrFormatTypeCode(0).AbsoluteValue().
 //
+// This method is required by interface INumStrFormatter.
+//
 func (fmtAbsVal *FormatterAbsoluteValue) SetNumStrFormatTypeCode() {
 
 	if fmtAbsVal.lock == nil {
