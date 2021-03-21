@@ -161,8 +161,10 @@ func (fmtSignedNum *FormatterSignedNumber) CopyOut(
 }
 
 // Empty - Deletes and resets the data values of all member
-// variables within a FormatterSignedNumber instance to their
-// initial 'zero' values.
+// variables within the current FormatterSignedNumber instance to
+// their initial 'zero' values.
+//
+// This method is required by interface INumStrFormatter.
 //
 func (fmtSignedNum *FormatterSignedNumber) Empty() {
 

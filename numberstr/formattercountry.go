@@ -21,6 +21,31 @@ type FormatterCountry struct {
 	lock *sync.Mutex
 }
 
+// Empty - Deletes and resets the data values of all member
+// variables within the current FormatterCountry instance to their
+// initial 'zero' values.
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtCountry *FormatterCountry) Empty() {
+
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
+	}
+
+	fmtCountry.lock.Lock()
+
+	_ = formatterCountryQuark{}.ptr().
+		empty(fmtCountry,
+			nil)
+
+	fmtCountry.lock.Unlock()
+
+	fmtCountry.lock = nil
+
+	return
+}
+
 // CopyIn - Copies the data fields from an incoming
 // FormatterCountry instance  to the data fields
 // of the current instance of FormatterCountry

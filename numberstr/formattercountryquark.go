@@ -29,6 +29,63 @@ func (fmtCountryQuark formatterCountryQuark) ptr() *formatterCountryQuark {
 	return newFormatterCountryQuark
 }
 
+// empty - Deletes and resets the data values of all member
+// variables within a FormatterCountry instance to their initial
+// 'zero' values.
+//
+func (fmtCountryQuark *formatterCountryQuark) empty(
+	formatterCountry *FormatterCountry,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+	if fmtCountryQuark.lock == nil {
+		fmtCountryQuark.lock = new(sync.Mutex)
+	}
+
+	fmtCountryQuark.lock.Lock()
+
+	defer fmtCountryQuark.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"formatterCountryElectron.copyOut()")
+
+	if formatterCountry == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'formatterCountry' is"+
+			" a 'nil' pointer!\n",
+			ePrefix.String())
+		return err
+	}
+
+	formatterCountry.numStrFmtType =
+		NumStrFormatTypeCode(0).None()
+
+	formatterCountry.idNo = 0
+
+	formatterCountry.idString = ""
+
+	formatterCountry.description = ""
+
+	formatterCountry.tag = ""
+
+	formatterCountry.countryCultureName = ""
+
+	formatterCountry.abbreviatedCountryName = ""
+
+	formatterCountry.alternateCountryNames = nil
+
+	formatterCountry.countryCodeTwoChar = ""
+
+	formatterCountry.countryCodeThreeChar = ""
+
+	formatterCountry.countryCodeNumber = ""
+
+	return err
+}
+
 // testValidityOfFormatterCountry - Receives an instance of
 // FormatterCountry and proceeds to test the
 // validity of the member data fields.
