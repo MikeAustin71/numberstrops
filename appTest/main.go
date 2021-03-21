@@ -11,7 +11,7 @@ func main() {
 
 	tMain := testsMain.TestMain{}
 
-	err := tMain.Test001000NewInt(ePrefix)
+	err := tMain.Test000010(ePrefix)
 
 	if err != nil {
 		fmt.Printf("%v\n", err.Error())
