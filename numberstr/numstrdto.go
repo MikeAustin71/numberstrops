@@ -16,7 +16,8 @@ import (
 //       numstrdtonanobot.go ->
 //         numstrdtomolecule.go ->
 //           numstrdtoatom.go ->
-//             numstrdtoelectron.go
+//             numstrdtoelectron.go ->
+//               numstrdtoquark.go
 //
 type NumStrDto struct {
 	signVal int // An integer value indicating the numeric sign of this number string.
