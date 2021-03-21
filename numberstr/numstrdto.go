@@ -4,8 +4,6 @@ import (
 	"sync"
 )
 
-// NumStrDto - This Type contains data fields and methods used
-// to manage, store and transport number strings.
 //
 //
 // Supporting File hierarchy
@@ -18,6 +16,39 @@ import (
 //           numstrdtoatom.go ->
 //             numstrdtoelectron.go ->
 //               numstrdtoquark.go
+//
+
+// NumStrDto - This Type contains data fields and methods used
+// to format, manage, store, and transport number strings.
+//
+// Data Fields
+//
+//  signVal             int
+//     - The sign value designates the numeric sign of the number
+//       string. This integer contains one of three values:
+//         +1 - Signals that the number string is a positive value.
+//          0 - Signals that the number string is a zero value.
+//         -1 - Signals that the number string is a negative value.
+//
+//
+//  intDigitRunes       []rune
+//     - This slice of runes holds all of the integer digits in the
+//       number string.
+//
+//
+//  fracDigitRunes      []rune
+//     - This slice of runes holds all fo the fractional digits in
+//       the number string. Fractional digits are those digits in
+//       a floating number which are located to the right of the
+//       decimal separator. For example, in the United States the
+//       decimal separator is a period ('.') or decimal point.
+//
+//
+//  fmtSpec             NumStrFmtSpecDto
+//     - This object contains all of the format specifications
+//       necessary to produce text versions of a number string.
+//       Supported formats include, Absolute Value, Signed Number,
+//       Currency and Scientific Notation.
 //
 type NumStrDto struct {
 	signVal int // An integer value indicating the numeric sign of this number string.
