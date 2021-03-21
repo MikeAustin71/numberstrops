@@ -1532,7 +1532,7 @@ func (cntryCulId CountryCultureId) XParseString(
 
 	} else {
 
-		countryCultureId, ok = mCountryCultureStringToCode[strings.ToLower(valueString)]
+		countryCultureId, ok = mCountryCultureLwrCaseStringToCode[strings.ToLower(valueString)]
 
 		if !ok {
 			return CountryCultureId(-1),
