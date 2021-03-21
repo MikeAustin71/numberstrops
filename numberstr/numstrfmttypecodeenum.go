@@ -434,12 +434,13 @@ func (nStrValSpec NumStrFormatTypeCode) XIsValid() bool {
 
 	defer lockNumStrFormatTypeCode.Unlock()
 
-	if nStrValSpec > 8 ||
-		nStrValSpec < 1 {
+	if nStrValSpec < 1 {
 		return false
 	}
 
-	return true
+	_, isValid := mNumStrFmtTypeCodeToString[nStrValSpec]
+
+	return isValid
 }
 
 // XParseString - Receives a string and attempts to match it with the
@@ -462,8 +463,9 @@ func (nStrValSpec NumStrFormatTypeCode) XIsValid() bool {
 //
 // caseSensitive   bool
 //     - If 'true' the search for enumeration names will be case
-//       sensitive and will require an exact match. Therefore, 'ScientificNotation' will NOT
-//       match the enumeration name, 'scientificnotation'.
+//       sensitive and will require an exact match. Therefore,
+//       'scientificnotation' will NOT match the enumeration name,
+//        'ScientificNotation'.
 //
 //       A case sensitive search will match any of the following strings:
 //           "None"
@@ -490,8 +492,8 @@ func (nStrValSpec NumStrFormatTypeCode) XIsValid() bool {
 //           "Scientific Notation"
 //           "SCI"
 //
-//       If 'false', a case insensitive search is conducted
-//       for the enumeration name. In this case, 'scientificnotation'
+//       If 'false', a case insensitive search is conducted for the
+//       enumeration name. In this example, 'scientificnotation'
 //       will match match enumeration name 'ScientificNotation'.
 //
 //       A case insensitive search will match any of the following

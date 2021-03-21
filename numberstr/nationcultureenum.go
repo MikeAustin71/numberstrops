@@ -1,8 +1,12 @@
 package numberstr
 
-import "sync"
+import (
+	"fmt"
+	"strings"
+	"sync"
+)
 
-var mCountryCultureCodeToString = map[int]string{
+var mCountryCultureCodeToString = map[CountryCultureId]string{
 	-1:     "None",
 	8:      "Albania",
 	32:     "Argentina",
@@ -90,6 +94,182 @@ var mCountryCultureCodeToString = map[int]string{
 	704:    "VietNam",
 }
 
+var mCountryCultureStringToCode = map[string]CountryCultureId{
+	"None":               CountryCultureId(-1),
+	"Albania":            CountryCultureId(8),
+	"Argentina":          CountryCultureId(32),
+	"Australia":          CountryCultureId(36),
+	"Austria":            CountryCultureId(40),
+	"Bahrain":            CountryCultureId(48),
+	"Bitcoin":            CountryCultureId(999999),
+	"Bangladesh":         CountryCultureId(50),
+	"Belarus":            CountryCultureId(112),
+	"Belgium":            CountryCultureId(56),
+	"BosniaHerzegovina":  CountryCultureId(70),
+	"Brazil":             CountryCultureId(76),
+	"Bulgaria":           CountryCultureId(100),
+	"Canada":             CountryCultureId(124),
+	"CanadaFrench":       CountryCultureId(9124),
+	"Chile":              CountryCultureId(152),
+	"China":              CountryCultureId(156),
+	"Columbia":           CountryCultureId(170),
+	"Congo":              CountryCultureId(180),
+	"CostaRica":          CountryCultureId(188),
+	"Croatia":            CountryCultureId(191),
+	"Cuba":               CountryCultureId(192),
+	"Cyprus":             CountryCultureId(196),
+	"CzechiaEuro":        CountryCultureId(203),
+	"CzechiaKoruna":      CountryCultureId(9203),
+	"Denmark":            CountryCultureId(208),
+	"Egypt":              CountryCultureId(818),
+	"Estonia":            CountryCultureId(233),
+	"Euro":               CountryCultureId(77777),
+	"Finland":            CountryCultureId(246),
+	"France":             CountryCultureId(250),
+	"Germany":            CountryCultureId(276),
+	"Greece":             CountryCultureId(300),
+	"HongKong":           CountryCultureId(344),
+	"Hungary":            CountryCultureId(348),
+	"Iceland":            CountryCultureId(352),
+	"India":              CountryCultureId(356),
+	"Indonesia":          CountryCultureId(360),
+	"Iran":               CountryCultureId(364),
+	"Ireland":            CountryCultureId(372),
+	"Israel":             CountryCultureId(376),
+	"Italy":              CountryCultureId(380),
+	"Japan":              CountryCultureId(392),
+	"Kenya":              CountryCultureId(404),
+	"KoreaSouth":         CountryCultureId(410),
+	"Kuwait":             CountryCultureId(414),
+	"Latvia":             CountryCultureId(428),
+	"Liechtenstein":      CountryCultureId(438),
+	"Lithuania":          CountryCultureId(440),
+	"Luxembourg":         CountryCultureId(442),
+	"Malaysia":           CountryCultureId(458),
+	"Malta":              CountryCultureId(470),
+	"Mexico":             CountryCultureId(484),
+	"Morocco":            CountryCultureId(504),
+	"Namibia":            CountryCultureId(516),
+	"Nepal":              CountryCultureId(524),
+	"Netherlands":        CountryCultureId(528),
+	"NewZealand":         CountryCultureId(554),
+	"Norway":             CountryCultureId(578),
+	"Oman":               CountryCultureId(512),
+	"Pakistan":           CountryCultureId(586),
+	"Peru":               CountryCultureId(604),
+	"Philippines":        CountryCultureId(608),
+	"Poland":             CountryCultureId(616),
+	"Portugal":           CountryCultureId(620),
+	"Qatar":              CountryCultureId(634),
+	"Romania":            CountryCultureId(642),
+	"Russia":             CountryCultureId(643),
+	"SaudiArabia":        CountryCultureId(682),
+	"Serbia":             CountryCultureId(688),
+	"Singapore":          CountryCultureId(702),
+	"Slovakia":           CountryCultureId(703),
+	"SouthAfrica":        CountryCultureId(710),
+	"Spain":              CountryCultureId(724),
+	"SriLanka":           CountryCultureId(144),
+	"Sweden":             CountryCultureId(752),
+	"Switzerland":        CountryCultureId(756),
+	"Taiwan":             CountryCultureId(158),
+	"Turkey":             CountryCultureId(792),
+	"Ukraine":            CountryCultureId(804),
+	"UnitedArabEmirates": CountryCultureId(784),
+	"UnitedKingdom":      CountryCultureId(826),
+	"UnitedStates":       CountryCultureId(840),
+	"Venezuela":          CountryCultureId(862),
+	"VietNam":            CountryCultureId(704),
+}
+
+var mCountryCultureLwrCaseStringToCode = map[string]CountryCultureId{
+	"none":               CountryCultureId(-1),
+	"albania":            CountryCultureId(8),
+	"argentina":          CountryCultureId(32),
+	"australia":          CountryCultureId(36),
+	"austria":            CountryCultureId(40),
+	"bahrain":            CountryCultureId(48),
+	"bitcoin":            CountryCultureId(999999),
+	"bangladesh":         CountryCultureId(50),
+	"belarus":            CountryCultureId(112),
+	"belgium":            CountryCultureId(56),
+	"bosniaHerzegovina":  CountryCultureId(70),
+	"brazil":             CountryCultureId(76),
+	"bulgaria":           CountryCultureId(100),
+	"canada":             CountryCultureId(124),
+	"canadafrench":       CountryCultureId(9124),
+	"chile":              CountryCultureId(152),
+	"china":              CountryCultureId(156),
+	"columbia":           CountryCultureId(170),
+	"congo":              CountryCultureId(180),
+	"costaRica":          CountryCultureId(188),
+	"croatia":            CountryCultureId(191),
+	"cuba":               CountryCultureId(192),
+	"cyprus":             CountryCultureId(196),
+	"czechiaEuro":        CountryCultureId(203),
+	"czechiaKoruna":      CountryCultureId(9203),
+	"denmark":            CountryCultureId(208),
+	"egypt":              CountryCultureId(818),
+	"estonia":            CountryCultureId(233),
+	"euro":               CountryCultureId(77777),
+	"finland":            CountryCultureId(246),
+	"france":             CountryCultureId(250),
+	"germany":            CountryCultureId(276),
+	"greece":             CountryCultureId(300),
+	"hongKong":           CountryCultureId(344),
+	"hungary":            CountryCultureId(348),
+	"iceland":            CountryCultureId(352),
+	"india":              CountryCultureId(356),
+	"indonesia":          CountryCultureId(360),
+	"iran":               CountryCultureId(364),
+	"ireland":            CountryCultureId(372),
+	"israel":             CountryCultureId(376),
+	"italy":              CountryCultureId(380),
+	"japan":              CountryCultureId(392),
+	"kenya":              CountryCultureId(404),
+	"koreasouth":         CountryCultureId(410),
+	"kuwait":             CountryCultureId(414),
+	"latvia":             CountryCultureId(428),
+	"liechtenstein":      CountryCultureId(438),
+	"lithuania":          CountryCultureId(440),
+	"luxembourg":         CountryCultureId(442),
+	"malaysia":           CountryCultureId(458),
+	"malta":              CountryCultureId(470),
+	"mexico":             CountryCultureId(484),
+	"morocco":            CountryCultureId(504),
+	"namibia":            CountryCultureId(516),
+	"nepal":              CountryCultureId(524),
+	"netherlands":        CountryCultureId(528),
+	"newzealand":         CountryCultureId(554),
+	"norway":             CountryCultureId(578),
+	"oman":               CountryCultureId(512),
+	"pakistan":           CountryCultureId(586),
+	"peru":               CountryCultureId(604),
+	"philippines":        CountryCultureId(608),
+	"poland":             CountryCultureId(616),
+	"portugal":           CountryCultureId(620),
+	"qatar":              CountryCultureId(634),
+	"romania":            CountryCultureId(642),
+	"russia":             CountryCultureId(643),
+	"saudiarabia":        CountryCultureId(682),
+	"serbia":             CountryCultureId(688),
+	"singapore":          CountryCultureId(702),
+	"slovakia":           CountryCultureId(703),
+	"southafrica":        CountryCultureId(710),
+	"spain":              CountryCultureId(724),
+	"srilanka":           CountryCultureId(144),
+	"sweden":             CountryCultureId(752),
+	"switzerland":        CountryCultureId(756),
+	"taiwan":             CountryCultureId(158),
+	"turkey":             CountryCultureId(792),
+	"ukraine":            CountryCultureId(804),
+	"unitedarabemirates": CountryCultureId(784),
+	"unitedkingdom":      CountryCultureId(826),
+	"unitedstates":       CountryCultureId(840),
+	"venezuela":          CountryCultureId(862),
+	"vietnam":            CountryCultureId(704),
+}
+
 // CountryCultureId - Country Culture Identifier is a means of
 // identifying an individual country or culture. This enumeration
 // is primarily used to request and assign number and currency
@@ -107,14 +287,14 @@ var mCountryCultureCodeToString = map[int]string{
 // Name                                 Value
 // ------                              -------
 //
-// CountryCultureId(0).None()            -1
+// CountryCultureId(0).None()            88888888888
 // CountryCultureId(0).France()         250
 // CountryCultureId(0).Germany()        276
 // CountryCultureId(0).UnitedKingdom()  826
 // CountryCultureId(0).UnitedStates()   840
 //
 // The integer values for Country Codes are taken from the
-// ISO 3166-1 specification:
+// ISO 316688888888888 specification:
 //  https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
 //
 // Cultures and other custom entities are assigned arbitrary
@@ -1271,4 +1451,130 @@ func (cntryCulId CountryCultureId) VietNam() CountryCultureId {
 	defer lockCountryCultureId.Unlock()
 
 	return CountryCultureId(704)
+}
+
+// XParseString - Receives a string and attempts to match it with the
+// string value of a supported enumeration. If successful, a new
+// instance of CountryCultureId is returned set to the value of the
+// associated enumeration.
+//
+// This is a standard utility method and is not part of the valid
+// enumerations for this type.
+//
+// ------------------------------------------------------------------------
+//
+// Input Parameters
+//
+// valueString   string
+//     - A string which will be matched against the enumeration
+//       string values. If 'valueString' is equal to one of the
+//       enumeration names, this method will proceed to successful
+//       completion and return the correct enumeration value.
+//
+// caseSensitive   bool
+//     - If 'true' the search for enumeration names will be case
+//       sensitive and will require an exact match. Therefore,
+//       'unitedstates' will NOT match the enumeration name,
+//       'UnitedStates'.
+//
+//       If 'false', a case insensitive search is conducted for the
+//       enumeration name. In this example, 'unitedstates'
+//       will match match enumeration name 'UnitedStates'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  CountryCultureId
+//     - Upon successful completion, this method will return a new
+//       instance of CountryCultureId set to the value of the enumeration
+//       matched by the string search performed on input parameter,
+//       'valueString'.
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'. If an error condition is encountered,
+//       this method will return an error type which encapsulates an
+//       appropriate error message.
+//
+// ------------------------------------------------------------------------
+//
+// Usage
+//
+//  t, err := CountryCultureId(0).XParseString("UnitedStates", true)
+//
+//     t is now equal to CountryCultureId(0).UnitedStates()
+//
+func (cntryCulId CountryCultureId) XParseString(
+	valueString string,
+	caseSensitive bool) (CountryCultureId, error) {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	ePrefix := "CountryCultureId.XParseString() "
+
+	var ok bool
+	var countryCultureId CountryCultureId
+
+	if caseSensitive {
+
+		countryCultureId, ok = mCountryCultureStringToCode[valueString]
+
+		if !ok {
+			return CountryCultureId(-1),
+				fmt.Errorf(ePrefix+
+					"\n'valueString' did NOT MATCH a valid Country Culture Id Value.\n"+
+					"valueString='%v'\n", valueString)
+		}
+
+	} else {
+
+		countryCultureId, ok = mCountryCultureStringToCode[strings.ToLower(valueString)]
+
+		if !ok {
+			return CountryCultureId(-1),
+				fmt.Errorf(ePrefix+
+					"\n'valueString' did NOT MATCH a valid Country Culture Id Value.\n"+
+					"valueString='%v'\n", valueString)
+		}
+	}
+
+	return countryCultureId, nil
+}
+
+// XIsValid - Returns a boolean value signaling whether the current
+// Country/Culture Id (CountryCultureId) value is valid.
+//
+// This is a standard utility method and is not part of the valid enumerations
+// for this type.
+//
+// ------------------------------------------------------------------------
+//
+// Usage
+//
+//  countryId := CountryCultureId(0).UnitedStates()
+//
+//  isValid := countryId.XIsValid()
+//
+//  In this case the boolean value of 'isValid' is 'true'.
+//
+//  Be advised, the value CountryCultureId(0).None() is
+//  classified as an 'invalid' value.
+//
+func (cntryCulId CountryCultureId) XIsValid() bool {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	if cntryCulId < 0 {
+		return false
+	}
+
+	_, isValid := mCountryCultureCodeToString[cntryCulId]
+
+	return isValid
 }
