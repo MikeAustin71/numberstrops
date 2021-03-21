@@ -20,11 +20,14 @@ import (
 //
 type NumStrDto struct {
 	signVal int // An integer value indicating the numeric sign of this number string.
-	//                      //   Valid values are +1 or -1
-	absAllNumRunes []rune // An array of runes containing all the numeric digits in a number with
-	//                      //   no preceding plus or minus sign character. Example: 123.456 =
-	//                      //   []rune{'1','2','3','4','5','6'}
-	fmtSpec   NumStrFmtSpecDto // Format Specifications
-	precision uint             // The number of digits to the right of the decimal point.
-	lock      *sync.Mutex
+	//          //   Valid values are +1, 0, or -1.
+	//          //     +1 signals a positive value.
+	//          //      0 signals a zero value
+	//          //     -1 signals a negative value.
+	intDigitRunes []rune // A slice of runes containing the integer digits component
+	//                   //   of this number string.
+	fracDigitRunes []rune // A slice of runes containing the fractional digits component
+	//                    //   of this number string
+	fmtSpec NumStrFmtSpecDto // Format Specifications
+	lock    *sync.Mutex
 }
