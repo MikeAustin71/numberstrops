@@ -1,22 +1,75 @@
 package numberstr
 
 import (
-	"fmt"
 	"sync"
 )
 
+// FormatterCountry - This structure stores country/culture data
+// for associated number string formatting operations.
+//
+// A Formatter Country object consists of the following data fields.
+//
+//  numStrFmtType          NumStrFormatTypeCode
+//     - An enumeration value automatically set to:
+//           NumStrFormatTypeCode(0).CountryCulture()
+//
+//
+//  idNo                   uint64
+//     - An arbitrary Id Number
+//
+//
+//  idString               string
+//     - An arbitrary Id String
+//
+//
+//  description            string
+//     - A user defined description
+//
+//
+//  tag                    string
+//     - A user defined tag
+//
+//  countryCultureName     string
+//     - Usually contains the official country name
+//
+//  abbreviatedCountryName string
+//     - The abbreviated country name
+//
+//
+//  alternateCountryNames  []string
+//     - A list of alternate country names
+//
+//
+//  countryCodeTwoChar     string
+//     - The ISO 3166-1 alpha-2 two character country code.
+//       Reference:
+//        https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+//
+//
+//  countryCodeThreeChar   string
+//     - The ISO 3166-1 alpha-3 three character country code.
+//       Reference:
+//        https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+//
+//
+//  countryCodeNumber      string
+//     - ISO 3166-1 numeric – three-digit country codes which are identical
+//       to those developed and maintained by the United Nations Statistics
+//       Division.  Reference:
+//        https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+//
 type FormatterCountry struct {
-	numStrFmtType          NumStrFormatTypeCode
-	idNo                   uint64
-	idString               string
-	description            string
-	tag                    string
-	countryCultureName     string
-	abbreviatedCountryName string
-	alternateCountryNames  []string
-	countryCodeTwoChar     string
-	countryCodeThreeChar   string
-	countryCodeNumber      string
+	numStrFmtType          NumStrFormatTypeCode // An enum set to NumStrFormatTypeCode(0).CountryCulture()
+	idNo                   uint64               // An arbitrary Id Number
+	idString               string               // An arbitrary Id String
+	description            string               // A user defined description
+	tag                    string               // A user defined tag
+	countryCultureName     string               // Usually contains the official country name
+	abbreviatedCountryName string               // The abbreviated country/culture name
+	alternateCountryNames  []string             // A list of alternate country names
+	countryCodeTwoChar     string               // ISO 3166-1 alpha-2 two character country code
+	countryCodeThreeChar   string               // ISO 3166-1 alpha-3 three character country code
+	countryCodeNumber      string               // ISO 3166-1 numeric – three-digit country code
 
 	lock *sync.Mutex
 }
@@ -69,10 +122,7 @@ func (fmtCountry *FormatterCountry) CopyIn(
 
 	ePrefix.SetEPref("FormatterCountry.CopyIn()")
 
-	nStrFmtSpecCntryElectron :=
-		formatterCountryElectron{}
-
-	return nStrFmtSpecCntryElectron.copyIn(
+	return formatterCountryElectron{}.ptr().copyIn(
 		fmtCountry,
 		incomingFormatterCountry,
 		ePrefix)
@@ -100,13 +150,11 @@ func (fmtCountry *FormatterCountry) CopyOut(
 
 	ePrefix.SetEPref("FormatterCountry.CopyOut()")
 
-	nStrFmtSpecCntryElectron :=
-		formatterCountryElectron{}
-
-	return nStrFmtSpecCntryElectron.copyOut(
-		fmtCountry,
-		ePrefix.XCtx(
-			"fmtCountry->"))
+	return formatterCountryElectron{}.ptr().
+		copyOut(
+			fmtCountry,
+			ePrefix.XCtx(
+				"fmtCountry->"))
 }
 
 // GetAbbreviatedCountryName - Returns the value of member variable
@@ -258,6 +306,25 @@ func (fmtCountry *FormatterCountry) GetIdString() string {
 	return fmtCountry.idString
 }
 
+// GetNumStrFormatTypeCode - Returns the Number String Format Type
+// Code. The Number String Format Type Code for FormatterCountry
+// objects is NumStrFormatTypeCode(0).CountryCulture().
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtCountry *FormatterCountry) GetNumStrFormatTypeCode() NumStrFormatTypeCode {
+
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
+	}
+
+	fmtCountry.lock.Lock()
+
+	defer fmtCountry.lock.Unlock()
+
+	return fmtCountry.numStrFmtType
+}
+
 // GetTag - Returns the value of member variable 'tag'.
 func (fmtCountry *FormatterCountry) GetTag() string {
 
@@ -305,13 +372,11 @@ func (fmtCountry *FormatterCountry) IsValidInstance() bool {
 
 	defer fmtCountry.lock.Unlock()
 
-	nStrFmtSpecCntryQuark :=
-		formatterCountryQuark{}
-
 	isValid,
-		_ := nStrFmtSpecCntryQuark.testValidityOfFormatterCountry(
-		fmtCountry,
-		new(ErrPrefixDto))
+		_ := formatterCountryQuark{}.ptr().
+		testValidityOfFormatterCountry(
+			fmtCountry,
+			new(ErrPrefixDto))
 
 	return isValid
 }
@@ -372,19 +437,84 @@ func (fmtCountry *FormatterCountry) IsValidInstanceError(
 	ePrefix.SetEPref(
 		"FormatterCountry.IsValidInstanceError()")
 
-	nStrFmtSpecCntryQuark := formatterCountryQuark{}
-
 	_,
-		err := nStrFmtSpecCntryQuark.testValidityOfFormatterCountry(
-		fmtCountry,
-		ePrefix)
+		err := formatterCountryQuark{}.ptr().
+		testValidityOfFormatterCountry(
+			fmtCountry,
+			ePrefix)
 
 	return err
+}
+
+// NewUnitedStatesDefaults - Creates and returns a new instance of
+// FormatterCountry. This method specifies the United States
+// default values for Country/Culture.
+//
+// United States Country/Culture default parameters are defined as
+// follows:
+//
+//    numStrFmtType         =
+//          NumStrFormatTypeCode(0).CountryCulture()
+//
+//    idNo                   = 840
+//    idString               = "840"
+//    description            = "Country Setup - United States"
+//    tag                    = ""
+//    countryCultureName     = "United States"
+//    abbreviatedCountryName = "USA"
+//    alternateCountryNames  =
+//          "The United States of America"
+//          "United States of America"
+//          "America"
+//
+//    countryCodeTwoChar     = "US"
+//    countryCodeThreeChar   = "USA"
+//    countryCodeNumber      = "840"
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  -- None --
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterCountry
+//     - This parameter will return a new, populated instance of
+//       FormatterCountry configured United States default
+//       Country/Culture parameters.
+//
+func (fmtCountry FormatterCountry) NewUnitedStatesDefaults() FormatterCountry {
+
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
+	}
+
+	fmtCountry.lock.Lock()
+
+	defer fmtCountry.lock.Unlock()
+
+	newFormatterCountry := FormatterCountry{}
+
+	_ = formatterCountryUtility{}.ptr().
+		setToUnitedStatesDefaults(
+			&newFormatterCountry,
+			nil)
+
+	return newFormatterCountry
 }
 
 // NewWithComponents - Creates and returns a new instance of NumericSeparators.
 // This type encapsulates the digit separators used in formatting a
 // number string for text display.
+//
+// The member variable 'FormatterCountry.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).CountryCulture()
 //
 //
 // ----------------------------------------------------------------
@@ -495,14 +625,11 @@ func (fmtCountry FormatterCountry) NewWithComponents(
 	ePrefix.SetEPref(
 		"FormatterCountry.NewWithComponents()")
 
-	nStrFmtSpecCntryMech :=
-		formatterCountryMechanics{}
-
-	newCntryDto := FormatterCountry{}
+	newFormatterCountry := FormatterCountry{}
 
 	err :=
-		nStrFmtSpecCntryMech.setWithComponents(
-			&newCntryDto,
+		formatterCountryMechanics{}.ptr().setWithComponents(
+			&newFormatterCountry,
 			idNo,
 			idString,
 			description,
@@ -515,159 +642,7 @@ func (fmtCountry FormatterCountry) NewWithComponents(
 			countryCodeNumber,
 			ePrefix)
 
-	return newCntryDto, err
-}
-
-// NewWithFmtSpecSetupDto - Creates and returns a new
-// FormatterCountry instance based on input received from
-// an instance of NumStrFmtSpecSetupDto.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
-//     - A data structure conveying setup information for a
-//       FormatterCountry object. Only the following data
-//       fields with a prefix of "Country" are used.
-//
-//       type NumStrFmtSpecSetupDto struct {
-//         IdNo                                      uint64
-//         IdString                                  string
-//         Description                               string
-//         Tag                                       string
-//         CountryIdNo                               uint64
-//         CountryIdString                           string
-//         CountryDescription                        string
-//         CountryTag                                string
-//         CountryCultureName                        string
-//         CountryAbbreviatedName                    string
-//         CountryAlternateNames                     []string
-//         CountryCodeTwoChar                        string
-//         CountryCodeThreeChar                      string
-//         CountryCodeNumber                         string
-//         AbsoluteValFmt                            string
-//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumSeps                        NumericSeparators
-//         AbsoluteValNumField                       NumberFieldDto
-//         CurrencyPositiveValueFmt                  string
-//         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     uint
-//         CurrencyCode                              string
-//         CurrencyCodeNo                            string
-//         CurrencyName                              string
-//         CurrencySymbols                           []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []rune
-//         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumSeps                           NumericSeparators
-//         CurrencyNumField                          NumberFieldDto
-//         SignedNumValPositiveValueFmt              string
-//         SignedNumValNegativeValueFmt              string
-//         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumSeps                       NumericSeparators
-//         SignedNumValNumField                      NumberFieldDto
-//         SciNotSignificandUsesLeadingPlus          bool
-//         SciNotMantissaLength                      uint
-//         SciNotExponentChar                        rune
-//         SciNotExponentUsesLeadingPlus             bool
-//         SciNotNumFieldLen                         int
-//         SciNotNumFieldTextJustify                 TextJustify
-//         Lock                                      *sync.Mutex
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  FormatterCountry
-//     - If this method completes successfully, a new instance of
-//       FormatterCountry will be returned to the caller.
-//
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (fmtCountry FormatterCountry) NewWithFmtSpecSetupDto(
-	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix *ErrPrefixDto) (
-	FormatterCountry,
-	error) {
-
-	if fmtCountry.lock == nil {
-		fmtCountry.lock = new(sync.Mutex)
-	}
-
-	fmtCountry.lock.Lock()
-
-	defer fmtCountry.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"FormatterCountry.NewWithFmtSpecSetupDto()")
-
-	if fmtSpecSetupDto == nil {
-		return FormatterCountry{},
-			fmt.Errorf("%v\n"+
-				"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
-				"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-				ePrefix.String())
-	}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	nStrFmtSpecCntryMech :=
-		formatterCountryMechanics{}
-
-	newCountryDto := FormatterCountry{}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	fmtSpecSetupDto.Lock.Lock()
-
-	defer fmtSpecSetupDto.Lock.Unlock()
-
-	err := nStrFmtSpecCntryMech.setWithComponents(
-		&newCountryDto,
-		fmtSpecSetupDto.CountryIdNo,
-		fmtSpecSetupDto.CountryIdString,
-		fmtSpecSetupDto.CountryDescription,
-		fmtSpecSetupDto.CountryTag,
-		fmtSpecSetupDto.CountryCultureName,
-		fmtSpecSetupDto.CountryAbbreviatedName,
-		fmtSpecSetupDto.CountryAlternateNames,
-		fmtSpecSetupDto.CountryCodeTwoChar,
-		fmtSpecSetupDto.CountryCodeThreeChar,
-		fmtSpecSetupDto.CountryCodeNumber,
-		ePrefix)
-
-	return newCountryDto, err
+	return newFormatterCountry, err
 }
 
 // SetAbbreviatedCountryName - Sets the value of member variable
@@ -826,143 +801,6 @@ func (fmtCountry *FormatterCountry) SetDescription(
 		description
 }
 
-// SetWithSpecSetupDto - Sets the data values for current
-// FormatterCountry instance based on input received from
-// an instance of NumStrFmtSpecSetupDto.
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  fmtSpecSetupDto     NumStrFmtSpecSetupDto
-//     - A data structure conveying setup information for a
-//       FormatterCountry object. Only the following data
-//       fields with a prefix of "Country" are used.
-//
-//       type NumStrFmtSpecSetupDto struct {
-//         IdNo                                      uint64
-//         IdString                                  string
-//         Description                               string
-//         Tag                                       string
-//         CountryIdNo                               uint64
-//         CountryIdString                           string
-//         CountryDescription                        string
-//         CountryTag                                string
-//         CountryCultureName                        string
-//         CountryAbbreviatedName                    string
-//         CountryAlternateNames                     []string
-//         CountryCodeTwoChar                        string
-//         CountryCodeThreeChar                      string
-//         CountryCodeNumber                         string
-//         AbsoluteValFmt                            string
-//         AbsoluteValTurnOnIntegerDigitsSeparation  bool
-//         AbsoluteValNumSeps                        NumericSeparators
-//         AbsoluteValNumField                       NumberFieldDto
-//         CurrencyPositiveValueFmt                  string
-//         CurrencyNegativeValueFmt                  string
-//         CurrencyDecimalDigits                     uint
-//         CurrencyCode                              string
-//         CurrencyCodeNo                            string
-//         CurrencyName                              string
-//         CurrencySymbols                           []rune
-//         MinorCurrencyName                         string
-//         MinorCurrencySymbols                      []rune
-//         CurrencyTurnOnIntegerDigitsSeparation     bool
-//         CurrencyNumSeps                           NumericSeparators
-//         CurrencyNumField                          NumberFieldDto
-//         SignedNumValPositiveValueFmt              string
-//         SignedNumValNegativeValueFmt              string
-//         SignedNumValTurnOnIntegerDigitsSeparation bool
-//         SignedNumValNumSeps                       NumericSeparators
-//         SignedNumValNumField                      NumberFieldDto
-//         SciNotSignificandUsesLeadingPlus          bool
-//         SciNotMantissaLength                      uint
-//         SciNotExponentChar                        rune
-//         SciNotExponentUsesLeadingPlus             bool
-//         SciNotNumFieldLen                         int
-//         SciNotNumFieldTextJustify                 TextJustify
-//         Lock                                      *sync.Mutex
-//       }
-//
-//
-//  ePrefix             *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (fmtCountry *FormatterCountry) SetWithSpecSetupDto(
-	fmtSpecSetupDto *NumStrFmtSpecSetupDto,
-	ePrefix *ErrPrefixDto) error {
-
-	if fmtCountry.lock == nil {
-		fmtCountry.lock = new(sync.Mutex)
-	}
-
-	fmtCountry.lock.Lock()
-
-	defer fmtCountry.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"FormatterCountry." +
-			"SetWithFmtSpecSetupDto()")
-
-	if fmtSpecSetupDto == nil {
-		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'fmtSpecSetupDto' is invalid!\n"+
-			"'fmtSpecSetupDto' is a 'nil' pointer!\n",
-			ePrefix.String())
-	}
-
-	if fmtSpecSetupDto.Lock == nil {
-		fmtSpecSetupDto.Lock = new(sync.Mutex)
-	}
-
-	fmtSpecSetupDto.Lock.Lock()
-
-	defer fmtSpecSetupDto.Lock.Unlock()
-
-	nStrFmtSpecCntryMech :=
-		formatterCountryMechanics{}
-
-	return nStrFmtSpecCntryMech.setWithComponents(
-		fmtCountry,
-		fmtSpecSetupDto.CountryIdNo,
-		fmtSpecSetupDto.CountryIdString,
-		fmtSpecSetupDto.CountryDescription,
-		fmtSpecSetupDto.CountryTag,
-		fmtSpecSetupDto.CountryCultureName,
-		fmtSpecSetupDto.CountryAbbreviatedName,
-		fmtSpecSetupDto.CountryAlternateNames,
-		fmtSpecSetupDto.CountryCodeTwoChar,
-		fmtSpecSetupDto.CountryCodeThreeChar,
-		fmtSpecSetupDto.CountryCodeNumber,
-		ePrefix)
-}
-
 // SetIdNo - Sets the value of member variable 'idNo'.
 func (fmtCountry *FormatterCountry) SetIdNo(
 	idNo uint64) {
@@ -993,6 +831,25 @@ func (fmtCountry *FormatterCountry) SetIdString(
 	fmtCountry.idString = idString
 }
 
+// SetNumStrFormatTypeCode - Sets the Number String Format Type
+// coded for this FormatterCountry object. For Country/Culture
+// formatters, the Number String Format Type Code is set to
+// NumStrFormatTypeCode(0).CountryCulture().
+//
+func (fmtCountry *FormatterCountry) SetNumStrFormatTypeCode() {
+
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
+	}
+
+	fmtCountry.lock.Lock()
+
+	defer fmtCountry.lock.Unlock()
+
+	fmtCountry.numStrFmtType =
+		NumStrFormatTypeCode(0).CountryCulture()
+}
+
 // SetTag - Sets the value of member variable 'tag'.
 // This is a user defined description.
 //
@@ -1014,22 +871,26 @@ func (fmtCountry *FormatterCountry) SetTag(
 // values for the incoming FormatterCountry instance
 // to United States Default values.
 //
-// For the United States, the country specification parameters are
-// defined as follows:
+// United States Country/Culture default parameters are defined as
+// follows:
 //
-//   CountryIdNo            = 840
-//   CountryIdString        = "840"
-//   CountryDescription     = "Country Setup - United States"
-//   CountryTag             = ""
-//   CountryCultureName     = "United States"
-//   CountryAbbreviatedName = "USA"
-//   CountryAlternateNames  = []string{
-//                            "The United States of America",
-//                            "United States of America",
-//                            "America"}
-//   CountryCodeTwoChar     = "US"
-//   CountryCodeThreeChar   = "USA"
-//   CountryCodeNumber      = "840"
+//    numStrFmtType         =
+//          NumStrFormatTypeCode(0).CountryCulture()
+//
+//    idNo                   = 840
+//    idString               = "840"
+//    description            = "Country Setup - United States"
+//    tag                    = ""
+//    countryCultureName     = "United States"
+//    abbreviatedCountryName = "USA"
+//    alternateCountryNames  =
+//          "The United States of America"
+//          "United States of America"
+//          "America"
+//
+//    countryCodeTwoChar     = "US"
+//    countryCodeThreeChar   = "USA"
+//    countryCodeNumber      = "840"
 //
 //
 // IMPORTANT
@@ -1085,12 +946,10 @@ func (fmtCountry *FormatterCountry) SetToUnitedStatesDefaults(
 		"FormatterCountry." +
 			"SetToUnitedStatesDefaults()")
 
-	countryUtil :=
-		formatterCountryUtility{}
-
-	return countryUtil.setToUnitedStatesDefaults(
-		fmtCountry,
-		ePrefix)
+	return formatterCountryUtility{}.ptr().
+		setToUnitedStatesDefaults(
+			fmtCountry,
+			ePrefix)
 }
 
 // SetToUnitedStatesDefaultsIfEmpty - If the current
@@ -1101,22 +960,26 @@ func (fmtCountry *FormatterCountry) SetToUnitedStatesDefaults(
 // If the current FormatterCountry instance is valid
 // and NOT empty, this method will take no action and exit.
 //
-// For the United States, the country specification parameters are
-// defined as follows:
+// United States Country/Culture default parameters are defined as
+// follows:
 //
-//   CountryIdNo            = 840
-//   CountryIdString        = "840"
-//   CountryDescription     = "Country Setup - United States"
-//   CountryTag             = ""
-//   CountryCultureName     = "United States"
-//   CountryAbbreviatedName = "USA"
-//   CountryAlternateNames  = []string{
-//                            "The United States of America",
-//                            "United States of America",
-//                            "America"}
-//   CountryCodeTwoChar     = "US"
-//   CountryCodeThreeChar   = "USA"
-//   CountryCodeNumber      = "840"
+//    numStrFmtType         =
+//          NumStrFormatTypeCode(0).CountryCulture()
+//
+//    idNo                   = 840
+//    idString               = "840"
+//    description            = "Country Setup - United States"
+//    tag                    = ""
+//    countryCultureName     = "United States"
+//    abbreviatedCountryName = "USA"
+//    alternateCountryNames  =
+//          "The United States of America"
+//          "United States of America"
+//          "America"
+//
+//    countryCodeTwoChar     = "US"
+//    countryCodeThreeChar   = "USA"
+//    countryCodeNumber      = "840"
 //
 //
 // IMPORTANT
@@ -1172,28 +1035,28 @@ func (fmtCountry *FormatterCountry) SetToUnitedStatesDefaultsIfEmpty(
 		"FormatterCountry." +
 			"SetToUnitedStatesDefaults()")
 
-	nStrFmtSpecCntryQuark :=
-		formatterCountryQuark{}
-
 	isValid,
-		_ := nStrFmtSpecCntryQuark.testValidityOfFormatterCountry(
-		fmtCountry,
-		ePrefix)
+		_ := formatterCountryQuark{}.ptr().
+		testValidityOfFormatterCountry(
+			fmtCountry,
+			ePrefix)
 
 	if isValid {
 		return nil
 	}
 
-	countryUtil :=
-		formatterCountryUtility{}
-
-	return countryUtil.setToUnitedStatesDefaults(
-		fmtCountry,
-		ePrefix)
+	return formatterCountryUtility{}.ptr().
+		setToUnitedStatesDefaults(
+			fmtCountry,
+			ePrefix)
 }
 
 // SetWithComponents - Sets the data values for current
 // FormatterCountry instance.
+//
+// The member variable 'FormatterCountry.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).CountryCulture()
 //
 //
 // ----------------------------------------------------------------
@@ -1297,20 +1160,18 @@ func (fmtCountry *FormatterCountry) SetWithComponents(
 	ePrefix.SetEPref(
 		"FormatterCountry.SetWithComponents()")
 
-	nStrFmtSpecCntryMech :=
-		formatterCountryMechanics{}
-
-	return nStrFmtSpecCntryMech.setWithComponents(
-		fmtCountry,
-		idNo,
-		idString,
-		description,
-		tag,
-		countryCultureName,
-		abbreviatedCountryName,
-		alternateCountryNames,
-		countryCodeTwoChar,
-		countryCodeThreeChar,
-		countryCodeNumber,
-		ePrefix)
+	return formatterCountryMechanics{}.ptr().
+		setWithComponents(
+			fmtCountry,
+			idNo,
+			idString,
+			description,
+			tag,
+			countryCultureName,
+			abbreviatedCountryName,
+			alternateCountryNames,
+			countryCodeTwoChar,
+			countryCodeThreeChar,
+			countryCodeNumber,
+			ePrefix)
 }

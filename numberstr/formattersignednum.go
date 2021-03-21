@@ -518,7 +518,7 @@ func (fmtSignedNum *FormatterSignedNumber) GetNumericSeparators(
 // GetNumStrFormatTypeCode - Returns the Number String Format Type
 // Code. The Number String Format Type Code for
 // FormatterSignedNumber objects is
-// NumStrFormatTypeCode(0).Currency().
+// NumStrFormatTypeCode(0).SignedNumber().
 //
 // This method is required by interface INumStrFormatter.
 //
