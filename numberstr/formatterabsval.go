@@ -855,6 +855,10 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstanceError(
 // formatting parameters necessary to format absolute numeric
 // values for display in text number strings.
 //
+// The member variable 'FormatterAbsoluteValue.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).AbsoluteValue()
+//
 //
 // ----------------------------------------------------------------
 //

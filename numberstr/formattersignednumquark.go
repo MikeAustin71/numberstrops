@@ -41,7 +41,7 @@ func (fmtSignedNumQuark *formatterSignedNumberQuark) empty(
 		return err
 	}
 
-	fmtSignedNum.numStrFormatterType =
+	fmtSignedNum.numStrFmtType =
 		NumStrFormatTypeCode(0).None()
 
 	fmtSignedNum.positiveValueFmt = ""

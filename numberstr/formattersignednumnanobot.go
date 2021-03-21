@@ -70,8 +70,8 @@ func (fmtSignedNumNanobot *formatterSignedNumberNanobot) copyIn(
 		return err
 	}
 
-	targetFmtSignedNum.numStrFormatterType =
-		incomingFmtSignedNum.numStrFormatterType
+	targetFmtSignedNum.numStrFmtType =
+		incomingFmtSignedNum.numStrFmtType
 
 	targetFmtSignedNum.positiveValueFmt =
 		incomingFmtSignedNum.positiveValueFmt
@@ -148,8 +148,8 @@ func (fmtSignedNumNanobot *formatterSignedNumberNanobot) copyOut(
 		return newFmtSignedNum, err
 	}
 
-	newFmtSignedNum.numStrFormatterType =
-		fmtSignedNum.numStrFormatterType
+	newFmtSignedNum.numStrFmtType =
+		fmtSignedNum.numStrFmtType
 
 	newFmtSignedNum.positiveValueFmt =
 		fmtSignedNum.positiveValueFmt

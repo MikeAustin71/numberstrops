@@ -358,7 +358,7 @@ func (fmtSignedNumMech *formatterSignedNumberMechanics) setFmtSignedNumWithCompo
 	newFmtSignedNum.lock =
 		new(sync.Mutex)
 
-	newFmtSignedNum.numStrFormatterType =
+	newFmtSignedNum.numStrFmtType =
 		NumStrFormatTypeCode(0).SignedNumber()
 
 	newFmtSignedNum.positiveValueFmt =

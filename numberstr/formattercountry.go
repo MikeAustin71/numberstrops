@@ -471,6 +471,10 @@ func (fmtCountry *FormatterCountry) IsValidInstanceError(
 //    countryCodeThreeChar   = "USA"
 //    countryCodeNumber      = "840"
 //
+// The member variable 'FormatterCountry.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).CountryCulture()
+//
 //
 // ----------------------------------------------------------------
 //
@@ -891,6 +895,10 @@ func (fmtCountry *FormatterCountry) SetTag(
 //    countryCodeTwoChar     = "US"
 //    countryCodeThreeChar   = "USA"
 //    countryCodeNumber      = "840"
+//
+// The member variable 'FormatterCountry.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).CountryCulture()
 //
 //
 // IMPORTANT

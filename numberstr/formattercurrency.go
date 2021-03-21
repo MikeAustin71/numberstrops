@@ -354,7 +354,7 @@ import (
 //                    restarted from array element zero.
 //
 //
-//  numFieldDto                   NumberFieldDto
+//  numFieldLenDto                NumberFieldDto
 //     - The NumberFieldDto object contains formatting instructions
 //       for the creation and implementation of a number field.
 //       Number fields are text strings which contain number strings
@@ -1216,6 +1216,10 @@ func (fmtCurr *FormatterCurrency) IsValidInstanceError(
 // formatting parameters necessary to format numeric currency
 // values for display in text number strings.
 //
+// The member variable 'FormatterCurrency.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).Currency()
+//
 //
 // ----------------------------------------------------------------
 //
@@ -1684,6 +1688,10 @@ func (fmtCurr FormatterCurrency) NewBasic(
 // parameters necessary to format numeric currency values for
 // display in text number strings.
 //
+// The member variable 'FormatterCurrency.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).Currency()
+//
 //
 // ----------------------------------------------------------------
 //
@@ -2119,6 +2127,10 @@ func (fmtCurr FormatterCurrency) NewBasicRunes(
 //        Turn On Thousands Separator: true
 //     United States Currency Example: $2,354.92
 //
+// The member variable 'FormatterCurrency.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).Currency()
+//
 //
 // ----------------------------------------------------------------
 //
@@ -2172,6 +2184,10 @@ func (fmtCurr FormatterCurrency) NewUnitedStatesDefaults() FormatterCurrency {
 // For a 'New' method using minimum input parameters coupled
 // with default values, see:
 //      FormatterCurrency.NewBasicRunes()
+//
+// The member variable 'FormatterCurrency.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).Currency()
 //
 //
 // ----------------------------------------------------------------
@@ -2659,6 +2675,10 @@ func (fmtCurr FormatterCurrency) NewWithComponents(
 //
 //        Example: '1,000,000,000'
 //
+// The member variable 'FormatterCurrency.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).Currency()
+//
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
 // current FormatterCurrency instance.
@@ -3102,6 +3122,10 @@ func (fmtCurr *FormatterCurrency) SetBasic(
 // thousands.
 //
 //        Example: '1,000,000,000'
+//
+// The member variable 'FormatterCurrency.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).Currency()
 //
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
@@ -4741,6 +4765,10 @@ func (fmtCurr *FormatterCurrency) SetPositiveValueFormat(
 //     Thousands Separator Character: ','
 //       Turn On Thousands Separator: true
 //
+// The member variable 'FormatterCurrency.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).Currency()
+//
 // IMPORTANT
 //
 // This method will overwrite all pre-existing data values in the
@@ -4975,6 +5003,10 @@ func (fmtCurr *FormatterCurrency) SetTurnOnIntegerDigitsSeparationFlag(
 // of FormatterCurrency. For a similar method using
 // minimum input parameters coupled with default values, see:
 //      FormatterCurrency.SetBasicRunes()
+//
+// The member variable 'FormatterCurrency.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).Currency()
 //
 // IMPORTANT
 // This method will overwrite all pre-existing data values in the
