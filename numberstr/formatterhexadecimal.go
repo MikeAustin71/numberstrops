@@ -620,7 +620,13 @@ func (formatterHex *FormatterHexadecimal) IsValidInstanceError(
 //
 // Input Parameters
 //
-//  -- NONE --
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -632,7 +638,22 @@ func (formatterHex *FormatterHexadecimal) IsValidInstanceError(
 //       default values will will be returned to the calling
 //       function.
 //
-func (formatterHex *FormatterHexadecimal) New() FormatterHexadecimal {
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (formatterHex *FormatterHexadecimal) New(
+	ePrefix *ErrPrefixDto) (
+	FormatterHexadecimal,
+	error) {
 
 	if formatterHex.lock == nil {
 		formatterHex.lock = new(sync.Mutex)
@@ -642,6 +663,14 @@ func (formatterHex *FormatterHexadecimal) New() FormatterHexadecimal {
 
 	defer formatterHex.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterHexadecimal." +
+			"New()")
+
 	newFmtHexadecimal := FormatterHexadecimal{}
 
 	newFmtHexadecimal.numStrFmtType =
@@ -649,25 +678,13 @@ func (formatterHex *FormatterHexadecimal) New() FormatterHexadecimal {
 
 	newFmtHexadecimal.lock = new(sync.Mutex)
 
-	newFmtHexadecimal.useUpperCaseLetters = false
+	err := formatterHexadecimalUtility{}.ptr().
+		setFmtHexadecimalWithDefaults(
+			&newFmtHexadecimal,
+			ePrefix.XCtx(
+				"newFmtHexadecimal"))
 
-	newFmtHexadecimal.leftPrefix = "0x"
-
-	newFmtHexadecimal.turnOnIntegerDigitsSeparation = false
-
-	newFmtHexadecimal.integerSeparators,
-		_ = NumStrIntSeparatorsDto{}.NewBasic(
-		" ",
-		nil)
-
-	newFmtHexadecimal.numFieldLenDto,
-		_ =
-		NumberFieldDto{}.NewBasic(
-			-1,
-			TextJustify(0).Right(),
-			nil)
-
-	return newFmtHexadecimal
+	return newFmtHexadecimal, err
 }
 
 // SetIntegerSeparators - Sets the internal member variable:
