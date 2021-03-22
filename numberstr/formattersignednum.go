@@ -612,8 +612,8 @@ func (fmtSignedNum *FormatterSignedNumber) GetNegativeValueFormat() string {
 }
 
 // GetNumberFieldLengthDto - Returns the NumberFieldDto object
-// currently configured for this Number String Format Specification
-// Signed Number Value Dto.
+// currently configured for this Signed Number String Format
+// Specification.
 //
 // The NumberFieldDto details the length of the number field in
 // which the signed numeric value will be displayed and right
@@ -646,6 +646,34 @@ func (fmtSignedNum *FormatterSignedNumber) GetNegativeValueFormat() string {
 //       This object is deep copy of the Number Field information
 //       used to configure the current instance of
 //       FormatterSignedNumber.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
 //
 //
 //  error

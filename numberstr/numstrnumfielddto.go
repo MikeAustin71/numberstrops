@@ -5,6 +5,40 @@ import (
 	"sync"
 )
 
+// NumberFieldDto -
+//       The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
+//
 type NumberFieldDto struct {
 	requestedNumFieldLength int         // User requested number field length
 	actualNumFieldLength    int         // Machine generated actual number field Length
@@ -55,6 +89,39 @@ func (nFieldDto *NumberFieldDto) Empty() {
 //
 //       If this instance of NumberFieldDto is judged to be invalid,
 //       an error will be returned.
+//
+//       The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -135,6 +202,39 @@ func (nFieldDto *NumberFieldDto) CopyIn(
 //     - A new instance of NumberFieldDto containing data values
 //       identical to those contained in the current NumberFieldDto
 //       instance.
+//
+//       The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
 //
 //
 //  error
@@ -497,6 +597,39 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 //     - If this method completes successfully, a new instance of
 //       NumberFieldDto will be returned to the caller.
 //
+//       The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
+//
 func (nFieldDto NumberFieldDto) New() NumberFieldDto {
 
 	if nFieldDto.lock == nil {
@@ -596,6 +729,39 @@ func (nFieldDto NumberFieldDto) New() NumberFieldDto {
 //  newNumFieldDto      NumberFieldDto
 //     - If this method completes successfully, a new instance of
 //       NumberFieldDto will be returned to the caller.
+//
+//       The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
 //
 //
 //  err                 error

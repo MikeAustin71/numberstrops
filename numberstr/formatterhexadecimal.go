@@ -180,6 +180,122 @@ func (formatterHex *FormatterHexadecimal) Empty() {
 	formatterHex.lock = nil
 }
 
+// GetIntegerSeparators - Returns the NumStrIntSeparatorsDto
+// object configured for the current FormatterHexadecimal instance.
+// This object constitutes the specification for integer digit
+// separation applied to Hexadecimal Digits in a number string.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrIntSeparatorsDto
+//     - The NumStrIntSeparatorsDto type manages an internal
+//       collection or array of NumStrIntSeparator objects.
+//       the integer separation operation in number strings.
+//
+//        type NumStrIntSeparator struct {
+//            intSeparatorChars       []rune  // A series of runes used to separate integer digits.
+//            intSeparatorGrouping    uint    // Number of integer digits in a group
+//            intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
+//                                            // A zero value signals unlimited repetitions.
+//            restartIntGroupingSequence bool // If true, the entire grouping sequence is repeated
+//                                            //  beginning at array index zero.
+//        }
+//
+//        intSeparatorChars          []rune
+//           - A series of runes or characters used to separate integer
+//             digits in a number string. These characters are commonly
+//             known as the 'thousands separator'. A 'thousands
+//             separator' is used to separate groups of integer digits to
+//             the left of the decimal separator (a.k.a. decimal point).
+//             In the United States, the standard integer digits
+//             separator is the single comma character (','). Other
+//             countries and cultures use periods, spaces, apostrophes or
+//             multiple characters to separate integers.
+//                   United States Example:  1,000,000,000
+//
+//        intSeparatorGrouping       uint
+//           - This unsigned integer values specifies the number of
+//             integer digits within a group. This value is used to group
+//             integers within a number string.
+//
+//             In most western countries integer digits to the left of
+//             the decimal separator (a.k.a. decimal point) are separated
+//             into groups of three digits representing a grouping of
+//             'thousands' like this: '1,000,000,000'. In this case the
+//             intSeparatorGrouping value would be set to three ('3').
+//
+//             In some countries and cultures other integer groupings are
+//             used. In India, for example, a number might be formatted like
+//             this: '6,78,90,00,00,00,00,000'. Chinese Numerals have an
+//             integer grouping value of four ('4').
+//                Chinese Numerals Example: '12,3456,7890,2345'
+//
+//        intSeparatorRepetitions    uint
+//           - This unsigned integer value specifies the number of times
+//             this integer grouping is repeated. A value of zero signals
+//             that this integer grouping will be repeated indefinitely.
+//
+//        restartIntGroupingSequence bool
+//           - If the NumStrIntSeparator is the last element in an array
+//             of NumStrIntSeparator objects, this boolean flag signals
+//             whether the entire integer grouping sequence will be
+//             restarted from array element zero.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (formatterHex *FormatterHexadecimal) GetIntegerSeparators(
+	ePrefix *ErrPrefixDto) (
+	NumStrIntSeparatorsDto,
+	error) {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterHexadecimal." +
+			"GetIntegerSeparators()")
+
+	return formatterHex.integerSeparators.CopyOut(
+		ePrefix.XCtx(
+			"formatterHex"))
+
+}
+
 // GetLeftPrefix - Returns the 'Left Prefix' string configured for
 // the current FormatterHexadecimal instance. Often, hexadecimal
 // digits displayed in a text string are prefixed with the
@@ -199,7 +315,115 @@ func (formatterHex *FormatterHexadecimal) GetLeftPrefix() string {
 	defer formatterHex.lock.Unlock()
 
 	return formatterHex.leftPrefix
+}
 
+// GetNumberFieldLengthDto - Returns the NumberFieldDto object
+// currently configured for this Hexadecimal Number String Format
+// Specification.
+//
+// The NumberFieldDto details the length of the number field in
+// which the hexadecimal numeric value will be displayed and right
+// justified.
+//
+// If the NumberFieldDto object is judged to be invalid, this
+// method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumberFieldDto
+//     - If this method completes successfully, a new instance of
+//       NumberFieldDto will be returned through this parameter.
+//       This object is deep copy of the Number Field information
+//       used to configure the current instance of
+//       FormatterHexadecimal.
+//
+//       The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+//       Be advised that if the returned 'NumberFieldDto' object is
+//       judged invalid, this method will return an error.
+//
+func (formatterHex *FormatterHexadecimal) GetNumberFieldLengthDto(
+	ePrefix *ErrPrefixDto) (
+	NumberFieldDto,
+	error) {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterHexadecimal." +
+			"GetIntegerSeparators()")
+
+	return formatterHex.numFieldLenDto.CopyOut(
+		ePrefix.XCtx(
+			"formatterHex"))
 }
 
 // GetNumStrFormatTypeCode - Returns the Number String Format Type
@@ -220,6 +444,32 @@ func (formatterHex *FormatterHexadecimal) GetNumStrFormatTypeCode() NumStrFormat
 	defer formatterHex.lock.Unlock()
 
 	return formatterHex.numStrFmtType
+}
+
+// GetTurnOnInterDigitsSeparation - Returns the 'Turn On Integer
+// Digits Separation" flag.
+//   FormatterHexadecimal.turnOnIntegerDigitsSeparation
+//
+// This boolean flag determines whether integer separation is
+// applied to formatted hexadecimal digits in a number string.
+//
+// If set to 'true', this flag signals that hexadecimal digits
+// will be grouped and separated according to the specification
+// contained in the internal member variable, 'integerSeparators'.
+// When set to 'false', this flag ensures that no integer digit
+// separation will occur in formatted hexadecimal number string.
+//
+func (formatterHex *FormatterHexadecimal) GetTurnOnInterDigitsSeparation() bool {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	return formatterHex.turnOnIntegerDigitsSeparation
 }
 
 // GetUseUpperCaseLetters - Returns the 'Use Upper Case Letters'
@@ -341,6 +591,242 @@ func (formatterHex *FormatterHexadecimal) IsValidInstanceError(
 	return err
 }
 
+// New - Creates and returns a new FormatterHexadecimal format
+// specification. The returned instance is generated using defaults
+// for hexadecimal number string formatting.
+//
+// Member variable data fields in the returned FormatterHexadecimal
+// instance are configured as follows:
+//
+//  numStrFmtType = NumStrFormatTypeCode(0).Hexadecimal()
+//  useUpperCaseLetters = false (Alphabetic letters will be
+//                              displayed as 'a' through 'f')
+//  leftPrefix = "0x" All hexadecimal number strings will be
+//                    prefixed with "0x". Example: '0x2b'
+//
+//  turnOnIntegerDigitsSeparation = false No integer digit
+//                                        separation will be
+//                                        applied.
+//
+//  integerSeparators = None
+//
+//  numFieldLenDto.requestedNumFieldLength = -1
+//                   Number Field = Number String Length
+//
+//  numFieldLenDto.textJustifyFormat = TextJustify(0).Right()
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  -- NONE --
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterHexadecimal
+//     - A new instance of FormatterHexadecimal configured with
+//       default values will will be returned to the calling
+//       function.
+//
+func (formatterHex *FormatterHexadecimal) New() FormatterHexadecimal {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	newFmtHexadecimal := FormatterHexadecimal{}
+
+	newFmtHexadecimal.numStrFmtType =
+		NumStrFormatTypeCode(0).Hexadecimal()
+
+	newFmtHexadecimal.lock = new(sync.Mutex)
+
+	newFmtHexadecimal.useUpperCaseLetters = false
+
+	newFmtHexadecimal.leftPrefix = "0x"
+
+	newFmtHexadecimal.turnOnIntegerDigitsSeparation = false
+
+	newFmtHexadecimal.integerSeparators,
+		_ = NumStrIntSeparatorsDto{}.NewBasic(
+		" ",
+		nil)
+
+	newFmtHexadecimal.numFieldLenDto,
+		_ =
+		NumberFieldDto{}.NewBasic(
+			-1,
+			TextJustify(0).Right(),
+			nil)
+
+	return newFmtHexadecimal
+}
+
+// SetIntegerSeparators - Sets the internal member variable:
+//    FormatterHexadecimal.integerSeparators
+//
+// This object is of type NumStrIntSeparatorsDto. The
+// NumStrIntSeparatorsDto object contains the specification for
+// integer digit separation as applied to Hexadecimal Digits in a
+// number string.
+//
+// If input parameter 'integerSeparators' is judged to be invalid,
+// this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  integerSeparators             NumStrIntSeparatorsDto
+//     - The NumStrIntSeparatorsDto type manages an internal
+//       collection or array of NumStrIntSeparator objects.
+//       the integer separation operation in number strings.
+//
+//        type NumStrIntSeparator struct {
+//            intSeparatorChars       []rune  // A series of runes used to separate integer digits.
+//            intSeparatorGrouping    uint    // Number of integer digits in a group
+//            intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
+//                                            // A zero value signals unlimited repetitions.
+//            restartIntGroupingSequence bool // If true, the entire grouping sequence is repeated
+//                                            //  beginning at array index zero.
+//        }
+//
+//        intSeparatorChars          []rune
+//           - A series of runes or characters used to separate integer
+//             digits in a number string. These characters are commonly
+//             known as the 'thousands separator'. A 'thousands
+//             separator' is used to separate groups of integer digits to
+//             the left of the decimal separator (a.k.a. decimal point).
+//             In the United States, the standard integer digits
+//             separator is the single comma character (','). Other
+//             countries and cultures use periods, spaces, apostrophes or
+//             multiple characters to separate integers.
+//                   United States Example:  1,000,000,000
+//
+//        intSeparatorGrouping       uint
+//           - This unsigned integer values specifies the number of
+//             integer digits within a group. This value is used to group
+//             integers within a number string.
+//
+//             In most western countries integer digits to the left of
+//             the decimal separator (a.k.a. decimal point) are separated
+//             into groups of three digits representing a grouping of
+//             'thousands' like this: '1,000,000,000'. In this case the
+//             intSeparatorGrouping value would be set to three ('3').
+//
+//             In some countries and cultures other integer groupings are
+//             used. In India, for example, a number might be formatted like
+//             this: '6,78,90,00,00,00,00,000'. Chinese Numerals have an
+//             integer grouping value of four ('4').
+//                Chinese Numerals Example: '12,3456,7890,2345'
+//
+//        intSeparatorRepetitions    uint
+//           - This unsigned integer value specifies the number of times
+//             this integer grouping is repeated. A value of zero signals
+//             that this integer grouping will be repeated indefinitely.
+//
+//        restartIntGroupingSequence bool
+//           - If the NumStrIntSeparator is the last element in an array
+//             of NumStrIntSeparator objects, this boolean flag signals
+//             whether the entire integer grouping sequence will be
+//             restarted from array element zero.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (formatterHex *FormatterHexadecimal) SetIntegerSeparators(
+	integerSeparators NumStrIntSeparatorsDto,
+	ePrefix *ErrPrefixDto) error {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterHexadecimal." +
+			"SetIntegerSeparators()")
+
+	err := integerSeparators.IsValidInstanceError(
+		ePrefix.XCtx(
+			"integerSeparators"))
+
+	if err != nil {
+		return err
+	}
+
+	err =
+		formatterHex.integerSeparators.CopyIn(
+			&integerSeparators,
+			ePrefix.XCtx(
+				"integerSeparators->"+
+					"formatterHex.integerSeparators"))
+
+	return err
+}
+
+// SetLeftPrefix - Sets the 'Left Prefix' string which is
+// concatenated to the beginning of the hexadecimal digits
+// when they are formatted in a number string.
+//
+// Often, hexadecimal digits displayed in a text string are
+// prefixed with the characters, "0x".
+//   Example:  0x14AF
+//
+// Input parameter 'leftPrefix' controls this prefix.
+//
+func (formatterHex *FormatterHexadecimal) SetLeftPrefix(
+	leftPrefix string) {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	formatterHex.leftPrefix = leftPrefix
+}
+
 // SetNumStrFormatTypeCode - Sets the Number String Format Type
 // coded for this FormatterHexadecimal object. For Signed Number
 // formatters, the Number String Format Type Code is set to
@@ -362,6 +848,37 @@ func (formatterHex *FormatterHexadecimal) SetNumStrFormatTypeCode() {
 		NumStrFormatTypeCode(0).Hexadecimal()
 
 	return
+}
+
+// SetTurnOnInterDigitsSeparation - Sets the 'Turn On Integer
+// Digits Separation" flag.
+//   FormatterHexadecimal.turnOnIntegerDigitsSeparation
+//
+// This boolean flag determines whether integer separation is
+// applied to formatted hexadecimal digits in a number string.
+//
+// If set to 'true', this flag signals that hexadecimal digits
+// will be grouped and separated according to the specification
+// contained in the internal member variable, 'integerSeparators'.
+// When set to 'false', this flag ensures that no integer digit
+// separation will occur in formatted hexadecimal number string.
+//
+func (formatterHex *FormatterHexadecimal) SetTurnOnInterDigitsSeparation(
+	turnOnIntegerDigitsSeparation bool) {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	formatterHex.turnOnIntegerDigitsSeparation =
+		turnOnIntegerDigitsSeparation
+
+	return
+
 }
 
 // SetUseUpperCaseLetters - Sets the 'Use Upper Case Letters' flag.
