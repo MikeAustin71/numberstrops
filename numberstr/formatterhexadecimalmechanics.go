@@ -43,6 +43,13 @@ func (fmtHexadecimalMech formatterHexadecimalMechanics) ptr() *formatterHexadeci
 //
 // Input Parameters
 //
+//  formatterHex                  *FormatterHexadecimal
+//     - A pointer to an instance of FormatterHexadecimal. All the
+//       member data variable data values in this instance will
+//       overwritten and reset according to the following input
+//       parameters.
+//
+//
 //  useUpperCaseLetters           bool
 //     - Sets the 'Use Upper Case Letters' flag. This boolean flag
 //       determines whether Hexadecimal Digits 'A' through 'F' will

@@ -55,7 +55,7 @@ func (fmtHexadecimalUtil formatterHexadecimalUtility) ptr() *formatterHexadecima
 //                   Number Field = Number String Length
 //
 //  numFieldDto.textJustifyFormat = TextJustify(0).Right()
-
+//
 func (fmtHexadecimalUtil *formatterHexadecimalUtility) setFmtHexadecimalWithDefaults(
 	formatterHex *FormatterHexadecimal,
 	ePrefix *ErrPrefixDto) (
