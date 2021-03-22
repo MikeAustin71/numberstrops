@@ -49,12 +49,12 @@ func (fmtHexadecimalUtil formatterHexadecimalUtility) ptr() *formatterHexadecima
 //                                        separation will be
 //                                        applied.
 //
-//  integerSeparators = None
+//  integerSeparators = Set to blank space (" ")
 //
-//  numFieldLenDto.requestedNumFieldLength = -1
+//  numFieldDto.requestedNumFieldLength = -1
 //                   Number Field = Number String Length
 //
-//  numFieldLenDto.textJustifyFormat = TextJustify(0).Right()
+//  numFieldDto.textJustifyFormat = TextJustify(0).Right()
 
 func (fmtHexadecimalUtil *formatterHexadecimalUtility) setFmtHexadecimalWithDefaults(
 	formatterHex *FormatterHexadecimal,
@@ -86,16 +86,16 @@ func (fmtHexadecimalUtil *formatterHexadecimalUtility) setFmtHexadecimalWithDefa
 		return err
 	}
 
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
 	formatterHex.numStrFmtType =
 		NumStrFormatTypeCode(0).Hexadecimal()
 
-	formatterHex.useUpperCaseLetters = false
+	var integerSeparators NumStrIntSeparatorsDto
 
-	formatterHex.leftPrefix = "0x"
-
-	formatterHex.turnOnIntegerDigitsSeparation = false
-
-	formatterHex.integerSeparators,
+	integerSeparators,
 		err = NumStrIntSeparatorsDto{}.NewBasic(
 		" ",
 		nil)
@@ -104,12 +104,27 @@ func (fmtHexadecimalUtil *formatterHexadecimalUtility) setFmtHexadecimalWithDefa
 		return err
 	}
 
-	formatterHex.numFieldLenDto,
+	var numFieldDto NumberFieldDto
+
+	numFieldDto,
 		err =
 		NumberFieldDto{}.NewBasic(
 			-1,
 			TextJustify(0).Right(),
 			nil)
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	return formatterHexadecimalMechanics{}.ptr().
+		setFmtHexadecimalWithComponents(
+			formatterHex,
+			false, // useUpperCaseLetters
+			"0x",  // leftPrefix
+			false, // turnOnIntegerDigitsSeparation
+			integerSeparators,
+			numFieldDto,
+			ePrefix.XCtx(
+				"formatterHex"))
 }

@@ -1105,7 +1105,7 @@ func (numSeps NumericSeparators) NewDetail(
 //       error will be returned.
 //
 //
-//  integerSeparatorsDto       NumStrIntSeparatorsDto
+//  integerSeparators          NumStrIntSeparatorsDto
 //     - The NumStrIntSeparatorsDto type manages an internal
 //       Taken as a whole, these NumStrIntSeparator objects define
 //       the integer separation operation used in formatting number strings.
@@ -1188,7 +1188,7 @@ func (numSeps NumericSeparators) NewDetail(
 //
 func (numSeps NumericSeparators) NewDetailRunes(
 	decimalSeparators []rune,
-	integerSeparatorsDto NumStrIntSeparatorsDto,
+	integerSeparators NumStrIntSeparatorsDto,
 	ePrefix *ErrPrefixDto) (
 	NumericSeparators,
 	error) {
@@ -1216,7 +1216,7 @@ func (numSeps NumericSeparators) NewDetailRunes(
 		setDetailRunes(
 			&newNumericSeps,
 			decimalSeparators,
-			&integerSeparatorsDto,
+			&integerSeparators,
 			ePrefix)
 
 	return newNumericSeps, err

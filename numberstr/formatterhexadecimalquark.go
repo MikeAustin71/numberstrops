@@ -48,7 +48,7 @@ func (fmtHexadecimalQuark *formatterHexadecimalQuark) empty(
 	formatterHex.leftPrefix = ""
 	formatterHex.turnOnIntegerDigitsSeparation = false
 	formatterHex.integerSeparators.Empty()
-	formatterHex.numFieldLenDto.Empty()
+	formatterHex.numFieldDto.Empty()
 
 	return err
 }
@@ -139,7 +139,7 @@ func (fmtHexadecimalQuark *formatterHexadecimalQuark) testValidityOfFormatterHex
 	}
 
 	err =
-		formatterHex.numFieldLenDto.IsValidInstanceError(
+		formatterHex.numFieldDto.IsValidInstanceError(
 			ePrefix.XCtx("Validating 'formatterHex' Number Field Dto"))
 
 	if err != nil {

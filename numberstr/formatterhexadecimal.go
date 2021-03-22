@@ -8,7 +8,7 @@ type FormatterHexadecimal struct {
 	leftPrefix                    string // '0x'
 	turnOnIntegerDigitsSeparation bool
 	integerSeparators             NumStrIntSeparatorsDto
-	numFieldLenDto                NumberFieldDto
+	numFieldDto                   NumberFieldDto
 	lock                          *sync.Mutex
 }
 
@@ -421,7 +421,7 @@ func (formatterHex *FormatterHexadecimal) GetNumberFieldLengthDto(
 		"FormatterHexadecimal." +
 			"GetIntegerSeparators()")
 
-	return formatterHex.numFieldLenDto.CopyOut(
+	return formatterHex.numFieldDto.CopyOut(
 		ePrefix.XCtx(
 			"formatterHex"))
 }
@@ -591,7 +591,7 @@ func (formatterHex *FormatterHexadecimal) IsValidInstanceError(
 	return err
 }
 
-// New - Creates and returns a new FormatterHexadecimal format
+// NewWithDefaults - Creates and returns a new FormatterHexadecimal format
 // specification. The returned instance is generated using defaults
 // for hexadecimal number string formatting.
 //
@@ -610,10 +610,10 @@ func (formatterHex *FormatterHexadecimal) IsValidInstanceError(
 //
 //  integerSeparators = None
 //
-//  numFieldLenDto.requestedNumFieldLength = -1
+//  numFieldDto.requestedNumFieldLength = -1
 //                   Number Field = Number String Length
 //
-//  numFieldLenDto.textJustifyFormat = TextJustify(0).Right()
+//  numFieldDto.textJustifyFormat = TextJustify(0).Right()
 //
 //
 // ----------------------------------------------------------------
@@ -650,7 +650,7 @@ func (formatterHex *FormatterHexadecimal) IsValidInstanceError(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (formatterHex *FormatterHexadecimal) New(
+func (formatterHex *FormatterHexadecimal) NewWithDefaults(
 	ePrefix *ErrPrefixDto) (
 	FormatterHexadecimal,
 	error) {
@@ -669,7 +669,7 @@ func (formatterHex *FormatterHexadecimal) New(
 
 	ePrefix.SetEPref(
 		"FormatterHexadecimal." +
-			"New()")
+			"NewWithDefaults()")
 
 	newFmtHexadecimal := FormatterHexadecimal{}
 
@@ -828,7 +828,7 @@ func (formatterHex *FormatterHexadecimal) SetIntegerSeparators(
 // prefixed with the characters, "0x".
 //   Example:  0x14AF
 //
-// Input parameter 'leftPrefix' controls this prefix.
+// Input parameter 'leftPrefix' controls this prefix string.
 //
 func (formatterHex *FormatterHexadecimal) SetLeftPrefix(
 	leftPrefix string) {
@@ -878,7 +878,7 @@ func (formatterHex *FormatterHexadecimal) SetNumStrFormatTypeCode() {
 // will be grouped and separated according to the specification
 // contained in the internal member variable, 'integerSeparators'.
 // When set to 'false', this flag ensures that no integer digit
-// separation will occur in formatted hexadecimal number string.
+// separation will occur in formatted hexadecimal number strings.
 //
 func (formatterHex *FormatterHexadecimal) SetTurnOnInterDigitsSeparation(
 	turnOnIntegerDigitsSeparation bool) {

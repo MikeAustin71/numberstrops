@@ -91,11 +91,11 @@ func (fmtHexadecimalElectron *formatterHexadecimalElectron) copyIn(
 		return err
 	}
 
-	err = targetFormatterHex.numFieldLenDto.CopyIn(
-		&incomingFormatterHex.numFieldLenDto,
+	err = targetFormatterHex.numFieldDto.CopyIn(
+		&incomingFormatterHex.numFieldDto,
 		ePrefix.XCtx(
-			"incomingFormatterHex.numFieldLenDto -> "+
-				"targetFormatterHex.numFieldLenDto"))
+			"incomingFormatterHex.numFieldDto -> "+
+				"targetFormatterHex.numFieldDto"))
 
 	return err
 }
@@ -174,11 +174,11 @@ func (fmtHexadecimalElectron *formatterHexadecimalElectron) copyOut(
 		return newFormatterHex, err
 	}
 
-	err = newFormatterHex.numFieldLenDto.CopyIn(
-		&formatterHex.numFieldLenDto,
+	err = newFormatterHex.numFieldDto.CopyIn(
+		&formatterHex.numFieldDto,
 		ePrefix.XCtx(
-			"formatterHex.numFieldLenDto -> "+
-				"newFormatterHex.numFieldLenDto"))
+			"formatterHex.numFieldDto -> "+
+				"newFormatterHex.numFieldDto"))
 
 	return newFormatterHex, err
 }
