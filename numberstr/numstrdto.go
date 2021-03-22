@@ -44,6 +44,13 @@ import (
 //       decimal separator is a period ('.') or decimal point.
 //
 //
+//  base                uint
+//     - Identifies base numbering system for the number string's
+//       numeric value. Supported base numbering systems are base
+//       2, 8, 10, 16. These are otherwise known as binary, octal,
+//       decimal and hexadecimal numbering systems.
+//
+//
 //  fmtSpec             NumStrFmtSpecDto
 //     - This object contains all of the format specifications
 //       necessary to produce text versions of a number string.
@@ -60,6 +67,8 @@ type NumStrDto struct {
 	//                   //   of this number string.
 	fracDigitRunes []rune // A slice of runes containing the fractional digits component
 	//                    //   of this number string
+	base uint // Identifies the Base Numbering System.
+	//        //   Supports Base 2, 8, 10, and 16
 	fmtSpec NumStrFmtSpecDto // Format Specifications
 	lock    *sync.Mutex
 }
