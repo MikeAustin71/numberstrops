@@ -44,8 +44,7 @@ func (fmtHexadecimalQuark *formatterHexadecimalQuark) empty(
 	formatterHex.numStrFmtType =
 		NumStrFormatTypeCode(0).None()
 
-	formatterHex.useLeadingPlus = false
-	formatterHex.useCapitalLetters = false
+	formatterHex.useUpperCaseLetters = false
 	formatterHex.leftPrefix = ""
 	formatterHex.turnOnIntegerDigitsSeparation = false
 	formatterHex.integerSeparators.Empty()

@@ -71,11 +71,8 @@ func (fmtHexadecimalElectron *formatterHexadecimalElectron) copyIn(
 	targetFormatterHex.numStrFmtType =
 		incomingFormatterHex.numStrFmtType
 
-	targetFormatterHex.useLeadingPlus =
-		incomingFormatterHex.useLeadingPlus
-
-	targetFormatterHex.useCapitalLetters =
-		incomingFormatterHex.useCapitalLetters
+	targetFormatterHex.useUpperCaseLetters =
+		incomingFormatterHex.useUpperCaseLetters
 
 	targetFormatterHex.leftPrefix =
 		incomingFormatterHex.leftPrefix
@@ -157,11 +154,8 @@ func (fmtHexadecimalElectron *formatterHexadecimalElectron) copyOut(
 	newFormatterHex.numStrFmtType =
 		formatterHex.numStrFmtType
 
-	newFormatterHex.useLeadingPlus =
-		formatterHex.useLeadingPlus
-
-	newFormatterHex.useCapitalLetters =
-		formatterHex.useCapitalLetters
+	newFormatterHex.useUpperCaseLetters =
+		formatterHex.useUpperCaseLetters
 
 	newFormatterHex.leftPrefix =
 		formatterHex.leftPrefix

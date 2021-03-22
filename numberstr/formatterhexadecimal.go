@@ -4,8 +4,7 @@ import "sync"
 
 type FormatterHexadecimal struct {
 	numStrFmtType                 NumStrFormatTypeCode
-	useLeadingPlus                bool
-	useCapitalLetters             bool
+	useUpperCaseLetters           bool
 	leftPrefix                    string // '0x'
 	turnOnIntegerDigitsSeparation bool
 	integerSeparators             NumStrIntSeparatorsDto
@@ -88,6 +87,77 @@ func (formatterHex *FormatterHexadecimal) CopyIn(
 				"formatterHex"))
 }
 
+// CopyOut - Creates and returns a deep copy of the current
+// FormatterHexadecimal instance.
+//
+// If the current FormatterHexadecimal instance is judged
+// to be invalid, this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterHexadecimal
+//     - If this method completes successfully, a new instance of
+//       FormatterHexadecimal will be created and returned
+//       containing all of the data values copied from the current
+//       instance of FormatterHexadecimal.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (formatterHex *FormatterHexadecimal) CopyOut(
+	ePrefix *ErrPrefixDto) (
+	FormatterHexadecimal,
+	error) {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterHexadecimal." +
+			"CopyOut()")
+
+	return formatterHexadecimalElectron{}.ptr().
+		copyOut(
+			formatterHex,
+			ePrefix.XCtx(
+				"formatterHex"))
+}
+
 // Empty - Deletes and resets the data values of all member
 // variables within the current FormatterHexadecimal instance to
 // their initial 'zero' values.
@@ -128,6 +198,24 @@ func (formatterHex *FormatterHexadecimal) GetNumStrFormatTypeCode() NumStrFormat
 	defer formatterHex.lock.Unlock()
 
 	return formatterHex.numStrFmtType
+}
+
+// GetUseUpperCaseLetters - Returns the 'Use Upper Case Letters'
+// flag. This boolean flag determines whether Hexadecimal Digits
+// 'A' through 'F' will be expressed as Upper Case Letters or Lower
+// Case Letters ('a' through 'f').
+//
+func (formatterHex *FormatterHexadecimal) GetUseUpperCaseLetters() bool {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	return formatterHex.useUpperCaseLetters
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
