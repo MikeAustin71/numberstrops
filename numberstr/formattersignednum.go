@@ -343,7 +343,8 @@ func (fmtSignedNum *FormatterSignedNumber) CopyIn(
 		copyIn(
 			fmtSignedNum,
 			incomingSignedNumValDto,
-			ePrefix)
+			ePrefix.XCtx(
+				"fmtSignedNum"))
 }
 
 // CopyOut - Creates and returns a deep copy of the current

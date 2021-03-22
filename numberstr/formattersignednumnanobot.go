@@ -10,13 +10,12 @@ type formatterSignedNumberNanobot struct {
 }
 
 // copyIn - Copies the data fields from input parameter
-// 'inComingNStrFmtSpecSignedNumValDto' to input parameter
-// 'targetNStrFmtSpecSignedNumValDto'.
+// 'incomingFmtSignedNum' to input parameter 'targetFmtSignedNum'.
 //
-// Be advised - All data fields in 'targetNStrFmtSpecSignedNumValDto'
+// Be advised - All data fields in 'targetFmtSignedNum'
 // will be overwritten.
 //
-// If input parameter 'inComingNStrFmtSpecSignedNumValDto' is judged
+// If input parameter 'targetFmtSignedNum' is judged
 // to be invalid, this method will return an error.
 //
 func (fmtSignedNumNanobot *formatterSignedNumberNanobot) copyIn(
@@ -37,7 +36,8 @@ func (fmtSignedNumNanobot *formatterSignedNumberNanobot) copyIn(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("formatterSignedNumberNanobot.copyIn()")
+	ePrefix.SetEPref(
+		"formatterSignedNumberNanobot.copyIn()")
 
 	if targetFmtSignedNum == nil {
 		err = fmt.Errorf("%v\n"+
@@ -64,7 +64,8 @@ func (fmtSignedNumNanobot *formatterSignedNumberNanobot) copyIn(
 		formatterSignedNumberMolecule{}.ptr().
 			testValidityOfSignedNumValDto(
 				incomingFmtSignedNum,
-				ePrefix.XCtx("Testing validity of 'incomingFmtSignedNum'"))
+				ePrefix.XCtx(
+					"Testing validity of 'incomingFmtSignedNum'"))
 
 	if err != nil {
 		return err
@@ -101,11 +102,11 @@ func (fmtSignedNumNanobot *formatterSignedNumberNanobot) copyIn(
 }
 
 // copyOut - Returns a deep copy of input parameter
-// 'nStrFmtSpecSignedNumValDto' styled as a new instance
-// of FormatterSignedNumber.
+// 'fmtSignedNum' styled as a new instance of
+// FormatterSignedNumber.
 //
-// If input parameter 'nStrFmtSpecSignedNumValDto' is judged to be
-// invalid, this method will return an error.
+// If input parameter 'fmtSignedNum' is judged to be invalid, this
+// method will return an error.
 //
 func (fmtSignedNumNanobot *formatterSignedNumberNanobot) copyOut(
 	fmtSignedNum *FormatterSignedNumber,

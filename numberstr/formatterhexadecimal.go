@@ -13,6 +13,81 @@ type FormatterHexadecimal struct {
 	lock                          *sync.Mutex
 }
 
+// CopyIn - Copies the data fields from an incoming
+// FormatterHexadecimal instance  to the data fields
+// of the current instance of FormatterHexadecimal
+// instance.
+//
+// If input parameter 'incomingFormatterHex' is judged to be
+// invalid, this method will return an error.
+//
+// IMPORTANT
+//
+// Be advised, all of the data fields in the current
+// FormatterHexadecimal instance will be overwritten.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingFormatterHex    *FormatterHexadecimal
+//     - A pointer to an instance of FormatterHexadecimal.
+//       The data values in this object will be copied to the
+//       current FormatterHexadecimal instance.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (formatterHex *FormatterHexadecimal) CopyIn(
+	incomingFormatterHex *FormatterHexadecimal,
+	ePrefix *ErrPrefixDto) error {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterHexadecimal." +
+			"CopyIn()")
+
+	return formatterHexadecimalElectron{}.ptr().
+		copyIn(
+			formatterHex,
+			incomingFormatterHex,
+			ePrefix.XCtx(
+				"formatterHex"))
+}
+
 // Empty - Deletes and resets the data values of all member
 // variables within the current FormatterHexadecimal instance to
 // their initial 'zero' values.

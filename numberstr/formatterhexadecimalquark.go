@@ -67,12 +67,12 @@ func (fmtHexadecimalQuark formatterHexadecimalQuark) ptr() *formatterHexadecimal
 
 	defer fmtHexadecimalQuark.lock.Unlock()
 
-	newFmtSignedNumQuark :=
+	newFmtHexadecimalQuark :=
 		new(formatterHexadecimalQuark)
 
-	newFmtSignedNumQuark.lock = new(sync.Mutex)
+	newFmtHexadecimalQuark.lock = new(sync.Mutex)
 
-	return newFmtSignedNumQuark
+	return newFmtHexadecimalQuark
 }
 
 // testValidityOfFormatterHexadecimal - Receives an instance of
@@ -103,7 +103,7 @@ func (fmtHexadecimalQuark *formatterHexadecimalQuark) testValidityOfFormatterHex
 
 	ePrefix.SetEPref(
 		"formatterHexadecimalQuark." +
-			"empty()")
+			"testValidityOfFormatterHexadecimal()")
 
 	isValid = false
 
