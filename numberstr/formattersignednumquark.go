@@ -36,7 +36,7 @@ func (fmtSignedNumQuark *formatterSignedNumberQuark) empty(
 
 	if fmtSignedNum == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'fmtCurrency' is a 'nil' pointer!\n",
+			"Error: Input parameter 'fmtSignedNum' is a 'nil' pointer!\n",
 			ePrefix.String())
 		return err
 	}
