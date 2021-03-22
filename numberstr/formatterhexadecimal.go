@@ -180,6 +180,28 @@ func (formatterHex *FormatterHexadecimal) Empty() {
 	formatterHex.lock = nil
 }
 
+// GetLeftPrefix - Returns the 'Left Prefix' string configured for
+// the current FormatterHexadecimal instance. Often, hexadecimal
+// digits displayed in a text string are prefixed with the
+// characters, "0x".
+//   Example:  0x14AF
+//
+// The returned string controls this prefix.
+//
+func (formatterHex *FormatterHexadecimal) GetLeftPrefix() string {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	return formatterHex.leftPrefix
+
+}
+
 // GetNumStrFormatTypeCode - Returns the Number String Format Type
 // Code. The Number String Format Type Code for
 // FormatterHexadecimal objects is
@@ -338,6 +360,33 @@ func (formatterHex *FormatterHexadecimal) SetNumStrFormatTypeCode() {
 
 	formatterHex.numStrFmtType =
 		NumStrFormatTypeCode(0).Hexadecimal()
+
+	return
+}
+
+// SetUseUpperCaseLetters - Sets the 'Use Upper Case Letters' flag.
+// This boolean flag determines whether Hexadecimal Digits 'A'
+// through 'F' will be expressed as Upper Case Letters or Lower
+// Case Letters ('a' through 'f').
+//
+// If input parameter 'useUpperCaseLetters' is set to 'true',
+// hexadecimal alphabetic digits will be expressed as upper case
+// letters. Conversely, if the parameter is 'false', hexadecimal
+// alphabetic digits will be expressed as lower case letters.
+//
+func (formatterHex *FormatterHexadecimal) SetUseUpperCaseLetters(
+	useUpperCaseLetters bool) {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	formatterHex.useUpperCaseLetters =
+		useUpperCaseLetters
 
 	return
 }
