@@ -20,3 +20,70 @@ type FormatterOctal struct {
 	numFieldDto                   NumberFieldDto
 	lock                          *sync.Mutex
 }
+
+// Empty - Deletes and resets the data values of all member
+// variables within the current FormatterOctal instance to
+// their initial 'zero' values.
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtOctal *FormatterOctal) Empty() {
+
+	if fmtOctal.lock == nil {
+		fmtOctal.lock = new(sync.Mutex)
+	}
+
+	fmtOctal.lock.Lock()
+
+	_ = formatterOctalQuark{}.ptr().
+		empty(fmtOctal, nil)
+
+	fmtOctal.lock.Unlock()
+
+	fmtOctal.lock = nil
+
+	return
+}
+
+// GetNumStrFormatTypeCode - Returns the Number String Format Type
+// Code. The Number String Format Type Code for FormatterOctal
+// objects is NumStrFormatTypeCode(0).Octal().
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtOctal *FormatterOctal) GetNumStrFormatTypeCode() NumStrFormatTypeCode {
+
+	if fmtOctal.lock == nil {
+		fmtOctal.lock = new(sync.Mutex)
+	}
+
+	fmtOctal.lock.Lock()
+
+	defer fmtOctal.lock.Unlock()
+
+	return fmtOctal.numStrFmtType
+
+}
+
+// SetNumStrFormatTypeCode - Sets the Number String Format Type
+// coded for this FormatterOctal object. For Octal Number
+// formatters, the Number String Format Type Code is set to
+// NumStrFormatTypeCode(0).Octal().
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtOctal *FormatterOctal) SetNumStrFormatTypeCode() {
+
+	if fmtOctal.lock == nil {
+		fmtOctal.lock = new(sync.Mutex)
+	}
+
+	fmtOctal.lock.Lock()
+
+	defer fmtOctal.lock.Unlock()
+
+	fmtOctal.numStrFmtType =
+		NumStrFormatTypeCode(0).Octal()
+
+	return
+}
