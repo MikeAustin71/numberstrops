@@ -101,7 +101,7 @@ func (fmtCurrMolecule *formatterCurrencyMolecule) testValidityOfFormatterCurrenc
 	}
 
 	err =
-		formatterCurrency.numFieldLenDto.IsValidInstanceError(
+		formatterCurrency.numFieldDto.IsValidInstanceError(
 			ePrefix)
 
 	if err != nil {

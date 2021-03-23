@@ -103,7 +103,7 @@ func (fmtAbsValMolecule *formatterAbsoluteValueMolecule) testValidityOfFormatter
 	}
 
 	err =
-		fmtAbsoluteVal.numFieldLenDto.IsValidInstanceError(
+		fmtAbsoluteVal.numFieldDto.IsValidInstanceError(
 			ePrefix)
 
 	if err != nil {

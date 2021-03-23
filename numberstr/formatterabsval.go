@@ -152,7 +152,7 @@ import (
 //                    restarted from array element zero.
 //
 //
-//  numFieldLenDto                NumberFieldDto
+//  numFieldDto                NumberFieldDto
 //     - The NumberFieldDto object contains formatting instructions
 //       for the creation and implementation of a number field.
 //       Number fields are text strings which contain number strings
@@ -192,7 +192,7 @@ type FormatterAbsoluteValue struct {
 	absoluteValFmt                string
 	turnOnIntegerDigitsSeparation bool
 	numericSeparators             NumericSeparators
-	numFieldLenDto                NumberFieldDto
+	numFieldDto                   NumberFieldDto
 	lock                          *sync.Mutex
 }
 
@@ -429,9 +429,15 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetDecimalSeparators() []rune {
 // Return Values
 //
 //  NumStrIntSeparatorsDto
-//     - The NumStrIntSeparatorsDto type manages an internal
+//     - Returns a deep copy of the NumStrIntSeparatorsDto object
+//       configured for the current FormatterAbsoluteValue
+//       instance.
+//
+//       The NumStrIntSeparatorsDto type manages an internal
 //       collection or array of NumStrIntSeparator objects.
-//       the integer separation operation in number strings.
+//       Taken as a whole, this collection represents the
+//       specification controlling the integer separation
+//       operation in absolute value number strings.
 //
 //        type NumStrIntSeparator struct {
 //            intSeparatorChars       []rune  // A series of runes used to separate integer digits.
@@ -526,8 +532,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetIntegerDigitSeparators(
 // Absolute Value Dto.
 //
 // The NumberFieldDto details the length of the number field in
-// which the signed numeric value will be displayed and right
-// justified.
+// which the absolute numeric value will be displayed and justified
+// left, right or center according to the specification.
 //
 // If the NumberFieldDto object is judged to be invalid, this
 // method will return an error.
@@ -555,6 +561,40 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetIntegerDigitSeparators(
 //       of the data values copied from the Number Field values
 //       used to configure the current instance of
 //       FormatterAbsoluteValue.
+//
+//       The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
+//
 //
 //  error
 //     - If this method completes successfully, the returned error
@@ -591,9 +631,9 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetNumberFieldLengthDto(
 		"FormatterAbsoluteValue." +
 			"GetNumberFieldLengthDto()")
 
-	return fmtAbsVal.numFieldLenDto.CopyOut(
+	return fmtAbsVal.numFieldDto.CopyOut(
 		ePrefix.XCtx(
-			"fmtAbsVal.numFieldLenDto->"))
+			"fmtAbsVal.numFieldDto->"))
 }
 
 // GetNumericSeparators - Returns a deep copy of the
@@ -2203,22 +2243,52 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetBasicRunes(
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object
 // for the current FormatterAbsoluteValue instance.
 //
-// The Number Separators Dto object is used to specify the Decimal
-// Separators Character and the Integer Digits Separator Characters.
+// The Number Field Length Dto object is used to specify the length
+// and string justification characteristics used to display
+// absolute value number strings within a number field.
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  numberFieldLenDto  NumberFieldDto
-//     - The NumberFieldDto details the length of the number field
-//       in which the signed numeric value will be displayed and
-//       right justified.
+//  numberFieldLenDto   NumberFieldDto
+//     - If this method completes successfully, a new instance of
+//       NumberFieldDto will be returned through this parameter.
+//       This object is deep copy of the Number Field information
+//       used to configure the current instance of
+//       FormatterHexadecimal.
+//
+//       The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
 //
 //       type NumberFieldDto struct {
-//         requestedNumFieldLength int
-//         actualNumFieldLength    int
-//         minimumNumFieldLength   int
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
 //       }
 //
 //
@@ -2263,18 +2333,20 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetNumberFieldLengthDto(
 	}
 
 	ePrefix.SetEPref(
-		"FormatterAbsoluteValue.SetNumberFieldLengthDto()")
+		"FormatterAbsoluteValue." +
+			"SetNumberFieldLengthDto()")
 
-	return fmtAbsVal.numFieldLenDto.CopyIn(
+	return fmtAbsVal.numFieldDto.CopyIn(
 		&numberFieldLenDto,
 		ePrefix)
 }
 
-// SetNumericSeparators - Sets the Number Separators Dto object
-// for the current FormatterAbsoluteValue instance.
+// SetNumericSeparators - Sets the Numeric Separators object for
+// the current FormatterAbsoluteValue instance.
 //
-// The Number Separators Dto object is used to specify the Decimal
-// Separators Character and the Integer Digits Separator Characters.
+// The Numeric Separators object is used to specify the Decimal
+// Separator Characters and the Integer Digits Separator
+// Characters.
 //
 // ----------------------------------------------------------------
 //

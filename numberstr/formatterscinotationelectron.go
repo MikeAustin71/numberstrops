@@ -141,11 +141,11 @@ func (fmtSciNotElectron *formatterSciNotationElectron) copyIn(
 	targetFmtSciNotation.exponentUsesLeadingPlus =
 		incomingFmtSciNotation.exponentUsesLeadingPlus
 
-	return targetFmtSciNotation.numFieldLenDto.CopyIn(
-		&incomingFmtSciNotation.numFieldLenDto,
+	return targetFmtSciNotation.numFieldDto.CopyIn(
+		&incomingFmtSciNotation.numFieldDto,
 		ePrefix.XCtx(
-			"incomingFmtSciNotation.numFieldLenDto->"+
-				"targetFmtSciNotation.numFieldLenDto"))
+			"incomingFmtSciNotation.numFieldDto->"+
+				"targetFmtSciNotation.numFieldDto"))
 }
 
 // copyOut - Returns a deep copy of the FormatterSciNotation
@@ -264,11 +264,11 @@ func (fmtSciNotElectron *formatterSciNotationElectron) copyOut(
 	newFormatterSciNotation.lock = new(sync.Mutex)
 
 	err =
-		newFormatterSciNotation.numFieldLenDto.CopyIn(
-			&formatterSciNotation.numFieldLenDto,
+		newFormatterSciNotation.numFieldDto.CopyIn(
+			&formatterSciNotation.numFieldDto,
 			ePrefix.XCtx(
-				"formatterSciNotation.numFieldLenDto->"+
-					"newFormatterSciNotation.numFieldLenDto"))
+				"formatterSciNotation.numFieldDto->"+
+					"newFormatterSciNotation.numFieldDto"))
 
 	return newFormatterSciNotation, err
 }

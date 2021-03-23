@@ -54,7 +54,7 @@ func (fmtSciNotQuark *formatterSciNotationQuark) empty(
 
 	formatterSicNot.exponentUsesLeadingPlus = false
 
-	formatterSicNot.numFieldLenDto.Empty()
+	formatterSicNot.numFieldDto.Empty()
 
 	return err
 }
@@ -176,9 +176,9 @@ func (fmtSciNotQuark *formatterSciNotationQuark) testValidityOfFormatterSciNotat
 		return isValid, err
 	}
 
-	err = formatterSciNotation.numFieldLenDto.IsValidInstanceError(
+	err = formatterSciNotation.numFieldDto.IsValidInstanceError(
 		ePrefix.XCtx(
-			"\nTesting Validity of formatterSciNotation.numFieldLenDto"))
+			"\nTesting Validity of formatterSciNotation.numFieldDto"))
 
 	if err != nil {
 		return isValid, err

@@ -528,9 +528,9 @@ func (fmtCurrMech *formatterCurrencyMechanics) setFormatterCurrencyWithComponent
 	}
 
 	err =
-		newFormatterCurrency.numFieldLenDto.CopyIn(
+		newFormatterCurrency.numFieldDto.CopyIn(
 			&numFieldLenDto,
-			ePrefix.XCtx(" numFieldLenDto->newFormatterCurrency"))
+			ePrefix.XCtx(" numFieldDto->newFormatterCurrency"))
 
 	if err != nil {
 		return err
@@ -630,7 +630,7 @@ func (fmtCurrMech *formatterCurrencyMechanics) setNumberFieldLengthDto(
 	}
 
 	return formatterCurrency.
-		numFieldLenDto.CopyIn(
+		numFieldDto.CopyIn(
 		&numberFieldLenDto,
 		ePrefix.XCtx(
 			"formatterCurrency"))

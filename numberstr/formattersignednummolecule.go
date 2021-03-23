@@ -118,7 +118,7 @@ func (fmtSignedNumMolecule *formatterSignedNumberMolecule) testValidityOfSignedN
 	}
 
 	err =
-		fmtSignedNum.numFieldLenDto.IsValidInstanceError(
+		fmtSignedNum.numFieldDto.IsValidInstanceError(
 			ePrefix.XCtx("Validating 'fmtSignedNum' Number Field Dto"))
 
 	if err != nil {

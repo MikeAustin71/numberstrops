@@ -94,8 +94,8 @@ func (fmtSignedNumNanobot *formatterSignedNumberNanobot) copyIn(
 	}
 
 	err =
-		targetFmtSignedNum.numFieldLenDto.CopyIn(
-			&incomingFmtSignedNum.numFieldLenDto,
+		targetFmtSignedNum.numFieldDto.CopyIn(
+			&incomingFmtSignedNum.numFieldDto,
 			ePrefix.XCtx("incomingFmtSignedNum->targetFmtSignedNum"))
 
 	return err
@@ -170,8 +170,8 @@ func (fmtSignedNumNanobot *formatterSignedNumberNanobot) copyOut(
 	}
 
 	err =
-		newFmtSignedNum.numFieldLenDto.CopyIn(
-			&fmtSignedNum.numFieldLenDto,
+		newFmtSignedNum.numFieldDto.CopyIn(
+			&fmtSignedNum.numFieldDto,
 			ePrefix.XCtx("fmtSignedNum->newFmtSignedNum"))
 
 	newFmtSignedNum.lock = new(sync.Mutex)

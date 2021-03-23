@@ -224,7 +224,7 @@ func (fmtSciNotationMech *formatterSciNotationMechanics) setFmtSciNotWithCompone
 	newFmtSciNotation.exponentUsesLeadingPlus =
 		exponentUsesLeadingPlus
 
-	err = newFmtSciNotation.numFieldLenDto.CopyIn(
+	err = newFmtSciNotation.numFieldDto.CopyIn(
 		&numFieldDto,
 		ePrefix.XCtx(
 			"numFieldDto->formatterSciNotation.numFieldDto"))

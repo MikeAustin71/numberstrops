@@ -263,9 +263,9 @@ func (fmtAbsValMech *formatterAbsoluteValueMechanics) setAbsValDtoWithComponents
 	}
 
 	err =
-		newNStrFmtSpecAbsValDto.numFieldLenDto.CopyIn(
+		newNStrFmtSpecAbsValDto.numFieldDto.CopyIn(
 			&numFieldLenDto,
-			ePrefix.XCtx("numFieldLenDto"))
+			ePrefix.XCtx("numFieldDto"))
 
 	nStrFmtSpecAbsValDtoNanobot :=
 		formatterAbsoluteValueNanobot{}

@@ -380,7 +380,7 @@ func (fmtSignedNumMech *formatterSignedNumberMechanics) setFmtSignedNumWithCompo
 	}
 
 	err =
-		newFmtSignedNum.numFieldLenDto.CopyIn(
+		newFmtSignedNum.numFieldDto.CopyIn(
 			&numFieldDto,
 			ePrefix.XCtx("numFieldDto->"+
 				"newFmtSignedNum.numFieldDto"))

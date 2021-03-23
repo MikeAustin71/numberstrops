@@ -346,9 +346,14 @@ func (formatterHex *FormatterHexadecimal) Empty() {
 // Return Values
 //
 //  NumStrIntSeparatorsDto
-//     - The NumStrIntSeparatorsDto type manages an internal
+//     - Returns a deep copy of the NumStrIntSeparatorsDto object
+//       configured for the current FormatterHexadecimal instance.
+//
+//       The NumStrIntSeparatorsDto type manages an internal
 //       collection or array of NumStrIntSeparator objects.
-//       the integer separation operation in number strings.
+//       Taken as a whole, this collection represents the
+//       specification controlling the integer separation
+//       operation in hexadecimal number strings.
 //
 //        type NumStrIntSeparator struct {
 //            intSeparatorChars       []rune  // A series of runes used to separate integer digits.
@@ -435,16 +440,20 @@ func (formatterHex *FormatterHexadecimal) GetIntegerSeparators(
 	return formatterHex.integerSeparators.CopyOut(
 		ePrefix.XCtx(
 			"formatterHex"))
-
 }
 
 // GetLeftPrefix - Returns the 'Left Prefix' string configured for
 // the current FormatterHexadecimal instance. Often, hexadecimal
 // digits displayed in a text string are prefixed with the
 // characters, "0x".
-//   Example:  0x14AF
+//   Example:  '0x14AF'
 //
-// The returned string controls this prefix.
+// The returned string identifies this prefix and as such, it will
+// be prefixed to the beginning of hexadecimal number strings in
+// text displays.
+//
+// Reference:
+//    https://en.wikipedia.org/wiki/Hexadecimal
 //
 func (formatterHex *FormatterHexadecimal) GetLeftPrefix() string {
 
@@ -464,8 +473,8 @@ func (formatterHex *FormatterHexadecimal) GetLeftPrefix() string {
 // Specification.
 //
 // The NumberFieldDto details the length of the number field in
-// which the hexadecimal numeric value will be displayed and right
-// justified.
+// which the hexadecimal numeric value will be displayed and
+// justified left, right or center according to the specification.
 //
 // If the NumberFieldDto object is judged to be invalid, this
 // method will return an error.
@@ -561,7 +570,7 @@ func (formatterHex *FormatterHexadecimal) GetNumberFieldLengthDto(
 
 	ePrefix.SetEPref(
 		"FormatterHexadecimal." +
-			"GetIntegerSeparators()")
+			"GetNumberFieldLengthDto()")
 
 	return formatterHex.numFieldDto.CopyOut(
 		ePrefix.XCtx(
@@ -598,8 +607,9 @@ func (formatterHex *FormatterHexadecimal) GetNumStrFormatTypeCode() NumStrFormat
 // If set to 'true', this flag signals that hexadecimal digits
 // will be grouped and separated according to the specification
 // contained in the internal member variable, 'integerSeparators'.
+//
 // When set to 'false', this flag ensures that no integer digit
-// separation will occur in formatted hexadecimal number string.
+// separation will occur in formatted octal number strings.
 //
 func (formatterHex *FormatterHexadecimal) GetTurnOnInterDigitsSeparation() bool {
 
@@ -1056,7 +1066,9 @@ func (formatterHex FormatterHexadecimal) NewWithDefaults(
 //  integerSeparators             NumStrIntSeparatorsDto
 //     - The NumStrIntSeparatorsDto type manages an internal
 //       collection or array of NumStrIntSeparator objects.
-//       the integer separation operation in number strings.
+//       Taken as a whole, this collection represents the
+//       specification controlling the integer separation
+//       operation in hexadecimal number strings.
 //
 //        type NumStrIntSeparator struct {
 //            intSeparatorChars       []rune  // A series of runes used to separate integer digits.
@@ -1194,6 +1206,101 @@ func (formatterHex *FormatterHexadecimal) SetLeftPrefix(
 	formatterHex.leftPrefix = leftPrefix
 }
 
+// SetNumberFieldLengthDto - Sets the Number Field Length Dto
+// object for the current FormatterHexadecimal instance.
+//
+// The Number Field Length Dto object is used to specify the length
+// and string justification characteristics used to display
+// hexadecimal number strings within a number field.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numberFieldLenDto   NumberFieldDto
+//     - The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (formatterHex *FormatterHexadecimal) SetNumberFieldLengthDto(
+	numberFieldLenDto NumberFieldDto,
+	ePrefix *ErrPrefixDto) error {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterCurrency." +
+			"SetNumberFieldLengthDto()")
+
+	return formatterHex.numFieldDto.CopyIn(
+		&numberFieldLenDto,
+		ePrefix)
+}
+
 // SetNumStrFormatTypeCode - Sets the Number String Format Type
 // coded for this FormatterHexadecimal object. For Signed Number
 // formatters, the Number String Format Type Code is set to
@@ -1227,6 +1334,7 @@ func (formatterHex *FormatterHexadecimal) SetNumStrFormatTypeCode() {
 // If set to 'true', this flag signals that hexadecimal digits
 // will be grouped and separated according to the specification
 // contained in the internal member variable, 'integerSeparators'.
+//
 // When set to 'false', this flag ensures that no integer digit
 // separation will occur in formatted hexadecimal number strings.
 //
@@ -1245,7 +1353,6 @@ func (formatterHex *FormatterHexadecimal) SetTurnOnInterDigitsSeparation(
 		turnOnIntegerDigitsSeparation
 
 	return
-
 }
 
 // SetUseUpperCaseLetters - Sets the 'Use Upper Case Letters' flag.

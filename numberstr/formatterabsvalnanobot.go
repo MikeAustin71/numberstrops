@@ -90,8 +90,8 @@ func (fmtAbsValNanobot *formatterAbsoluteValueNanobot) copyIn(
 	}
 
 	err =
-		targetFmtAbsoluteVal.numFieldLenDto.CopyIn(
-			&incomingFmtAbsoluteVal.numFieldLenDto,
+		targetFmtAbsoluteVal.numFieldDto.CopyIn(
+			&incomingFmtAbsoluteVal.numFieldDto,
 			ePrefix.XCtx(
 				"incomingFmtAbsoluteVal->"+
 					"targetFmtAbsoluteVal"))
@@ -168,8 +168,8 @@ func (fmtAbsValNanobot *formatterAbsoluteValueNanobot) copyOut(
 	newFmtAbsoluteVal.lock = new(sync.Mutex)
 
 	err =
-		newFmtAbsoluteVal.numFieldLenDto.CopyIn(
-			&fmtAbsoluteVal.numFieldLenDto,
+		newFmtAbsoluteVal.numFieldDto.CopyIn(
+			&fmtAbsoluteVal.numFieldDto,
 			ePrefix.XCtx(
 				"StrFmtSpecAbsoluteValDto->newFmtAbsoluteVal"))
 

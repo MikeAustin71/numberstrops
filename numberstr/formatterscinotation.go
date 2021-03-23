@@ -124,7 +124,7 @@ import (
 //             Example: '2.652E8'
 //
 //
-//  numFieldLenDto                NumberFieldDto
+//  numFieldDto                NumberFieldDto
 //     - The NumberFieldDto object contains formatting instructions
 //       for the creation and implementation of a number field.
 //       Number fields are text strings which contain number strings
@@ -165,7 +165,7 @@ type FormatterSciNotation struct {
 	mantissaLength             uint
 	exponentChar               rune
 	exponentUsesLeadingPlus    bool
-	numFieldLenDto             NumberFieldDto
+	numFieldDto                NumberFieldDto
 	lock                       *sync.Mutex
 }
 
@@ -340,6 +340,115 @@ func (fmtSciNotation *FormatterSciNotation) Empty() {
 	fmtSciNotation.lock = nil
 
 	return
+}
+
+// GetNumberFieldLengthDto - Returns the NumberFieldDto object
+// currently configured for this Scientific Notation Number String
+// Format Specification.
+//
+// The NumberFieldDto details the length of the number field in
+// which the scientific notation value will be displayed and
+// justified left, right or center according to the specification.
+//
+// If the NumberFieldDto object is judged to be invalid, this
+// method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumberFieldDto
+//     - If this method completes successfully, a new instance of
+//       NumberFieldDto will be returned through this parameter.
+//       This object is deep copy of the Number Field information
+//       used to configure the current instance of
+//       FormatterSciNotation.
+//
+//       The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+//       Be advised that if the returned 'NumberFieldDto' object is
+//       judged invalid, this method will return an error.
+//
+func (fmtSciNotation *FormatterSciNotation) GetNumberFieldLengthDto(
+	ePrefix *ErrPrefixDto) (
+	NumberFieldDto,
+	error) {
+
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
+	}
+
+	fmtSciNotation.lock.Lock()
+
+	defer fmtSciNotation.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"fmtSciNotation." +
+			"GetNumberFieldLengthDto()")
+
+	return fmtSciNotation.numFieldDto.CopyOut(
+		ePrefix.XCtx(
+			"fmtSciNotation"))
 }
 
 // GetNumStrFormatTypeCode - Returns the Number String Format Type
@@ -1011,22 +1120,46 @@ func (fmtSciNotation *FormatterSciNotation) SetMantissaLength(
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object
 // for the current FormatterSciNotation instance.
 //
-// The Number Separators Dto object is used to specify the Decimal
-// Separators Character and the Integer Digits Separator Characters.
+// The Number Field Length Dto object is used to specify the length
+// and string justification characteristics used to display
+// scientific notation number strings within a number field.
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  numberFieldLenDto  NumberFieldDto
-//     - The NumberFieldDto details the length of the number field
-//       in which the signed numeric value will be displayed and
-//       right justified.
+//  numberFieldLenDto   NumberFieldDto
+//     - The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification' - "NumberString        "
+//       (3) 'Centered'           - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
 //
 //       type NumberFieldDto struct {
-//         requestedNumFieldLength int
-//         actualNumFieldLength    int
-//         minimumNumFieldLength   int
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
 //       }
 //
 //
@@ -1073,7 +1206,7 @@ func (fmtSciNotation *FormatterSciNotation) SetNumberFieldLengthDto(
 	ePrefix.SetEPref(
 		"FormatterSciNotation.SetNumberFieldLengthDto()")
 
-	return fmtSciNotation.numFieldLenDto.CopyIn(
+	return fmtSciNotation.numFieldDto.CopyIn(
 		&numberFieldLenDto,
 		ePrefix.XCtx("fmtSciNotation\n"))
 }

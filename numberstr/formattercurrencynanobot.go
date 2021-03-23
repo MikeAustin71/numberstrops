@@ -133,8 +133,8 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyIn(
 	}
 
 	err =
-		targetFormatterCurrency.numFieldLenDto.CopyIn(
-			&inComingFormatterCurrency.numFieldLenDto,
+		targetFormatterCurrency.numFieldDto.CopyIn(
+			&inComingFormatterCurrency.numFieldDto,
 			ePrefix.XCtx("\ninComingFormatterCurrency->targetFormatterCurrency"))
 
 	return err
@@ -253,8 +253,8 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyOut(
 	}
 
 	err =
-		newFormatterCurrency.numFieldLenDto.CopyIn(
-			&formatterCurrency.numFieldLenDto,
+		newFormatterCurrency.numFieldDto.CopyIn(
+			&formatterCurrency.numFieldDto,
 			ePrefix.XCtx("formatterCurrency->newFormatterCurrency"))
 
 	newFormatterCurrency.lock = new(sync.Mutex)

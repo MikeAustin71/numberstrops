@@ -52,7 +52,7 @@ func (fmtSignedNumQuark *formatterSignedNumberQuark) empty(
 
 	fmtSignedNum.numericSeparators.Empty()
 
-	fmtSignedNum.numFieldLenDto.Empty()
+	fmtSignedNum.numFieldDto.Empty()
 
 	return err
 }

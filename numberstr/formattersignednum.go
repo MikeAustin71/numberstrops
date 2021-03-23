@@ -228,7 +228,7 @@ import (
 //                    restarted from array element zero.
 //
 //
-//  numFieldLenDto                NumberFieldDto
+//  numFieldDto                NumberFieldDto
 //     - The NumberFieldDto object contains formatting instructions
 //       for the creation and implementation of a number field.
 //       Number fields are text strings which contain number strings
@@ -268,7 +268,7 @@ type FormatterSignedNumber struct {
 	negativeValueFmt              string
 	turnOnIntegerDigitsSeparation bool
 	numericSeparators             NumericSeparators
-	numFieldLenDto                NumberFieldDto
+	numFieldDto                   NumberFieldDto
 	lock                          *sync.Mutex
 }
 
@@ -503,9 +503,14 @@ func (fmtSignedNum *FormatterSignedNumber) GetDecimalSeparator() []rune {
 // Return Values
 //
 //  NumStrIntSeparatorsDto
-//     - The NumStrIntSeparatorsDto type manages an internal
+//     - Returns a deep copy of the NumStrIntSeparatorsDto object
+//       configured for the current FormatterSignedNumber instance.
+//
+//       The NumStrIntSeparatorsDto type manages an internal
 //       collection or array of NumStrIntSeparator objects.
-//       the integer separation operation in number strings.
+//       Taken as a whole, this collection represents the
+//       specification controlling the integer separation
+//       operation in signed number strings.
 //
 //        type NumStrIntSeparator struct {
 //            intSeparatorChars       []rune  // A series of runes used to separate integer digits.
@@ -616,8 +621,8 @@ func (fmtSignedNum *FormatterSignedNumber) GetNegativeValueFormat() string {
 // Specification.
 //
 // The NumberFieldDto details the length of the number field in
-// which the signed numeric value will be displayed and right
-// justified.
+// which the signed number value will be displayed and justified
+// left, right or center according to the specification.
 //
 // If the NumberFieldDto object is judged to be invalid, this
 // method will return an error.
@@ -709,9 +714,9 @@ func (fmtSignedNum *FormatterSignedNumber) GetNumberFieldLengthDto(
 
 	ePrefix.SetEPref("FormatterSignedNumber.GetNumberFieldLengthDto()")
 
-	return fmtSignedNum.numFieldLenDto.CopyOut(
+	return fmtSignedNum.numFieldDto.CopyOut(
 		ePrefix.XCtx(
-			"fmtSignedNum.numFieldLenDto=>"))
+			"fmtSignedNum.numFieldDto=>"))
 }
 
 // GetNumericSeparators - Returns a deep copy of the
@@ -2768,8 +2773,9 @@ func (fmtSignedNum *FormatterSignedNumber) SetNegativeValueFormat(
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object
 // for the current FormatterSignedNumber instance.
 //
-// The Number Separators Dto object is used to specify the Decimal
-// Separators Character and the Integer Digits Separator Characters.
+// The Number Field Length Dto object is used to specify the length
+// and string justification characteristics used to display
+// signed number strings within a number field.
 //
 //
 // ----------------------------------------------------------------
@@ -2852,18 +2858,20 @@ func (fmtSignedNum *FormatterSignedNumber) SetNumberFieldLengthDto(
 	}
 
 	ePrefix.SetEPref(
-		"FormatterSignedNumber.SetNumberFieldLengthDto()")
+		"FormatterSignedNumber." +
+			"SetNumberFieldLengthDto()")
 
-	return fmtSignedNum.numFieldLenDto.CopyIn(
+	return fmtSignedNum.numFieldDto.CopyIn(
 		&numberFieldLenDto,
 		ePrefix)
 }
 
-// SetNumberSeparatorsDto - Sets the Number Separators Dto object
+// SetNumericSeparators - Sets the Number Separators Dto object
 // for the current FormatterSignedNumber instance.
 //
-// The Number Separators Dto object is used to specify the Decimal
-// Separators Character and the Integer Digits Separator Characters.
+// The Numeric Separators object is used to specify the Decimal
+// Separator Characters and the Integer Digits Separator
+// Characters.
 //
 // ----------------------------------------------------------------
 //
@@ -2939,7 +2947,7 @@ func (fmtSignedNum *FormatterSignedNumber) SetNumberFieldLengthDto(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (fmtSignedNum *FormatterSignedNumber) SetNumberSeparatorsDto(
+func (fmtSignedNum *FormatterSignedNumber) SetNumericSeparators(
 	numberSeparatorsDto NumericSeparators,
 	ePrefix *ErrPrefixDto) error {
 
@@ -2955,7 +2963,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetNumberSeparatorsDto(
 		ePrefix = ErrPrefixDto{}.Ptr()
 	}
 
-	ePrefix.SetEPref("FormatterSignedNumber.SetNumericSeparators()")
+	ePrefix.SetEPref("FormatterSignedNumber." +
+		"SetNumericSeparators()")
 
 	return fmtSignedNum.numericSeparators.CopyIn(
 		&numberSeparatorsDto,

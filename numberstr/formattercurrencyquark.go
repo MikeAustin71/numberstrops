@@ -65,7 +65,7 @@ func (fmtCurrQuark *formatterCurrencyQuark) empty(
 
 	fmtCurrency.numericSeparators.Empty()
 
-	fmtCurrency.numFieldLenDto.Empty()
+	fmtCurrency.numFieldDto.Empty()
 
 	return err
 }
