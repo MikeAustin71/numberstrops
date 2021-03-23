@@ -564,7 +564,10 @@ func (numSeps *NumericSeparators) IsValidInstanceError(
 //
 // Input Parameters
 //
-//  -- None --
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -575,7 +578,21 @@ func (numSeps *NumericSeparators) IsValidInstanceError(
 //     - This parameter will return a new, populated instance of
 //       NumericSeparators.
 //
-func (numSeps NumericSeparators) NewUnitedStatesDefaults() NumericSeparators {
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (numSeps NumericSeparators) NewUnitedStatesDefaults(
+	ePrefix *ErrPrefixDto) (
+	NumericSeparators,
+	error) {
 
 	if numSeps.lock == nil {
 		numSeps.lock = new(sync.Mutex)
@@ -585,24 +602,26 @@ func (numSeps NumericSeparators) NewUnitedStatesDefaults() NumericSeparators {
 
 	defer numSeps.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumericSeparators." +
+			"NewUnitedStatesDefaults()")
+
 	newNumSep := NumericSeparators{}
 
 	newNumSep.lock = new(sync.Mutex)
-
-	ePrefix := ErrPrefixDto{}.
-		NewEPrefOld("NumericSeparators.NewUnitedStatesDefaults()")
 
 	err :=
 		numericSeparatorsUtility{}.ptr().
 			setWithUSADefaults(
 				&newNumSep,
-				&ePrefix)
+				ePrefix.XCtx(
+					"newNumSep"))
 
-	if err != nil {
-		panic(fmt.Sprintf("%v\n", err.Error()))
-	}
-
-	return newNumSep
+	return newNumSep, err
 }
 
 // NewBasic - Creates and returns a new instance of

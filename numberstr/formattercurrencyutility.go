@@ -1101,6 +1101,17 @@ func (fmtCurrUtil *formatterCurrencyUtility) setToUnitedStatesDefaults(
 		return err
 	}
 
+	var numericSeparators NumericSeparators
+
+	numericSeparators,
+		err = NumericSeparators{}.
+		NewUnitedStatesDefaults(
+			ePrefix.XCtxEmpty())
+
+	if err != nil {
+		return err
+	}
+
 	err = formatterCurrencyMechanics{}.ptr().
 		setFormatterCurrencyWithComponents(
 			formatterCurrency,
@@ -1114,8 +1125,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setToUnitedStatesDefaults(
 			"Cent",
 			[]rune{'\U000000a2'},
 			true,
-			NumericSeparators{}.
-				NewUnitedStatesDefaults(),
+			numericSeparators,
 			numFieldDto,
 			ePrefix)
 
