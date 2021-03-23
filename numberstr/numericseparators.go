@@ -546,84 +546,6 @@ func (numSeps *NumericSeparators) IsValidInstanceError(
 	return err
 }
 
-// NewUnitedStatesDefaults - Returns a new instance of
-// NumericSeparators.
-//
-// The values are automatically set to United States default
-// numeric separator values. These values are listed as follows:
-//
-//  Decimal Separator Character = '.'
-//  Thousands Separator (a.k.a Integer Digits Separator) = ','
-//  Integer Digits (a.k.a. Thousands) Grouping Sequence = 3
-//
-//  United States Example Floating Point Number String:
-//           1,000,000,000.456
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  ePrefix                    *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  NumericSeparators
-//     - This parameter will return a new, populated instance of
-//       NumericSeparators.
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (numSeps NumericSeparators) NewUnitedStatesDefaults(
-	ePrefix *ErrPrefixDto) (
-	NumericSeparators,
-	error) {
-
-	if numSeps.lock == nil {
-		numSeps.lock = new(sync.Mutex)
-	}
-
-	numSeps.lock.Lock()
-
-	defer numSeps.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"NumericSeparators." +
-			"NewUnitedStatesDefaults()")
-
-	newNumSep := NumericSeparators{}
-
-	newNumSep.lock = new(sync.Mutex)
-
-	err :=
-		numericSeparatorsUtility{}.ptr().
-			setWithUSADefaults(
-				&newNumSep,
-				ePrefix.XCtx(
-					"newNumSep"))
-
-	return newNumSep, err
-}
-
 // NewBasic - Creates and returns a new instance of
 // NumericSeparators. The returned NumericSeparators instance
 // represents a basic or simple numeric separators object using
@@ -1239,6 +1161,84 @@ func (numSeps NumericSeparators) NewDetailRunes(
 			ePrefix)
 
 	return newNumericSeps, err
+}
+
+// NewUnitedStatesDefaults - Returns a new instance of
+// NumericSeparators.
+//
+// The values are automatically set to United States default
+// numeric separator values. These values are listed as follows:
+//
+//  Decimal Separator Character = '.'
+//  Thousands Separator (a.k.a Integer Digits Separator) = ','
+//  Integer Digits (a.k.a. Thousands) Grouping Sequence = 3
+//
+//  United States Example Floating Point Number String:
+//           1,000,000,000.456
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumericSeparators
+//     - This parameter will return a new, populated instance of
+//       NumericSeparators.
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (numSeps NumericSeparators) NewUnitedStatesDefaults(
+	ePrefix *ErrPrefixDto) (
+	NumericSeparators,
+	error) {
+
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
+	}
+
+	numSeps.lock.Lock()
+
+	defer numSeps.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumericSeparators." +
+			"NewUnitedStatesDefaults()")
+
+	newNumSep := NumericSeparators{}
+
+	newNumSep.lock = new(sync.Mutex)
+
+	err :=
+		numericSeparatorsUtility{}.ptr().
+			setWithUSADefaults(
+				&newNumSep,
+				ePrefix.XCtx(
+					"newNumSep"))
+
+	return newNumSep, err
 }
 
 // NewWithComponents - Creates and returns a new instance of NumericSeparators.

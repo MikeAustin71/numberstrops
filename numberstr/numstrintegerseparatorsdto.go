@@ -931,142 +931,6 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) IsValidInstanceError(
 	return err
 }
 
-// NewUnitedStatesDefaults - Returns a new instance of
-// NumStrIntSeparatorsDto configured for United States default
-// integer separation values.
-//
-// The returned instance of NumStrIntSeparatorsDto is used to
-// specify the integer digit separation characters which will
-// be included in the number string text display.
-//
-// The NumStrIntSeparatorsDto type encapsulates the integer digits
-// separators, often referred to as the 'Thousands Separator'.
-// Integer digit separators are used to separate integers into
-// specific groups within a number string. The
-// NumStrIntSeparatorsDto manages an array or collection of
-// NumStrIntSeparator objects.
-//
-//         type NumStrIntSeparatorsDto struct {
-//           intSeparators []NumStrIntSeparator
-//         }
-//
-//         type NumStrIntSeparator struct {
-//          intSeparatorChars       []rune  // A series of runes used to separate integer digits.
-//          intSeparatorGrouping    uint    // Number of integer digits in a group
-//          intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
-//                                          // A zero value signals unlimited repetitions.
-//          restartIntGroupingSequence bool // If true, the grouping sequence starts over at index zero.
-//         }
-//
-//         intSeparatorChars          []rune
-//            - A series of runes or characters used to separate integer
-//              digits in a number string. These characters are commonly
-//              known as the 'thousands separator'. A 'thousands
-//              separator' is used to separate groups of integer digits to
-//              the left of the decimal separator (a.k.a. decimal point).
-//              In the United States, the standard integer digits
-//              separator is the single comma character (','). Other
-//              countries and cultures use periods, spaces, apostrophes or
-//              multiple characters to separate integers.
-//                    United States Example:  1,000,000,000
-//
-//         intSeparatorGrouping       uint
-//            - This unsigned integer values specifies the number of
-//              integer digits within a group. This value is used to group
-//              integers within a number string.
-//
-//              In most western countries integer digits to the left of
-//              the decimal separator (a.k.a. decimal point) are separated
-//              into groups of three digits representing a grouping of
-//              'thousands' like this: '1,000,000,000'. In this case the
-//              intSeparatorGrouping value would be set to three ('3').
-//
-//              In some countries and cultures other integer groupings are
-//              used. In India, for example, a number might be formatted
-//              like this: '6,78,90,00,00,00,00,000'.
-//
-//         intSeparatorRepetitions    uint
-//            - This unsigned integer value specifies the number of times
-//              this integer grouping is repeated. A value of zero signals
-//              that this integer grouping will be repeated indefinitely.
-//
-//         restartIntGroupingSequence bool
-//            - If the NumStrIntSeparator is the last element in an array
-//              of NumStrIntSeparator objects, this boolean flag signals
-//              whether the entire integer grouping sequence will be
-//              restarted from array element zero.
-//
-// The integer separation values used in the United States are
-// listed as follows:
-//
-//  Thousands Separator (a.k.a Integer Digits Separator) = ","
-//  Integer Digits Grouping Sequence = 3
-//  United States Example Floating Point Number String:
-//      1,000,000,000.456
-//
-//
-// ----------------------------------------------------------------
-//
-// Input Parameters
-//
-//  ePrefix                    *ErrPrefixDto
-//     - This object encapsulates an error prefix string which is
-//       included in all returned error messages. Usually, it
-//       contains the names of the calling method or methods.
-//
-//
-// -----------------------------------------------------------------
-//
-// Return Values
-//
-//  NumStrIntSeparatorsDto
-//     - This parameter will return a new, populated instance of
-//       NumStrIntSeparatorsDto configured United States default
-//       integer separation parameters.
-//
-//  error
-//     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'.
-//
-//       If errors are encountered during processing, the returned
-//       error Type will encapsulate an error message. This
-//       returned error message will incorporate the method chain
-//       and text passed by input parameter, 'ePrefix'. The
-//       'ePrefix' text will be attached to the beginning of the
-//       error message.
-//
-func (intSeparatorsDto NumStrIntSeparatorsDto) NewUnitedStatesDefaults(
-	ePrefix *ErrPrefixDto) (
-	NumStrIntSeparatorsDto,
-	error) {
-
-	if intSeparatorsDto.lock == nil {
-		intSeparatorsDto.lock = new(sync.Mutex)
-	}
-
-	intSeparatorsDto.lock.Lock()
-
-	defer intSeparatorsDto.lock.Unlock()
-
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	}
-
-	ePrefix.SetEPref(
-		"NumStrIntSeparatorsDto." +
-			"NewUnitedStatesDefaults()")
-
-	newIntSepsDto := NumStrIntSeparatorsDto{}
-
-	err := numStrIntSeparatorsDtoMechanics{}.ptr().
-		setToUSADefaults(
-			&newIntSepsDto,
-			ePrefix.XCtx(
-				"newIntSepsDto"))
-
-	return newIntSepsDto, err
-}
-
 // NewBasic - Creates and returns a new instance of
 // NumStrIntSeparatorsDto consisting of a single NumStrIntSeparator
 // element. This method is intended to configure a basic or simple
@@ -1445,6 +1309,142 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) NewDetail(
 		intSeparatorRepetitions,
 		false,
 		ePrefix)
+
+	return newIntSepsDto, err
+}
+
+// NewUnitedStatesDefaults - Returns a new instance of
+// NumStrIntSeparatorsDto configured for United States default
+// integer separation values.
+//
+// The returned instance of NumStrIntSeparatorsDto is used to
+// specify the integer digit separation characters which will
+// be included in the number string text display.
+//
+// The NumStrIntSeparatorsDto type encapsulates the integer digits
+// separators, often referred to as the 'Thousands Separator'.
+// Integer digit separators are used to separate integers into
+// specific groups within a number string. The
+// NumStrIntSeparatorsDto manages an array or collection of
+// NumStrIntSeparator objects.
+//
+//         type NumStrIntSeparatorsDto struct {
+//           intSeparators []NumStrIntSeparator
+//         }
+//
+//         type NumStrIntSeparator struct {
+//          intSeparatorChars       []rune  // A series of runes used to separate integer digits.
+//          intSeparatorGrouping    uint    // Number of integer digits in a group
+//          intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
+//                                          // A zero value signals unlimited repetitions.
+//          restartIntGroupingSequence bool // If true, the grouping sequence starts over at index zero.
+//         }
+//
+//         intSeparatorChars          []rune
+//            - A series of runes or characters used to separate integer
+//              digits in a number string. These characters are commonly
+//              known as the 'thousands separator'. A 'thousands
+//              separator' is used to separate groups of integer digits to
+//              the left of the decimal separator (a.k.a. decimal point).
+//              In the United States, the standard integer digits
+//              separator is the single comma character (','). Other
+//              countries and cultures use periods, spaces, apostrophes or
+//              multiple characters to separate integers.
+//                    United States Example:  1,000,000,000
+//
+//         intSeparatorGrouping       uint
+//            - This unsigned integer values specifies the number of
+//              integer digits within a group. This value is used to group
+//              integers within a number string.
+//
+//              In most western countries integer digits to the left of
+//              the decimal separator (a.k.a. decimal point) are separated
+//              into groups of three digits representing a grouping of
+//              'thousands' like this: '1,000,000,000'. In this case the
+//              intSeparatorGrouping value would be set to three ('3').
+//
+//              In some countries and cultures other integer groupings are
+//              used. In India, for example, a number might be formatted
+//              like this: '6,78,90,00,00,00,00,000'.
+//
+//         intSeparatorRepetitions    uint
+//            - This unsigned integer value specifies the number of times
+//              this integer grouping is repeated. A value of zero signals
+//              that this integer grouping will be repeated indefinitely.
+//
+//         restartIntGroupingSequence bool
+//            - If the NumStrIntSeparator is the last element in an array
+//              of NumStrIntSeparator objects, this boolean flag signals
+//              whether the entire integer grouping sequence will be
+//              restarted from array element zero.
+//
+// The integer separation values used in the United States are
+// listed as follows:
+//
+//  Thousands Separator (a.k.a Integer Digits Separator) = ","
+//  Integer Digits Grouping Sequence = 3
+//  United States Example Floating Point Number String:
+//      1,000,000,000.456
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumStrIntSeparatorsDto
+//     - This parameter will return a new, populated instance of
+//       NumStrIntSeparatorsDto configured United States default
+//       integer separation parameters.
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSeparatorsDto NumStrIntSeparatorsDto) NewUnitedStatesDefaults(
+	ePrefix *ErrPrefixDto) (
+	NumStrIntSeparatorsDto,
+	error) {
+
+	if intSeparatorsDto.lock == nil {
+		intSeparatorsDto.lock = new(sync.Mutex)
+	}
+
+	intSeparatorsDto.lock.Lock()
+
+	defer intSeparatorsDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparatorsDto." +
+			"NewUnitedStatesDefaults()")
+
+	newIntSepsDto := NumStrIntSeparatorsDto{}
+
+	err := numStrIntSeparatorsDtoMechanics{}.ptr().
+		setToUSADefaults(
+			&newIntSepsDto,
+			ePrefix.XCtx(
+				"newIntSepsDto"))
 
 	return newIntSepsDto, err
 }

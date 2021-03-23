@@ -1607,7 +1607,10 @@ func (fmtSignedNum FormatterSignedNumber) NewBasicRunes(
 //
 // Input Parameters
 //
-//  -- None --
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -1619,7 +1622,21 @@ func (fmtSignedNum FormatterSignedNumber) NewBasicRunes(
 //       FormatterSignedNumber configured United States default
 //       signed number formatting parameters.
 //
-func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults() FormatterSignedNumber {
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults(
+	ePrefix *ErrPrefixDto) (
+	FormatterSignedNumber,
+	error) {
 
 	if fmtSignedNum.lock == nil {
 		fmtSignedNum.lock = new(sync.Mutex)
@@ -1629,16 +1646,25 @@ func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults() FormatterSig
 
 	defer fmtSignedNum.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterSignedNumber." +
+			"NewUnitedStatesDefaults()")
+
 	newFmtSignedNum := FormatterSignedNumber{}
 
 	newFmtSignedNum.lock = new(sync.Mutex)
 
-	_ = formatterSignedNumberUtility{}.ptr().
+	err := formatterSignedNumberUtility{}.ptr().
 		setToUnitedStatesDefaults(
 			&newFmtSignedNum,
-			nil)
+			ePrefix.XCtx(
+				"newFmtSignedNum"))
 
-	return newFmtSignedNum
+	return newFmtSignedNum, err
 }
 
 // NewWithComponents - Creates and returns a new instance of

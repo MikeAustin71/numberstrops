@@ -316,7 +316,8 @@ func (fmtSignedNumUtil *formatterSignedNumberUtility) setBasicSignedNumber(
 	}
 
 	ePrefix.SetEPref(
-		"formatterSignedNumberUtility.setBasicRunesSignedNumber()")
+		"formatterSignedNumberUtility." +
+			"setBasicRunesSignedNumber()")
 
 	if fmtSignedNum == nil {
 		err = fmt.Errorf("%v\n"+
@@ -784,32 +785,26 @@ func (fmtSignedNumUtil *formatterSignedNumberUtility) setToUnitedStatesDefaults(
 		TxtJustify.Right(),
 		ePrefix)
 
-	var numberSeparatorsDto NumericSeparators
+	var numericSeparators NumericSeparators
 
-	numberSeparatorsDto,
-		err = NumericSeparators{}.NewBasicRunes(
-		[]rune{'.'},
-		[]rune{','},
-		ePrefix.XCtx(
-			"decimalSeparatorChar='.' "+
-				"thousandsSeparatorChar=','"))
+	numericSeparators,
+		err = NumericSeparators{}.NewUnitedStatesDefaults(
+		ePrefix.XCtxEmpty())
 
 	if err != nil {
 		return err
 	}
 
-	nStrFmtSpecSignedNumValMech :=
-		formatterSignedNumberMechanics{}
-
-	err = nStrFmtSpecSignedNumValMech.setFmtSignedNumWithComponents(
-		fmtSignedNum,
-		"127.54",
-		"-127.54",
-		true,
-		numberSeparatorsDto,
-		numFieldDto,
-		ePrefix.XCtx(
-			"Setting 'fmtSignedNum' "))
+	err = formatterSignedNumberMechanics{}.ptr().
+		setFmtSignedNumWithComponents(
+			fmtSignedNum,
+			"127.54",
+			"-127.54",
+			true,
+			numericSeparators,
+			numFieldDto,
+			ePrefix.XCtx(
+				"Setting 'fmtSignedNum' "))
 
 	return err
 }
