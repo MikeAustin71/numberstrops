@@ -884,9 +884,6 @@ func (formatterHex FormatterHexadecimal) NewWithDefaults(
 
 	newFmtHexadecimal := FormatterHexadecimal{}
 
-	newFmtHexadecimal.numStrFmtType =
-		NumStrFormatTypeCode(0).Hexadecimal()
-
 	newFmtHexadecimal.lock = new(sync.Mutex)
 
 	err := formatterHexadecimalUtility{}.ptr().
@@ -1337,6 +1334,83 @@ func (formatterHex *FormatterHexadecimal) SetWithComponents(
 			turnOnIntegerDigitsSeparation,
 			integerSeparators,
 			numFieldDto,
+			ePrefix.XCtx(
+				"formatterHex"))
+}
+
+// SetWithDefaults - This method will overwrite and reset all the
+// member variable data values in the current FormatterHexadecimal
+// instance.
+//
+// Default values will be applied and member variable data values
+// will be configured as follows:
+//
+//  numStrFmtType = NumStrFormatTypeCode(0).Hexadecimal()
+//
+//  useUpperCaseLetters = false (Alphabetic letters will be
+//                              displayed as 'a' through 'f')
+//
+//  leftPrefix = "0x" All hexadecimal number strings will be
+//                    prefixed with "0x". Example: '0x2b'
+//
+//  turnOnIntegerDigitsSeparation = false No integer digit
+//                                        separation will be
+//                                        applied.
+//
+//  integerSeparators = Set to blank space (" ")
+//
+//  numFieldDto.requestedNumFieldLength = -1
+//                   Number Field = Number String Length
+//
+//  numFieldDto.textJustifyFormat = TextJustify(0).Right()
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (formatterHex *FormatterHexadecimal) SetWithDefaults(
+	ePrefix *ErrPrefixDto) error {
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterHexadecimal." +
+			"SetWithDefaults()")
+
+	return formatterHexadecimalUtility{}.ptr().
+		setFmtHexadecimalWithDefaults(
+			formatterHex,
 			ePrefix.XCtx(
 				"formatterHex"))
 }
