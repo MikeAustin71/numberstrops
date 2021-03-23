@@ -500,7 +500,10 @@ func (nStrIntSep *NumStrIntSeparator) IsValidInstanceError(
 //
 // Input Parameters
 //
-//  - NONE -
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -510,7 +513,22 @@ func (nStrIntSep *NumStrIntSeparator) IsValidInstanceError(
 //       NumStrIntSeparator configured with United States default
 //       integer separator values.
 //
-func (nStrIntSep NumStrIntSeparator) NewUnitedStatesDefaults() NumStrIntSeparator {
+//  err                        error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+//
+func (nStrIntSep NumStrIntSeparator) NewUnitedStatesDefaults(
+	ePrefix *ErrPrefixDto) (
+	NumStrIntSeparator,
+	error) {
 
 	if nStrIntSep.lock == nil {
 		nStrIntSep.lock = new(sync.Mutex)
@@ -520,14 +538,23 @@ func (nStrIntSep NumStrIntSeparator) NewUnitedStatesDefaults() NumStrIntSeparato
 
 	defer nStrIntSep.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparatorsDto." +
+			"NewUnitedStatesDefaults()")
+
 	newIntSep := NumStrIntSeparator{}
 
-	_ = numStrIntSeparatorMechanics{}.ptr().
+	err := numStrIntSeparatorMechanics{}.ptr().
 		setToUSADefaults(
 			&newIntSep,
-			nil)
+			ePrefix.XCtx(
+				"newIntSep"))
 
-	return newIntSep
+	return newIntSep, err
 }
 
 // NewBasic - Creates and returns a new instance of
