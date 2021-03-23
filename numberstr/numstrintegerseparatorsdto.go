@@ -1009,7 +1009,10 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) IsValidInstanceError(
 //
 // Input Parameters
 //
-//  -- None --
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
 //
 //
 // -----------------------------------------------------------------
@@ -1021,7 +1024,21 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) IsValidInstanceError(
 //       NumStrIntSeparatorsDto configured United States default
 //       integer separation parameters.
 //
-func (intSeparatorsDto NumStrIntSeparatorsDto) NewUnitedStatesDefaults() NumStrIntSeparatorsDto {
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (intSeparatorsDto NumStrIntSeparatorsDto) NewUnitedStatesDefaults(
+	ePrefix *ErrPrefixDto) (
+	NumStrIntSeparatorsDto,
+	error) {
 
 	if intSeparatorsDto.lock == nil {
 		intSeparatorsDto.lock = new(sync.Mutex)
@@ -1031,14 +1048,23 @@ func (intSeparatorsDto NumStrIntSeparatorsDto) NewUnitedStatesDefaults() NumStrI
 
 	defer intSeparatorsDto.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparatorsDto." +
+			"NewUnitedStatesDefaults()")
+
 	newIntSepsDto := NumStrIntSeparatorsDto{}
 
-	_ = numStrIntSeparatorsDtoMechanics{}.ptr().
+	err := numStrIntSeparatorsDtoMechanics{}.ptr().
 		setToUSADefaults(
 			&newIntSepsDto,
-			nil)
+			ePrefix.XCtx(
+				"newIntSepsDto"))
 
-	return newIntSepsDto
+	return newIntSepsDto, err
 }
 
 // NewBasic - Creates and returns a new instance of

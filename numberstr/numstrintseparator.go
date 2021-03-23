@@ -513,7 +513,7 @@ func (nStrIntSep *NumStrIntSeparator) IsValidInstanceError(
 //       NumStrIntSeparator configured with United States default
 //       integer separator values.
 //
-//  err                        error
+//  error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'.
 //
@@ -523,7 +523,6 @@ func (nStrIntSep *NumStrIntSeparator) IsValidInstanceError(
 //       and text passed by input parameter, 'ePrefix'. The
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
-//
 //
 func (nStrIntSep NumStrIntSeparator) NewUnitedStatesDefaults(
 	ePrefix *ErrPrefixDto) (
@@ -543,7 +542,7 @@ func (nStrIntSep NumStrIntSeparator) NewUnitedStatesDefaults(
 	}
 
 	ePrefix.SetEPref(
-		"NumStrIntSeparatorsDto." +
+		"NumStrIntSeparator." +
 			"NewUnitedStatesDefaults()")
 
 	newIntSep := NumStrIntSeparator{}
