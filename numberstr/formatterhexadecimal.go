@@ -140,6 +140,10 @@ import "sync"
 //         textJustifyFormat       TextJustify // User specified text justification
 //       }
 //
+//
+// Reference
+//
+//   https://en.wikipedia.org/wiki/Hexadecimal
 type FormatterHexadecimal struct {
 	numStrFmtType                 NumStrFormatTypeCode
 	useUpperCaseLetters           bool
