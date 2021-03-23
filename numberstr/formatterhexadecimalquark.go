@@ -117,11 +117,12 @@ func (fmtHexadecimalQuark *formatterHexadecimalQuark) testValidityOfFormatterHex
 
 	if formatterHex.numStrFmtType !=
 		NumStrFormatTypeCode(0).Hexadecimal() {
+
 		err = fmt.Errorf("%v\n"+
 			"Error: Data Element Number String Format Type is invalid!\n"+
 			"'formatterHex.numStrFmtType' should BE EQUAL TO "+
 			"'NumStrFormatTypeCode(0).Hexadecimal()'.\n"+
-			"Instead, the 'NumStrFormatTypeCode(0).Hexadecimal()' "+
+			"Instead, the 'formatterHex.numStrFmtType' "+
 			"integer value= '%v'\n",
 			ePrefix.String(),
 			formatterHex.numStrFmtType.XValueInt())

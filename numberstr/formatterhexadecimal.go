@@ -633,8 +633,8 @@ func (formatterHex *FormatterHexadecimal) GetUseUpperCaseLetters() bool {
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
-// FormatterHexadecimal instance to determine whether
-// the current instance is valid in all respects.
+// FormatterHexadecimal instance to determine whether that instance
+// is valid in all respects.
 //
 //
 // ----------------------------------------------------------------
@@ -649,11 +649,11 @@ func (formatterHex *FormatterHexadecimal) GetUseUpperCaseLetters() bool {
 // Return Values
 //
 //  isValid             bool
-//     - This returned boolean value will signal whether the current
-//       FormatterHexadecimal is valid, or not. If the
-//       current FormatterHexadecimal contains valid data,
-//       this method returns 'true'. If the data is invalid, this
-//       method will return 'false'.
+//     - This returned boolean value will signal whether the
+//       current FormatterHexadecimal instance is valid, or not. If
+//       the current FormatterHexadecimal contains valid data, this
+//       method returns 'true'. If the data is invalid, this method
+//       will return 'false'.
 //
 func (formatterHex *FormatterHexadecimal) IsValidInstance() (
 	isValid bool) {
@@ -676,8 +676,8 @@ func (formatterHex *FormatterHexadecimal) IsValidInstance() (
 }
 
 // IsValidInstanceError - Performs a diagnostic review of the
-// current FormatterSignedNumber instance to determine
-// whether the current instance is valid in all respects.
+// current FormatterHexadecimal instance to determine whether that
+// instance is valid in all respects.
 //
 //
 // ----------------------------------------------------------------
@@ -698,9 +698,9 @@ func (formatterHex *FormatterHexadecimal) IsValidInstance() (
 // Return Values
 //
 //  error
-//     - If the current instance of FormatterSignedNumber
-//       contains invalid data, a detailed error message will be
-//       returned identifying the invalid data item.
+//     - If the current instance of FormatterHexadecimal contains
+//       invalid data, a detailed error message will be returned
+//       identifying the invalid data item.
 //
 //       If the current instance is valid, this error parameter
 //       will be set to nil.
