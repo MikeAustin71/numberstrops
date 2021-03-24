@@ -471,6 +471,49 @@ func (fmtSciNotation *FormatterSciNotation) GetNumStrFormatTypeCode() NumStrForm
 	return fmtSciNotation.numStrFmtType
 }
 
+// GetSignificandUsesLeadingPlus - Returns the 'Significand Uses
+// Leading Plus' flag configured for the current instance of
+// FormatterSciNotation.
+//
+// Background
+//
+// Typically a number formatted for scientific notation takes
+// the following form:
+//      2.652E+8
+// In this example, the 'significand' is '2.652'. The designation
+// 'Significand Uses Leading Plus' refers to the following
+// examples showing positive significand integer digits :
+//
+//  - Positive significand integer digits may have a
+//    leading plus sign, '+2.652E+8'.
+//
+//  - The default is no leading plus sign, '2.652E+8'
+//
+// If the 'Significand Uses Leading Plus' flag is set to 'true', it
+// signals that positive significand integer digits WILL HAVE a
+// leading plus sign: '+2.652E+8'.
+//
+// Conversely, if the 'Significand Uses Leading Plus' flag is set
+// to 'false', it signals that positive significand integer digits
+// WILL NOT HAVE a leading plus sign: '2.652E+8'.
+//
+// This method returns the current 'Significand Uses Leading Plus'
+// flag which is stored in the internal member variable:
+//   FormatterSciNotation.significandUsesLeadingPlus
+//
+func (fmtSciNotation *FormatterSciNotation) GetSignificandUsesLeadingPlus() bool {
+
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
+	}
+
+	fmtSciNotation.lock.Lock()
+
+	defer fmtSciNotation.lock.Unlock()
+
+	return fmtSciNotation.significandUsesLeadingPlus
+}
+
 // IsValidInstance - Performs a diagnostic review of the current
 // FormatterSciNotation instance to determine whether
 // the current instance is valid in all respects.
