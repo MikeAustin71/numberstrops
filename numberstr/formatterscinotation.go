@@ -342,6 +342,46 @@ func (fmtSciNotation *FormatterSciNotation) Empty() {
 	return
 }
 
+// GetMantissaLength - Returns the Mantissa Length as an unsigned
+// integer.
+//
+// Background
+//
+// Typically a number formatted for scientific notation takes
+// the following form:
+//      2.652E+8
+//
+// In the example shown above, the mantissa is ".652"
+// The length of the mantissa in this example is '3'.
+//
+// The length of the mantissa is used in formatting a numeric value
+// in scientific notation. This value is usually fairly small in
+// the range of 1 - 8 digits. However, this length is completely
+// controlled by the user. A value of zero invalidates the format
+// specification.
+//
+//  A zero value mantissa length signals that the specification is
+//  empty.
+//
+// This method returns the current 'Mantissa Length' value which is
+// stored in the internal member variable:
+//   FormatterSciNotation.mantissaLength
+//
+func (fmtSciNotation *FormatterSciNotation) GetMantissaLength() (mantissaLength uint) {
+
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
+	}
+
+	fmtSciNotation.lock.Lock()
+
+	defer fmtSciNotation.lock.Unlock()
+
+	mantissaLength = fmtSciNotation.mantissaLength
+
+	return mantissaLength
+}
+
 // GetNumberFieldLengthDto - Returns the NumberFieldDto object
 // currently configured for this Scientific Notation Number String
 // Format Specification.

@@ -142,6 +142,15 @@ func (fmtSciNotQuark *formatterSciNotationQuark) testValidityOfFormatterSciNotat
 		return isValid, err
 	}
 
+	if formatterSciNotation.mantissaLength == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: 'formatterSciNotation.mantissaLength' is invalid!\n"+
+			"formatterSciNotation.mantissaLength is equal to ZERO ('0').\n",
+			ePrefix.String())
+
+		return isValid, err
+	}
+
 	if formatterSciNotation.numStrFmtType !=
 		NumStrFormatTypeCode(0).ScientificNotation() {
 
