@@ -131,10 +131,10 @@ func (fmtSciNotQuark *formatterSciNotationQuark) testValidityOfFormatterSciNotat
 		formatterSciNotation.lock = new(sync.Mutex)
 	}
 
-	if formatterSciNotation.mantissaLength > 1000 {
+	if formatterSciNotation.mantissaLength > 10000 {
 		err = fmt.Errorf("%v\n"+
 			"Error: 'formatterSciNotation.mantissaLength' is invalid!\n"+
-			"formatterSciNotation.mantissaLength is greater than 1000.\n"+
+			"formatterSciNotation.mantissaLength is greater than 10,000.\n"+
 			"formatterSciNotation.mantissaLength== '%v'\n",
 			ePrefix.String(),
 			formatterSciNotation.mantissaLength)

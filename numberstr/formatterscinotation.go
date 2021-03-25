@@ -342,6 +342,88 @@ func (fmtSciNotation *FormatterSciNotation) Empty() {
 	return
 }
 
+// GetExponentChar - Returns the exponent character configured for
+// the current FormatterSciNotation instance. This character is
+// returned as a 'rune' and is displayed in number strings
+// formatted with scientific notation.
+//
+// Background
+//
+// Scientific Notation Example: 2.652E+8
+//
+// In the example above, the exponent character is 'E'. This is the
+// default. Users may elect to use an exponent character of 'e'
+// which would yield the following format result:
+//                2.652e+8
+//
+// 'E' was selected as a default to avoid confusion with Euler's
+// number which is also designated with the character 'e'.
+//
+// The exponent character applied in scientific notation formatting
+// is completely controlled by the user. However, a rune or
+// exponent character value, of zero will invalidate the format
+// specification. An exponent character value of zero ('0') signals
+// that the format specification is empty.
+//
+// This method returns the current scientific notation 'Exponent
+// Character' value which is stored in the internal member
+// variable:
+//   FormatterSciNotation.exponentChar
+//
+func (fmtSciNotation *FormatterSciNotation) GetExponentChar() rune {
+
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
+	}
+
+	fmtSciNotation.lock.Lock()
+
+	defer fmtSciNotation.lock.Unlock()
+
+	return fmtSciNotation.exponentChar
+}
+
+// GetExponentUsesLeadingPlus - Returns the boolean flag which
+// determines whether positive exponents in scientific notation
+// will be prefixed with a leading plus sign.
+//
+// Background
+//
+// Scientific Notation Example: 2.652E+8
+//
+// In the example above the, 'exponent' is '8'. Positive value
+// exponents may or may not be prefixed with a leading plus sign.
+//
+// When the 'Exponent Uses Leading Plus Sign' flag is set to
+// 'true', the scientific notation format will be presented as:
+//              2.652E+8
+//
+// When the 'Exponent Uses Leading Plus Sign' flag is set to
+// 'false', the scientific notation format will be presented as:
+//              2.652E8
+//
+// This setting only applies to exponents with a positive value.
+// Exponents with a negative value will always be prefixed with a
+// minus sign. Example: 2.652E-20
+//
+// This method returns the current 'Exponent Uses Leading Plus
+// Sign' boolean flag value which is stored in the internal member
+// variable:
+//   FormatterSciNotation.exponentUsesLeadingPlus
+//
+func (fmtSciNotation *FormatterSciNotation) GetExponentUsesLeadingPlus() bool {
+
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
+	}
+
+	fmtSciNotation.lock.Lock()
+
+	defer fmtSciNotation.lock.Unlock()
+
+	return fmtSciNotation.exponentUsesLeadingPlus
+}
+
 // GetMantissaLength - Returns the Mantissa Length as an unsigned
 // integer.
 //
@@ -513,7 +595,10 @@ func (fmtSciNotation *FormatterSciNotation) GetNumStrFormatTypeCode() NumStrForm
 
 // GetSignificandUsesLeadingPlus - Returns the 'Significand Uses
 // Leading Plus' flag configured for the current instance of
-// FormatterSciNotation.
+// FormatterSciNotation. This flag determines whether positive
+// 'significand' integer digits in scientific notation will be
+// prefixed with a leading plus sign.
+//
 //
 // Background
 //
@@ -1036,13 +1121,13 @@ func (fmtSciNotation FormatterSciNotation) NewWithDefaults(
 // SetExponentChar - Sets the exponent character which will be
 // displayed in number strings formatted with scientific notation.
 //
-// Terminology
+// Background
 //
 // Scientific Notation Example: 2.652E+8
 //
 // In the example above the exponent character is 'E'. This is the
-// default. Users may wish to use an exponent character of 'e' which
-// would result in the following format result:
+// default. Users may wish to use an exponent character of 'e'
+// which would yield the following format result:
 //                2.652e+8
 //
 // 'E' was selected as a default to avoid confusion with Euler's
@@ -1051,8 +1136,9 @@ func (fmtSciNotation FormatterSciNotation) NewWithDefaults(
 // The exponent character applied in scientific notation formatting
 // is completely controlled by the user. However, a rune or
 // character value, of zero will invalidate the format
-// specification. An exponent character value of zero signals that
-// the format specification is empty.
+// specification. An exponent character value of zero ('0') signals
+// that the format specification is empty and will trigger an
+// error.
 //
 //
 // ----------------------------------------------------------------
@@ -1067,18 +1153,38 @@ func (fmtSciNotation FormatterSciNotation) NewWithDefaults(
 //                  2.652e+8
 //                  2.652E+8
 //
-//       Setting exponentChar = 0 invalidates the format specification
-//       and signals that the format specification is empty.
+//       Setting exponentChar = 0 invalidates the format
+//       specification, signals that the format specification is
+//       empty and triggers an error return.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  --- NONE ---
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (fmtSciNotation *FormatterSciNotation) SetExponentChar(
-	exponentChar rune) {
+	exponentChar rune,
+	ePrefix *ErrPrefixDto) error {
 
 	if fmtSciNotation.lock == nil {
 		fmtSciNotation.lock = new(sync.Mutex)
@@ -1088,14 +1194,31 @@ func (fmtSciNotation *FormatterSciNotation) SetExponentChar(
 
 	defer fmtSciNotation.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterSciNotation." +
+			"SetExponentChar()")
+
+	if exponentChar == 0 {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'exponentChar' is invalid!\n"+
+			"'exponentChar' is equal to ZERO ('0').\n",
+			ePrefix)
+	}
+
 	fmtSciNotation.exponentChar = exponentChar
+
+	return nil
 }
 
 // SetExponentUsesLeadingPlus - Sets the boolean flag which
-// determines whether positive exponents will be prefixed with a
-// plus sign in scientific notation.
+// determines whether positive exponents in scientific notation
+// will be prefixed with a leading plus sign.
 //
-// Terminology
+// Background
 //
 // Scientific Notation Example: 2.652E+8
 //
@@ -1161,7 +1284,7 @@ func (fmtSciNotation *FormatterSciNotation) SetExponentUsesLeadingPlus(
 // SetMantissaLength - Sets the mantissa length used in
 // formatting number strings using Scientific Notation.
 //
-// Terminology
+// Background
 //
 // Scientific Notation Example: 2.652E+8
 // The mantissa in this example is ".652"
@@ -1178,16 +1301,39 @@ func (fmtSciNotation *FormatterSciNotation) SetExponentUsesLeadingPlus(
 //       usually fairly small in the range of 1 - 8 digits.
 //       However, this length is completely controlled by the
 //       user. A value of zero invalidates the format specification.
-//       A zero value signals that the specification is empty.
+//       If a zero value is submitted, it signals that the
+//       specification is empty and an error will be returned.
+//       Likewise, if 'mantissaLength' is greater than 10,000, an
+//       error will be returned.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
 //
 // ------------------------------------------------------------------------
 //
 // Return Values
 //
-//  --- NONE ---
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (fmtSciNotation *FormatterSciNotation) SetMantissaLength(
-	mantissaLength uint) {
+	mantissaLength uint,
+	ePrefix *ErrPrefixDto) error {
 
 	if fmtSciNotation.lock == nil {
 		fmtSciNotation.lock = new(sync.Mutex)
@@ -1197,7 +1343,33 @@ func (fmtSciNotation *FormatterSciNotation) SetMantissaLength(
 
 	defer fmtSciNotation.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterSciNotation." +
+			"SetMantissaLength()")
+
+	if mantissaLength == 0 {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'mantissaLength' is invalid!\n"+
+			"'mantissaLength' is equal to ZERO ('0').\n",
+			ePrefix)
+	}
+
+	if mantissaLength > 10000 {
+		return fmt.Errorf("%v\n"+
+			"Error: 'formatterSciNotation.mantissaLength' is invalid!\n"+
+			"formatterSciNotation.mantissaLength is greater than 10,000.\n"+
+			"formatterSciNotation.mantissaLength== '%v'\n",
+			ePrefix.String(),
+			mantissaLength)
+	}
+
 	fmtSciNotation.mantissaLength = mantissaLength
+
+	return nil
 }
 
 // SetNumberFieldLengthDto - Sets the Number Field Length Dto object
@@ -1318,7 +1490,8 @@ func (fmtSciNotation *FormatterSciNotation) SetNumStrFormatTypeCode() {
 
 // SetSignificandUsesLeadingPlus - Sets the boolean flag which
 // determines whether positive significand integer digit values
-// will be prefixed with a leading plus sign.
+// in scientific notation will be prefixed with a leading plus
+// sign.
 //
 // Terminology
 //
