@@ -42,6 +42,61 @@ func (nStrNumFieldDtoMech numStrNumFieldDtoMechanics) ptr() *numStrNumFieldDtoMe
 //       member variable data values for this instance will be set
 //       according to the following input parameters.
 //
+//       The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
+//
+//       requestedNumberFieldLen    int
+//
+//       - This is the requested length of the number field in which
+//         the number string will be displayed.
+//
+//         If this field length is greater than the actual length of
+//         the number string, the number string will be justified
+//         within the number field. If the actual number string
+//         length is greater than the requested number field length,
+//         the number field length will be automatically expanded
+//         to display the entire number string. The 'requested'
+//         number field length is used to create number fields
+//         of standard lengths for text presentations.
+//
+//         If 'requestedNumberFieldLen' is set to a value of minus
+//         one (-1), the final number field length will be set to
+//         the length of the actual number string.
+//
+//       numberFieldTextJustify        TextJustify
+//       - An enumeration value used to specify the type of text
+//         formatting which will be applied to a number string when
+//         it is positioned inside of a number field. This
+//         enumeration value must be one of the three following
+//         format specifications:
+//
+//         1. Left   - Signals that the text justification format is
+//                     set to 'Left-Justify'. Strings within text
+//                     fields will be flush with the left margin.
+//                            Example: "TextString      "
+//
+//         2. Right  - Signals that the text justification format is
+//                     set to 'Right-Justify'. Strings within text
+//                     fields will terminate at the right margin.
+//                            Example: "      TextString"
+//
+//         3. Center - Signals that the text justification format is
+//                     is set to 'Centered'. Strings will be positioned
+//                     in the center of the text field equidistant
+//                     from the left and right margins.
+//                             Example: "   TextString   "
+//
 //
 //  requestedNumberFieldLen    int
 //     - This is the requested length of the number field in which
