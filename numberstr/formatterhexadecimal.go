@@ -155,9 +155,8 @@ type FormatterHexadecimal struct {
 }
 
 // CopyIn - Copies the data fields from an incoming
-// FormatterHexadecimal instance  to the data fields
-// of the current instance of FormatterHexadecimal
-// instance.
+// FormatterHexadecimal instance to the data fields
+// of the current FormatterHexadecimal instance.
 //
 // If input parameter 'incomingFormatterHex' is judged to be
 // invalid, this method will return an error.
@@ -171,13 +170,13 @@ type FormatterHexadecimal struct {
 //
 // Input Parameters
 //
-//  incomingFormatterHex    *FormatterHexadecimal
+//  incomingFormatterHex       *FormatterHexadecimal
 //     - A pointer to an instance of FormatterHexadecimal.
 //       The data values in this object will be copied to the
 //       current FormatterHexadecimal instance.
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                    *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.

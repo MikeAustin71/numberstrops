@@ -21,6 +21,152 @@ type FormatterOctal struct {
 	lock                          *sync.Mutex
 }
 
+// CopyIn - Copies the data fields from an incoming
+// FormatterOctal instance to the data fields of the current
+// FormatterOctal instance.
+//
+// If input parameter 'incomingFormatterOctal' is judged to be
+// invalid, this method will return an error.
+//
+// IMPORTANT
+//
+// Be advised, all of the data fields in the current FormatterOctal
+// instance will be overwritten.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingFormatterOctal     *FormatterOctal
+//     - A pointer to an instance of FormatterOctal.
+//       The data values in this object will be copied to those in
+//       the current FormatterOctal instance.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtOctal *FormatterOctal) CopyIn(
+	incomingFormatterOctal *FormatterOctal,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtOctal.lock == nil {
+		fmtOctal.lock = new(sync.Mutex)
+	}
+
+	fmtOctal.lock.Lock()
+
+	defer fmtOctal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterOctal." +
+			"CopyIn()")
+
+	return formatterOctalAtom{}.ptr().
+		copyIn(
+			fmtOctal,
+			incomingFormatterOctal,
+			ePrefix.XCtx(
+				"incomingFormatterOctal->"+
+					"fmtOctal"))
+}
+
+// CopyOut - Creates and returns a deep copy of the current
+// FormatterOctal instance.
+//
+// If the current FormatterOctal instance is judged to be invalid,
+// this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterOctal
+//     - If this method completes successfully, a new instance of
+//       FormatterOctal will be created and returned containing all
+//       of the data values copied from the current
+//       FormatterHexadecimal instance.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtOctal *FormatterOctal) CopyOut(
+	ePrefix *ErrPrefixDto) (
+	FormatterOctal,
+	error) {
+
+	if fmtOctal.lock == nil {
+		fmtOctal.lock = new(sync.Mutex)
+	}
+
+	fmtOctal.lock.Lock()
+
+	defer fmtOctal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterOctal." +
+			"CopyIn()")
+
+	return formatterOctalAtom{}.ptr().
+		copyOut(
+			fmtOctal,
+			ePrefix.XCtx(
+				"fmtOctal->"))
+}
+
 // Empty - Deletes and resets the data values of all member
 // variables within the current FormatterOctal instance to
 // their initial 'zero' values.
