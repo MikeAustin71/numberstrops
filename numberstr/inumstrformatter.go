@@ -6,10 +6,10 @@ type INumStrFormatter interface {
 	GetNumStrFormatTypeCode() NumStrFormatTypeCode
 
 	GetFmtNumStr(
-		absValIntRunes []rune,
-		absValFracRunes []rune,
+		absValIntegerRunes []rune,
+		absValFractionalRunes []rune,
 		signVal int,
-		baseNumSys int,
+		baseNumSys BaseNumberSystemType,
 		ePrefix *ErrPrefixDto) (
 		string,
 		error)
