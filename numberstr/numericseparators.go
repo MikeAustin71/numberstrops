@@ -1163,6 +1163,151 @@ func (numSeps NumericSeparators) NewDetailRunes(
 	return newNumericSeps, err
 }
 
+// NewIntSepsDetail - Creates and returns a new a full featured
+// instance of NumericSeparators based on the input parameters
+// listed below.
+//
+// The NumericSeparators type encapsulates the numeric digit
+// separators used in formatting a number string for text display.
+//
+// This means that integer digits will be separated into 'thousands'
+// with each group containing three digits each (Example:
+// 1,000,000,000). Users have the option of specifying integer
+// separator and decimal separator characters.
+//
+// Digit separators are commonly referred to as the decimal point
+// and thousands separator characters. In addition, Digit
+// Separators include the integer digits grouping sequence.
+//
+// In most countries, integer digits to the left of the decimal
+// separator (a.k.a. decimal point) are separated into groups of
+// three (3) digits representing a grouping of 'thousands' like
+// this: '1,000,000,000,000'. In this case the 'integer digits
+// grouping sequence' would be configured as:
+//        integer digits grouping sequence = 3
+//
+// In some countries and cultures other integer groupings are used.
+// In India, for example, a number might be formatted like this:
+// '6,78,90,00,00,00,00,000'. Chinese Numerals have an integer
+// grouping value of four ('4').
+//    Chinese Numerals Example: '12,3456,7890,2345'
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparators          string
+//     - One or more text characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the standard decimal separator is the
+//       period character (".") otherwise known as a decimal point.
+//
+//            Example: 12.345
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  integerDigitsSeparators    string
+//     - One or more characters used to separate groups of
+//       integers. This separator is also known as the 'thousands'
+//       separator. It is used to separate groups of integer digits
+//       to the left of the decimal separator
+//       (a.k.a. decimal point). In the United States, the standard
+//       integer digits separator is the comma (",").
+//
+//             Example:  1,000,000,000
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//
+//  intSeparatorGrouping       uint
+//     - The number of integer digits in group to be separated by
+//       separator characters. The most common grouping is the
+//       thousands grouping consisting of 3-digits. United States
+//       Example:
+//               1,000,000,000
+//
+//       Other countries and cultures use different grouping sequences.
+//       used to separate integer digits in a number string.
+//       Indian Number System Example: 6,78,90,00,00,00,00,000
+//       Chinese Numeral Example:      6789,0000,0000,0000
+//
+//
+//  intSeparatorRepetitions    uint
+//     - Number of times this character/group sequence is repeated.
+//       A zero value signals unlimited repetitions.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  NumericSeparators
+//     - If this method completes successfully, a new instance of
+//       NumericSeparators will be created and returned.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (numSeps NumericSeparators) NewIntSepsDetail(
+	decimalSeparators string,
+	integerDigitsSeparators string,
+	intSeparatorGrouping uint,
+	intSeparatorRepetitions uint,
+	ePrefix *ErrPrefixDto) (
+	NumericSeparators,
+	error) {
+
+	if numSeps.lock == nil {
+		numSeps.lock = new(sync.Mutex)
+	}
+
+	numSeps.lock.Lock()
+
+	defer numSeps.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumericSeparators." +
+			"NewIntSepsDetail()")
+
+	newNumericSeps := NumericSeparators{}
+
+	newNumericSeps.lock = new(sync.Mutex)
+
+	err := numericSeparatorsUtility{}.ptr().
+		setIntSepsDetail(
+			&newNumericSeps,
+			decimalSeparators,
+			integerDigitsSeparators,
+			intSeparatorGrouping,
+			intSeparatorRepetitions,
+			ePrefix)
+
+	return newNumericSeps, err
+}
+
 // NewUnitedStatesDefaults - Returns a new instance of
 // NumericSeparators.
 //
