@@ -1754,5 +1754,86 @@ func (fmtOctal *FormatterOctal) SetWithComponents(
 			numFieldDto,
 			ePrefix.XCtx(
 				"newFormatterOctal"))
+}
 
+// SetWithDefaults - Overwrites and resets all the data fields
+// within the current instance of FormatterOctal. The new data
+// values are generated from default parameters specified below.
+//
+// Member variable data fields in the current FormatterOctal
+// instance are configured as follows:
+//
+// Number String Format Type (numStrFmtType) =
+//     NumStrFormatTypeCode(0).Octal()
+//
+// Octal Number String Left Prefix String (leftPrefix) = ""
+//
+// Octal Number String Right Suffix String (rightSuffix) = ""
+//
+// Turn On Integer Digits Separation
+//  (turnOnIntegerDigitsSeparation) = false
+//
+// Integer Separators (integerSeparators) =
+//   Integer Digit Separator  = ","
+//   Integer Digit Grouping Sequence = 3
+//   Integer Group Repetitions = 0
+//
+// Number Field Dto = Off
+//   Requested Number Field Length = -1
+//   Text Justify Format (textJustifyFormat) =
+//     TextJustify(0).Right
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtOctal *FormatterOctal) SetWithDefaults(
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtOctal.lock == nil {
+		fmtOctal.lock = new(sync.Mutex)
+	}
+
+	fmtOctal.lock.Lock()
+
+	defer fmtOctal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterOctal." +
+			"SetWithDefaults()")
+
+	return formatterOctalUtility{}.ptr().
+		setFmtOctalWithDefaults(
+			fmtOctal,
+			ePrefix.XCtx(
+				"fmtOctal"))
 }
