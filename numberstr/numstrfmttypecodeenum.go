@@ -6,6 +6,9 @@ import (
 	"sync"
 )
 
+// Do NOT access these maps without first getting
+// the lock on 'lockNumStrFormatTypeCode'.
+
 var mNumStrFmtTypeCodeToString = map[NumStrFormatTypeCode]string{
 	NumStrFormatTypeCode(0): "None",
 	NumStrFormatTypeCode(1): "AbsoluteValue",
@@ -494,7 +497,7 @@ func (nStrValSpec NumStrFormatTypeCode) XIsValid() bool {
 //
 //       If 'false', a case insensitive search is conducted for the
 //       enumeration name. In this example, 'scientificnotation'
-//       will match match enumeration name 'ScientificNotation'.
+//       will match enumeration name 'ScientificNotation'.
 //
 //       A case insensitive search will match any of the following
 //       lower case names:
