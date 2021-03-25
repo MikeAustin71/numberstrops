@@ -690,6 +690,10 @@ func (nStrIntSep NumStrIntSeparator) NewBasicRunes(
 // NumStrIntSeparator. The new instance is generated based on
 // component elements passed as input parameters.
 //
+// This method differs from NumStrIntSeparator.NewDetailRunes() in
+// that this method accepts a string for input parameter
+// 'intSeparatorChars'.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -818,6 +822,149 @@ func (nStrIntSep NumStrIntSeparator) NewDetail(
 			setWithComponents(
 				&newIntSep,
 				[]rune(intSeparatorChars),
+				intSeparatorGrouping,
+				intSeparatorRepetitions,
+				restartIntGroupingSequence,
+				ePrefix.XCtx("newIntSep"))
+
+	return newIntSep, err
+}
+
+// NewDetailRunes - Creates and returns a new instance of
+// NumStrIntSeparator. The new instance is generated based on
+// component elements passed as input parameters.
+//
+// This method differs from NumStrIntSeparator.NewDetail() in that
+// this method accepts an array of runes for 'intSeparatorChars'.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  intSeparatorChars          []rune
+//     - A character, or series of characters, used to separate
+//       integer digits in a number string. These characters are
+//       commonly known as the 'thousands separator'. A 'thousands
+//       separator' is used to separate groups of integer digits to
+//       the left of the decimal separator (a.k.a. decimal point).
+//       In the United States, the standard integer digits
+//       separator is the single comma character (','). Other
+//       countries and cultures use periods, spaces, apostrophes or
+//       multiple characters to separate integers.
+//             United States Example:  1,000,000,000
+//
+//
+//  intSeparatorGrouping       uint
+//     - This unsigned integer value specifies the number of
+//       integer digits within a group. This value is used to group
+//       integers within a number string.
+//
+//       In most western countries integer digits to the left of
+//       the decimal separator (a.k.a. decimal point) are separated
+//       into groups of three digits representing a grouping of
+//       'thousands' like this: '1,000,000,000'. In this case the
+//       intSeparatorGrouping value would be set to three ('3').
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted
+//       like this: '6,78,90,00,00,00,00,000'. Chinese Numerals
+//       have an integer grouping value of four ('4').
+//         Chinese Numerals Example: '12,3456,7890,2345'
+//
+//
+//  intSeparatorRepetitions    uint
+//     - This unsigned integer value specifies the number of times
+//       this integer grouping is repeated. A value of zero signals
+//       that this integer grouping will be repeated indefinitely.
+//
+//
+//  restartIntGroupingSequence bool
+//     - The NumStrIntSeparator type is intended to be configured
+//       in an array of NumStrIntSeparator objects which, taken as
+//       a whole, provides formatting specifications for complex
+//       integer group separation operations.
+//
+//       If the current NumStrIntSeparator is the last element in
+//       an array of NumStrIntSeparator objects, the 'Restart
+//       Integer Grouping Sequence' flag signals whether the
+//       integer separation operation will be restarted from the
+//       first NumStrIntSeparator object in the array.
+//
+//       In summary, if the NumStrIntSeparator is the last element
+//       in an array of NumStrIntSeparator objects, this boolean
+//       flag signals whether the entire integer grouping sequence
+//       will be restarted from array element zero.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  newIntSep                  NumStrIntSeparator
+//     - If this method completes successfully, the parameter will
+//       return a new and fully populated instance of
+//       NumStrIntSeparator.
+//
+//
+//  err                        error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrIntSep NumStrIntSeparator) NewDetailRunes(
+	intSeparatorChars []rune,
+	intSeparatorGrouping uint,
+	intSeparatorRepetitions uint,
+	restartIntGroupingSequence bool,
+	ePrefix *ErrPrefixDto) (
+	newIntSep NumStrIntSeparator,
+	err error) {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparator.NewDetail()")
+
+	if len(intSeparatorChars) == 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'intSeparatorChars' is invalid!\n"+
+			"'intSeparatorChars' is an empty string.\n",
+			ePrefix.String())
+
+		return newIntSep, err
+	}
+
+	err =
+		numStrIntSeparatorMechanics{}.ptr().
+			setWithComponents(
+				&newIntSep,
+				intSeparatorChars,
 				intSeparatorGrouping,
 				intSeparatorRepetitions,
 				restartIntGroupingSequence,
@@ -1341,6 +1488,131 @@ func (nStrIntSep *NumStrIntSeparator) SetDetail(
 		setWithComponents(
 			nStrIntSep,
 			[]rune(intSeparatorChars),
+			intSeparatorGrouping,
+			intSeparatorRepetitions,
+			restartIntGroupingSequence,
+			ePrefix.XCtx("nStrIntSep"))
+}
+
+// SetDetailRunes - This method will overwrite and reset the
+// internal member variable data values for the current
+// NumStrIntSeparator instance based on the component elements
+// passed as input parameters.
+//
+// This method differs from NumStrIntSeparator.SetDetail() in that
+// this method accepts an array of runes for 'intSeparatorChars'.
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current NumStrIntSeparator instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  intSeparatorChars          []rune
+//     - A character, or series of characters, used to separate
+//       integer digits in a number string. These characters are
+//       commonly known as the 'thousands separator'. A 'thousands
+//       separator' is used to separate groups of integer digits to
+//       the left of the decimal separator (a.k.a. decimal point).
+//       In the United States, the standard integer digits
+//       separator is the single comma character (','). Other
+//       countries and cultures use periods, spaces, apostrophes or
+//       multiple characters to separate integers.
+//             United States Example:  1,000,000,000
+//
+//
+//  intSeparatorGrouping       uint
+//     - This unsigned integer values specifies the number of
+//       integer digits within a group. This value is used to group
+//       integers within a number string.
+//
+//       In most western countries integer digits to the left of
+//       the decimal separator (a.k.a. decimal point) are separated
+//       into groups of three digits representing a grouping of
+//       'thousands' like this: '1,000,000,000'. In this case the
+//       intSeparatorGrouping value would be set to three ('3').
+//
+//       In some countries and cultures other integer groupings are
+//       used. In India, for example, a number might be formatted
+//       like this: '6,78,90,00,00,00,00,000'. Chinese Numerals
+//       would be formatted like this: '12,3456,7890,2345'
+//
+//
+//  intSeparatorRepetitions    uint
+//     - This unsigned integer value specifies the number of times
+//       this integer grouping is repeated. A value of zero signals
+//       that this integer grouping will be repeated indefinitely.
+//
+//
+//  restartIntGroupingSequence bool
+//     - If the NumStrIntSeparator is the last element in an array
+//       of NumStrIntSeparator objects, this boolean flag signals
+//       whether the entire integer grouping sequence will be
+//       restarted from array element zero.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (nStrIntSep *NumStrIntSeparator) SetDetailRunes(
+	intSeparatorChars []rune,
+	intSeparatorGrouping uint,
+	intSeparatorRepetitions uint,
+	restartIntGroupingSequence bool,
+	ePrefix *ErrPrefixDto) error {
+
+	if nStrIntSep.lock == nil {
+		nStrIntSep.lock = new(sync.Mutex)
+	}
+
+	nStrIntSep.lock.Lock()
+
+	defer nStrIntSep.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparator." +
+			"SetDetail()")
+
+	if len(intSeparatorChars) == 0 {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'intSeparatorChars' is invalid!\n"+
+			"'intSeparatorChars' is an empty string.\n",
+			ePrefix.String())
+	}
+
+	return numStrIntSeparatorMechanics{}.ptr().
+		setWithComponents(
+			nStrIntSep,
+			intSeparatorChars,
 			intSeparatorGrouping,
 			intSeparatorRepetitions,
 			restartIntGroupingSequence,
