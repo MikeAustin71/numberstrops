@@ -2,8 +2,10 @@ package numberstr
 
 import "sync"
 
-// FormatterHexadecimal - This structure stores formatting data
-// for hexadecimal numeric values displayed in text number strings.
+// FormatterHexadecimal - The FormatterHexadecimal type
+// encapsulates the formatting parameters necessary to format
+// hexadecimal digits for display in text number strings.
+//
 // Member data elements are listed as follows:
 //
 //  numStrFmtType           NumStrFormatTypeCode
@@ -166,6 +168,7 @@ import "sync"
 // Reference
 //
 //   https://en.wikipedia.org/wiki/Hexadecimal
+//
 type FormatterHexadecimal struct {
 	numStrFmtType                 NumStrFormatTypeCode
 	useUpperCaseLetters           bool
@@ -790,6 +793,10 @@ func (formatterHex *FormatterHexadecimal) IsValidInstanceError(
 // NewWithComponents - Creates and returns a new instance of
 // FormatterHexadecimal, 'newFormatterHexadecimal' .
 //
+// The FormatterHexadecimal type encapsulates the formatting
+// parameters necessary to format hexadecimal digits for display in
+// text number strings.
+//
 // Data values for 'newFormatterHexadecimal' will be generated from
 // the FormatterHexadecimal components passed as input parameters.
 //
@@ -1024,6 +1031,10 @@ func (formatterHex FormatterHexadecimal) NewWithComponents(
 // specification. The returned instance is generated using defaults
 // for hexadecimal number string formatting.
 //
+// The FormatterHexadecimal type encapsulates the formatting
+// parameters necessary to format hexadecimal digits for display in
+// text number strings.
+//
 // Member variable data fields in the returned FormatterHexadecimal
 // instance are configured as follows:
 //
@@ -1105,7 +1116,7 @@ func (formatterHex FormatterHexadecimal) NewWithDefaults(
 	newFmtHexadecimal.lock = new(sync.Mutex)
 
 	err := formatterHexadecimalUtility{}.ptr().
-		setFmtHexadecimalWithDefaults(
+		setFmtHexWithDefaults(
 			&newFmtHexadecimal,
 			ePrefix.XCtx(
 				"newFmtHexadecimal"))
@@ -1474,6 +1485,10 @@ func (formatterHex *FormatterHexadecimal) SetUseUpperCaseLetters(
 // member data variable data values in the current instance of
 // FormatterHexadecimal.
 //
+// The FormatterHexadecimal type encapsulates the formatting
+// parameters necessary to format hexadecimal digits for display in
+// text number strings.
+//
 // The new data values configured for the current
 // FormatterHexadecimal instance will be generated from the basic
 // components passed as input parameters and described below.
@@ -1701,6 +1716,10 @@ func (formatterHex *FormatterHexadecimal) SetWithComponents(
 // member variable data values in the current FormatterHexadecimal
 // instance.
 //
+// The FormatterHexadecimal type encapsulates the formatting
+// parameters necessary to format hexadecimal digits for display in
+// text number strings.
+//
 // Default values will be applied and member variable data values
 // will be configured as follows:
 //
@@ -1768,7 +1787,7 @@ func (formatterHex *FormatterHexadecimal) SetWithDefaults(
 			"SetWithDefaults()")
 
 	return formatterHexadecimalUtility{}.ptr().
-		setFmtHexadecimalWithDefaults(
+		setFmtHexWithDefaults(
 			formatterHex,
 			ePrefix.XCtx(
 				"formatterHex"))

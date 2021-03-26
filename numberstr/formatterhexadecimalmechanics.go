@@ -34,6 +34,10 @@ func (fmtHexadecimalMech formatterHexadecimalMechanics) ptr() *formatterHexadeci
 // reset all the member data variable data values in input parameter
 // 'formatterHex'.
 //
+// The FormatterHexadecimal type encapsulates the formatting
+// parameters necessary to format hexadecimal digits for display in
+// text number strings.
+//
 // The new data values configured for 'formatterHex' will be
 // generated from the FormatterHexadecimal components passed as
 // input parameters.
