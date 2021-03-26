@@ -2323,7 +2323,7 @@ func (fmtCurr FormatterCurrency) NewBasicRunes(
 //     - The character or characters used to separate integer and
 //       fractional digits in a floating point number string. In
 //       the United States, the Decimal Separator character is the
-//       period ('.') or Decimal Point.
+//       period (".") or Decimal Point.
 //           United States Example: '123.45678'
 //
 //
