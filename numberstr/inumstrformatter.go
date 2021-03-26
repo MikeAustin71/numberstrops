@@ -11,8 +11,8 @@ type INumStrFormatter interface {
 		signVal int,
 		baseNumSys BaseNumberSystemType,
 		ePrefix *ErrPrefixDto) (
-		string,
-		error)
+		fmtNumStr string,
+		err error)
 
 	SetNumStrFormatTypeCode()
 }
