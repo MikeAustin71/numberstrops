@@ -5238,7 +5238,8 @@ func (fmtCurr *FormatterCurrency) SetCurrencySymbols(
 
 // SetDetail - This method will set all of the member variable data
 // values for the current instance of FormatterCurrency. The new
-// data values are derived from the input parameters described below.
+// data values are derived from the input parameters described
+// below.
 //
 // This method differs from method FormatterCurrency.SetDetailRunes()
 // in that this method accepts strings for input parameters,
