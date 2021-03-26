@@ -44,7 +44,7 @@ import (
 //                        the default for positive number formatting.
 //
 //       Valid format strings for positive numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               "+NUMFIELD"
 //               "+ NUMFIELD"
@@ -93,7 +93,7 @@ import (
 //
 //
 //       Valid format strings for negative numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               -127.54   The Default Negative Value Format String
 //               - 127.54
@@ -1099,7 +1099,7 @@ func (fmtSignedNum *FormatterSignedNumber) IsValidInstanceError(
 //                        the default for positive number formatting.
 //
 //       Valid format strings for positive numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               "+NUMFIELD"
 //               "+ NUMFIELD"
@@ -1148,7 +1148,7 @@ func (fmtSignedNum *FormatterSignedNumber) IsValidInstanceError(
 //
 //
 //       Valid format strings for negative numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               -127.54   The Default Negative Value Format String
 //               - 127.54
@@ -1408,7 +1408,7 @@ func (fmtSignedNum FormatterSignedNumber) NewBasic(
 //                        the default for positive number formatting.
 //
 //       Valid format strings for positive numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               "+NUMFIELD"
 //               "+ NUMFIELD"
@@ -1457,7 +1457,7 @@ func (fmtSignedNum FormatterSignedNumber) NewBasic(
 //
 //
 //       Valid format strings for negative numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               -127.54   The Default Negative Value Format String
 //               - 127.54
@@ -1750,7 +1750,7 @@ func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults(
 //                        the default for positive number formatting.
 //
 //       Valid format strings for positive numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               "+NUMFIELD"
 //               "+ NUMFIELD"
@@ -1799,7 +1799,7 @@ func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults(
 //
 //
 //       Valid format strings for negative numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               -127.54   The Default Negative Value Format String
 //               - 127.54
@@ -2158,7 +2158,7 @@ func (fmtSignedNum FormatterSignedNumber) NewWithComponents(
 //                        the default for positive number formatting.
 //
 //       Valid format strings for positive numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               "+NUMFIELD"
 //               "+ NUMFIELD"
@@ -2207,7 +2207,7 @@ func (fmtSignedNum FormatterSignedNumber) NewWithComponents(
 //
 //
 //       Valid format strings for negative numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               -127.54   The Default Negative Value Format String
 //               - 127.54
@@ -2460,7 +2460,7 @@ func (fmtSignedNum *FormatterSignedNumber) SetBasic(
 //                        the default for positive number formatting.
 //
 //       Valid format strings for positive numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               "+NUMFIELD"
 //               "+ NUMFIELD"
@@ -2509,7 +2509,7 @@ func (fmtSignedNum *FormatterSignedNumber) SetBasic(
 //
 //
 //       Valid format strings for negative numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               -127.54   The Default Negative Value Format String
 //               - 127.54
@@ -2713,7 +2713,7 @@ func (fmtSignedNum *FormatterSignedNumber) SetBasicRunes(
 //
 //
 //       Valid format strings for negative numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               -127.54   The Default Negative Value Format String
 //               - 127.54
@@ -3077,7 +3077,7 @@ func (fmtSignedNum *FormatterSignedNumber) SetNumStrFormatTypeCode() {
 //                        the default for positive number formatting.
 //
 //       Valid format strings for positive numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               "+NUMFIELD"
 //               "+ NUMFIELD"
@@ -3439,7 +3439,7 @@ func (fmtSignedNum *FormatterSignedNumber) SetTurnOnIntegerDigitsSeparationFlag(
 //                        the default for positive number formatting.
 //
 //       Valid format strings for positive numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               "+NUMFIELD"
 //               "+ NUMFIELD"
@@ -3488,7 +3488,7 @@ func (fmtSignedNum *FormatterSignedNumber) SetTurnOnIntegerDigitsSeparationFlag(
 //
 //
 //       Valid format strings for negative numeric values
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               -127.54   The Default Negative Value Format String
 //               - 127.54

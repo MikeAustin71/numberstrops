@@ -824,7 +824,8 @@ func (fmtCurr *FormatterCurrency) GetFmtNumStr(
 	}
 
 	ePrefix.SetEPref(
-		"FormatterCurrency.CopyIn()")
+		"FormatterCurrency." +
+			"GetFmtNumStr()")
 
 	if baseNumSys != BaseNumberSystemType(0).Decimal() {
 		err = fmt.Errorf("%v\n"+
