@@ -124,7 +124,7 @@ func (fmtAbsValUtil formatterAbsoluteValueUtility) ptr() *formatterAbsoluteValue
 //                        the default for absolute value number formatting.
 //
 //       Valid format strings for absolute value number strings
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               "+NUMFIELD"
 //               "+ NUMFIELD"
@@ -380,7 +380,7 @@ func (fmtAbsValUtil *formatterAbsoluteValueUtility) setBasic(
 //                        the default for absolute value number formatting.
 //
 //       Valid format strings for absolute value number strings
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               "+NUMFIELD"
 //               "+ NUMFIELD"
@@ -671,7 +671,7 @@ func (fmtAbsValUtil *formatterAbsoluteValueUtility) setBasicRunes(
 //                        the default for absolute value number formatting.
 //
 //       Valid format strings for absolute value number strings
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               "+NUMFIELD"
 //               "+ NUMFIELD"
@@ -956,7 +956,7 @@ func (fmtAbsValUtil *formatterAbsoluteValueUtility) setDetail(
 //                        the default for absolute value number formatting.
 //
 //       Valid format strings for absolute value number strings
-//       (NOT Currency) are listed as follows:
+//       are listed as follows:
 //
 //               "+NUMFIELD"
 //               "+ NUMFIELD"
