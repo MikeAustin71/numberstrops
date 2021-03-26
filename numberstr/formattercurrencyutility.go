@@ -1007,7 +1007,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFmtCurrency(
 // setDetailFmtCurrency - This method will set all of the
 // member variable data values for the FormatterCurrency input
 // parameter, 'formatterCurrency'. New data values will be
-// generated from the input parameters described below..
+// generated from the input parameters described below.
 //
 // This method differs from formatterCurrencyUtility.setDetailRunesFmtCurrency()
 // in that this method accepts strings for input parameters,
