@@ -48,6 +48,8 @@ func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setToUSADefaults(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -100,6 +102,8 @@ func (intSepsDtoMech *numStrIntSeparatorsDtoMechanics) setWithComponents(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

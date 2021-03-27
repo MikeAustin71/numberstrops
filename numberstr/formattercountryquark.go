@@ -47,6 +47,8 @@ func (fmtCountryQuark *formatterCountryQuark) empty(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -110,6 +112,8 @@ func (fmtCountryQuark *formatterCountryQuark) testValidityOfFormatterCountry(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

@@ -250,6 +250,8 @@ func (fmtHexadecimalMech formatterHexadecimalMechanics) setFmtHexadecimalWithCom
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

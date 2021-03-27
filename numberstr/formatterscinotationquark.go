@@ -28,6 +28,8 @@ func (fmtSciNotQuark *formatterSciNotationQuark) empty(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -110,6 +112,8 @@ func (fmtSciNotQuark *formatterSciNotationQuark) testValidityOfFormatterSciNotat
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

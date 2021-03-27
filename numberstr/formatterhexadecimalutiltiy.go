@@ -225,6 +225,8 @@ func (fmtHexadecimalUtil *formatterHexadecimalUtility) setFmtHexDetail(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -366,6 +368,8 @@ func (fmtHexadecimalUtil *formatterHexadecimalUtility) setFmtHexWithDefaults(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

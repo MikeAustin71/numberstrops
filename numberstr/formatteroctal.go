@@ -269,6 +269,8 @@ func (fmtOctal *FormatterOctal) CopyIn(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -342,6 +344,8 @@ func (fmtOctal *FormatterOctal) CopyOut(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -488,6 +492,8 @@ func (fmtOctal *FormatterOctal) GetIntegerSeparators(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -650,6 +656,8 @@ func (fmtOctal *FormatterOctal) GetNumberFieldLengthDto(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -794,6 +802,8 @@ func (fmtOctal *FormatterOctal) IsValidInstanceError(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPrefCtx("FormatterOctal."+
@@ -1044,6 +1054,8 @@ func (fmtOctal FormatterOctal) NewWithComponents(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1141,6 +1153,8 @@ func (fmtOctal FormatterOctal) NewWithDefaults(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1271,6 +1285,8 @@ func (fmtOctal *FormatterOctal) SetIntegerSeparators(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1446,6 +1462,8 @@ func (fmtOctal *FormatterOctal) SetNumberFieldLengthDto(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1738,6 +1756,8 @@ func (fmtOctal *FormatterOctal) SetWithComponents(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1825,6 +1845,8 @@ func (fmtOctal *FormatterOctal) SetWithDefaults(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

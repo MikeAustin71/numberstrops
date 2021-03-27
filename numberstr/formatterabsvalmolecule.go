@@ -54,6 +54,8 @@ func (fmtAbsValMolecule *formatterAbsoluteValueMolecule) testValidityOfFormatter
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

@@ -76,6 +76,8 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyIn(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("numStrNumFieldDtoElectron.copyIn()")
@@ -245,6 +247,8 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyOut(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("numStrNumFieldDtoElectron.copyOut()")

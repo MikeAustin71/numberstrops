@@ -194,6 +194,8 @@ func (fmtSciNotUtil *formatterSciNotationUtility) setSciNotWithDefaults(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -298,6 +300,8 @@ func (fmtSciNotUtil *formatterSciNotationUtility) setToUnitedStatesDefaults(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

@@ -35,6 +35,8 @@ func (fmtOctalAtom *formatterOctalAtom) copyIn(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -129,6 +131,8 @@ func (fmtOctalAtom *formatterOctalAtom) copyOut(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

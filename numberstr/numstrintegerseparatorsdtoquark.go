@@ -28,6 +28,8 @@ func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) empty(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -159,6 +161,8 @@ func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) isEqual(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -249,6 +253,8 @@ func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) testValidityOfNumStrIntSepsD
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

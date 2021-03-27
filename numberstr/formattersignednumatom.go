@@ -29,6 +29,8 @@ func (fmtSignedNumAtom *formatterSignedNumberAtom) testSignedNumValPositiveValue
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("formatterSignedNumberAtom.testSignedNumValPositiveValueFormat()")
@@ -76,6 +78,8 @@ func (fmtSignedNumAtom *formatterSignedNumberAtom) testSignedNumValNegativeValue
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("formatterSignedNumberAtom.testSignedNumValNegativeValueFormat()")

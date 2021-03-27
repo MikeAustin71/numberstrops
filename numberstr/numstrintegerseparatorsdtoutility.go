@@ -110,6 +110,8 @@ func (intSepsDtoUtil *numStrIntSeparatorsDtoUtility) addBasic(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -253,6 +255,8 @@ func (intSepsDtoUtil *numStrIntSeparatorsDtoUtility) addBasicRunes(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -391,6 +395,8 @@ func (intSepsDtoUtil *numStrIntSeparatorsDtoUtility) addWithComponents(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -561,6 +567,8 @@ func (intSepsDtoUtil *numStrIntSeparatorsDtoUtility) setBasic(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -717,6 +725,8 @@ func (intSepsDtoUtil *numStrIntSeparatorsDtoUtility) setBasicRunes(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -828,6 +838,8 @@ func (intSepsDtoUtil *numStrIntSeparatorsDtoUtility) setToUSADefaultsIfEmpty(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

@@ -214,6 +214,8 @@ func (fmtSciNotationMech *formatterSciNotationMechanics) setFmtSciNotWithCompone
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

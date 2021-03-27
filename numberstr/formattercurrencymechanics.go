@@ -496,6 +496,8 @@ func (fmtCurrMech *formatterCurrencyMechanics) setFormatterCurrencyWithComponent
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -637,6 +639,8 @@ func (fmtCurrMech *formatterCurrencyMechanics) setNumberFieldLengthDto(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -806,6 +810,8 @@ func (fmtCurrMech *formatterCurrencyMechanics) setNumericSeparators(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

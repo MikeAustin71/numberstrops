@@ -73,6 +73,8 @@ func (fmtOctalUtil *formatterOctalUtility) setFmtOctalWithDefaults(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

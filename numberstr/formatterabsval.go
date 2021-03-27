@@ -278,6 +278,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyIn(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -344,6 +346,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyOut(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -515,6 +519,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetFmtNumStr(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -659,6 +665,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetIntegerDigitSeparators(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -770,6 +778,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetNumberFieldLengthDto(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -858,6 +868,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetNumericSeparators(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1002,6 +1014,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstanceError(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPrefCtx("FormatterAbsoluteValue.IsValidInstanceError()",
@@ -1222,6 +1236,8 @@ func (fmtAbsVal FormatterAbsoluteValue) NewBasic(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1453,6 +1469,8 @@ func (fmtAbsVal FormatterAbsoluteValue) NewBasicRunes(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1699,6 +1717,8 @@ func (fmtAbsVal FormatterAbsoluteValue) NewDetail(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1947,6 +1967,8 @@ func (fmtAbsVal FormatterAbsoluteValue) NewDetailRunes(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -2298,6 +2320,8 @@ func (fmtAbsVal FormatterAbsoluteValue) NewWithComponents(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -2415,6 +2439,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetAbsoluteValueFormat(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -2654,6 +2680,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetBasic(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -2886,6 +2914,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetBasicRunes(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -3112,6 +3142,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetDetail(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -3340,6 +3372,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetDetailRunes(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -3450,6 +3484,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetNumberFieldLengthDto(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -3547,6 +3583,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetNumericSeparators(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -3644,6 +3682,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetToUnitedStatesDefaults(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -3722,6 +3762,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetToUnitedStatesDefaultsIfEmpty(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -4062,6 +4104,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetWithComponents(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

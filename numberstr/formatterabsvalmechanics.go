@@ -230,6 +230,8 @@ func (fmtAbsValMech *formatterAbsoluteValueMechanics) setAbsValDtoWithComponents
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

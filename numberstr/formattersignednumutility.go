@@ -317,6 +317,8 @@ func (fmtSignedNumUtil *formatterSignedNumberUtility) setBasicSignedNumber(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -656,6 +658,8 @@ func (fmtSignedNumUtil *formatterSignedNumberUtility) setBasicRunesSignedNumber(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1011,6 +1015,8 @@ func (fmtSignedNumUtil *formatterSignedNumberUtility) setDetailSignedNumber(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1369,6 +1375,8 @@ func (fmtSignedNumUtil *formatterSignedNumberUtility) setDetailRunesSignedNumber
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1491,6 +1499,8 @@ func (fmtSignedNumUtil *formatterSignedNumberUtility) setToUnitedStatesDefaults(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

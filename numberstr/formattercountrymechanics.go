@@ -58,6 +58,8 @@ func (fmtCountryMech *formatterCountryMechanics) setWithComponents(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("formatterCountryMechanics.setWithComponents()")

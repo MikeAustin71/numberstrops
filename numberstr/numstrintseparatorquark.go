@@ -28,6 +28,8 @@ func (nStrIntSepQuark *numStrIntSeparatorQuark) empty(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -75,6 +77,8 @@ func (nStrIntSepQuark *numStrIntSeparatorQuark) testValidityOfNumStrIntSeparator
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

@@ -35,6 +35,8 @@ func (fmtHexadecimalElectron *formatterHexadecimalElectron) copyIn(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -123,6 +125,8 @@ func (fmtHexadecimalElectron *formatterHexadecimalElectron) copyOut(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

@@ -35,6 +35,8 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyIn(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -163,6 +165,8 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyOut(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -614,6 +618,8 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) setCurrencyData(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

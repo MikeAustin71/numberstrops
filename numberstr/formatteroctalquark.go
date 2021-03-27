@@ -24,6 +24,8 @@ func (fmtOctalQuark *formatterOctalQuark) empty(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -98,6 +100,8 @@ func (fmtOctalQuark *formatterOctalQuark) testValidityOfFormatterOctal(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

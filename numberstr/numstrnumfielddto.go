@@ -162,6 +162,8 @@ func (nFieldDto *NumberFieldDto) CopyIn(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("NumberFieldDto.CopyIn()")
@@ -263,6 +265,8 @@ func (nFieldDto *NumberFieldDto) CopyOut(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("NumberFieldDto.CopyOut()")
@@ -385,6 +389,8 @@ func (nFieldDto *NumberFieldDto) GetNumberField(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("NumberFieldDto.GetNumberField()")
@@ -561,6 +567,8 @@ func (nFieldDto *NumberFieldDto) IsValidInstanceError(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("NumberFieldDto.IsValidInstanceError()")
@@ -792,6 +800,8 @@ func (nFieldDto NumberFieldDto) NewBasic(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("NumberFieldDto.NewBasic()")
@@ -936,6 +946,8 @@ func (nFieldDto *NumberFieldDto) SetBasic(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

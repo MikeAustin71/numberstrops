@@ -35,6 +35,8 @@ func (fmtAbsValNanobot *formatterAbsoluteValueNanobot) copyIn(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -122,6 +124,8 @@ func (fmtAbsValNanobot *formatterAbsoluteValueNanobot) copyOut(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

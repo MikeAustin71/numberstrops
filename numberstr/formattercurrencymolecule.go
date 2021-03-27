@@ -49,6 +49,8 @@ func (fmtCurrMolecule *formatterCurrencyMolecule) testValidityOfFormatterCurrenc
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

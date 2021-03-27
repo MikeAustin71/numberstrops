@@ -35,6 +35,8 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyIn(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("numStrIntSeparatorMolecule.copyIn()")
@@ -125,6 +127,8 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyOut(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

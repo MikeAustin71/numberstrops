@@ -54,6 +54,8 @@ func (fmtSignedNumMolecule *formatterSignedNumberMolecule) testValidityOfSignedN
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

@@ -51,6 +51,8 @@ func (fmtAbsValElectron *formatterAbsoluteValueElectron) testAbsoluteValueFormat
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

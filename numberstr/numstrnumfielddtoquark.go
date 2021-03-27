@@ -24,6 +24,8 @@ func (nStrNFldDtoQuark *numStrNumFieldDtoQuark) empty(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -94,6 +96,8 @@ func (nStrNFldDtoQuark *numStrNumFieldDtoQuark) testValidityNumberFieldDto(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

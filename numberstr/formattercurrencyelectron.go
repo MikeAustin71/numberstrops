@@ -161,6 +161,8 @@ func (fmtCurrencyElectron *formatterCurrencyElectron) testCurrencyPositiveValueF
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("formatterCurrencyElectron.testCurrencyPositiveValueFormatStr()")
@@ -435,6 +437,8 @@ func (fmtCurrencyElectron *formatterCurrencyElectron) testCurrencyNegativeValueF
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("formatterCurrencyElectron.testCurrencyNegativeValueFormatStr()")

@@ -355,6 +355,8 @@ func (fmtSignedNum *FormatterSignedNumber) CopyIn(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -427,6 +429,8 @@ func (fmtSignedNum *FormatterSignedNumber) CopyOut(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -609,6 +613,8 @@ func (fmtSignedNum *FormatterSignedNumber) GetIntegerDigitSeparators(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -732,6 +738,8 @@ func (fmtSignedNum *FormatterSignedNumber) GetNumberFieldLengthDto(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("FormatterSignedNumber.GetNumberFieldLengthDto()")
@@ -818,6 +826,8 @@ func (fmtSignedNum *FormatterSignedNumber) GetNumericSeparators(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -977,6 +987,8 @@ func (fmtSignedNum *FormatterSignedNumber) IsValidInstanceError(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPrefCtx("FormatterSignedNumber.IsValidInstanceError()",
@@ -1276,6 +1288,8 @@ func (fmtSignedNum FormatterSignedNumber) NewBasic(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1585,6 +1599,8 @@ func (fmtSignedNum FormatterSignedNumber) NewBasicRunes(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1908,6 +1924,8 @@ func (fmtSignedNum FormatterSignedNumber) NewDetail(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -2234,6 +2252,8 @@ func (fmtSignedNum FormatterSignedNumber) NewDetailRunes(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -2327,6 +2347,8 @@ func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -2692,6 +2714,8 @@ func (fmtSignedNum FormatterSignedNumber) NewWithComponents(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -2999,6 +3023,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetBasic(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -3301,6 +3327,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetBasicRunes(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -3618,6 +3646,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetDetail(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -3936,6 +3966,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetDetailRunes(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -4081,6 +4113,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetNegativeValueFormat(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("FormatterSignedNumber.SetNegativeValueFormat()")
@@ -4188,6 +4222,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetNumberFieldLengthDto(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -4294,6 +4330,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetNumericSeparators(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("FormatterSignedNumber." +
@@ -4419,6 +4457,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetPositiveValueFormat(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("FormatterSignedNumber.SetPositiveValueFormat()")
@@ -4506,6 +4546,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetToUnitedStatesDefaults(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -4587,6 +4629,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetToUnitedStatesDefaultsIfEmpty(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -5011,6 +5055,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetWithComponents(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

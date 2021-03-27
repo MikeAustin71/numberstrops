@@ -449,6 +449,8 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicFmtCurrency(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -936,6 +938,8 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFmtCurrency(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1439,6 +1443,8 @@ func (fmtCurrUtil *formatterCurrencyUtility) setDetailFmtCurrency(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -1948,6 +1954,8 @@ func (fmtCurrUtil *formatterCurrencyUtility) setDetailRunesFmtCurrency(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -2089,6 +2097,8 @@ func (fmtCurrUtil *formatterCurrencyUtility) setToUnitedStatesDefaults(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

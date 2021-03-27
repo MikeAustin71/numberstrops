@@ -34,6 +34,8 @@ func (fmtSignedNumNanobot *formatterSignedNumberNanobot) copyIn(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -124,6 +126,8 @@ func (fmtSignedNumNanobot *formatterSignedNumberNanobot) copyOut(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

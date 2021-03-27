@@ -35,6 +35,8 @@ func (intSepsDtoElectron *numStrIntSeparatorsDtoElectron) copyIn(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("numStrIntSeparatorsDtoElectron." +
@@ -123,6 +125,8 @@ func (intSepsDtoElectron *numStrIntSeparatorsDtoElectron) copyOut(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("numStrIntSeparatorsDtoElectron." +

@@ -96,6 +96,8 @@ func (numSepsNanobot numericSeparatorsNanobot) setDecimalSeparatorRunes(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -254,6 +256,8 @@ func (numSepsNanobot numericSeparatorsNanobot) setIntegerSeparatorsDto(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

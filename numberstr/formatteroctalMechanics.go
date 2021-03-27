@@ -266,6 +266,8 @@ func (fmtOctalMech *formatterOctalMechanics) setFmtOctalWithComponents(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

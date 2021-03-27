@@ -51,6 +51,8 @@ func (fmtSignedNumElectron *formatterSignedNumberElectron) testSignedNumValNegat
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -171,6 +173,8 @@ func (fmtSignedNumElectron *formatterSignedNumberElectron) testSignedNumValPosit
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(

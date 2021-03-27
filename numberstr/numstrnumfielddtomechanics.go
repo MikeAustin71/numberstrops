@@ -183,6 +183,8 @@ func (nStrNumFieldDtoMech *numStrNumFieldDtoMechanics) setNumberFieldDto(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref("numStrNumFieldDtoMechanics.setNumberFieldDto()")

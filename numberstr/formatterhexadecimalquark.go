@@ -28,6 +28,8 @@ func (fmtHexadecimalQuark *formatterHexadecimalQuark) empty(
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
@@ -98,6 +100,8 @@ func (fmtHexadecimalQuark *formatterHexadecimalQuark) testValidityOfFormatterHex
 
 	if ePrefix == nil {
 		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
 	ePrefix.SetEPref(
