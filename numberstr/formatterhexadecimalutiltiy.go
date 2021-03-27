@@ -435,7 +435,7 @@ func (fmtHexadecimalUtil *formatterHexadecimalUtility) setFmtHexDetail(
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
