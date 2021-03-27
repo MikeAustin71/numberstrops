@@ -1733,6 +1733,11 @@ func (formatterHex FormatterHexadecimal) NewWithDefaults(
 // automatically defaulted to:
 //         NumStrFormatTypeCode(0).Hexadecimal()
 //
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current FormatterHexadecimal instance.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -1942,6 +1947,11 @@ func (formatterHex *FormatterHexadecimal) SetDetail(
 // The member variable 'FormatterHexadecimal.numStrFmtType' is
 // automatically defaulted to:
 //         NumStrFormatTypeCode(0).Hexadecimal()
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current FormatterHexadecimal instance.
 //
 //
 // ----------------------------------------------------------------
@@ -2505,6 +2515,11 @@ func (formatterHex *FormatterHexadecimal) SetUseUpperCaseLetters(
 // FormatterHexadecimal instance will be generated from the basic
 // components passed as input parameters and described below.
 //
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current FormatterHexadecimal instance.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -2759,6 +2774,11 @@ func (formatterHex *FormatterHexadecimal) SetWithComponents(
 //                   Number Field = Number String Length
 //
 //  numFieldDto.textJustifyFormat = TextJustify(0).Right()
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current FormatterHexadecimal instance.
 //
 //
 // ----------------------------------------------------------------

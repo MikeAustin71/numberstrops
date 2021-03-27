@@ -1670,6 +1670,241 @@ func (fmtOctal FormatterOctal) NewWithDefaults(
 	return newFormatterOctal, err
 }
 
+// SetDetail - Overwrites and resets all the data values in
+// the current instance of FormatterOctal.
+//
+// Data values used to replace those in the current FormatterOctal
+// instance will be generated from components passed as input
+// parameters and detailed below.
+//
+// The FormatterOctal type encapsulates the formatting parameters
+// necessary to format octal digits for display in text number
+// strings.
+//
+// This method differs from FormatterOctal.SetDetailRunes()
+// in that this method accepts a string for input parameter,
+// 'integerDigitsSeparators'.
+//
+// To exercise granular control over all parameters needed to
+// construct an instance of FormatterOctal, reference method:
+//   'FormatterOctal.SetWithComponents()'
+//
+// The member variable 'FormatterOctal.numStrFmtType' is
+// automatically defaulted to:
+//         NumStrFormatTypeCode(0).Octal()
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current FormatterOctal instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  integerDigitsSeparators       string
+//     - One or more characters used to separate groups of
+//       integers. This separator is also known as the 'thousands'
+//       separator. It is used to separate groups of integer digits
+//       to the left of the decimal separator
+//       (a.k.a. decimal point). In the United States, the standard
+//       integer digits separator is the comma (",").
+//
+//             Example:  1,000,000,000
+//
+//       If this input parameter contains a zero length string, an
+//       error will be returned.
+//
+//       For custom integer digit grouping, use method
+//       FormatterCurrency.NewWithComponents().
+//
+//
+//  intSeparatorGrouping          uint
+//     - The number of integer digits in group to be separated by
+//       separator characters. The most common grouping is the
+//       thousands grouping consisting of 3-digits. United States
+//       Example:
+//               1,000,000,000
+//
+//       Other countries and cultures use different grouping sequences.
+//       used to separate integer digits in a number string.
+//       Indian Number System Example: 6,78,90,00,00,00,00,000
+//       Chinese Numeral Example:      6789,0000,0000,0000
+//
+//
+//  intSeparatorRepetitions       uint
+//     - Number of times this character/group sequence is repeated.
+//       A zero value signals unlimited repetitions.
+//
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
+//  leftPrefix                    string
+//     - Sets the 'Left Prefix' string for the new returned
+//       instance of FormatterOctal.
+//
+//       'Left Prefix' string characters are appended or
+//        concatenated to the beginning of octal digits formatted
+//        in a text number string.
+//
+//       Occasionally, octal numeric digits displayed in a text
+//       string are prefixed with leading characters such as the
+//       digit zero ('0'), the letters 'o' or 'q', the digit–letter
+//       combination zero-'o' ('0o'), the ampersand symbol ('&'),
+//       the dollar sign symbol ('$'), the At Sign ('@') or the
+//       back slash symbol ('\').
+//
+//       The 'Left Prefix' parameter allows for custom
+//       configuration of these leading prefix characters.
+//
+//       An empty 'leftPrefix' string signals that no characters
+//       will be prefixed to the beginning of octal number strings.
+//
+//       Reference:
+//          https://en.wikipedia.org/wiki/Octal
+//
+//
+//  rightSuffix                   string
+//     - Sets the 'Right Suffix' string for the new returned
+//       instance of FormatterOctal. 'rightSuffix' specifies the
+//       characters which will be appended to the end of octal
+//       number strings.
+//
+//       Occasionally, octal numeric digits displayed in a text
+//       string are suffixed with trailing characters such as the
+//       the upper and lower case letters ('o','O', 'q' or 'Q').
+//
+//       The 'Right Suffix' parameter allows for custom
+//       configuration of these trailing suffix characters.
+//
+//       An empty 'rightSuffix' string signals that no characters
+//       will be appended to the end of octal number strings.
+//
+//       Reference:
+//         https://en.wikipedia.org/wiki/Octal
+//
+//
+//  requestedNumberFieldLen       int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
+//
+//
+//  numberFieldTextJustify        TextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//
+func (fmtOctal *FormatterOctal) SetDetail(
+	integerDigitsSeparators string,
+	intSeparatorGrouping uint,
+	intSeparatorRepetitions uint,
+	turnOnIntegerDigitsSeparation bool,
+	leftPrefix string,
+	rightSuffix string,
+	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtOctal.lock == nil {
+		fmtOctal.lock = new(sync.Mutex)
+	}
+
+	fmtOctal.lock.Lock()
+
+	defer fmtOctal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterOctal." +
+			"SetDetail()")
+	return formatterOctalUtility{}.ptr().
+		setFmtOctalDetail(
+			fmtOctal,
+			integerDigitsSeparators,
+			intSeparatorGrouping,
+			intSeparatorRepetitions,
+			turnOnIntegerDigitsSeparation,
+			leftPrefix,
+			rightSuffix,
+			requestedNumberFieldLen,
+			numberFieldTextJustify,
+			ePrefix.XCtx(
+				"fmtOctal"))
+}
+
 // SetIntegerSeparators - Sets the internal member variable:
 //    FormatterOctal.integerSeparators
 //
@@ -2036,6 +2271,11 @@ func (fmtOctal *FormatterOctal) SetTurnOnInterDigitsSeparation(
 // necessary to format octal digits for display in text number
 // strings.
 //
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current FormatterOctal instance.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -2306,6 +2546,11 @@ func (fmtOctal *FormatterOctal) SetWithComponents(
 //   Requested Number Field Length = -1
 //   Text Justify Format (textJustifyFormat) =
 //     TextJustify(0).Right
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current FormatterOctal instance.
 //
 //
 // ----------------------------------------------------------------
