@@ -296,13 +296,13 @@ func (fmtHexadecimalUtil *formatterHexadecimalUtility) setFmtHexDetail(
 // parameters necessary to format hexadecimal digits for display in
 // text number strings.
 //
-// This method differs from formatterHexadecimalUtility.setFmtHexDetail()
-// in that this method accepts a rune array for input parameter,
-// 'integerDigitsSeparators'.
-//
 // To exercise granular control over all parameters needed to
 // construct an instance of FormatterHexadecimal, reference method:
 //   'FormatterHexadecimal.SetWithComponents()'
+//
+// This method differs from formatterHexadecimalUtility.setFmtHexDetail()
+// in that this method accepts a rune array for input parameter,
+// 'integerDigitsSeparators'.
 //
 // The member variable 'FormatterHexadecimal.numStrFmtType' is
 // automatically defaulted to:
