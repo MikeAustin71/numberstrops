@@ -90,8 +90,8 @@ func (fmtOctalMech formatterOctalMechanics) ptr() *formatterOctalMechanics {
 //       An empty 'rightSuffix' string signals that no characters
 //       will be appended to the end of octal number strings.
 //
-// Reference:
-//    https://en.wikipedia.org/wiki/Octal
+//       Reference:
+//         https://en.wikipedia.org/wiki/Octal
 //
 //
 //  turnOnIntegerDigitsSeparation bool

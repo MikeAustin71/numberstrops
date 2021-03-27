@@ -262,6 +262,7 @@ func (fmtHexadecimalUtil *formatterHexadecimalUtility) setFmtHexDetail(
 	if err != nil {
 		return err
 	}
+
 	var numFieldDto NumberFieldDto
 
 	numFieldDto,

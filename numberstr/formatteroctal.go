@@ -2,8 +2,10 @@ package numberstr
 
 import "sync"
 
-// FormatterOctal - This structure stores formatting data
-// for octal numeric values displayed in text number strings.
+// FormatterOctal - The FormatterOctal type encapsulates the
+// formatting parameters necessary to format octal digits for
+// display in text number strings.
+//
 // Member data elements are listed as follows:
 //
 //
@@ -823,6 +825,10 @@ func (fmtOctal *FormatterOctal) IsValidInstanceError(
 // NewWithComponents - Creates and returns a new instance of
 // FormatterOctal, 'newFormatterOctal'.
 //
+// The FormatterOctal type encapsulates the formatting parameters
+// necessary to format octal digits for display in text number
+// strings.
+//
 // Data values for 'newFormatterOctal' will be generated from
 // the FormatterOctal components passed as input parameters.
 //
@@ -1079,6 +1085,10 @@ func (fmtOctal FormatterOctal) NewWithComponents(
 // NewWithDefaults - Creates and returns a new FormatterOctal format
 // specification. The returned instance is generated using defaults
 // for octal number string formatting.
+//
+// The FormatterOctal type encapsulates the formatting parameters
+// necessary to format octal digits for display in text number
+// strings.
 //
 // Member variable data fields in the returned FormatterOctal
 // instance are configured as follows:
@@ -1536,6 +1546,10 @@ func (fmtOctal *FormatterOctal) SetTurnOnInterDigitsSeparation(
 // instance will be generated from components passed as input
 // parameters and detailed below.
 //
+// The FormatterOctal type encapsulates the formatting parameters
+// necessary to format octal digits for display in text number
+// strings.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -1779,6 +1793,10 @@ func (fmtOctal *FormatterOctal) SetWithComponents(
 // SetWithDefaults - Overwrites and resets all the data fields
 // within the current instance of FormatterOctal. The new data
 // values are generated from default parameters specified below.
+//
+// The FormatterOctal type encapsulates the formatting parameters
+// necessary to format octal digits for display in text number
+// strings.
 //
 // Member variable data fields in the current FormatterOctal
 // instance are configured as follows:
