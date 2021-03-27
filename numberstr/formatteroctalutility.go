@@ -212,7 +212,7 @@ func (fmtOctalUtil formatterOctalUtility) ptr() *formatterOctalUtility {
 //
 // Return Values
 //
-//  error
+//  err                           error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'.
 //
@@ -221,7 +221,6 @@ func (fmtOctalUtil formatterOctalUtility) ptr() *formatterOctalUtility {
 //       returned error message will incorporate the method chain
 //       and text passed by input parameter, 'ePrefix'. The
 //       'ePrefix' text will be attached to the beginning of the
-//       error message.
 //
 func (fmtOctalUtil *formatterOctalUtility) setFmtOctalDetail(
 	formatterOctal *FormatterOctal,
@@ -487,7 +486,7 @@ func (fmtOctalUtil *formatterOctalUtility) setFmtOctalDetail(
 //
 // Return Values
 //
-//  error
+//  err                           error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'.
 //
