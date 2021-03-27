@@ -44,8 +44,8 @@ func (fmtOctalUtil formatterOctalUtility) ptr() *formatterOctalUtility {
 // 'integerDigitsSeparators'.
 //
 // To exercise granular control over all parameters needed to
-// construct an instance of FormatterHexadecimal, reference method:
-//   'FormatterHexadecimal.SetWithComponents()'
+// construct an instance of FormatterOctal, reference method:
+//   'FormatterOctal.SetWithComponents()'
 //
 // The member variable 'FormatterOctal.numStrFmtType' is
 // automatically defaulted to:
@@ -77,7 +77,7 @@ func (fmtOctalUtil formatterOctalUtility) ptr() *formatterOctalUtility {
 //       error will be returned.
 //
 //       For custom integer digit grouping, use method
-//       FormatterCurrency.NewWithComponents().
+//       FormatterOctal.NewWithComponents().
 //
 //
 //  intSeparatorGrouping          uint
@@ -351,7 +351,7 @@ func (fmtOctalUtil *formatterOctalUtility) setFmtOctalDetail(
 //       error will be returned.
 //
 //       For custom integer digit grouping, use method
-//       FormatterCurrency.NewWithComponents().
+//       FormatterOctal.NewWithComponents().
 //
 //
 //  intSeparatorGrouping          uint
