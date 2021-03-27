@@ -63,7 +63,7 @@ func (fmtHexadecimalUtil formatterHexadecimalUtility) ptr() *formatterHexadecima
 //       parameters.
 //
 //
-//  integerDigitsSeparators    string
+//  integerDigitsSeparators       string
 //     - One or more characters used to separate groups of
 //       integers. This separator is also known as the 'thousands'
 //       separator. It is used to separate groups of integer digits
@@ -80,7 +80,7 @@ func (fmtHexadecimalUtil formatterHexadecimalUtility) ptr() *formatterHexadecima
 //       FormatterCurrency.NewWithComponents().
 //
 //
-//  intSeparatorGrouping       uint
+//  intSeparatorGrouping          uint
 //     - The number of integer digits in group to be separated by
 //       separator characters. The most common grouping is the
 //       thousands grouping consisting of 3-digits. United States
@@ -93,7 +93,7 @@ func (fmtHexadecimalUtil formatterHexadecimalUtility) ptr() *formatterHexadecima
 //       Chinese Numeral Example:      6789,0000,0000,0000
 //
 //
-//  intSeparatorRepetitions    uint
+//  intSeparatorRepetitions       uint
 //     - Number of times this character/group sequence is repeated.
 //       A zero value signals unlimited repetitions.
 //
@@ -178,7 +178,7 @@ func (fmtHexadecimalUtil formatterHexadecimalUtility) ptr() *formatterHexadecima
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -287,10 +287,10 @@ func (fmtHexadecimalUtil *formatterHexadecimalUtility) setFmtHexDetail(
 				"formatterHex"))
 }
 
-// setFmtHexDetailRunes - This method will set all of the member
-// variable data values for the FormatterHexadecimal input
-// parameter, 'formatterHex'. New data values will be generated
-// from the input parameters described below.
+// setFmtHexDetailRunes - This method will overwrite and set all of
+// the member variable data values for the FormatterHexadecimal
+// input parameter, 'formatterHex'. New data values will be
+// generated from the input parameters described below.
 //
 // The FormatterHexadecimal type encapsulates the formatting
 // parameters necessary to format hexadecimal digits for display in
