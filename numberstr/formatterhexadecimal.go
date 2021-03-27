@@ -1,6 +1,9 @@
 package numberstr
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+)
 
 // FormatterHexadecimal - The FormatterHexadecimal type
 // encapsulates the formatting parameters necessary to format
@@ -496,6 +499,137 @@ func (formatterHex *FormatterHexadecimal) GetLeftPrefix() string {
 	defer formatterHex.lock.Unlock()
 
 	return formatterHex.leftPrefix
+}
+
+// GetFmtNumStr - Returns a number string formatted for hexadecimal
+// digits based on the configuration encapsulated in the current
+// instance of FormatterHexadecimal.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  absValIntegerRunes            []rune
+//     - An array of runes containing the integer component of the
+//       numeric value to be formatted as currency. This array of
+//       integer digits always represents a positive ('+') numeric
+//       value. The array consists entirely of numeric digits.
+//
+//
+//  absValFractionalRunes         []rune
+//     - An array of runes containing the fractional component of
+//       the numeric value to be formatted as currency. This array
+//       of numeric digits always represents a positive ('+')
+//       numeric value. The array consists entirely of numeric
+//       digits.
+//
+//
+//  signVal                       int
+//     - The parameter designates the numeric sign of the final
+//       formatted currency value returned by this method.
+//
+//       Valid values for 'signVal' are listed as follows:
+//         -1 = Signals a negative numeric value
+//          0 = Signals that the numeric value is zero.
+//         +1 = Signals a positive numeric value
+//
+//
+//  baseNumSys                    BaseNumberSystemType
+//     - Designates the base number system associated with input
+//       parameters 'absValIntegerRunes' and 'absValIntegerRunes'
+//       described above.
+//
+//       Valid values for 'baseNumSys' are listed as follows:
+//         BaseNumSys.Binary(),
+//         BaseNumSys.Octal(),
+//         BaseNumSys.Decimal(),
+//         BaseNumSys.Hexadecimal(),
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  fmtNumStr                     string
+//     - If this method completes successfully, a formatted
+//       currency number string will be returned.
+//
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (formatterHex *FormatterHexadecimal) GetFmtNumStr(
+	absValIntegerRunes []rune,
+	absValFractionalRunes []rune,
+	signVal int,
+	baseNumSys BaseNumberSystemType,
+	ePrefix *ErrPrefixDto) (
+	fmtNumStr string,
+	err error) {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterHexadecimal." +
+			"GetFmtNumStr()")
+
+	if baseNumSys != BaseNumberSystemType(0).Hexadecimal() {
+		err = fmt.Errorf("%v\n"+
+			"Error: Base Numbering System is NOT equal to Base-16!\n"+
+			"baseNumSys=='%v'\n",
+			ePrefix.String(),
+			baseNumSys.XValueInt())
+		return fmtNumStr, err
+	}
+
+	if len(absValFractionalRunes) > 0 {
+		err = fmt.Errorf("%v\n"+
+			"Error: Hexadecimal Formatting does NOT accept fractional digits.\n"+
+			"absValFractionalRunes=='%v'\n",
+			ePrefix.String(),
+			string(absValFractionalRunes))
+		return fmtNumStr, err
+	}
+
+	if signVal < 0 {
+		fmtNumStr = "-"
+	}
+
+	fmtNumStr += string(absValIntegerRunes)
+
+	return fmtNumStr, err
 }
 
 // GetNumberFieldLengthDto - Returns the NumberFieldDto object
