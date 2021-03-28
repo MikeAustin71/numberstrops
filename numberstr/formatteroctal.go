@@ -6,12 +6,11 @@ import "sync"
 // formatting parameters necessary to format octal digits for
 // display in text number strings.
 //
-// Member data elements are listed as follows:
-//
-//
 // Reference:
-//
 //   https://en.wikipedia.org/wiki/Octal
+//
+//
+// Member data elements are listed as follows:
 //
 //       type FormatterOctal struct {
 //        numStrFmtType                 NumStrFormatTypeCode
@@ -25,7 +24,7 @@ import "sync"
 //
 //  numStrFmtType           NumStrFormatTypeCode
 //     - An enumeration value automatically set to:
-//           NumStrFormatTypeCode(0).Hexadecimal()
+//           NumStrFormatTypeCode(0).Octal()
 //
 //
 //  leftPrefix                    string
@@ -200,7 +199,6 @@ import "sync"
 //                     in the center of the text field equidistant
 //                     from the left and right margins.
 //                             Example: "   TextString   "
-
 type FormatterOctal struct {
 	numStrFmtType                 NumStrFormatTypeCode
 	leftPrefix                    string // A prefix added to beginning of number string
@@ -382,7 +380,6 @@ func (fmtOctal *FormatterOctal) Empty() {
 
 	fmtOctal.lock = nil
 
-	return
 }
 
 // GetIntegerSeparators - Returns the NumStrIntSeparatorsDto
