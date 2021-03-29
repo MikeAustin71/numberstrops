@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"reflect"
 	"sync"
 )
 
@@ -495,6 +496,117 @@ func (fmtCurr *FormatterCurrency) CopyIn(
 
 	ePrefix.SetEPref(
 		"FormatterCurrency.CopyIn()")
+
+	return formatterCurrencyNanobot{}.ptr().
+		copyIn(
+			fmtCurr,
+			incomingFormatterCurrency,
+			ePrefix.XCtx("incomingFormatterCurrency->fmtCurr"))
+}
+
+// CopyInINumStrFormatter - Receives an incoming INumStrFormatter
+// object, converts it to a FormatterCurrency instance and
+// proceeds to copy the the data fields into those of the
+// current FormatterCurrency instance.
+//
+// If the dynamic type of INumStrFormatter is not equal to
+// FormatterCurrency, an error will be returned. Likewise,
+// if the data fields of input parameter 'incomingIFormatter' are
+// judged to be invalid, an error will be returned.
+//
+// Be advised, all of the data fields in the current
+// FormatterCurrency instance will be overwritten.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingIFormatter            INumStrFormatter
+//     - An instance of Interface INumStrFormatter. If this the
+//       dynamic type is not equal to FormatterCurrency an error
+//       will be returned.
+//
+//       The data values in this object will be copied to the
+//       current FormatterCurrency instance.
+//
+//       If input parameter 'incomingCurrencyValDto' is judged to
+//       be invalid, this method will return an error.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtCurr *FormatterCurrency) CopyInINumStrFormatter(
+	incomingIFormatter INumStrFormatter,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
+	}
+
+	fmtCurr.lock.Lock()
+
+	defer fmtCurr.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterCurrency.CopyInINumStrFormatter()")
+
+	if incomingIFormatter == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'incomingIFormatter' is "+
+			"'nil'\n",
+			ePrefix.String())
+	}
+
+	incomingFormatterCurrency,
+		isValid := incomingIFormatter.(*FormatterCurrency)
+
+	if !isValid {
+
+		actualType :=
+			reflect.TypeOf(incomingIFormatter)
+
+		typeName := "Unknown"
+
+		if actualType != nil {
+			typeName = actualType.Name()
+		}
+
+		return fmt.Errorf("%v\n"+
+			"Error: 'incomingIFormatter' is NOT Type "+
+			"FormatterCurrency\n"+
+			"'incomingIFormatter' is type %v",
+			ePrefix.String(),
+			typeName)
+	}
 
 	return formatterCurrencyNanobot{}.ptr().
 		copyIn(
