@@ -222,6 +222,66 @@ func (fmtBinary *FormatterBinary) IsValidInstance() bool {
 	return isValid
 }
 
+// IsValidInstanceError - Performs a diagnostic review of the
+// current FormatterBinary instance to determine whether that
+// instance is valid in all respects.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If the current instance of FormatterBinary contains invalid
+//       data, a detailed error message will be returned
+//       identifying the invalid data item.
+//
+//       If the current instance is valid, this error parameter
+//       will be set to nil.
+//
+func (fmtBinary *FormatterBinary) IsValidInstanceError(
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPrefCtx("FormatterBinary."+
+		"IsValidInstanceError()",
+		"Testing Validity of 'fmtBinary'")
+
+	_,
+		err := formatterBinaryQuark{}.ptr().
+		testValidityOfFormatterBinary(
+			fmtBinary,
+			nil)
+
+	return err
+}
+
 // Empty - Deletes and resets the data values of all member
 // variables within the current FormatterBinary instance to
 // their initial 'zero' values.
