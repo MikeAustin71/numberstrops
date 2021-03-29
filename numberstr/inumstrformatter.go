@@ -5,6 +5,11 @@ type INumStrFormatter interface {
 		incomingIFormatter INumStrFormatter,
 		ePrefix *ErrPrefixDto) error
 
+	CopyOutINumStrFormatter(
+		ePrefix *ErrPrefixDto) (
+		INumStrFormatter,
+		error)
+
 	Empty()
 
 	GetNumStrFormatTypeCode() NumStrFormatTypeCode

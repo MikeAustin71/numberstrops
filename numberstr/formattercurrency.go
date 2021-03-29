@@ -685,6 +685,80 @@ func (fmtCurr *FormatterCurrency) CopyOut(
 			ePrefix.XCtx("Copy Out from 'fmtCurr'"))
 }
 
+// CopyOutINumStrFormatter - Creates and returns a deep copy of the current
+// FormatterCurrency instance as an INumStrFormatter object.
+//
+// If the current FormatterCurrency instance is judged to be
+// invalid, this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  INumStrFormatter
+//     - If this method completes successfully, a new instance of
+//       FormatterCurrency will be created, converted to an
+//       instance of interface INumStrFormatter and returned
+//       to the calling function. The returned data represents a
+//       deep copy of the current FormatterCurrency instance.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtCurr *FormatterCurrency) CopyOutINumStrFormatter(
+	ePrefix *ErrPrefixDto) (
+	INumStrFormatter,
+	error) {
+
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
+	}
+
+	fmtCurr.lock.Lock()
+
+	defer fmtCurr.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterCurrency.CopyOut()")
+
+	newFormatterCurrency,
+		err := formatterCurrencyNanobot{}.ptr().
+		copyOut(
+			fmtCurr,
+			ePrefix.XCtx("Copy Out from 'fmtCurr'"))
+
+	return INumStrFormatter(&newFormatterCurrency), err
+}
+
 // Empty - Deletes and resets the data values of all member
 // variables within the current FormatterCurrency instance to their
 // initial 'zero' values.
