@@ -483,7 +483,7 @@ func (fmtCurrMech *formatterCurrencyMechanics) setFormatterCurrencyWithComponent
 	minorCurrencySymbols []rune,
 	turnOnIntegerDigitsSeparation bool,
 	numericSeparators NumericSeparators,
-	numFieldLenDto NumberFieldDto,
+	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
@@ -554,7 +554,7 @@ func (fmtCurrMech *formatterCurrencyMechanics) setFormatterCurrencyWithComponent
 
 	err =
 		newFormatterCurrency.numFieldDto.CopyIn(
-			&numFieldLenDto,
+			&numFieldDto,
 			ePrefix.XCtx(" numFieldDto->newFormatterCurrency"))
 
 	if err != nil {

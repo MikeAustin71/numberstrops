@@ -214,18 +214,20 @@ func (fmtBinaryMech formatterBinaryMechanics) ptr() *formatterBinaryMechanics {
 //
 //  err                           error
 //     - If this method completes successfully, the returned error
-//       Type is set equal to 'nil'. If errors are encountered during
-//       processing, the returned error Type will encapsulate an error
-//       message. Note that this error message will incorporate the
-//       method chain and text passed by input parameter, 'ePrefix'.
-//       The 'ePrefix' text will be prefixed to the beginning of the
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
 func (fmtBinaryMech formatterBinaryMechanics) setWithComponents(
 	formatterBinary *FormatterBinary,
 	turnOnIntegerDigitsSeparation bool,
 	numericSeparators NumericSeparators,
-	numFieldLenDto NumberFieldDto,
+	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
 	err error) {
 
@@ -277,9 +279,9 @@ func (fmtBinaryMech formatterBinaryMechanics) setWithComponents(
 	}
 
 	err = formatterBinary.numFieldDto.CopyIn(
-		&numFieldLenDto,
+		&numFieldDto,
 		ePrefix.XCtx(
-			"numFieldLenDto->"+
+			"numFieldDto->"+
 				"formatterBinary.numFieldDto"))
 
 	return err

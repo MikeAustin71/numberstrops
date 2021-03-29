@@ -3539,9 +3539,9 @@ func (fmtCurr FormatterCurrency) NewUnitedStatesDefaults() FormatterCurrency {
 // NewWithComponents - Creates and returns a new instance of
 // FormatterCurrency.
 //
-// The FormatterCurrency type encapsulates the
-// configuration parameters necessary to format numeric currency
-// values for display in text number strings.
+// The FormatterCurrency type encapsulates the configuration
+// parameters necessary to format numeric currency values for
+// display in text number strings.
 //
 // This method requires detailed input parameters which provide
 // granular control over all data fields contained in the returned
@@ -3972,8 +3972,7 @@ func (fmtCurr FormatterCurrency) NewUnitedStatesDefaults() FormatterCurrency {
 //
 //  FormatterCurrency
 //     - If this method completes successfully, this parameter will
-//       return a new, populated instance of
-//       FormatterCurrency.
+//       return a new, populated instance of FormatterCurrency.
 //
 //
 //  error
