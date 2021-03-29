@@ -188,7 +188,7 @@ type FormatterBinary struct {
 // instance to the data fields of the current FormatterBinary
 // instance.
 //
-// If input parameter 'incomingFormatterCurrency' is judged to be
+// If input parameter 'incomingFormatterBinary' is judged to be
 // invalid, this method will return an error.
 //
 // Be advised, all of the data fields in the current
@@ -199,12 +199,12 @@ type FormatterBinary struct {
 //
 // Input Parameters
 //
-//  incomingFormatterCurrency     *FormatterCurrency
+//  incomingFormatterBinary       *FormatterBinary
 //     - A pointer to an instance of FormatterBinary.
 //       The data values in this object will be copied to the
 //       current FormatterBinary instance.
 //
-//       If input parameter 'incomingFormatterCurrency' is judged to
+//       If input parameter 'incomingFormatterBinary' is judged to
 //       be invalid, this method will return an error.
 //
 //
@@ -560,22 +560,23 @@ func (fmtBinary *FormatterBinary) Empty() {
 //
 //  absValIntegerRunes            []rune
 //     - An array of runes containing the integer component of the
-//       numeric value to be formatted as currency. This array of
-//       integer digits always represents a positive ('+') numeric
-//       value. The array consists entirely of numeric digits.
+//       numeric value to be formatted as binary digits. This array
+//       of integer digits always represents a positive ('+')
+//       numeric value. The array consists entirely of numeric
+//       digits.
 //
 //
 //  absValFractionalRunes         []rune
 //     - An array of runes containing the fractional component of
-//       the numeric value to be formatted as currency. This array
-//       of numeric digits always represents a positive ('+')
+//       the numeric value to be formatted as binary digits. This
+//       array of numeric digits always represents a positive ('+')
 //       numeric value. The array consists entirely of numeric
 //       digits.
 //
 //
 //  signVal                       int
 //     - The parameter designates the numeric sign of the final
-//       formatted currency value returned by this method.
+//       formatted binary numeric value returned by this method.
 //
 //       Valid values for 'signVal' are listed as follows:
 //         -1 = Signals a negative numeric value
@@ -610,7 +611,7 @@ func (fmtBinary *FormatterBinary) Empty() {
 //
 //  fmtNumStr                     string
 //     - If this method completes successfully, a formatted
-//       currency number string will be returned.
+//       binary number string will be returned.
 //
 //
 //  err                           error
@@ -1056,4 +1057,63 @@ func (fmtBinary *FormatterBinary) SetNumStrFormatTypeCode() {
 	defer fmtBinary.lock.Unlock()
 
 	fmtBinary.numStrFmtType = NumStrFormatTypeCode(0).Binary()
+}
+
+// SetWithComponents - This method will overwrite and set all data
+// data values for the current instance of FormatterBinary.
+//
+// The FormatterBinary type encapsulates the formatting parameters
+// necessary to format numeric currency values for display in text
+// number strings.
+//
+// This method requires detailed input parameters to control
+// configuration for all member variables in the current instance
+// of FormatterBinary. For a similar method using minimum input
+// parameters coupled with default values, see:
+//      FormatterBinary.SetBasic()
+//
+// The member variable 'FormatterBinary.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).Binary()
+//
+// IMPORTANT
+// This method will overwrite all pre-existing data values in the
+// current FormatterCurrency instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+func (fmtBinary *FormatterBinary) SetWithComponents(
+	turnOnIntegerDigitsSeparation bool,
+	numericSeparators NumericSeparators,
+	numFieldDto NumberFieldDto,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterBinary." +
+			"CopyIn()")
+
+	return formatterBinaryMechanics{}.ptr().setWithComponents(
+		fmtBinary,
+		turnOnIntegerDigitsSeparation,
+		numericSeparators,
+		numFieldDto,
+		ePrefix.XCtx(
+			"fmtBinary"))
 }

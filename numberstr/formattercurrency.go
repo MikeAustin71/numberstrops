@@ -7326,17 +7326,16 @@ func (fmtCurr *FormatterCurrency) SetTurnOnIntegerDigitsSeparationFlag(
 }
 
 // SetWithComponents - This method will overwrite and set all data
-// data values for the current instance of
-// FormatterCurrency.
+// data values for the current instance of FormatterCurrency.
 //
-// The FormatterCurrency type encapsulates the
-// formatting parameters necessary to format numeric currency
-// values for display in text number strings.
+// The FormatterCurrency type encapsulates the formatting
+// parameters necessary to format numeric currency values for
+// display in text number strings.
 //
 // This method requires detailed input parameters to control
 // configuration for all member variables in the current instance
-// of FormatterCurrency. For a similar method using
-// minimum input parameters coupled with default values, see:
+// of FormatterCurrency. For a similar method using minimum input
+// parameters coupled with default values, see:
 //      FormatterCurrency.SetBasicRunes()
 //
 // The member variable 'FormatterCurrency.numStrFmtType' is
