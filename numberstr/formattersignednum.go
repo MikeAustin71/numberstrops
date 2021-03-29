@@ -1,6 +1,8 @@
 package numberstr
 
 import (
+	"fmt"
+	"reflect"
 	"sync"
 )
 
@@ -371,6 +373,119 @@ func (fmtSignedNum *FormatterSignedNumber) CopyIn(
 				"fmtSignedNum"))
 }
 
+// CopyInINumStrFormatter - Receives an incoming INumStrFormatter
+// object, converts it to a FormatterSignedNumber instance and
+// proceeds to copy the the data fields into those of the
+// current FormatterSignedNumber instance.
+//
+// If the dynamic type of INumStrFormatter is not equal to
+// FormatterSignedNumber, an error will be returned. Likewise,
+// if the data fields of input parameter 'incomingIFormatter' are
+// judged to be invalid, an error will be returned.
+//
+// Be advised, all of the data fields in the current
+// FormatterSignedNumber instance will be overwritten.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingIFormatter            INumStrFormatter
+//     - An instance of Interface INumStrFormatter. If this the
+//       dynamic type is not equal to FormatterSignedNumber an
+//       error will be returned.
+//
+//       The data values in this object will be copied to the
+//       current FormatterSignedNumber instance.
+//
+//       If input parameter 'incomingCurrencyValDto' is judged to
+//       be invalid, this method will return an error.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtSignedNum *FormatterSignedNumber) CopyInINumStrFormatter(
+	incomingIFormatter INumStrFormatter,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
+	}
+
+	fmtSignedNum.lock.Lock()
+
+	defer fmtSignedNum.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterSignedNumber." +
+			"CopyInINumStrFormatter()")
+
+	if incomingIFormatter == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'incomingIFormatter' is "+
+			"'nil'\n",
+			ePrefix.String())
+	}
+
+	incomingFormatterSignedNum,
+		isValid := incomingIFormatter.(*FormatterSignedNumber)
+
+	if !isValid {
+
+		actualType :=
+			reflect.TypeOf(incomingIFormatter)
+
+		typeName := "Unknown"
+
+		if actualType != nil {
+			typeName = actualType.Name()
+		}
+
+		return fmt.Errorf("%v\n"+
+			"Error: 'incomingIFormatter' is NOT Type "+
+			"FormatterCurrency\n"+
+			"'incomingIFormatter' is type %v",
+			ePrefix.String(),
+			typeName)
+	}
+
+	return formatterSignedNumberNanobot{}.ptr().
+		copyIn(
+			fmtSignedNum,
+			incomingFormatterSignedNum,
+			ePrefix.XCtx(
+				"fmtSignedNum"))
+}
+
 // CopyOut - Creates and returns a deep copy of the current
 // FormatterSignedNumber instance.
 //
@@ -436,13 +551,44 @@ func (fmtSignedNum *FormatterSignedNumber) CopyOut(
 	ePrefix.SetEPref(
 		"FormatterSignedNumber.CopyOut()")
 
-	nStrFmtSpecSignedNumValNanobot :=
-		formatterSignedNumberNanobot{}
+	return formatterSignedNumberNanobot{}.ptr().
+		copyOut(
+			fmtSignedNum,
+			ePrefix.XCtx(
+				"Copy Out from 'fmtSignedNum'"))
+}
 
-	return nStrFmtSpecSignedNumValNanobot.copyOut(
-		fmtSignedNum,
-		ePrefix.XCtx(
-			"Copy Out from 'fmtSignedNum'"))
+func (fmtSignedNum *FormatterSignedNumber) CopyOutINumStrFormatter(
+	ePrefix *ErrPrefixDto) (
+	INumStrFormatter,
+	error) {
+
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
+	}
+
+	fmtSignedNum.lock.Lock()
+
+	defer fmtSignedNum.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterSignedNumber." +
+			"CopyOutINumStrFormatter()")
+
+	newFormatterSignedNumber,
+		err := formatterSignedNumberNanobot{}.ptr().
+		copyOut(
+			fmtSignedNum,
+			ePrefix.XCtx(
+				"Copy Out from 'fmtSignedNum'"))
+
+	return INumStrFormatter(&newFormatterSignedNumber), err
 }
 
 // Empty - Deletes and resets the data values of all member
@@ -494,6 +640,130 @@ func (fmtSignedNum *FormatterSignedNumber) GetDecimalSeparator() []rune {
 	return fmtSignedNum.
 		numericSeparators.
 		GetDecimalSeparators()
+}
+
+// GetFmtNumStr - Returns a number string formatted for currency
+// based on the configuration encapsulated in the current instance
+// of FormatterCurrency.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  absValIntegerRunes            []rune
+//     - An array of runes containing the integer component of the
+//       numeric value to be formatted as currency. This array of
+//       integer digits always represents a positive ('+') numeric
+//       value. The array consists entirely of numeric digits.
+//
+//
+//  absValFractionalRunes         []rune
+//     - An array of runes containing the fractional component of
+//       the numeric value to be formatted as currency. This array
+//       of numeric digits always represents a positive ('+')
+//       numeric value. The array consists entirely of numeric
+//       digits.
+//
+//
+//  signVal                       int
+//     - The parameter designates the numeric sign of the final
+//       formatted currency value returned by this method.
+//
+//       Valid values for 'signVal' are listed as follows:
+//         -1 = Signals a negative numeric value
+//          0 = Signals that the numeric value is zero.
+//         +1 = Signals a positive numeric value
+//
+//
+//  baseNumSys                    BaseNumberSystemType
+//     - Designates the base number system associated with input
+//       parameters 'absValIntegerRunes' and 'absValIntegerRunes'
+//       described above.
+//
+//       Valid values for 'baseNumSys' are listed as follows:
+//         BaseNumSys.Binary(),
+//         BaseNumSys.Octal(),
+//         BaseNumSys.Decimal(),
+//         BaseNumSys.Hexadecimal(),
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  fmtNumStr                     string
+//     - If this method completes successfully, a formatted
+//       currency number string will be returned.
+//
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtSignedNum *FormatterSignedNumber) GetFmtNumStr(
+	absValIntegerRunes []rune,
+	absValFractionalRunes []rune,
+	signVal int,
+	baseNumSys BaseNumberSystemType,
+	ePrefix *ErrPrefixDto) (
+	fmtNumStr string,
+	err error) {
+
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
+	}
+
+	fmtSignedNum.lock.Lock()
+
+	defer fmtSignedNum.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterSignedNumber." +
+			"GetFmtNumStr()")
+
+	if baseNumSys != BaseNumberSystemType(0).Decimal() {
+		err = fmt.Errorf("%v\n"+
+			"Error: Base Numbering System is NOT equal to Base-10!\n"+
+			"baseNumSys=='%v'\n",
+			ePrefix.String(),
+			baseNumSys.XValueInt())
+		return fmtNumStr, err
+	}
+
+	if signVal < 0 {
+		fmtNumStr = "-"
+	}
+
+	fmtNumStr += string(absValIntegerRunes) +
+		string(fmtSignedNum.numericSeparators.decimalSeparators) +
+		string(absValFractionalRunes)
+
+	return fmtNumStr, err
 }
 
 // GetIntegerDigitSeparators - Returns an array of type
