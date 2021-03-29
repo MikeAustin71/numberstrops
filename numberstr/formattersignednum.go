@@ -32,8 +32,8 @@ import (
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -76,8 +76,8 @@ import (
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "-" - The Minus Sign ('-'). If present in the
 //                     format string, the minus sign ('-') specifies
@@ -474,7 +474,7 @@ func (fmtSignedNum *FormatterSignedNumber) CopyInINumStrFormatter(
 
 		return fmt.Errorf("%v\n"+
 			"Error: 'incomingIFormatter' is NOT Type "+
-			"FormatterCurrency\n"+
+			"FormatterSignedNumber\n"+
 			"'incomingIFormatter' is type %v",
 			ePrefix.String(),
 			typeName)
@@ -1372,8 +1372,8 @@ func (fmtSignedNum *FormatterSignedNumber) IsValidInstanceError(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -1416,8 +1416,8 @@ func (fmtSignedNum *FormatterSignedNumber) IsValidInstanceError(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "-" - The Minus Sign ('-'). If present in the
 //                     format string, the minus sign ('-') specifies
@@ -1683,8 +1683,8 @@ func (fmtSignedNum FormatterSignedNumber) NewBasic(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -1727,8 +1727,8 @@ func (fmtSignedNum FormatterSignedNumber) NewBasic(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "-" - The Minus Sign ('-'). If present in the
 //                     format string, the minus sign ('-') specifies
@@ -2006,8 +2006,8 @@ func (fmtSignedNum FormatterSignedNumber) NewBasicRunes(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -2050,8 +2050,8 @@ func (fmtSignedNum FormatterSignedNumber) NewBasicRunes(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "-" - The Minus Sign ('-'). If present in the
 //                     format string, the minus sign ('-') specifies
@@ -2334,8 +2334,8 @@ func (fmtSignedNum FormatterSignedNumber) NewDetail(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -2378,8 +2378,8 @@ func (fmtSignedNum FormatterSignedNumber) NewDetail(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "-" - The Minus Sign ('-'). If present in the
 //                     format string, the minus sign ('-') specifies
@@ -2685,8 +2685,8 @@ func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -2729,8 +2729,8 @@ func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "-" - The Minus Sign ('-'). If present in the
 //                     format string, the minus sign ('-') specifies
@@ -3114,8 +3114,8 @@ func (fmtSignedNum FormatterSignedNumber) NewWithComponents(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -3158,8 +3158,8 @@ func (fmtSignedNum FormatterSignedNumber) NewWithComponents(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "-" - The Minus Sign ('-'). If present in the
 //                     format string, the minus sign ('-') specifies
@@ -3418,8 +3418,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetBasic(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -3462,8 +3462,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetBasic(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "-" - The Minus Sign ('-'). If present in the
 //                     format string, the minus sign ('-') specifies
@@ -3678,7 +3678,7 @@ func (fmtSignedNum *FormatterSignedNumber) SetBasicRunes(
 //       error will be returned.
 //
 //       For custom integer digit grouping, use method
-//       FormatterCurrency.NewWithComponents().
+//       FormatterSignedNumber.NewWithComponents().
 //
 //
 //  intSeparatorGrouping          uint
@@ -3735,8 +3735,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetBasicRunes(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -3779,8 +3779,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetBasicRunes(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "-" - The Minus Sign ('-'). If present in the
 //                     format string, the minus sign ('-') specifies
@@ -3998,7 +3998,7 @@ func (fmtSignedNum *FormatterSignedNumber) SetDetail(
 //       error will be returned.
 //
 //       For custom integer digit grouping, use method
-//       FormatterCurrency.NewWithComponents().
+//       FormatterSignedNumber.NewWithComponents().
 //
 //
 //  intSeparatorGrouping          uint
@@ -4055,8 +4055,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetDetail(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -4099,8 +4099,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetDetail(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "-" - The Minus Sign ('-'). If present in the
 //                     format string, the minus sign ('-') specifies
@@ -4290,8 +4290,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetDetailRunes(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "-" - The Minus Sign ('-'). If present in the
 //                     format string, the minus sign ('-') specifies
@@ -4665,8 +4665,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetNumStrFormatTypeCode() {
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -5033,8 +5033,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetTurnOnIntegerDigitsSeparationFlag(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -5077,8 +5077,8 @@ func (fmtSignedNum *FormatterSignedNumber) SetTurnOnIntegerDigitsSeparationFlag(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "-" - The Minus Sign ('-'). If present in the
 //                     format string, the minus sign ('-') specifies

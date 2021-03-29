@@ -284,7 +284,7 @@ func (fmtSciNotation *FormatterSciNotation) CopyIn(
 // judged to be invalid, an error will be returned.
 //
 // Be advised, all of the data fields in the current
-// FormatterCurrency instance will be overwritten.
+// FormatterSciNotation instance will be overwritten.
 //
 // This method is required by interface INumStrFormatter.
 //
@@ -374,7 +374,7 @@ func (fmtSciNotation *FormatterSciNotation) CopyInINumStrFormatter(
 
 		return fmt.Errorf("%v\n"+
 			"Error: 'incomingIFormatter' is NOT Type "+
-			"FormatterCurrency\n"+
+			"FormatterSciNotation\n"+
 			"'incomingIFormatter' is type %v",
 			ePrefix.String(),
 			typeName)
@@ -698,7 +698,7 @@ func (fmtSciNotation *FormatterSciNotation) GetFmtNumStr(
 	}
 
 	ePrefix.SetEPref(
-		"FormatterCurrency." +
+		"FormatterSciNotation." +
 			"GetFmtNumStr()")
 
 	if baseNumSys != BaseNumberSystemType(0).Decimal() {

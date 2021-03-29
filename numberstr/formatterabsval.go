@@ -31,8 +31,8 @@ import (
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -293,9 +293,9 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyIn(
 }
 
 // CopyInINumStrFormatter - Receives an incoming INumStrFormatter
-// object, converts it to a FormatterCurrency instance and
+// object, converts it to a FormatterAbsoluteValue instance and
 // proceeds to copy the the data fields into those of the
-// current FormatterCurrency instance.
+// current FormatterAbsoluteValue instance.
 //
 // If the dynamic type of INumStrFormatter is not equal to
 // FormatterAbsoluteValue, an error will be returned. Likewise,
@@ -318,9 +318,9 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyIn(
 //       error will be returned.
 //
 //       The data values in this object will be copied to the
-//       current FormatterCurrency instance.
+//       current FormatterAbsoluteValue instance.
 //
-//       If input parameter 'incomingCurrencyValDto' is judged to
+//       If input parameter 'incomingIFormatter' is judged to
 //       be invalid, this method will return an error.
 //
 //
@@ -1313,8 +1313,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstanceError(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -1546,8 +1546,8 @@ func (fmtAbsVal FormatterAbsoluteValue) NewBasic(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -1792,8 +1792,8 @@ func (fmtAbsVal FormatterAbsoluteValue) NewBasicRunes(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -2042,8 +2042,8 @@ func (fmtAbsVal FormatterAbsoluteValue) NewDetail(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -2285,8 +2285,8 @@ func (fmtAbsVal FormatterAbsoluteValue) NewUnitedStatesDefaults() FormatterAbsol
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -2564,8 +2564,8 @@ func (fmtAbsVal FormatterAbsoluteValue) NewWithComponents(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -2752,8 +2752,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetAbsoluteValueFormat(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -2986,8 +2986,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetBasic(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -3227,8 +3227,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetBasicRunes(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -3457,8 +3457,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetDetail(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
@@ -4078,8 +4078,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetTurnOnIntegerDigitsSeparationFlag(
 //                     a number string. This place holder signals
 //                     that the actual length of the numeric value
 //                     including formatting characters and symbols
-//                     such as Thousands Separators, Decimal
-//                     Separators and Currency Symbols.
+//                     such as Thousands Separators and Decimal
+//                     Separators.
 //
 //               "+" - The Plus Sign ('+'). If present in the format
 //                     string, the plus sign ('+') specifies  where
