@@ -1,6 +1,10 @@
 package numberstr
 
-import "sync"
+import (
+	"fmt"
+	"reflect"
+	"sync"
+)
 
 // FormatterBinary - The FormatterBinary type encapsulates the
 // formatting parameters necessary to format binary digits for
@@ -256,6 +260,192 @@ func (fmtBinary *FormatterBinary) CopyIn(
 		ePrefix.XCtx(
 			"incomingFormatterBinary->"+
 				"fmtBinary"))
+}
+
+// CopyInINumStrFormatter - Receives an incoming INumStrFormatter
+// object, converts it to a FormatterBinary instance and proceeds
+// to copy the the data fields into those of the current
+// FormatterBinary instance.
+//
+// If the dynamic type of INumStrFormatter is not equal to
+// FormatterBinary, an error will be returned. Likewise,
+// if the data fields of input parameter 'incomingIFormatter' are
+// judged to be invalid, an error will be returned.
+//
+// Be advised, all of the data fields in the current
+// FormatterBinary instance will be overwritten.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingIFormatter            INumStrFormatter
+//     - An instance of Interface INumStrFormatter. If this the
+//       dynamic type is not equal to FormatterBinary an error
+//       will be returned.
+//
+//       The data values in this object will be copied to the
+//       current FormatterBinary instance.
+//
+//       If input parameter 'incomingIFormatter' is judged to
+//       be invalid, this method will return an error.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtBinary *FormatterBinary) CopyInINumStrFormatter(
+	incomingIFormatter INumStrFormatter,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterBinary." +
+			"CopyInINumStrFormatter()")
+
+	if incomingIFormatter == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'incomingIFormatter' is "+
+			"'nil'\n",
+			ePrefix.String())
+	}
+
+	incomingFormatterBinary,
+		isValid := incomingIFormatter.(*FormatterBinary)
+
+	if !isValid {
+
+		actualType :=
+			reflect.TypeOf(incomingIFormatter)
+
+		typeName := "Unknown"
+
+		if actualType != nil {
+			typeName = actualType.Name()
+		}
+
+		return fmt.Errorf("%v\n"+
+			"Error: 'incomingIFormatter' is NOT Type "+
+			"FormatterBinary.\n"+
+			"'incomingIFormatter' is type %v",
+			ePrefix.String(),
+			typeName)
+	}
+
+	return formatterBinaryAtom{}.ptr().copyIn(
+		fmtBinary,
+		incomingFormatterBinary,
+		ePrefix.XCtx(
+			"incomingFormatterBinary->"+
+				"fmtBinary"))
+}
+
+// CopyOut - Creates and returns a deep copy of the current
+// FormatterBinary instance.
+//
+// If the current FormatterBinary instance is judged to be
+// invalid, this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterBinary
+//     - If this method completes successfully, a new instance of
+//       FormatterBinary will be created and returned
+//       containing all of the data values copied from the current
+//       instance of FormatterBinary.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtBinary *FormatterBinary) CopyOut(
+	ePrefix *ErrPrefixDto) (
+	FormatterBinary,
+	error) {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterBinary." +
+			"CopyOut()")
+
+	return formatterBinaryAtom{}.ptr().copyOut(
+		fmtBinary,
+		ePrefix.XCtx(
+			"Copy Out from 'fmtBinary'"))
 }
 
 // Empty - Deletes and resets the data values of all member
