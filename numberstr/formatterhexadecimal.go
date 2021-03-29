@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"reflect"
 	"sync"
 )
 
@@ -258,6 +259,121 @@ func (formatterHex *FormatterHexadecimal) CopyIn(
 				"formatterHex"))
 }
 
+// CopyInINumStrFormatter - Receives an incoming INumStrFormatter
+// object, converts it to a FormatterHexadecimal instance and
+// proceeds to copy the the data fields into those of the
+// current FormatterHexadecimal instance.
+//
+// If the dynamic type of INumStrFormatter is not equal to
+// FormatterHexadecimal, an error will be returned. Likewise,
+// if the data fields of input parameter 'incomingIFormatter' are
+// judged to be invalid, an error will be returned.
+//
+// Be advised, all of the data fields in the current
+// FormatterHexadecimal instance will be overwritten.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingIFormatter            INumStrFormatter
+//     - An instance of Interface INumStrFormatter. If this the
+//       dynamic type is not equal to FormatterHexadecimal an error
+//       will be returned.
+//
+//       The data values in this object will be copied to the
+//       current FormatterHexadecimal instance.
+//
+//       If input parameter 'incomingIFormatter' is judged to
+//       be invalid, this method will return an error.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (formatterHex *FormatterHexadecimal) CopyInINumStrFormatter(
+	incomingIFormatter INumStrFormatter,
+	ePrefix *ErrPrefixDto) error {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterHexadecimal." +
+			"CopyInINumStrFormatter()")
+
+	if incomingIFormatter == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'incomingIFormatter' is "+
+			"'nil'\n",
+			ePrefix.String())
+	}
+
+	incomingFormatterHex,
+		isValid := incomingIFormatter.(*FormatterHexadecimal)
+
+	if !isValid {
+
+		actualType :=
+			reflect.TypeOf(incomingIFormatter)
+
+		typeName := "Unknown"
+
+		if actualType != nil {
+			typeName = actualType.Name()
+		}
+
+		return fmt.Errorf("%v\n"+
+			"Error: 'incomingIFormatter' is NOT Type "+
+			"FormatterHexadecimal\n"+
+			"'incomingIFormatter' is type %v",
+			ePrefix.String(),
+			typeName)
+	}
+
+	return formatterHexadecimalElectron{}.ptr().
+		copyIn(
+			formatterHex,
+			incomingFormatterHex,
+			ePrefix.XCtx(
+				"formatterHex"))
+}
+
 // CopyOut - Creates and returns a deep copy of the current
 // FormatterHexadecimal instance.
 //
@@ -329,6 +445,84 @@ func (formatterHex *FormatterHexadecimal) CopyOut(
 			formatterHex,
 			ePrefix.XCtx(
 				"formatterHex"))
+}
+
+// CopyOutINumStrFormatter - Creates and returns a deep copy of the current
+// FormatterHexadecimal instance as an INumStrFormatter object.
+//
+// If the current FormatterHexadecimal instance is judged to be
+// invalid, this method will return an error.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  INumStrFormatter
+//     - If this method completes successfully, a new instance of
+//       FormatterHexadecimal will be created, converted to an
+//       instance of interface INumStrFormatter and returned
+//       to the calling function. The returned data represents a
+//       deep copy of the current FormatterHexadecimal instance.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (formatterHex *FormatterHexadecimal) CopyOutINumStrFormatter(
+	ePrefix *ErrPrefixDto) (
+	INumStrFormatter,
+	error) {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterHexadecimal." +
+			"CopyOutINumStrFormatter()")
+
+	newFormatterHex,
+		err := formatterHexadecimalElectron{}.ptr().
+		copyOut(
+			formatterHex,
+			ePrefix.XCtx(
+				"formatterHex"))
+
+	return INumStrFormatter(&newFormatterHex), err
 }
 
 // Empty - Deletes and resets the data values of all member
@@ -514,22 +708,23 @@ func (formatterHex *FormatterHexadecimal) GetLeftPrefix() string {
 //
 //  absValIntegerRunes            []rune
 //     - An array of runes containing the integer component of the
-//       numeric value to be formatted as currency. This array of
-//       integer digits always represents a positive ('+') numeric
-//       value. The array consists entirely of numeric digits.
+//       numeric value to be formatted as hexadecimal digits. This
+//       array of integer digits always represents a positive ('+')
+//       numeric value. The array consists entirely of hexadecimal
+//       digits.
 //
 //
 //  absValFractionalRunes         []rune
 //     - An array of runes containing the fractional component of
-//       the numeric value to be formatted as currency. This array
-//       of numeric digits always represents a positive ('+')
-//       numeric value. The array consists entirely of numeric
-//       digits.
+//       the numeric value to be formatted as hexadecimal digits.
+//       This array of numeric digits always represents a positive
+//       ('+') numeric value. The array consists entirely of
+//       hexadecimal digits.
 //
 //
 //  signVal                       int
 //     - The parameter designates the numeric sign of the final
-//       formatted currency value returned by this method.
+//       formatted hexadecimal value returned by this method.
 //
 //       Valid values for 'signVal' are listed as follows:
 //         -1 = Signals a negative numeric value
@@ -564,7 +759,7 @@ func (formatterHex *FormatterHexadecimal) GetLeftPrefix() string {
 //
 //  fmtNumStr                     string
 //     - If this method completes successfully, a formatted
-//       currency number string will be returned.
+//       hexadecimal number string will be returned.
 //
 //
 //  err                           error
@@ -973,7 +1168,7 @@ func (formatterHex *FormatterHexadecimal) IsValidInstanceError(
 //       error will be returned.
 //
 //       For custom integer digit grouping, use method
-//       FormatterCurrency.NewWithComponents().
+//       FormatterHexadecimal.NewWithComponents().
 //
 //
 //  intSeparatorGrouping       uint
@@ -1193,7 +1388,7 @@ func (formatterHex FormatterHexadecimal) NewDetail(
 //       error will be returned.
 //
 //       For custom integer digit grouping, use method
-//       FormatterCurrency.NewWithComponents().
+//       FormatterHexadecimal.NewWithComponents().
 //
 //
 //  intSeparatorGrouping       uint
@@ -1758,7 +1953,7 @@ func (formatterHex FormatterHexadecimal) NewWithDefaults(
 //       error will be returned.
 //
 //       For custom integer digit grouping, use method
-//       FormatterCurrency.NewWithComponents().
+//       FormatterHexadecimal.NewWithComponents().
 //
 //
 //  intSeparatorGrouping          uint
@@ -1973,7 +2168,7 @@ func (formatterHex *FormatterHexadecimal) SetDetail(
 //       error will be returned.
 //
 //       For custom integer digit grouping, use method
-//       FormatterCurrency.NewWithComponents().
+//       FormatterHexadecimal.NewWithComponents().
 //
 //
 //  intSeparatorGrouping          uint
@@ -2414,7 +2609,7 @@ func (formatterHex *FormatterHexadecimal) SetNumberFieldLengthDto(
 	}
 
 	ePrefix.SetEPref(
-		"FormatterCurrency." +
+		"FormatterHexadecimal." +
 			"SetNumberFieldLengthDto()")
 
 	return formatterHex.numFieldDto.CopyIn(
