@@ -791,3 +791,23 @@ func (fmtBinary *FormatterBinary) IsValidInstanceError(
 
 	return err
 }
+
+// SetNumStrFormatTypeCode - Sets the Number String Format Type
+// coded for this FormatterBinary object. For Binary formatters,
+// the Number String Format Type Code is set to
+// NumStrFormatTypeCode(0).Binary().
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtBinary *FormatterBinary) SetNumStrFormatTypeCode() {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	fmtBinary.numStrFmtType = NumStrFormatTypeCode(0).Binary()
+}
