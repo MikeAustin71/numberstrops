@@ -577,7 +577,8 @@ func (fmtCurr *FormatterCurrency) CopyInINumStrFormatter(
 	}
 
 	ePrefix.SetEPref(
-		"FormatterCurrency.CopyInINumStrFormatter()")
+		"FormatterCurrency." +
+			"CopyInINumStrFormatter()")
 
 	if incomingIFormatter == nil {
 		return fmt.Errorf("%v\n"+

@@ -2,6 +2,7 @@ package numberstr
 
 import (
 	"fmt"
+	"reflect"
 	"sync"
 )
 
@@ -291,6 +292,117 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyIn(
 		ePrefix.XCtx("incomingFormatterAbsVal -> fmtAbsVal"))
 }
 
+// CopyInINumStrFormatter - Receives an incoming INumStrFormatter
+// object, converts it to a FormatterCurrency instance and
+// proceeds to copy the the data fields into those of the
+// current FormatterCurrency instance.
+//
+// If the dynamic type of INumStrFormatter is not equal to
+// FormatterAbsoluteValue, an error will be returned. Likewise,
+// if the data fields of input parameter 'incomingIFormatter' are
+// judged to be invalid, an error will be returned.
+//
+// Be advised, all of the data fields in the current
+// FormatterAbsoluteValue instance will be overwritten.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingIFormatter            INumStrFormatter
+//     - An instance of Interface INumStrFormatter. If this the
+//       dynamic type is not equal to FormatterAbsoluteValue an
+//       error will be returned.
+//
+//       The data values in this object will be copied to the
+//       current FormatterCurrency instance.
+//
+//       If input parameter 'incomingCurrencyValDto' is judged to
+//       be invalid, this method will return an error.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtAbsVal *FormatterAbsoluteValue) CopyInINumStrFormatter(
+	incomingIFormatter INumStrFormatter,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
+	}
+
+	fmtAbsVal.lock.Lock()
+
+	defer fmtAbsVal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterAbsoluteValue." +
+			"CopyInINumStrFormatter()")
+
+	if incomingIFormatter == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'incomingIFormatter' is "+
+			"'nil'\n",
+			ePrefix.String())
+	}
+
+	incomingFormatterAbsVal,
+		isValid := incomingIFormatter.(*FormatterAbsoluteValue)
+
+	if !isValid {
+
+		actualType :=
+			reflect.TypeOf(incomingIFormatter)
+
+		typeName := "Unknown"
+
+		if actualType != nil {
+			typeName = actualType.Name()
+		}
+
+		return fmt.Errorf("%v\n"+
+			"Error: 'incomingIFormatter' is NOT Type "+
+			"FormatterAbsoluteValue\n"+
+			"'incomingIFormatter' is type %v",
+			ePrefix.String(),
+			typeName)
+	}
+
+	return formatterAbsoluteValueNanobot{}.ptr().copyIn(
+		fmtAbsVal,
+		incomingFormatterAbsVal,
+		ePrefix.XCtx("incomingFormatterAbsVal -> fmtAbsVal"))
+}
+
 // CopyOut - Returns a deep copy of the current
 // FormatterAbsoluteValue instance.
 //
@@ -358,6 +470,81 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyOut(
 			fmtAbsVal,
 			ePrefix.XCtx(
 				"Copy -> 'fmtAbsVal'"))
+}
+
+// CopyOutINumStrFormatter - Creates and returns a deep copy of the
+// current FormatterAbsoluteValue instance as an INumStrFormatter
+// object.
+//
+// If the current FormatterAbsoluteValue instance is judged to be
+// invalid, this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  INumStrFormatter
+//     - If this method completes successfully, a new instance of
+//       FormatterAbsoluteValue will be created, converted to an
+//       instance of interface INumStrFormatter and returned
+//       to the calling function. The returned data represents a
+//       deep copy of the current FormatterAbsoluteValue instance.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtAbsVal *FormatterAbsoluteValue) CopyOutINumStrFormatter(
+	ePrefix *ErrPrefixDto) (INumStrFormatter, error) {
+
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
+	}
+
+	fmtAbsVal.lock.Lock()
+
+	defer fmtAbsVal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterAbsoluteValue." +
+			"CopyOutINumStrFormatter()")
+
+	newFormatterAbsVal,
+		err := formatterAbsoluteValueNanobot{}.ptr().
+		copyOut(
+			fmtAbsVal,
+			ePrefix.XCtx(
+				"Copy -> 'fmtAbsVal'"))
+
+	return INumStrFormatter(&newFormatterAbsVal), err
 }
 
 // Empty - Deletes and resets data values for all member variables
