@@ -432,7 +432,7 @@ type FormatterCurrency struct {
 // FormatterCurrency instance to the data fields
 // of the current FormatterCurrency instance.
 //
-// If input parameter 'incomingCurrencyValDto' is judged to be
+// If input parameter 'incomingFormatterCurrency' is judged to be
 // invalid, this method will return an error.
 //
 // Be advised, all of the data fields in the current
@@ -448,8 +448,8 @@ type FormatterCurrency struct {
 //       The data values in this object will be copied to the
 //       current FormatterCurrency instance.
 //
-//       If input parameter 'incomingCurrencyValDto' is judged to
-//       be invalid, this method will return an error.
+//       If input parameter 'incomingFormatterCurrency' is judged
+//       to be invalid, this method will return an error.
 //
 //
 //  ePrefix                       *ErrPrefixDto

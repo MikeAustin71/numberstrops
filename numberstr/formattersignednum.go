@@ -301,7 +301,7 @@ type FormatterSignedNumber struct {
 // of the current instance of FormatterSignedNumber
 // instance.
 //
-// If input parameter 'incomingSignedNumValDto' is judged to be
+// If input parameter 'incomingFmtSignedNum' is judged to be
 // invalid, this method will return an error.
 //
 // IMPORTANT
@@ -313,13 +313,13 @@ type FormatterSignedNumber struct {
 //
 // Input Parameters
 //
-//  incomingSignedNumValDto    *FormatterSignedNumber
+//  incomingFmtSignedNum       *FormatterSignedNumber
 //     - A pointer to an instance of FormatterSignedNumber.
 //       The data values in this object will be copied to the
 //       current FormatterSignedNumber instance.
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                    *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -344,7 +344,7 @@ type FormatterSignedNumber struct {
 //       error message.
 //
 func (fmtSignedNum *FormatterSignedNumber) CopyIn(
-	incomingSignedNumValDto *FormatterSignedNumber,
+	incomingFmtSignedNum *FormatterSignedNumber,
 	ePrefix *ErrPrefixDto) error {
 
 	if fmtSignedNum.lock == nil {
@@ -368,7 +368,7 @@ func (fmtSignedNum *FormatterSignedNumber) CopyIn(
 	return formatterSignedNumberNanobot{}.ptr().
 		copyIn(
 			fmtSignedNum,
-			incomingSignedNumValDto,
+			incomingFmtSignedNum,
 			ePrefix.XCtx(
 				"fmtSignedNum"))
 }

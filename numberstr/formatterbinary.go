@@ -180,6 +180,106 @@ type FormatterBinary struct {
 	lock                          *sync.Mutex
 }
 
+// CopyIn - Copies the data fields from an incoming FormatterBinary
+// instance to the data fields of the current FormatterBinary
+// instance.
+//
+// If input parameter 'incomingFormatterCurrency' is judged to be
+// invalid, this method will return an error.
+//
+// Be advised, all of the data fields in the current
+// FormatterBinary instance will be overwritten.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingFormatterCurrency     *FormatterCurrency
+//     - A pointer to an instance of FormatterBinary.
+//       The data values in this object will be copied to the
+//       current FormatterBinary instance.
+//
+//       If input parameter 'incomingFormatterCurrency' is judged to
+//       be invalid, this method will return an error.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtBinary *FormatterBinary) CopyIn(
+	incomingFormatterBinary *FormatterBinary,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterBinary." +
+			"CopyIn()")
+
+	return formatterBinaryAtom{}.ptr().copyIn(
+		fmtBinary,
+		incomingFormatterBinary,
+		ePrefix.XCtx(
+			"incomingFormatterBinary->"+
+				"fmtBinary"))
+}
+
+// Empty - Deletes and resets the data values of all member
+// variables within the current FormatterBinary instance to
+// their initial 'zero' values.
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtBinary *FormatterBinary) Empty() {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	_ = formatterBinaryQuark{}.ptr().
+		empty(fmtBinary, nil)
+
+	fmtBinary.lock.Unlock()
+
+	fmtBinary.lock = nil
+}
+
 // IsValidInstance - Performs a diagnostic review of the current
 // FormatterBinary instance to determine whether that instance is
 // valid in all respects.
@@ -280,26 +380,4 @@ func (fmtBinary *FormatterBinary) IsValidInstanceError(
 			nil)
 
 	return err
-}
-
-// Empty - Deletes and resets the data values of all member
-// variables within the current FormatterBinary instance to
-// their initial 'zero' values.
-//
-// This method is required by interface INumStrFormatter.
-//
-func (fmtBinary *FormatterBinary) Empty() {
-
-	if fmtBinary.lock == nil {
-		fmtBinary.lock = new(sync.Mutex)
-	}
-
-	fmtBinary.lock.Lock()
-
-	_ = formatterBinaryQuark{}.ptr().
-		empty(fmtBinary, nil)
-
-	fmtBinary.lock.Unlock()
-
-	fmtBinary.lock = nil
 }

@@ -213,9 +213,9 @@ type FormatterOctal struct {
 	lock                          *sync.Mutex
 }
 
-// CopyIn - Copies the data fields from an incoming
-// FormatterOctal instance to the data fields of the current
-// FormatterOctal instance.
+// CopyIn - Copies the data fields from an incoming FormatterOctal
+// instance to the data fields of the current FormatterOctal
+// instance.
 //
 // If input parameter 'incomingFormatterOctal' is judged to be
 // invalid, this method will return an error.
