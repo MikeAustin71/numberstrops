@@ -448,6 +448,83 @@ func (fmtBinary *FormatterBinary) CopyOut(
 			"Copy Out from 'fmtBinary'"))
 }
 
+// CopyOutINumStrFormatter - Creates and returns a deep copy of the current
+// FormatterBinary instance as an INumStrFormatter object.
+//
+// If the current FormatterBinary instance is judged to be
+// invalid, this method will return an error.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  INumStrFormatter
+//     - If this method completes successfully, a new instance of
+//       FormatterBinary will be created, converted to an
+//       instance of interface INumStrFormatter and returned
+//       to the calling function. The returned data represents a
+//       deep copy of the current FormatterBinary instance.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtBinary *FormatterBinary) CopyOutINumStrFormatter(
+	ePrefix *ErrPrefixDto) (
+	INumStrFormatter,
+	error) {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterBinary." +
+			"CopyOutINumStrFormatter()")
+
+	newFormatterBinary,
+		err := formatterBinaryAtom{}.ptr().copyOut(
+		fmtBinary,
+		ePrefix.XCtx(
+			"Copy Out from 'fmtBinary'"))
+
+	return INumStrFormatter(&newFormatterBinary), err
+}
+
 // Empty - Deletes and resets the data values of all member
 // variables within the current FormatterBinary instance to
 // their initial 'zero' values.
