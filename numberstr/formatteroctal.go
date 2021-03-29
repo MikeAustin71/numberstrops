@@ -685,9 +685,9 @@ func (fmtOctal *FormatterOctal) GetFmtNumStr(
 		"FormatterOctal." +
 			"GetFmtNumStr()")
 
-	if baseNumSys != BaseNumberSystemType(0).Decimal() {
+	if baseNumSys != BaseNumberSystemType(0).Octal() {
 		err = fmt.Errorf("%v\n"+
-			"Error: Base Numbering System is NOT equal to Base-10!\n"+
+			"Error: Base Numbering System is NOT equal to Base-8!\n"+
 			"baseNumSys=='%v'\n",
 			ePrefix.String(),
 			baseNumSys.XValueInt())
