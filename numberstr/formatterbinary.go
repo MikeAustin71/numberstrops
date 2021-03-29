@@ -180,6 +180,48 @@ type FormatterBinary struct {
 	lock                          *sync.Mutex
 }
 
+// IsValidInstance - Performs a diagnostic review of the current
+// FormatterBinary instance to determine whether that instance is
+// valid in all respects.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  --- NONE ---
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  isValid             bool
+//     - This returned boolean value will signal whether the
+//       current FormatterBinary is valid, or not. If the current
+//       FormatterBinary instance contains valid data, this method
+//       returns 'true'. If the data is invalid, this method will
+//       return 'false'.
+//
+func (fmtBinary *FormatterBinary) IsValidInstance() bool {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	isValid,
+		_ := formatterBinaryQuark{}.ptr().
+		testValidityOfFormatterBinary(
+			fmtBinary,
+			nil)
+
+	return isValid
+}
+
 // Empty - Deletes and resets the data values of all member
 // variables within the current FormatterBinary instance to
 // their initial 'zero' values.
