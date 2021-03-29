@@ -605,7 +605,7 @@ func (fmtCurr *FormatterCurrency) CopyInINumStrFormatter(
 
 		return fmt.Errorf("%v\n"+
 			"Error: 'incomingIFormatter' is NOT Type "+
-			"FormatterCurrency\n"+
+			"FormatterCurrency.\n"+
 			"'incomingIFormatter' is type %v",
 			ePrefix.String(),
 			typeName)

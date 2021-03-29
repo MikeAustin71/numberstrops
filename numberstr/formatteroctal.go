@@ -1,6 +1,10 @@
 package numberstr
 
-import "sync"
+import (
+	"fmt"
+	"reflect"
+	"sync"
+)
 
 // FormatterOctal - The FormatterOctal type encapsulates the
 // formatting parameters necessary to format octal digits for
@@ -286,6 +290,122 @@ func (fmtOctal *FormatterOctal) CopyIn(
 					"fmtOctal"))
 }
 
+// CopyInINumStrFormatter - Receives an incoming INumStrFormatter
+// object, converts it to a FormatterOctal instance and
+// proceeds to copy the the data fields into those of the
+// current FormatterOctal instance.
+//
+// If the dynamic type of INumStrFormatter is not equal to
+// FormatterOctal, an error will be returned. Likewise,
+// if the data fields of input parameter 'incomingIFormatter' are
+// judged to be invalid, an error will be returned.
+//
+// Be advised, all of the data fields in the current
+// FormatterOctal instance will be overwritten.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingIFormatter            INumStrFormatter
+//     - An instance of Interface INumStrFormatter. If this the
+//       dynamic type is not equal to FormatterOctal an error
+//       will be returned.
+//
+//       The data values in this object will be copied to the
+//       current FormatterOctal instance.
+//
+//       If input parameter 'incomingIFormatter' is judged to
+//       be invalid, this method will return an error.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtOctal *FormatterOctal) CopyInINumStrFormatter(
+	incomingIFormatter INumStrFormatter,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtOctal.lock == nil {
+		fmtOctal.lock = new(sync.Mutex)
+	}
+
+	fmtOctal.lock.Lock()
+
+	defer fmtOctal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterOctal." +
+			"CopyInINumStrFormatter()")
+
+	if incomingIFormatter == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'incomingIFormatter' is "+
+			"'nil'\n",
+			ePrefix.String())
+	}
+
+	incomingFormatterOctal,
+		isValid := incomingIFormatter.(*FormatterOctal)
+
+	if !isValid {
+
+		actualType :=
+			reflect.TypeOf(incomingIFormatter)
+
+		typeName := "Unknown"
+
+		if actualType != nil {
+			typeName = actualType.Name()
+		}
+
+		return fmt.Errorf("%v\n"+
+			"Error: 'incomingIFormatter' is NOT Type "+
+			"FormatterOctal.\n"+
+			"'incomingIFormatter' is type %v",
+			ePrefix.String(),
+			typeName)
+	}
+
+	return formatterOctalAtom{}.ptr().
+		copyIn(
+			fmtOctal,
+			incomingFormatterOctal,
+			ePrefix.XCtx(
+				"incomingFormatterOctal->"+
+					"fmtOctal"))
+}
+
 // CopyOut - Creates and returns a deep copy of the current
 // FormatterOctal instance.
 //
@@ -359,6 +479,84 @@ func (fmtOctal *FormatterOctal) CopyOut(
 				"fmtOctal->"))
 }
 
+// CopyOutINumStrFormatter - Creates and returns a deep copy of the current
+// FormatterOctal instance as an INumStrFormatter object.
+//
+// If the current FormatterOctal instance is judged to be
+// invalid, this method will return an error.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  INumStrFormatter
+//     - If this method completes successfully, a new instance of
+//       FormatterOctal will be created, converted to an
+//       instance of interface INumStrFormatter and returned
+//       to the calling function. The returned data represents a
+//       deep copy of the current FormatterOctal instance.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtOctal *FormatterOctal) CopyOutINumStrFormatter(
+	ePrefix *ErrPrefixDto) (
+	INumStrFormatter,
+	error) {
+
+	if fmtOctal.lock == nil {
+		fmtOctal.lock = new(sync.Mutex)
+	}
+
+	fmtOctal.lock.Lock()
+
+	defer fmtOctal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterOctal." +
+			"CopyOutINumStrFormatter()")
+
+	newFormatterOctal,
+		err := formatterOctalAtom{}.ptr().
+		copyOut(
+			fmtOctal,
+			ePrefix.XCtx(
+				"fmtOctal->"))
+
+	return INumStrFormatter(&newFormatterOctal), err
+}
+
 // Empty - Deletes and resets the data values of all member
 // variables within the current FormatterOctal instance to
 // their initial 'zero' values.
@@ -380,6 +578,130 @@ func (fmtOctal *FormatterOctal) Empty() {
 
 	fmtOctal.lock = nil
 
+}
+
+// GetFmtNumStr - Returns a number string formatted for octal
+// digits based on the configuration encapsulated in the current
+// instance of FormatterOctal.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  absValIntegerRunes            []rune
+//     - An array of runes containing the integer component of the
+//       numeric value to be formatted as octal digits. This array
+//       of integer digits always represents a positive ('+')
+//       numeric value. The array consists entirely of numeric
+//       digits.
+//
+//
+//  absValFractionalRunes         []rune
+//     - An array of runes containing the fractional component of
+//       the numeric value to be formatted as octal digits. This
+//       array of numeric digits always represents a positive ('+')
+//       numeric value. The array consists entirely of numeric
+//       digits.
+//
+//
+//  signVal                       int
+//     - The parameter designates the numeric sign of the final
+//       formatted octal numeric value returned by this method.
+//
+//       Valid values for 'signVal' are listed as follows:
+//         -1 = Signals a negative numeric value
+//          0 = Signals that the numeric value is zero.
+//         +1 = Signals a positive numeric value
+//
+//
+//  baseNumSys                    BaseNumberSystemType
+//     - Designates the base number system associated with input
+//       parameters 'absValIntegerRunes' and 'absValIntegerRunes'
+//       described above.
+//
+//       Valid values for 'baseNumSys' are listed as follows:
+//         BaseNumSys.Binary(),
+//         BaseNumSys.Octal(),
+//         BaseNumSys.Decimal(),
+//         BaseNumSys.Hexadecimal(),
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  fmtNumStr                     string
+//     - If this method completes successfully, a formatted
+//       octal number string will be returned.
+//
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtOctal *FormatterOctal) GetFmtNumStr(
+	absValIntegerRunes []rune,
+	absValFractionalRunes []rune,
+	signVal int,
+	baseNumSys BaseNumberSystemType,
+	ePrefix *ErrPrefixDto) (
+	fmtNumStr string,
+	err error) {
+
+	if fmtOctal.lock == nil {
+		fmtOctal.lock = new(sync.Mutex)
+	}
+
+	fmtOctal.lock.Lock()
+
+	defer fmtOctal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterOctal." +
+			"GetFmtNumStr()")
+
+	if baseNumSys != BaseNumberSystemType(0).Decimal() {
+		err = fmt.Errorf("%v\n"+
+			"Error: Base Numbering System is NOT equal to Base-10!\n"+
+			"baseNumSys=='%v'\n",
+			ePrefix.String(),
+			baseNumSys.XValueInt())
+		return fmtNumStr, err
+	}
+
+	if signVal < 0 {
+		fmtNumStr = "-"
+	}
+
+	fmtNumStr += string(absValIntegerRunes) +
+		string(absValFractionalRunes)
+
+	return fmtNumStr, err
 }
 
 // GetIntegerSeparators - Returns the NumStrIntSeparatorsDto
@@ -860,7 +1182,7 @@ func (fmtOctal *FormatterOctal) IsValidInstanceError(
 //       error will be returned.
 //
 //       For custom integer digit grouping, use method
-//       FormatterCurrency.NewWithComponents().
+//       FormatterOctal.NewWithComponents().
 //
 //
 //  intSeparatorGrouping          uint
@@ -1102,7 +1424,7 @@ func (fmtOctal FormatterOctal) NewDetail(
 //       error will be returned.
 //
 //       For custom integer digit grouping, use method
-//       FormatterCurrency.NewWithComponents().
+//       FormatterOctal.NewWithComponents().
 //
 //
 //  intSeparatorGrouping          uint
@@ -1714,7 +2036,7 @@ func (fmtOctal FormatterOctal) NewWithDefaults(
 //       error will be returned.
 //
 //       For custom integer digit grouping, use method
-//       FormatterCurrency.NewWithComponents().
+//       FormatterOctal.NewWithComponents().
 //
 //
 //  intSeparatorGrouping          uint
@@ -1950,7 +2272,7 @@ func (fmtOctal *FormatterOctal) SetDetail(
 //       error will be returned.
 //
 //       For custom integer digit grouping, use method
-//       FormatterCurrency.NewWithComponents().
+//       FormatterOctal.NewWithComponents().
 //
 //
 //  intSeparatorGrouping          uint
