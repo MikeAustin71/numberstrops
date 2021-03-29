@@ -305,6 +305,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyIn(
 // Be advised, all of the data fields in the current
 // FormatterAbsoluteValue instance will be overwritten.
 //
+// This method is required by interface INumStrFormatter.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -479,6 +481,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyOut(
 // If the current FormatterAbsoluteValue instance is judged to be
 // invalid, this method will return an error.
 //
+// This method is required by interface INumStrFormatter.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -611,8 +615,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetDecimalSeparators() []rune {
 }
 
 // GetFmtNumStr - Returns a number string formatted for absolute
-// values based on the configuration encapsulated in the current instance
-// of FormatterAbsoluteValue.
+// values based on the configuration encapsulated in the current
+// instance of FormatterAbsoluteValue.
 //
 // This method is required by interface INumStrFormatter.
 //
@@ -623,22 +627,23 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetDecimalSeparators() []rune {
 //
 //  absValIntegerRunes            []rune
 //     - An array of runes containing the integer component of the
-//       numeric value to be formatted as currency. This array of
-//       integer digits always represents a positive ('+') numeric
-//       value. The array consists entirely of numeric digits.
-//
-//
-//  absValFractionalRunes         []rune
-//     - An array of runes containing the fractional component of
-//       the numeric value to be formatted as currency. This array
-//       of numeric digits always represents a positive ('+')
+//       numeric value to be formatted as an absolute value. This
+//       array of integer digits always represents a positive ('+')
 //       numeric value. The array consists entirely of numeric
 //       digits.
 //
 //
+//  absValFractionalRunes         []rune
+//     - An array of runes containing the fractional component of
+//       the numeric value to be formatted as an absolute value.
+//       This array of numeric digits always represents a positive
+//       ('+') numeric value. The array consists entirely of
+//       numeric digits.
+//
+//
 //  signVal                       int
 //     - The parameter designates the numeric sign of the final
-//       formatted currency value returned by this method.
+//       formatted absolute value returned by this method.
 //
 //       Valid values for 'signVal' are listed as follows:
 //         -1 = Signals a negative numeric value

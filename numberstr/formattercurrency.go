@@ -517,6 +517,8 @@ func (fmtCurr *FormatterCurrency) CopyIn(
 // Be advised, all of the data fields in the current
 // FormatterCurrency instance will be overwritten.
 //
+// This method is required by interface INumStrFormatter.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -530,7 +532,7 @@ func (fmtCurr *FormatterCurrency) CopyIn(
 //       The data values in this object will be copied to the
 //       current FormatterCurrency instance.
 //
-//       If input parameter 'incomingCurrencyValDto' is judged to
+//       If input parameter 'incomingIFormatter' is judged to
 //       be invalid, this method will return an error.
 //
 //
@@ -691,6 +693,8 @@ func (fmtCurr *FormatterCurrency) CopyOut(
 //
 // If the current FormatterCurrency instance is judged to be
 // invalid, this method will return an error.
+//
+// This method is required by interface INumStrFormatter.
 //
 //
 // ----------------------------------------------------------------

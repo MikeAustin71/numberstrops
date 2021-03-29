@@ -386,6 +386,8 @@ func (fmtSignedNum *FormatterSignedNumber) CopyIn(
 // Be advised, all of the data fields in the current
 // FormatterSignedNumber instance will be overwritten.
 //
+// This method is required by interface INumStrFormatter.
+//
 //
 // ----------------------------------------------------------------
 //
@@ -399,7 +401,7 @@ func (fmtSignedNum *FormatterSignedNumber) CopyIn(
 //       The data values in this object will be copied to the
 //       current FormatterSignedNumber instance.
 //
-//       If input parameter 'incomingCurrencyValDto' is judged to
+//       If input parameter 'incomingIFormatter' is judged to
 //       be invalid, this method will return an error.
 //
 //
@@ -491,6 +493,8 @@ func (fmtSignedNum *FormatterSignedNumber) CopyInINumStrFormatter(
 //
 // If the current FormatterSignedNumber instance is judged
 // to be invalid, this method will return an error.
+//
+// This method is required by interface INumStrFormatter.
 //
 //
 // ----------------------------------------------------------------
@@ -642,9 +646,9 @@ func (fmtSignedNum *FormatterSignedNumber) GetDecimalSeparator() []rune {
 		GetDecimalSeparators()
 }
 
-// GetFmtNumStr - Returns a number string formatted for currency
-// based on the configuration encapsulated in the current instance
-// of FormatterCurrency.
+// GetFmtNumStr - Returns a number string formatted for signed
+// number values based on the configuration encapsulated in the
+// current instance of FormatterSignedNumber.
 //
 // This method is required by interface INumStrFormatter.
 //
@@ -655,22 +659,23 @@ func (fmtSignedNum *FormatterSignedNumber) GetDecimalSeparator() []rune {
 //
 //  absValIntegerRunes            []rune
 //     - An array of runes containing the integer component of the
-//       numeric value to be formatted as currency. This array of
-//       integer digits always represents a positive ('+') numeric
-//       value. The array consists entirely of numeric digits.
+//       numeric value to be formatted as a signed number. This
+//       array of integer digits always represents a positive ('+')
+//       numeric value. The array consists entirely of numeric
+//       digits.
 //
 //
 //  absValFractionalRunes         []rune
 //     - An array of runes containing the fractional component of
-//       the numeric value to be formatted as currency. This array
-//       of numeric digits always represents a positive ('+')
+//       the numeric value to be formatted as a signed number. This
+//       array of numeric digits always represents a positive ('+')
 //       numeric value. The array consists entirely of numeric
 //       digits.
 //
 //
 //  signVal                       int
 //     - The parameter designates the numeric sign of the final
-//       formatted currency value returned by this method.
+//       formatted signed number value returned by this method.
 //
 //       Valid values for 'signVal' are listed as follows:
 //         -1 = Signals a negative numeric value
@@ -705,7 +710,7 @@ func (fmtSignedNum *FormatterSignedNumber) GetDecimalSeparator() []rune {
 //
 //  fmtNumStr                     string
 //     - If this method completes successfully, a formatted
-//       currency number string will be returned.
+//       signed number string will be returned.
 //
 //
 //  err                           error
