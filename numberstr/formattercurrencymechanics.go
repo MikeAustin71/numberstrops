@@ -44,7 +44,8 @@ func (fmtCurrMech formatterCurrencyMechanics) ptr() *formatterCurrencyMechanics 
 //
 //     - A pointer to an instance of FormatterCurrency.
 //       All of the data values in this object will be overwritten
-//       set to new values based on the following input parameters.
+//       and set to new values based on the following input
+//       parameters.
 //
 //
 //  positiveValueFmt              string
