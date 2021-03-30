@@ -793,6 +793,58 @@ func (fmtBinary *FormatterBinary) IsValidInstanceError(
 	return err
 }
 
+// NewUnitedStatesDefaults - Creates and returns a new instance of
+// FormatterBinary. This method specifies the United States
+// default values for binary number string formatting.
+//
+// In the United States, Binary Number default formatting
+// parameters are defined as follows:
+//
+//    Turn On Integer Digits Separation: false
+//         Decimal Separator Character: '.'
+//                 Number Field Length: -1
+//          Number Field Justification: Right-Justified
+//
+// Note: With 'Turn On Integer Digits Separation' set to false,
+// integer digit separation is not applied to binary digits
+// displayed in number strings.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  -- None --
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterBinary
+//     - This parameter will return a new, populated instance of
+//       FormatterBinary configured for United States default
+//       binary format parameters.
+//
+func (fmtBinary FormatterBinary) NewUnitedStatesDefaults() FormatterBinary {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	newFormatterBinary := FormatterBinary{}
+
+	_ = formatterBinaryUtility{}.ptr().setToUnitedStatesDefaults(
+		&newFormatterBinary,
+		nil)
+
+	return newFormatterBinary
+}
+
 // NewWithComponents - Creates and returns a new instance of
 // FormatterBinary.
 //

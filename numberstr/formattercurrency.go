@@ -3512,7 +3512,7 @@ func (fmtCurr FormatterCurrency) NewDetailRunes(
 //  FormatterCurrency
 //     - This parameter will return a new, populated instance of
 //       FormatterCurrency configured for United States default
-//       currency formats.
+//       currency format parameters.
 //
 func (fmtCurr FormatterCurrency) NewUnitedStatesDefaults() FormatterCurrency {
 
