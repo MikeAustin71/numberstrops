@@ -1505,6 +1505,10 @@ func (fmtBinary FormatterBinary) NewWithComponents(
 // data values are derived from the input parameters described
 // below.
 //
+// The FormatterBinary type encapsulates the formatting parameters
+// necessary to format binary digits for display in text number
+// strings.
+//
 // This method differs from method FormatterBinary.SetDetailRunes()
 // in that this method accepts strings for input parameters,
 // 'decimalSeparatorChars' and 'integerDigitsSeparators'.
@@ -1696,6 +1700,10 @@ func (fmtBinary *FormatterBinary) SetDetail(
 // data values for the current instance of FormatterBinary. The new
 // data values are derived from the input parameters described
 // below.
+//
+// The FormatterBinary type encapsulates the formatting parameters
+// necessary to format binary digits for display in text number
+// strings.
 //
 // This method differs from method FormatterBinary.SetDetail()
 // in that this method accepts rune arrays for input parameters,

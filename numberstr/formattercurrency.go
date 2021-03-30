@@ -2030,7 +2030,7 @@ func (fmtCurr FormatterCurrency) NewBasic(
 
 	err :=
 		formatterCurrencyUtility{}.ptr().
-			setBasicFmtCurrency(
+			setBasic(
 				&newFormatterCurrency,
 				decimalSeparatorChars,
 				thousandsSeparatorChars,
@@ -2482,7 +2482,7 @@ func (fmtCurr FormatterCurrency) NewBasicRunes(
 
 	err :=
 		formatterCurrencyUtility{}.ptr().
-			setBasicRunesFmtCurrency(
+			setBasicRunes(
 				&newNStrFmtSpecCurrencyValDto,
 				decimalSeparatorChars,
 				thousandsSeparatorChars,
@@ -2966,7 +2966,7 @@ func (fmtCurr FormatterCurrency) NewDetail(
 
 	err :=
 		formatterCurrencyUtility{}.ptr().
-			setDetailFmtCurrency(
+			setDetail(
 				&newFormatterCurrency,
 				decimalSeparatorChars,
 				integerDigitsSeparators,
@@ -3453,7 +3453,7 @@ func (fmtCurr FormatterCurrency) NewDetailRunes(
 
 	err :=
 		formatterCurrencyUtility{}.ptr().
-			setDetailRunesFmtCurrency(
+			setDetailRunes(
 				&newFormatterCurrency,
 				decimalSeparatorChars,
 				integerDigitsSeparators,
@@ -4476,7 +4476,7 @@ func (fmtCurr *FormatterCurrency) SetBasic(
 	}
 
 	return formatterCurrencyUtility{}.ptr().
-		setBasicFmtCurrency(
+		setBasic(
 			fmtCurr,
 			decimalSeparatorChars,
 			thousandsSeparatorChars,
@@ -4926,7 +4926,7 @@ func (fmtCurr *FormatterCurrency) SetBasicRunes(
 	}
 
 	return formatterCurrencyUtility{}.ptr().
-		setBasicRunesFmtCurrency(
+		setBasicRunes(
 			fmtCurr,
 			decimalSeparatorChars,
 			thousandsSeparatorChars,
@@ -5886,7 +5886,7 @@ func (fmtCurr *FormatterCurrency) SetDetail(
 		"FormatterCurrency.SetDetail()")
 
 	return formatterCurrencyUtility{}.ptr().
-		setDetailFmtCurrency(
+		setDetail(
 			fmtCurr,
 			decimalSeparatorChars,
 			integerDigitsSeparators,
@@ -6336,7 +6336,7 @@ func (fmtCurr *FormatterCurrency) SetDetailRunes(
 			"SetDetailRunes()")
 
 	return formatterCurrencyUtility{}.ptr().
-		setDetailRunesFmtCurrency(
+		setDetailRunes(
 			fmtCurr,
 			decimalSeparatorChars,
 			integerDigitsSeparators,

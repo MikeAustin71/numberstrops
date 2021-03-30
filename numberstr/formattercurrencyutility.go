@@ -30,7 +30,7 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 	return newCurrencyUtility
 }
 
-// setBasicFmtCurrency - This method will set all of the
+// setBasic - This method will set all of the
 // member variable data values for the FormatterCurrency input
 // parameter, 'formatterCurrency'. The other input parameters
 // represent the minimum information required to configure a
@@ -38,9 +38,9 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 // these input parameters.
 //
 // This method differs from method
-// formatterCurrencyUtility.setBasicRunesFmtCurrency()
-// in that this method accepts strings for input parameters,
-// 'decimalSeparatorChars' and 'thousandsSeparatorChars'.
+// formatterCurrencyUtility.setBasicRunes() in that this method
+// accepts strings for input parameters, 'decimalSeparatorChars'
+// and 'thousandsSeparatorChars'.
 //
 // To exercise granular control over all parameters needed to
 // construct an instance of FormatterCurrency, reference method:
@@ -71,7 +71,7 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 //       set to new values based on the following input parameters.
 //
 //
-//  decimalSeparatorChars      string
+//  decimalSeparatorChars         string
 //     - The characters or character used to separate integer and
 //       fractional digits in a floating point number string. In
 //       the United States, the Decimal Separator character is the
@@ -79,7 +79,7 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 //           United States Example: '123.45678'
 //
 //
-//  thousandsSeparatorChars    string
+//  thousandsSeparatorChars       string
 //     - The characters or character which will be used to delimit
 //       'thousands' in integer number strings. In the United
 //       States, the Thousands separator is the comma character
@@ -359,7 +359,7 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 //       consisting of two or more characters.
 //
 //
-//  requestedNumberFieldLen    int
+//  requestedNumberFieldLen       int
 //     - This is the requested length of the number field in which
 //       the number string will be displayed. If this field length
 //       is greater than the actual length of the number string,
@@ -396,7 +396,7 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -409,7 +409,7 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 //
 // Return Values
 //
-//  err                 error
+//  err                           error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'.
 //
@@ -420,7 +420,7 @@ func (fmtCurrUtil formatterCurrencyUtility) ptr() *formatterCurrencyUtility {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (fmtCurrUtil *formatterCurrencyUtility) setBasicFmtCurrency(
+func (fmtCurrUtil *formatterCurrencyUtility) setBasic(
 	formatterCurrency *FormatterCurrency,
 	decimalSeparatorChars string,
 	thousandsSeparatorChars string,
@@ -455,7 +455,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicFmtCurrency(
 
 	ePrefix.SetEPref(
 		"formatterCurrencyUtility." +
-			"setBasicFmtCurrency()")
+			"setBasic()")
 
 	if formatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
@@ -519,7 +519,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicFmtCurrency(
 	return err
 }
 
-// setBasicRunesFmtCurrency - This method will set all of the
+// setBasicRunes - This method will set all of the
 // member variable data values for the FormatterCurrency input
 // parameter, 'formatterCurrency'. The other input parameters
 // represent the minimum information required to configure a
@@ -527,7 +527,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicFmtCurrency(
 // these input parameters.
 //
 // This method differs from method
-// formatterCurrencyUtility.setBasicFmtCurrency()
+// formatterCurrencyUtility.setBasic()
 // in that this method accepts rune arrays for input parameters,
 // 'decimalSeparatorChars' and 'thousandsSeparatorChars'.
 //
@@ -909,7 +909,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicFmtCurrency(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFmtCurrency(
+func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunes(
 	formatterCurrency *FormatterCurrency,
 	decimalSeparatorChars []rune,
 	thousandsSeparatorChars []rune,
@@ -944,7 +944,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFmtCurrency(
 
 	ePrefix.SetEPref(
 		"formatterCurrencyUtility." +
-			"setBasicRunesFmtCurrency()")
+			"setBasicRunes()")
 
 	if formatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
@@ -1008,12 +1008,12 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFmtCurrency(
 	return err
 }
 
-// setDetailFmtCurrency - This method will set all of the
+// setDetail - This method will set all of the
 // member variable data values for the FormatterCurrency input
 // parameter, 'formatterCurrency'. New data values will be
 // generated from the input parameters described below.
 //
-// This method differs from formatterCurrencyUtility.setDetailRunesFmtCurrency()
+// This method differs from formatterCurrencyUtility.setDetailRunes()
 // in that this method accepts strings for input parameters,
 // 'decimalSeparatorChars' and 'integerDigitsSeparators'.
 //
@@ -1412,7 +1412,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFmtCurrency(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (fmtCurrUtil *formatterCurrencyUtility) setDetailFmtCurrency(
+func (fmtCurrUtil *formatterCurrencyUtility) setDetail(
 	formatterCurrency *FormatterCurrency,
 	decimalSeparatorChars string,
 	integerDigitsSeparators string,
@@ -1449,7 +1449,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setDetailFmtCurrency(
 
 	ePrefix.SetEPref(
 		"formatterCurrencyUtility." +
-			"setDetailFmtCurrency()")
+			"setDetail()")
 
 	if formatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
@@ -1515,14 +1515,14 @@ func (fmtCurrUtil *formatterCurrencyUtility) setDetailFmtCurrency(
 	return err
 }
 
-// setDetailRunesFmtCurrency - This method will set all of the
+// setDetailRunes - This method will set all of the
 // member variable data values for the FormatterCurrency input
 // parameter, 'formatterCurrency'. The other input parameters
 // represent the minimum information required to configure a
 // FormatterCurrency object. Default values are used to supplement
 // these input parameters.
 //
-// This method differs from formatterCurrencyUtility.setDetailFmtCurrency()
+// This method differs from formatterCurrencyUtility.setDetail()
 // in that this method accepts rune arrays for input parameters,
 // 'decimalSeparatorChars' and 'integerDigitsSeparators'.
 //
@@ -1923,7 +1923,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setDetailFmtCurrency(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (fmtCurrUtil *formatterCurrencyUtility) setDetailRunesFmtCurrency(
+func (fmtCurrUtil *formatterCurrencyUtility) setDetailRunes(
 	formatterCurrency *FormatterCurrency,
 	decimalSeparatorChars []rune,
 	integerDigitsSeparators []rune,
@@ -1960,7 +1960,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setDetailRunesFmtCurrency(
 
 	ePrefix.SetEPref(
 		"formatterCurrencyUtility." +
-			"setDetailRunesFmtCurrency()")
+			"setDetailRunes()")
 
 	if formatterCurrency == nil {
 		err = fmt.Errorf("%v\n"+
