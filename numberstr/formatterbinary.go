@@ -1111,6 +1111,82 @@ func (fmtBinary *FormatterBinary) SetNumStrFormatTypeCode() {
 	fmtBinary.numStrFmtType = NumStrFormatTypeCode(0).Binary()
 }
 
+// SetToUnitedStatesDefaults - Sets the member variable data values
+// for the current FormatterSignedNumber instance to
+// United States Default values.
+//
+//
+// In the United States, Binary Number default formatting
+// parameters are defined as follows:
+//
+//    Turn On Integer Digits Separation: false
+//         Decimal Separator Character: '.'
+//                 Number Field Length: -1
+//          Number Field Justification: Right-Justified
+//
+// Note: With 'Turn On Integer Digits Separation' set to false,
+// integer digit separation is not applied to binary digits
+// displayed in number strings.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtBinary *FormatterBinary) SetToUnitedStatesDefaults(
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterBinary." +
+			"SetToUnitedStatesDefaults()")
+
+	err = formatterBinaryUtility{}.ptr().
+		setToUnitedStatesDefaults(
+			fmtBinary,
+			nil)
+
+	return err
+}
+
 // SetWithComponents - This method will overwrite and set all data
 // data values for the current instance of FormatterBinary.
 //
@@ -1159,7 +1235,7 @@ func (fmtBinary *FormatterBinary) SetWithComponents(
 
 	ePrefix.SetEPref(
 		"FormatterBinary." +
-			"CopyIn()")
+			"SetWithComponents()")
 
 	return formatterBinaryMechanics{}.ptr().setWithComponents(
 		fmtBinary,
