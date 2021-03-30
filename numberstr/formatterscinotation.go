@@ -2050,7 +2050,7 @@ func (fmtSciNotation *FormatterSciNotation) SetToUnitedStatesDefaultsIfEmpty(
 
 	ePrefix.SetEPref(
 		"FormatterSciNotation." +
-			"SetToUnitedStatesDefaults()")
+			"SetToUnitedStatesDefaultsIfEmpty()")
 
 	if fmtSciNotation == nil {
 		err = fmt.Errorf("%v\n"+

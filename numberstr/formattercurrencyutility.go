@@ -1044,7 +1044,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFmtCurrency(
 //       set to new values based on the following input parameters.
 //
 //
-//  decimalSeparatorChars      string
+//  decimalSeparatorChars         string
 //     - The characters or character used to separate integer and
 //       fractional digits in a floating point number string. In
 //       the United States, the Decimal Separator character is the
@@ -1052,7 +1052,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFmtCurrency(
 //           United States Example: '123.45678'
 //
 //
-//  integerDigitsSeparators    string
+//  integerDigitsSeparators       string
 //     - One or more characters used to separate groups of
 //       integers. This separator is also known as the 'thousands'
 //       separator. It is used to separate groups of integer digits
@@ -1069,7 +1069,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFmtCurrency(
 //       FormatterCurrency.NewWithComponents().
 //
 //
-//  intSeparatorGrouping       uint
+//  intSeparatorGrouping          uint
 //     - The number of integer digits in group to be separated by
 //       separator characters. The most common grouping is the
 //       thousands grouping consisting of 3-digits. United States
@@ -1082,7 +1082,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFmtCurrency(
 //       Chinese Numeral Example:      6789,0000,0000,0000
 //
 //
-//  intSeparatorRepetitions    uint
+//  intSeparatorRepetitions       uint
 //     - Number of times this character/group sequence is repeated.
 //       A zero value signals unlimited repetitions.
 //
@@ -1351,7 +1351,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFmtCurrency(
 //       consisting of two or more characters.
 //
 //
-//  requestedNumberFieldLen    int
+//  requestedNumberFieldLen       int
 //     - This is the requested length of the number field in which
 //       the number string will be displayed. If this field length
 //       is greater than the actual length of the number string,
@@ -1388,7 +1388,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setBasicRunesFmtCurrency(
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -1555,7 +1555,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setDetailFmtCurrency(
 //       set to new values based on the following input parameters.
 //
 //
-//  decimalSeparatorChars      []rune
+//  decimalSeparatorChars         []rune
 //     - The characters or character used to separate integer and
 //       fractional digits in a floating point number string. In
 //       the United States, the Decimal Separator character is the
@@ -1563,7 +1563,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setDetailFmtCurrency(
 //           United States Example: '123.45678'
 //
 //
-//  integerDigitsSeparators    []rune
+//  integerDigitsSeparators       []rune
 //     - One or more characters used to separate groups of
 //       integers. This separator is also known as the 'thousands'
 //       separator. It is used to separate groups of integer digits
@@ -1580,7 +1580,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setDetailFmtCurrency(
 //       FormatterCurrency.NewWithComponents().
 //
 //
-//  intSeparatorGrouping       uint
+//  intSeparatorGrouping          uint
 //     - The number of integer digits in group to be separated by
 //       separator characters. The most common grouping is the
 //       thousands grouping consisting of 3-digits. United States
@@ -1593,7 +1593,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setDetailFmtCurrency(
 //       Chinese Numeral Example:      6789,0000,0000,0000
 //
 //
-//  intSeparatorRepetitions    uint
+//  intSeparatorRepetitions       uint
 //     - Number of times this character/group sequence is repeated.
 //       A zero value signals unlimited repetitions.
 //
@@ -1862,7 +1862,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setDetailFmtCurrency(
 //       consisting of two or more characters.
 //
 //
-//  requestedNumberFieldLen    int
+//  requestedNumberFieldLen       int
 //     - This is the requested length of the number field in which
 //       the number string will be displayed. If this field length
 //       is greater than the actual length of the number string,
@@ -1899,7 +1899,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setDetailFmtCurrency(
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
@@ -1912,7 +1912,7 @@ func (fmtCurrUtil *formatterCurrencyUtility) setDetailFmtCurrency(
 //
 // Return Values
 //
-//  err                 error
+//  err                           error
 //     - If this method completes successfully, the returned error
 //       Type is set equal to 'nil'.
 //

@@ -2507,6 +2507,10 @@ func (fmtCurr FormatterCurrency) NewBasicRunes(
 // FormatterCurrency generated from the input parameters described
 // below.
 //
+// The FormatterCurrency type encapsulates the
+// formatting parameters necessary to format numeric currency
+// values for display in text number strings.
+//
 // This method differs from method FormatterCurrency.NewDetailRunes()
 // in that this method accepts strings for input parameters,
 // 'decimalSeparatorChars' and 'integerDigitsSeparators'.
@@ -2514,10 +2518,6 @@ func (fmtCurr FormatterCurrency) NewBasicRunes(
 // To exercise granular control over all parameters needed to
 // construct an instance of FormatterCurrency, reference method:
 //   'FormatterCurrency.NewWithComponents()'
-//
-// The FormatterCurrency type encapsulates the
-// formatting parameters necessary to format numeric currency
-// values for display in text number strings.
 //
 // The member variable 'FormatterCurrency.numStrFmtType' is
 // automatically defaulted to:

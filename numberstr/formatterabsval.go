@@ -3960,7 +3960,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetToUnitedStatesDefaultsIfEmpty(
 
 	ePrefix.SetEPref(
 		"FormatterAbsoluteValue." +
-			"SetToUnitedStatesDefaults()")
+			"SetToUnitedStatesDefaultsIfEmpty()")
 
 	isValid,
 		_ := formatterAbsoluteValueMolecule{}.ptr().testValidityOfFormatterAbsoluteValue(
