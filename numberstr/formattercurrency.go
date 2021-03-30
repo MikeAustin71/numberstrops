@@ -7077,8 +7077,8 @@ func (fmtCurr *FormatterCurrency) SetPositiveValueFormat(
 }
 
 // SetToUnitedStatesDefaults - Sets the member variable data values
-// for the current FormatterSignedNumber instance to
-// United States Default values.
+// for the current FormatterCurrency instance to United States
+// Default values.
 //
 // In the United States, Currency Number default formatting
 // parameters are defined as follows:
@@ -7169,8 +7169,8 @@ func (fmtCurr *FormatterCurrency) SetToUnitedStatesDefaults(
 // this method will set the member variable data values to United
 // States default values.
 //
-// If the current FormatterSignedNumber instance is valid
-// and NOT empty, this method will take no action and exit.
+// If the current FormatterCurrency instance is valid and NOT
+// empty, this method will take no action and exit.
 //
 // In the United States, Currency Number default formatting
 // parameters are defined as follows:
@@ -7244,16 +7244,14 @@ func (fmtCurr *FormatterCurrency) SetToUnitedStatesDefaultsIfEmpty(
 		"FormatterCurrency." +
 			"SetToUnitedStatesDefaultsIfEmpty()")
 
-	nStrFmtSpecCurrDtoMolecule :=
-		formatterCurrencyMolecule{}
-
 	isValid,
-		_ := nStrFmtSpecCurrDtoMolecule.testValidityOfFormatterCurrency(
-		fmtCurr,
-		new(ErrPrefixDto))
+		_ := formatterCurrencyMolecule{}.ptr().
+		testValidityOfFormatterCurrency(
+			fmtCurr,
+			new(ErrPrefixDto))
 
 	if isValid {
-		return
+		return err
 	}
 
 	err = formatterCurrencyUtility{}.ptr().

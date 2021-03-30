@@ -1115,7 +1115,6 @@ func (fmtBinary *FormatterBinary) SetNumStrFormatTypeCode() {
 // for the current FormatterSignedNumber instance to
 // United States Default values.
 //
-//
 // In the United States, Binary Number default formatting
 // parameters are defined as follows:
 //
@@ -1178,6 +1177,94 @@ func (fmtBinary *FormatterBinary) SetToUnitedStatesDefaults(
 	ePrefix.SetEPref(
 		"FormatterBinary." +
 			"SetToUnitedStatesDefaults()")
+
+	err = formatterBinaryUtility{}.ptr().
+		setToUnitedStatesDefaults(
+			fmtBinary,
+			nil)
+
+	return err
+}
+
+// SetToUnitedStatesDefaultsIfEmpty -If the current FormatterBinary
+// instance is empty or invalid, this method will set the member
+// variable data values to United States default values.
+//
+// If the current FormatterBinary instance is valid and NOT empty,
+// this method will take no action and exit.
+//
+// In the United States, Binary Number default formatting
+// parameters are defined as follows:
+//
+//    Turn On Integer Digits Separation: false
+//         Decimal Separator Character: '.'
+//                 Number Field Length: -1
+//          Number Field Justification: Right-Justified
+//
+// Note: With 'Turn On Integer Digits Separation' set to false,
+// integer digit separation is not applied to binary digits
+// displayed in number strings.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  err                           error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtBinary *FormatterBinary) SetToUnitedStatesDefaultsIfEmpty(
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterBinary." +
+			"SetToUnitedStatesDefaultsIfEmpty()")
+
+	isValid,
+		_ := formatterBinaryQuark{}.ptr().
+		testValidityOfFormatterBinary(
+			fmtBinary,
+			nil)
+
+	if isValid {
+		return err
+	}
 
 	err = formatterBinaryUtility{}.ptr().
 		setToUnitedStatesDefaults(
