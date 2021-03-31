@@ -299,7 +299,7 @@ func (fmtBinaryUtil *formatterBinaryUtility) setBasic(
 //       values based on the following input parameters.
 //
 //
-//  decimalSeparatorChars         string
+//  decimalSeparatorChars         []rune
 //     - The characters or character used to separate integer and
 //       fractional digits in a floating point number string. In
 //       the United States, the Decimal Separator character is the
@@ -307,7 +307,7 @@ func (fmtBinaryUtil *formatterBinaryUtility) setBasic(
 //           United States Example: '123.45678'
 //
 //
-//  thousandsSeparatorChars       string
+//  thousandsSeparatorChars       []rune
 //     - The characters or character which will be used to delimit
 //       'thousands' in integer number strings. In the United
 //       States, the Thousands separator is the comma character
@@ -405,8 +405,8 @@ func (fmtBinaryUtil *formatterBinaryUtility) setBasic(
 //
 func (fmtBinaryUtil *formatterBinaryUtility) setBasicRunes(
 	formatterBinary *FormatterBinary,
-	decimalSeparatorChars string,
-	thousandsSeparatorChars string,
+	decimalSeparatorChars []rune,
+	thousandsSeparatorChars []rune,
 	turnOnIntegerDigitsSeparation bool,
 	requestedNumberFieldLen int,
 	numberFieldTextJustify TextJustify,
@@ -453,15 +453,15 @@ func (fmtBinaryUtil *formatterBinaryUtility) setBasicRunes(
 	var numericSeparators NumericSeparators
 
 	numericSeparators,
-		err = NumericSeparators{}.NewBasic(
+		err = NumericSeparators{}.NewBasicRunes(
 		decimalSeparatorChars,
 		thousandsSeparatorChars,
 		ePrefix.XCtx(
 			fmt.Sprintf(
 				"decimalSeparatorChars='%v'\n"+
 					"thousandsSeparatorChars='%v'\n",
-				decimalSeparatorChars,
-				thousandsSeparatorChars)))
+				string(decimalSeparatorChars),
+				string(thousandsSeparatorChars))))
 
 	if err != nil {
 		return err
