@@ -1878,6 +1878,184 @@ func (fmtBinary FormatterBinary) NewWithComponents(
 	return newFormatterBinary, err
 }
 
+// SetBasic - This method will set all of the member variable data
+// values for the current instance of FormatterBinary. The input
+// parameters represent the minimum information required to
+// configure a FormatterBinary object.
+//
+// The FormatterBinary type encapsulates the formatting parameters
+// necessary to format binary digits for display in text number
+// strings.
+//
+// This method differs from method FormatterBinary.SetBasicRunes()
+// in that this method accepts strings for input parameters,
+// 'decimalSeparatorChars' and 'thousandsSeparatorChars'.
+//
+// To exercise granular control over all parameters needed to
+// construct an instance of FormatterBinary, reference method:
+//   'FormatterBinary.SetWithComponents()'
+//
+// This method automatically sets a default integer digits grouping
+// sequence of '3'. This means that integers will be grouped by
+// thousands.
+//
+//        Example: '1,000,000,000'
+//
+// The member variable 'FormatterBinary.numStrFmtType' is
+// defaulted to:
+//         NumStrFormatTypeCode(0).Binary()
+//
+// IMPORTANT
+//
+// This method will overwrite all pre-existing data values in the
+// current FormatterBinary instance.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  decimalSeparatorChars         string
+//     - The character or characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
+//
+//
+//  thousandsSeparatorChars       string
+//     - The character or characters used to delimit 'thousands' in
+//       integer number strings. In the United States, the
+//       Thousands separator is the comma character (',').
+//           United States Example: '1,000,000,000'
+//
+//       The default integer digit grouping of three ('3') digits
+//       is applied with this separator character. An integer digit
+//       grouping of three ('3') results in thousands grouping.
+//           United States Example: '1,000,000,000'
+//
+//       For custom integer digit grouping, use method
+//       FormatterBinary.SetWithComponents().
+//
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: '1,000,000,000'
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: '1000000000'
+//
+//
+//  requestedNumberFieldLen       int
+//     - This is the requested length of the number field in which
+//       the number string will be displayed. If this field length
+//       is greater than the actual length of the number string,
+//       the number string will be right justified within the the
+//       number field. If the actual number string length is greater
+//       than the requested number field length, the number field
+//       length will be automatically expanded to display the entire
+//       number string. The 'requested' number field length is used
+//       to create number fields of standard lengths for text
+//       presentations.
+//
+//
+//  numberFieldTextJustify        TextJustify
+//     - An enumeration value used to specify the type of text
+//       formatting which will be applied to a number string when
+//       it is positioned inside of a number field. This
+//       enumeration value must be one of the three following
+//       format specifications:
+//
+//       1. Left   - Signals that the text justification format is
+//                   set to 'Left-Justify'. Strings within text
+//                   fields will be flush with the left margin.
+//                          Example: "TextString      "
+//
+//       2. Right  - Signals that the text justification format is
+//                   set to 'Right-Justify'. Strings within text
+//                   fields will terminate at the right margin.
+//                          Example: "      TextString"
+//
+//       3. Center - Signals that the text justification format is
+//                   is set to 'Centered'. Strings will be positioned
+//                   in the center of the text field equidistant
+//                   from the left and right margins.
+//                           Example: "   TextString   "
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtBinary *FormatterBinary) SetBasic(
+	decimalSeparatorChars string,
+	thousandsSeparatorChars string,
+	turnOnIntegerDigitsSeparation bool,
+	requestedNumberFieldLen int,
+	numberFieldTextJustify TextJustify,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterBinary." +
+			"SetBasic()")
+
+	return formatterBinaryUtility{}.ptr().
+		setBasic(
+			fmtBinary,
+			decimalSeparatorChars,
+			thousandsSeparatorChars,
+			turnOnIntegerDigitsSeparation,
+			requestedNumberFieldLen,
+			numberFieldTextJustify,
+			ePrefix.XCtx(
+				"fmtBinary"))
+}
+
 // SetDetail - This method will set all of the member variable data
 // values for the current instance of FormatterBinary. The new
 // data values are derived from the input parameters described

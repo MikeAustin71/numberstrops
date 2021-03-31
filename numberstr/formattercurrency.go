@@ -4402,10 +4402,13 @@ func (fmtCurr FormatterCurrency) NewWithComponents(
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -4852,10 +4855,13 @@ func (fmtCurr *FormatterCurrency) SetBasic(
 //                           Example: "   TextString   "
 //
 //
-//  ePrefix             *ErrPrefixDto
+//  ePrefix                       *ErrPrefixDto
 //     - This object encapsulates an error prefix string which is
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // -----------------------------------------------------------------
