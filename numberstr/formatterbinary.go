@@ -3361,6 +3361,71 @@ func (fmtBinary *FormatterBinary) SetToUnitedStatesDefaultsIfEmpty(
 	return err
 }
 
+// SetTurnOnIntegerDigitsSeparationFlag - Sets the
+// 'turnOnIntegerDigitsSeparation' flag for the current instance of
+// FormatterBinary.
+//
+// This boolean flag signals whether integer digits within a number
+// string will be grouped by thousands and separated by an integer
+// digits separator such as a comma (',').
+//
+// If this flag is set to 'true', integer digits will be presented
+// in text number strings as shown in the following example.
+//  Example: 1,000,000,000,000
+//
+// If this flag is set to 'false',  integer digits will be presented
+// in text number strings as shown in the following example.
+//  Example: 1000000000000
+//
+// Numeric Separators such as decimal and integer digit separators
+// are controlled by the member variable,
+// FormatterBinary.numericSeparators.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  turnOnIntegerDigitsSeparation bool
+//     - Inter digits separation is also known as the 'Thousands
+//       Separator". Often a single character is used to separate
+//       thousands within the integer component of a numeric value
+//       in number strings. In the United States, the comma
+//       character (',') is used to separate thousands.
+//            Example: 1,000,000,000
+//
+//       The parameter 'turnOnIntegerDigitsSeparation' is a boolean
+//       flag used to control the 'Thousands Separator'. When set
+//       to 'true', integer number strings will be separated into
+//       thousands for text presentation.
+//            Example: 1,000,000,000
+//
+//       When this parameter is set to 'false', the 'Thousands
+//       Separator' will NOT be inserted into text number strings.
+//            Example: 1000000000
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  --- NONE ---
+//
+func (fmtBinary *FormatterBinary) SetTurnOnIntegerDigitsSeparationFlag(
+	turnOnIntegerDigitsSeparation bool) {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	fmtBinary.turnOnIntegerDigitsSeparation =
+		turnOnIntegerDigitsSeparation
+}
+
 // SetWithComponents - This method will overwrite and set all data
 // data values for the current instance of FormatterBinary.
 //

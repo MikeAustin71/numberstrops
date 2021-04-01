@@ -1523,7 +1523,7 @@ func (fmtCurr *FormatterCurrency) GetPositiveValueFormat() string {
 //
 // Numeric Separators such as decimal and integer digit separators
 // are controlled by the member variable,
-// FormatterBinary.numericSeparators.
+// FormatterCurrency.numericSeparators.
 //
 func (fmtCurr *FormatterCurrency) GetTurnOnIntegerDigitsSeparationFlag() bool {
 
@@ -7377,6 +7377,10 @@ func (fmtCurr *FormatterCurrency) SetToUnitedStatesDefaultsIfEmpty(
 //       When this parameter is set to 'false', the 'Thousands
 //       Separator' will NOT be inserted into text number strings.
 //            Example: 1000000000
+//
+// Numeric Separators such as decimal and integer digit separators
+// are controlled by the member variable,
+// FormatterCurrency.numericSeparators.
 //
 //
 // -----------------------------------------------------------------
