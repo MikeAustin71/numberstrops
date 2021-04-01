@@ -672,6 +672,171 @@ func (fmtBinary *FormatterBinary) GetFmtNumStr(
 	return fmtNumStr, err
 }
 
+// GetNumericSeparators - Returns a deep copy of the
+// NumericSeparators instance currently configured for this
+// Currency Format Specification.
+//
+// The Numeric Separators object contains the decimal separator
+// and the integer digit separators. It is used to specify the
+// separator characters which will be included in the number
+// string text display and is defined as follows:
+//
+//  type NumericSeparators struct {
+//   decimalSeparators    []rune
+//   integerSeparatorsDto NumStrIntSeparatorsDto
+//  }
+//
+//  decimalSeparators     []rune
+//
+//  The 'Decimal Separator' is used to separate integer and
+//  fractional digits within a floating point number display.
+//  The decimal separator may consist of one or more runes.
+//
+//  integerSeparatorsDto    NumStrIntSeparatorsDto
+//
+//  The NumStrIntSeparatorsDto type encapsulates the integer digits
+//  separators, often referred to as the 'Thousands Separator'.
+//  Integer digit separators are used to separate integers into
+//  specific groups within a number string. The
+//  NumStrIntSeparatorsDto manages an array or collection of
+//  NumStrIntSeparator objects.
+//
+//         type NumStrIntSeparatorsDto struct {
+//           intSeparators []NumStrIntSeparator
+//         }
+//
+//         type NumStrIntSeparator struct {
+//          intSeparatorChars       []rune  // A series of runes used to separate integer digits.
+//          intSeparatorGrouping    uint    // Number of integer digits in a group
+//          intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
+//                                          // A zero value signals unlimited repetitions.
+//          restartIntGroupingSequence bool // If true, the grouping sequence starts over at index zero.
+//         }
+//
+//         intSeparatorChars          []rune
+//            - A series of runes or characters used to separate integer
+//              digits in a number string. These characters are commonly
+//              known as the 'thousands separator'. A 'thousands
+//              separator' is used to separate groups of integer digits to
+//              the left of the decimal separator (a.k.a. decimal point).
+//              In the United States, the standard integer digits
+//              separator is the single comma character (','). Other
+//              countries and cultures use periods, spaces, apostrophes or
+//              multiple characters to separate integers.
+//                    United States Example:  1,000,000,000
+//
+//         intSeparatorGrouping       uint
+//            - This unsigned integer values specifies the number of
+//              integer digits within a group. This value is used to group
+//              integers within a number string.
+//
+//              In most western countries integer digits to the left of
+//              the decimal separator (a.k.a. decimal point) are separated
+//              into groups of three digits representing a grouping of
+//              'thousands' like this: '1,000,000,000'. In this case the
+//              intSeparatorGrouping value would be set to three ('3').
+//
+//              In some countries and cultures other integer groupings are
+//              used. In India, for example, a number might be formatted
+//              like this: '6,78,90,00,00,00,00,000'.
+//
+//         intSeparatorRepetitions    uint
+//            - This unsigned integer value specifies the number of times
+//              this integer grouping is repeated. A value of zero signals
+//              that this integer grouping will be repeated indefinitely.
+//
+//         restartIntGroupingSequence bool
+//            - If the NumStrIntSeparator is the last element in an array
+//              of NumStrIntSeparator objects, this boolean flag signals
+//              whether the entire integer grouping sequence will be
+//              restarted from array element zero.
+//
+// The returned NumericSeparators object represents the Numeric
+// Separator values used to configure the current instance of
+// FormatterBinary.
+//
+// If either the FormatterBinary or NumericSeparators object
+// is judged to be invalid, this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumericSeparators
+//     - If this method completes successfully, a new instance of
+//       NumericSeparators will be returned through this
+//       parameter. This object is a deep copy of the Numeric
+//       Separator information used to configure the current
+//       instance of FormatterBinary.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+//       If the FormatterBinary or NumericSeparators object is
+//       judged to be invalid, this method will return an error.
+//
+func (fmtBinary *FormatterBinary) GetNumericSeparators(
+	ePrefix *ErrPrefixDto) (
+	NumericSeparators,
+	error) {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterBinary." +
+			"GetNumericSeparators()")
+
+	_,
+		err := formatterBinaryQuark{}.ptr().
+		testValidityOfFormatterBinary(
+			fmtBinary,
+			ePrefix.XCtx(
+				"fmtBinary"))
+
+	if err != nil {
+		return NumericSeparators{}, err
+	}
+
+	return fmtBinary.numericSeparators.CopyOut(
+		ePrefix.XCtx(
+			"fmtBinary.numericSeparators"))
+}
+
 // GetNumStrFormatTypeCode - Returns the Number String Format Type
 // Code. The Number String Format Type Code for FormatterBinary
 // objects is NumStrFormatTypeCode(0).Binary().
@@ -2624,6 +2789,146 @@ func (fmtBinary *FormatterBinary) SetDetailRunes(
 			numberFieldTextJustify,
 			ePrefix.XCtx(
 				"newFormatterBinary"))
+}
+
+// SetNumericSeparators - Sets the Numeric Separators object
+// for the current FormatterBinary instance.
+//
+// The Numeric Separators object is used to specify the Decimal
+// Separator Characters and the Integer Digits Separator
+// Characters.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numericSeparators        NumericSeparators
+//     - This instance of NumericSeparators is used to specify the
+//       separator characters which will be included in the number
+//       string text display.
+//
+//        type NumericSeparators struct {
+//         decimalSeparators    []rune
+//         integerSeparatorsDto NumStrIntSeparatorsDto
+//        }
+//
+//        decimalSeparators     []rune
+//
+//        The 'Decimal Separator' is used to separate integer and
+//        fractional digits within a floating point number display.
+//        The decimal separator may consist of one or more runes.
+//
+//        integerSeparatorsDto    NumStrIntSeparatorsDto
+//
+//        The NumStrIntSeparatorsDto type encapsulates the integer digits
+//        separators, often referred to as the 'Thousands Separator'.
+//        Integer digit separators are used to separate integers into
+//        specific groups within a number string. The
+//        NumStrIntSeparatorsDto manages an array or collection of
+//        NumStrIntSeparator objects.
+//
+//               type NumStrIntSeparatorsDto struct {
+//                 intSeparators []NumStrIntSeparator
+//               }
+//
+//               type NumStrIntSeparator struct {
+//                intSeparatorChars       []rune  // A series of runes used to separate integer digits.
+//                intSeparatorGrouping    uint    // Number of integer digits in a group
+//                intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
+//                                                // A zero value signals unlimited repetitions.
+//                restartIntGroupingSequence bool // If true, the grouping sequence starts over at index zero.
+//               }
+//
+//               intSeparatorChars          []rune
+//                  - A series of runes or characters used to separate integer
+//                    digits in a number string. These characters are commonly
+//                    known as the 'thousands separator'. A 'thousands
+//                    separator' is used to separate groups of integer digits to
+//                    the left of the decimal separator (a.k.a. decimal point).
+//                    In the United States, the standard integer digits
+//                    separator is the single comma character (','). Other
+//                    countries and cultures use periods, spaces, apostrophes or
+//                    multiple characters to separate integers.
+//                          United States Example:  1,000,000,000
+//
+//               intSeparatorGrouping       uint
+//                  - This unsigned integer values specifies the number of
+//                    integer digits within a group. This value is used to group
+//                    integers within a number string.
+//
+//                    In most western countries integer digits to the left of
+//                    the decimal separator (a.k.a. decimal point) are separated
+//                    into groups of three digits representing a grouping of
+//                    'thousands' like this: '1,000,000,000'. In this case the
+//                    intSeparatorGrouping value would be set to three ('3').
+//
+//                    In some countries and cultures other integer groupings are
+//                    used. In India, for example, a number might be formatted
+//                    like this: '6,78,90,00,00,00,00,000'.
+//
+//               intSeparatorRepetitions    uint
+//                  - This unsigned integer value specifies the number of times
+//                    this integer grouping is repeated. A value of zero signals
+//                    that this integer grouping will be repeated indefinitely.
+//
+//               restartIntGroupingSequence bool
+//                  - If the NumStrIntSeparator is the last element in an array
+//                    of NumStrIntSeparator objects, this boolean flag signals
+//                    whether the entire integer grouping sequence will be
+//                    restarted from array element zero.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtBinary *FormatterBinary) SetNumericSeparators(
+	numericSeparators NumericSeparators,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterBinary." +
+			"SetNumericSeparators()")
+
+	return formatterBinaryMechanics{}.ptr().setNumericSeparators(
+		fmtBinary,
+		numericSeparators,
+		ePrefix.XCtx(
+			"fmtBinary"))
 }
 
 // SetNumStrFormatTypeCode - Sets the Number String Format Type

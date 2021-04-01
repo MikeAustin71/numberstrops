@@ -663,9 +663,8 @@ func (fmtCurrMech *formatterCurrencyMechanics) setNumberFieldLengthDto(
 			"formatterCurrency"))
 }
 
-// setNumericSeparators - Sets the Number Separators object
-// for the FormatterCurrency instance,
-// 'nStrFmtSpecCurrencyValDto'.
+// setNumericSeparators - Sets the Number Separators object for the
+// FormatterCurrency instance, 'formatterCurrency'.
 //
 // The Number Separators object is used to specify the Decimal
 // Separators Character(s) and the Integer Digits Separator
