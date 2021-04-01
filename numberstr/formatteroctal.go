@@ -1148,6 +1148,8 @@ func (fmtOctal *FormatterOctal) IsValidInstance() (
 // current FormatterOctal instance to determine whether that
 // instance is valid in all respects.
 //
+// This method is required by interface INumStrFormatter.
+//
 //
 // ----------------------------------------------------------------
 //

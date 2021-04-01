@@ -1073,6 +1073,8 @@ func (formatterHex *FormatterHexadecimal) IsValidInstance() (
 // current FormatterHexadecimal instance to determine whether that
 // instance is valid in all respects.
 //
+// This method is required by interface INumStrFormatter.
+//
 //
 // ----------------------------------------------------------------
 //

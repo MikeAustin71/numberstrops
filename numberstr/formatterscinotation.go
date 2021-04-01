@@ -1006,6 +1006,8 @@ func (fmtSciNotation *FormatterSciNotation) IsValidInstance() (isValid bool) {
 // FormatterSciNotation instance to determine whether the
 // current instance is valid in all respects.
 //
+// This method is required by interface INumStrFormatter.
+//
 //
 // ----------------------------------------------------------------
 //

@@ -8,7 +8,24 @@ import (
 
 // FormatterCurrency - This structure stores formatting data
 // for numeric currency values displayed in text number strings.
-// Member data elements are listed as follows:
+// Member data elements are defined as follows:
+//
+//  type FormatterCurrency struct {
+//   numStrFmtType                 NumStrFormatTypeCode
+//   positiveValueFmt              string
+//   negativeValueFmt              string
+//   decimalDigits                 uint
+//   currencyCode                  string
+//   currencyCodeNo                string
+//   currencyName                  string
+//   currencySymbols               []rune
+//   minorCurrencyName             string
+//   minorCurrencySymbols          []rune
+//   turnOnIntegerDigitsSeparation bool
+//   numericSeparators             NumericSeparators
+//   numFieldDto                   NumberFieldDto
+//  }
+//
 //
 //  numStrFmtType           NumStrFormatTypeCode
 //     - An enumeration value automatically set to:
@@ -1678,6 +1695,8 @@ func (fmtCurr *FormatterCurrency) IsValidInstance() (
 // IsValidInstanceError - Performs a diagnostic review of the current
 // FormatterCurrency instance to determine whether the
 // current instance is valid in all respects.
+//
+// This method is required by interface INumStrFormatter.
 //
 //
 // ----------------------------------------------------------------

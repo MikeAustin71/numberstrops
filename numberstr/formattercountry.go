@@ -785,6 +785,8 @@ func (fmtCountry *FormatterCountry) IsValidInstance() bool {
 // FormatterCountry instance to determine whether the current
 // instance is valid in all respects.
 //
+// This method is required by interface INumStrFormatter.
+//
 //
 // ----------------------------------------------------------------
 //

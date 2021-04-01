@@ -23,5 +23,8 @@ type INumStrFormatter interface {
 		fmtNumStr string,
 		err error)
 
+	IsValidInstanceError(
+		ePrefix *ErrPrefixDto) error
+
 	SetNumStrFormatTypeCode()
 }

@@ -1252,6 +1252,8 @@ func (fmtSignedNum *FormatterSignedNumber) IsValidInstance() (
 // current FormatterSignedNumber instance to determine
 // whether the current instance is valid in all respects.
 //
+// This method is required by interface INumStrFormatter.
+//
 //
 // ----------------------------------------------------------------
 //
