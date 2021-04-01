@@ -6973,6 +6973,10 @@ func (fmtCurr *FormatterCurrency) SetNumberFieldDto(
 // Separator Characters and the Integer Digits Separator
 // Characters.
 //
+// If input parameter 'numericSeparators' is judged to be invalid,
+// this method will return an error.
+//
+//
 // ----------------------------------------------------------------
 //
 // Input Parameters

@@ -40,8 +40,8 @@ func (fmtOctalUtil formatterOctalUtility) ptr() *formatterOctalUtility {
 // strings.
 //
 // This method differs from formatterOctalUtility.setFmtOctalDetailRunes()
-// in that this method accepts a string for input parameter,
-// 'integerDigitsSeparators'.
+// in that this method accepts strings for input parameters,
+// 'decimalSeparatorChars' and 'integerDigitsSeparators'.
 //
 // To exercise granular control over all parameters needed to
 // construct an instance of FormatterOctal, reference method:
@@ -61,6 +61,14 @@ func (fmtOctalUtil formatterOctalUtility) ptr() *formatterOctalUtility {
 //       variable data values within this instance will be
 //       overwritten and reset to new values based on the input
 //       parameters listed below.
+//
+//
+//  decimalSeparatorChars         string
+//     - The character or characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
 //
 //
 //  integerDigitsSeparators       string
@@ -224,6 +232,7 @@ func (fmtOctalUtil formatterOctalUtility) ptr() *formatterOctalUtility {
 //
 func (fmtOctalUtil *formatterOctalUtility) setFmtOctalDetail(
 	formatterOctal *FormatterOctal,
+	decimalSeparatorChars string,
 	integerDigitsSeparators string,
 	intSeparatorGrouping uint,
 	intSeparatorRepetitions uint,
@@ -265,15 +274,16 @@ func (fmtOctalUtil *formatterOctalUtility) setFmtOctalDetail(
 		formatterOctal.lock = new(sync.Mutex)
 	}
 
-	var integerSeparators NumStrIntSeparatorsDto
+	var numericSeparators NumericSeparators
 
-	integerSeparators,
-		err = NumStrIntSeparatorsDto{}.NewDetail(
+	numericSeparators,
+		err = NumericSeparators{}.NewIntSepsDetail(
+		decimalSeparatorChars,
 		integerDigitsSeparators,
 		intSeparatorGrouping,
 		intSeparatorRepetitions,
 		ePrefix.XCtx(
-			"integerSeparators"))
+			"numericSeparators"))
 
 	if err != nil {
 		return err
@@ -298,7 +308,7 @@ func (fmtOctalUtil *formatterOctalUtility) setFmtOctalDetail(
 			leftPrefix,
 			rightSuffix,
 			turnOnIntegerDigitsSeparation,
-			integerSeparators,
+			numericSeparators,
 			numFieldDto,
 			ePrefix.XCtx(
 				"formatterOctal"))
@@ -314,8 +324,8 @@ func (fmtOctalUtil *formatterOctalUtility) setFmtOctalDetail(
 // strings.
 //
 // This method differs from formatterOctalUtility.setFmtOctalDetail()
-// in that this method accepts a rune array for input parameter,
-// 'integerDigitsSeparators'.
+// in that this method accepts rune arrays for input parameters,
+// 'decimalSeparatorChars' and 'integerDigitsSeparators'.
 //
 // To exercise granular control over all parameters needed to
 // construct an instance of FormatterOctal, reference method:
@@ -335,6 +345,14 @@ func (fmtOctalUtil *formatterOctalUtility) setFmtOctalDetail(
 //       variable data values within this instance will be
 //       overwritten and reset to new values based on the input
 //       parameters listed below.
+//
+//
+//  decimalSeparatorChars         []rune
+//     - The characters or character used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
 //
 //
 //  integerDigitsSeparators       []rune
@@ -499,6 +517,7 @@ func (fmtOctalUtil *formatterOctalUtility) setFmtOctalDetail(
 //
 func (fmtOctalUtil *formatterOctalUtility) setFmtOctalDetailRunes(
 	formatterOctal *FormatterOctal,
+	decimalSeparatorChars []rune,
 	integerDigitsSeparators []rune,
 	intSeparatorGrouping uint,
 	intSeparatorRepetitions uint,
@@ -540,15 +559,20 @@ func (fmtOctalUtil *formatterOctalUtility) setFmtOctalDetailRunes(
 		formatterOctal.lock = new(sync.Mutex)
 	}
 
-	var integerSeparators NumStrIntSeparatorsDto
+	var numericSeparators NumericSeparators
 
-	integerSeparators,
-		err = NumStrIntSeparatorsDto{}.NewDetailRunes(
+	numericSeparators,
+		err = NumericSeparators{}.NewIntSepsDetailRunes(
+		decimalSeparatorChars,
 		integerDigitsSeparators,
 		intSeparatorGrouping,
 		intSeparatorRepetitions,
 		ePrefix.XCtx(
-			"integerSeparators"))
+			fmt.Sprintf("\n"+
+				"decimalSeparatorChars='%v'\n"+
+				"integerDigitsSeparators='%v'\n",
+				decimalSeparatorChars,
+				integerDigitsSeparators)))
 
 	if err != nil {
 		return err
@@ -573,7 +597,7 @@ func (fmtOctalUtil *formatterOctalUtility) setFmtOctalDetailRunes(
 			leftPrefix,
 			rightSuffix,
 			turnOnIntegerDigitsSeparation,
-			integerSeparators,
+			numericSeparators,
 			numFieldDto,
 			ePrefix.XCtx(
 				"formatterOctal"))
@@ -596,6 +620,8 @@ func (fmtOctalUtil *formatterOctalUtility) setFmtOctalDetailRunes(
 //
 // Turn On Integer Digits Separation
 //  (turnOnIntegerDigitsSeparation) = false
+//
+// Decimal Separator = "."
 //
 // Integer Separators (integerSeparators) =
 //   Integer Digit Separator  = ","
@@ -643,12 +669,14 @@ func (fmtOctalUtil *formatterOctalUtility) setFmtOctalWithDefaults(
 		formatterOctal.lock = new(sync.Mutex)
 	}
 
-	var integerSeparators NumStrIntSeparatorsDto
+	var numericSeparators NumericSeparators
 
-	integerSeparators,
-		err = NumStrIntSeparatorsDto{}.NewBasic(
+	numericSeparators,
+		err = NumericSeparators{}.NewBasic(
+		".",
 		",",
-		nil)
+		ePrefix.XCtx(
+			"numericSeparators"))
 
 	if err != nil {
 		return err
@@ -669,7 +697,7 @@ func (fmtOctalUtil *formatterOctalUtility) setFmtOctalWithDefaults(
 			"",    // leftPrefix
 			"",    // rightSuffix
 			false, //turnOnIntegerDigitsSeparation
-			integerSeparators,
+			numericSeparators,
 			numFieldDto,
 			ePrefix.XCtx(
 				"formatterOctal"))

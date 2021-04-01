@@ -88,8 +88,8 @@ func (fmtOctalAtom *formatterOctalAtom) copyIn(
 		incomingFormatterOctal.turnOnIntegerDigitsSeparation
 
 	err =
-		targetFormatterOctal.integerSeparators.CopyIn(
-			&incomingFormatterOctal.integerSeparators,
+		targetFormatterOctal.numericSeparators.CopyIn(
+			&incomingFormatterOctal.numericSeparators,
 			ePrefix.XCtx(
 				"incomingFormatterOctal.integerSeparators->"+
 					"targetFormatterOctal.integerSeparators"))
@@ -175,8 +175,8 @@ func (fmtOctalAtom *formatterOctalAtom) copyOut(
 		formatterOctal.turnOnIntegerDigitsSeparation
 
 	err =
-		newFormatterOctal.integerSeparators.CopyIn(
-			&formatterOctal.integerSeparators,
+		newFormatterOctal.numericSeparators.CopyIn(
+			&formatterOctal.numericSeparators,
 			ePrefix.XCtx(""+
 				"formatterOctal.integerSeparators->"+
 				"newFormatterOctal.integerSeparators"))

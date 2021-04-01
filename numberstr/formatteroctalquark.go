@@ -48,7 +48,7 @@ func (fmtOctalQuark *formatterOctalQuark) empty(
 
 	formatterOctal.turnOnIntegerDigitsSeparation = false
 
-	formatterOctal.integerSeparators.Empty()
+	formatterOctal.numericSeparators.Empty()
 
 	formatterOctal.numFieldDto.Empty()
 
@@ -133,7 +133,7 @@ func (fmtOctalQuark *formatterOctalQuark) testValidityOfFormatterOctal(
 	}
 
 	err =
-		formatterOctal.integerSeparators.IsValidInstanceError(
+		formatterOctal.numericSeparators.IsValidInstanceError(
 			ePrefix.XCtx(
 				"Validating 'formatterOctal' Integer Separators"))
 
