@@ -1216,8 +1216,8 @@ func (fmtOctal *FormatterOctal) IsValidInstanceError(
 // the FormatterOctal components passed as input parameters.
 //
 // This method differs from FormatterOctal.NewDetailRunes()
-// in that this method accepts a string for input parameter,
-// 'integerDigitsSeparators'.
+// in that this method accepts strings for input parameters,
+// 'decimalSeparatorChars' and 'integerDigitsSeparators'.
 //
 // To exercise granular control over all parameters needed to
 // construct an instance of FormatterOctal, reference method:
@@ -1231,6 +1231,14 @@ func (fmtOctal *FormatterOctal) IsValidInstanceError(
 // ----------------------------------------------------------------
 //
 // Input Parameters
+//
+//  decimalSeparatorChars         string
+//     - The character or characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
+//
 //
 //  integerDigitsSeparators       string
 //     - One or more characters used to separate groups of
@@ -1398,6 +1406,7 @@ func (fmtOctal *FormatterOctal) IsValidInstanceError(
 //       'ePrefix' text will be attached to the beginning of the
 //
 func (fmtOctal FormatterOctal) NewDetail(
+	decimalSeparatorChars string,
 	integerDigitsSeparators string,
 	intSeparatorGrouping uint,
 	intSeparatorRepetitions uint,
@@ -1433,6 +1442,7 @@ func (fmtOctal FormatterOctal) NewDetail(
 	err = formatterOctalUtility{}.ptr().
 		setFmtOctalDetail(
 			&newFormatterOctal,
+			decimalSeparatorChars,
 			integerDigitsSeparators,
 			intSeparatorGrouping,
 			intSeparatorRepetitions,
@@ -1458,8 +1468,8 @@ func (fmtOctal FormatterOctal) NewDetail(
 // the FormatterOctal components passed as input parameters.
 //
 // This method differs from FormatterOctal.NewDetail()
-// in that this method accepts a rune array for input parameter,
-// 'integerDigitsSeparators'.
+// in that this method accepts rune arrays for input parameters,
+// 'decimalSeparatorChars' and 'integerDigitsSeparators'.
 //
 // To exercise granular control over all parameters needed to
 // construct an instance of FormatterOctal, reference method:
@@ -1474,7 +1484,15 @@ func (fmtOctal FormatterOctal) NewDetail(
 //
 // Input Parameters
 //
-//  integerDigitsSeparators       string
+//  decimalSeparatorChars         []rune
+//     - The characters or character used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
+//
+//
+//  integerDigitsSeparators       []rune
 //     - One or more characters used to separate groups of
 //       integers. This separator is also known as the 'thousands'
 //       separator. It is used to separate groups of integer digits
@@ -1640,6 +1658,7 @@ func (fmtOctal FormatterOctal) NewDetail(
 //       'ePrefix' text will be attached to the beginning of the
 //
 func (fmtOctal FormatterOctal) NewDetailRunes(
+	decimalSeparatorChars []rune,
 	integerDigitsSeparators []rune,
 	intSeparatorGrouping uint,
 	intSeparatorRepetitions uint,
@@ -1675,6 +1694,7 @@ func (fmtOctal FormatterOctal) NewDetailRunes(
 	err = formatterOctalUtility{}.ptr().
 		setFmtOctalDetailRunes(
 			&newFormatterOctal,
+			decimalSeparatorChars,
 			integerDigitsSeparators,
 			intSeparatorGrouping,
 			intSeparatorRepetitions,
@@ -1765,59 +1785,80 @@ func (fmtOctal FormatterOctal) NewDetailRunes(
 //       formatted hexadecimal number strings.
 //
 //
-//  integerSeparators             NumStrIntSeparatorsDto
-//     - The NumStrIntSeparatorsDto type manages an internal
-//       Taken as a whole, these NumStrIntSeparator objects define
-//       the integer separation operation used in formatting number strings.
+//  numericSeparators             NumericSeparators
+//     - This instance of NumericSeparators is used to specify the
+//       separator characters which will be included in number
+//       string text displays.
 //
-//        type NumStrIntSeparator struct {
-//            intSeparatorChars       []rune  // A series of runes used to separate integer digits.
-//            intSeparatorGrouping    uint    // Number of integer digits in a group
-//            intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
-//                                            // A zero value signals unlimited repetitions.
-//            restartIntGroupingSequence bool // If true, the entire grouping sequence is repeated
-//                                            //  beginning at array index zero.
+//        type NumericSeparators struct {
+//         decimalSeparators    []rune
+//         integerSeparatorsDto NumStrIntSeparatorsDto
 //        }
 //
-//        intSeparatorChars          []rune
-//           - A series of runes or characters used to separate integer
-//             digits in a number string. These characters are commonly
-//             known as the 'thousands separator'. A 'thousands
-//             separator' is used to separate groups of integer digits to
-//             the left of the decimal separator (a.k.a. decimal point).
-//             In the United States, the standard integer digits
-//             separator is the single comma character (','). Other
-//             countries and cultures use periods, spaces, apostrophes or
-//             multiple characters to separate integers.
-//                   United States Example:  1,000,000,000
+//        decimalSeparators     []rune
 //
-//        intSeparatorGrouping       uint
-//           - This unsigned integer values specifies the number of
-//             integer digits within a group. This value is used to group
-//             integers within a number string.
+//        The 'Decimal Separator' is used to separate integer and
+//        fractional digits within a floating point number display.
+//        The decimal separator may consist of one or more runes.
 //
-//             In most western countries integer digits to the left of
-//             the decimal separator (a.k.a. decimal point) are separated
-//             into groups of three digits representing a grouping of
-//             'thousands' like this: '1,000,000,000'. In this case the
-//             intSeparatorGrouping value would be set to three ('3').
+//        integerSeparatorsDto    NumStrIntSeparatorsDto
 //
-//             In some countries and cultures other integer groupings are
-//             used. In India, for example, a number might be formatted like
-//             this: '6,78,90,00,00,00,00,000'. Chinese Numerals have an
-//             integer grouping value of four ('4').
-//                Chinese Numerals Example: '12,3456,7890,2345'
+//        The NumStrIntSeparatorsDto type encapsulates the integer digits
+//        separators, often referred to as the 'Thousands Separator'.
+//        Integer digit separators are used to separate integers into
+//        specific groups within a number string. The
+//        NumStrIntSeparatorsDto manages an array or collection of
+//        NumStrIntSeparator objects.
 //
-//        intSeparatorRepetitions    uint
-//           - This unsigned integer value specifies the number of times
-//             this integer grouping is repeated. A value of zero signals
-//             that this integer grouping will be repeated indefinitely.
+//               type NumStrIntSeparatorsDto struct {
+//                 intSeparators []NumStrIntSeparator
+//               }
 //
-//        restartIntGroupingSequence bool
-//           - If the NumStrIntSeparator is the last element in an array
-//             of NumStrIntSeparator objects, this boolean flag signals
-//             whether the entire integer grouping sequence will be
-//             restarted from array element zero.
+//               type NumStrIntSeparator struct {
+//                intSeparatorChars       []rune  // A series of runes used to separate integer digits.
+//                intSeparatorGrouping    uint    // Number of integer digits in a group
+//                intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
+//                                                // A zero value signals unlimited repetitions.
+//                restartIntGroupingSequence bool // If true, the grouping sequence starts over at index zero.
+//               }
+//
+//               intSeparatorChars          []rune
+//                  - A series of runes or characters used to separate integer
+//                    digits in a number string. These characters are commonly
+//                    known as the 'thousands separator'. A 'thousands
+//                    separator' is used to separate groups of integer digits to
+//                    the left of the decimal separator (a.k.a. decimal point).
+//                    In the United States, the standard integer digits
+//                    separator is the single comma character (','). Other
+//                    countries and cultures use periods, spaces, apostrophes or
+//                    multiple characters to separate integers.
+//                          United States Example:  1,000,000,000
+//
+//               intSeparatorGrouping       uint
+//                  - This unsigned integer values specifies the number of
+//                    integer digits within a group. This value is used to group
+//                    integers within a number string.
+//
+//                    In most western countries integer digits to the left of
+//                    the decimal separator (a.k.a. decimal point) are separated
+//                    into groups of three digits representing a grouping of
+//                    'thousands' like this: '1,000,000,000'. In this case the
+//                    intSeparatorGrouping value would be set to three ('3').
+//
+//                    In some countries and cultures other integer groupings are
+//                    used. In India, for example, a number might be formatted
+//                    like this: '6,78,90,00,00,00,00,000'.
+//
+//               intSeparatorRepetitions    uint
+//                  - This unsigned integer value specifies the number of times
+//                    this integer grouping is repeated. A value of zero signals
+//                    that this integer grouping will be repeated indefinitely.
+//
+//               restartIntGroupingSequence bool
+//                  - If the NumStrIntSeparator is the last element in an array
+//                    of NumStrIntSeparator objects, this boolean flag signals
+//                    whether the entire integer grouping sequence will be
+//                    restarted from array element zero.
 //
 //
 //  numFieldDto                   NumberFieldDto
@@ -1911,7 +1952,7 @@ func (fmtOctal FormatterOctal) NewWithComponents(
 	leftPrefix string,
 	rightSuffix string,
 	turnOnIntegerDigitsSeparation bool,
-	integerSeparators NumStrIntSeparatorsDto,
+	numericSeparators NumericSeparators,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) (
 	newFormatterOctal FormatterOctal,
@@ -1943,7 +1984,7 @@ func (fmtOctal FormatterOctal) NewWithComponents(
 			leftPrefix,
 			rightSuffix,
 			turnOnIntegerDigitsSeparation,
-			integerSeparators,
+			numericSeparators,
 			numFieldDto,
 			ePrefix.XCtx(
 				"newFormatterOctal"))
@@ -1971,6 +2012,8 @@ func (fmtOctal FormatterOctal) NewWithComponents(
 //
 // Turn On Integer Digits Separation
 //  (turnOnIntegerDigitsSeparation) = false
+//
+// Decimal Separator = "."
 //
 // Integer Separators (integerSeparators) =
 //   Integer Digit Separator  = ","
@@ -2065,8 +2108,8 @@ func (fmtOctal FormatterOctal) NewWithDefaults(
 // strings.
 //
 // This method differs from FormatterOctal.SetDetailRunes()
-// in that this method accepts a string for input parameter,
-// 'integerDigitsSeparators'.
+// in that this method accepts strings for input parameters,
+// 'decimalSeparatorChars' and 'integerDigitsSeparators'.
 //
 // To exercise granular control over all parameters needed to
 // construct an instance of FormatterOctal, reference method:
@@ -2085,6 +2128,14 @@ func (fmtOctal FormatterOctal) NewWithDefaults(
 // ----------------------------------------------------------------
 //
 // Input Parameters
+//
+//  decimalSeparatorChars         string
+//     - The character or characters used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
+//
 //
 //  integerDigitsSeparators       string
 //     - One or more characters used to separate groups of
@@ -2246,6 +2297,7 @@ func (fmtOctal FormatterOctal) NewWithDefaults(
 //       'ePrefix' text will be attached to the beginning of the
 //
 func (fmtOctal *FormatterOctal) SetDetail(
+	decimalSeparatorChars string,
 	integerDigitsSeparators string,
 	intSeparatorGrouping uint,
 	intSeparatorRepetitions uint,
@@ -2277,6 +2329,7 @@ func (fmtOctal *FormatterOctal) SetDetail(
 	return formatterOctalUtility{}.ptr().
 		setFmtOctalDetail(
 			fmtOctal,
+			decimalSeparatorChars,
 			integerDigitsSeparators,
 			intSeparatorGrouping,
 			intSeparatorRepetitions,
@@ -2301,8 +2354,8 @@ func (fmtOctal *FormatterOctal) SetDetail(
 // strings.
 //
 // This method differs from FormatterOctal.SetDetail()
-// in that this method accepts a rune array for input parameter,
-// 'integerDigitsSeparators'.
+// in that this method accepts rune arrays for input parameters,
+// 'decimalSeparatorChars' and 'integerDigitsSeparators'.
 //
 // To exercise granular control over all parameters needed to
 // construct an instance of FormatterOctal, reference method:
@@ -2321,6 +2374,14 @@ func (fmtOctal *FormatterOctal) SetDetail(
 // ----------------------------------------------------------------
 //
 // Input Parameters
+//
+//  decimalSeparatorChars         []rune
+//     - The characters or character used to separate integer and
+//       fractional digits in a floating point number string. In
+//       the United States, the Decimal Separator character is the
+//       period ('.') or Decimal Point.
+//           United States Example: '123.45678'
+//
 //
 //  integerDigitsSeparators       []rune
 //     - One or more characters used to separate groups of
@@ -2482,6 +2543,7 @@ func (fmtOctal *FormatterOctal) SetDetail(
 //       'ePrefix' text will be attached to the beginning of the
 //
 func (fmtOctal *FormatterOctal) SetDetailRunes(
+	decimalSeparatorChars []rune,
 	integerDigitsSeparators []rune,
 	intSeparatorGrouping uint,
 	intSeparatorRepetitions uint,
@@ -2513,6 +2575,7 @@ func (fmtOctal *FormatterOctal) SetDetailRunes(
 	return formatterOctalUtility{}.ptr().
 		setFmtOctalDetailRunes(
 			fmtOctal,
+			decimalSeparatorChars,
 			integerDigitsSeparators,
 			intSeparatorGrouping,
 			intSeparatorRepetitions,
@@ -3002,59 +3065,82 @@ func (fmtOctal *FormatterOctal) SetTurnOnInterDigitsSeparation(
 //       formatted hexadecimal number strings.
 //
 //
-//  integerSeparators             NumStrIntSeparatorsDto
-//     - The NumStrIntSeparatorsDto type manages an internal
-//       Taken as a whole, these NumStrIntSeparator objects define
-//       the integer separation operation used in formatting number strings.
+//  numericSeparators        NumericSeparators
+//     - This instance of 'NumericSeparators' is
+//       used to specify the separator characters which will be
+//       including in the number string text display.
 //
-//        type NumStrIntSeparator struct {
-//            intSeparatorChars       []rune  // A series of runes used to separate integer digits.
-//            intSeparatorGrouping    uint    // Number of integer digits in a group
-//            intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
-//                                            // A zero value signals unlimited repetitions.
-//            restartIntGroupingSequence bool // If true, the entire grouping sequence is repeated
-//                                            //  beginning at array index zero.
+//        type NumericSeparators struct {
+//         decimalSeparators    []rune
+//         integerSeparatorsDto NumStrIntSeparatorsDto
 //        }
 //
-//        intSeparatorChars          []rune
-//           - A series of runes or characters used to separate integer
-//             digits in a number string. These characters are commonly
-//             known as the 'thousands separator'. A 'thousands
-//             separator' is used to separate groups of integer digits to
-//             the left of the decimal separator (a.k.a. decimal point).
-//             In the United States, the standard integer digits
-//             separator is the single comma character (','). Other
-//             countries and cultures use periods, spaces, apostrophes or
-//             multiple characters to separate integers.
-//                   United States Example:  1,000,000,000
+//        decimalSeparators     []rune
 //
-//        intSeparatorGrouping       uint
-//           - This unsigned integer values specifies the number of
-//             integer digits within a group. This value is used to group
-//             integers within a number string.
+//        The 'Decimal Separator' is used to separate integer and
+//        fractional digits within a floating point number display.
+//        The decimal separator may consist of one or more runes.
 //
-//             In most western countries integer digits to the left of
-//             the decimal separator (a.k.a. decimal point) are separated
-//             into groups of three digits representing a grouping of
-//             'thousands' like this: '1,000,000,000'. In this case the
-//             intSeparatorGrouping value would be set to three ('3').
+//        integerSeparatorsDto    NumStrIntSeparatorsDto
 //
-//             In some countries and cultures other integer groupings are
-//             used. In India, for example, a number might be formatted like
-//             this: '6,78,90,00,00,00,00,000'. Chinese Numerals have an
-//             integer grouping value of four ('4').
-//                Chinese Numerals Example: '12,3456,7890,2345'
+//        The NumStrIntSeparatorsDto type encapsulates the integer digits
+//        separators, often referred to as the 'Thousands Separator'.
+//        Integer digit separators are used to separate integers into
+//        specific groups within a number string. The
+//        NumStrIntSeparatorsDto manages an array or collection of
+//        NumStrIntSeparator objects.
 //
-//        intSeparatorRepetitions    uint
-//           - This unsigned integer value specifies the number of times
-//             this integer grouping is repeated. A value of zero signals
-//             that this integer grouping will be repeated indefinitely.
+//               type NumStrIntSeparatorsDto struct {
+//                 intSeparators []NumStrIntSeparator
+//               }
 //
-//        restartIntGroupingSequence bool
-//           - If the NumStrIntSeparator is the last element in an array
-//             of NumStrIntSeparator objects, this boolean flag signals
-//             whether the entire integer grouping sequence will be
-//             restarted from array element zero.
+//               type NumStrIntSeparator struct {
+//                intSeparatorChars       []rune  // A series of runes used to separate integer digits.
+//                intSeparatorGrouping    uint    // Number of integer digits in a group
+//                intSeparatorRepetitions uint    // Number of times this character/group sequence is repeated
+//                                                // A zero value signals unlimited repetitions.
+//                restartIntGroupingSequence bool // If true, the grouping sequence starts over at index zero.
+//               }
+//
+//               intSeparatorChars          []rune
+//                  - A series of runes or characters used to separate integer
+//                    digits in a number string. These characters are commonly
+//                    known as the 'thousands separator'. A 'thousands
+//                    separator' is used to separate groups of integer digits to
+//                    the left of the decimal separator (a.k.a. decimal point).
+//                    In the United States, the standard integer digits
+//                    separator is the single comma character (','). Other
+//                    countries and cultures use periods, spaces, apostrophes or
+//                    multiple characters to separate integers.
+//                          United States Example:  1,000,000,000
+//
+//               intSeparatorGrouping       uint
+//                  - This unsigned integer values specifies the number of
+//                    integer digits within a group. This value is used to group
+//                    integers within a number string.
+//
+//                    In most western countries integer digits to the left of
+//                    the decimal separator (a.k.a. decimal point) are separated
+//                    into groups of three digits representing a grouping of
+//                    'thousands' like this: '1,000,000,000'. In this case the
+//                    intSeparatorGrouping value would be set to three ('3').
+//
+//                     In some countries and cultures other integer groupings
+//                     are used. In India, for example, a number might be
+//                     formatted like this: '6,78,90,00,00,00,00,000'. Chinese
+//                     Numerals have an integer grouping value of four ('4').
+//                         Chinese Numerals Example: '12,3456,7890,2345'
+//
+//               intSeparatorRepetitions    uint
+//                  - This unsigned integer value specifies the number of times
+//                    this integer grouping is repeated. A value of zero signals
+//                    that this integer grouping will be repeated indefinitely.
+//
+//               restartIntGroupingSequence bool
+//                  - If the NumStrIntSeparator is the last element in an array
+//                    of NumStrIntSeparator objects, this boolean flag signals
+//                    whether the entire integer grouping sequence will be
+//                    restarted from array element zero.
 //
 //
 //  numFieldDto                   NumberFieldDto
@@ -3142,7 +3228,7 @@ func (fmtOctal *FormatterOctal) SetWithComponents(
 	leftPrefix string,
 	rightSuffix string,
 	turnOnIntegerDigitsSeparation bool,
-	integerSeparators NumStrIntSeparatorsDto,
+	numericSeparators NumericSeparators,
 	numFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
@@ -3170,7 +3256,7 @@ func (fmtOctal *FormatterOctal) SetWithComponents(
 			leftPrefix,
 			rightSuffix,
 			turnOnIntegerDigitsSeparation,
-			integerSeparators,
+			numericSeparators,
 			numFieldDto,
 			ePrefix.XCtx(
 				"newFormatterOctal"))
