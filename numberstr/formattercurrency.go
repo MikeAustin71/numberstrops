@@ -1521,6 +1521,10 @@ func (fmtCurr *FormatterCurrency) GetPositiveValueFormat() string {
 // in text number strings as shown in the following example.
 //  Example: 1000000000000
 //
+// Numeric Separators such as decimal and integer digit separators
+// are controlled by the member variable,
+// FormatterBinary.numericSeparators.
+//
 func (fmtCurr *FormatterCurrency) GetTurnOnIntegerDigitsSeparationFlag() bool {
 
 	if fmtCurr.lock == nil {

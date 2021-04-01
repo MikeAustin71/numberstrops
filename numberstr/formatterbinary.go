@@ -966,6 +966,36 @@ func (fmtBinary *FormatterBinary) GetNumStrFormatTypeCode() NumStrFormatTypeCode
 	return fmtBinary.numStrFmtType
 }
 
+// GetTurnOnIntegerDigitsSeparationFlag - Returns the boolean flag
+// which signals whether integer digits within a number string will
+// be grouped by thousands and separated by an integer digits
+// separator such as a comma (',').
+//
+// If this flag is set to 'true', integer digits will be presented
+// in text number strings as shown in the following example.
+//  Example: 1,000,000,000,000
+//
+// If this flag is set to 'false',  integer digits will be presented
+// in text number strings as shown in the following example.
+//  Example: 1000000000000
+//
+// Numeric Separators such as decimal and integer digit separators
+// are controlled by the member variable,
+// FormatterBinary.numericSeparators.
+//
+func (fmtBinary *FormatterBinary) GetTurnOnIntegerDigitsSeparationFlag() bool {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	return fmtBinary.turnOnIntegerDigitsSeparation
+}
+
 // IsValidInstance - Performs a diagnostic review of the current
 // FormatterBinary instance to determine whether that instance is
 // valid in all respects.
