@@ -827,7 +827,7 @@ func (formatterHex *FormatterHexadecimal) GetFmtNumStr(
 	return fmtNumStr, err
 }
 
-// GetNumberFieldLengthDto - Returns the NumberFieldDto object
+// GetNumberFieldDto - Returns the NumberFieldDto object
 // currently configured for this Hexadecimal Number String Format
 // Specification.
 //
@@ -933,7 +933,7 @@ func (formatterHex *FormatterHexadecimal) GetFmtNumStr(
 //       Be advised that if the returned 'NumberFieldDto' object is
 //       judged invalid, this method will return an error.
 //
-func (formatterHex *FormatterHexadecimal) GetNumberFieldLengthDto(
+func (formatterHex *FormatterHexadecimal) GetNumberFieldDto(
 	ePrefix *ErrPrefixDto) (
 	NumberFieldDto,
 	error) {
