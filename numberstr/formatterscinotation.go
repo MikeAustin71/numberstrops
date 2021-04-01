@@ -864,7 +864,7 @@ func (fmtSciNotation *FormatterSciNotation) GetNumberFieldLengthDto(
 
 	ePrefix.SetEPref(
 		"fmtSciNotation." +
-			"GetNumberFieldLengthDto()")
+			"GetNumberFieldDto()")
 
 	return fmtSciNotation.numFieldDto.CopyOut(
 		ePrefix.XCtx(

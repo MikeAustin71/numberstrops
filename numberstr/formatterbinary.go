@@ -672,6 +672,116 @@ func (fmtBinary *FormatterBinary) GetFmtNumStr(
 	return fmtNumStr, err
 }
 
+// GetNumberFieldDto - Returns a deep copy of the NumberFieldDto
+// object configured for the current FormatterBinary instance.
+//
+// The NumberFieldDto object specifies the length of the number
+// field in which the currency numeric value will be displayed
+// and justified left, right or center according to the
+// specification.
+//
+// If the NumberFieldDto object is judged to be invalid, this
+// method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  NumberFieldDto
+//     - If this method completes successfully, a new instance of
+//       NumberFieldDto will be returned through this parameter.
+//       This object is deep copy of the Number Field information
+//       used to configure the current instance of FormatterBinary.
+//
+//       The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification'  - "NumberString        "
+//       (3) 'Centered'            - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+//       Be advised that if the returned 'NumberFieldDto' object is
+//       judged to be invalid, this method will return an error.
+//
+func (fmtBinary *FormatterBinary) GetNumberFieldDto(
+	ePrefix *ErrPrefixDto) (
+	NumberFieldDto,
+	error) {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterBinary." +
+			"GetNumericSeparators()")
+
+	return fmtBinary.numFieldDto.CopyOut(
+		ePrefix.XCtx("fmtBinary.numFieldDto->"))
+}
+
 // GetNumericSeparators - Returns a deep copy of the
 // NumericSeparators instance currently configured for this
 // Currency Format Specification.

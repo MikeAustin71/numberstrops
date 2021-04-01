@@ -1198,13 +1198,13 @@ func (fmtCurr *FormatterCurrency) GetMinorCurrencySymbols() []rune {
 	return fmtCurr.minorCurrencySymbols
 }
 
-// GetNumberFieldLengthDto - Returns a deep copy of the
-// NumberFieldDto object/ currently configured for this Number
-// String Format Specification Currency Value Dto.
+// GetNumberFieldDto - Returns a deep copy of the NumberFieldDto
+// object configured for the current FormatterCurrency instance.
 //
-// The NumberFieldDto details the length of the number field in
-// which the currency numeric value will be displayed and justified
-// left, right or center according to the specification.
+// The NumberFieldDto object specifies the length of the number
+// field in which the currency numeric value will be displayed
+// and justified left, right or center according to the
+// specification.
 //
 // If the NumberFieldDto object is judged to be invalid, this
 // method will return an error.
@@ -1255,8 +1255,8 @@ func (fmtCurr *FormatterCurrency) GetMinorCurrencySymbols() []rune {
 //       formats are shown below with examples:
 //
 //       (1) 'Right-Justification' - "       NumberString"
-//       (2) 'Left-Justification' - "NumberString        "
-//       (3) 'Centered'           - "    NumberString    "
+//       (2) 'Left-Justification'  - "NumberString        "
+//       (3) 'Centered'            - "    NumberString    "
 //
 //       The NumberFieldDto type is detailed as follows:
 //
@@ -1280,9 +1280,9 @@ func (fmtCurr *FormatterCurrency) GetMinorCurrencySymbols() []rune {
 //       error message.
 //
 //       Be advised that if the returned 'NumberFieldDto' object is
-//       judged invalid, this method will return an error.
+//       judged to be invalid, this method will return an error.
 //
-func (fmtCurr *FormatterCurrency) GetNumberFieldLengthDto(
+func (fmtCurr *FormatterCurrency) GetNumberFieldDto(
 	ePrefix *ErrPrefixDto) (
 	NumberFieldDto,
 	error) {
@@ -1301,7 +1301,7 @@ func (fmtCurr *FormatterCurrency) GetNumberFieldLengthDto(
 		ePrefix = ePrefix.CopyPtr()
 	}
 
-	ePrefix.SetEPref("FormatterCurrency.GetNumberFieldLengthDto()")
+	ePrefix.SetEPref("FormatterCurrency.GetNumberFieldDto()")
 
 	return fmtCurr.numFieldDto.CopyOut(
 		ePrefix.XCtx("fmtCurr.numFieldDto->"))

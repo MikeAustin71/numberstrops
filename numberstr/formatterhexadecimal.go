@@ -954,7 +954,7 @@ func (formatterHex *FormatterHexadecimal) GetNumberFieldLengthDto(
 
 	ePrefix.SetEPref(
 		"FormatterHexadecimal." +
-			"GetNumberFieldLengthDto()")
+			"GetNumberFieldDto()")
 
 	return formatterHex.numFieldDto.CopyOut(
 		ePrefix.XCtx(

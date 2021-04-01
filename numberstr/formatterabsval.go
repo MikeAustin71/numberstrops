@@ -976,7 +976,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetNumberFieldLengthDto(
 
 	ePrefix.SetEPref(
 		"FormatterAbsoluteValue." +
-			"GetNumberFieldLengthDto()")
+			"GetNumberFieldDto()")
 
 	return fmtAbsVal.numFieldDto.CopyOut(
 		ePrefix.XCtx(

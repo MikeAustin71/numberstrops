@@ -983,7 +983,7 @@ func (fmtOctal *FormatterOctal) GetNumberFieldLengthDto(
 
 	ePrefix.SetEPref(
 		"FormatterOctal." +
-			"GetNumberFieldLengthDto()")
+			"GetNumberFieldDto()")
 
 	return fmtOctal.numFieldDto.CopyOut(
 		ePrefix.XCtx(

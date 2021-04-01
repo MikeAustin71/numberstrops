@@ -1017,7 +1017,7 @@ func (fmtSignedNum *FormatterSignedNumber) GetNumberFieldLengthDto(
 		ePrefix = ePrefix.CopyPtr()
 	}
 
-	ePrefix.SetEPref("FormatterSignedNumber.GetNumberFieldLengthDto()")
+	ePrefix.SetEPref("FormatterSignedNumber.GetNumberFieldDto()")
 
 	return fmtSignedNum.numFieldDto.CopyOut(
 		ePrefix.XCtx(
