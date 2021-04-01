@@ -1249,7 +1249,6 @@ func (fmtCurr *FormatterCurrency) GetMinorCurrencySymbols() []rune {
 //       }
 //
 //       requestedNumberFieldLen    int
-//
 //       - This is the requested length of the number field in which
 //         the number string will be displayed.
 //
