@@ -2498,7 +2498,7 @@ func (formatterHex *FormatterHexadecimal) SetLeftPrefix(
 	formatterHex.leftPrefix = leftPrefix
 }
 
-// SetNumberFieldLengthDto - Sets the Number Field Length Dto
+// SetNumberFieldDto - Sets the Number Field Length Dto
 // object for the current FormatterHexadecimal instance.
 //
 // The Number Field Length Dto object is used to specify the length
@@ -2590,7 +2590,7 @@ func (formatterHex *FormatterHexadecimal) SetLeftPrefix(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (formatterHex *FormatterHexadecimal) SetNumberFieldLengthDto(
+func (formatterHex *FormatterHexadecimal) SetNumberFieldDto(
 	numberFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 

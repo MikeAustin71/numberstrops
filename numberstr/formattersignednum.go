@@ -919,7 +919,7 @@ func (fmtSignedNum *FormatterSignedNumber) GetNegativeValueFormat() string {
 	return fmtSignedNum.negativeValueFmt
 }
 
-// GetNumberFieldLengthDto - Returns the NumberFieldDto object
+// GetNumberFieldDto - Returns the NumberFieldDto object
 // currently configured for this Signed Number String Format
 // Specification.
 //
@@ -955,24 +955,10 @@ func (fmtSignedNum *FormatterSignedNumber) GetNegativeValueFormat() string {
 //       used to configure the current instance of
 //       FormatterSignedNumber.
 //
-//       The NumberFieldDto object contains specifications for number
-//       field length. Typically, the length of a number field is
-//       greater than the length of the number string which will be
-//       inserted and displayed within the number field.
-//
-//       The NumberFieldDto object also contains specifications
-//       for positioning or alignment of the number string within
-//       the number field. This alignment dynamic is described as
-//       text justification. The member variable '
-//       NumberFieldDto.textJustifyFormat' is used to specify one
-//       of three possible alignment formats. One of these formats
-//       will be selected to control the alignment of the number
-//       string within the number field. These optional alignment
-//       formats are shown below with examples:
-//
-//       (1) 'Right-Justification' - "       NumberString"
-//       (2) 'Left-Justification' - "NumberString        "
-//       (3) 'Centered'           - "    NumberString    "
+//       The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
 //
 //       The NumberFieldDto type is detailed as follows:
 //
@@ -982,6 +968,47 @@ func (fmtSignedNum *FormatterSignedNumber) GetNegativeValueFormat() string {
 //         minimumNumFieldLength   int // Machine generated minimum number field length
 //         textJustifyFormat       TextJustify // User specified text justification
 //       }
+//
+//       requestedNumberFieldLen    int
+//
+//       - This is the requested length of the number field in which
+//         the number string will be displayed.
+//
+//         If this field length is greater than the actual length of
+//         the number string, the number string will be justified
+//         within the number field. If the actual number string
+//         length is greater than the requested number field length,
+//         the number field length will be automatically expanded
+//         to display the entire number string. The 'requested'
+//         number field length is used to create number fields
+//         of standard lengths for text presentations.
+//
+//         If 'requestedNumberFieldLen' is set to a value of minus
+//         one (-1), the final number field length will be set to
+//         the length of the actual number string.
+//
+//       numberFieldTextJustify        TextJustify
+//       - An enumeration value used to specify the type of text
+//         formatting which will be applied to a number string when
+//         it is positioned inside of a number field. This
+//         enumeration value must be one of the three following
+//         format specifications:
+//
+//         1. Left   - Signals that the text justification format is
+//                     set to 'Left-Justify'. Strings within text
+//                     fields will be flush with the left margin.
+//                            Example: "TextString      "
+//
+//         2. Right  - Signals that the text justification format is
+//                     set to 'Right-Justify'. Strings within text
+//                     fields will terminate at the right margin.
+//                            Example: "      TextString"
+//
+//         3. Center - Signals that the text justification format is
+//                     is set to 'Centered'. Strings will be positioned
+//                     in the center of the text field equidistant
+//                     from the left and right margins.
+//                             Example: "   TextString   "
 //
 //
 //  error
@@ -995,10 +1022,10 @@ func (fmtSignedNum *FormatterSignedNumber) GetNegativeValueFormat() string {
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-//       Be advised that if the returned 'NumberFieldDto' object is
+//       Be advised that if the returned NumberFieldDto object is
 //       judged invalid, this method will return an error.
 //
-func (fmtSignedNum *FormatterSignedNumber) GetNumberFieldLengthDto(
+func (fmtSignedNum *FormatterSignedNumber) GetNumberFieldDto(
 	ePrefix *ErrPrefixDto) (
 	NumberFieldDto,
 	error) {
@@ -1017,7 +1044,9 @@ func (fmtSignedNum *FormatterSignedNumber) GetNumberFieldLengthDto(
 		ePrefix = ePrefix.CopyPtr()
 	}
 
-	ePrefix.SetEPref("FormatterSignedNumber.GetNumberFieldDto()")
+	ePrefix.SetEPref(
+		"FormatterSignedNumber." +
+			"GetNumberFieldDto()")
 
 	return fmtSignedNum.numFieldDto.CopyOut(
 		ePrefix.XCtx(
@@ -4412,7 +4441,7 @@ func (fmtSignedNum *FormatterSignedNumber) SetNegativeValueFormat(
 	return err
 }
 
-// SetNumberFieldLengthDto - Sets the Number Field Length Dto object
+// SetNumberFieldDto - Sets the Number Field Length Dto object
 // for the current FormatterSignedNumber instance.
 //
 // The Number Field Length Dto object is used to specify the length
@@ -4430,25 +4459,6 @@ func (fmtSignedNum *FormatterSignedNumber) SetNegativeValueFormat(
 //       Number fields are text strings which contain number strings
 //       for use in text displays.
 //
-//       The NumberFieldDto object contains specifications for number
-//       field length. Typically, the length of a number field is
-//       greater than the length of the number string which will be
-//       displayed within the number field.
-//
-//       The NumberFieldDto object also contains specifications
-//       for positioning or alignment of the number string within
-//       the number field. This alignment dynamic is described as
-//       text justification. The member variable '
-//       NumberFieldDto.textJustifyFormat' is used to specify one
-//       of three possible alignment formats. One of these formats
-//       will be selected to control the alignment of the number
-//       string within the number field. These optional alignment
-//       formats are shown below with examples:
-//
-//       (1) 'Right-Justification' - "       NumberString"
-//       (2) 'Left-Justification' - "NumberString        "
-//       (3) 'Centered'           - "    NumberString    "
-//
 //       The NumberFieldDto type is detailed as follows:
 //
 //       type NumberFieldDto struct {
@@ -4457,6 +4467,47 @@ func (fmtSignedNum *FormatterSignedNumber) SetNegativeValueFormat(
 //         minimumNumFieldLength   int // Machine generated minimum number field length
 //         textJustifyFormat       TextJustify // User specified text justification
 //       }
+//
+//       requestedNumberFieldLen    int
+//
+//       - This is the requested length of the number field in which
+//         the number string will be displayed.
+//
+//         If this field length is greater than the actual length of
+//         the number string, the number string will be justified
+//         within the number field. If the actual number string
+//         length is greater than the requested number field length,
+//         the number field length will be automatically expanded
+//         to display the entire number string. The 'requested'
+//         number field length is used to create number fields
+//         of standard lengths for text presentations.
+//
+//         If 'requestedNumberFieldLen' is set to a value of minus
+//         one (-1), the final number field length will be set to
+//         the length of the actual number string.
+//
+//       numberFieldTextJustify        TextJustify
+//       - An enumeration value used to specify the type of text
+//         formatting which will be applied to a number string when
+//         it is positioned inside of a number field. This
+//         enumeration value must be one of the three following
+//         format specifications:
+//
+//         1. Left   - Signals that the text justification format is
+//                     set to 'Left-Justify'. Strings within text
+//                     fields will be flush with the left margin.
+//                            Example: "TextString      "
+//
+//         2. Right  - Signals that the text justification format is
+//                     set to 'Right-Justify'. Strings within text
+//                     fields will terminate at the right margin.
+//                            Example: "      TextString"
+//
+//         3. Center - Signals that the text justification format is
+//                     is set to 'Centered'. Strings will be positioned
+//                     in the center of the text field equidistant
+//                     from the left and right margins.
+//                             Example: "   TextString   "
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -4483,7 +4534,7 @@ func (fmtSignedNum *FormatterSignedNumber) SetNegativeValueFormat(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (fmtSignedNum *FormatterSignedNumber) SetNumberFieldLengthDto(
+func (fmtSignedNum *FormatterSignedNumber) SetNumberFieldDto(
 	numberFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 

@@ -1724,7 +1724,7 @@ func (fmtSciNotation *FormatterSciNotation) SetMantissaLength(
 	return nil
 }
 
-// SetNumberFieldLengthDto - Sets the Number Field Length Dto object
+// SetNumberFieldDto - Sets the Number Field Length Dto object
 // for the current FormatterSciNotation instance.
 //
 // The Number Field Length Dto object is used to specify the length
@@ -1736,13 +1736,7 @@ func (fmtSciNotation *FormatterSciNotation) SetMantissaLength(
 // Input Parameters
 //
 //  numberFieldLenDto   NumberFieldDto
-//     - If this method completes successfully, a new instance of
-//       NumberFieldDto will be returned through this parameter.
-//       This object is deep copy of the Number Field information
-//       used to configure the current instance of
-//       FormatterSciNotation.
-//
-//       The NumberFieldDto object contains formatting instructions
+//     - The NumberFieldDto object contains formatting instructions
 //       for the creation and implementation of a number field.
 //       Number fields are text strings which contain number strings
 //       for use in text displays.
@@ -1757,7 +1751,6 @@ func (fmtSciNotation *FormatterSciNotation) SetMantissaLength(
 //       }
 //
 //       requestedNumberFieldLen    int
-//
 //       - This is the requested length of the number field in which
 //         the number string will be displayed.
 //
@@ -1822,7 +1815,7 @@ func (fmtSciNotation *FormatterSciNotation) SetMantissaLength(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (fmtSciNotation *FormatterSciNotation) SetNumberFieldLengthDto(
+func (fmtSciNotation *FormatterSciNotation) SetNumberFieldDto(
 	numberFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 

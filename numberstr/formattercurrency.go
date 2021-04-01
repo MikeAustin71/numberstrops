@@ -6785,13 +6785,7 @@ func (fmtCurr *FormatterCurrency) SetNegativeValueFormat(
 // Input Parameters
 //
 //  numberFieldDto      NumberFieldDto
-//     - If this method completes successfully, a new instance of
-//       NumberFieldDto will be returned through this parameter.
-//       This object is deep copy of the Number Field information
-//       used to configure the current instance of
-//       FormatterCurrency.
-//
-//       The NumberFieldDto object contains formatting instructions
+//     - The NumberFieldDto object contains formatting instructions
 //       for the creation and implementation of a number field.
 //       Number fields are text strings which contain number strings
 //       for use in text displays.

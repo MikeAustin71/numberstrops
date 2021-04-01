@@ -2687,7 +2687,7 @@ func (fmtOctal *FormatterOctal) SetRightSuffix(
 	fmtOctal.rightSuffix = rightSuffix
 }
 
-// SetNumberFieldLengthDto - Sets the Number Field Length Dto
+// SetNumberFieldDto - Sets the Number Field Length Dto
 // object for the current FormatterHexadecimal instance.
 //
 // The Number Field Length Dto object is used to specify the length
@@ -2699,13 +2699,7 @@ func (fmtOctal *FormatterOctal) SetRightSuffix(
 // Input Parameters
 //
 //  numberFieldLenDto   NumberFieldDto
-//     - If this method completes successfully, a new instance of
-//       NumberFieldDto will be returned through this parameter.
-//       This object is deep copy of the Number Field information
-//       used to configure the current instance of
-//       FormatterOctal.
-//
-//       The NumberFieldDto object contains formatting instructions
+//     - The NumberFieldDto object contains formatting instructions
 //       for the creation and implementation of a number field.
 //       Number fields are text strings which contain number strings
 //       for use in text displays.
@@ -2785,7 +2779,7 @@ func (fmtOctal *FormatterOctal) SetRightSuffix(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (fmtOctal *FormatterOctal) SetNumberFieldLengthDto(
+func (fmtOctal *FormatterOctal) SetNumberFieldDto(
 	numberFieldLenDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
