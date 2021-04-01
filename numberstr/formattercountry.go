@@ -1,6 +1,8 @@
 package numberstr
 
 import (
+	"fmt"
+	"reflect"
 	"sync"
 )
 
@@ -74,31 +76,6 @@ type FormatterCountry struct {
 	lock *sync.Mutex
 }
 
-// Empty - Deletes and resets the data values of all member
-// variables within the current FormatterCountry instance to their
-// initial 'zero' values.
-//
-// This method is required by interface INumStrFormatter.
-//
-func (fmtCountry *FormatterCountry) Empty() {
-
-	if fmtCountry.lock == nil {
-		fmtCountry.lock = new(sync.Mutex)
-	}
-
-	fmtCountry.lock.Lock()
-
-	_ = formatterCountryQuark{}.ptr().
-		empty(fmtCountry,
-			nil)
-
-	fmtCountry.lock.Unlock()
-
-	fmtCountry.lock = nil
-
-	return
-}
-
 // CopyIn - Copies the data fields from an incoming
 // FormatterCountry instance  to the data fields
 // of the current instance of FormatterCountry
@@ -123,6 +100,118 @@ func (fmtCountry *FormatterCountry) CopyIn(
 	}
 
 	ePrefix.SetEPref("FormatterCountry.CopyIn()")
+
+	return formatterCountryElectron{}.ptr().copyIn(
+		fmtCountry,
+		incomingFormatterCountry,
+		ePrefix)
+}
+
+// CopyInINumStrFormatter - Receives an incoming INumStrFormatter
+// object, converts it to a FormatterCountry instance and
+// proceeds to copy the the data fields into those of the
+// current FormatterCountry instance.
+//
+// If the dynamic type of INumStrFormatter is not equal to
+// FormatterCountry, an error will be returned. Likewise,
+// if the data fields of input parameter 'incomingIFormatter' are
+// judged to be invalid, an error will be returned.
+//
+// Be advised, all of the data fields in the current
+// FormatterCountry instance will be overwritten.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingIFormatter            INumStrFormatter
+//     - An instance of Interface INumStrFormatter. If this the
+//       dynamic type is not equal to FormatterCountry an error
+//       will be returned.
+//
+//       The data values in this object will be copied to the
+//       current FormatterCountry instance.
+//
+//       If input parameter 'incomingIFormatter' is judged to
+//       be invalid, this method will return an error.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtCountry *FormatterCountry) CopyInINumStrFormatter(
+	incomingIFormatter INumStrFormatter,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
+	}
+
+	fmtCountry.lock.Lock()
+
+	defer fmtCountry.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref("FormatterCountry." +
+		"CopyInINumStrFormatter()")
+
+	if incomingIFormatter == nil {
+		return fmt.Errorf("%v\n"+
+			"Error: Input parameter 'incomingIFormatter' is "+
+			"'nil'\n",
+			ePrefix.String())
+	}
+
+	incomingFormatterCountry,
+		isValid := incomingIFormatter.(*FormatterCountry)
+
+	if !isValid {
+
+		actualType :=
+			reflect.TypeOf(incomingIFormatter)
+
+		typeName := "Unknown"
+
+		if actualType != nil {
+			typeName = actualType.Name()
+		}
+
+		return fmt.Errorf("%v\n"+
+			"Error: 'incomingIFormatter' is NOT Type "+
+			"FormatterCountry.\n"+
+			"'incomingIFormatter' is type %v",
+			ePrefix.String(),
+			typeName)
+	}
 
 	return formatterCountryElectron{}.ptr().copyIn(
 		fmtCountry,
@@ -159,6 +248,31 @@ func (fmtCountry *FormatterCountry) CopyOut(
 			fmtCountry,
 			ePrefix.XCtx(
 				"fmtCountry->"))
+}
+
+// Empty - Deletes and resets the data values of all member
+// variables within the current FormatterCountry instance to their
+// initial 'zero' values.
+//
+// This method is required by interface INumStrFormatter.
+//
+func (fmtCountry *FormatterCountry) Empty() {
+
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
+	}
+
+	fmtCountry.lock.Lock()
+
+	_ = formatterCountryQuark{}.ptr().
+		empty(fmtCountry,
+			nil)
+
+	fmtCountry.lock.Unlock()
+
+	fmtCountry.lock = nil
+
+	return
 }
 
 // GetAbbreviatedCountryName - Returns the value of member variable
