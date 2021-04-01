@@ -77,9 +77,52 @@ type FormatterCountry struct {
 }
 
 // CopyIn - Copies the data fields from an incoming
-// FormatterCountry instance  to the data fields
-// of the current instance of FormatterCountry
-// instance.
+// FormatterCountry instance to the data fields of the current
+// FormatterCountry instance.
+//
+// If input parameter 'incomingFormatterCurrency' is judged to be
+// invalid, this method will return an error.
+//
+// Be advised, all of the data fields in the current
+// FormatterCurrency instance will be overwritten.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingFormatterCountry      *FormatterCountry
+//     - A pointer to an instance of FormatterCountry. The data
+//       values in this object will be copied to the current
+//       FormatterCurrency instance.
+//
+//       If input parameter 'incomingFormatterCountry' is judged
+//       to be invalid, this method will return an error.
+//
+//
+//  ePrefix                       *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
 //
 func (fmtCountry *FormatterCountry) CopyIn(
 	incomingFormatterCountry *FormatterCountry,
@@ -222,6 +265,45 @@ func (fmtCountry *FormatterCountry) CopyInINumStrFormatter(
 // CopyOut - Returns a deep copy of the current
 // FormatterCountry instance.
 //
+// If the current FormatterCountry instance is judged to be
+// invalid, this method will return an error.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  FormatterCountry
+//     - If this method completes successfully, a new instance of
+//       FormatterCountry will be created and returned
+//       containing all of the data values copied from the current
+//       instance of FormatterCountry.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
 func (fmtCountry *FormatterCountry) CopyOut(
 	ePrefix *ErrPrefixDto) (
 	FormatterCountry,
@@ -248,6 +330,83 @@ func (fmtCountry *FormatterCountry) CopyOut(
 			fmtCountry,
 			ePrefix.XCtx(
 				"fmtCountry->"))
+}
+
+// CopyOutINumStrFormatter - Creates and returns a deep copy of the
+// current FormatterCountry instance as an INumStrFormatter object.
+//
+// If the current FormatterCountry instance is judged to be
+// invalid, this method will return an error.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  INumStrFormatter
+//     - If this method completes successfully, a new instance of
+//       FormatterCountry will be created, converted to an
+//       instance of interface INumStrFormatter and returned
+//       to the calling function. The returned data represents a
+//       deep copy of the current FormatterCountry instance.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtCountry *FormatterCountry) CopyOutINumStrFormatter(
+	ePrefix *ErrPrefixDto) (
+	FormatterCountry,
+	error) {
+
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
+	}
+
+	fmtCountry.lock.Lock()
+
+	defer fmtCountry.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref("FormatterCountry." +
+		"CopyOutINumStrFormatter()")
+
+	newFormatterCountry,
+		err := formatterCountryElectron{}.ptr().
+		copyOut(
+			fmtCountry,
+			ePrefix.XCtx(
+				"fmtCountry->newFormatterCountry"))
+
+	return INumStrFormatter(&newFormatterCountry), err
 }
 
 // Empty - Deletes and resets the data values of all member
