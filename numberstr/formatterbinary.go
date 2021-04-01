@@ -676,7 +676,7 @@ func (fmtBinary *FormatterBinary) GetFmtNumStr(
 // object configured for the current FormatterBinary instance.
 //
 // The NumberFieldDto object specifies the length of the number
-// field in which the currency numeric value will be displayed
+// field in which the binary numeric value will be displayed
 // and justified left, right or center according to the
 // specification.
 //
@@ -784,7 +784,7 @@ func (fmtBinary *FormatterBinary) GetNumberFieldDto(
 
 // GetNumericSeparators - Returns a deep copy of the
 // NumericSeparators instance currently configured for this
-// Currency Format Specification.
+// Binary Format Specification.
 //
 // The Numeric Separators object contains the decimal separator
 // and the integer digit separators. It is used to specify the

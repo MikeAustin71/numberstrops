@@ -920,16 +920,16 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetIntegerDigitSeparators(
 //       The NumberFieldDto object also contains specifications
 //       for positioning or alignment of the number string within
 //       the number field. This alignment dynamic is described as
-//       text justification. The member variable '
-//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       text justification. The member variable
+//       'NumberFieldDto.textJustifyFormat' is used to specify one
 //       of three possible alignment formats. One of these formats
 //       will be selected to control the alignment of the number
 //       string within the number field. These optional alignment
 //       formats are shown below with examples:
 //
 //       (1) 'Right-Justification' - "       NumberString"
-//       (2) 'Left-Justification' - "NumberString        "
-//       (3) 'Centered'           - "    NumberString    "
+//       (2) 'Left-Justification'  - "NumberString        "
+//       (3) 'Centered'            - "    NumberString    "
 //
 //       The NumberFieldDto type is detailed as follows:
 //
@@ -3690,8 +3690,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) SetDetailRunes(
 //       formats are shown below with examples:
 //
 //       (1) 'Right-Justification' - "       NumberString"
-//       (2) 'Left-Justification' - "NumberString        "
-//       (3) 'Centered'           - "    NumberString    "
+//       (2) 'Left-Justification'  - "NumberString        "
+//       (3) 'Centered'            - "    NumberString    "
 //
 //       The NumberFieldDto type is detailed as follows:
 //
