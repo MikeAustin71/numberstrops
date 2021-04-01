@@ -16,7 +16,7 @@ import (
 */
 
 type NumStrBasicUtility struct {
-	NumStrFormatSpec NumStrFmtSpecDto
+	NumStrFormatSpec FormatterCollection
 	StrIn            string
 	StrOut           string
 	IsFractionalVal  bool

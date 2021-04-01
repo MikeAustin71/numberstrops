@@ -51,7 +51,7 @@ import (
 //       decimal and hexadecimal numbering systems.
 //
 //
-//  fmtSpec             NumStrFmtSpecDto
+//  fmtSpec             FormatterCollection
 //     - This object contains all of the format specifications
 //       necessary to produce text versions of a number string.
 //       Supported formats include, Absolute Value, Signed Number,
@@ -69,6 +69,6 @@ type NumStrDto struct {
 	//                    //   of this number string
 	baseNumSys BaseNumberSystemType // Identifies the Base Numbering System.
 	//                              //   Supports Base 2, 8, 10, and 16
-	fmtSpec NumStrFmtSpecDto // Format Specifications
+	fmtSpec FormatterCollection // Format Specifications
 	lock    *sync.Mutex
 }
