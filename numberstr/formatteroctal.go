@@ -2755,7 +2755,7 @@ func (fmtOctal *FormatterOctal) SetNumberFieldLengthDto(
 
 	ePrefix.SetEPref(
 		"FormatterOctal." +
-			"SetNumberFieldLengthDto()")
+			"SetNumberFieldDto()")
 
 	return fmtOctal.numFieldDto.CopyIn(
 		&numberFieldLenDto,

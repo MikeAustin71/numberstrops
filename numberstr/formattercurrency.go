@@ -280,9 +280,9 @@ import (
 //
 //
 //  numericSeparators             NumericSeparators
-//     - This instance of 'NumericSeparators' is
-//       used to specify the separator characters which will be
-//       included in the number string text display.
+//     - This instance of NumericSeparators is used to specify the
+//       separator characters which will be included in number
+//       string text displays.
 //
 //        type NumericSeparators struct {
 //         decimalSeparators    []rune
@@ -1313,8 +1313,8 @@ func (fmtCurr *FormatterCurrency) GetNumberFieldDto(
 //
 // The Numeric Separators object contains the decimal separator
 // and the integer digit separators. It is used to specify the
-// separator characters which will be included in the number
-// string text display and is defined as follows:
+// separator characters which will be included in number string
+// text displays and is defined as follows:
 //
 //  type NumericSeparators struct {
 //   decimalSeparators    []rune
@@ -3890,9 +3890,9 @@ func (fmtCurr FormatterCurrency) NewUnitedStatesDefaults() FormatterCurrency {
 //
 //
 //  numericSeparators             NumericSeparators
-//     - This instance of 'NumericSeparators' is
-//       used to specify the separator characters which will be
-//       included in the number string text display.
+//     - This instance of NumericSeparators is used to specify the
+//       separator characters which will be included in number
+//       string text displays.
 //
 //        type NumericSeparators struct {
 //         decimalSeparators    []rune
@@ -5063,7 +5063,7 @@ func (fmtCurr *FormatterCurrency) SetCurrencyCodeNo(
 // method is designed to be used in conjunction with the following
 // methods:
 //   FormatterCurrency.SetNumericSeparators()
-//   FormatterCurrency.SetNumberFieldLengthDto()
+//   FormatterCurrency.SetNumberFieldDto()
 //
 // The only two elements of the FormatterCurrency
 // instance which are NOT set by this method are the
@@ -6747,18 +6747,18 @@ func (fmtCurr *FormatterCurrency) SetNegativeValueFormat(
 	return err
 }
 
-// SetNumberFieldLengthDto - Sets the Number Field Length Dto object
+// SetNumberFieldDto - Sets the Number Field Dto object configured
 // for the current FormatterCurrency instance.
 //
-// The Number Field Length Dto object is used to specify the length
-// and string justification characteristics used to display currency
+// The Number Field Dto object is used to specify the length and
+// string justification characteristics used to display currency
 // number strings within a number field.
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  numberFieldLenDto   NumberFieldDto
+//  numberFieldDto      NumberFieldDto
 //     - The NumberFieldDto object contains formatting instructions
 //       for the creation and implementation of a number field.
 //       Number fields are text strings which contain number strings
@@ -6780,8 +6780,8 @@ func (fmtCurr *FormatterCurrency) SetNegativeValueFormat(
 //       formats are shown below with examples:
 //
 //       (1) 'Right-Justification' - "       NumberString"
-//       (2) 'Left-Justification' - "NumberString        "
-//       (3) 'Centered'           - "    NumberString    "
+//       (2) 'Left-Justification'  - "NumberString        "
+//       (3) 'Centered'            - "    NumberString    "
 //
 //       The NumberFieldDto type is detailed as follows:
 //
@@ -6817,8 +6817,8 @@ func (fmtCurr *FormatterCurrency) SetNegativeValueFormat(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (fmtCurr *FormatterCurrency) SetNumberFieldLengthDto(
-	numberFieldLenDto NumberFieldDto,
+func (fmtCurr *FormatterCurrency) SetNumberFieldDto(
+	numberFieldDto NumberFieldDto,
 	ePrefix *ErrPrefixDto) error {
 
 	if fmtCurr.lock == nil {
@@ -6837,11 +6837,13 @@ func (fmtCurr *FormatterCurrency) SetNumberFieldLengthDto(
 
 	ePrefix.SetEPref(
 		"FormatterCurrency." +
-			"SetNumberFieldLengthDto()")
+			"SetNumberFieldDto()")
 
 	return fmtCurr.numFieldDto.CopyIn(
-		&numberFieldLenDto,
-		ePrefix)
+		&numberFieldDto,
+		ePrefix.XCtx(
+			"numberFieldDto->"+
+				"fmtCurr.numFieldDto"))
 }
 
 // SetNumericSeparators - Sets the Numeric Separators object
@@ -6857,8 +6859,8 @@ func (fmtCurr *FormatterCurrency) SetNumberFieldLengthDto(
 //
 //  numericSeparators        NumericSeparators
 //     - This instance of NumericSeparators is used to specify the
-//       separator characters which will be included in the number
-//       string text display.
+//       separator characters which will be included in number
+//       string text displays.
 //
 //        type NumericSeparators struct {
 //         decimalSeparators    []rune
@@ -7686,9 +7688,9 @@ func (fmtCurr *FormatterCurrency) SetTurnOnIntegerDigitsSeparationFlag(
 //
 //
 //  numericSeparators        NumericSeparators
-//     - This instance of 'NumericSeparators' is
-//       used to specify the separator characters which will be
-//       included in the number string text display.
+//     - This instance of NumericSeparators is used to specify the
+//       separator characters which will be included in number
+//       string text displays.
 //
 //        type NumericSeparators struct {
 //         decimalSeparators    []rune

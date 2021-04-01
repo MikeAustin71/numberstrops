@@ -2610,7 +2610,7 @@ func (formatterHex *FormatterHexadecimal) SetNumberFieldLengthDto(
 
 	ePrefix.SetEPref(
 		"FormatterHexadecimal." +
-			"SetNumberFieldLengthDto()")
+			"SetNumberFieldDto()")
 
 	return formatterHex.numFieldDto.CopyIn(
 		&numberFieldLenDto,

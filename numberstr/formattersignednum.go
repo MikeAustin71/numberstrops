@@ -155,9 +155,9 @@ import (
 //
 //
 //  numericSeparators             NumericSeparators
-//     - This instance of 'NumericSeparators' is used to specify
-//       the separator characters which will be included in the
-//       number string text display.
+//     - This instance of NumericSeparators is used to specify the
+//       separator characters which will be included in number
+//       string text displays.
 //
 //        type NumericSeparators struct {
 //         decimalSeparators    []rune
@@ -2808,9 +2808,9 @@ func (fmtSignedNum FormatterSignedNumber) NewUnitedStatesDefaults(
 //
 //
 //  numericSeparators             NumericSeparators
-//     - This instance of 'NumericSeparators' is used to specify
-//       the separator characters which will be included in the
-//       number string text display.
+//     - This instance of NumericSeparators is used to specify the
+//       separator characters which will be included in number
+//       string text displays.
 //
 //        type NumericSeparators struct {
 //         decimalSeparators    []rune
@@ -4503,7 +4503,7 @@ func (fmtSignedNum *FormatterSignedNumber) SetNumberFieldLengthDto(
 
 	ePrefix.SetEPref(
 		"FormatterSignedNumber." +
-			"SetNumberFieldLengthDto()")
+			"SetNumberFieldDto()")
 
 	return fmtSignedNum.numFieldDto.CopyIn(
 		&numberFieldLenDto,
@@ -4522,9 +4522,9 @@ func (fmtSignedNum *FormatterSignedNumber) SetNumberFieldLengthDto(
 // Input Parameters
 //
 //  numericSeparators        NumericSeparators
-//     - This instance of 'NumericSeparators' is
-//       used to specify the separator characters which will be
-//       including in the number string text display.
+//     - This instance of NumericSeparators is used to specify the
+//       separator characters which will be included in number
+//       string text displays.
 //
 //        type NumericSeparators struct {
 //         decimalSeparators              rune
@@ -5156,9 +5156,9 @@ func (fmtSignedNum *FormatterSignedNumber) SetTurnOnIntegerDigitsSeparationFlag(
 //
 //
 //  numericSeparators             NumericSeparators
-//     - This instance of 'NumericSeparators' is
-//       used to specify the separator characters which will be
-//       including in the number string text display.
+//     - This instance of NumericSeparators is used to specify the
+//       separator characters which will be included in number
+//       string text displays.
 //
 //        type NumericSeparators struct {
 //         decimalSeparators    []rune

@@ -45,9 +45,9 @@ import (
 //
 //
 //  numericSeparators             NumericSeparators
-//     - This instance of 'NumericSeparators' is
-//       used to specify the separator characters which will be
-//       including in the number string text display.
+//     - This instance of NumericSeparators is used to specify the
+//       separator characters which will be included in number
+//       string text displays.
 //
 //        type NumericSeparators struct {
 //         decimalSeparators    []rune
@@ -788,8 +788,8 @@ func (fmtBinary *FormatterBinary) GetNumberFieldDto(
 //
 // The Numeric Separators object contains the decimal separator
 // and the integer digit separators. It is used to specify the
-// separator characters which will be included in the number
-// string text display and is defined as follows:
+// separator characters which will be included in number string
+// text displays and is defined as follows:
 //
 //  type NumericSeparators struct {
 //   decimalSeparators    []rune
@@ -1951,9 +1951,9 @@ func (fmtBinary FormatterBinary) NewUnitedStatesDefaults() FormatterBinary {
 //
 //
 //  numericSeparators        NumericSeparators
-//     - This instance of 'NumericSeparators' is
-//       used to specify the separator characters which will be
-//       including in the number string text display.
+//     - This instance of NumericSeparators is used to specify the
+//       separator characters which will be included in number
+//       string text displays.
 //
 //        type NumericSeparators struct {
 //         decimalSeparators    []rune
@@ -2901,6 +2901,105 @@ func (fmtBinary *FormatterBinary) SetDetailRunes(
 				"newFormatterBinary"))
 }
 
+// SetNumberFieldDto - Sets the Number Field Dto object configured
+// for the current FormatterBinary instance.
+//
+// The Number Field Dto object is used to specify the length and
+// string justification characteristics used to display binary
+// number strings within a number field.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numberFieldDto      NumberFieldDto
+//     - The NumberFieldDto object contains formatting instructions
+//       for the creation and implementation of a number field.
+//       Number fields are text strings which contain number strings
+//       for use in text displays.
+//
+//       The NumberFieldDto object contains specifications for number
+//       field length. Typically, the length of a number field is
+//       greater than the length of the number string which will be
+//       inserted and displayed within the number field.
+//
+//       The NumberFieldDto object also contains specifications
+//       for positioning or alignment of the number string within
+//       the number field. This alignment dynamic is described as
+//       text justification. The member variable '
+//       NumberFieldDto.textJustifyFormat' is used to specify one
+//       of three possible alignment formats. One of these formats
+//       will be selected to control the alignment of the number
+//       string within the number field. These optional alignment
+//       formats are shown below with examples:
+//
+//       (1) 'Right-Justification' - "       NumberString"
+//       (2) 'Left-Justification'  - "NumberString        "
+//       (3) 'Centered'            - "    NumberString    "
+//
+//       The NumberFieldDto type is detailed as follows:
+//
+//       type NumberFieldDto struct {
+//         requestedNumFieldLength int // User requested number field length
+//         actualNumFieldLength    int // Machine generated actual number field Length
+//         minimumNumFieldLength   int // Machine generated minimum number field length
+//         textJustifyFormat       TextJustify // User specified text justification
+//       }
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If error prefix information is NOT needed, set this
+//       parameter to 'nil'.
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtBinary *FormatterBinary) SetNumberFieldDto(
+	numberFieldDto NumberFieldDto,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterBinary." +
+			"SetNumberFieldDto()")
+
+	return fmtBinary.numFieldDto.CopyIn(
+		&numberFieldDto,
+		ePrefix.XCtx(
+			"numberFieldDto->"+
+				"fmtCurr.numFieldDto"))
+}
+
 // SetNumericSeparators - Sets the Numeric Separators object
 // for the current FormatterBinary instance.
 //
@@ -2914,8 +3013,8 @@ func (fmtBinary *FormatterBinary) SetDetailRunes(
 //
 //  numericSeparators        NumericSeparators
 //     - This instance of NumericSeparators is used to specify the
-//       separator characters which will be included in the number
-//       string text display.
+//       separator characters which will be included in number
+//       string text displays.
 //
 //        type NumericSeparators struct {
 //         decimalSeparators    []rune
@@ -3278,9 +3377,9 @@ func (fmtBinary *FormatterBinary) SetToUnitedStatesDefaultsIfEmpty(
 //
 //
 //  numericSeparators        NumericSeparators
-//     - This instance of 'NumericSeparators' is
-//       used to specify the separator characters which will be
-//       including in the number string text display.
+//     - This instance of NumericSeparators is used to specify the
+//       separator characters which will be included in the number
+//       string text displays.
 //
 //        type NumericSeparators struct {
 //         decimalSeparators    []rune

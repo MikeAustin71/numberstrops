@@ -1790,7 +1790,7 @@ func (fmtSciNotation *FormatterSciNotation) SetNumberFieldLengthDto(
 	}
 
 	ePrefix.SetEPref(
-		"FormatterSciNotation.SetNumberFieldLengthDto()")
+		"FormatterSciNotation.SetNumberFieldDto()")
 
 	return fmtSciNotation.numFieldDto.CopyIn(
 		&numberFieldLenDto,
