@@ -79,7 +79,7 @@ func (fmtBinaryQuark formatterBinaryQuark) ptr() *formatterBinaryQuark {
 	return newBinaryQuark
 }
 
-// testValidityOfFormatterHexadecimal - Receives an instance of
+// testValidityOfFormatterBinary - Receives an instance of
 // FormatterBinary and proceeds to test the validity of the member
 // data fields.
 //

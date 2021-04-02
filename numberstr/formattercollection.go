@@ -37,3 +37,49 @@ type FormatterCollection struct {
 	fmtCollection []INumStrFormatter
 	lock          *sync.Mutex
 }
+
+// IsValidInstance - Performs a diagnostic review of the current
+// FormatterCollection instance to determine whether that instance
+// is valid in all respects.
+//
+// The diagnostic analysis is performed on each element in the
+// INumStrFormatter collection.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  --- NONE ---
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  isValid             bool
+//     - If this method completes successfully, the returned
+//       boolean value will signal whether the current
+//       FormatterCollection is valid, or not. If the current
+//       FormatterCollection contains valid data, this method
+//       returns 'true'. If the data is invalid, this method
+//       returns 'false'.
+//
+func (fmtCollection *FormatterCollection) IsValidInstance() (
+	isValid bool) {
+
+	if fmtCollection.lock == nil {
+		fmtCollection.lock = new(sync.Mutex)
+	}
+
+	fmtCollection.lock.Lock()
+
+	defer fmtCollection.lock.Unlock()
+
+	isValid,
+		_ = formatterCollectionQuark{}.ptr().
+		testValidityOfFormatterCollection(
+			fmtCollection,
+			nil)
+
+	return isValid
+}

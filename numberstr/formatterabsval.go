@@ -1205,8 +1205,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetTurnOnIntegerDigitsSeparationFlag() 
 }
 
 // IsValidInstance - Performs a diagnostic review of the current
-// FormatterAbsoluteValue instance to determine whether
-// the current instance is valid in all respects.
+// FormatterAbsoluteValue instance to determine whether that
+// instance is valid in all respects.
 //
 //
 // ----------------------------------------------------------------
@@ -1221,11 +1221,12 @@ func (fmtAbsVal *FormatterAbsoluteValue) GetTurnOnIntegerDigitsSeparationFlag() 
 // Return Values
 //
 //  isValid             bool
-//     - If this method completes successfully, the returned boolean
-//       value will signal whether the current FormatterAbsoluteValue
-//       is valid, or not. If the current FormatterAbsoluteValue
-//       contains valid data, this method returns 'true'. If the data is
-//       invalid, this method returns 'false'.
+//     - If this method completes successfully, the returned
+//       boolean value will signal whether the current
+//       FormatterAbsoluteValue is valid, or not. If the current
+//       FormatterAbsoluteValue contains valid data, this method
+//       returns 'true'. If the data is invalid, this method
+//       returns 'false'.
 //
 func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstance() (
 	isValid bool) {
@@ -1242,7 +1243,7 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstance() (
 		_ = formatterAbsoluteValueMolecule{}.ptr().
 		testValidityOfFormatterAbsoluteValue(
 			fmtAbsVal,
-			ErrPrefixDto{}.Ptr())
+			nil)
 
 	return isValid
 }
