@@ -581,6 +581,26 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 		return isEqual, err
 	}
 
+	_,
+		err = fmtCurrencyOne.numericSeparators.Equal(
+		fmtCurrencyTwo.numericSeparators,
+		ePrefix.XCtx(
+			"fmtCurrencyOne vs fmtCurrencyTwo"))
+
+	if err != nil {
+		return isEqual, err
+	}
+
+	_,
+		err = fmtCurrencyOne.numFieldDto.Equal(
+		fmtCurrencyTwo.numFieldDto,
+		ePrefix.XCtx(
+			"fmtCurrencyOne vs fmtCurrencyTwo"))
+
+	if err != nil {
+		return isEqual, err
+	}
+
 	isEqual = true
 
 	return isEqual, err

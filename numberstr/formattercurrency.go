@@ -801,6 +801,86 @@ func (fmtCurr *FormatterCurrency) Empty() {
 	fmtCurr.lock = nil
 }
 
+// Equal - Receives a FormatterCurrency object ('fmtCurrencyTwo')
+// and proceeds to determine whether all data elements in this
+// object are equal to all corresponding data elements in the
+// current instance of FormatterCurrency.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtCurrencyTwo      FormatterCurrency
+//     - This method will compare all data elements in the current
+//       FormatterCurrency instance to corresponding data elements
+//       for this second FormatterCurrency object in order to
+//       determine equivalency.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  bool
+//     - If all the data elements in the current
+//       FormatterCurrency instance are equal to all the
+//       corresponding data elements in 'fmtCurrencyTwo', this
+//       return parameter will be set to 'true'. If all the data
+//       elements are NOT equal, this return parameter will be set
+//       to 'false'.
+//
+//
+//  error
+//     - If all the data elements in the current FormatterCurrency
+//       are equal to all the corresponding data elements in
+//       'fmtCurrencyTwo', this return parameter will be set to
+//       'nil'.
+//
+//       If the corresponding data elements are NOT equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (fmtCurr *FormatterCurrency) Equal(
+	fmtCurrencyTwo FormatterCurrency,
+	ePrefix *ErrPrefixDto) (
+	bool,
+	error) {
+
+	if fmtCurr.lock == nil {
+		fmtCurr.lock = new(sync.Mutex)
+	}
+
+	fmtCurr.lock.Lock()
+
+	defer fmtCurr.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterCurrency.CopyOut()")
+
+	return formatterCurrencyNanobot{}.ptr().
+		equal(
+			fmtCurr,
+			&fmtCurrencyTwo,
+			ePrefix.XCtx(
+				"fmtCurr vs fmtCurrencyTwo"))
+}
+
 // GetNegativeValueFormat - Returns the formatting string used to
 // format negative currency values in text number strings.
 //

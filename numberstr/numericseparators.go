@@ -273,9 +273,9 @@ func (numSeps *NumericSeparators) Empty() {
 //
 //  numSepsTwo          NumericSeparators
 //     - This method will compare all data elements in the current
-//       NumericSeparators instance to corresponding data
-//       elements for this second NumericSeparators object in
-//       order determine equivalency.
+//       NumericSeparators instance to corresponding data elements
+//       for this second NumericSeparators object in order to
+//       determine equivalency.
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -301,10 +301,9 @@ func (numSeps *NumericSeparators) Empty() {
 //
 //
 //  error
-//     - If all the data elements in the current
-//       NumericSeparators are equal to all the corresponding
-//       data elements in 'numSepsTwo', this return parameter
-//       will be set to 'nil'.
+//     - If all the data elements in the current NumericSeparators
+//       are equal to all the corresponding data elements in
+//       'numSepsTwo', this return parameter will be set to 'nil'.
 //
 //       If the corresponding data elements are NOT equal, a
 //       detailed error message identifying the unequal elements
