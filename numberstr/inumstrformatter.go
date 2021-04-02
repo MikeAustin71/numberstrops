@@ -12,6 +12,12 @@ type INumStrFormatter interface {
 
 	Empty()
 
+	EqualINumStrFormatter(
+		incomingIFormatter INumStrFormatter,
+		ePrefix *ErrPrefixDto) (
+		isEqual bool,
+		err error)
+
 	GetNumStrFormatTypeCode() NumStrFormatTypeCode
 
 	GetFmtNumStr(
