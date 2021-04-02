@@ -290,3 +290,180 @@ func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) copyOut(
 
 	return newNumFieldDto, err
 }
+
+// equal - Receives two NumberFieldDto objects and proceeds to
+// determine whether all data elements in the first object are
+// equal to corresponding data elements in the second object.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numFieldDtoOne      *NumberFieldDto
+//     - A pointer to the first NumberFieldDto object. This method
+//       will compare all data elements in this object to
+//       corresponding data elements in the second NumberFieldDto
+//       object in order determine equivalency.
+//
+//
+//  numFieldDtoTwo      *NumberFieldDto
+//     - A pointer to the second NumberFieldDto object. This method
+//       will compare all data elements in the first NumberFieldDto
+//       object to corresponding data elements in this second
+//       NumberFieldDto object in order determine equivalency.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  equal             bool
+//     - If all the data elements in 'numFieldDtoOne' are equal to
+//       all the corresponding data elements in 'numFieldDtoTwo',
+//       this return parameter will be set to 'true'. If the data
+//       data elements are NOT equal, this return parameter will be
+//       set to 'false'.
+//
+//
+//  err                 error
+//     - If all the data elements in 'numFieldDtoOne' are equal to
+//       all the corresponding data elements in 'numFieldDtoTwo',
+//       this return parameter will be set to 'nil'.
+//
+//       If the corresponding data elements are NOT equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (nStrNumFieldDtoElectron *numStrNumFieldDtoElectron) equal(
+	numFieldDtoOne *NumberFieldDto,
+	numFieldDtoTwo *NumberFieldDto,
+	ePrefix *ErrPrefixDto) (
+	isEqual bool,
+	err error) {
+
+	if nStrNumFieldDtoElectron.lock == nil {
+		nStrNumFieldDtoElectron.lock = new(sync.Mutex)
+	}
+
+	nStrNumFieldDtoElectron.lock.Lock()
+
+	defer nStrNumFieldDtoElectron.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"numStrNumFieldDtoElectron.equal()")
+
+	isEqual = false
+
+	if numFieldDtoOne == nil {
+		err = fmt.Errorf("%v"+
+			"Error: Input parameter 'numFieldDtoOne' is a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	if numFieldDtoTwo == nil {
+		err = fmt.Errorf("%v"+
+			"Error: Input parameter 'numFieldDtoTwo' is a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	if numFieldDtoOne.requestedNumFieldLength !=
+		numFieldDtoTwo.requestedNumFieldLength {
+		err = fmt.Errorf("%v\n"+
+			"numFieldDtoOne.requestedNumFieldLength !=\n"+
+			"numFieldDtoTwo.requestedNumFieldLength\n"+
+			"numFieldDtoOne.requestedNumFieldLength='%v'\n"+
+			"numFieldDtoTwo.requestedNumFieldLength='%v'\n",
+			ePrefix.String(),
+			numFieldDtoOne.requestedNumFieldLength,
+			numFieldDtoTwo.requestedNumFieldLength)
+
+		return isEqual, err
+	}
+
+	if numFieldDtoOne.actualNumFieldLength !=
+		numFieldDtoTwo.actualNumFieldLength {
+		err = fmt.Errorf("%v\n"+
+			"numFieldDtoOne.actualNumFieldLength !=\n"+
+			"numFieldDtoTwo.actualNumFieldLength\n"+
+			"numFieldDtoOne.actualNumFieldLength='%v'\n"+
+			"numFieldDtoTwo.actualNumFieldLength='%v'\n",
+			ePrefix.String(),
+			numFieldDtoOne.actualNumFieldLength,
+			numFieldDtoTwo.actualNumFieldLength)
+
+		return isEqual, err
+	}
+
+	if numFieldDtoOne.minimumNumFieldLength !=
+		numFieldDtoTwo.minimumNumFieldLength {
+		err = fmt.Errorf("%v\n"+
+			"numFieldDtoOne.minimumNumFieldLength !=\n"+
+			"numFieldDtoTwo.minimumNumFieldLength\n"+
+			"numFieldDtoOne.minimumNumFieldLength='%v'\n"+
+			"numFieldDtoTwo.minimumNumFieldLength='%v'\n",
+			ePrefix.String(),
+			numFieldDtoOne.minimumNumFieldLength,
+			numFieldDtoTwo.minimumNumFieldLength)
+
+		return isEqual, err
+	}
+
+	if numFieldDtoOne.textJustifyFormat !=
+		numFieldDtoTwo.textJustifyFormat {
+		err = fmt.Errorf("%v\n"+
+			"numFieldDtoOne.textJustifyFormat !=\n"+
+			"numFieldDtoTwo.textJustifyFormat\n"+
+			"numFieldDtoOne.textJustifyFormat='%v'\n"+
+			"numFieldDtoTwo.textJustifyFormat='%v'\n",
+			ePrefix.String(),
+			numFieldDtoOne.textJustifyFormat.String(),
+			numFieldDtoTwo.textJustifyFormat.String())
+
+		return isEqual, err
+	}
+
+	isEqual = true
+
+	return isEqual, err
+}
+
+// ptr - Returns a pointer to a new instance of
+// numStrNumFieldDtoElectron.
+//
+func (nStrNumFieldDtoElectron numStrNumFieldDtoElectron) ptr() *numStrNumFieldDtoElectron {
+
+	if nStrNumFieldDtoElectron.lock == nil {
+		nStrNumFieldDtoElectron.lock = new(sync.Mutex)
+	}
+
+	nStrNumFieldDtoElectron.lock.Lock()
+
+	defer nStrNumFieldDtoElectron.lock.Unlock()
+
+	newNumFieldDtoElectron :=
+		new(numStrNumFieldDtoElectron)
+
+	newNumFieldDtoElectron.lock = new(sync.Mutex)
+
+	return newNumFieldDtoElectron
+}

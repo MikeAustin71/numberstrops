@@ -307,7 +307,7 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyOut(
 //     - If all the data elements in 'fmtCurrencyOne' are equal to
 //       all the corresponding data elements in 'fmtCurrencyTwo',
 //       this return parameter will be set to 'true'. If the data
-//       data elements are not equal, this return parameter will be
+//       data elements are NOT equal, this return parameter will be
 //       set to 'false'.
 //
 //
@@ -316,7 +316,7 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyOut(
 //       all the corresponding data elements in 'fmtCurrencyTwo',
 //       this return parameter will be set to 'nil'.
 //
-//       If the corresponding data elements are not equal, a
+//       If the corresponding data elements are NOT equal, a
 //       detailed error message identifying the unequal elements
 //       will be returned.
 //

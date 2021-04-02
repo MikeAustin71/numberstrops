@@ -68,27 +68,6 @@ type NumberFieldDto struct {
 	lock                    *sync.Mutex
 }
 
-// Empty - Deletes and resets data values for all member variables
-// in the current NumberFieldDto instance to their initial 'zero'
-// values.
-//
-func (nFieldDto *NumberFieldDto) Empty() {
-
-	if nFieldDto.lock == nil {
-		nFieldDto.lock = new(sync.Mutex)
-	}
-
-	nFieldDto.lock.Lock()
-
-	_ = numStrNumFieldDtoQuark{}.ptr().empty(
-		nFieldDto,
-		nil)
-
-	nFieldDto.lock.Unlock()
-
-	nFieldDto.lock = nil
-}
-
 // CopyIn - Copies the data fields from an incoming NumberFieldDto
 // to the data fields of the current instance of NumberFieldDto.
 //
@@ -210,13 +189,11 @@ func (nFieldDto *NumberFieldDto) CopyIn(
 
 	ePrefix.SetEPref("NumberFieldDto.CopyIn()")
 
-	nStrNumFieldDtoElectron :=
-		numStrNumFieldDtoElectron{}
-
-	return nStrNumFieldDtoElectron.copyIn(
+	return numStrNumFieldDtoElectron{}.ptr().copyIn(
 		nFieldDto,
 		incomingNumFieldDto,
-		ePrefix)
+		ePrefix.XCtx(
+			"incomingNumFieldDto->nFieldDto"))
 }
 
 // CopyOut - Returns a deep copy of the current NumberFieldDto instance.
@@ -334,15 +311,113 @@ func (nFieldDto *NumberFieldDto) CopyOut(
 
 	ePrefix.SetEPref("NumberFieldDto.CopyOut()")
 
-	nStrNumFieldDtoElectron :=
-		numStrNumFieldDtoElectron{}
-
 	newNumFieldDto,
-		err := nStrNumFieldDtoElectron.copyOut(
-		nFieldDto,
-		ePrefix.XCtx("nFieldDto->"))
+		err := numStrNumFieldDtoElectron{}.ptr().
+		copyOut(
+			nFieldDto,
+			ePrefix.XCtx("nFieldDto->newNumFieldDto"))
 
 	return newNumFieldDto, err
+}
+
+// Empty - Deletes and resets data values for all member variables
+// in the current NumberFieldDto instance to their initial 'zero'
+// values.
+//
+func (nFieldDto *NumberFieldDto) Empty() {
+
+	if nFieldDto.lock == nil {
+		nFieldDto.lock = new(sync.Mutex)
+	}
+
+	nFieldDto.lock.Lock()
+
+	_ = numStrNumFieldDtoQuark{}.ptr().empty(
+		nFieldDto,
+		nil)
+
+	nFieldDto.lock.Unlock()
+
+	nFieldDto.lock = nil
+}
+
+// Equal - Receives an NumStrIntSeparatorsDto object and proceeds
+// to determine whether all data elements in this object are equal
+// to all corresponding data elements in the current instance of
+// NumStrIntSeparatorsDto.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numFieldDtoTwo      NumberFieldDto
+//     - This method will compare all data elements in the current
+//       NumberFieldDto instance to corresponding data elements for
+//       this second NumberFieldDto object in order determine
+//       equivalency.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  bool
+//     - If all the data elements in the current NumberFieldDto
+//       instance are equal to all the corresponding data elements
+//       in 'numFieldDtoTwo', this return parameter will be set to
+//       'true'. If all the data elements are NOT equal, this
+//       return parameter will be set to 'false'.
+//
+//
+//  error
+//     - If all the data elements in the current NumberFieldDto are
+//       equal to all the corresponding data elements in
+//       'numFieldDtoTwo', this return parameter will be set to
+//       'nil'.
+//
+//       If the corresponding data elements are NOT equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (nFieldDto *NumberFieldDto) Equal(
+	numFieldDtoTwo NumberFieldDto,
+	ePrefix *ErrPrefixDto) (
+	bool,
+	error) {
+
+	if nFieldDto.lock == nil {
+		nFieldDto.lock = new(sync.Mutex)
+	}
+
+	nFieldDto.lock.Lock()
+
+	defer nFieldDto.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"NumberFieldDto.Equal()")
+
+	return numStrNumFieldDtoElectron{}.ptr().
+		equal(
+			nFieldDto,
+			&numFieldDtoTwo,
+			ePrefix.XCtx(
+				"nFieldDto vs numFieldDtoTwo"))
 }
 
 // GetActualNumFieldLength - Returns the internal member variable

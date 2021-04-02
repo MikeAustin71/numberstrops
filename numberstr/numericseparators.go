@@ -261,26 +261,20 @@ func (numSeps *NumericSeparators) Empty() {
 	numSeps.lock = nil
 }
 
-// Equal - Receives an incoming NumericSeparators
-// instance and compares it the current NumericSeparators
-// instance. If the two objects have equal data values, this method
-// returns 'true'
-//
-
-// Equal - Receives an NumStrIntSeparatorsDto object and proceeds
-// to determine whether all data elements in this object are equal
-// to all corresponding data elements in the current instance of
-// NumStrIntSeparatorsDto.
+// Equal - Receives a NumericSeparators object ('numSepsTwo') and
+// proceeds to determine whether all data elements in this object
+// are equal to all corresponding data elements in the current
+// instance of NumericSeparators.
 //
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  intSepsDtoTwo       NumStrIntSeparatorsDto
+//  numSepsTwo          NumericSeparators
 //     - This method will compare all data elements in the current
-//       NumStrIntSeparatorsDto instance to corresponding data
-//       elements in this second NumStrIntSeparatorsDto object in
+//       NumericSeparators instance to corresponding data
+//       elements for this second NumericSeparators object in
 //       order determine equivalency.
 //
 //
@@ -289,8 +283,8 @@ func (numSeps *NumericSeparators) Empty() {
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
+//       If no error prefix information is needed, set this
+//       parameter to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -299,8 +293,8 @@ func (numSeps *NumericSeparators) Empty() {
 //
 //  bool
 //     - If all the data elements in the current
-//       NumStrIntSeparatorsDto instance are equal to all the
-//       corresponding data elements in 'intSepsDtoTwo', this
+//       NumericSeparators instance are equal to all the
+//       corresponding data elements in 'numSepsTwo', this
 //       return parameter will be set to 'true'. If all the data
 //       elements are NOT equal, this return parameter will be set
 //       to 'false'.
@@ -308,11 +302,11 @@ func (numSeps *NumericSeparators) Empty() {
 //
 //  error
 //     - If all the data elements in the current
-//       NumStrIntSeparatorsDto are equal to all the corresponding
-//       data elements in 'intSepsDtoTwo', this return parameter
+//       NumericSeparators are equal to all the corresponding
+//       data elements in 'numSepsTwo', this return parameter
 //       will be set to 'nil'.
 //
-//       If the corresponding data elements are not equal, a
+//       If the corresponding data elements are NOT equal, a
 //       detailed error message identifying the unequal elements
 //       will be returned.
 //
