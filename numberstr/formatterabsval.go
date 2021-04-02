@@ -410,8 +410,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyInINumStrFormatter(
 // CopyOut - Returns a deep copy of the current
 // FormatterAbsoluteValue instance.
 //
-// If the current FormatterAbsoluteValue instance is judged
-// to be invalid, this method will return an error.
+// If the current FormatterAbsoluteValue instance is judged to be
+// invalid, this method will return an error.
 //
 //
 // ----------------------------------------------------------------
