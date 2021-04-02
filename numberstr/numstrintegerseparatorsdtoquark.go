@@ -34,7 +34,7 @@ func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) empty(
 
 	ePrefix.SetEPref(
 		"numStrIntSeparatorsDtoQuark." +
-			"isEqual()")
+			"equal()")
 
 	if intSepsDto == nil {
 		err = fmt.Errorf("%v\n"+
@@ -90,7 +90,7 @@ func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) isEmpty(
 	return false
 }
 
-// isEqual - Receives an incoming NumStrIntSeparatorsDto
+// equal - Receives an incoming NumStrIntSeparatorsDto
 // instance and compares it to a second NumStrIntSeparatorsDto
 // instance. If the two objects have equal data values, this method
 // returns 'true'
@@ -127,7 +127,7 @@ func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) isEmpty(
 //
 // Return Values
 //
-//  isEqual             bool
+//  equal             bool
 //     - If the data values contained in input parameters
 //       'nStrIntSepDto01' and 'nStrIntSepDto02' are equivalent,
 //       this boolean return value will be set to 'true'.
@@ -144,9 +144,9 @@ func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) isEmpty(
 //       'ePrefix' text will be attached to the beginning of the
 //       error message.
 //
-func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) isEqual(
-	nStrIntSepDto01 *NumStrIntSeparatorsDto,
-	nStrIntSepDto02 *NumStrIntSeparatorsDto,
+func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) equal(
+	nStrIntSepDtoOne *NumStrIntSeparatorsDto,
+	nStrIntSepDtoTwo *NumStrIntSeparatorsDto,
 	ePrefix *ErrPrefixDto) (
 	isEqual bool,
 	err error) {
@@ -167,44 +167,87 @@ func (intSepsDtoQuark *numStrIntSeparatorsDtoQuark) isEqual(
 
 	ePrefix.SetEPref(
 		"numStrIntSeparatorsDtoQuark." +
-			"isEqual()")
+			"equal()")
 
 	isEqual = false
 
-	if nStrIntSepDto01 == nil {
+	if nStrIntSepDtoOne == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrIntSepDto01' is invalid!\n"+
-			"'nStrIntSepDto01' is a 'nil' pointer\n",
+			"Error: Input parameter 'nStrIntSepDtoOne' is invalid!\n"+
+			"'nStrIntSepDtoOne' is a 'nil' pointer\n",
 			ePrefix.String())
 
 		return isEqual, err
 	}
 
-	if nStrIntSepDto02 == nil {
+	if nStrIntSepDtoTwo == nil {
 		err = fmt.Errorf("%v\n"+
-			"Error: Input parameter 'nStrIntSepDto02' is invalid!\n"+
-			"'nStrIntSepDto02' is a 'nil' pointer\n",
+			"Error: Input parameter 'nStrIntSepDtoTwo' is invalid!\n"+
+			"'nStrIntSepDtoTwo' is a 'nil' pointer\n",
 			ePrefix.String())
 
 		return isEqual, err
 	}
 
-	lenIntSeps01 := len(nStrIntSepDto01.intSeparators)
+	if nStrIntSepDtoOne.intSeparators == nil &&
+		nStrIntSepDtoTwo.intSeparators != nil {
 
-	if lenIntSeps01 != len(nStrIntSepDto02.intSeparators) {
+		err = fmt.Errorf("%v\n"+
+			"Error: nStrIntSepDtoOne.intSeparators == nil\n"+
+			"nStrIntSepDtoTwo.intSeparators != nil\n",
+			ePrefix.String())
+
+		return isEqual, err
+
+	}
+
+	if nStrIntSepDtoOne.intSeparators != nil &&
+		nStrIntSepDtoTwo.intSeparators == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: nStrIntSepDtoOne.intSeparators != nil\n"+
+			"nStrIntSepDtoTwo.intSeparators == nil\n",
+			ePrefix.String())
+
+		return isEqual, err
+
+	}
+
+	lenIntSeps01 := len(nStrIntSepDtoOne.intSeparators)
+
+	if lenIntSeps01 != len(nStrIntSepDtoTwo.intSeparators) {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: nStrIntSepDtoOne.intSeparators and nStrIntSepDtoTwo.intSeparators\n"+
+			"have unequal array lengths!\n"+
+			"len(nStrIntSepDtoOne.intSeparators) == %v\n"+
+			"len(nStrIntSepDtoTwo.intSeparators) == %v\n",
+			ePrefix.String(),
+			len(nStrIntSepDtoOne.intSeparators),
+			len(nStrIntSepDtoTwo.intSeparators))
+
 		return isEqual, err
 	}
 
 	for i := 0; i < lenIntSeps01; i++ {
 
-		isEqual = nStrIntSepDto01.intSeparators[i].Equal(
-			nStrIntSepDto02.intSeparators[i])
+		_,
+			err = nStrIntSepDtoOne.intSeparators[i].Equal(
+			nStrIntSepDtoTwo.intSeparators[i],
+			ePrefix.XCtx(
+				fmt.Sprintf(
+					"nStrIntSepDtoOne.intSeparators[%v] vs\n"+
+						"nStrIntSepDtoTwo.intSeparators[%v]",
+					i,
+					i)))
 
-		if !isEqual {
+		if err != nil {
 			return isEqual, err
 		}
 
 	}
+
+	isEqual = true
 
 	return isEqual, err
 }

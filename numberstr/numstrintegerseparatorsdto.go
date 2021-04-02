@@ -583,21 +583,30 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) Empty() {
 	return
 }
 
-// Equal - Receives an incoming NumStrIntSeparatorsDto
-// instance and compares it the current NumStrIntSeparatorsDto
-// instance. If the two objects have equal data values, this method
-// returns 'true'
+// Equal - Receives an NumStrIntSeparatorsDto object and proceeds
+// to determine whether all data elements in this object are equal
+// to all corresponding data elements in the current instance of
+// NumStrIntSeparatorsDto.
 //
 //
 // ----------------------------------------------------------------
 //
 // Input Parameters
 //
-//  intSepsDto2         NumStrIntSeparatorsDto
-//     - An instance of NumStrIntSeparatorsDto. The data values in
-//       this object will be compared to those contained in the
-//       current NumStrIntSeparatorsDto. If the data values are
-//       equivalent this method will return 'true'
+//  intSepsDtoTwo       NumStrIntSeparatorsDto
+//     - This method will compare all data elements in the current
+//       NumStrIntSeparatorsDto instance to corresponding data
+//       elements in this second NumStrIntSeparatorsDto object in
+//       order determine equivalency.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
 //
 //
 // ------------------------------------------------------------------------
@@ -605,13 +614,29 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) Empty() {
 // Return Values
 //
 //  bool
-//     - If the data values contained in input parameters
-//       'intSepsDto2' and the current NumStrIntSeparatorsDto
-//       instance are equivalent, this boolean return value will be
-//       set to 'true'.
+//     - If all the data elements in the current
+//       NumStrIntSeparatorsDto instance are equal to all the
+//       corresponding data elements in 'intSepsDtoTwo', this
+//       return parameter will be set to 'true'. If all the data
+//       elements are NOT equal, this return parameter will be set
+//       to 'false'.
+//
+//
+//  error
+//     - If all the data elements in the current
+//       NumStrIntSeparatorsDto are equal to all the corresponding
+//       data elements in 'intSepsDtoTwo', this return parameter
+//       will be set to 'nil'.
+//
+//       If the corresponding data elements are not equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
 //
 func (intSeparatorsDto *NumStrIntSeparatorsDto) Equal(
-	intSepsDto2 NumStrIntSeparatorsDto) bool {
+	intSepsDtoTwo NumStrIntSeparatorsDto,
+	ePrefix *ErrPrefixDto) (
+	bool,
+	error) {
 
 	if intSeparatorsDto.lock == nil {
 		intSeparatorsDto.lock = new(sync.Mutex)
@@ -621,15 +646,21 @@ func (intSeparatorsDto *NumStrIntSeparatorsDto) Equal(
 
 	defer intSeparatorsDto.lock.Unlock()
 
-	var isEqual bool
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
 
-	isEqual,
-		_ = numStrIntSeparatorsDtoQuark{}.ptr().isEqual(
-		intSeparatorsDto,
-		&intSepsDto2,
-		nil)
+	ePrefix.SetEPref(
+		"NumStrIntSeparatorsDto.Equal()")
 
-	return isEqual
+	return numStrIntSeparatorsDtoQuark{}.ptr().
+		equal(
+			intSeparatorsDto,
+			&intSepsDtoTwo,
+			ePrefix.XCtx(
+				"intSeparatorsDto vs intSepsDtoTwo"))
 }
 
 // GetIntSeparators - Returns the internal member variable:

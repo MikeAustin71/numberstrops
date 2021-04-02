@@ -266,6 +266,326 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyOut(
 	return newFormatterCurrency, err
 }
 
+// equal - Receives two FormatterCurrency objects and proceeds to
+// determine whether all data elements in the first object are
+// equal to corresponding data elements in the second object.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtCurrencyOne      *FormatterCurrency
+//     - A pointer to the first FormatterCurrency object. This
+//       method will compare all data elements in this object to
+//       corresponding data elements in the second
+//       FormatterCurrency object in order determine equivalency.
+//
+//
+//  fmtCurrencyTwo      *FormatterCurrency
+//     - A pointer to the second FormatterCurrency object. This
+//       method will compare all data elements in the first
+//       FormatterCurrency object to corresponding data elements in
+//       this second FormatterCurrency object in order determine
+//       equivalency.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  equal             bool
+//     - If all the data elements in 'fmtCurrencyOne' are equal to
+//       all the corresponding data elements in 'fmtCurrencyTwo',
+//       this return parameter will be set to 'true'. If the data
+//       data elements are not equal, this return parameter will be
+//       set to 'false'.
+//
+//
+//  err                 error
+//     - If all the data elements in 'fmtCurrencyOne' are equal to
+//       all the corresponding data elements in 'fmtCurrencyTwo',
+//       this return parameter will be set to 'nil'.
+//
+//       If the corresponding data elements are not equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
+	fmtCurrencyOne *FormatterCurrency,
+	fmtCurrencyTwo *FormatterCurrency,
+	ePrefix *ErrPrefixDto) (
+	isEqual bool,
+	err error) {
+
+	if fmtCurrNanobot.lock == nil {
+		fmtCurrNanobot.lock = new(sync.Mutex)
+	}
+
+	fmtCurrNanobot.lock.Lock()
+
+	defer fmtCurrNanobot.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"formatterCurrencyNanobot." +
+			"equal()")
+
+	isEqual = false
+
+	if fmtCurrencyOne == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtCurrencyOne' is invalid!\n"+
+			"'fmtCurrencyOne' is a 'nil' pointer\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	if fmtCurrencyTwo == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtCurrencyTwo' is invalid!\n"+
+			"'fmtCurrencyTwo' is a 'nil' pointer\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	if fmtCurrencyOne.numStrFmtType !=
+		fmtCurrencyTwo.numStrFmtType {
+		err = fmt.Errorf("%v\n"+
+			"fmtCurrencyOne.numStrFmtType!=fmtCurrencyTwo.numStrFmtType\n"+
+			"fmtCurrencyOne.numStrFmtType='%v'\n"+
+			"fmtCurrencyTwo.numStrFmtType='%v'\n",
+			ePrefix.String(),
+			fmtCurrencyOne.numStrFmtType.String(),
+			fmtCurrencyTwo.numStrFmtType.String())
+		return isEqual, err
+	}
+
+	if fmtCurrencyOne.positiveValueFmt !=
+		fmtCurrencyTwo.positiveValueFmt {
+		err = fmt.Errorf("%v\n"+
+			"fmtCurrencyOne.positiveValueFmt!=fmtCurrencyTwo.positiveValueFmt\n"+
+			"fmtCurrencyOne.positiveValueFmt='%v'\n"+
+			"fmtCurrencyTwo.positiveValueFmt='%v'\n",
+			ePrefix.String(),
+			fmtCurrencyOne.positiveValueFmt,
+			fmtCurrencyTwo.positiveValueFmt)
+		return isEqual, err
+	}
+
+	if fmtCurrencyOne.negativeValueFmt !=
+		fmtCurrencyTwo.negativeValueFmt {
+		err = fmt.Errorf("%v\n"+
+			"fmtCurrencyOne.negativeValueFmt!=fmtCurrencyTwo.negativeValueFmt\n"+
+			"fmtCurrencyOne.negativeValueFmt='%v'\n"+
+			"fmtCurrencyTwo.negativeValueFmt='%v'\n",
+			ePrefix.String(),
+			fmtCurrencyOne.negativeValueFmt,
+			fmtCurrencyTwo.negativeValueFmt)
+		return isEqual, err
+	}
+
+	if fmtCurrencyOne.decimalDigits !=
+		fmtCurrencyTwo.decimalDigits {
+		err = fmt.Errorf("%v\n"+
+			"fmtCurrencyOne.decimalDigits!=fmtCurrencyTwo.decimalDigits\n"+
+			"fmtCurrencyOne.decimalDigits='%v'\n"+
+			"fmtCurrencyTwo.decimalDigits='%v'\n",
+			ePrefix.String(),
+			fmtCurrencyOne.decimalDigits,
+			fmtCurrencyTwo.decimalDigits)
+		return isEqual, err
+	}
+
+	if fmtCurrencyOne.currencyCode !=
+		fmtCurrencyTwo.currencyCode {
+		err = fmt.Errorf("%v\n"+
+			"fmtCurrencyOne.currencyCode!=fmtCurrencyTwo.currencyCode\n"+
+			"fmtCurrencyOne.currencyCode='%v'\n"+
+			"fmtCurrencyTwo.currencyCode='%v'\n",
+			ePrefix.String(),
+			fmtCurrencyOne.currencyCode,
+			fmtCurrencyTwo.currencyCode)
+		return isEqual, err
+	}
+
+	if fmtCurrencyOne.currencyCodeNo !=
+		fmtCurrencyTwo.currencyCodeNo {
+		err = fmt.Errorf("%v\n"+
+			"fmtCurrencyOne.currencyCodeNo!=fmtCurrencyTwo.currencyCodeNo\n"+
+			"fmtCurrencyOne.currencyCodeNo='%v'\n"+
+			"fmtCurrencyTwo.currencyCodeNo='%v'\n",
+			ePrefix.String(),
+			fmtCurrencyOne.currencyCodeNo,
+			fmtCurrencyTwo.currencyCodeNo)
+		return isEqual, err
+	}
+
+	if fmtCurrencyOne.currencyName !=
+		fmtCurrencyTwo.currencyName {
+		err = fmt.Errorf("%v\n"+
+			"fmtCurrencyOne.currencyName!=fmtCurrencyTwo.currencyName\n"+
+			"fmtCurrencyOne.currencyName='%v'\n"+
+			"fmtCurrencyTwo.currencyName='%v'\n",
+			ePrefix.String(),
+			fmtCurrencyOne.currencyName,
+			fmtCurrencyTwo.currencyName)
+		return isEqual, err
+	}
+
+	if fmtCurrencyOne.currencySymbols == nil &&
+		fmtCurrencyTwo.currencySymbols != nil {
+		err = fmt.Errorf("%v\n"+
+			"fmtCurrencyOne.currencySymbols!=fmtCurrencyTwo.currencySymbols\n"+
+			"fmtCurrencyOne.currencySymbols=='nil'\n"+
+			"fmtCurrencyTwo.currencySymbols !='nil'\n",
+			ePrefix.String())
+		return isEqual, err
+
+	}
+
+	if fmtCurrencyOne.currencySymbols != nil &&
+		fmtCurrencyTwo.currencySymbols == nil {
+		err = fmt.Errorf("%v\n"+
+			"fmtCurrencyOne.currencySymbols!=fmtCurrencyTwo.currencySymbols\n"+
+			"fmtCurrencyOne.currencySymbols !='nil'\n"+
+			"fmtCurrencyTwo.currencySymbols =='nil'\n",
+			ePrefix.String())
+		return isEqual, err
+
+	}
+
+	lenSymbols := len(fmtCurrencyOne.currencySymbols)
+
+	if lenSymbols != len(fmtCurrencyTwo.currencySymbols) {
+		err = fmt.Errorf("%v\n"+
+			"Length fmtCurrencyOne.currencySymbols != "+
+			"Length fmtCurrencyTwo.currencySymbols\n"+
+			"Length fmtCurrencyOne.currencySymbols='%v'\n"+
+			"Length fmtCurrencyTwo.currencySymbols='%v'\n",
+			ePrefix.String(),
+			string(fmtCurrencyOne.currencySymbols),
+			string(fmtCurrencyTwo.currencySymbols))
+		return isEqual, err
+	}
+
+	for i := 0; i < lenSymbols; i++ {
+
+		if fmtCurrencyOne.currencySymbols[i] !=
+			fmtCurrencyTwo.currencySymbols[i] {
+			err = fmt.Errorf("%v\n"+
+				"Length fmtCurrencyOne.currencySymbols != "+
+				"Length fmtCurrencyTwo.currencySymbols\n"+
+				"fmtCurrencyOne.currencySymbols='%v'\n"+
+				"fmtCurrencyTwo.currencySymbols='%v'\n",
+				ePrefix.String(),
+				string(fmtCurrencyOne.currencySymbols),
+				string(fmtCurrencyTwo.currencySymbols))
+			return isEqual, err
+		}
+
+	}
+
+	if fmtCurrencyOne.minorCurrencyName !=
+		fmtCurrencyTwo.minorCurrencyName {
+		err = fmt.Errorf("%v\n"+
+			"fmtCurrencyOne.minorCurrencyName!="+
+			"fmtCurrencyTwo.minorCurrencyName\n"+
+			"fmtCurrencyOne.minorCurrencyName='%v'\n"+
+			"fmtCurrencyTwo.minorCurrencyName='%v'\n",
+			ePrefix.String(),
+			fmtCurrencyOne.minorCurrencyName,
+			fmtCurrencyTwo.minorCurrencyName)
+		return isEqual, err
+	}
+
+	if fmtCurrencyOne.minorCurrencySymbols == nil &&
+		fmtCurrencyTwo.minorCurrencySymbols != nil {
+		err = fmt.Errorf("%v\n"+
+			"fmtCurrencyOne.minorCurrencySymbols != fmtCurrencyTwo.minorCurrencySymbols\n"+
+			"fmtCurrencyOne.minorCurrencySymbols=='nil'\n"+
+			"fmtCurrencyTwo.minorCurrencySymbols !='nil'\n",
+			ePrefix.String())
+		return isEqual, err
+
+	}
+
+	if fmtCurrencyOne.minorCurrencySymbols != nil &&
+		fmtCurrencyTwo.minorCurrencySymbols == nil {
+		err = fmt.Errorf("%v\n"+
+			"fmtCurrencyOne.minorCurrencySymbols!=fmtCurrencyTwo.minorCurrencySymbols\n"+
+			"fmtCurrencyOne.minorCurrencySymbols !='nil'\n"+
+			"fmtCurrencyTwo.minorCurrencySymbols =='nil'\n",
+			ePrefix.String())
+		return isEqual, err
+
+	}
+
+	lenSymbols = len(fmtCurrencyOne.minorCurrencySymbols)
+
+	if lenSymbols != len(fmtCurrencyTwo.minorCurrencySymbols) {
+		err = fmt.Errorf("%v\n"+
+			"Length fmtCurrencyOne.minorCurrencySymbols != "+
+			"Length fmtCurrencyTwo.minorCurrencySymbols\n"+
+			"Length fmtCurrencyOne.minorCurrencySymbols='%v'\n"+
+			"Length fmtCurrencyTwo.minorCurrencySymbols='%v'\n",
+			ePrefix.String(),
+			string(fmtCurrencyOne.minorCurrencySymbols),
+			string(fmtCurrencyTwo.minorCurrencySymbols))
+		return isEqual, err
+	}
+
+	for i := 0; i < lenSymbols; i++ {
+
+		if fmtCurrencyOne.minorCurrencySymbols[i] !=
+			fmtCurrencyTwo.minorCurrencySymbols[i] {
+			err = fmt.Errorf("%v\n"+
+				"Length fmtCurrencyOne.minorCurrencySymbols != "+
+				"Length fmtCurrencyTwo.minorCurrencySymbols\n"+
+				"fmtCurrencyOne.minorCurrencySymbols='%v'\n"+
+				"fmtCurrencyTwo.minorCurrencySymbols='%v'\n",
+				ePrefix.String(),
+				string(fmtCurrencyOne.minorCurrencySymbols),
+				string(fmtCurrencyTwo.minorCurrencySymbols))
+			return isEqual, err
+		}
+
+	}
+
+	if fmtCurrencyOne.turnOnIntegerDigitsSeparation !=
+		fmtCurrencyTwo.turnOnIntegerDigitsSeparation {
+		err = fmt.Errorf("%v\n"+
+			"fmtCurrencyOne.turnOnIntegerDigitsSeparation!="+
+			"fmtCurrencyTwo.turnOnIntegerDigitsSeparation\n"+
+			"fmtCurrencyOne.turnOnIntegerDigitsSeparation='%v'\n"+
+			"fmtCurrencyTwo.turnOnIntegerDigitsSeparation='%v'\n",
+			ePrefix.String(),
+			fmtCurrencyOne.turnOnIntegerDigitsSeparation,
+			fmtCurrencyTwo.turnOnIntegerDigitsSeparation)
+		return isEqual, err
+	}
+
+	isEqual = true
+
+	return isEqual, err
+}
+
 // ptr - Returns a pointer to a new instance of
 // formatterCurrencyNanobot.
 //

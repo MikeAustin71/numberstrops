@@ -52,12 +52,66 @@ func (numSepsQuark *numericSeparatorsQuark) empty(
 	return err
 }
 
-// numericSeparatorsAreEqual - Returns 'true' if the two NumericSeparators
-// objects submitted as input parameters have equal data values.
+// equal - Receives two NumericSeparators objects and proceeds to
+// determine whether all data elements in the first object are
+// equal to corresponding data elements in the second object.
 //
-func (numSepsQuark *numericSeparatorsQuark) numericSeparatorsAreEqual(
-	numSep1 *NumericSeparators,
-	numSep2 *NumericSeparators) bool {
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  numSepsOne          *NumericSeparators
+//     - A pointer to the first NumericSeparators object. This
+//       method will compare all data elements in this object to
+//       corresponding data elements in the second
+//       NumericSeparators object in order determine equivalency.
+//
+//
+//  numSepsTwo          *NumericSeparators
+//     - A pointer to the second NumericSeparators object. This
+//       method will compare all data elements in the first
+//       NumericSeparators object to corresponding data elements in
+//       this second NumericSeparators object in order determine
+//       equivalency.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  equal             bool
+//     - If all the data elements in 'numSepsOne' are equal to
+//       all the corresponding data elements in 'numSepsTwo',
+//       this return parameter will be set to 'true'. If all the
+//       data elements are NOT equal, this return parameter will be
+//       set to 'false'.
+//
+//
+//  err                 error
+//     - If all the data elements in 'numSepsOne' are equal to
+//       all the corresponding data elements in 'numSepsTwo',
+//       this return parameter will be set to 'nil'.
+//
+//       If the corresponding data elements are not equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (numSepsQuark *numericSeparatorsQuark) equal(
+	numSepsOne *NumericSeparators,
+	numSepsTwo *NumericSeparators,
+	ePrefix *ErrPrefixDto) (
+	isEqual bool,
+	err error) {
 
 	if numSepsQuark.lock == nil {
 		numSepsQuark.lock = new(sync.Mutex)
@@ -67,32 +121,106 @@ func (numSepsQuark *numericSeparatorsQuark) numericSeparatorsAreEqual(
 
 	defer numSepsQuark.lock.Unlock()
 
-	if numSep1 == nil ||
-		numSep2 == nil {
-		return false
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
 	}
 
-	lenDecSep := len(numSep1.decimalSeparators)
+	ePrefix.SetEPref(
+		"numericSeparatorsQuark.equal()")
+
+	if numSepsOne == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numSepsOne' is"+
+			" a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	if numSepsTwo == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'numSepsTwo' is"+
+			" a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	if numSepsOne.decimalSeparators == nil &&
+		numSepsTwo.decimalSeparators != nil {
+		err = fmt.Errorf("%v\n"+
+			"numSepsOne.decimalSeparators == nil\n"+
+			"numSepsTwo.decimalSeparators != nil\n"+
+			"numSepsTwo.decimalSeparators='%v'",
+			ePrefix.String(),
+			string(numSepsTwo.decimalSeparators))
+
+		return isEqual, err
+	}
+
+	if numSepsOne.decimalSeparators != nil &&
+		numSepsTwo.decimalSeparators == nil {
+		err = fmt.Errorf("%v\n"+
+			"numSepsOne.decimalSeparators != nil\n"+
+			"numSepsTwo.decimalSeparators == nil\n"+
+			"numSepsOne.decimalSeparators='%v'",
+			ePrefix.String(),
+			string(numSepsOne.decimalSeparators))
+
+		return isEqual, err
+	}
+
+	lenDecSep := len(numSepsOne.decimalSeparators)
 
 	if lenDecSep !=
-		len(numSep2.decimalSeparators) {
+		len(numSepsTwo.decimalSeparators) {
 
-		return false
+		err = fmt.Errorf("%v\n"+
+			"numSepsOne.decimalSeparators !="+
+			"numSepsTwo.decimalSeparators\n"+
+			"numSepsOne.decimalSeparators='%v'\n"+
+			"numSepsTwo.decimalSeparators='%v'\n",
+			ePrefix.String(),
+			string(numSepsOne.decimalSeparators),
+			string(numSepsTwo.decimalSeparators))
+
+		return isEqual, err
 	}
 
 	for i := 0; i < lenDecSep; i++ {
-		if numSep1.decimalSeparators[i] !=
-			numSep2.decimalSeparators[i] {
-			return false
+		if numSepsOne.decimalSeparators[i] !=
+			numSepsTwo.decimalSeparators[i] {
+			err = fmt.Errorf("%v\n"+
+				"numSepsOne.decimalSeparators !="+
+				"numSepsTwo.decimalSeparators\n"+
+				"numSepsOne.decimalSeparators='%v'\n"+
+				"numSepsTwo.decimalSeparators='%v'\n"+
+				"Reference index '%v'\n",
+				ePrefix.String(),
+				string(numSepsOne.decimalSeparators),
+				string(numSepsTwo.decimalSeparators),
+				i)
+
+			return isEqual, err
 		}
 	}
 
-	if !numSep1.integerSeparatorsDto.Equal(
-		numSep2.integerSeparatorsDto) {
-		return false
+	_,
+		err = numSepsOne.integerSeparatorsDto.Equal(
+		numSepsTwo.integerSeparatorsDto,
+		ePrefix.XCtx(
+			"numSepsOne.integerSeparatorsDto vs\n"+
+				"numSepsTwo.integerSeparatorsDto\n"))
+
+	if err != nil {
+		return isEqual, err
 	}
 
-	return true
+	isEqual = true
+
+	return isEqual, err
 }
 
 // ptr - Returns a pointer to a new instance of

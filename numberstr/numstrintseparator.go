@@ -167,7 +167,9 @@ func (nStrIntSep *NumStrIntSeparator) CopyOut(
 		ePrefix = ePrefix.CopyPtr()
 	}
 
-	ePrefix.SetEPref("NumStrIntSeparator.CopyOut()")
+	ePrefix.SetEPref(
+		"NumStrIntSeparator.CopyOut()")
+
 	return numStrIntSeparatorMolecule{}.ptr().
 		copyOut(
 			nStrIntSep,
@@ -196,13 +198,59 @@ func (nStrIntSep *NumStrIntSeparator) Empty() {
 	return
 }
 
-// Equal - Receives an incoming NumStrIntSeparator
-// instance and compares it the current NumStrIntSeparator
-// instance. If the two objects have equal data values, this method
-// returns 'true'
+// Equal - Receives an NumStrIntSeparator object and proceeds to
+// determine whether all data elements in this object are equal to
+// all corresponding data elements in the current instance of
+// NumStrIntSeparator.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  nStrIntSepTwo       NumStrIntSeparator
+//     - This method will compare all data elements in the current
+//       NumStrIntSeparator object to corresponding data elements
+//       in this second NumStrIntSeparator object in order
+//       determine equivalency.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  bool
+//     - If all the data elements in the current NumStrIntSeparator
+//       instance are equal to all the corresponding data elements
+//       in 'nStrIntSepTwo', this return parameter will be set to
+//       'true'. If all the data elements are NOT equal, this
+//       return parameter will be set to 'false'.
+//
+//
+//  error
+//     - If all the data elements in the current NumStrIntSeparator
+//       are equal to all the corresponding data elements in
+//       'nStrIntSepTwo', this return parameter will be set to
+//       'nil'.
+//
+//       If the corresponding data elements are not equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
 //
 func (nStrIntSep *NumStrIntSeparator) Equal(
-	nStrIntSep2 NumStrIntSeparator) bool {
+	nStrIntSepTwo NumStrIntSeparator,
+	ePrefix *ErrPrefixDto) (
+	bool,
+	error) {
 
 	if nStrIntSep.lock == nil {
 		nStrIntSep.lock = new(sync.Mutex)
@@ -212,8 +260,21 @@ func (nStrIntSep *NumStrIntSeparator) Equal(
 
 	defer nStrIntSep.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrIntSeparator.Equal()")
+
 	return numStrIntSeparatorMolecule{}.ptr().
-		equal(nStrIntSep, &nStrIntSep2)
+		equal(
+			nStrIntSep,
+			&nStrIntSepTwo,
+			ePrefix.XCtx(
+				"nStrIntSep vs nStrIntSepTwo"))
 }
 
 // GetIntSeparatorChars - Returns the integer digit separator

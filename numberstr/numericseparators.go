@@ -266,8 +266,61 @@ func (numSeps *NumericSeparators) Empty() {
 // instance. If the two objects have equal data values, this method
 // returns 'true'
 //
+
+// Equal - Receives an NumStrIntSeparatorsDto object and proceeds
+// to determine whether all data elements in this object are equal
+// to all corresponding data elements in the current instance of
+// NumStrIntSeparatorsDto.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  intSepsDtoTwo       NumStrIntSeparatorsDto
+//     - This method will compare all data elements in the current
+//       NumStrIntSeparatorsDto instance to corresponding data
+//       elements in this second NumStrIntSeparatorsDto object in
+//       order determine equivalency.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  bool
+//     - If all the data elements in the current
+//       NumStrIntSeparatorsDto instance are equal to all the
+//       corresponding data elements in 'intSepsDtoTwo', this
+//       return parameter will be set to 'true'. If all the data
+//       elements are NOT equal, this return parameter will be set
+//       to 'false'.
+//
+//
+//  error
+//     - If all the data elements in the current
+//       NumStrIntSeparatorsDto are equal to all the corresponding
+//       data elements in 'intSepsDtoTwo', this return parameter
+//       will be set to 'nil'.
+//
+//       If the corresponding data elements are not equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
 func (numSeps *NumericSeparators) Equal(
-	numSep2 NumericSeparators) bool {
+	numSepsTwo NumericSeparators,
+	ePrefix *ErrPrefixDto) (
+	bool,
+	error) {
 
 	if numSeps.lock == nil {
 		numSeps.lock = new(sync.Mutex)
@@ -277,10 +330,21 @@ func (numSeps *NumericSeparators) Equal(
 
 	defer numSeps.lock.Unlock()
 
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"NumericSeparators.Equal()")
+
 	return numericSeparatorsQuark{}.
-		ptr().numericSeparatorsAreEqual(
+		ptr().equal(
 		numSeps,
-		&numSep2)
+		&numSepsTwo,
+		ePrefix.XCtx(
+			"numSeps vs numSepsTwo"))
 }
 
 // GetDecimalSeparators - Returns the decimal separator characters.

@@ -189,18 +189,66 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) copyOut(
 	return newNumSrIntSeparator, err
 }
 
-// equal - Receives two instances of NumStrIntSeparator and
-// proceeds to compare the internal data values. If all the
-// data values in 'nStrIntSep1' and 'nStrIntSep2' are equal, this
-// method returns 'true'.
+// equal - Receives two NumStrIntSeparator objects and proceeds to
+// determine whether all data elements in the first object are
+// equal to corresponding data elements in the second object.
 //
-// If any of the data values in 'nStrIntSep1' and 'nStrIntSep2' are
-// NOT equal, this method returns 'false'.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  nStrIntSepOne       *NumStrIntSeparator
+//     - A pointer to the first NumStrIntSeparator object. This
+//       method will compare all data elements in this object to
+//       corresponding data elements in the second
+//       NumStrIntSeparator object in order determine equivalency.
+//
+//
+//  nStrIntSepTwo       *NumStrIntSeparator
+//     - A pointer to the second NumStrIntSeparator object. This
+//       method will compare all data elements in the first
+//       NumStrIntSeparator object to corresponding data elements in
+//       this second NumStrIntSeparator object in order determine
+//       equivalency.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  equal             bool
+//     - If all the data elements in 'nStrIntSepOne' are equal to
+//       all the corresponding data elements in 'nStrIntSepTwo',
+//       this return parameter will be set to 'true'. If all the
+//       data elements are NOT equal, this return parameter will be
+//       set to 'false'.
+//
+//
+//  err                 error
+//     - If all the data elements in 'nStrIntSepOne' are equal to
+//       all the corresponding data elements in 'nStrIntSepTwo',
+//       this return parameter will be set to 'nil'.
+//
+//       If the corresponding data elements are not equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
 //
 func (nStrIntSepMolecule *numStrIntSeparatorMolecule) equal(
-	nStrIntSep1 *NumStrIntSeparator,
-	nStrIntSep2 *NumStrIntSeparator) (
-	areEqual bool) {
+	nStrIntSepOne *NumStrIntSeparator,
+	nStrIntSepTwo *NumStrIntSeparator,
+	ePrefix *ErrPrefixDto) (
+	isEqual bool,
+	err error) {
 
 	if nStrIntSepMolecule.lock == nil {
 		nStrIntSepMolecule.lock = new(sync.Mutex)
@@ -210,38 +258,144 @@ func (nStrIntSepMolecule *numStrIntSeparatorMolecule) equal(
 
 	defer nStrIntSepMolecule.lock.Unlock()
 
-	areEqual = true
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
 
-	lenIntSeps1 := len(nStrIntSep1.intSeparatorChars)
+	ePrefix.SetEPref(
+		"numStrIntSeparatorMolecule.equal()")
 
-	if lenIntSeps1 != len(nStrIntSep2.intSeparatorChars) {
-		areEqual = false
-		return areEqual
+	isEqual = false
+
+	if nStrIntSepOne == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'nStrIntSepOne' is"+
+			" a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	if nStrIntSepTwo == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'nStrIntSepTwo' is"+
+			" a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	if nStrIntSepOne.intSeparatorChars == nil &&
+		nStrIntSepTwo.intSeparatorChars != nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: nStrIntSepOne.intSeparatorChars == nil\n"+
+			"nStrIntSepTwo.intSeparatorChars != nil\n"+
+			"nStrIntSepOne.intSeparatorChars='nil'\n"+
+			"nStrIntSepTwo.intSeparatorChars='%v'\n",
+			ePrefix.String(),
+			string(nStrIntSepTwo.intSeparatorChars))
+
+		return isEqual, err
+	}
+
+	if nStrIntSepOne.intSeparatorChars != nil &&
+		nStrIntSepTwo.intSeparatorChars == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: nStrIntSepOne.intSeparatorChars != nil\n"+
+			"nStrIntSepTwo.intSeparatorChars == nil\n"+
+			"nStrIntSepOne.intSeparatorChars='%v'\n"+
+			"nStrIntSepTwo.intSeparatorChars='nil'\n",
+			ePrefix.String(),
+			string(nStrIntSepOne.intSeparatorChars))
+
+		return isEqual, err
+	}
+
+	lenIntSeps1 := len(nStrIntSepOne.intSeparatorChars)
+
+	if lenIntSeps1 != len(nStrIntSepTwo.intSeparatorChars) {
+
+		err = fmt.Errorf("%v\n"+
+			"nStrIntSepOne.intSeparatorChars !="+
+			"nStrIntSepTwo.intSeparatorChars\n"+
+			"nStrIntSepOne.intSeparatorChars='%v'\n"+
+			"nStrIntSepTwo.intSeparatorChars='%v'\n",
+			ePrefix.String(),
+			string(nStrIntSepOne.intSeparatorChars),
+			string(nStrIntSepTwo.intSeparatorChars))
+
+		return isEqual, err
 	}
 
 	for i := 0; i < lenIntSeps1; i++ {
-		if nStrIntSep1.intSeparatorChars[i] !=
-			nStrIntSep2.intSeparatorChars[i] {
-			areEqual = false
+		if nStrIntSepOne.intSeparatorChars[i] !=
+			nStrIntSepTwo.intSeparatorChars[i] {
+			err = fmt.Errorf("%v\n"+
+				"nStrIntSepOne.intSeparatorChars !="+
+				"nStrIntSepTwo.intSeparatorChars\n"+
+				"nStrIntSepOne.intSeparatorChars='%v'\n"+
+				"nStrIntSepTwo.intSeparatorChars='%v'\n"+
+				"Reference index '%v'\n",
+				ePrefix.String(),
+				string(nStrIntSepOne.intSeparatorChars),
+				string(nStrIntSepTwo.intSeparatorChars),
+				i)
+
+			return isEqual, err
 		}
+
 	}
 
-	if nStrIntSep1.intSeparatorGrouping !=
-		nStrIntSep2.intSeparatorGrouping {
-		areEqual = false
+	if nStrIntSepOne.intSeparatorGrouping !=
+		nStrIntSepTwo.intSeparatorGrouping {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: nStrIntSepOne.intSeparatorGrouping !=\n"+
+			"nStrIntSepTwo.intSeparatorGrouping\n"+
+			"nStrIntSepOne.intSeparatorGrouping='%v'\n"+
+			"nStrIntSepTwo.intSeparatorGrouping='%v'\n",
+			ePrefix.String(),
+			nStrIntSepOne.intSeparatorGrouping,
+			nStrIntSepTwo.intSeparatorGrouping)
+
+		return isEqual, err
 	}
 
-	if nStrIntSep1.intSeparatorRepetitions !=
-		nStrIntSep2.intSeparatorRepetitions {
-		areEqual = false
+	if nStrIntSepOne.intSeparatorRepetitions !=
+		nStrIntSepTwo.intSeparatorRepetitions {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: nStrIntSepOne.intSeparatorRepetitions !=\n"+
+			"nStrIntSepTwo.intSeparatorRepetitions\n"+
+			"nStrIntSepOne.intSeparatorRepetitions='%v'\n"+
+			"nStrIntSepTwo.intSeparatorRepetitions='%v'\n",
+			ePrefix.String(),
+			nStrIntSepOne.intSeparatorRepetitions,
+			nStrIntSepTwo.intSeparatorRepetitions)
+
+		return isEqual, err
 	}
 
-	if nStrIntSep1.restartIntGroupingSequence !=
-		nStrIntSep2.restartIntGroupingSequence {
-		areEqual = false
+	if nStrIntSepOne.restartIntGroupingSequence !=
+		nStrIntSepTwo.restartIntGroupingSequence {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: nStrIntSepOne.restartIntGroupingSequence !=\n"+
+			"nStrIntSepTwo.restartIntGroupingSequence\n"+
+			"nStrIntSepOne.restartIntGroupingSequence='%v'\n"+
+			"nStrIntSepTwo.restartIntGroupingSequence='%v'\n",
+			ePrefix.String(),
+			nStrIntSepOne.restartIntGroupingSequence,
+			nStrIntSepTwo.restartIntGroupingSequence)
+
+		return isEqual, err
 	}
 
-	return areEqual
+	isEqual = true
+
+	return isEqual, err
 }
 
 // ptr - Returns a pointer to a new instance of
