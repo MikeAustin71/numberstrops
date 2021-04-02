@@ -38,6 +38,91 @@ type FormatterCollection struct {
 	lock          *sync.Mutex
 }
 
+// AddReplaceCollectionElement - Receives a new INumStrFormatter
+// type and either adds this type to the existing
+// FormatterCollection or replaces an pre-existing element
+// of the same type with this new INumStrFormatter element.
+//
+// For example, if a new currency formatter (FormatterCurrency)
+// object is submitted as an input parameter, the existing
+// collection of formatter objects will be searched to determine
+// if another currency formatter object previously exists in the
+// formatter collection. If a currency object previously exists in
+// the collection it will be deleted and replaced by new currency
+// formatter object supplied in the input parameter.
+//
+// If, on the the other hand, a currency formatter does NOT
+// previously exist in the collection, the new currency formatter
+// object will simply be added to the current collection.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+// newCollectionElement INumStrFormatter
+//     - A new INumStrFormatter to be added to the current
+//       collection of formatter objects maintained by the current
+//       instance of FormatterCollection. If a formatter object
+//       of the same type previously exists in the collection, it
+//       will be deleted an replaced by a deep copy of this
+//       parameter, 'newCollectionElement'.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtCollection *FormatterCollection) AddReplaceCollectionElement(
+	newCollectionElement INumStrFormatter,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtCollection.lock == nil {
+		fmtCollection.lock = new(sync.Mutex)
+	}
+
+	fmtCollection.lock.Lock()
+
+	defer fmtCollection.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterCollection." +
+			"AddReplaceCollectionElement()")
+
+	return formatterCollectionMechanics{}.ptr().
+		addReplaceCollection(
+			fmtCollection,
+			newCollectionElement,
+			ePrefix.XCtx(
+				"fmtCollection"))
+}
+
 // CopyIn - Copies the data fields from an incoming instance of
 // FormatterCollection ('incomingFmtCollection') to the
 // corresponding data fields of the current FormatterCollection
