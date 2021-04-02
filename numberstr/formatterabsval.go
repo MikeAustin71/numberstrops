@@ -654,6 +654,125 @@ func (fmtAbsVal *FormatterAbsoluteValue) Equal(
 				"fmtAbsVal vs fmtAbsValTwo"))
 }
 
+// EqualINumStrFormatter - Receives an INumStrFormatter object
+// ('incomingIFormatter') and proceeds to determine whether all
+// the data elements in this object are equal to all corresponding
+// data elements in the current FormatterAbsoluteValue instance.
+//
+// If the INumStrFormatter object is not of type
+// FormatterAbsoluteValue, this method will return an error and set
+// return parameter 'isEqual' to 'false'.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingIFormatter  INumStrFormatter
+//     - This method will compare all data elements in the current
+//       FormatterAbsoluteValue instance to corresponding data
+//       elements in this incomingIFormatter object to determine if
+//       they are equivalent. The outcome of this equivalency
+//       determination is configured in the return parameters
+//       described below.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  isEqual             bool
+//     - If all the data elements in the current
+//       FormatterAbsoluteValue instance are equal to all the
+//       corresponding data elements in 'incomingIFormatter', this
+//       return parameter will be set to 'true'. If all the data
+//       elements are NOT equal, this return parameter will be set
+//       to 'false'.
+//
+//
+//  err                 error
+//     - If all the data elements in the current
+//       FormatterAbsoluteValue are equal to all the corresponding
+//       data elements in 'incomingIFormatter', this return
+//       parameter will be set to 'nil'.
+//
+//       If the corresponding data elements are NOT equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (fmtAbsVal *FormatterAbsoluteValue) EqualINumStrFormatter(
+	incomingIFormatter INumStrFormatter,
+	ePrefix *ErrPrefixDto) (
+	isEqual bool,
+	err error) {
+
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
+	}
+
+	fmtAbsVal.lock.Lock()
+
+	defer fmtAbsVal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterAbsoluteValue." +
+			"EqualINumStrFormatter()")
+
+	isEqual = false
+
+	if incomingIFormatter == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'incomingIFormatter' is invalid!\n"+
+			"'incomingIFormatter' is a nil pointer.\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	var incomingFmtAbsVal *FormatterAbsoluteValue
+
+	incomingFmtAbsVal,
+		isEqual = incomingIFormatter.(*FormatterAbsoluteValue)
+
+	if !isEqual {
+
+		err = fmt.Errorf("%v\n"+
+			"Input parameter 'incomingIFormatter' is NOT of Type "+
+			"FormatterAbsoluteValue!\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	isEqual,
+		err = formatterAbsoluteValueNanobot{}.ptr().
+		equal(
+			fmtAbsVal,
+			incomingFmtAbsVal,
+			ePrefix.XCtx(
+				"fmtAbsVal vs incomingIFormatter"))
+
+	return isEqual, err
+}
+
 // GetAbsoluteValueFormat - Returns the formatting string used to
 // format absolute numeric values in text number strings.
 //

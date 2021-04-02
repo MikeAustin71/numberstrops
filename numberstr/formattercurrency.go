@@ -900,8 +900,8 @@ func (fmtCurr *FormatterCurrency) Equal(
 //  incomingIFormatter  INumStrFormatter
 //     - This method will compare all data elements in the current
 //       FormatterCurrency instance to corresponding data elements
-//       in this incomingIFormatter object in order to determine
-//       equivalency. The outcome of this equivalency determination
+//       in this incomingIFormatter object to determine if they are
+//       equivalent. The outcome of this equivalency determination
 //       is configured in the return parameters described below.
 //
 //
@@ -960,25 +960,42 @@ func (fmtCurr *FormatterCurrency) EqualINumStrFormatter(
 		"FormatterCurrency." +
 			"EqualINumStrFormatter()")
 
+	isEqual = false
+
+	if incomingIFormatter == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'incomingIFormatter' is invalid!\n"+
+			"'incomingIFormatter' is a nil pointer.\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
 	var incomingFormatterCurrency *FormatterCurrency
 
 	incomingFormatterCurrency,
 		isEqual = incomingIFormatter.(*FormatterCurrency)
 
 	if !isEqual {
-		return isEqual,
-			fmt.Errorf("%v\n"+
-				"Input parameter 'incomingIFormatter' is NOT of Type "+
-				"FormatterCurrency!\n",
-				ePrefix.String())
+
+		err = fmt.Errorf("%v\n"+
+			"Input parameter 'incomingIFormatter' is NOT of Type "+
+			"FormatterCurrency!\n",
+			ePrefix.String())
+
+		return isEqual, err
 	}
 
-	return formatterCurrencyNanobot{}.ptr().
+	isEqual,
+		err = formatterCurrencyNanobot{}.ptr().
 		equal(
 			fmtCurr,
 			incomingFormatterCurrency,
 			ePrefix.XCtx(
-				"fmtCurr vs incomingFormatterCurrency"))
+				"fmtCurr vs incomingIFormatter"))
+
+	return isEqual, err
 }
 
 // GetNegativeValueFormat - Returns the formatting string used to
