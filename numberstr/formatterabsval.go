@@ -1248,9 +1248,9 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstance() (
 	return isValid
 }
 
-// IsValidInstanceError - Performs a diagnostic review of the current
-// FormatterAbsoluteValue instance to determine whether the
-// current instance is valid in all respects.
+// IsValidInstanceError - Performs a diagnostic review of the
+// current FormatterAbsoluteValue instance to determine whether
+// that instance is valid in all respects.
 //
 //
 // ----------------------------------------------------------------
@@ -1262,8 +1262,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstance() (
 //       included in all returned error messages. Usually, it
 //       contains the names of the calling method or methods.
 //
-//       If no error prefix information is needed, set this parameter
-//       to 'nil'.
+//       If no error prefix information is needed, set this
+//       parameter to 'nil'.
 //
 //
 // -----------------------------------------------------------------
@@ -1298,14 +1298,16 @@ func (fmtAbsVal *FormatterAbsoluteValue) IsValidInstanceError(
 		ePrefix = ePrefix.CopyPtr()
 	}
 
-	ePrefix.SetEPrefCtx("FormatterAbsoluteValue.IsValidInstanceError()",
-		"Testing Validity of 'fmtAbsVal'")
+	ePrefix.SetEPref(
+		"FormatterAbsoluteValue." +
+			"IsValidInstanceError()")
 
 	_,
 		err := formatterAbsoluteValueMolecule{}.ptr().
 		testValidityOfFormatterAbsoluteValue(
 			fmtAbsVal,
-			ePrefix)
+			ePrefix.XCtx(
+				"Testing Validity of 'fmtAbsVal'"))
 
 	return err
 }
