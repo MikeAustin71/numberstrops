@@ -38,6 +38,28 @@ type FormatterCollection struct {
 	lock          *sync.Mutex
 }
 
+// Empty - Deletes and resets data values for all INumStrFormatter
+// collection elements in the current FormatterCollection instance
+// to their initial 'zero' values.
+//
+func (fmtCollection *FormatterCollection) Empty() {
+
+	if fmtCollection.lock == nil {
+		fmtCollection.lock = new(sync.Mutex)
+	}
+
+	fmtCollection.lock.Lock()
+
+	_ = formatterCollectionQuark{}.ptr().
+		empty(
+			fmtCollection,
+			nil)
+
+	fmtCollection.lock.Unlock()
+
+	fmtCollection.lock = nil
+}
+
 // IsValidInstance - Performs a diagnostic review of the current
 // FormatterCollection instance to determine whether that instance
 // is valid in all respects.
