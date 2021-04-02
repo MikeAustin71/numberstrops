@@ -573,6 +573,87 @@ func (fmtAbsVal *FormatterAbsoluteValue) Empty() {
 	fmtAbsVal.lock = nil
 }
 
+// Equal - Receives a FormatterAbsoluteValue object
+// ('fmtAbsValTwo') and proceeds to determine whether all data
+// elements in this object are equal to all corresponding data
+// elements in the current instance of FormatterAbsoluteValue.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtAbsValTwo        FormatterAbsoluteValue
+//     - This method will compare all data elements in the current
+//       FormatterAbsoluteValue instance to corresponding data elements
+//       for this second FormatterAbsoluteValue object to determine
+//       if they are equivalent.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  bool
+//     - If all the data elements in the current
+//       FormatterAbsoluteValue instance are equal to all the
+//       corresponding data elements in 'fmtAbsValTwo', this return
+//       parameter will be set to 'true'. If all the data elements
+//       are NOT equal, this return parameter will be set to
+//       'false'.
+//
+//
+//  error
+//     - If all the data elements in the current
+//       FormatterAbsoluteValue are equal to all the corresponding
+//       data elements in 'fmtAbsValTwo', this return parameter
+//       will be set to 'nil'.
+//
+//       If the corresponding data elements are NOT equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (fmtAbsVal *FormatterAbsoluteValue) Equal(
+	fmtAbsValTwo FormatterAbsoluteValue,
+	ePrefix *ErrPrefixDto) (
+	bool,
+	error) {
+
+	if fmtAbsVal.lock == nil {
+		fmtAbsVal.lock = new(sync.Mutex)
+	}
+
+	fmtAbsVal.lock.Lock()
+
+	defer fmtAbsVal.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterAbsoluteValue." +
+			"Equal()")
+
+	return formatterAbsoluteValueNanobot{}.ptr().
+		equal(
+			fmtAbsVal,
+			&fmtAbsValTwo,
+			ePrefix.XCtx(
+				"fmtAbsVal vs fmtAbsValTwo"))
+}
+
 // GetAbsoluteValueFormat - Returns the formatting string used to
 // format absolute numeric values in text number strings.
 //

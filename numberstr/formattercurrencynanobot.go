@@ -278,16 +278,17 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyOut(
 //  fmtCurrencyOne      *FormatterCurrency
 //     - A pointer to the first FormatterCurrency object. This
 //       method will compare all data elements in this object to
-//       corresponding data elements in the second
-//       FormatterCurrency object in order determine equivalency.
+//       all corresponding data elements in the second
+//       FormatterCurrency object to determine if they are
+//       equivalent.
 //
 //
 //  fmtCurrencyTwo      *FormatterCurrency
 //     - A pointer to the second FormatterCurrency object. This
 //       method will compare all data elements in the first
-//       FormatterCurrency object to corresponding data elements in
-//       this second FormatterCurrency object in order determine
-//       equivalency.
+//       FormatterCurrency object to all corresponding data
+//       elements in this second FormatterCurrency object to
+//       determine if they are equivalent.
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -303,7 +304,7 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyOut(
 //
 // Return Values
 //
-//  equal             bool
+//  isEqual             bool
 //     - If all the data elements in 'fmtCurrencyOne' are equal to
 //       all the corresponding data elements in 'fmtCurrencyTwo',
 //       this return parameter will be set to 'true'. If the data
