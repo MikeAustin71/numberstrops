@@ -38,6 +38,81 @@ type FormatterCollection struct {
 	lock          *sync.Mutex
 }
 
+// CopyIn - Copies the data fields from an incoming instance of
+// FormatterCollection ('incomingFmtCollection') to the
+// corresponding data fields of the current FormatterCollection
+// instance.
+//
+// If 'incomingFmtCollection' is judged to be invalid, this method
+// will return an error.
+//
+// Be advised, all of the data fields in the current
+// FormatterCollection instance will be overwritten.
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingFmtCollection      *FormatterCollection
+//     - A pointer to an instance of FormatterCollection. The data
+//       values in this object will be copied to corresponding data
+//       elements in the current FormatterCollection instance.
+//
+//
+//  ePrefix                    *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+//       If errors are encountered during processing, the returned
+//       error Type will encapsulate an error message. This
+//       returned error message will incorporate the method chain
+//       and text passed by input parameter, 'ePrefix'. The
+//       'ePrefix' text will be attached to the beginning of the
+//       error message.
+//
+func (fmtCollection *FormatterCollection) CopyIn(
+	incomingFmtCollection *FormatterCollection,
+	ePrefix *ErrPrefixDto) error {
+
+	if fmtCollection.lock == nil {
+		fmtCollection.lock = new(sync.Mutex)
+	}
+
+	fmtCollection.lock.Lock()
+
+	defer fmtCollection.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterCollection." +
+			"CopyIn()")
+
+	return formatterCollectionAtom{}.ptr().
+		copyIn(
+			fmtCollection,
+			incomingFmtCollection,
+			ePrefix.XCtx("incomingFmtCollection->"+
+				"fmtCollection"))
+}
+
 // Empty - Deletes and resets data values for all INumStrFormatter
 // collection elements in the current FormatterCollection instance
 // to their initial 'zero' values.
@@ -160,7 +235,7 @@ func (fmtCollection *FormatterCollection) IsValidInstanceError(
 	}
 
 	ePrefix.SetEPref(
-		"FormatterAbsoluteValue." +
+		"FormatterCollection." +
 			"IsValidInstanceError()")
 
 	_,

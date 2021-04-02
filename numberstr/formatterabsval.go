@@ -222,8 +222,8 @@ type FormatterAbsoluteValue struct {
 
 // CopyIn - Copies the data fields from an incoming instance of
 // FormatterAbsoluteValue ('incomingFormatterAbsVal') to
-// the data fields of the current FormatterAbsoluteValue
-// instance.
+// the corresponding data fields of the current
+// FormatterAbsoluteValue instance.
 //
 // If 'incomingFormatterAbsVal' is judged to be invalid, this
 // method will return an error.
@@ -237,8 +237,9 @@ type FormatterAbsoluteValue struct {
 //
 //  incomingFormatterAbsVal    *FormatterAbsoluteValue
 //     - A pointer to an instance of FormatterAbsoluteValue.
-//       The data values in this object will be copied to the
-//       current FormatterAbsoluteValue instance.
+//       The data values in this object will be copied to
+//       corresponding data elements in the current
+//       FormatterAbsoluteValue instance.
 //
 //
 //  ePrefix                    *ErrPrefixDto
@@ -289,7 +290,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) CopyIn(
 	return formatterAbsoluteValueNanobot{}.ptr().copyIn(
 		fmtAbsVal,
 		incomingFormatterAbsVal,
-		ePrefix.XCtx("incomingFormatterAbsVal -> fmtAbsVal"))
+		ePrefix.XCtx(
+			"incomingFormatterAbsVal -> fmtAbsVal"))
 }
 
 // CopyInINumStrFormatter - Receives an incoming INumStrFormatter

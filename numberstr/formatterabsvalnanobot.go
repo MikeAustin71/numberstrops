@@ -71,6 +71,10 @@ func (fmtAbsValNanobot *formatterAbsoluteValueNanobot) copyIn(
 		return err
 	}
 
+	if targetFmtAbsoluteVal.lock == nil {
+		targetFmtAbsoluteVal.lock = new(sync.Mutex)
+	}
+
 	targetFmtAbsoluteVal.numStrFmtType =
 		incomingFmtAbsoluteVal.numStrFmtType
 
