@@ -80,11 +80,11 @@ type FormatterCountry struct {
 // FormatterCountry instance to the data fields of the current
 // FormatterCountry instance.
 //
-// If input parameter 'incomingFormatterCurrency' is judged to be
+// If input parameter 'incomingFormatterCountry' is judged to be
 // invalid, this method will return an error.
 //
 // Be advised, all of the data fields in the current
-// FormatterCurrency instance will be overwritten.
+// FormatterCountry instance will be overwritten.
 //
 //
 // ----------------------------------------------------------------
@@ -94,7 +94,7 @@ type FormatterCountry struct {
 //  incomingFormatterCountry      *FormatterCountry
 //     - A pointer to an instance of FormatterCountry. The data
 //       values in this object will be copied to the current
-//       FormatterCurrency instance.
+//       FormatterCountry instance.
 //
 //       If input parameter 'incomingFormatterCountry' is judged
 //       to be invalid, this method will return an error.
@@ -147,7 +147,8 @@ func (fmtCountry *FormatterCountry) CopyIn(
 	return formatterCountryElectron{}.ptr().copyIn(
 		fmtCountry,
 		incomingFormatterCountry,
-		ePrefix)
+		ePrefix.XCtx(
+			"fmtCountry"))
 }
 
 // CopyInINumStrFormatter - Receives an incoming INumStrFormatter
@@ -259,7 +260,8 @@ func (fmtCountry *FormatterCountry) CopyInINumStrFormatter(
 	return formatterCountryElectron{}.ptr().copyIn(
 		fmtCountry,
 		incomingFormatterCountry,
-		ePrefix)
+		ePrefix.XCtx(
+			"incomingFormatterCountry->fmtCountry"))
 }
 
 // CopyOut - Returns a deep copy of the current
@@ -409,6 +411,209 @@ func (fmtCountry *FormatterCountry) CopyOutINumStrFormatter(
 	return INumStrFormatter(&newFormatterCountry), err
 }
 
+// Equal - Receives a FormatterCountry object ('fmtCountryTwo')
+// and proceeds to determine whether all data elements in this
+// object are equal to all corresponding data elements in the
+// current instance of FormatterCountry.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtCountryTwo       FormatterCountry
+//     - This method will compare all data elements in the current
+//       FormatterCountry instance to all corresponding data
+//       elements in this second FormatterCountry object to
+//       determine if they are equivalent.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  bool
+//     - If all the data elements in the current FormatterCountry
+//       instance are equal to all corresponding data elements in
+//       'fmtCountryTwo', this return parameter will be set to
+//       'true'. If all the data elements are NOT equal, this
+//       return parameter will be set to 'false'.
+//
+//
+//  error
+//     - If all the data elements in the current FormatterCountry
+//       instance are equal to all corresponding data elements in
+//       'fmtCountryTwo', this return parameter will be set to
+//       'nil'.
+//
+//       If the corresponding data elements are NOT equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (fmtCountry *FormatterCountry) Equal(
+	fmtCountryTwo FormatterCountry,
+	ePrefix *ErrPrefixDto) (
+	bool,
+	error) {
+
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
+	}
+
+	fmtCountry.lock.Lock()
+
+	defer fmtCountry.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref("FormatterCountry.Equal()")
+
+	return formatterCountryElectron{}.ptr().equal(
+		fmtCountry,
+		&fmtCountryTwo,
+		ePrefix.XCtx(
+			"fmtCountry vs fmtCountryTwo"))
+}
+
+// EqualINumStrFormatter - Receives an INumStrFormatter object
+// ('incomingIFormatter') and proceeds to determine whether all
+// the data elements in this object are equal to all corresponding
+// data elements in the current FormatterCountry instance.
+//
+// If the INumStrFormatter object is not of type FormatterCountry,
+// this method will return an error and set return parameter
+// 'isEqual' to 'false'.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingIFormatter  INumStrFormatter
+//     - This method will compare all data elements in the current
+//       FormatterCountry instance to corresponding data elements
+//       in this 'incomingIFormatter' object to determine if they
+//       are equivalent. The outcome of this equivalency
+//       determination is configured in the return parameters
+//       described below.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  isEqual             bool
+//     - If all the data elements in the current FormatterCountry
+//       instance are equal to all corresponding data elements in
+//       'incomingIFormatter', this return parameter will be set to
+//       'true'. If all the data elements are NOT equal, this
+//       return parameter will be set to 'false'.
+//
+//
+//  err                 error
+//     - If all data elements in the current FormatterCountry
+//       instance are equal to all corresponding data elements in
+//       'incomingIFormatter', this return parameter will be set to
+//       'nil'.
+//
+//       If the corresponding data elements are NOT equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (fmtCountry *FormatterCountry) EqualINumStrFormatter(
+	incomingIFormatter INumStrFormatter,
+	ePrefix *ErrPrefixDto) (
+	isEqual bool,
+	err error) {
+
+	if fmtCountry.lock == nil {
+		fmtCountry.lock = new(sync.Mutex)
+	}
+
+	fmtCountry.lock.Lock()
+
+	defer fmtCountry.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref("FormatterCountry." +
+		"CopyInINumStrFormatter()")
+
+	isEqual = false
+
+	if incomingIFormatter == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'incomingIFormatter' is "+
+			"'nil'\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	var incomingFormatterCountry *FormatterCountry
+
+	incomingFormatterCountry,
+		isEqual = incomingIFormatter.(*FormatterCountry)
+
+	if !isEqual {
+
+		actualType :=
+			reflect.TypeOf(incomingIFormatter)
+
+		typeName := "Unknown"
+
+		if actualType != nil {
+			typeName = actualType.Name()
+		}
+
+		err = fmt.Errorf("%v\n"+
+			"Error: 'incomingIFormatter' is NOT Type "+
+			"FormatterCountry.\n"+
+			"'incomingIFormatter' is type %v",
+			ePrefix.String(),
+			typeName)
+
+		return isEqual, err
+	}
+
+	isEqual,
+		err = formatterCountryElectron{}.ptr().equal(
+		fmtCountry,
+		incomingFormatterCountry,
+		ePrefix.XCtx(
+			"fmtCountry vs incomingIFormatter"))
+
+	return isEqual, err
+}
+
 // Empty - Deletes and resets the data values of all member
 // variables within the current FormatterCountry instance to their
 // initial 'zero' values.
@@ -555,9 +760,9 @@ func (fmtCountry *FormatterCountry) GetDescription() string {
 	return fmtCountry.description
 }
 
-// GetFmtNumStr - Returns a number string formatted for currency
-// based on the configuration encapsulated in the current instance
-// of FormatterCountry.
+// GetFmtNumStr - Returns a number string formatted for country
+// identification based on the configuration encapsulated in the
+// current instance of FormatterCountry.
 //
 // This method is required by interface INumStrFormatter.
 //

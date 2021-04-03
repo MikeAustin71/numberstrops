@@ -666,7 +666,7 @@ func (fmtBinary *FormatterBinary) Equal(
 // Return Values
 //
 //  isEqual             bool
-//     - If all the data elements in the current FormatterCurrency
+//     - If all the data elements in the current FormatterBinary
 //       instance are equal to all corresponding data elements in
 //       'incomingIFormatter', this return parameter will be set to
 //       'true'. If all the data elements are NOT equal, this
@@ -674,7 +674,7 @@ func (fmtBinary *FormatterBinary) Equal(
 //
 //
 //  err                 error
-//     - If all data elements in the current FormatterCurrency
+//     - If all data elements in the current FormatterBinary
 //       instance are equal to all the corresponding data elements
 //       in 'incomingIFormatter', this return parameter will be set
 //       to 'nil'.
