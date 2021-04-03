@@ -813,9 +813,9 @@ func (fmtCurr *FormatterCurrency) Empty() {
 //
 //  fmtCurrencyTwo      FormatterCurrency
 //     - This method will compare all data elements in the current
-//       FormatterCurrency instance to corresponding data elements
-//       for this second FormatterCurrency object in order to
-//       determine equivalency.
+//       FormatterCurrency instance to all corresponding data
+//       elements in this second FormatterCurrency object to
+//       determine if they are equivalent.
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -832,17 +832,16 @@ func (fmtCurr *FormatterCurrency) Empty() {
 // Return Values
 //
 //  bool
-//     - If all the data elements in the current
-//       FormatterCurrency instance are equal to all the
-//       corresponding data elements in 'fmtCurrencyTwo', this
-//       return parameter will be set to 'true'. If all the data
-//       elements are NOT equal, this return parameter will be set
-//       to 'false'.
+//     - If all the data elements in the current FormatterCurrency
+//       instance are equal to all corresponding data elements in
+//       'fmtCurrencyTwo', this return parameter will be set to
+//       'true'. If all the data elements are NOT equal, this
+//       return parameter will be set to 'false'.
 //
 //
 //  error
 //     - If all the data elements in the current FormatterCurrency
-//       are equal to all the corresponding data elements in
+//       instance are equal to all corresponding data elements in
 //       'fmtCurrencyTwo', this return parameter will be set to
 //       'nil'.
 //

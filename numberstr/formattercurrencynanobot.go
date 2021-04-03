@@ -268,7 +268,7 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyOut(
 
 // equal - Receives two FormatterCurrency objects and proceeds to
 // determine whether all data elements in the first object are
-// equal to corresponding data elements in the second object.
+// equal to all corresponding data elements in the second object.
 //
 //
 // ----------------------------------------------------------------
@@ -368,6 +368,7 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 
 	if fmtCurrencyOne.numStrFmtType !=
 		fmtCurrencyTwo.numStrFmtType {
+
 		err = fmt.Errorf("%v\n"+
 			"fmtCurrencyOne.numStrFmtType!=fmtCurrencyTwo.numStrFmtType\n"+
 			"fmtCurrencyOne.numStrFmtType='%v'\n"+
@@ -375,11 +376,13 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 			ePrefix.String(),
 			fmtCurrencyOne.numStrFmtType.String(),
 			fmtCurrencyTwo.numStrFmtType.String())
+
 		return isEqual, err
 	}
 
 	if fmtCurrencyOne.positiveValueFmt !=
 		fmtCurrencyTwo.positiveValueFmt {
+
 		err = fmt.Errorf("%v\n"+
 			"fmtCurrencyOne.positiveValueFmt!=fmtCurrencyTwo.positiveValueFmt\n"+
 			"fmtCurrencyOne.positiveValueFmt='%v'\n"+
@@ -387,11 +390,13 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 			ePrefix.String(),
 			fmtCurrencyOne.positiveValueFmt,
 			fmtCurrencyTwo.positiveValueFmt)
+
 		return isEqual, err
 	}
 
 	if fmtCurrencyOne.negativeValueFmt !=
 		fmtCurrencyTwo.negativeValueFmt {
+
 		err = fmt.Errorf("%v\n"+
 			"fmtCurrencyOne.negativeValueFmt!=fmtCurrencyTwo.negativeValueFmt\n"+
 			"fmtCurrencyOne.negativeValueFmt='%v'\n"+
@@ -399,11 +404,13 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 			ePrefix.String(),
 			fmtCurrencyOne.negativeValueFmt,
 			fmtCurrencyTwo.negativeValueFmt)
+
 		return isEqual, err
 	}
 
 	if fmtCurrencyOne.decimalDigits !=
 		fmtCurrencyTwo.decimalDigits {
+
 		err = fmt.Errorf("%v\n"+
 			"fmtCurrencyOne.decimalDigits!=fmtCurrencyTwo.decimalDigits\n"+
 			"fmtCurrencyOne.decimalDigits='%v'\n"+
@@ -411,11 +418,13 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 			ePrefix.String(),
 			fmtCurrencyOne.decimalDigits,
 			fmtCurrencyTwo.decimalDigits)
+
 		return isEqual, err
 	}
 
 	if fmtCurrencyOne.currencyCode !=
 		fmtCurrencyTwo.currencyCode {
+
 		err = fmt.Errorf("%v\n"+
 			"fmtCurrencyOne.currencyCode!=fmtCurrencyTwo.currencyCode\n"+
 			"fmtCurrencyOne.currencyCode='%v'\n"+
@@ -423,11 +432,13 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 			ePrefix.String(),
 			fmtCurrencyOne.currencyCode,
 			fmtCurrencyTwo.currencyCode)
+
 		return isEqual, err
 	}
 
 	if fmtCurrencyOne.currencyCodeNo !=
 		fmtCurrencyTwo.currencyCodeNo {
+
 		err = fmt.Errorf("%v\n"+
 			"fmtCurrencyOne.currencyCodeNo!=fmtCurrencyTwo.currencyCodeNo\n"+
 			"fmtCurrencyOne.currencyCodeNo='%v'\n"+
@@ -435,11 +446,13 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 			ePrefix.String(),
 			fmtCurrencyOne.currencyCodeNo,
 			fmtCurrencyTwo.currencyCodeNo)
+
 		return isEqual, err
 	}
 
 	if fmtCurrencyOne.currencyName !=
 		fmtCurrencyTwo.currencyName {
+
 		err = fmt.Errorf("%v\n"+
 			"fmtCurrencyOne.currencyName!=fmtCurrencyTwo.currencyName\n"+
 			"fmtCurrencyOne.currencyName='%v'\n"+
@@ -447,34 +460,38 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 			ePrefix.String(),
 			fmtCurrencyOne.currencyName,
 			fmtCurrencyTwo.currencyName)
+
 		return isEqual, err
 	}
 
 	if fmtCurrencyOne.currencySymbols == nil &&
 		fmtCurrencyTwo.currencySymbols != nil {
+
 		err = fmt.Errorf("%v\n"+
 			"fmtCurrencyOne.currencySymbols!=fmtCurrencyTwo.currencySymbols\n"+
 			"fmtCurrencyOne.currencySymbols=='nil'\n"+
 			"fmtCurrencyTwo.currencySymbols !='nil'\n",
 			ePrefix.String())
-		return isEqual, err
 
+		return isEqual, err
 	}
 
 	if fmtCurrencyOne.currencySymbols != nil &&
 		fmtCurrencyTwo.currencySymbols == nil {
+
 		err = fmt.Errorf("%v\n"+
 			"fmtCurrencyOne.currencySymbols!=fmtCurrencyTwo.currencySymbols\n"+
 			"fmtCurrencyOne.currencySymbols !='nil'\n"+
 			"fmtCurrencyTwo.currencySymbols =='nil'\n",
 			ePrefix.String())
-		return isEqual, err
 
+		return isEqual, err
 	}
 
 	lenSymbols := len(fmtCurrencyOne.currencySymbols)
 
 	if lenSymbols != len(fmtCurrencyTwo.currencySymbols) {
+
 		err = fmt.Errorf("%v\n"+
 			"Length fmtCurrencyOne.currencySymbols != "+
 			"Length fmtCurrencyTwo.currencySymbols\n"+
@@ -483,12 +500,14 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 			ePrefix.String(),
 			string(fmtCurrencyOne.currencySymbols),
 			string(fmtCurrencyTwo.currencySymbols))
+
 		return isEqual, err
 	}
 
 	for i := 0; i < lenSymbols; i++ {
 
 		if fmtCurrencyOne.currencySymbols[i] !=
+
 			fmtCurrencyTwo.currencySymbols[i] {
 			err = fmt.Errorf("%v\n"+
 				"Length fmtCurrencyOne.currencySymbols != "+
@@ -498,6 +517,7 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 				ePrefix.String(),
 				string(fmtCurrencyOne.currencySymbols),
 				string(fmtCurrencyTwo.currencySymbols))
+
 			return isEqual, err
 		}
 
@@ -505,6 +525,7 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 
 	if fmtCurrencyOne.minorCurrencyName !=
 		fmtCurrencyTwo.minorCurrencyName {
+
 		err = fmt.Errorf("%v\n"+
 			"fmtCurrencyOne.minorCurrencyName!="+
 			"fmtCurrencyTwo.minorCurrencyName\n"+
@@ -513,34 +534,38 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 			ePrefix.String(),
 			fmtCurrencyOne.minorCurrencyName,
 			fmtCurrencyTwo.minorCurrencyName)
+
 		return isEqual, err
 	}
 
 	if fmtCurrencyOne.minorCurrencySymbols == nil &&
 		fmtCurrencyTwo.minorCurrencySymbols != nil {
+
 		err = fmt.Errorf("%v\n"+
 			"fmtCurrencyOne.minorCurrencySymbols != fmtCurrencyTwo.minorCurrencySymbols\n"+
 			"fmtCurrencyOne.minorCurrencySymbols=='nil'\n"+
 			"fmtCurrencyTwo.minorCurrencySymbols !='nil'\n",
 			ePrefix.String())
-		return isEqual, err
 
+		return isEqual, err
 	}
 
 	if fmtCurrencyOne.minorCurrencySymbols != nil &&
 		fmtCurrencyTwo.minorCurrencySymbols == nil {
+
 		err = fmt.Errorf("%v\n"+
 			"fmtCurrencyOne.minorCurrencySymbols!=fmtCurrencyTwo.minorCurrencySymbols\n"+
 			"fmtCurrencyOne.minorCurrencySymbols !='nil'\n"+
 			"fmtCurrencyTwo.minorCurrencySymbols =='nil'\n",
 			ePrefix.String())
-		return isEqual, err
 
+		return isEqual, err
 	}
 
 	lenSymbols = len(fmtCurrencyOne.minorCurrencySymbols)
 
 	if lenSymbols != len(fmtCurrencyTwo.minorCurrencySymbols) {
+
 		err = fmt.Errorf("%v\n"+
 			"Length fmtCurrencyOne.minorCurrencySymbols != "+
 			"Length fmtCurrencyTwo.minorCurrencySymbols\n"+
@@ -549,6 +574,7 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 			ePrefix.String(),
 			string(fmtCurrencyOne.minorCurrencySymbols),
 			string(fmtCurrencyTwo.minorCurrencySymbols))
+
 		return isEqual, err
 	}
 
@@ -556,6 +582,7 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 
 		if fmtCurrencyOne.minorCurrencySymbols[i] !=
 			fmtCurrencyTwo.minorCurrencySymbols[i] {
+
 			err = fmt.Errorf("%v\n"+
 				"Length fmtCurrencyOne.minorCurrencySymbols != "+
 				"Length fmtCurrencyTwo.minorCurrencySymbols\n"+
@@ -564,6 +591,7 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 				ePrefix.String(),
 				string(fmtCurrencyOne.minorCurrencySymbols),
 				string(fmtCurrencyTwo.minorCurrencySymbols))
+
 			return isEqual, err
 		}
 
@@ -571,6 +599,7 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 
 	if fmtCurrencyOne.turnOnIntegerDigitsSeparation !=
 		fmtCurrencyTwo.turnOnIntegerDigitsSeparation {
+
 		err = fmt.Errorf("%v\n"+
 			"fmtCurrencyOne.turnOnIntegerDigitsSeparation!="+
 			"fmtCurrencyTwo.turnOnIntegerDigitsSeparation\n"+
@@ -579,6 +608,7 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 			ePrefix.String(),
 			fmtCurrencyOne.turnOnIntegerDigitsSeparation,
 			fmtCurrencyTwo.turnOnIntegerDigitsSeparation)
+
 		return isEqual, err
 	}
 

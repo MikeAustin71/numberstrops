@@ -585,9 +585,9 @@ func (fmtAbsVal *FormatterAbsoluteValue) Empty() {
 //
 //  fmtAbsValTwo        FormatterAbsoluteValue
 //     - This method will compare all data elements in the current
-//       FormatterAbsoluteValue instance to corresponding data elements
-//       for this second FormatterAbsoluteValue object to determine
-//       if they are equivalent.
+//       FormatterAbsoluteValue instance to all corresponding data
+//       elements in this second FormatterAbsoluteValue object to
+//       determine if they are equivalent.
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -604,19 +604,18 @@ func (fmtAbsVal *FormatterAbsoluteValue) Empty() {
 // Return Values
 //
 //  bool
-//     - If all the data elements in the current
-//       FormatterAbsoluteValue instance are equal to all the
-//       corresponding data elements in 'fmtAbsValTwo', this return
-//       parameter will be set to 'true'. If all the data elements
-//       are NOT equal, this return parameter will be set to
-//       'false'.
+//     - If all data elements in the current FormatterAbsoluteValue
+//       instance are equal to all corresponding data elements in
+//       'fmtAbsValTwo', this return parameter will be set to
+//       'true'. If all the data elements are NOT equal, this
+//       return parameter will be set to 'false'.
 //
 //
 //  error
-//     - If all the data elements in the current
-//       FormatterAbsoluteValue are equal to all the corresponding
-//       data elements in 'fmtAbsValTwo', this return parameter
-//       will be set to 'nil'.
+//     - If all data elements in the current FormatterAbsoluteValue
+//       instance are equal to all corresponding data elements in
+//       'fmtAbsValTwo', this return parameter will be set to
+//       'nil'.
 //
 //       If the corresponding data elements are NOT equal, a
 //       detailed error message identifying the unequal elements

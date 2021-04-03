@@ -547,6 +547,86 @@ func (fmtBinary *FormatterBinary) Empty() {
 	fmtBinary.lock = nil
 }
 
+// Equal - Receives a FormatterBinary object ('fmtBinaryTwo')
+// and proceeds to determine whether all data elements in this
+// object are equal to all corresponding data elements in the
+// current instance of FormatterBinary.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtBinaryTwo        FormatterBinary
+//     - This method will compare all data elements in the current
+//       FormatterBinary instance to all corresponding data elements
+//       in this second FormatterBinary object to determine if
+//       they are equivalent.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  bool
+//     - If all data elements in the current FormatterBinary
+//       instance are equal to all corresponding data elements in
+//       'fmtBinaryTwo', this return parameter will be set to
+//       'true'. If all the data elements are NOT equal, this
+//       return parameter will be set to 'false'.
+//
+//
+//  error
+//     - If all data elements in the current FormatterBinary
+//       instance are equal to all corresponding data elements in
+//       'fmtBinaryTwo', this return parameter will be set to
+//       'nil'.
+//
+//       If the corresponding data elements are NOT equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (fmtBinary *FormatterBinary) Equal(
+	fmtBinaryTwo FormatterBinary,
+	ePrefix *ErrPrefixDto) (
+	bool,
+	error) {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterBinary." +
+			"CopyIn()")
+
+	return formatterBinaryAtom{}.ptr().equal(
+		fmtBinary,
+		&fmtBinaryTwo,
+		ePrefix.XCtx(
+			"fmtBinary vs "+
+				"fmtBinaryTwo"))
+}
+
 // GetFmtNumStr - Returns a number string formatted for binary
 // digits based on the configuration encapsulated in the current
 // instance of FormatterBinary.
