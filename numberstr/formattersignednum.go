@@ -701,6 +701,135 @@ func (fmtSignedNum *FormatterSignedNumber) Equal(
 					"fmtSignedNumberTwo"))
 }
 
+// EqualINumStrFormatter - Receives an INumStrFormatter object
+// ('incomingIFormatter') and proceeds to determine whether all
+// the data elements in this object are equal to all corresponding
+// data elements in the current FormatterSignedNumber instance.
+//
+// If the INumStrFormatter object is not of type
+// FormatterSignedNumber, this method will return an error and set
+// return parameter 'isEqual' to 'false'.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingIFormatter  INumStrFormatter
+//     - This method will compare all data elements in the current
+//       FormatterSignedNumber instance to corresponding data
+//       elements in this 'incomingIFormatter' object to determine
+//       if they are equivalent. The outcome of this equivalency
+//       determination is configured in the return parameters
+//       described below.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  isEqual             bool
+//     - If all the data elements in the current FormatterSignedNumber
+//       instance are equal to all corresponding data elements in
+//       'incomingIFormatter', this return parameter will be set to
+//       'true'. If all the data elements are NOT equal, this
+//       return parameter will be set to 'false'.
+//
+//
+//  err                 error
+//     - If all data elements in the current FormatterSignedNumber
+//       instance are equal to all corresponding data elements in
+//       'incomingIFormatter', this return parameter will be set to
+//       'nil'.
+//
+//       If the corresponding data elements are NOT equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (fmtSignedNum *FormatterSignedNumber) EqualINumStrFormatter(
+	incomingIFormatter INumStrFormatter,
+	ePrefix *ErrPrefixDto) (
+	isEqual bool,
+	err error) {
+
+	if fmtSignedNum.lock == nil {
+		fmtSignedNum.lock = new(sync.Mutex)
+	}
+
+	fmtSignedNum.lock.Lock()
+
+	defer fmtSignedNum.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterSignedNumber." +
+			"CopyInINumStrFormatter()")
+
+	isEqual = false
+
+	if incomingIFormatter == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'incomingIFormatter' is "+
+			"'nil'\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	var incomingFormatterSignedNum *FormatterSignedNumber
+
+	incomingFormatterSignedNum,
+		isEqual = incomingIFormatter.(*FormatterSignedNumber)
+
+	if !isEqual {
+
+		actualType :=
+			reflect.TypeOf(incomingIFormatter)
+
+		typeName := "Unknown"
+
+		if actualType != nil {
+			typeName = actualType.Name()
+		}
+
+		err = fmt.Errorf("%v\n"+
+			"Error: 'incomingIFormatter' is NOT Type "+
+			"FormatterSignedNumber\n"+
+			"'incomingIFormatter' is type %v",
+			ePrefix.String(),
+			typeName)
+
+		return isEqual, err
+	}
+
+	isEqual,
+		err = formatterSignedNumberNanobot{}.ptr().
+		equal(
+			fmtSignedNum,
+			incomingFormatterSignedNum,
+			ePrefix.XCtx(
+				"fmtSignedNum vs incomingIFormatter"))
+
+	return isEqual, err
+}
+
 // GetDecimalSeparator - Returns the decimal separator character(s).
 // This is the character (runes) used to separate integer and
 // fractional digits in a floating point number.
