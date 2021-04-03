@@ -187,6 +187,138 @@ func (fmtHexadecimalElectron *formatterHexadecimalElectron) copyOut(
 	return newFormatterHex, err
 }
 
+func (fmtHexadecimalElectron *formatterHexadecimalElectron) equal(
+	fmtHexadecimalOne *FormatterHexadecimal,
+	fmtHexadecimalTwo *FormatterHexadecimal,
+	ePrefix *ErrPrefixDto) (
+	isEqual bool,
+	err error) {
+
+	if fmtHexadecimalElectron.lock == nil {
+		fmtHexadecimalElectron.lock = new(sync.Mutex)
+	}
+
+	fmtHexadecimalElectron.lock.Lock()
+
+	defer fmtHexadecimalElectron.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"formatterHexadecimalElectron." +
+			"equal()")
+
+	isEqual = false
+
+	if fmtHexadecimalOne == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtHexadecimalOne' is"+
+			" a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	if fmtHexadecimalTwo == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtHexadecimalTwo' is"+
+			" a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	if fmtHexadecimalOne.numStrFmtType !=
+		fmtHexadecimalTwo.numStrFmtType {
+
+		err = fmt.Errorf("%v\n"+
+			"fmtHexadecimalOne.numStrFmtType!=\n"+
+			"  fmtHexadecimalTwo.numStrFmtType\n"+
+			"fmtHexadecimalOne.numStrFmtType='%v'\n"+
+			"fmtHexadecimalTwo.numStrFmtType='%v'\n",
+			ePrefix.String(),
+			fmtHexadecimalOne.numStrFmtType.String(),
+			fmtHexadecimalTwo.numStrFmtType.String())
+
+		return isEqual, err
+	}
+
+	if fmtHexadecimalOne.useUpperCaseLetters !=
+		fmtHexadecimalTwo.useUpperCaseLetters {
+
+		err = fmt.Errorf("%v\n"+
+			"fmtHexadecimalOne.useUpperCaseLetters!=\n"+
+			"  fmtHexadecimalTwo.useUpperCaseLetters\n"+
+			"fmtHexadecimalOne.useUpperCaseLetters='%v'\n"+
+			"fmtHexadecimalTwo.useUpperCaseLetters='%v'\n",
+			ePrefix.String(),
+			fmtHexadecimalOne.useUpperCaseLetters,
+			fmtHexadecimalTwo.useUpperCaseLetters)
+
+		return isEqual, err
+	}
+
+	if fmtHexadecimalOne.leftPrefix !=
+		fmtHexadecimalTwo.leftPrefix {
+
+		err = fmt.Errorf("%v\n"+
+			"fmtHexadecimalOne.leftPrefix!=\n"+
+			"  fmtHexadecimalTwo.leftPrefix\n"+
+			"fmtHexadecimalOne.leftPrefix='%v'\n"+
+			"fmtHexadecimalTwo.leftPrefix='%v'\n",
+			ePrefix.String(),
+			fmtHexadecimalOne.leftPrefix,
+			fmtHexadecimalTwo.leftPrefix)
+
+		return isEqual, err
+	}
+
+	if fmtHexadecimalOne.turnOnIntegerDigitsSeparation !=
+		fmtHexadecimalTwo.turnOnIntegerDigitsSeparation {
+
+		err = fmt.Errorf("%v\n"+
+			"fmtHexadecimalOne.turnOnIntegerDigitsSeparation!=\n"+
+			"  fmtHexadecimalTwo.turnOnIntegerDigitsSeparation\n"+
+			"fmtHexadecimalOne.turnOnIntegerDigitsSeparation='%v'\n"+
+			"fmtHexadecimalTwo.turnOnIntegerDigitsSeparation='%v'\n",
+			ePrefix.String(),
+			fmtHexadecimalOne.turnOnIntegerDigitsSeparation,
+			fmtHexadecimalTwo.turnOnIntegerDigitsSeparation)
+
+		return isEqual, err
+	}
+
+	_,
+		err = fmtHexadecimalOne.integerSeparators.Equal(
+		fmtHexadecimalTwo.integerSeparators,
+		ePrefix.XCtx(
+			"fmtHexadecimalOne vs fmtHexadecimalTwo"))
+
+	if err != nil {
+		return isEqual, err
+	}
+
+	_,
+		err = fmtHexadecimalOne.numFieldDto.Equal(
+		fmtHexadecimalTwo.numFieldDto,
+		ePrefix.XCtx(
+			"fmtHexadecimalOne vs fmtHexadecimalTwo"))
+
+	if err != nil {
+		return isEqual, err
+	}
+
+	isEqual = true
+
+	return isEqual, err
+}
+
 // ptr - Returns a pointer to a new instance of
 // formatterHexadecimalElectron.
 //
