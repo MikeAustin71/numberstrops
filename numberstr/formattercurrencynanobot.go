@@ -308,8 +308,8 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) copyOut(
 //     - If all the data elements in 'fmtCurrencyOne' are equal to
 //       all the corresponding data elements in 'fmtCurrencyTwo',
 //       this return parameter will be set to 'true'. If the data
-//       data elements are NOT equal, this return parameter will be
-//       set to 'false'.
+//       elements are NOT equal, this return parameter will be set
+//       to 'false'.
 //
 //
 //  err                 error
@@ -601,8 +601,8 @@ func (fmtCurrNanobot *formatterCurrencyNanobot) equal(
 		fmtCurrencyTwo.turnOnIntegerDigitsSeparation {
 
 		err = fmt.Errorf("%v\n"+
-			"fmtCurrencyOne.turnOnIntegerDigitsSeparation!="+
-			"fmtCurrencyTwo.turnOnIntegerDigitsSeparation\n"+
+			"fmtCurrencyOne.turnOnIntegerDigitsSeparation!=\n"+
+			"  fmtCurrencyTwo.turnOnIntegerDigitsSeparation\n"+
 			"fmtCurrencyOne.turnOnIntegerDigitsSeparation='%v'\n"+
 			"fmtCurrencyTwo.turnOnIntegerDigitsSeparation='%v'\n",
 			ePrefix.String(),
