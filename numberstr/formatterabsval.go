@@ -672,8 +672,8 @@ func (fmtAbsVal *FormatterAbsoluteValue) Equal(
 //  incomingIFormatter  INumStrFormatter
 //     - This method will compare all data elements in the current
 //       FormatterAbsoluteValue instance to corresponding data
-//       elements in this incomingIFormatter object to determine if
-//       they are equivalent. The outcome of this equivalency
+//       elements in this 'incomingIFormatter' object to determine
+//       if they are equivalent. The outcome of this equivalency
 //       determination is configured in the return parameters
 //       described below.
 //
@@ -692,19 +692,18 @@ func (fmtAbsVal *FormatterAbsoluteValue) Equal(
 // Return Values
 //
 //  isEqual             bool
-//     - If all the data elements in the current
-//       FormatterAbsoluteValue instance are equal to all the
-//       corresponding data elements in 'incomingIFormatter', this
-//       return parameter will be set to 'true'. If all the data
-//       elements are NOT equal, this return parameter will be set
-//       to 'false'.
+//     - If all data elements in the current FormatterAbsoluteValue
+//       instance are equal to all corresponding data elements in
+//       'incomingIFormatter', this return parameter will be set to
+//       'true'. If all the data elements are NOT equal, this
+//       return parameter will be set to 'false'.
 //
 //
 //  err                 error
-//     - If all the data elements in the current
-//       FormatterAbsoluteValue are equal to all the corresponding
-//       data elements in 'incomingIFormatter', this return
-//       parameter will be set to 'nil'.
+//     - If all data elements in the current FormatterAbsoluteValue
+//       instance are equal to all corresponding data elements in
+//       'incomingIFormatter', this return parameter will be set to
+//       'nil'.
 //
 //       If the corresponding data elements are NOT equal, a
 //       detailed error message identifying the unequal elements
@@ -753,10 +752,21 @@ func (fmtAbsVal *FormatterAbsoluteValue) EqualINumStrFormatter(
 
 	if !isEqual {
 
+		actualType :=
+			reflect.TypeOf(incomingIFormatter)
+
+		typeName := "Unknown"
+
+		if actualType != nil {
+			typeName = actualType.Name()
+		}
+
 		err = fmt.Errorf("%v\n"+
-			"Input parameter 'incomingIFormatter' is NOT of Type "+
-			"FormatterAbsoluteValue!\n",
-			ePrefix.String())
+			"Error: 'incomingIFormatter' is NOT Type "+
+			"FormatterAbsoluteValue\n"+
+			"'incomingIFormatter' is type %v",
+			ePrefix.String(),
+			typeName)
 
 		return isEqual, err
 	}

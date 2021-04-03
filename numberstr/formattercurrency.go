@@ -899,9 +899,10 @@ func (fmtCurr *FormatterCurrency) Equal(
 //  incomingIFormatter  INumStrFormatter
 //     - This method will compare all data elements in the current
 //       FormatterCurrency instance to corresponding data elements
-//       in this incomingIFormatter object to determine if they are
-//       equivalent. The outcome of this equivalency determination
-//       is configured in the return parameters described below.
+//       in this 'incomingIFormatter' object to determine if they
+//       are equivalent. The outcome of this equivalency
+//       determination is configured in the return parameters
+//       described below.
 //
 //
 //  ePrefix             *ErrPrefixDto
@@ -919,15 +920,15 @@ func (fmtCurr *FormatterCurrency) Equal(
 //
 //  isEqual             bool
 //     - If all the data elements in the current FormatterCurrency
-//       instance are equal to all the corresponding data elements
-//       in 'incomingIFormatter', this return parameter will be set
-//       to 'true'. If all the data elements are NOT equal, this
+//       instance are equal to all corresponding data elements in
+//       'incomingIFormatter', this return parameter will be set to
+//       'true'. If all the data elements are NOT equal, this
 //       return parameter will be set to 'false'.
 //
 //
 //  err                 error
-//     - If all the data elements in the current FormatterCurrency
-//       are equal to all the corresponding data elements in
+//     - If all data elements in the current FormatterCurrency
+//       instance are equal to all corresponding data elements in
 //       'incomingIFormatter', this return parameter will be set to
 //       'nil'.
 //
@@ -978,10 +979,21 @@ func (fmtCurr *FormatterCurrency) EqualINumStrFormatter(
 
 	if !isEqual {
 
+		actualType :=
+			reflect.TypeOf(incomingIFormatter)
+
+		typeName := "Unknown"
+
+		if actualType != nil {
+			typeName = actualType.Name()
+		}
+
 		err = fmt.Errorf("%v\n"+
-			"Input parameter 'incomingIFormatter' is NOT of Type "+
-			"FormatterCurrency!\n",
-			ePrefix.String())
+			"Error: 'incomingIFormatter' is NOT Type "+
+			"FormatterCurrency.\n"+
+			"'incomingIFormatter' is type %v",
+			ePrefix.String(),
+			typeName)
 
 		return isEqual, err
 	}
