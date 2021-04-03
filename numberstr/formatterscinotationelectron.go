@@ -277,6 +277,182 @@ func (fmtSciNotElectron *formatterSciNotationElectron) copyOut(
 	return newFormatterSciNotation, err
 }
 
+// equal - Receives two FormatterSciNotation objects and proceeds
+// to determine whether all data elements in the first object are
+// equal to all corresponding data elements in the second object.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtSciNotationOne   *FormatterSciNotation
+//     - A pointer to the first FormatterSciNotation object. This
+//       method will compare all data elements in this object to
+//       all corresponding data elements in the second
+//       FormatterSciNotation object to determine if they are
+//       equivalent.
+//
+//
+//  fmtSciNotationTwo   *FormatterSciNotation
+//     - A pointer to the second FormatterSciNotation object. This
+//       method will compare all data elements in the first
+//       FormatterSciNotation object to all corresponding data
+//       elements in this second FormatterSciNotation object to
+//       determine if they are equivalent.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this parameter
+//       to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  isEqual             bool
+//     - If all the data elements in 'fmtSciNotationOne' are equal to
+//       all the corresponding data elements in 'fmtSciNotationTwo',
+//       this return parameter will be set to 'true'. If the data
+//       data elements are NOT equal, this return parameter will be
+//       set to 'false'.
+//
+//
+//  err                 error
+//     - If all the data elements in 'fmtSciNotationOne' are equal to
+//       all the corresponding data elements in 'fmtSciNotationTwo',
+//       this return parameter will be set to 'nil'.
+//
+//       If the corresponding data elements are NOT equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (fmtSciNotElectron *formatterSciNotationElectron) equal(
+	fmtSciNotationOne *FormatterSciNotation,
+	fmtSciNotationTwo *FormatterSciNotation,
+	ePrefix *ErrPrefixDto) (
+	isEqual bool,
+	err error) {
+
+	if fmtSciNotElectron.lock == nil {
+		fmtSciNotElectron.lock = new(sync.Mutex)
+	}
+
+	fmtSciNotElectron.lock.Lock()
+
+	defer fmtSciNotElectron.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	isEqual = false
+
+	ePrefix.SetEPref(
+		"formatterSciNotationElectron.copyIn()")
+
+	if fmtSciNotationOne == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtSciNotationOne' is invalid!\n"+
+			"'fmtSciNotationOne' is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	if fmtSciNotationTwo == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtSciNotationTwo' is invalid!\n"+
+			"'fmtSciNotationTwo' is a 'nil' pointer.\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	if fmtSciNotationOne.significandUsesLeadingPlus !=
+		fmtSciNotationTwo.significandUsesLeadingPlus {
+
+		err = fmt.Errorf("%v\n"+
+			"fmtSciNotationOne.significandUsesLeadingPlus!=\n"+
+			"  fmtSciNotationTwo.significandUsesLeadingPlus\n"+
+			"fmtSciNotationOne.significandUsesLeadingPlus='%v'\n"+
+			"fmtSciNotationTwo.significandUsesLeadingPlus='%v'\n",
+			ePrefix.String(),
+			fmtSciNotationOne.significandUsesLeadingPlus,
+			fmtSciNotationTwo.significandUsesLeadingPlus)
+
+		return isEqual, err
+	}
+
+	if fmtSciNotationOne.mantissaLength !=
+		fmtSciNotationTwo.mantissaLength {
+
+		err = fmt.Errorf("%v\n"+
+			"fmtSciNotationOne.mantissaLength!=\n"+
+			"  fmtSciNotationTwo.mantissaLength\n"+
+			"fmtSciNotationOne.mantissaLength='%v'\n"+
+			"fmtSciNotationTwo.mantissaLength='%v'\n",
+			ePrefix.String(),
+			fmtSciNotationOne.mantissaLength,
+			fmtSciNotationTwo.mantissaLength)
+
+		return isEqual, err
+	}
+
+	if fmtSciNotationOne.exponentChar !=
+		fmtSciNotationTwo.exponentChar {
+
+		err = fmt.Errorf("%v\n"+
+			"fmtSciNotationOne.exponentChar!=\n"+
+			"  fmtSciNotationTwo.exponentChar\n"+
+			"fmtSciNotationOne.exponentChar='%v'\n"+
+			"fmtSciNotationTwo.exponentChar='%v'\n",
+			ePrefix.String(),
+			string(fmtSciNotationOne.exponentChar),
+			string(fmtSciNotationTwo.exponentChar))
+
+		return isEqual, err
+	}
+
+	if fmtSciNotationOne.exponentUsesLeadingPlus !=
+		fmtSciNotationTwo.exponentUsesLeadingPlus {
+
+		err = fmt.Errorf("%v\n"+
+			"fmtSciNotationOne.exponentUsesLeadingPlus!=\n"+
+			"  fmtSciNotationTwo.exponentUsesLeadingPlus\n"+
+			"fmtSciNotationOne.exponentUsesLeadingPlus='%v'\n"+
+			"fmtSciNotationTwo.exponentUsesLeadingPlus='%v'\n",
+			ePrefix.String(),
+			fmtSciNotationOne.exponentUsesLeadingPlus,
+			fmtSciNotationTwo.exponentUsesLeadingPlus)
+
+		return isEqual, err
+	}
+
+	_,
+		err = fmtSciNotationOne.numFieldDto.Equal(
+		fmtSciNotationTwo.numFieldDto,
+		ePrefix.XCtx(
+			"fmtSciNotationOne vs fmtSciNotationTwo"))
+
+	if err != nil {
+		return isEqual, err
+	}
+
+	isEqual = true
+
+	return isEqual, err
+}
+
 // ptr - Returns a pointer to a new instance of
 // formatterSciNotationElectron.
 //

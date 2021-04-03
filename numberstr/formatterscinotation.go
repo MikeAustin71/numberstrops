@@ -513,6 +513,85 @@ func (fmtSciNotation *FormatterSciNotation) Empty() {
 	return
 }
 
+// Equal - Receives a FormatterSciNotation object ('fmtSciNotationTwo')
+// and proceeds to determine whether all data elements in this
+// object are equal to all corresponding data elements in the
+// current instance of FormatterSciNotation.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  fmtSciNotationTwo   FormatterSciNotation
+//     - This method will compare all data elements in the current
+//       FormatterSciNotation instance to all corresponding data
+//       elements in this second FormatterSciNotation object to
+//       determine if they are equivalent.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  bool
+//     - If all the data elements in the current FormatterSciNotation
+//       instance are equal to all corresponding data elements in
+//       'fmtSciNotationTwo', this return parameter will be set to
+//       'true'. If all the data elements are NOT equal, this
+//       return parameter will be set to 'false'.
+//
+//
+//  error
+//     - If all the data elements in the current FormatterSciNotation
+//       instance are equal to all corresponding data elements in
+//       'fmtSciNotationTwo', this return parameter will be set to
+//       'nil'.
+//
+//       If the corresponding data elements are NOT equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (fmtSciNotation *FormatterSciNotation) Equal(
+	fmtSciNotationTwo FormatterSciNotation,
+	ePrefix *ErrPrefixDto) (
+	bool,
+	error) {
+
+	if fmtSciNotation.lock == nil {
+		fmtSciNotation.lock = new(sync.Mutex)
+	}
+
+	fmtSciNotation.lock.Lock()
+
+	defer fmtSciNotation.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterSciNotation.Equal()")
+
+	return formatterSciNotationElectron{}.ptr().
+		equal(
+			fmtSciNotation,
+			&fmtSciNotationTwo,
+			ePrefix.XCtx("fmtSciNotation vs "+
+				"fmtSciNotationTwo"))
+}
+
 // GetExponentChar - Returns the exponent character configured for
 // the current FormatterSciNotation instance. This character is
 // returned as a 'rune' and is displayed in number strings
