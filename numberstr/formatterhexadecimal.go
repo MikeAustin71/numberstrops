@@ -557,10 +557,10 @@ func (formatterHex *FormatterHexadecimal) Empty() {
 	formatterHex.lock = nil
 }
 
-// Equal - Receives a FormatterHexadecimal object ('fmtHexadecimalTwo')
-// and proceeds to determine whether all data elements in this
-// object are equal to all corresponding data elements in the
-// current instance of FormatterHexadecimal.
+// Equal - Receives a FormatterHexadecimal object
+// ('fmtHexadecimalTwo') and proceeds to determine whether all
+// data elements in this object are equal to all corresponding data
+// elements in the current instance of FormatterHexadecimal.
 //
 //
 // ----------------------------------------------------------------
@@ -635,6 +635,133 @@ func (formatterHex *FormatterHexadecimal) Equal(
 			&fmtHexadecimalTwo,
 			ePrefix.XCtx(
 				"formatterHex vs fmtHexadecimalTwo"))
+}
+
+// EqualINumStrFormatter - Receives an INumStrFormatter object
+// ('incomingIFormatter') and proceeds to determine whether all
+// the data elements in this object are equal to all corresponding
+// data elements in the current FormatterHexadecimal instance.
+//
+// If the INumStrFormatter object is not of type
+// FormatterHexadecimal, this method will return an error and set
+// return parameter 'isEqual' to 'false'.
+//
+// This method is required by interface INumStrFormatter.
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  incomingIFormatter  INumStrFormatter
+//     - This method will compare all data elements in the current
+//       FormatterHexadecimal instance to corresponding data elements
+//       in this 'incomingIFormatter' object to determine if they
+//       are equivalent. The outcome of this equivalency
+//       determination is configured in the return parameters
+//       described below.
+//
+//
+//  ePrefix             *ErrPrefixDto
+//     - This object encapsulates an error prefix string which is
+//       included in all returned error messages. Usually, it
+//       contains the names of the calling method or methods.
+//
+//       If no error prefix information is needed, set this
+//       parameter to 'nil'.
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  isEqual             bool
+//     - If all the data elements in the current
+//       FormatterHexadecimal instance are equal to all
+//       corresponding data elements in 'incomingIFormatter', this
+//       return parameter will be set to 'true'. If all the data
+//       elements are NOT equal, this return parameter will be set
+//       to 'false'.
+//
+//
+//  err                 error
+//     - If all data elements in the current FormatterHexadecimal
+//       instance are equal to all corresponding data elements in
+//       'incomingIFormatter', this return parameter will be set to
+//       'nil'.
+//
+//       If the corresponding data elements are NOT equal, a
+//       detailed error message identifying the unequal elements
+//       will be returned.
+//
+func (formatterHex *FormatterHexadecimal) EqualINumStrFormatter(
+	incomingIFormatter INumStrFormatter,
+	ePrefix *ErrPrefixDto) (
+	isEqual bool,
+	err error) {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"FormatterHexadecimal." +
+			"EqualINumStrFormatter()")
+
+	isEqual = false
+
+	if incomingIFormatter == nil {
+
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'incomingIFormatter' is "+
+			"'nil'\n",
+			ePrefix.String())
+
+		return isEqual, err
+	}
+
+	var incomingFormatterHex *FormatterHexadecimal
+
+	incomingFormatterHex,
+		isEqual = incomingIFormatter.(*FormatterHexadecimal)
+
+	if !isEqual {
+
+		actualType :=
+			reflect.TypeOf(incomingIFormatter)
+
+		typeName := "Unknown"
+
+		if actualType != nil {
+			typeName = actualType.Name()
+		}
+
+		err = fmt.Errorf("%v\n"+
+			"Error: 'incomingIFormatter' is NOT Type "+
+			"FormatterHexadecimal\n"+
+			"'incomingIFormatter' is type %v",
+			ePrefix.String(),
+			typeName)
+
+		return isEqual, err
+	}
+
+	return formatterHexadecimalElectron{}.ptr().
+		equal(
+			formatterHex,
+			incomingFormatterHex,
+			ePrefix.XCtx(
+				"formatterHex vs incomingIFormatter"))
 }
 
 // GetIntegerSeparators - Returns the NumStrIntSeparatorsDto
