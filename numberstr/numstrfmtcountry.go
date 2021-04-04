@@ -391,3 +391,165 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina(
 
 	return err
 }
+
+// Australia - Returns the number string format used in
+// Australia.
+//
+func (nStrFmtCountry *NumStrFormatCountry) Australia(
+	fmtCollection *FormatterCollection,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFormatCountry." +
+			"Australia()")
+
+	if fmtCollection == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtCollection' is "+
+			"a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	// Adds Binary, Hexadecimal, Octal and
+	// Scientific Notation Formatters
+	err = numStrFormatCountryMechanics{}.ptr().
+		addBaseFormatters(
+			fmtCollection,
+			ePrefix.XCtx("fmtCollection"))
+
+	if err != nil {
+		return err
+	}
+
+	var country FormatterCountry
+
+	country,
+		err = FormatterCountry{}.NewWithComponents(
+		36,              // idNo
+		"036",           // idString
+		"Country Setup", // Desc
+		"",              // Tag
+		"Australia",     // Country Culture
+		"Australia",     // Abbrv Country Name
+		[]string{
+			"Commonwealth of Australia",
+			"The Commonwealth of Australia"}, // Alternate Cntry Names
+		"AU",  // countryCodeTwoChar
+		"AUS", // countryCodeThreeChar
+		"036", // countryCodeNumber
+		ePrefix.XCtx("country"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&country,
+		ePrefix.XCtx(
+			"&country"))
+
+	if err != nil {
+		return err
+	}
+
+	var absVal FormatterAbsoluteValue
+
+	absVal,
+		err = FormatterAbsoluteValue{}.NewBasic(
+		".",                    // decimalSeparatorChars
+		",",                    // thousandsSeparatorChars
+		true,                   // turnOnThousandsSeparator
+		"127.54",               // absoluteValFmt
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx("absVal"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&absVal,
+		ePrefix.XCtx(
+			"&absVal"))
+
+	if err != nil {
+		return err
+	}
+
+	var currency FormatterCurrency
+
+	currency,
+		err = FormatterCurrency{}.NewBasic(
+		".",                    // decimalSeparatorChars
+		",",                    // thousandsSeparatorChars
+		true,                   // turnOnThousandsSeparator
+		"$ 127.54",             // positiveValueFmt
+		"$ -127.54",            // negativeValueFmt
+		2,                      // decimalDigits
+		"AUD",                  // currencyCode
+		"036",                  // currencyCodeNo
+		"Dollar",               // currencyName
+		[]rune{'\U00000024'},   //currencySymbols
+		"Cent",                 // minorCurrencyName
+		[]rune{'\U000000a2'},   // minorCurrencySymbols
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx(
+			"currency"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&currency,
+		ePrefix.XCtx(
+			"&currency"))
+
+	if err != nil {
+		return err
+	}
+
+	var signedNum FormatterSignedNumber
+
+	signedNum,
+		err = FormatterSignedNumber{}.NewBasic(
+		".",                    // decimalSeparatorChars
+		",",                    // thousandsSeparatorChars
+		true,                   // turnOnThousandsSeparator
+		"127.54",               // positiveValueFmt
+		"-127.54",              // negativeValueFmt
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx(
+			"signedNum"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&signedNum,
+		ePrefix.XCtx(
+			"&signedNum"))
+
+	return err
+}
