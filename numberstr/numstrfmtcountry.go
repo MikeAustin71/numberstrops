@@ -718,3 +718,172 @@ func (nStrFmtCountry *NumStrFormatCountry) Austria(
 
 	return err
 }
+
+// Bahrain - Returns the number string format used in
+// The Kingdom of Bahrain.
+//
+// https://en.wikipedia.org/wiki/ISO_4217
+// https://en.wikipedia.org/wiki/Currency_symbol
+// https://www.xe.com/currency/bhd-bahraini-dinar
+//
+func (nStrFmtCountry *NumStrFormatCountry) Bahrain(
+	fmtCollection *FormatterCollection,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFormatCountry." +
+			"Bahrain()")
+
+	if fmtCollection == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtCollection' is "+
+			"a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	// Adds Binary, Hexadecimal, Octal and
+	// Scientific Notation Formatters
+	err = numStrFormatCountryMechanics{}.ptr().
+		addBaseFormatters(
+			fmtCollection,
+			ePrefix.XCtx("fmtCollection"))
+
+	if err != nil {
+		return err
+	}
+
+	var country FormatterCountry
+
+	country,
+		err = FormatterCountry{}.NewWithComponents(
+		48,                        // idNo
+		"048",                     // idString
+		"Country Setup - Bahrain", // Desc
+		"",                        // Tag
+		"Bahrain",                 // Country Culture
+		"Bahrain",                 // Abbrv Country Name
+		[]string{
+			"The Kingdom of Bahrain",
+			"Kingdom of Bahrain"}, // Alternate Cntry Names
+		"BH",  // countryCodeTwoChar
+		"BHR", // countryCodeThreeChar
+		"048", // countryCodeNumber
+		ePrefix.XCtx("country"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&country,
+		ePrefix.XCtx(
+			"&country"))
+
+	if err != nil {
+		return err
+	}
+
+	var absVal FormatterAbsoluteValue
+
+	absVal,
+		err = FormatterAbsoluteValue{}.NewBasic(
+		".",                    // decimalSeparatorChars
+		",",                    // thousandsSeparatorChars
+		true,                   // turnOnThousandsSeparator
+		"127.54",               // absoluteValFmt
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx("absVal"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&absVal,
+		ePrefix.XCtx(
+			"&absVal"))
+
+	if err != nil {
+		return err
+	}
+
+	var currency FormatterCurrency
+
+	currency,
+		err = FormatterCurrency{}.NewBasic(
+		".",         // decimalSeparatorChars
+		",",         // thousandsSeparatorChars
+		true,        // turnOnThousandsSeparator
+		"127.54 $",  // positiveValueFmt
+		"127.54- $", // negativeValueFmt
+		3,           // decimalDigits
+		"BHD",       // currencyCode
+		"048",       // currencyCodeNo
+		"Dinar",     // currencyName
+		[]rune{
+			'B',
+			'D',
+		}, //currencySymbols
+		"Fils",                 // minorCurrencyName
+		make([]rune, 0),        // minorCurrencySymbols
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx(
+			"currency"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&currency,
+		ePrefix.XCtx(
+			"&currency"))
+
+	if err != nil {
+		return err
+	}
+
+	var signedNum FormatterSignedNumber
+
+	signedNum,
+		err = FormatterSignedNumber{}.NewBasic(
+		".",                    // decimalSeparatorChars
+		",",                    // thousandsSeparatorChars
+		true,                   // turnOnThousandsSeparator
+		"127.54",               // positiveValueFmt
+		"127.54-",              // negativeValueFmt
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx(
+			"signedNum"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&signedNum,
+		ePrefix.XCtx(
+			"&signedNum"))
+
+	return err
+}
