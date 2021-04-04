@@ -553,3 +553,168 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia(
 
 	return err
 }
+
+// Austria - Returns the number string format used in
+// Austria.
+//
+//  https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+//  https://en.wikipedia.org/wiki/Decimal_separator
+//
+func (nStrFmtCountry *NumStrFormatCountry) Austria(
+	fmtCollection *FormatterCollection,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFormatCountry." +
+			"Austria()")
+
+	if fmtCollection == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtCollection' is "+
+			"a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	// Adds Binary, Hexadecimal, Octal and
+	// Scientific Notation Formatters
+	err = numStrFormatCountryMechanics{}.ptr().
+		addBaseFormatters(
+			fmtCollection,
+			ePrefix.XCtx("fmtCollection"))
+
+	if err != nil {
+		return err
+	}
+
+	var country FormatterCountry
+
+	country,
+		err = FormatterCountry{}.NewWithComponents(
+		40,                        // idNo
+		"040",                     // idString
+		"Country Setup - Austria", // Desc
+		"",                        // Tag
+		"Austria",                 // Country Culture
+		"Austria",                 // Abbrv Country Name
+		[]string{
+			"The Republic of Austria",
+			"Republic of Austria"}, // Alternate Cntry Names
+		"AT",  // countryCodeTwoChar
+		"AUT", // countryCodeThreeChar
+		"040", // countryCodeNumber
+		ePrefix.XCtx("country"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&country,
+		ePrefix.XCtx(
+			"&country"))
+
+	if err != nil {
+		return err
+	}
+
+	var absVal FormatterAbsoluteValue
+
+	absVal,
+		err = FormatterAbsoluteValue{}.NewBasic(
+		",",                    // decimalSeparatorChars
+		".",                    // thousandsSeparatorChars
+		true,                   // turnOnThousandsSeparator
+		"127.54",               // absoluteValFmt
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx("absVal"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&absVal,
+		ePrefix.XCtx(
+			"&absVal"))
+
+	if err != nil {
+		return err
+	}
+
+	var currency FormatterCurrency
+
+	currency,
+		err = FormatterCurrency{}.NewBasic(
+		",",                    // decimalSeparatorChars
+		".",                    // thousandsSeparatorChars
+		true,                   // turnOnThousandsSeparator
+		"127.54 $",             // positiveValueFmt
+		"127.54- $",            // negativeValueFmt
+		2,                      // decimalDigits
+		"ATS",                  // currencyCode
+		"978",                  // currencyCodeNo
+		"Euro",                 // currencyName
+		[]rune{'\U000020ac'},   //currencySymbols
+		"Cent",                 // minorCurrencyName
+		make([]rune, 0),        // minorCurrencySymbols
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx(
+			"currency"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&currency,
+		ePrefix.XCtx(
+			"&currency"))
+
+	if err != nil {
+		return err
+	}
+
+	var signedNum FormatterSignedNumber
+
+	signedNum,
+		err = FormatterSignedNumber{}.NewBasic(
+		",",                    // decimalSeparatorChars
+		".",                    // thousandsSeparatorChars
+		true,                   // turnOnThousandsSeparator
+		"127.54",               // positiveValueFmt
+		"-127.54",              // negativeValueFmt
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx(
+			"signedNum"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&signedNum,
+		ePrefix.XCtx(
+			"&signedNum"))
+
+	return err
+}
