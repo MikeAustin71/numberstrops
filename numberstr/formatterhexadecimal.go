@@ -2126,6 +2126,73 @@ func (formatterHex FormatterHexadecimal) NewWithDefaults(
 	return newFmtHexadecimal, err
 }
 
+// NewUnitedStatesDefaultsPtr - Creates and returns a pointer to a
+// new FormatterHexadecimal format specification. The returned
+// instance is generated using defaults for hexadecimal number
+// string formatting.
+//
+// The FormatterHexadecimal type encapsulates the formatting
+// parameters necessary to format hexadecimal digits for display in
+// text number strings.
+//
+// Member variable data fields in the returned FormatterHexadecimal
+// instance are configured as follows:
+//
+//  numStrFmtType = NumStrFormatTypeCode(0).Hexadecimal()
+//  useUpperCaseLetters = false (Alphabetic letters will be
+//                              displayed as 'a' through 'f')
+//  leftPrefix = "0x" All hexadecimal number strings will be
+//                    prefixed with "0x". Example: '0x2b'
+//
+//  turnOnIntegerDigitsSeparation = false No integer digit
+//                                        separation will be
+//                                        applied.
+//
+//  integerSeparators = None
+//
+//  numFieldDto.requestedNumFieldLength = -1
+//                   Number Field = Number String Length
+//
+//  numFieldDto.textJustifyFormat = TextJustify(0).Right()
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  -- None --
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  * FormatterHexadecimal
+//     - A pointer to a new instance of FormatterHexadecimal
+//       configured with default values will be returned.
+//
+func (formatterHex FormatterHexadecimal) NewUnitedStatesDefaultsPtr() *FormatterHexadecimal {
+
+	if formatterHex.lock == nil {
+		formatterHex.lock = new(sync.Mutex)
+	}
+
+	formatterHex.lock.Lock()
+
+	defer formatterHex.lock.Unlock()
+
+	newFmtHexadecimal := FormatterHexadecimal{}
+
+	newFmtHexadecimal.lock = new(sync.Mutex)
+
+	_ = formatterHexadecimalUtility{}.ptr().
+		setFmtHexWithDefaults(
+			&newFmtHexadecimal,
+			nil)
+
+	return &newFmtHexadecimal
+}
+
 // SetDetail - This method will set all of the member variable data
 // values for current instance of FormatterHexadecimal. New data
 // values will be generated from the input parameters described

@@ -100,7 +100,16 @@ func (nStrFmtCountry *NumStrFormatCountry) Albania(
 	err = fmtCollection.AddReplaceCollectionElement(
 		FormatterBinary{}.NewUnitedStatesDefaultsPtr(),
 		ePrefix.XCtx(
-			"binary"))
+			"Binary"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		FormatterHexadecimal{}.NewUnitedStatesDefaultsPtr(),
+		ePrefix.XCtx(
+			"Hexadecimal"))
 
 	if err != nil {
 		return err

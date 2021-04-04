@@ -2220,6 +2220,8 @@ func (fmtBinary FormatterBinary) NewUnitedStatesDefaultsPtr() *FormatterBinary {
 
 	newFormatterBinary := FormatterBinary{}
 
+	newFormatterBinary.lock = new(sync.Mutex)
+
 	_ = formatterBinaryUtility{}.ptr().setToUnitedStatesDefaults(
 		&newFormatterBinary,
 		nil)
