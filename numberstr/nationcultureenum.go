@@ -1453,6 +1453,40 @@ func (cntryCulId CountryCultureId) VietNam() CountryCultureId {
 	return CountryCultureId(704)
 }
 
+// ------------------------------------------------------------------------
+//        Utility Methods
+// ------------------------------------------------------------------------
+
+// String - Returns a string with the name of the enumeration
+// associated with this current instance of 'CountryCultureId'.
+//
+// This is a standard utility method and is not part of the valid
+// enumerations for this type.
+//
+// ------------------------------------------------------------------------
+//
+// Usage
+//
+// t:= CountryCultureId(0).Albania()
+// str := t.String()
+//     str is now equal to 'Albania'
+//
+func (cntryCulId CountryCultureId) String() string {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	result, ok :=
+		mCountryCultureCodeToString[cntryCulId]
+
+	if !ok {
+		return "Error: Country Culture Id Value UNKNOWN!"
+	}
+
+	return result
+}
+
 // XParseString - Receives a string and attempts to match it with the
 // string value of a supported enumeration. If successful, a new
 // instance of CountryCultureId is returned set to the value of the
@@ -1578,3 +1612,56 @@ func (cntryCulId CountryCultureId) XIsValid() bool {
 
 	return isValid
 }
+
+// XValue - This method returns the enumeration value of the current
+// CountryCultureId instance.
+//
+// This is a standard utility method and is not part of the valid
+// enumerations for this type.
+//
+//
+func (cntryCulId CountryCultureId) XValue() CountryCultureId {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return cntryCulId
+}
+
+// XValueInt - This method returns the integer value of the current
+// CountryCultureId value as an integer.
+//
+// This is a standard utility method and is not part of the valid
+// enumerations for this type.
+//
+//
+func (cntryCulId CountryCultureId) XValueInt() int {
+
+	lockCountryCultureId.Lock()
+
+	defer lockCountryCultureId.Unlock()
+
+	return int(cntryCulId)
+}
+
+// CntryCulId - A constant value for CountryCultureId(0).
+//
+// This constant serves as an easier, short hand technique for
+// accessing CountryCultureId values.
+//
+// For easy access to these enumeration values, use this
+// constant 'CntryCulId'.
+//  Example: CntryCulId.UnitedStates()
+//
+// Otherwise you will need to use the formal syntax.
+//  Example: CountryCultureId(0).UnitedStates()
+//
+// Usage:
+// CntryCul.None(),
+// CntryCul.UnitedStates(),
+// CntryCul.Bitcoin(),
+// CntryCul.Canada(),
+// CntryCul.Czechia(),
+//
+const CntryCulId = CountryCultureId(0)

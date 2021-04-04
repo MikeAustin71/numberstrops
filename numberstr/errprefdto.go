@@ -483,10 +483,52 @@ func (ePrefDto *ErrPrefixDto) GetEPrefCollectionLen() int {
 
 	if ePrefDto.ePrefCol == nil {
 		ePrefDto.ePrefCol =
-			make([]ErrorPrefixInfo, 0, 256)
+			make([]ErrorPrefixInfo, 0)
 	}
 
 	return len(ePrefDto.ePrefCol)
+}
+
+// GetEPrefStrings - Returns a two dimensional slice of Error
+// Prefix and Context strings.
+//
+// The Error Prefix is always in the [x][0] position. The error
+// context string is always in the [x][1] position. The error
+// context string may be an empty string.
+//
+func (ePrefDto *ErrPrefixDto) GetEPrefStrings() [][2]string {
+
+	if ePrefDto.lock == nil {
+		ePrefDto.lock = new(sync.Mutex)
+	}
+
+	ePrefDto.lock.Lock()
+
+	defer ePrefDto.lock.Unlock()
+
+	if ePrefDto.ePrefCol == nil {
+		ePrefDto.ePrefCol =
+			make([]ErrorPrefixInfo, 0)
+	}
+
+	colLen := len(ePrefDto.ePrefCol)
+
+	if colLen == 0 {
+		return nil
+	}
+
+	newTwoDSlice := make([][2]string, colLen)
+
+	for i := 0; i < colLen; i++ {
+
+		newTwoDSlice[i][0] =
+			ePrefDto.ePrefCol[i].errorPrefixStr
+
+		newTwoDSlice[i][1] =
+			ePrefDto.ePrefCol[i].errorContextStr
+	}
+
+	return newTwoDSlice
 }
 
 // GetMaxErrPrefTextLineLength - Returns the maximum limit on the
@@ -812,7 +854,7 @@ func (ePrefDto ErrPrefixDto) NewFromIErrorPrefix(
 
 	newErrPrefixDto.lock = new(sync.Mutex)
 
-	newErrPrefixDto.ePrefCol = make([]ErrorPrefixInfo, 0, 100)
+	newErrPrefixDto.ePrefCol = make([]ErrorPrefixInfo, 0)
 
 	newErrPrefixDto.maxErrPrefixTextLineLength =
 		errPrefQuark{}.ptr().getMasterErrPrefDisplayLineLength()
@@ -828,6 +870,76 @@ func (ePrefDto ErrPrefixDto) NewFromIErrorPrefix(
 	newErrPrefixDto.SetEPrefOld(oldErrPrefStr)
 
 	return newErrPrefixDto
+}
+
+func (ePrefDto ErrPrefixDto) NewFromIBasicErrorPrefix(
+	iEPref IBasicErrorPrefix) *ErrPrefixDto {
+
+	if ePrefDto.lock == nil {
+		ePrefDto.lock = new(sync.Mutex)
+	}
+
+	ePrefDto.lock.Lock()
+
+	defer ePrefDto.lock.Unlock()
+	newErrPrefixDto := ErrPrefixDto{}
+
+	newErrPrefixDto.lock = new(sync.Mutex)
+
+	newErrPrefixDto.maxErrPrefixTextLineLength =
+		errPrefQuark{}.ptr().getMasterErrPrefDisplayLineLength()
+
+	if iEPref == nil {
+		newErrPrefixDto.ePrefCol = make([]ErrorPrefixInfo, 0)
+		return &newErrPrefixDto
+	}
+
+	twoDSlice := iEPref.GetEPrefStrings()
+
+	lenTwoDSlice := len(twoDSlice)
+
+	if lenTwoDSlice == 0 {
+		newErrPrefixDto.ePrefCol = make([]ErrorPrefixInfo, 0)
+		return &newErrPrefixDto
+	}
+
+	newErrPrefixDto.ePrefCol = make([]ErrorPrefixInfo, lenTwoDSlice)
+
+	var ePrefInfo ErrorPrefixInfo
+	var lastIdx = lenTwoDSlice - 1
+	var isFirstIdx, isLastIdx bool
+
+	for i := 0; i < lenTwoDSlice; i++ {
+
+		if i == 0 {
+			isFirstIdx = true
+		} else {
+			isFirstIdx = false
+		}
+
+		if i == lastIdx {
+			isLastIdx = true
+		} else {
+			isLastIdx = false
+		}
+
+		ePrefInfo = ErrorPrefixInfo{
+			isFirstIdx:             isFirstIdx,
+			isLastIdx:              isLastIdx,
+			isPopulated:            true,
+			errorPrefixStr:         twoDSlice[i][0],
+			lenErrorPrefixStr:      uint(len(twoDSlice[i][0])),
+			errPrefixHasContextStr: len(twoDSlice[i][1]) > 0,
+			errorContextStr:        twoDSlice[i][1],
+			lenErrorContextStr:     uint(len(twoDSlice[i][1])),
+			lock:                   nil,
+		}
+
+		newErrPrefixDto.ePrefCol[i] = ePrefInfo
+
+	}
+
+	return &newErrPrefixDto
 }
 
 // Ptr - Returns a pointer to a new and properly initialized
@@ -1092,7 +1204,7 @@ func (ePrefDto *ErrPrefixDto) SetEPrefCollection(
 	defer ePrefDto.lock.Unlock()
 
 	if newEPrefCollection == nil {
-		newEPrefCollection = make([]ErrorPrefixInfo, 0, 256)
+		newEPrefCollection = make([]ErrorPrefixInfo, 0)
 		return
 	}
 
@@ -1100,8 +1212,7 @@ func (ePrefDto *ErrPrefixDto) SetEPrefCollection(
 
 	ePrefDto.ePrefCol = make(
 		[]ErrorPrefixInfo,
-		lenNewEPrefCol,
-		lenNewEPrefCol+256)
+		lenNewEPrefCol)
 
 	if lenNewEPrefCol == 0 {
 		return

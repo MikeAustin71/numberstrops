@@ -887,3 +887,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Bahrain(
 
 	return err
 }
+
+// Bangladesh - Returns the number string format used in
+// The People's Republic of Bangladesh.
+//
