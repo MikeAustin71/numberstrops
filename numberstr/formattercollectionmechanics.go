@@ -74,6 +74,9 @@ func (fmtCollectionMech *formatterCollectionMechanics) addReplaceCollection(
 	arrayLen := len(formatterCollection.fmtCollection)
 
 	if arrayLen == 0 {
+
+		formatterCollection.fmtCollection = nil
+
 		formatterCollection.fmtCollection =
 			append(formatterCollection.fmtCollection,
 				newCollectionElement)
