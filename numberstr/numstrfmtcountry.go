@@ -196,7 +196,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Albania(
 	err = fmtCollection.AddReplaceCollectionElement(
 		&currency,
 		ePrefix.XCtx(
-			"&absVal"))
+			"&currency"))
 
 	if err != nil {
 		return err
@@ -225,9 +225,169 @@ func (nStrFmtCountry *NumStrFormatCountry) Albania(
 		ePrefix.XCtx(
 			"&signedNum"))
 
+	return err
+}
+
+// Argentina - Returns the number string format used in the
+// Argentina.
+//
+// https://freeformatter.com/argentina-standards-code-snippets.html
+//
+func (nStrFmtCountry *NumStrFormatCountry) Argentina(
+	fmtCollection *FormatterCollection,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFormatCountry." +
+			"Argentina()")
+
+	if fmtCollection == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtCollection' is "+
+			"a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	// Adds Binary, Hexadecimal, Octal and
+	// Scientific Notation Formatters
+	err = numStrFormatCountryMechanics{}.ptr().
+		addBaseFormatters(
+			fmtCollection,
+			ePrefix.XCtx("fmtCollection"))
+
 	if err != nil {
 		return err
 	}
+
+	var country FormatterCountry
+
+	country,
+		err = FormatterCountry{}.NewWithComponents(
+		32,              // idNo
+		"032",           // idString
+		"Country Setup", // Desc
+		"",              // Tag
+		"Argentina",     // Country Culture
+		"Argentina",     // Abbrv Country Name
+		[]string{
+			"Argentine Republic",
+			"The Argentine Republic"}, // Alternate Cntry Names
+		"AR",  // countryCodeTwoChar
+		"ARG", // countryCodeThreeChar
+		"032", // countryCodeNumber
+		ePrefix.XCtx("country"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&country,
+		ePrefix.XCtx(
+			"&country"))
+
+	if err != nil {
+		return err
+	}
+
+	var absVal FormatterAbsoluteValue
+
+	absVal,
+		err = FormatterAbsoluteValue{}.NewBasic(
+		",",                    // decimalSeparatorChars
+		".",                    // thousandsSeparatorChars
+		true,                   // turnOnThousandsSeparator
+		"127.54",               // absoluteValFmt
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx("absVal"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&absVal,
+		ePrefix.XCtx(
+			"&absVal"))
+
+	if err != nil {
+		return err
+	}
+
+	var currency FormatterCurrency
+
+	currency,
+		err = FormatterCurrency{}.NewBasic(
+		",",                    // decimalSeparatorChars
+		".",                    // thousandsSeparatorChars
+		true,                   // turnOnThousandsSeparator
+		"$ 127.54",             // positiveValueFmt
+		"-$ 127.54",            // negativeValueFmt
+		2,                      // decimalDigits
+		"ARS",                  // currencyCode
+		"032",                  // currencyCodeNo
+		"Peso",                 // currencyName
+		[]rune{'\U00000024'},   //currencySymbols
+		"Centavo",              // minorCurrencyName
+		make([]rune, 0),        // minorCurrencySymbols
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx(
+			"currency"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&currency,
+		ePrefix.XCtx(
+			"&currency"))
+
+	if err != nil {
+		return err
+	}
+
+	var signedNum FormatterSignedNumber
+
+	signedNum,
+		err = FormatterSignedNumber{}.NewBasic(
+		",",                    // decimalSeparatorChars
+		".",                    // thousandsSeparatorChars
+		true,                   // turnOnThousandsSeparator
+		"127.54",               // positiveValueFmt
+		"- 127.54",             // negativeValueFmt
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx(
+			"signedNum"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&signedNum,
+		ePrefix.XCtx(
+			"&signedNum"))
 
 	return err
 }
