@@ -2308,6 +2308,83 @@ func (fmtOctal FormatterOctal) NewWithDefaults(
 	return newFormatterOctal, err
 }
 
+// NewUnitedStatesDefaultsPtr - Creates and returns a pointer to a
+// new FormatterOctal format specification. The returned instance
+// is generated using defaults for octal number string formatting.
+//
+// The FormatterOctal type encapsulates the formatting parameters
+// necessary to format octal digits for display in text number
+// strings.
+//
+// Member variable data fields in the returned FormatterOctal
+// instance are configured as follows:
+//
+// Number String Format Type (numStrFmtType) =
+//     NumStrFormatTypeCode(0).Octal()
+//
+// Octal Number String Left Prefix String (leftPrefix) = ""
+//
+// Octal Number String Right Suffix String (rightSuffix) = ""
+//
+// Turn On Integer Digits Separation
+//  (turnOnIntegerDigitsSeparation) = false
+//
+// Decimal Separator = "."
+//
+// Integer Separators (integerSeparators) =
+//   Integer Digit Separator  = ","
+//   Integer Digit Grouping Sequence = 3
+//   Integer Group Repetitions = 0
+//
+// Number Field Dto = Off
+//   Requested Number Field Length = -1
+//   Text Justify Format (textJustifyFormat) =
+//     TextJustify(0).Right
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  -- None --
+//
+//
+// ------------------------------------------------------------------------
+//
+// Return Values
+//
+//  * FormatterOctal
+//     - This parameter will return a pointer to a new instance of
+//       FormatterOctal configured for United States default octal
+//       format parameters.
+//
+//
+//  error
+//     - If this method completes successfully, the returned error
+//       Type is set equal to 'nil'.
+//
+func (fmtOctal FormatterOctal) NewUnitedStatesDefaultsPtr() *FormatterOctal {
+
+	if fmtOctal.lock == nil {
+		fmtOctal.lock = new(sync.Mutex)
+	}
+
+	fmtOctal.lock.Lock()
+
+	defer fmtOctal.lock.Unlock()
+
+	newFormatterOctal := new(FormatterOctal)
+
+	newFormatterOctal.lock = new(sync.Mutex)
+
+	_ = formatterOctalUtility{}.ptr().
+		setFmtOctalWithDefaults(
+			newFormatterOctal,
+			nil)
+
+	return newFormatterOctal
+}
+
 // SetDetail - Overwrites and resets all the data values in
 // the current instance of FormatterOctal.
 //
