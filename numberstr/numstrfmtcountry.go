@@ -1,6 +1,7 @@
 package numberstr
 
 import (
+	"fmt"
 	"sync"
 )
 
@@ -44,6 +45,7 @@ type NumStrFormatCountry struct {
 // Ptr - Returns a pointer to a new instance of NumStrFormatCountry.
 //
 func (nStrFmtCountry NumStrFormatCountry) Ptr() *NumStrFormatCountry {
+
 	if nStrFmtCountry.lock == nil {
 		nStrFmtCountry.lock = new(sync.Mutex)
 	}
@@ -55,4 +57,53 @@ func (nStrFmtCountry NumStrFormatCountry) Ptr() *NumStrFormatCountry {
 	return &NumStrFormatCountry{
 		lock: new(sync.Mutex),
 	}
+}
+
+// Albania - Returns the number string format used in
+// The Republic of Albania.
+//
+//  https://www.xe.com/currency/all-albanian-lek
+//  https://en.wikipedia.org/wiki/Decimal_separator
+//
+func (nStrFmtCountry *NumStrFormatCountry) Albania(
+	fmtCollection *FormatterCollection,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	if ePrefix == nil {
+		ePrefix = ErrPrefixDto{}.Ptr()
+	} else {
+		ePrefix = ePrefix.CopyPtr()
+	}
+
+	ePrefix.SetEPref(
+		"NumStrFormatCountry." +
+			"Albania()")
+
+	if fmtCollection == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtCollection' is "+
+			"a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		FormatterBinary{}.NewUnitedStatesDefaultsPtr(),
+		ePrefix.XCtx(
+			"binary"))
+
+	if err != nil {
+		return err
+	}
+
 }

@@ -2168,6 +2168,65 @@ func (fmtBinary FormatterBinary) NewUnitedStatesDefaults() FormatterBinary {
 	return newFormatterBinary
 }
 
+// NewUnitedStatesDefaultsPtr - Creates and returns a pointer to a
+// new instance of FormatterBinary.
+//
+// The FormatterBinary type encapsulates the formatting parameters
+// necessary to format binary digits for display in text number
+// strings.
+//
+// In the United States, Binary Number default formatting
+// parameters are defined as follows:
+//
+//    Turn On Integer Digits Separation: false
+//         Decimal Separator Character: '.'
+//                 Number Field Length: -1
+//          Number Field Justification: Right-Justified
+//
+// Note: With 'Turn On Integer Digits Separation' set to false,
+// integer digit separation is not applied to binary digits
+// displayed in number strings.
+//
+// The member variable 'FormatterBinary.numStrFmtType' is
+// automatically defaulted to:
+//         FormatterBinary(0).Binary()
+//
+//
+// ----------------------------------------------------------------
+//
+// Input Parameters
+//
+//  -- None --
+//
+//
+// -----------------------------------------------------------------
+//
+// Return Values
+//
+//  *FormatterBinary
+//     - This parameter will return a pointer to a new, populated
+//       instance of FormatterBinary configured for United States
+//       default binary format parameters.
+//
+func (fmtBinary FormatterBinary) NewUnitedStatesDefaultsPtr() *FormatterBinary {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	newFormatterBinary := FormatterBinary{}
+
+	_ = formatterBinaryUtility{}.ptr().setToUnitedStatesDefaults(
+		&newFormatterBinary,
+		nil)
+
+	return &newFormatterBinary
+}
+
 // NewWithComponents - Creates and returns a new instance of
 // FormatterBinary.
 //
@@ -2412,6 +2471,24 @@ func (fmtBinary FormatterBinary) NewWithComponents(
 			"newFormatterBinary"))
 
 	return newFormatterBinary, err
+}
+
+// Ptr - Returns a pointer to a new instance of
+// FormatterBinary.
+//
+func (fmtBinary FormatterBinary) Ptr() *FormatterBinary {
+
+	if fmtBinary.lock == nil {
+		fmtBinary.lock = new(sync.Mutex)
+	}
+
+	fmtBinary.lock.Lock()
+
+	defer fmtBinary.lock.Unlock()
+
+	newFmtBinary := new(FormatterBinary)
+
+	return newFmtBinary
 }
 
 // SetBasic - This method will set all of the member variable data
