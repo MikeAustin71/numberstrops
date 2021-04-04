@@ -30,11 +30,11 @@ func (numStrFmtCntryMech numStrFormatCountryMechanics) ptr() *numStrFormatCountr
 	return newNumStrFmtCntryMech
 }
 
-// addBaseFormatters - Adds Binary, Hexadecimal and Octal default
-// formatters to a FormatterCollection instance.
+// addBaseFormatters - Adds Binary, Hexadecimal, Octal and
+// Scientific Notation default formatters to a
+// FormatterCollection instance.
 //
 func (numStrFmtCntryMech *numStrFormatCountryMechanics) addBaseFormatters(
-	fmtCountry *NumStrFormatCountry,
 	fmtCollection *FormatterCollection,
 	ePrefix *ErrPrefixDto) (
 	err error) {
@@ -84,4 +84,36 @@ func (numStrFmtCntryMech *numStrFormatCountryMechanics) addBaseFormatters(
 		return err
 	}
 
+	err = fmtCollection.AddReplaceCollectionElement(
+		FormatterOctal{}.NewUnitedStatesDefaultsPtr(),
+		ePrefix.XCtx(
+			"Octal"))
+
+	if err != nil {
+		return err
+	}
+
+	var fmtSciNotation FormatterSciNotation
+
+	fmtSciNotation,
+		err = FormatterSciNotation{}.NewWithDefaults(
+		false,                  // significandUsesLeadingPlus
+		6,                      // mantissaLength
+		'E',                    // exponentChar
+		true,                   // exponentUsesLeadingPlus,
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx(
+			"Scientific Notation"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&fmtSciNotation,
+		ePrefix.XCtx(
+			"Scientific Notation"))
+
+	return err
 }

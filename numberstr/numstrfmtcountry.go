@@ -97,22 +97,137 @@ func (nStrFmtCountry *NumStrFormatCountry) Albania(
 		return err
 	}
 
-	err = fmtCollection.AddReplaceCollectionElement(
-		FormatterBinary{}.NewUnitedStatesDefaultsPtr(),
-		ePrefix.XCtx(
-			"Binary"))
+	// Adds Binary, Hexadecimal, Octal and
+	// Scientific Notation Formatters
+	err = numStrFormatCountryMechanics{}.ptr().
+		addBaseFormatters(
+			fmtCollection,
+			ePrefix.XCtx("fmtCollection"))
+
+	if err != nil {
+		return err
+	}
+
+	var country FormatterCountry
+
+	country,
+		err = FormatterCountry{}.NewWithComponents(
+		8,               // idNo
+		"008",           // idString
+		"Country Setup", // Desc
+		"",              // Tag
+		"Albania",       // Country Culture
+		"Albania",       // Abbrv Country Name
+		[]string{
+			"The Republic of Albania",
+			"Republic of Albania"}, // Alternate Cntry Names
+		"AL",  // countryCodeTwoChar
+		"ALB", // countryCodeThreeChar
+		"008", // countryCodeNumber
+		ePrefix.XCtx("country"))
 
 	if err != nil {
 		return err
 	}
 
 	err = fmtCollection.AddReplaceCollectionElement(
-		FormatterHexadecimal{}.NewUnitedStatesDefaultsPtr(),
+		&country,
 		ePrefix.XCtx(
-			"Hexadecimal"))
+			"&country"))
 
 	if err != nil {
 		return err
 	}
 
+	var absVal FormatterAbsoluteValue
+
+	absVal,
+		err = FormatterAbsoluteValue{}.NewBasic(
+		",",                    // decimalSeparatorChars
+		" ",                    // thousandsSeparatorChars
+		true,                   // turnOnThousandsSeparator
+		"127.54",               // absoluteValFmt
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx("absVal"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&absVal,
+		ePrefix.XCtx(
+			"&absVal"))
+
+	if err != nil {
+		return err
+	}
+
+	var currency FormatterCurrency
+
+	currency,
+		err = FormatterCurrency{}.NewBasic(
+		",",         // decimalSeparatorChars
+		" ",         // thousandsSeparatorChars
+		true,        // turnOnThousandsSeparator
+		"$ 127.54",  // positiveValueFmt
+		"$ -127.54", // negativeValueFmt
+		2,           // decimalDigits
+		"ALL",       // currencyCode
+		"008",       // currencyCodeNo
+		"Lek",       // currencyName
+		[]rune{
+			'\U0000004c',
+			'\U00000065',
+			'\U0000006b',
+		}, //currencySymbols
+		"Qindarkë",             // minorCurrencyName
+		make([]rune, 0),        // minorCurrencySymbols
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx(
+			"currency"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&currency,
+		ePrefix.XCtx(
+			"&absVal"))
+
+	if err != nil {
+		return err
+	}
+
+	var signedNum FormatterSignedNumber
+
+	signedNum,
+		err = FormatterSignedNumber{}.NewBasic(
+		",",                    // decimalSeparatorChars
+		" ",                    // thousandsSeparatorChars
+		true,                   // turnOnThousandsSeparator
+		"127.54",               // positiveValueFmt
+		"-127.54",              // negativeValueFmt
+		-1,                     // requestedNumberFieldLen
+		TextJustify(0).Right(), // numberFieldTextJustify
+		ePrefix.XCtx(
+			"signedNum"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&signedNum,
+		ePrefix.XCtx(
+			"&signedNum"))
+
+	if err != nil {
+		return err
+	}
+
+	return err
 }
