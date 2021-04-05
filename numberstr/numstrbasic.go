@@ -132,8 +132,9 @@ func (numStrBasic *NumStrBasic) GetCountryFormatters(
 
 	ePrefix.SetEPref(methodName)
 
-	return numStrBasicQuark{}.ptr().getCountryFormatters(
-		fmtCollection,
-		countryCulture,
-		ePrefix)
+	return numStrBasicQuark{}.ptr().
+		getCountryFormatters(
+			fmtCollection,
+			countryCulture,
+			ePrefix)
 }

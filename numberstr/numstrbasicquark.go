@@ -9,6 +9,10 @@ type numStrBasicQuark struct {
 	lock *sync.Mutex
 }
 
+// getCountryFormatters - Populates a FormatterCollection
+// collection with a series of number string formatter objects
+// associated with the country or culture specified by input
+// parameter, 'countryCulture'.
 //
 func (nStrBasicQuark numStrBasicQuark) getCountryFormatters(
 	fmtCollection *FormatterCollection,
