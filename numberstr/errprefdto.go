@@ -964,7 +964,8 @@ func (ePrefDto ErrPrefixDto) NewIBasicErrorPrefix(
 	newErrPrefixDto.maxErrPrefixTextLineLength =
 		errPrefQuark{}.ptr().getMasterErrPrefDisplayLineLength()
 
-	methodName := "ErrPrefixDto.NewIBasicErrorPrefix()"
+	methodName := newErrPrefix +
+		"\nErrPrefixDto.NewIBasicErrorPrefix()"
 
 	err := errPrefixDtoNanobot{}.ptr().
 		setFromIBasicErrorPrefix(
@@ -1106,7 +1107,8 @@ func (ePrefDto ErrPrefixDto) NewIEmpty(
 	newErrPrefixDto.maxErrPrefixTextLineLength =
 		errPrefQuark{}.ptr().getMasterErrPrefDisplayLineLength()
 
-	methodName := "ErrPrefixDto.NewIEmpty()"
+	methodName := newErrPrefix +
+		"\nErrPrefixDto.NewIEmpty()"
 
 	err := errPrefixDtoMechanics{}.ptr().
 		setFromEmptyInterface(

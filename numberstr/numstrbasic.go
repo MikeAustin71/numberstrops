@@ -1,7 +1,6 @@
 package numberstr
 
 import (
-	"fmt"
 	"sync"
 )
 
@@ -112,25 +111,18 @@ func (numStrBasic *NumStrBasic) GetCountryFormatters(
 
 	defer numStrBasic.lock.Unlock()
 
-	methodName := "NumStrBasic." +
-		"GetCountryFormatters()"
-
 	var ePrefix *ErrPrefixDto
 	var err error
 
 	ePrefix,
 		err = ErrPrefixDto{}.NewIEmpty(
-		errorPrefix)
+		errorPrefix,
+		"NumStrBasic.GetCountryFormatters()",
+		"")
 
 	if err != nil {
-		return fmt.Errorf("%v\n"+
-			"Error: Input parameter 'errorPrefix' is invalid!\n"+
-			"%v\n",
-			methodName,
-			err.Error())
+		return err
 	}
-
-	ePrefix.SetEPref(methodName)
 
 	return numStrBasicQuark{}.ptr().
 		getCountryFormatters(
