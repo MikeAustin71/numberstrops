@@ -5,9 +5,11 @@ type IBasicErrorPrefix interface {
 }
 
 type IErrorPrefix interface {
-	GetIsLastLineTerminatedWithNewLine() bool
+	GetEPrefStrings() [][2]string
 
 	GetEPrefCollectionLen() int
+
+	GetIsLastLineTerminatedWithNewLine() bool
 
 	SetCtx(newErrContext string)
 
