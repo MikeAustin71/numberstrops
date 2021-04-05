@@ -119,7 +119,7 @@ func (numStrBasic *NumStrBasic) GetCountryFormatters(
 	var err error
 
 	ePrefix,
-		err = ErrPrefixDto{}.NewFromIEmpty(
+		err = ErrPrefixDto{}.NewIEmpty(
 		errorPrefix)
 
 	if err != nil {

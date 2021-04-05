@@ -891,3 +891,10 @@ func (nStrFmtCountry *NumStrFormatCountry) Bahrain(
 // Bangladesh - Returns the number string format used in
 // The People's Republic of Bangladesh.
 //
+func (nStrFmtCountry *NumStrFormatCountry) Bangladesh(
+	fmtCollection *FormatterCollection,
+	ePrefix *ErrPrefixDto) (
+	err error) {
+
+	return err
+}
