@@ -942,6 +942,10 @@ func (ePrefDto ErrPrefixDto) NewFromIErrorPrefix(
 //       If errors are encountered during processing, the returned
 //       error Type will encapsulate an error message.
 //
+//       In the event of an error, the value of parameter
+//       'newErrPrefix' will be prefixed and attached to the
+//       beginning of the error message
+//
 func (ePrefDto ErrPrefixDto) NewIBasicErrorPrefix(
 	iEPref IBasicErrorPrefix,
 	newErrPrefix string,
@@ -1084,6 +1088,10 @@ func (ePrefDto ErrPrefixDto) NewIBasicErrorPrefix(
 //
 //       If errors are encountered during processing, the returned
 //       error Type will encapsulate an error message.
+//
+//       In the event of an error, the value of parameter
+//       'newErrPrefix' will be prefixed and attached to the
+//       beginning of the error message
 //
 func (ePrefDto ErrPrefixDto) NewIEmpty(
 	iEPref interface{},

@@ -67,7 +67,7 @@ func (nStrFmtCountry NumStrFormatCountry) Ptr() *NumStrFormatCountry {
 //
 func (nStrFmtCountry *NumStrFormatCountry) Albania(
 	fmtCollection *FormatterCollection,
-	ePrefix *ErrPrefixDto) (
+	errorPrefix interface{}) (
 	err error) {
 
 	if nStrFmtCountry.lock == nil {
@@ -78,15 +78,18 @@ func (nStrFmtCountry *NumStrFormatCountry) Albania(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	} else {
-		ePrefix = ePrefix.CopyPtr()
-	}
+	var ePrefix *ErrPrefixDto
 
-	ePrefix.SetEPref(
-		"NumStrFormatCountry." +
-			"Albania()")
+	ePrefix,
+		err = ErrPrefixDto{}.NewIEmpty(
+		errorPrefix,
+		"NumStrFormatCountry."+
+			"Albania()",
+		"")
+
+	if err != nil {
+		return err
+	}
 
 	if fmtCollection == nil {
 		err = fmt.Errorf("%v\n"+
@@ -235,7 +238,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Albania(
 //
 func (nStrFmtCountry *NumStrFormatCountry) Argentina(
 	fmtCollection *FormatterCollection,
-	ePrefix *ErrPrefixDto) (
+	errorPrefix interface{}) (
 	err error) {
 
 	if nStrFmtCountry.lock == nil {
@@ -246,15 +249,18 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	} else {
-		ePrefix = ePrefix.CopyPtr()
-	}
+	var ePrefix *ErrPrefixDto
 
-	ePrefix.SetEPref(
-		"NumStrFormatCountry." +
-			"Argentina()")
+	ePrefix,
+		err = ErrPrefixDto{}.NewIEmpty(
+		errorPrefix,
+		"NumStrFormatCountry."+
+			"Argentina()",
+		"")
+
+	if err != nil {
+		return err
+	}
 
 	if fmtCollection == nil {
 		err = fmt.Errorf("%v\n"+
@@ -397,7 +403,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Argentina(
 //
 func (nStrFmtCountry *NumStrFormatCountry) Australia(
 	fmtCollection *FormatterCollection,
-	ePrefix *ErrPrefixDto) (
+	errorPrefix interface{}) (
 	err error) {
 
 	if nStrFmtCountry.lock == nil {
@@ -408,15 +414,18 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	} else {
-		ePrefix = ePrefix.CopyPtr()
-	}
+	var ePrefix *ErrPrefixDto
 
-	ePrefix.SetEPref(
-		"NumStrFormatCountry." +
-			"Australia()")
+	ePrefix,
+		err = ErrPrefixDto{}.NewIEmpty(
+		errorPrefix,
+		"NumStrFormatCountry."+
+			"Australia()",
+		"")
+
+	if err != nil {
+		return err
+	}
 
 	if fmtCollection == nil {
 		err = fmt.Errorf("%v\n"+
@@ -562,7 +571,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Australia(
 //
 func (nStrFmtCountry *NumStrFormatCountry) Austria(
 	fmtCollection *FormatterCollection,
-	ePrefix *ErrPrefixDto) (
+	errorPrefix interface{}) (
 	err error) {
 
 	if nStrFmtCountry.lock == nil {
@@ -573,15 +582,18 @@ func (nStrFmtCountry *NumStrFormatCountry) Austria(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	} else {
-		ePrefix = ePrefix.CopyPtr()
-	}
+	var ePrefix *ErrPrefixDto
 
-	ePrefix.SetEPref(
-		"NumStrFormatCountry." +
-			"Austria()")
+	ePrefix,
+		err = ErrPrefixDto{}.NewIEmpty(
+		errorPrefix,
+		"NumStrFormatCountry."+
+			"Austria()",
+		"")
+
+	if err != nil {
+		return err
+	}
 
 	if fmtCollection == nil {
 		err = fmt.Errorf("%v\n"+
@@ -728,7 +740,7 @@ func (nStrFmtCountry *NumStrFormatCountry) Austria(
 //
 func (nStrFmtCountry *NumStrFormatCountry) Bahrain(
 	fmtCollection *FormatterCollection,
-	ePrefix *ErrPrefixDto) (
+	errorPrefix interface{}) (
 	err error) {
 
 	if nStrFmtCountry.lock == nil {
@@ -739,15 +751,18 @@ func (nStrFmtCountry *NumStrFormatCountry) Bahrain(
 
 	defer nStrFmtCountry.lock.Unlock()
 
-	if ePrefix == nil {
-		ePrefix = ErrPrefixDto{}.Ptr()
-	} else {
-		ePrefix = ePrefix.CopyPtr()
-	}
+	var ePrefix *ErrPrefixDto
 
-	ePrefix.SetEPref(
-		"NumStrFormatCountry." +
-			"Bahrain()")
+	ePrefix,
+		err = ErrPrefixDto{}.NewIEmpty(
+		errorPrefix,
+		"NumStrFormatCountry."+
+			"Bahrain()",
+		"")
+
+	if err != nil {
+		return err
+	}
 
 	if fmtCollection == nil {
 		err = fmt.Errorf("%v\n"+
@@ -891,10 +906,195 @@ func (nStrFmtCountry *NumStrFormatCountry) Bahrain(
 // Bangladesh - Returns the number string format used in
 // The People's Republic of Bangladesh.
 //
+// Reference Indian Numbering System:
+//  https://en.wikipedia.org/wiki/Indian_numbering_system
+//
 func (nStrFmtCountry *NumStrFormatCountry) Bangladesh(
 	fmtCollection *FormatterCollection,
-	ePrefix *ErrPrefixDto) (
+	errorPrefix interface{}) (
 	err error) {
+
+	if nStrFmtCountry.lock == nil {
+		nStrFmtCountry.lock = new(sync.Mutex)
+	}
+
+	nStrFmtCountry.lock.Lock()
+
+	defer nStrFmtCountry.lock.Unlock()
+
+	var ePrefix *ErrPrefixDto
+
+	ePrefix,
+		err = ErrPrefixDto{}.NewIEmpty(
+		errorPrefix,
+		"NumStrFormatCountry."+
+			"Bangladesh()",
+		"")
+
+	if err != nil {
+		return err
+	}
+
+	if fmtCollection == nil {
+		err = fmt.Errorf("%v\n"+
+			"Error: Input parameter 'fmtCollection' is "+
+			"a 'nil' pointer!\n",
+			ePrefix.String())
+
+		return err
+	}
+
+	// Adds Binary, Hexadecimal, Octal and
+	// Scientific Notation Formatters
+	err = numStrFormatCountryMechanics{}.ptr().
+		addBaseFormatters(
+			fmtCollection,
+			ePrefix.XCtx("fmtCollection"))
+
+	if err != nil {
+		return err
+	}
+
+	var country FormatterCountry
+
+	country,
+		err = FormatterCountry{}.NewWithComponents(
+		50,                           // idNo
+		"050",                        // idString
+		"Country Setup - Bangladesh", // Desc
+		"",                           // Tag
+		"Bangladesh",                 // Country Culture
+		"Bangladesh",                 // Abbrv Country Name
+		[]string{
+			"The People's Republic of Bangladesh",
+			"People's Republic of Bangladesh"}, // Alternate Cntry Names
+		"BD",  // countryCodeTwoChar
+		"BGD", // countryCodeThreeChar
+		"050", // countryCodeNumber
+		ePrefix.XCtx("country"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&country,
+		ePrefix.XCtx(
+			"&country"))
+
+	if err != nil {
+		return err
+	}
+
+	// Indian Numbering System
+	// Example: 10,00,00,00,00,000
+	numSeps := NumericSeparators{
+		decimalSeparators: []rune{'.'},
+		integerSeparatorsDto: NumStrIntSeparatorsDto{
+			intSeparators: []NumStrIntSeparator{
+				{
+					intSeparatorChars:          []rune{','},
+					intSeparatorGrouping:       3,
+					intSeparatorRepetitions:    1,
+					restartIntGroupingSequence: false,
+					lock:                       nil,
+				},
+				{
+					intSeparatorChars:          []rune{','},
+					intSeparatorGrouping:       2,
+					intSeparatorRepetitions:    0,
+					restartIntGroupingSequence: false,
+					lock:                       nil,
+				},
+			},
+			lock: nil,
+		},
+	}
+
+	numFieldDto := NumberFieldDto{
+		requestedNumFieldLength: -1,
+		actualNumFieldLength:    0,
+		minimumNumFieldLength:   0,
+		textJustifyFormat:       TextJustify(0).Right(),
+		lock:                    nil,
+	}
+
+	var absVal FormatterAbsoluteValue
+
+	absVal,
+		err = FormatterAbsoluteValue{}.
+		NewWithComponents(
+			"127.54",
+			true,
+			numSeps,
+			numFieldDto,
+			ePrefix.XCtx("absVal"))
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&absVal,
+		ePrefix.XCtx(
+			"&absVal"))
+
+	if err != nil {
+		return err
+	}
+
+	var currency FormatterCurrency
+
+	currency,
+		err = FormatterCurrency{}.
+		NewWithComponents(
+			"$ 127.54",
+			"$ -127.54",
+			2,
+			"BDT",
+			"050",
+			"Taka",
+			[]rune{'\U000009f3'},
+			"Paisa",
+			make([]rune, 0),
+			true,
+			numSeps,
+			numFieldDto,
+			ePrefix)
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&currency,
+		ePrefix.XCtx(
+			"&currency"))
+
+	if err != nil {
+		return err
+	}
+
+	var signedNum FormatterSignedNumber
+
+	signedNum,
+		err = FormatterSignedNumber{}.
+		NewWithComponents(
+			"127.54",
+			"-127.54",
+			true,
+			numSeps,
+			numFieldDto,
+			ePrefix)
+
+	if err != nil {
+		return err
+	}
+
+	err = fmtCollection.AddReplaceCollectionElement(
+		&signedNum,
+		ePrefix.XCtx(
+			"&signedNum"))
 
 	return err
 }
