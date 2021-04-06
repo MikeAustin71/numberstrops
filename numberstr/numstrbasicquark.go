@@ -84,6 +84,16 @@ func (nStrBasicQuark numStrBasicQuark) getCountryFormatters(
 			fmtCollection,
 			ePrefix.XCtx("Austria"))
 
+	case CountryCultureId(0).Bahrain():
+		err = fmtCntry.Bahrain(
+			fmtCollection,
+			ePrefix.XCtx("Bahrain"))
+
+	case CountryCultureId(0).Bangladesh():
+		err = fmtCntry.Bangladesh(
+			fmtCollection,
+			ePrefix.XCtx("Bangladesh"))
+
 	default:
 		err = fmt.Errorf("%v\n"+
 			"Error: Unsupported CountryCultureId!\n"+
