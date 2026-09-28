@@ -11,7 +11,7 @@ The **numberstr** code package is written in the [Go Programming Language](https
 
 ![UnderConstruction](assets/underconstruction003.png)
 
-***This project is a work in progress - Stay Tuned!***
+***This project is a work in progress – Stay Tuned!***
 
 ## Table of Contents
 
