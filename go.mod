@@ -1,3 +1,3 @@
 module github.com/MikeAustin71/numberstrops
 
-go 1.15
+go 1.27.0
